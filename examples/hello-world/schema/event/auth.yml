@@ -1,0 +1,70 @@
+- name: User Logged In
+  parent: event
+  event: user_logged_in
+  schema:
+    - user_id: id
+    - email: string #email
+    - ip_address: string? #ip
+    - user_agent: string?
+    - logged_in_at: datetime = now()
+
+- name: User Logged Out
+  parent: event
+  event: user_logged_out
+  schema:
+    - user_id: id
+    - session_duration: int? #min(0)
+    - logged_out_at: datetime = now()
+
+- name: User Registered
+  parent: event
+  event: user_registered
+  schema:
+    - user_id: id
+    - email: string #email
+    - username: string
+    - registration_source: web | mobile | api = web
+    - registered_at: datetime = now()
+
+- name: User Password Changed
+  parent: event
+  event: user_password_changed
+  schema:
+    - user_id: id
+    - changed_via: self | admin | reset = self
+    - changed_at: datetime = now()
+
+- name: User Profile Updated
+  parent: event
+  event: user_profile_updated
+  schema:
+    - user_id: id
+    - fields_changed: string[]
+    - updated_at: datetime = now()
+
+- name: User Joined Group
+  parent: event
+  event: group_user_joined
+  schema:
+    - user_id: id
+    - group_id: id
+    - role: member | admin | owner = member
+    - joined_at: datetime = now()
+
+- name: User Left Group
+  parent: event
+  event: group.user_left
+  schema:
+    - user_id: id
+    - group_id: id
+    - reason: voluntary | removed | banned?
+    - left_at: datetime = now()
+
+- name: System Alert Triggered
+  parent: event
+  event: system.alert #server
+  schema:
+    - user_id: id
+    - group_id: id
+    - reason: string
+    - alert_at: datetime = now()

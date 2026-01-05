@@ -1,0 +1,81 @@
+- name: Validate Form Data
+  class: validate_form
+  inputs:
+    data: object #required
+    form_id: string #required
+    strict: boolean = true
+  outputs:
+    errors: list[object]
+    valid: boolean
+
+- name: Submit Form Data
+  class: submit_form
+  inputs:
+    data: object #required
+    form_id: string #required
+    validate: boolean = true
+  outputs:
+    errors: list[object]
+    submission_id: string
+    success: boolean
+
+- name: Get Form Definition
+  class: get_form
+  inputs:
+    form_id: string #required
+  outputs:
+    fields: list[object]
+    metadata: object
+    validation_rules: object
+
+- name: Get Form Submission
+  class: get_submission
+  inputs:
+    submission_id: string #required
+  outputs:
+    data: object
+    form_id: string
+    status: string
+    submitted_at: datetime
+
+- name: List Form Submissions
+  class: list_submissions
+  inputs:
+    end_date: datetime
+    form_id: string #required
+    limit: integer = 100
+    offset: integer = 0
+    start_date: datetime
+    status: string
+  outputs:
+    submissions: list[object]
+    total: integer
+
+- name: Update Form Submission
+  class: update_submission
+  inputs:
+    data: object #required
+    submission_id: string #required
+    validate: boolean = true
+  outputs:
+    errors: list[object]
+    success: boolean
+
+- name: Delete Form Submission
+  class: delete_submission
+  inputs:
+    submission_id: string #required
+  outputs:
+    success: boolean
+
+- name: Export Form Submissions
+  class: export_submissions
+  inputs:
+    end_date: datetime
+    form_id: string #required
+    format: csv | json | xlsx = csv
+    start_date: datetime
+  outputs:
+    content: bytes
+    count: integer
+    filename: string

@@ -1,0 +1,31 @@
+- name: Event
+  class: event
+  id: [type, source]
+  schema:
+    - attributes: map[any] #required
+    - created_at: datetime = now()
+    - source: string #required #max(200)
+    - occured_at: datetime = now()
+    - type: string #required #max(100)
+
+- name: Event Subscription
+  class: event_subscription
+  schema:
+    - callback_url: string? #url
+    - created_at: datetime = now()
+    - event_type: string #required #max(100)
+    - filter: string?
+    - id: id
+    - is_active: bool = true
+    - updated_at: datetime = now()
+
+- name: Event Log
+  class: event_log
+  schema:
+    - error_message: string? #max(2000)
+    - event_id: id #required -> Event.id
+    - id: id
+    - processed_at: datetime = now()
+    - retry_count: int = 0 #min(0)
+    - status: received | processing | processed | failed = received
+    - subscription_id: id? -> EventSubscription.id

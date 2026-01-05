@@ -1,0 +1,254 @@
+- name: Render Template
+  class: render_template
+  inputs:
+    content_type: string = text/html
+    data: object
+    template: string #required
+    template_engine: handlebars | jinja2 | tera | liquid = handlebars
+  outputs:
+    rendered: string
+    success: boolean
+
+- name: Render Template From File
+  class: render_template_file
+  inputs:
+    content_type: string = text/html
+    data: object
+    template_engine: handlebars | jinja2 | tera | liquid = handlebars
+    template_path: string #required
+  outputs:
+    rendered: string
+    success: boolean
+
+- name: Return JSON Response
+  class: json_response
+  inputs:
+    data: any #required
+    pretty: boolean = false
+    status_code: integer = 200
+  outputs:
+    success: boolean
+
+- name: Return Plain Text Response
+  class: text_response
+  inputs:
+    content_type: string = text/plain
+    status_code: integer = 200
+    text: string #required
+  outputs:
+    success: boolean
+
+- name: Return HTML Response
+  class: html_response
+  inputs:
+    html: string #required
+    status_code: integer = 200
+  outputs:
+    success: boolean
+
+- name: Return XML Response
+  class: xml_response
+  inputs:
+    status_code: integer = 200
+    xml: string #required
+  outputs:
+    success: boolean
+
+- name: Return Binary Response
+  class: binary_response
+  inputs:
+    content_type: string #required
+    data: bytes #required
+    filename: string
+    status_code: integer = 200
+  outputs:
+    success: boolean
+
+- name: Stream SSE Event
+  class: sse_event
+  inputs:
+    data: any #required
+    event: string
+    id: string
+    retry: integer
+  outputs:
+    success: boolean
+
+- name: Stream SSE Events
+  class: sse_stream
+  inputs:
+    events: list[object] #required
+    keep_alive_interval: integer = 30
+  outputs:
+    success: boolean
+
+- name: Return 404 Not Found
+  class: not_found
+  inputs:
+    custom_data: object
+    include_body: boolean = true
+    message: string = Not Found
+  outputs:
+    success: boolean
+
+- name: Return 400 Bad Request
+  class: bad_request
+  inputs:
+    custom_data: object
+    errors: list[string]
+    message: string = Bad Request
+  outputs:
+    success: boolean
+
+- name: Return 401 Unauthorized
+  class: unauthorized
+  inputs:
+    custom_data: object
+    message: string = Unauthorized
+    www_authenticate: string
+  outputs:
+    success: boolean
+
+- name: Return 403 Forbidden
+  class: forbidden
+  inputs:
+    custom_data: object
+    message: string = Forbidden
+  outputs:
+    success: boolean
+
+- name: Return 500 Internal Server Error
+  class: internal_server_error
+  inputs:
+    custom_data: object
+    error: string
+    include_details: boolean = false
+    message: string = Internal Server Error
+  outputs:
+    success: boolean
+
+- name: Return 502 Bad Gateway
+  class: bad_gateway
+  inputs:
+    custom_data: object
+    message: string = Bad Gateway
+  outputs:
+    success: boolean
+
+- name: Return 503 Service Unavailable
+  class: service_unavailable
+  inputs:
+    custom_data: object
+    message: string = Service Unavailable
+    retry_after: integer
+  outputs:
+    success: boolean
+
+- name: Return Custom Error Response
+  class: error_response
+  inputs:
+    details: any
+    error_code: string
+    message: string #required
+    status_code: integer #required
+  outputs:
+    success: boolean
+
+- name: Set Response Cookie
+  class: set_cookie
+  inputs:
+    domain: string
+    expires: datetime
+    http_only: boolean = true
+    max_age: integer
+    name: string #required
+    path: string = /
+    same_site: strict | lax | none
+    secure: boolean = false
+    value: string #required
+  outputs:
+    success: boolean
+
+- name: Delete Response Cookie
+  class: delete_cookie
+  inputs:
+    domain: string
+    name: string #required
+    path: string = /
+  outputs:
+    success: boolean
+
+- name: Return File Download
+  class: file_download
+  inputs:
+    content_type: string
+    file_path: string #required
+    filename: string
+    inline: boolean = false
+  outputs:
+    success: boolean
+
+- name: Return Streaming Response
+  class: streaming_response
+  inputs:
+    chunk_size: integer = 8192
+    content_type: string = application/octet-stream
+    stream_source: string #required
+  outputs:
+    success: boolean
+
+- name: Return Empty Response
+  class: empty_response
+  inputs:
+    status_code: integer = 204
+  outputs:
+    success: boolean
+
+- name: Return Redirect Response
+  class: redirect_response
+  inputs:
+    preserve_method: boolean = false
+    status_code: integer = 302
+    url: string #required
+  outputs:
+    success: boolean
+
+- name: Return CORS Preflight Response
+  class: cors_preflight
+  inputs:
+    allowed_headers: list[string] = ["*"]
+    allowed_methods: list[string] = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    allowed_origins: list[string] = ["*"]
+    max_age: integer = 86400
+  outputs:
+    success: boolean
+
+- name: Return GraphQL Response
+  class: graphql_response
+  inputs:
+    data: any
+    errors: list[object]
+    extensions: object
+  outputs:
+    success: boolean
+
+- name: Return Paginated Response
+  class: paginated_response
+  inputs:
+    data: list[any] #required
+    include_metadata: boolean = true
+    page: integer = 1
+    page_size: integer = 20
+    total: integer #required
+  outputs:
+    success: boolean
+
+- name: Return CSV Response
+  class: csv_response
+  inputs:
+    data: list[object] #required
+    delimiter: string = ,
+    filename: string = data.csv
+    include_headers: boolean = true
+  outputs:
+    success: boolean

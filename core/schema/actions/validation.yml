@@ -1,0 +1,118 @@
+- name: Validate Against Schema
+  class: validate_schema
+  inputs:
+    data: any #required
+    schema: object #required
+    strict: boolean = true
+  outputs:
+    errors: list[object]
+    valid: boolean
+
+- name: Validate Single Field
+  class: validate_field
+  inputs:
+    field_name: string
+    rules: list[string] #required
+    value: any #required
+  outputs:
+    errors: list[string]
+    valid: boolean
+
+- name: Validate Email Format
+  class: validate_email_format
+  inputs:
+    email: string #required
+  outputs:
+    reason: string
+    valid: boolean
+
+- name: Validate URL Format
+  class: validate_url
+  inputs:
+    allowed_schemes: list[string]
+    url: string #required
+  outputs:
+    reason: string
+    valid: boolean
+
+- name: Validate Phone Number
+  class: validate_phone
+  inputs:
+    country_code: string
+    phone: string #required
+  outputs:
+    country: string
+    formatted: string
+    valid: boolean
+
+- name: Validate Date Format
+  class: validate_date
+  inputs:
+    date: string #required
+    format: string = "ISO8601"
+  outputs:
+    parsed: datetime
+    reason: string
+    valid: boolean
+
+- name: Validate JSON Structure
+  class: validate_json
+  inputs:
+    json_string: string #required
+  outputs:
+    error: string
+    parsed: any
+    valid: boolean
+
+- name: Validate Credit Card
+  class: validate_credit_card
+  inputs:
+    number: string #required
+    validate_luhn: boolean = true
+  outputs:
+    card_type: string
+    last_four: string
+    valid: boolean
+
+- name: Validate UUID Format
+  class: validate_uuid
+  inputs:
+    uuid: string #required
+    version: integer
+  outputs:
+    valid: boolean
+    version: integer
+
+- name: Validate IP Address
+  class: validate_ip
+  inputs:
+    ip: string #required
+    version: 4 | 6 | any = any
+  outputs:
+    is_private: boolean
+    valid: boolean
+    version: integer
+
+- name: Validate Password Strength
+  class: validate_password
+  inputs:
+    min_length: integer = 8
+    password: string #required
+    require_lowercase: boolean = true
+    require_numbers: boolean = true
+    require_symbols: boolean = false
+    require_uppercase: boolean = true
+  outputs:
+    strength: weak | fair | strong | very_strong
+    suggestions: list[string]
+    valid: boolean
+
+- name: Sanitize HTML Content
+  class: sanitize_html
+  inputs:
+    allowed_attributes: object
+    allowed_tags: list[string]
+    html: string #required
+  outputs:
+    removed_count: integer
+    sanitized: string

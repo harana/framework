@@ -1,0 +1,25 @@
+- name: Admin Full Access
+  id: admin-full-access
+  allow:
+    principal: User
+    action: [view, edit, delete]
+    resource: Document
+  when: principal.role == "admin"
+
+- name: Owner Access
+  id: owner-access
+  allow:
+    principal: User
+    action: [view, edit]
+    resource: Document
+  when: resource.owner == principal
+
+- name: Deny Low Clearance Secret Access
+  id: deny-low-clearance-secret
+  deny:
+    principal: User
+    action: [view]
+    resource: Document
+  when: |
+    resource.classification == "secret" &&
+    principal.clearance_level < 2

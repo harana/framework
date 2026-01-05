@@ -1,0 +1,35 @@
+- name: Email Template
+  class: email_template
+  id: [name]
+  schema:
+    - body_html: string #required
+    - body_text: string?
+    - created_at: datetime = now()
+    - is_active: bool = true
+    - subject: string #required #max(500)
+    - updated_at: datetime = now()
+
+- name: Email
+  class: email
+  id: [from_address, to_address, created_at]
+  schema:
+    - bcc: string? #email
+    - body_html: string?
+    - body_text: string?
+    - cc: string? #email
+    - created_at: datetime = now()
+    - from_address: string #required #email
+    - reply_to: string? #email
+    - sent_at: datetime?
+    - status: pending | sent | failed | bounced = pending
+    - subject: string #required #max(500)
+    - template_id: id? -> EmailTemplate.id
+    - to_address: string #required #email
+    - updated_at: datetime = now()
+
+- name: Email Attachment
+  class: email_attachment
+  id: [email_id, file_name]
+  schema:
+    - content_type: string #required #max(100)
+    - email_id: id #required -> Email.id

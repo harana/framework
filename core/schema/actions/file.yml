@@ -1,0 +1,85 @@
+- name: Read Content From File
+  class: read_file
+  inputs:
+    mode: text | binary = text
+    path: string #required
+  outputs:
+    content: string | bytes
+
+- name: Write Content To File
+  class: write_file
+  inputs:
+    content: string | bytes #required
+    mode: text | binary = text
+    overwrite: boolean = true
+    path: string #required
+  outputs:
+    success: boolean
+
+- name: Delete File At Path
+  class: delete_file
+  inputs:
+    path: string #required
+  outputs:
+    success: boolean
+
+- name: Copy File To Destination
+  class: copy_file
+  inputs:
+    from: string #required
+    overwrite: boolean = false
+    to: string #required
+  outputs:
+    success: boolean
+
+- name: Move File To Destination
+  class: move_file
+  inputs:
+    from: string #required
+    overwrite: boolean = false
+    to: string #required
+  outputs:
+    success: boolean
+
+- name: Check If File Exists
+  class: file_exists
+  inputs:
+    path: string #required
+  outputs:
+    exists: boolean
+
+- name: Get File Metadata Info
+  class: file_info
+  inputs:
+    path: string #required
+  outputs:
+    created: datetime
+    is_directory: boolean
+    modified: datetime
+    permissions: string
+    size: integer
+
+- name: List Files In Directory
+  class: list_directory
+  inputs:
+    path: string #required
+    pattern: string = "*"
+    recursive: boolean = false
+  outputs:
+    files: list[string]
+
+- name: Create New Directory Path
+  class: create_directory
+  inputs:
+    path: string #required
+    recursive: boolean = true
+  outputs:
+    success: boolean
+
+- name: Delete Directory At Path
+  class: delete_directory
+  inputs:
+    path: string #required
+    recursive: boolean = false
+  outputs:
+    success: boolean

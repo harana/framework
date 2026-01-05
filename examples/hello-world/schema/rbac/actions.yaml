@@ -1,0 +1,7 @@
+- name: View
+  id: view
+  resources: [Document, Report, Dashboard]
+
+- name: Edit
+  id: edit
+  resources: [Document, Report]

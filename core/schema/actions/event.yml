@@ -1,0 +1,80 @@
+- name: Emit Event To Channel
+  class: emit_event
+  inputs:
+    channel: string #required
+    event_type: string #required
+    metadata: object
+    payload: any
+  outputs:
+    event_id: string
+    success: boolean
+
+- name: Subscribe To Channel
+  class: subscribe_channel
+  inputs:
+    channel: string #required
+    event_types: list[string]
+    handler: string #required
+  outputs:
+    subscription_id: string
+    success: boolean
+
+- name: Unsubscribe From Channel
+  class: unsubscribe_channel
+  inputs:
+    subscription_id: string #required
+  outputs:
+    success: boolean
+
+- name: Broadcast Event To All
+  class: broadcast_event
+  inputs:
+    event_type: string #required
+    exclude_channels: list[string]
+    metadata: object
+    payload: any
+  outputs:
+    event_id: string
+    recipients: integer
+
+- name: Get Event By ID
+  class: get_event
+  inputs:
+    event_id: string #required
+  outputs:
+    channel: string
+    created_at: datetime
+    event_type: string
+    metadata: object
+    payload: any
+
+- name: List Channel Events
+  class: list_events
+  inputs:
+    channel: string #required
+    end_time: datetime
+    event_types: list[string]
+    limit: integer = 100
+    start_time: datetime
+  outputs:
+    events: list[object]
+    total: integer
+
+- name: Acknowledge Event Receipt
+  class: acknowledge_event
+  inputs:
+    event_id: string #required
+    subscription_id: string #required
+  outputs:
+    success: boolean
+
+- name: Replay Events From Time
+  class: replay_events
+  inputs:
+    channel: string #required
+    end_time: datetime
+    event_types: list[string]
+    start_time: datetime #required
+  outputs:
+    events_replayed: integer
+    success: boolean

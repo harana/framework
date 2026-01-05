@@ -1,0 +1,122 @@
+- name: Start Workflow Execution
+  class: start_workflow
+  inputs:
+    context: object
+    input: any
+    workflow_id: string #required
+  outputs:
+    execution_id: string
+    status: string
+    success: boolean
+
+- name: Pause Workflow Execution
+  class: pause_workflow
+  inputs:
+    execution_id: string #required
+    reason: string
+  outputs:
+    success: boolean
+
+- name: Resume Paused Workflow
+  class: resume_workflow
+  inputs:
+    execution_id: string #required
+    input: any
+  outputs:
+    success: boolean
+
+- name: Cancel Workflow Execution
+  class: cancel_workflow
+  inputs:
+    execution_id: string #required
+    reason: string
+  outputs:
+    success: boolean
+
+- name: Get Workflow Status
+  class: get_workflow_status
+  inputs:
+    execution_id: string #required
+  outputs:
+    completed_at: datetime
+    current_step: string
+    error: string
+    progress: float
+    started_at: datetime
+    status: pending | running | paused | completed | failed | cancelled
+
+- name: Get Workflow Result
+  class: get_workflow_result
+  inputs:
+    execution_id: string #required
+  outputs:
+    completed: boolean
+    error: string
+    output: any
+
+- name: List Workflow Executions
+  class: list_executions
+  inputs:
+    end_date: datetime
+    limit: integer = 100
+    offset: integer = 0
+    start_date: datetime
+    status: string
+    workflow_id: string
+  outputs:
+    executions: list[object]
+    total: integer
+
+- name: Send Signal To Workflow
+  class: signal_workflow
+  inputs:
+    execution_id: string #required
+    payload: any
+    signal_name: string #required
+  outputs:
+    success: boolean
+
+- name: Wait For External Event
+  class: wait_for_event
+  inputs:
+    event_name: string #required
+    execution_id: string #required
+    timeout: integer = 3600
+  outputs:
+    payload: any
+    received: boolean
+    timed_out: boolean
+
+- name: Get Workflow History
+  class: get_workflow_history
+  inputs:
+    execution_id: string #required
+  outputs:
+    events: list[object]
+    total: integer
+
+- name: Retry Failed Step
+  class: retry_step
+  inputs:
+    execution_id: string #required
+    step_id: string #required
+  outputs:
+    success: boolean
+
+- name: Skip Workflow Step
+  class: skip_step
+  inputs:
+    execution_id: string #required
+    output: any
+    step_id: string #required
+  outputs:
+    success: boolean
+
+- name: Terminate All Executions
+  class: terminate_all
+  inputs:
+    reason: string
+    workflow_id: string #required
+  outputs:
+    success: boolean
+    terminated_count: integer

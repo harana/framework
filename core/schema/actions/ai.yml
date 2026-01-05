@@ -1,0 +1,81 @@
+- name: Generate Text From Prompt
+  class: generate_text
+  inputs:
+    max_tokens: integer = 1000
+    model: string = "default"
+    prompt: string #required
+    temperature: float = 0.7
+  outputs:
+    text: string
+    tokens_used: integer
+
+- name: Generate Chat Completion
+  class: chat_completion
+  inputs:
+    max_tokens: integer = 1000
+    messages: list[object] #required
+    model: string = "default"
+    system_prompt: string
+    temperature: float = 0.7
+  outputs:
+    response: string
+    tokens_used: integer
+
+- name: Generate Embeddings From Text
+  class: generate_embeddings
+  inputs:
+    model: string = "default"
+    text: string #required
+  outputs:
+    dimensions: integer
+    embeddings: list[float]
+
+- name: Generate Image From Prompt
+  class: generate_image
+  inputs:
+    model: string = "default"
+    prompt: string #required
+    quality: standard | hd = standard
+    size: string = "1024x1024"
+  outputs:
+    base64: string
+    url: string
+
+- name: Transcribe Audio To Text
+  class: transcribe_audio
+  inputs:
+    audio: bytes #required
+    language: string
+    model: string = "default"
+  outputs:
+    duration: float
+    text: string
+
+- name: Classify Text Content
+  class: classify_text
+  inputs:
+    labels: list[string] #required
+    model: string = "default"
+    text: string #required
+  outputs:
+    confidence: float
+    label: string
+    scores: object
+
+- name: Summarize Text Content
+  class: summarize_text
+  inputs:
+    max_length: integer = 500
+    model: string = "default"
+    text: string #required
+  outputs:
+    summary: string
+
+- name: Extract Entities From Text
+  class: extract_entities
+  inputs:
+    entity_types: list[string]
+    model: string = "default"
+    text: string #required
+  outputs:
+    entities: list[object]

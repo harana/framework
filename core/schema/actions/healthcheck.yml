@@ -1,0 +1,86 @@
+- name: Check Service Health
+  class: check_service
+  inputs:
+    service_name: string #required
+    timeout: integer = 5
+  outputs:
+    details: object
+    healthy: boolean
+    latency_ms: integer
+    status: string
+
+- name: Check Database Connection
+  class: check_database
+  inputs:
+    connection_name: string = "default"
+    timeout: integer = 5
+  outputs:
+    details: object
+    healthy: boolean
+    latency_ms: integer
+
+- name: Check Cache Connection
+  class: check_cache
+  inputs:
+    cache_name: string = "default"
+    timeout: integer = 5
+  outputs:
+    details: object
+    healthy: boolean
+    latency_ms: integer
+
+- name: Check External API
+  class: check_external_api
+  inputs:
+    expected_status: integer = 200
+    method: GET | HEAD = GET
+    timeout: integer = 10
+    url: string #required
+  outputs:
+    healthy: boolean
+    latency_ms: integer
+    status_code: integer
+
+- name: Check Disk Space
+  class: check_disk_space
+  inputs:
+    path: string = "/"
+    threshold_percent: integer = 90
+  outputs:
+    free_bytes: integer
+    healthy: boolean
+    percent_used: float
+    total_bytes: integer
+    used_bytes: integer
+
+- name: Check Memory Usage
+  class: check_memory
+  inputs:
+    threshold_percent: integer = 90
+  outputs:
+    free_bytes: integer
+    healthy: boolean
+    percent_used: float
+    total_bytes: integer
+    used_bytes: integer
+
+- name: Run All Health Checks
+  class: check_all
+  inputs:
+    fail_fast: boolean = false
+    timeout: integer = 30
+  outputs:
+    checks: list[object]
+    failed_count: integer
+    healthy: boolean
+    passed_count: integer
+
+- name: Get System Status
+  class: get_system_status
+  inputs:
+    include_metrics: boolean = true
+  outputs:
+    metrics: object
+    status: healthy | degraded | unhealthy
+    uptime_seconds: integer
+    version: string

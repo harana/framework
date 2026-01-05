@@ -1,0 +1,116 @@
+- name: Authenticate User Credentials
+  class: authenticate
+  inputs:
+    mfa_code: string
+    password: string #required
+    username: string #required
+  outputs:
+    access_token: string
+    expires_at: datetime
+    refresh_token: string
+    success: boolean
+    user_id: string
+
+- name: Verify Access Token
+  class: verify_token
+  inputs:
+    token: string #required
+  outputs:
+    claims: object
+    expires_at: datetime
+    user_id: string
+    valid: boolean
+
+- name: Refresh Access Token
+  class: refresh_token
+  inputs:
+    refresh_token: string #required
+  outputs:
+    access_token: string
+    expires_at: datetime
+    refresh_token: string
+
+- name: Revoke Access Token
+  class: revoke_token
+  inputs:
+    token: string #required
+  outputs:
+    success: boolean
+
+- name: Get User By ID
+  class: get_user
+  inputs:
+    user_id: string #required
+  outputs:
+    created_at: datetime
+    email: string
+    metadata: object
+    roles: list[string]
+    user_id: string
+    username: string
+
+- name: Create New User
+  class: create_user
+  inputs:
+    email: string #required
+    metadata: object
+    password: string #required
+    roles: list[string]
+    username: string #required
+  outputs:
+    success: boolean
+    user_id: string
+
+- name: Update User Details
+  class: update_user
+  inputs:
+    email: string
+    metadata: object
+    roles: list[string]
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: Delete User Account
+  class: delete_user
+  inputs:
+    hard_delete: boolean = false
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: Change User Password
+  class: change_password
+  inputs:
+    current_password: string #required
+    new_password: string #required
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: Request Password Reset
+  class: request_password_reset
+  inputs:
+    email: string #required
+  outputs:
+    reset_token: string
+    success: boolean
+
+- name: Reset Password With Token
+  class: reset_password
+  inputs:
+    new_password: string #required
+    reset_token: string #required
+  outputs:
+    success: boolean
+
+- name: List Users
+  class: list_users
+  inputs:
+    limit: integer = 100
+    offset: integer = 0
+    roles: list[string]
+    search: string
+  outputs:
+    total: integer
+    users: list[object]

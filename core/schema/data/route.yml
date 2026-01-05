@@ -1,0 +1,26 @@
+- name: Route
+  class: route
+  id: [name]
+  schema:
+    - created_at: datetime = now()
+    - description: string? #max(500)
+    - is_active: bool = true
+    - method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
+    - middleware: string?
+    - path: string #required #max(500)
+    - rate_limit: int? #min(1)
+    - updated_at: datetime = now()
+
+- name: Route Group
+  class: route_group
+  id: [name]
+  schema:
+    - middleware: string?
+    - prefix: string #required #max(200)
+
+- name: Route Group Assignment
+  class: route_group_assignment
+  id: [route_id, group_id]
+  schema:
+    - group_id: id #required -> RouteGroup.id
+    - route_id: id #required -> Route.id

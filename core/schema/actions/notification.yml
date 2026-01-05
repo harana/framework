@@ -1,0 +1,102 @@
+- name: Send Push Notification
+  class: send_push
+  inputs:
+    badge: integer
+    body: string #required
+    data: object
+    priority: low | normal | high = normal
+    sound: string
+    title: string #required
+    user_id: string #required
+  outputs:
+    notification_id: string
+    success: boolean
+
+- name: Send SMS Message
+  class: send_sms
+  inputs:
+    message: string #required
+    phone_number: string #required
+    sender_id: string
+  outputs:
+    message_id: string
+    success: boolean
+
+- name: Send In-App Notification
+  class: send_in_app
+  inputs:
+    action_url: string
+    data: object
+    message: string #required
+    title: string #required
+    type: info | warning | error | success = info
+    user_id: string #required
+  outputs:
+    notification_id: string
+    success: boolean
+
+- name: Send Bulk Notification
+  class: send_bulk_notification
+  inputs:
+    body: string #required
+    channel: push | sms | in_app | email = push
+    data: object
+    title: string #required
+    user_ids: list[string] #required
+  outputs:
+    failed: integer
+    successful: integer
+    total: integer
+
+- name: Get Notification Status
+  class: get_notification_status
+  inputs:
+    notification_id: string #required
+  outputs:
+    delivered_at: datetime
+    error: string
+    read_at: datetime
+    sent_at: datetime
+    status: pending | sent | delivered | read | failed
+
+- name: Mark Notification As Read
+  class: mark_as_read
+  inputs:
+    notification_id: string #required
+  outputs:
+    success: boolean
+
+- name: List User Notifications
+  class: list_notifications
+  inputs:
+    limit: integer = 50
+    offset: integer = 0
+    unread_only: boolean = false
+    user_id: string #required
+  outputs:
+    notifications: list[object]
+    total: integer
+    unread_count: integer
+
+- name: Delete Notification
+  class: delete_notification
+  inputs:
+    notification_id: string #required
+  outputs:
+    success: boolean
+
+- name: Register Device Token
+  class: register_device
+  inputs:
+    device_token: string #required
+    platform: ios | android | web #required
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: Unregister Device Token
+  class: unregister_device
+  inputs:
+    device_token: string #required
+  outputs:
+    success: boolean

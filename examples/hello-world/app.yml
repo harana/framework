@@ -1,0 +1,743 @@
+name: hello-world
+version: 1.0.0
+description: A simple Hello World application built with Harana framework.
+author: Your Name <>
+
+plugins:
+  - auth: 1.05
+  - json: 2
+
+# Version Strategy Configuration
+versioning:
+  strategy: semver | commit_sha | timestamp | custom = semver
+  prefix: v
+  format: ${major}.${minor}.${patch}
+  auto_increment: patch | minor | major = patch
+  commit_sha:
+    length: 7
+    prefix: sha-
+  timestamp:
+    format: "%Y%m%d-%H%M%S"
+  custom:
+    pattern: ${year}.${month}.${build_number}
+
+# Build Steps - Executed in Order
+steps:
+  # Pre-build Steps
+  - name: Run Linting
+    command:
+      run: npm run lint
+      workingDir: .
+      continueOnError: false
+      env:
+        NODE_ENV: production
+
+  - name: Run Tests
+    command:
+      run: npm run test
+      workingDir: .
+      continueOnError: false
+
+  # CSS Compilation Steps
+  - name: Compile Sass to CSS
+    command:
+      run: sass src/styles/main.scss dist/css/main.css --style=compressed --no-source-map
+      continueOnError: false
+
+  - name: Compile Less to CSS
+    command:
+      run: lessc src/styles/theme.less dist/css/theme.css --compress --clean-css
+      continueOnError: false
+
+  - name: Run PostCSS
+    command:
+      run: postcss dist/css/**/*.css --use=autoprefixer --use=cssnano --dir=dist/css
+      continueOnError: false
+
+  # JavaScript Build Steps
+  - name: Bundle JavaScript with esbuild
+    command:
+      run: esbuild src/main.js --bundle --minify --outfile=dist/js/bundle.js --target=es2020
+      continueOnError: false
+
+  - name: Transpile TypeScript
+    command:
+      run: tsc --project tsconfig.build.json
+      continueOnError: false
+
+  # Asset Processing Steps
+  - name: Optimize Images
+    command:
+      run: imagemin src/images/** --out-dir=dist/images
+      continueOnError: true
+
+  - name: Copy Static Assets
+    command:
+      run: cp -r public/* dist/
+      continueOnError: false
+
+  # Main Build Step
+  - name: Build Application
+    build:
+      output_dir: dist
+      clean_before_build: true
+      source_maps: false
+      minify: true
+      target: es2020
+      parallel: true
+      cache: true
+      excludes:
+        - "**/*.test.js"
+        - "**/*.spec.ts"
+        - "**/node_modules/**"
+
+  # Generate Documentation Steps
+  - name: Build Sphinx Documentation
+    docs:
+      generator: sphinx | mkdocs | jekyll | hugo | docusaurus = sphinx
+      source_dir: docs/source
+      output_dir: docs/build/html
+      builder: html | pdf | epub | man = html
+      config_file: docs/conf.py
+      clean: true
+      themes:
+        - readthedocs
+      extensions:
+        - sphinx.ext.autodoc
+        - sphinx.ext.napoleon
+        - sphinx.ext.viewcode
+        - sphinx_rtd_theme
+      options:
+        - -W
+        - --keep-going
+      language: en
+
+  - name: Build API Documentation
+    docs:
+      generator: typedoc
+      source_dir: src
+      output_dir: docs/api
+      config_file: typedoc.json
+      include_patterns:
+        - "**/*.ts"
+        - "**/*.tsx"
+      exclude_patterns:
+        - "**/*.test.ts"
+        - "**/*.spec.ts"
+
+  - name: Build MkDocs Documentation
+    docs:
+      generator: mkdocs
+      source_dir: docs
+      output_dir: site
+      config_file: mkdocs.yml
+      theme: material
+      plugins:
+        - search
+        - minify
+        - git-revision-date
+      strict: true
+
+  # Create Release Artifacts Steps
+  - name: Generate Checksums
+    checksum:
+      enabled: true
+      algorithm: sha256 | sha512 | md5 = sha256
+      output_file: dist/CHECKSUMS.txt
+      format: "${hash}  ${file}"
+      files:
+        - dist/*.zip
+        - dist/*.tar.gz
+
+  - name: Create ZIP Archive
+    zip:
+      enabled: true
+      name: dist/hello-world-${version}.zip
+      compression_level: 9
+      includes:
+        - dist/**
+        - package.json
+        - pnpm-lock.yaml
+        - README.md
+        - LICENSE
+      excludes:
+        - "**/*.map"
+        - "**/node_modules/**"
+        - "**/.DS_Store"
+        - "**/*.log"
+      preserve_permissions: true
+
+  - name: Create Tarball
+    tarball:
+      enabled: true
+      name: dist/hello-world-${version}.tar.gz
+      compression: gzip | bzip2 | xz = gzip
+      includes:
+        - dist/**
+        - package.json
+        - README.md
+      excludes:
+        - "**/*.map"
+      preserve_permissions: true
+
+  - name: Build Docker Image
+    docker:
+      image: hello-world
+      tag: ${version}
+      tags:
+        - latest
+        - ${version}
+        - ${major}.${minor}
+      registry: docker.io
+      dockerfile: ./Dockerfile
+      context: .
+      build_args:
+        - NODE_ENV=production
+        - VERSION=${version}
+        - BUILD_DATE=${build_date}
+      target: production
+      pull: true
+      no_cache: false
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      labels:
+        org.opencontainers.image.version: ${version}
+        org.opencontainers.image.created: ${build_date}
+        org.opencontainers.image.source: https://github.com/myorg/hello-world
+      push: false
+      scan: true
+
+  # Signing Steps
+  - name: Sign ZIP Archive
+    sign:
+      method: pgp | gpg = pgp
+      key_id: 0x1234567890ABCDEF
+      key_file: ~/.gnupg/private-key.asc
+      passphrase_env: PGP_PASSPHRASE
+      ascii_armor: true
+      detach_sign: true
+      files:
+        - dist/hello-world-${version}.zip
+      signature_extension: .sig
+      verify_after_sign: true
+
+  - name: Sign Tarball
+    sign:
+      method: pgp
+      key_id: 0x1234567890ABCDEF
+      key_file: ~/.gnupg/private-key.asc
+      passphrase_env: PGP_PASSPHRASE
+      ascii_armor: true
+      detach_sign: true
+      files:
+        - dist/hello-world-${version}.tar.gz
+      signature_extension: .sig
+      verify_after_sign: true
+
+  - name: Sign All Artifacts
+    sign:
+      method: pgp
+      key_id: 0x1234567890ABCDEF
+      key_file: ~/.gnupg/private-key.asc
+      passphrase_env: PGP_PASSPHRASE
+      ascii_armor: true
+      detach_sign: true
+      files:
+        - dist/*.jar
+        - dist/*.war
+        - dist/CHECKSUMS.txt
+      signature_extension: .sig
+      verify_after_sign: true
+
+  # Notification Step - Build Complete
+  - name: Notify Build Complete
+    notify:
+      provider: slack
+      webhook_url_env: SLACK_WEBHOOK_URL
+      channel: "#builds"
+      username: Build Bot
+      icon_emoji: ":package:"
+      message: |
+        :package: *Build Complete*
+        Project: ${name}
+        Version: ${version}
+        Duration: ${duration}
+        Next: Ready for deployment
+      color: "#439FE0"
+
+  # Publishing Documentation Steps
+  - name: Publish Documentation to S3
+    s3:
+      enabled: false
+      bucket: docs.example.com
+      region: us-east-1
+      source_dir: docs/build/html
+      destination_prefix: /latest
+      acl: public-read
+      cache_control: max-age=3600
+      content_encoding: gzip
+      cloudfront:
+        enabled: true
+        distribution_id: E1234567890ABC
+        invalidate_paths:
+          - /latest/*
+          - /index.html
+        wait_for_invalidation: true
+      metadata:
+        version: ${version}
+        build_date: ${build_date}
+      sync:
+        delete: true
+        exclude:
+          - "*.tmp"
+          - ".git/*"
+      credentials_env:
+        aws_access_key_id: AWS_ACCESS_KEY_ID
+        aws_secret_access_key: AWS_SECRET_ACCESS_KEY
+
+  - name: Publish Documentation to GitHub Pages
+    github_pages:
+      enabled: true
+      repository: myorg/hello-world
+      branch: gh-pages
+      source_dir: docs/build/html
+      commit_message: "Update documentation for v${version}"
+      cname: docs.hello-world.com
+      user:
+        name: GitHub Actions Bot
+        email: actions@github.com
+      force: false
+      keep_history: true
+      token_env: GITHUB_TOKEN
+
+  - name: Publish Documentation to Azure Blob
+    azure_blob:
+      enabled: false
+      storage_account: docsstorageaccount
+      container: $web
+      source_dir: docs/build/html
+      destination_prefix: /latest
+      public_access: blob
+      content_type_mapping:
+        .html: text/html
+        .css: text/css
+        .js: application/javascript
+      cdn:
+        enabled: true
+        profile: docs-cdn-profile
+        endpoint: docs-cdn-endpoint
+        purge_content: true
+      credentials_env:
+        azure_storage_connection_string: AZURE_STORAGE_CONNECTION_STRING
+
+  - name: Publish Documentation to Netlify
+    netlify:
+      enabled: false
+      site_id: abc123-def456-ghi789
+      source_dir: docs/build/html
+      production: true
+      deploy_message: "Deploy documentation v${version}"
+      functions_dir: netlify/functions
+      token_env: NETLIFY_TOKEN
+
+  # Deployment Steps
+  - name: Deploy to Heroku
+    heroku:
+      enabled: false
+      app_name: hello-world-prod
+      region: us | eu = us
+      stack: heroku-22
+      buildpacks:
+        - heroku/nodejs
+        - heroku/python
+      config_vars:
+        NODE_ENV: production
+        LOG_LEVEL: info
+        VERSION: ${version}
+      addons:
+        - heroku-postgresql:hobby-dev
+        - heroku-redis:hobby-dev
+      scale:
+        web: 2
+        worker: 1
+      run_migrations: true
+      pre_deploy:
+        - npm run db:backup
+      post_deploy:
+        - npm run cache:clear
+      rollback_on_failure: true
+
+  - name: Deploy to Google App Engine
+    appengine:
+      enabled: false
+      project_id: my-gcp-project
+      service: default
+      version: auto | ${version} = auto
+      region: us-central1
+      runtime: nodejs20 | python312 | go121 = nodejs20
+      instance_type: F1 | F2 | F4 = F2
+      scaling:
+        type: automatic | basic | manual = automatic
+        min_instances: 1
+        max_instances: 10
+        target_cpu_utilization: 0.65
+        target_throughput_utilization: 0.6
+      env_variables:
+        NODE_ENV: production
+        API_KEY: ${API_KEY}
+        VERSION: ${version}
+      vpc_access_connector: projects/${project_id}/locations/${region}/connectors/my-connector
+      promote_traffic: true
+      stop_previous_version: true
+
+  - name: Deploy to AWS ECS
+    ecs:
+      enabled: false
+      cluster: production-cluster
+      service: hello-world-service
+      region: us-east-1
+      task_definition: hello-world-task
+      container_name: hello-world
+      image: ${AWS_ACCOUNT_ID}.dkr.ecr.${region}.amazonaws.com/hello-world:${version}
+      desired_count: 2
+      launch_type: FARGATE | EC2 = FARGATE
+      network_mode: awsvpc
+      cpu: 256 | 512 | 1024 | 2048 = 512
+      memory: 512 | 1024 | 2048 | 4096 = 1024
+      subnets:
+        - subnet-abc123
+        - subnet-def456
+      security_groups:
+        - sg-abc123
+      assign_public_ip: true
+      health_check_grace_period: 60
+      deployment:
+        maximum_percent: 200
+        minimum_healthy_percent: 100
+      load_balancer:
+        target_group_arn: arn:aws:elasticloadbalancing:${region}:${account}:targetgroup/hello-world/abc123
+        container_port: 8080
+      auto_rollback: true
+      wait_for_stable: true
+
+  - name: Deploy to Kubernetes
+    kubernetes:
+      enabled: false
+      context: production-cluster
+      namespace: default
+      manifests:
+        - k8s/deployment.yaml
+        - k8s/service.yaml
+        - k8s/ingress.yaml
+        - k8s/configmap.yaml
+        - k8s/secret.yaml
+      strategy: rolling_update | recreate | blue_green | canary = rolling_update
+      rolling_update:
+        max_surge: 1
+        max_unavailable: 0
+      image: docker.io/myorg/hello-world:${version}
+      replicas: 3
+      helm:
+        enabled: false
+        chart: ./helm/hello-world
+        release_name: hello-world
+        values_file: helm/values.production.yaml
+        set:
+          - image.tag=${version}
+          - replicaCount=3
+        wait: true
+        timeout: 600
+      kubectl:
+        version: 1.28
+        apply_options:
+          - --record
+          - --wait
+          - --timeout=300s
+      kustomize:
+        enabled: false
+        dir: k8s/overlays/production
+      pre_deploy:
+        - kubectl apply -f k8s/migrations/
+      post_deploy:
+        - kubectl rollout status deployment/hello-world
+      health_check:
+        enabled: true
+        endpoint: /health
+        interval: 10
+        timeout: 30
+
+  - name: Push Docker Image to Registry
+    docker:
+      image: hello-world
+      tag: ${version}
+      tags:
+        - latest
+        - ${version}
+        - ${major}.${minor}
+      registry: docker.io
+      username_env: DOCKER_USERNAME
+      password_env: DOCKER_PASSWORD
+      push: true
+
+  - name: Publish to GitHub Releases
+    github_release:
+      enabled: true
+      repository: myorg/hello-world
+      tag: v${version}
+      release_name: Release v${version}
+      draft: false
+      prerelease: false
+      generate_release_notes: true
+      body: |
+        ## What's Changed
+        
+        See [CHANGELOG.md](CHANGELOG.md) for details.
+        
+        **Full Changelog**: https://github.com/myorg/hello-world/compare/${previous_tag}...v${version}
+      assets:
+        - path: dist/hello-world-${version}.zip
+          label: Application Bundle (ZIP)
+          content_type: application/zip
+        - path: dist/hello-world-${version}.tar.gz
+          label: Application Bundle (TAR.GZ)
+          content_type: application/gzip
+        - path: dist/hello-world-${version}.zip.sig
+          label: ZIP Signature (PGP)
+          content_type: application/pgp-signature
+        - path: dist/hello-world-${version}.tar.gz.sig
+          label: TAR.GZ Signature (PGP)
+          content_type: application/pgp-signature
+        - path: dist/CHECKSUMS.txt
+          label: SHA256 Checksums
+          content_type: text/plain
+        - path: dist/CHECKSUMS.txt.sig
+          label: Checksums Signature (PGP)
+          content_type: application/pgp-signature
+      token_env: GITHUB_TOKEN
+      overwrite: false
+      discussion_category: releases
+
+  # Final Notification Steps
+  - name: Notify Slack - Deployment Success
+    notify:
+      provider: slack
+      webhook_url_env: SLACK_WEBHOOK_URL
+      channel: "#deployments"
+      username: Deploy Bot
+      icon_emoji: ":rocket:"
+      message: |
+        :white_check_mark: *Deployment Successful*
+        Project: ${name}
+        Version: ${version}
+        Duration: ${duration}
+        Branch: ${branch}
+        Commit: ${commit_sha}
+      color: good
+
+  - name: Notify Discord - Deployment Success
+    notify:
+      provider: discord
+      webhook_url_env: DISCORD_WEBHOOK_URL
+      username: Deployment Bot
+      avatar_url: https://example.com/bot-avatar.png
+      embed:
+        title: "Deployment Successful :white_check_mark:"
+        description: "Deployed ${name} v${version} to production"
+        color: 3066993
+        fields:
+          - name: Duration
+            value: ${duration}
+            inline: true
+          - name: Branch
+            value: ${branch}
+            inline: true
+          - name: Commit
+            value: ${commit_sha}
+            inline: true
+
+  - name: Notify Email - Deployment Report
+    notify:
+      provider: email
+      smtp:
+        host: smtp.gmail.com
+        port: 587
+        secure: false
+        auth:
+          user_env: SMTP_USER
+          pass_env: SMTP_PASSWORD
+      from: builds@example.com
+      to:
+        - dev-team@example.com
+        - ops@example.com
+      subject: "[SUCCESS] Deployment ${name} v${version}"
+      body: |
+        Deployment completed successfully.
+        
+        Project: ${name}
+        Version: ${version}
+        Duration: ${duration}
+        Commit: ${commit_sha}
+        Environment: Production
+        
+        Release Notes: https://github.com/myorg/hello-world/releases/tag/v${version}
+
+  - name: Notify Microsoft Teams
+    notify:
+      provider: teams
+      webhook_url_env: TEAMS_WEBHOOK_URL
+      title: "Deployment Successful"
+      text: "Deployed ${name} v${version}"
+      theme_color: "0078D4"
+      sections:
+        - activity_title: "Deployment Details"
+          facts:
+            - name: Version
+              value: ${version}
+            - name: Duration
+              value: ${duration}
+            - name: Environment
+              value: Production
+      potential_actions:
+        - type: OpenUri
+          name: View Release
+          targets:
+            - os: default
+              uri: https://github.com/myorg/hello-world/releases/tag/v${version}
+
+  - name: Notify Telegram
+    notify:
+      provider: telegram
+      bot_token_env: TELEGRAM_BOT_TOKEN
+      chat_id_env: TELEGRAM_CHAT_ID
+      message: |
+        ✅ *Deployment Successful*
+        
+        Project: `${name}`
+        Version: `${version}`
+        Duration: ${duration}
+        Environment: Production
+      parse_mode: Markdown
+
+  - name: Call Custom Webhook
+    notify:
+      provider: webhook
+      url: https://api.example.com/build-notifications
+      method: POST
+      headers:
+        Content-Type: application/json
+        Authorization: Bearer ${WEBHOOK_TOKEN}
+        X-Build-System: harana
+      payload:
+        status: success
+        project: ${name}
+        version: ${version}
+        duration: ${duration}
+        commit: ${commit_sha}
+        branch: ${branch}
+        timestamp: ${timestamp}
+        environment: production
+      retry:
+        attempts: 3
+        delay: 5
+
+# Error Handling - Steps to Run on Failure
+on_failure:
+  - name: Notify Slack - Build Failed
+    notify:
+      provider: slack
+      webhook_url_env: SLACK_WEBHOOK_URL
+      channel: "#alerts"
+      username: Build Bot
+      icon_emoji: ":x:"
+      message: |
+        :x: *Build Failed*
+        Project: ${name}
+        Version: ${version}
+        Error: ${error_message}
+        Branch: ${branch}
+        Commit: ${commit_sha}
+        Build Log: ${build_log_url}
+      color: danger
+      mention_users:
+        - "@channel"
+
+  - name: Notify Discord - Build Failed
+    notify:
+      provider: discord
+      webhook_url_env: DISCORD_WEBHOOK_URL
+      username: Build Bot
+      embed:
+        title: "Build Failed :x:"
+        description: "Build failed for ${name} v${version}"
+        color: 15158332
+        fields:
+          - name: Error
+            value: ${error_message}
+            inline: false
+          - name: Branch
+            value: ${branch}
+            inline: true
+          - name: Commit
+            value: ${commit_sha}
+            inline: true
+
+  - name: Send Failure Email
+    notify:
+      provider: email
+      smtp:
+        host: smtp.gmail.com
+        port: 587
+        secure: false
+        auth:
+          user_env: SMTP_USER
+          pass_env: SMTP_PASSWORD
+      from: builds@example.com
+      to:
+        - dev-team@example.com
+      subject: "[FAILURE] Build ${name} v${version}"
+      body: |
+        Build failed!
+        
+        Project: ${name}
+        Version: ${version}
+        Error: ${error_message}
+        Logs: ${build_log_url}
+        
+        Please investigate immediately.
+
+# Advanced Configuration
+advanced:
+  parallel_builds: true
+  max_parallel: 4
+  retry_on_failure:
+    enabled: true
+    max_attempts: 3
+    delay: 30
+  
+  cache:
+    enabled: true
+    type: local | s3 | gcs = local
+    path: .build-cache
+    key: ${os}-${arch}-${version}
+    restore_keys:
+      - ${os}-${arch}-
+      - ${os}-
+  
+  artifacts:
+    retention_days: 30
+    path: dist/
+    compression: true
+  
+  environment:
+    variables:
+      CI: true
+      BUILD_ID: ${build_id}
+      BUILD_NUMBER: ${build_number}
+    secrets_from_env: true
+  
+  logging:
+    level: info | debug | warn | error = info
+    format: json | text = text
+    file: build.log
+    upload_on_failure: true

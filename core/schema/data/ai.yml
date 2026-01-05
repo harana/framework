@@ -1,0 +1,87 @@
+- name: AI Model
+  class: ai_model
+  id: [name, version]
+  schema:
+    - context_window: int? #min(1)
+    - created_at: datetime = now()
+    - description: string? #max(1000)
+    - is_active: bool = true
+    - max_output_tokens: int? #min(1)
+    - provider: openai | anthropic | google | aws | azure | local = openai
+    - type: chat | completion | embedding | image | audio | vision = chat
+    - updated_at: datetime = now()
+    - version: string #required #max(50)
+
+- name: AI Model Configuration
+  class: ai_model_config
+  id: [model_id, name]
+  schema:
+    - frequency_penalty: decimal = 0 #min(-2) #max(2)
+    - max_tokens: int? #min(1)
+    - model_id: id #required -> AIModel.id
+    - presence_penalty: decimal = 0 #min(-2) #max(2)
+    - stop_sequences: string?
+    - temperature: decimal = 1.0 #min(0) #max(2)
+    - top_p: decimal = 1.0 #min(0) #max(1)
+
+- name: AI Prompt Template
+  class: ai_prompt_template
+  id: [name]
+  schema:
+    - created_at: datetime = now()
+    - description: string? #max(500)
+    - is_active: bool = true
+    - model_id: id? -> AIModel.id
+    - system_prompt: string?
+    - template: string #required
+    - updated_at: datetime = now()
+    - variables: string?
+
+- name: AI Conversation
+  class: ai_conversation
+  id: [user_id, created_at]
+  schema:
+    - created_at: datetime = now()
+    - metadata: string?
+    - model_id: id #required -> AIModel.id
+    - status: active | archived | deleted = active
+    - title: string? #max(200)
+    - updated_at: datetime = now()
+    - user_id: id #required -> User.id
+
+- name: AI Message
+  class: ai_message
+  id: [conversation_id, created_at]
+  schema:
+    - content: string #required
+    - conversation_id: id #required -> AIConversation.id
+    - created_at: datetime = now()
+    - metadata: string?
+    - role: system | user | assistant | function | tool = user
+    - tokens_used: int? #min(0)
+
+- name: AI Embedding
+  class: ai_embedding
+  id: [model_id, source_id, source_type]
+  schema:
+    - content: string #required
+    - created_at: datetime = now()
+    - dimensions: int #required #min(1)
+    - metadata: string?
+    - model_id: id #required -> AIModel.id
+    - source_id: string? #max(200)
+    - source_type: string? #max(100)
+    - vector: string #required
+
+- name: AI Usage
+  class: ai_usage
+  id: [model_id, created_at, user_id]
+  schema:
+    - completion_tokens: int = 0 #min(0)
+    - cost: decimal? #min(0)
+    - created_at: datetime = now()
+    - model_id: id #required -> AIModel.id
+    - prompt_tokens: int = 0 #min(0)
+    - request_type: chat | completion | embedding | image | audio = chat
+    - total_tokens: int = 0 #min(0)
+    - user_id: id? -> User.id

@@ -1,0 +1,102 @@
+- name: Group
+  class: group
+  id: [id]
+  schema:
+    - created_at: datetime = now()
+    - description: string? #max(500)
+    - id: id #required
+    - is_active: bool = true
+    - name: string #required #unique #max(100)
+    - parent_id: id? -> Group.id
+    - updated_at: datetime = now()
+
+- name: Group Member
+  class: group_member
+  id: [group_id, user_id]
+  schema:
+    - added_at: datetime = now()
+    - added_by: id? -> User.id
+    - group_id: id #required -> Group.id
+    - is_admin: bool = false
+    - user_id: id #required -> User.id
+
+- name: Group Role
+  class: group_role
+  id: [group_id, role_id]
+  schema:
+    - assigned_at: datetime = now()
+    - assigned_by: id? -> User.id
+    - group_id: id #required -> Group.id
+    - role_id: id #required -> Role.id
+
+- name: Role
+  class: role
+  id: [id]
+  schema:
+    - created_at: datetime = now()
+    - description: string? #max(500)
+    - id: id #required
+    - is_system: bool = false
+    - name: string #required #unique #max(100)
+    - updated_at: datetime = now()
+
+- name: Role Permission
+  class: role_permission
+  id: [role_id, permission_id]
+  schema:
+    - granted_at: datetime = now()
+    - granted_by: id? -> User.id
+    - permission_id: id #required -> Permission.id
+    - role_id: id #required -> Role.id
+
+- name: User Role
+  class: user_role
+  id: [user_id, role_id]
+  schema:
+    - assigned_at: datetime = now()
+    - assigned_by: id? -> User.id
+    - expires_at: datetime?
+    - role_id: id #required -> Role.id
+    - user_id: id #required -> User.id
+
+- name: User
+  class: user
+  id: [id]
+  schema:
+    - avatar_url: string? #url
+    - created_at: datetime = now()
+    - email: string #required #unique #email #max(255)
+    - first_name: string? #max(100)
+    - id: id #required
+    - is_active: bool = true
+    - is_verified: bool = false
+    - last_login_at: datetime?
+    - last_name: string? #max(100)
+    - phone: string? #max(20)
+    - timezone: string? #max(50)
+    - updated_at: datetime = now()
+    - username: string #required #unique #max(50)
+
+- name: User Profile
+  class: user_profile
+  id: [user_id]
+  schema:
+    - bio: string? #max(1000)
+    - date_of_birth: date?
+    - job_title: string? #max(100)
+    - location: string? #max(200)
+    - organisation: string? #max(200)
+    - updated_at: datetime = now()
+    - user_id: id #required -> User.id
+    - website: string? #url
+
+- name: User Credential
+  class: user_credential
+  id: [user_id, credential_type]
+  schema:
+    - created_at: datetime = now()
+    - credential_type: password | passkey | oauth | api_key = password
+    - credential_value: string #required #max(500)
+    - is_primary: bool = false
+    - updated_at: datetime = now()
+    - user_id: id #required -> User.id

@@ -1,0 +1,84 @@
+- name: Upload Blob To Storage
+  class: upload_blob
+  inputs:
+    bucket: string #required
+    content: bytes #required
+    content_type: string
+    key: string #required
+    metadata: object
+  outputs:
+    etag: string
+    url: string
+
+- name: Download Blob From Storage
+  class: download_blob
+  inputs:
+    bucket: string #required
+    key: string #required
+  outputs:
+    content: bytes
+    content_type: string
+    metadata: object
+    size: integer
+
+- name: Delete Blob From Storage
+  class: delete_blob
+  inputs:
+    bucket: string #required
+    key: string #required
+  outputs:
+    success: boolean
+
+- name: List Blobs In Bucket
+  class: list_blobs
+  inputs:
+    bucket: string #required
+    continuation_token: string
+    max_results: integer = 1000
+    prefix: string
+  outputs:
+    blobs: list[object]
+    next_token: string
+
+- name: Check If Blob Exists
+  class: blob_exists
+  inputs:
+    bucket: string #required
+    key: string #required
+  outputs:
+    exists: boolean
+
+- name: Get Blob Metadata Info
+  class: get_blob_metadata
+  inputs:
+    bucket: string #required
+    key: string #required
+  outputs:
+    content_type: string
+    created: datetime
+    etag: string
+    metadata: object
+    modified: datetime
+    size: integer
+
+- name: Copy Blob To Destination
+  class: copy_blob
+  inputs:
+    dest_bucket: string #required
+    dest_key: string #required
+    source_bucket: string #required
+    source_key: string #required
+  outputs:
+    etag: string
+    success: boolean
+
+- name: Generate Presigned URL
+  class: generate_presigned_url
+  inputs:
+    bucket: string #required
+    expires_in: integer = 3600
+    key: string #required
+    operation: get | put = get
+  outputs:
+    expires_at: datetime
+    url: string

@@ -1,0 +1,101 @@
+- name: Record Metric Value
+  class: record_metric
+  inputs:
+    name: string #required
+    tags: object
+    timestamp: datetime
+    value: float #required
+  outputs:
+    success: boolean
+
+- name: Increment Counter Metric
+  class: increment_counter
+  inputs:
+    amount: float = 1
+    name: string #required
+    tags: object
+  outputs:
+    value: float
+
+- name: Set Gauge Value
+  class: set_gauge
+  inputs:
+    name: string #required
+    tags: object
+    value: float #required
+  outputs:
+    success: boolean
+
+- name: Record Histogram Value
+  class: record_histogram
+  inputs:
+    buckets: list[float]
+    name: string #required
+    tags: object
+    value: float #required
+  outputs:
+    success: boolean
+
+- name: Start Timer Measurement
+  class: start_timer
+  inputs:
+    name: string #required
+    tags: object
+  outputs:
+    timer_id: string
+
+- name: Stop Timer Measurement
+  class: stop_timer
+  inputs:
+    timer_id: string #required
+  outputs:
+    duration_ms: float
+    success: boolean
+
+- name: Query Metric Values
+  class: query_metrics
+  inputs:
+    aggregation: sum | avg | min | max | count = avg
+    end_time: datetime
+    interval: string = "1m"
+    name: string #required
+    start_time: datetime #required
+    tags: object
+  outputs:
+    datapoints: list[object]
+    total: integer
+
+- name: Get Metric Summary
+  class: get_metric_summary
+  inputs:
+    name: string #required
+    period: string = "1h"
+    tags: object
+  outputs:
+    avg: float
+    count: integer
+    max: float
+    min: float
+    p50: float
+    p95: float
+    p99: float
+    sum: float
+
+- name: List Available Metrics
+  class: list_metrics
+  inputs:
+    limit: integer = 100
+    prefix: string
+  outputs:
+    metrics: list[object]
+    total: integer
+
+- name: Delete Metric Data
+  class: delete_metric
+  inputs:
+    before: datetime
+    name: string #required
+    tags: object
+  outputs:
+    deleted_count: integer
+    success: boolean

@@ -1,0 +1,26 @@
+- name: Request Count
+  metric:
+    description: Total number of HTTP requests received by the application
+    id: metric_001
+    key: http_requests_total
+    labels: service=hello-world,environment=production
+    type: counter
+    unit: requests
+
+- name: Memory Usage
+  metric:
+    description: Current memory usage of the application in megabytes
+    id: metric_002
+    key: memory_usage_mb
+    labels: service=hello-world,environment=production
+    type: gauge
+    unit: megabytes
+
+- name: Response Time
+  metric:
+    description: HTTP response time distribution
+    id: metric_003
+    key: http_response_time_seconds
+    labels: service=hello-world,endpoint=/api/greeting
+    type: histogram
+    unit: seconds

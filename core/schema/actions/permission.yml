@@ -1,0 +1,107 @@
+- name: Check User Permission
+  class: check_permission
+  inputs:
+    action: string #required
+    resource: string #required
+    user_id: string #required
+  outputs:
+    allowed: boolean
+    reason: string
+
+- name: Grant Permission To User
+  class: grant_permission
+  inputs:
+    action: string #required
+    conditions: object
+    expires_at: datetime
+    resource: string #required
+    user_id: string #required
+  outputs:
+    permission_id: string
+    success: boolean
+
+- name: Revoke User Permission
+  class: revoke_permission
+  inputs:
+    permission_id: string #required
+  outputs:
+    success: boolean
+
+- name: List User Permissions
+  class: list_user_permissions
+  inputs:
+    resource: string
+    user_id: string #required
+  outputs:
+    permissions: list[object]
+    total: integer
+
+- name: Create Role Definition
+  class: create_role
+  inputs:
+    description: string
+    name: string #required
+    permissions: list[object] #required
+  outputs:
+    role_id: string
+    success: boolean
+
+- name: Update Role Definition
+  class: update_role
+  inputs:
+    description: string
+    permissions: list[object]
+    role_id: string #required
+  outputs:
+    success: boolean
+
+- name: Delete Role Definition
+  class: delete_role
+  inputs:
+    role_id: string #required
+  outputs:
+    success: boolean
+
+- name: Assign Role To User
+  class: assign_role
+  inputs:
+    role_id: string #required
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: Remove Role From User
+  class: remove_role
+  inputs:
+    role_id: string #required
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: List Available Roles
+  class: list_roles
+  inputs:
+    limit: integer = 100
+    offset: integer = 0
+  outputs:
+    roles: list[object]
+    total: integer
+
+- name: Get Role Details
+  class: get_role
+  inputs:
+    role_id: string #required
+  outputs:
+    description: string
+    name: string
+    permissions: list[object]
+    user_count: integer
+
+- name: Check Role Permission
+  class: check_role_permission
+  inputs:
+    action: string #required
+    resource: string #required
+    role_id: string #required
+  outputs:
+    allowed: boolean

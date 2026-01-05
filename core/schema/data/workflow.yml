@@ -1,0 +1,47 @@
+- name: Workflow
+  class: workflow
+  id: [name]
+  schema:
+    - created_at: datetime = now()
+    - description: string? #max(1000)
+    - is_active: bool = true
+    - trigger_type: manual | scheduled | event | webhook = manual
+    - updated_at: datetime = now()
+    - version: int = 1 #min(1)
+
+- name: Workflow Step
+  class: workflow_step
+  id: [workflow_id, name]
+  schema:
+    - action: string #required #max(200)
+    - condition: string?
+    - on_failure: continue | stop | retry = stop
+    - retry_count: int = 0 #min(0)
+    - sort_order: int = 0
+    - timeout_seconds: int = 300 #min(1)
+    - workflow_id: id #required -> Workflow.id
+
+- name: Workflow Execution
+  class: workflow_execution
+  id: [workflow_id, created_at]
+  schema:
+    - completed_at: datetime?
+    - created_at: datetime = now()
+    - input: string?
+    - output: string?
+    - started_at: datetime?
+    - status: pending | running | completed | failed | cancelled = pending
+    - triggered_by: id? -> User.id
+    - workflow_id: id #required -> Workflow.id
+
+- name: Workflow Step Execution
+  class: workflow_step_execution
+  id: [execution_id, step_id]
+  schema:
+    - completed_at: datetime?
+    - error_message: string? #max(2000)
+    - input: string?
+    - output: string?
+    - started_at: datetime?
+    - status: pending | running | completed | failed | skipped = pending
+    - step_id: id #required -> WorkflowStep.id

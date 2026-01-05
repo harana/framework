@@ -1,0 +1,18 @@
+- name: User
+  id: User
+  attributes:
+    department: String
+    role: String
+    clearance_level: Long
+  parents: [Team]
+  
+- name: Team
+  id: Team
+  attributes:
+    name: String
+
+- name: Document
+  id: Document
+  attributes:
+    classification: String
+    owner: User

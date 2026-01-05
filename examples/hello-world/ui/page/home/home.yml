@@ -1,0 +1,55 @@
+parameters:
+  - name: form
+    type: form
+
+bindings:
+  - name: Login Form
+    id: login-form
+    show: "!session.authenticated"
+    
+  - name: Login Form - Username
+    id: username
+    value: form.username
+    classes:
+      error: "form.errors.uexamples/hello-world/components/homesername"
+    attributes:
+      placeholder: "Enter username"
+
+  - name: Login Form - Password
+    id: password
+    value: form.password
+    
+  - name: Login Form - Submit
+    id: submit
+    classes: [PrimaryButtonStyle]
+    disabled: not form.valid && form.submitting
+    indicator: form.submitting
+    text: "${form.submitting ? 'Submitting...' : 'Submit'}"
+    events:
+      click:
+        send: auth.login
+        prevent: true
+    
+  - id: error-message
+    show: "form.error"
+    text: "${form.error}"
+    classes:
+      shake: ["form.error"]
+
+styles:
+  - name: PrimaryButtonStyle
+    type: button
+    properties:
+      background_color: "#4CAF50"
+      text_color: "#FFFFFF"
+      padding: "10px 20px"
+      border_radius: "5px"
+      font_size: "16px"
+
+  - name: HeaderTextStyle
+    type: text
+    properties:
+      font_size: "24px"
+      font_weight: "bold"
+      text_align: "center"
+      margin_bottom: "20px"

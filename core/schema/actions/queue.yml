@@ -1,0 +1,101 @@
+- name: Enqueue Message To Queue
+  class: enqueue
+  inputs:
+    deduplication_id: string
+    delay_seconds: integer = 0
+    message: any #required
+    priority: integer = 0
+    queue_name: string #required
+  outputs:
+    message_id: string
+    success: boolean
+
+- name: Dequeue Message From Queue
+  class: dequeue
+  inputs:
+    queue_name: string #required
+    visibility_timeout: integer = 30
+    wait_time_seconds: integer = 0
+  outputs:
+    found: boolean
+    message: any
+    message_id: string
+    receipt_handle: string
+
+- name: Peek Message Without Removing
+  class: peek
+  inputs:
+    count: integer = 1
+    queue_name: string #required
+  outputs:
+    messages: list[object]
+
+- name: Acknowledge Message Processing
+  class: acknowledge
+  inputs:
+    queue_name: string #required
+    receipt_handle: string #required
+  outputs:
+    success: boolean
+
+- name: Return Message To Queue
+  class: nack
+  inputs:
+    delay_seconds: integer = 0
+    queue_name: string #required
+    receipt_handle: string #required
+  outputs:
+    success: boolean
+
+- name: Get Queue Statistics
+  class: get_queue_stats
+  inputs:
+    queue_name: string #required
+  outputs:
+    delayed_count: integer
+    in_flight_count: integer
+    message_count: integer
+    oldest_message_age: integer
+
+- name: Purge All Queue Messages
+  class: purge_queue
+  inputs:
+    queue_name: string #required
+  outputs:
+    messages_deleted: integer
+    success: boolean
+
+- name: Create New Queue
+  class: create_queue
+  inputs:
+    max_message_size: integer = 262144
+    message_retention: integer = 345600
+    queue_name: string #required
+    visibility_timeout: integer = 30
+  outputs:
+    queue_url: string
+    success: boolean
+
+- name: Delete Existing Queue
+  class: delete_queue
+  inputs:
+    queue_name: string #required
+  outputs:
+    success: boolean
+
+- name: List Available Queues
+  class: list_queues
+  inputs:
+    prefix: string
+  outputs:
+    queues: list[string]
+    total: integer
+
+- name: Move Message To Dead Letter
+  class: move_to_dlq
+  inputs:
+    queue_name: string #required
+    reason: string
+    receipt_handle: string #required
+  outputs:
+    success: boolean

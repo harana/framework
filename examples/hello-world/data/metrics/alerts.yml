@@ -1,0 +1,24 @@
+- name: High Memory Alert
+  description: Alert when memory usage exceeds 500 MB
+  id: alert_001
+  metric_alert:
+    comparison: gte
+    metric_id: metric_002
+    notification_channel: slack://ops-alerts
+    threshold: 500.0
+
+- name: High Request Rate Alert
+  id: alert_002
+  metric_alert:
+    comparison: gt
+    metric_id: metric_001
+    notification_channel: email://ops-team@example.com
+    threshold: 10000.0
+
+- name: Slow Response Alert
+  id: alert_003
+  metric_alert:
+    comparison: gt
+    metric_id: metric_003
+    notification_channel: pagerduty://incident-alerts
+    threshold: 1.0

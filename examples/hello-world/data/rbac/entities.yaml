@@ -1,0 +1,19 @@
+- name: Engineering Team
+  type: Team
+  id: engineering
+
+- name: Alice
+  type: User
+  id: alice
+  attributes:
+    department: engineering
+    role: admin
+    clearance_level: 3
+  parents: [Team::engineering]
+
+- name: Secret Document
+  type: Document
+  id: secret-doc
+  attributes:
+    classification: secret
+    owner: User::alice

@@ -1,0 +1,111 @@
+- name: Register Webhook Endpoint
+  class: register_webhook
+  inputs:
+    active: boolean = true
+    description: string
+    events: list[string] #required
+    secret: string
+    url: string #required
+  outputs:
+    secret: string
+    success: boolean
+    webhook_id: string
+
+- name: Update Webhook Configuration
+  class: update_webhook
+  inputs:
+    active: boolean
+    description: string
+    events: list[string]
+    secret: string
+    url: string
+    webhook_id: string #required
+  outputs:
+    success: boolean
+
+- name: Unregister Webhook Endpoint
+  class: unregister_webhook
+  inputs:
+    webhook_id: string #required
+  outputs:
+    success: boolean
+
+- name: Trigger Webhook Event
+  class: trigger_webhook
+  inputs:
+    event: string #required
+    payload: any #required
+    webhook_ids: list[string]
+  outputs:
+    success: boolean
+    triggered_count: integer
+
+- name: Get Webhook Details
+  class: get_webhook
+  inputs:
+    webhook_id: string #required
+  outputs:
+    active: boolean
+    created_at: datetime
+    description: string
+    events: list[string]
+    url: string
+
+- name: List Registered Webhooks
+  class: list_webhooks
+  inputs:
+    active_only: boolean = false
+    event: string
+    limit: integer = 100
+    offset: integer = 0
+  outputs:
+    total: integer
+    webhooks: list[object]
+
+- name: Test Webhook Endpoint
+  class: test_webhook
+  inputs:
+    payload: any
+    webhook_id: string #required
+  outputs:
+    error: string
+    response_time_ms: integer
+    status_code: integer
+    success: boolean
+
+- name: Get Webhook Delivery Log
+  class: get_webhook_deliveries
+  inputs:
+    limit: integer = 50
+    offset: integer = 0
+    status: success | failed | pending
+    webhook_id: string #required
+  outputs:
+    deliveries: list[object]
+    total: integer
+
+- name: Retry Failed Delivery
+  class: retry_delivery
+  inputs:
+    delivery_id: string #required
+  outputs:
+    status_code: integer
+    success: boolean
+
+- name: Verify Webhook Signature
+  class: verify_signature
+  inputs:
+    algorithm: sha256 | sha512 = sha256
+    payload: string #required
+    secret: string #required
+    signature: string #required
+  outputs:
+    valid: boolean
+
+- name: Rotate Webhook Secret
+  class: rotate_webhook_secret
+  inputs:
+    webhook_id: string #required
+  outputs:
+    new_secret: string
+    success: boolean

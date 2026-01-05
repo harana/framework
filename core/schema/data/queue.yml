@@ -1,0 +1,47 @@
+- name: Queue
+  class: queue
+  id: [name]
+  schema:
+    - created_at: datetime = now()
+    - dead_letter_queue_id: id? -> Queue.id
+    - is_fifo: bool = false
+    - max_message_size: int = 262144 #min(1024) #max(262144)
+    - message_retention_seconds: int = 345600 #min(60) #max(1209600)
+    - receive_wait_time_seconds: int = 0 #min(0) #max(20)
+    - type: standard | fifo = standard
+    - updated_at: datetime = now()
+    - visibility_timeout_seconds: int = 30 #min(0) #max(43200)
+
+- name: Queue Message
+  class: queue_message
+  id: [queue_id, sequence_number, created_at]
+  schema:
+    - attributes: string?
+    - body: string #required
+    - message_group_id: string? #max(128)
+    - queue_id: id #required -> Queue.id
+    - receipt_handle: string? #max(1024)
+    - receive_count: int = 0 #min(0)
+    - sequence_number: int?
+    - status: pending | in_flight | processed | dead_letter = pending
+    - visible_at: datetime = now()
+
+- name: Queue Subscription
+  class: queue_subscription
+  id: [queue_id, endpoint]
+  schema:
+    - created_at: datetime = now()
+    - endpoint: string #required #max(500)
+    - is_active: bool = true
+    - protocol: http | https | lambda | sqs | sns = https
+    - queue_id: id #required -> Queue.id
+    - updated_at: datetime = now()
+
+- name: Queue Metric
+  class: queue_metric
+  id: [queue_id, timestamp]
+  schema:
+    - approximate_age_oldest_message: int? #min(0)
+    - approximate_messages_delayed: int = 0 #min(0)
+    - queue_id: id #required -> Queue.id
+    - timestamp: datetime = now()

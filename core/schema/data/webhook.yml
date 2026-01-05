@@ -1,0 +1,33 @@
+- name: Webhook
+  class: webhook
+  id: [name]
+  schema:
+    - created_at: datetime = now()
+    - description: string? #max(500)
+    - is_active: bool = true
+    - secret: string? #max(500) #encrypted
+    - updated_at: datetime = now()
+    - url: string #required #url
+
+- name: Webhook Delivery
+  class: webhook_delivery
+  id: [webhook_id, event_type, created_at]
+  schema:
+    - created_at: datetime = now()
+    - event_type: string #required #max(100)
+    - payload: string #required
+    - request_headers: string?
+    - response_body: string?
+    - response_code: int?
+    - response_headers: string?
+    - retry_count: int = 0 #min(0)
+    - status: pending | delivered | failed = pending
+    - webhook_id: id #required -> Webhook.id
+
+- name: Webhook Event
+  class: webhook_event
+  id: [name]
+  schema:
+    - description: string? #max(500)
+    - is_active: bool = true
+    - payload_schema: string?

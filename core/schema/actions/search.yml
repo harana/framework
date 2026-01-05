@@ -1,0 +1,120 @@
+- name: Search Query Documents
+  class: search_query
+  inputs:
+    fields: list[string]
+    filters: object
+    highlight: boolean = false
+    index: string #required
+    limit: integer = 10
+    offset: integer = 0
+    query: string #required
+    sort: list[object]
+  outputs:
+    hits: list[object]
+    took_ms: integer
+    total: integer
+
+- name: Index Single Document
+  class: index_document
+  inputs:
+    document: object #required
+    document_id: string #required
+    index: string #required
+    refresh: boolean = false
+  outputs:
+    success: boolean
+    version: integer
+
+- name: Index Multiple Documents
+  class: bulk_index
+  inputs:
+    documents: list[object] #required
+    index: string #required
+    refresh: boolean = false
+  outputs:
+    errors: list[object]
+    failed: integer
+    indexed: integer
+
+- name: Get Document By ID
+  class: get_document
+  inputs:
+    document_id: string #required
+    index: string #required
+  outputs:
+    document: object
+    found: boolean
+    version: integer
+
+- name: Update Existing Document
+  class: update_document
+  inputs:
+    document: object #required
+    document_id: string #required
+    index: string #required
+    upsert: boolean = false
+  outputs:
+    success: boolean
+    version: integer
+
+- name: Delete Document By ID
+  class: delete_document
+  inputs:
+    document_id: string #required
+    index: string #required
+    refresh: boolean = false
+  outputs:
+    success: boolean
+
+- name: Delete Documents By Query
+  class: delete_by_query
+  inputs:
+    index: string #required
+    query: object #required
+    refresh: boolean = false
+  outputs:
+    deleted: integer
+    success: boolean
+
+- name: Create Search Index
+  class: create_index
+  inputs:
+    index: string #required
+    mappings: object
+    settings: object
+  outputs:
+    success: boolean
+
+- name: Delete Search Index
+  class: delete_index
+  inputs:
+    index: string #required
+  outputs:
+    success: boolean
+
+- name: List Search Indexes
+  class: list_indexes
+  inputs:
+    pattern: string = "*"
+  outputs:
+    indexes: list[object]
+    total: integer
+
+- name: Get Index Statistics
+  class: get_index_stats
+  inputs:
+    index: string #required
+  outputs:
+    document_count: integer
+    mappings: object
+    size_bytes: integer
+
+- name: Suggest Search Terms
+  class: suggest
+  inputs:
+    field: string #required
+    index: string #required
+    size: integer = 5
+    text: string #required
+  outputs:
+    suggestions: list[string]

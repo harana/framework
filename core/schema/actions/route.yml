@@ -1,0 +1,98 @@
+- name: Redirect To URL
+  class: redirect
+  inputs:
+    preserve_query: boolean = true
+    status_code: integer = 302
+    url: string #required
+  outputs:
+    success: boolean
+
+- name: Forward Request To Backend
+  class: forward
+  inputs:
+    headers: object
+    preserve_host: boolean = false
+    target_url: string #required
+    timeout: integer = 30
+  outputs:
+    body: any
+    headers: object
+    status_code: integer
+
+- name: Rewrite Request Path
+  class: rewrite_path
+  inputs:
+    pattern: string #required
+    replacement: string #required
+  outputs:
+    new_path: string
+    success: boolean
+
+- name: Add Response Headers
+  class: add_headers
+  inputs:
+    headers: object #required
+  outputs:
+    success: boolean
+
+- name: Remove Response Headers
+  class: remove_headers
+  inputs:
+    headers: list[string] #required
+  outputs:
+    success: boolean
+
+- name: Set Response Status
+  class: set_status
+  inputs:
+    message: string
+    status_code: integer #required
+  outputs:
+    success: boolean
+
+- name: Return JSON Response
+  class: json_response
+  inputs:
+    body: any #required
+    headers: object
+    status_code: integer = 200
+  outputs:
+    success: boolean
+
+- name: Return HTML Response
+  class: html_response
+  inputs:
+    body: string #required
+    headers: object
+    status_code: integer = 200
+  outputs:
+    success: boolean
+
+- name: Apply Rate Limiting
+  class: rate_limit
+  inputs:
+    key: string #required
+    limit: integer #required
+    window_seconds: integer = 60
+  outputs:
+    allowed: boolean
+    remaining: integer
+    reset_at: datetime
+
+- name: Match Route Pattern
+  class: match_route
+  inputs:
+    method: string
+    path: string #required
+    pattern: string #required
+  outputs:
+    matched: boolean
+    params: object
+
+- name: Proxy WebSocket Connection
+  class: proxy_websocket
+  inputs:
+    headers: object
+    target_url: string #required
+  outputs:
+    success: boolean
