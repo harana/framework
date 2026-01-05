@@ -1,0 +1,151 @@
+- name: Resize Image
+  class: resize
+  inputs:
+    width: integer
+    height: integer
+    fit: cover | contain | fill | inside | outside = cover
+    maintain_aspect_ratio: boolean = true
+    source: string #required
+    format: jpeg | png | webp | avif | tiff
+  outputs:
+    image: string
+    width: integer
+    height: integer
+    size: integer
+
+- name: Crop Image
+  class: crop
+  inputs:
+    x: integer #required
+    y: integer #required
+    width: integer #required
+    height: integer #required
+    source: string #required
+  outputs:
+    image: string
+    width: integer
+    height: integer
+
+- name: Compress Image
+  class: compress
+  inputs:
+    quality: integer = 80
+    source: string #required
+    format: jpeg | png | webp | avif = webp
+    progressive: boolean = false
+  outputs:
+    image: string
+    size: integer
+    compression_ratio: float
+
+- name: Rotate Image
+  class: rotate
+  inputs:
+    angle: integer #required
+    background: string = transparent
+    source: string #required
+  outputs:
+    image: string
+    width: integer
+    height: integer
+
+- name: Generate Thumbnail
+  class: thumbnail
+  inputs:
+    size: integer = 150
+    fit: cover | contain | fill = cover
+    source: string #required
+    format: jpeg | png | webp
+  outputs:
+    image: string
+    width: integer
+    height: integer
+
+- name: Blur Image
+  class: blur
+  inputs:
+    sigma: float = 5.0
+    source: string #required
+  outputs:
+    image: string
+
+- name: Convert To Greyscale
+  class: greyscale
+  inputs:
+    source: string #required
+  outputs:
+    image: string
+
+- name: Flip Image
+  class: flip
+  inputs:
+    direction: horizontal | vertical #required
+    source: string #required
+  outputs:
+    image: string
+
+- name: Apply Sharpen
+  class: sharpen
+  inputs:
+    sigma: float = 1.0
+    source: string #required
+  outputs:
+    image: string
+
+- name: Adjust Brightness
+  class: brightness
+  inputs:
+    brightness: float #required
+    source: string #required
+  outputs:
+    image: string
+
+- name: Adjust Contrast
+  class: contrast
+  inputs:
+    contrast: float #required
+    source: string #required
+  outputs:
+    image: string
+
+- name: Apply Tint
+  class: tint
+  inputs:
+    color: string #required
+    source: string #required
+  outputs:
+    image: string
+
+- name: Get Image Metadata
+  class: get_metadata
+  inputs:
+    source: string #required
+  outputs:
+    width: integer
+    height: integer
+    format: string
+    size: integer
+    orientation: integer
+    has_alpha: boolean
+    color_space: string
+
+- name: Convert Image Format
+  class: convert_format
+  inputs:
+    source: string #required
+    format: jpeg | png | webp | avif | tiff | gif #required
+    quality: integer = 80
+  outputs:
+    image: string
+    format: string
+    size: integer
+
+- name: Add Watermark
+  class: watermark
+  inputs:
+    source: string #required
+    watermark: string #required
+    position: top-left | top-right | bottom-left | bottom-right | center = bottom-right
+    opacity: float = 0.5
+  outputs:
+    image: string

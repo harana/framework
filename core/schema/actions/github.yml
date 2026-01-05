@@ -1,0 +1,334 @@
+- name: Create Repository
+  class: create_repo
+  inputs:
+    name: string #required
+    description: string
+    private: boolean = false
+    auto_init: boolean = false
+    gitignore_template: string
+    license_template: string
+    homepage: string
+  outputs:
+    repo_id: integer
+    full_name: string
+    url: string
+    success: boolean
+
+- name: Get Repository
+  class: get_repo
+  inputs:
+    owner: string #required
+    repo: string #required
+  outputs:
+    repo_id: integer
+    name: string
+    full_name: string
+    description: string
+    private: boolean
+    fork: boolean
+    url: string
+    default_branch: string
+    created_at: integer
+    updated_at: integer
+
+- name: Update Repository
+  class: update_repo
+  inputs:
+    owner: string #required
+    repo: string #required
+    name: string
+    description: string
+    private: boolean
+    homepage: string
+    has_issues: boolean
+    has_projects: boolean
+    has_wiki: boolean
+  outputs:
+    success: boolean
+
+- name: Delete Repository
+  class: delete_repo
+  inputs:
+    owner: string #required
+    repo: string #required
+  outputs:
+    success: boolean
+
+- name: List Repositories
+  class: list_repos
+  inputs:
+    type: all | owner | public | private | member = owner
+    sort: created | updated | pushed | full_name = full_name
+    direction: asc | desc = desc
+    per_page: integer = 30
+  outputs:
+    repositories: list[object]
+    total_count: integer
+
+- name: Create Issue
+  class: create_issue
+  inputs:
+    owner: string #required
+    repo: string #required
+    title: string #required
+    body: string
+    assignees: list[string]
+    labels: list[string]
+    milestone: integer
+  outputs:
+    issue_number: integer
+    url: string
+    success: boolean
+
+- name: Update Issue
+  class: update_issue
+  inputs:
+    owner: string #required
+    repo: string #required
+    issue_number: integer #required
+    title: string
+    body: string
+    state: open | closed
+    assignees: list[string]
+    labels: list[string]
+  outputs:
+    success: boolean
+
+- name: Close Issue
+  class: close_issue
+  inputs:
+    owner: string #required
+    repo: string #required
+    issue_number: integer #required
+  outputs:
+    success: boolean
+
+- name: List Issues
+  class: list_issues
+  inputs:
+    owner: string #required
+    repo: string #required
+    state: open | closed | all = open
+    labels: list[string]
+    sort: created | updated | comments = created
+    direction: asc | desc = desc
+    per_page: integer = 30
+  outputs:
+    issues: list[object]
+    total_count: integer
+
+- name: Create Pull Request
+  class: create_pull_request
+  inputs:
+    owner: string #required
+    repo: string #required
+    title: string #required
+    body: string
+    head: string #required
+    base: string #required
+    draft: boolean = false
+  outputs:
+    pr_number: integer
+    url: string
+    success: boolean
+
+- name: Update Pull Request
+  class: update_pull_request
+  inputs:
+    owner: string #required
+    repo: string #required
+    pr_number: integer #required
+    title: string
+    body: string
+    state: open | closed
+  outputs:
+    success: boolean
+
+- name: Merge Pull Request
+  class: merge_pull_request
+  inputs:
+    owner: string #required
+    repo: string #required
+    pr_number: integer #required
+    commit_title: string
+    commit_message: string
+    merge_method: merge | squash | rebase = merge
+  outputs:
+    merged: boolean
+    sha: string
+    success: boolean
+
+- name: List Pull Requests
+  class: list_pull_requests
+  inputs:
+    owner: string #required
+    repo: string #required
+    state: open | closed | all = open
+    sort: created | updated | popularity | long_running = created
+    direction: asc | desc = desc
+    per_page: integer = 30
+  outputs:
+    pull_requests: list[object]
+    total_count: integer
+
+- name: Create Branch
+  class: create_branch
+  inputs:
+    owner: string #required
+    repo: string #required
+    branch: string #required
+    sha: string #required
+  outputs:
+    ref: string
+    success: boolean
+
+- name: Delete Branch
+  class: delete_branch
+  inputs:
+    owner: string #required
+    repo: string #required
+    branch: string #required
+  outputs:
+    success: boolean
+
+- name: List Branches
+  class: list_branches
+  inputs:
+    owner: string #required
+    repo: string #required
+    protected: boolean
+    per_page: integer = 30
+  outputs:
+    branches: list[object]
+
+- name: Get Commit
+  class: get_commit
+  inputs:
+    owner: string #required
+    repo: string #required
+    sha: string #required
+  outputs:
+    sha: string
+    message: string
+    author: object
+    committer: object
+    url: string
+    created_at: integer
+
+- name: List Commits
+  class: list_commits
+  inputs:
+    owner: string #required
+    repo: string #required
+    sha: string
+    path: string
+    author: string
+    since: integer
+    until: integer
+    per_page: integer = 30
+  outputs:
+    commits: list[object]
+
+- name: Create Release
+  class: create_release
+  inputs:
+    owner: string #required
+    repo: string #required
+    tag_name: string #required
+    name: string
+    body: string
+    draft: boolean = false
+    prerelease: boolean = false
+    target_commitish: string
+  outputs:
+    release_id: integer
+    url: string
+    upload_url: string
+    success: boolean
+
+- name: Get Release
+  class: get_release
+  inputs:
+    owner: string #required
+    repo: string #required
+    release_id: integer #required
+  outputs:
+    release_id: integer
+    tag_name: string
+    name: string
+    body: string
+    draft: boolean
+    prerelease: boolean
+    created_at: integer
+    published_at: integer
+
+- name: List Releases
+  class: list_releases
+  inputs:
+    owner: string #required
+    repo: string #required
+    per_page: integer = 30
+  outputs:
+    releases: list[object]
+
+- name: Create Webhook
+  class: create_webhook
+  inputs:
+    owner: string #required
+    repo: string #required
+    config: object #required
+    events: list[string] #required
+    active: boolean = true
+  outputs:
+    webhook_id: integer
+    success: boolean
+
+- name: Delete Webhook
+  class: delete_webhook
+  inputs:
+    owner: string #required
+    repo: string #required
+    webhook_id: integer #required
+  outputs:
+    success: boolean
+
+- name: Get File Contents
+  class: get_file_contents
+  inputs:
+    owner: string #required
+    repo: string #required
+    path: string #required
+    ref: string
+  outputs:
+    content: string
+    encoding: string
+    sha: string
+    size: integer
+
+- name: Create Or Update File
+  class: create_or_update_file
+  inputs:
+    owner: string #required
+    repo: string #required
+    path: string #required
+    message: string #required
+    content: string #required
+    branch: string
+    sha: string
+  outputs:
+    content: object
+    commit: object
+    success: boolean
+
+- name: Delete File
+  class: delete_file
+  inputs:
+    owner: string #required
+    repo: string #required
+    path: string #required
+    message: string #required
+    sha: string #required
+    branch: string
+  outputs:
+    commit: object
+    success: boolean

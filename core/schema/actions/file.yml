@@ -1,5 +1,5 @@
 - name: Read Content From File
-  class: read_file
+  class: read
   inputs:
     mode: text | binary = text
     path: string #required
@@ -7,7 +7,7 @@
     content: string | bytes
 
 - name: Write Content To File
-  class: write_file
+  class: write
   inputs:
     content: string | bytes #required
     mode: text | binary = text
@@ -17,14 +17,14 @@
     success: boolean
 
 - name: Delete File At Path
-  class: delete_file
+  class: delete
   inputs:
     path: string #required
   outputs:
     success: boolean
 
 - name: Copy File To Destination
-  class: copy_file
+  class: copy
   inputs:
     from: string #required
     overwrite: boolean = false
@@ -33,7 +33,7 @@
     success: boolean
 
 - name: Move File To Destination
-  class: move_file
+  class: move
   inputs:
     from: string #required
     overwrite: boolean = false
@@ -42,14 +42,14 @@
     success: boolean
 
 - name: Check If File Exists
-  class: file_exists
+  class: exists
   inputs:
     path: string #required
   outputs:
     exists: boolean
 
 - name: Get File Metadata Info
-  class: file_info
+  class: info
   inputs:
     path: string #required
   outputs:

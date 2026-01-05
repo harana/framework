@@ -1,0 +1,177 @@
+- name: Insert Document
+  class: insert
+  inputs:
+    collection: string #required
+    database: string #required
+    document: object #required
+  outputs:
+    inserted_id: string
+    success: boolean
+
+- name: Insert Many Documents
+  class: insert_many
+  inputs:
+    collection: string #required
+    database: string #required
+    documents: list[object] #required
+    ordered: boolean = true
+  outputs:
+    inserted_count: integer
+    inserted_ids: list[string]
+    success: boolean
+
+- name: Find Document
+  class: find_one
+  inputs:
+    collection: string #required
+    database: string #required
+    filter: object #required
+    projection: object
+  outputs:
+    document: object
+    found: boolean
+
+- name: Find Documents
+  class: find
+  inputs:
+    collection: string #required
+    database: string #required
+    filter: object = {}
+    limit: integer
+    projection: object
+    skip: integer = 0
+    sort: object
+  outputs:
+    count: integer
+    documents: list[object]
+
+- name: Update Document
+  class: update_one
+  inputs:
+    collection: string #required
+    database: string #required
+    filter: object #required
+    update: object #required
+    upsert: boolean = false
+  outputs:
+    matched_count: integer
+    modified_count: integer
+    success: boolean
+    upserted_id: string
+
+- name: Update Many Documents
+  class: update_many
+  inputs:
+    collection: string #required
+    database: string #required
+    filter: object #required
+    update: object #required
+    upsert: boolean = false
+  outputs:
+    matched_count: integer
+    modified_count: integer
+    success: boolean
+    upserted_id: string
+
+- name: Replace Document
+  class: replace_one
+  inputs:
+    collection: string #required
+    database: string #required
+    filter: object #required
+    replacement: object #required
+    upsert: boolean = false
+  outputs:
+    matched_count: integer
+    modified_count: integer
+    success: boolean
+    upserted_id: string
+
+- name: Delete Document
+  class: delete_one
+  inputs:
+    collection: string #required
+    database: string #required
+    filter: object #required
+  outputs:
+    deleted_count: integer
+    success: boolean
+
+- name: Delete Many Documents
+  class: delete_many
+  inputs:
+    collection: string #required
+    database: string #required
+    filter: object #required
+  outputs:
+    deleted_count: integer
+    success: boolean
+
+- name: Count Documents
+  class: count
+  inputs:
+    collection: string #required
+    database: string #required
+    filter: object = {}
+  outputs:
+    count: integer
+
+- name: Aggregate Documents
+  class: aggregate
+  inputs:
+    collection: string #required
+    database: string #required
+    pipeline: list[object] #required
+  outputs:
+    documents: list[object]
+
+- name: Create Index
+  class: create_index
+  inputs:
+    collection: string #required
+    database: string #required
+    keys: object #required
+    name: string
+    unique: boolean = false
+  outputs:
+    index_name: string
+    success: boolean
+
+- name: Drop Index
+  class: drop_index
+  inputs:
+    collection: string #required
+    database: string #required
+    index_name: string #required
+  outputs:
+    success: boolean
+
+- name: List Collections
+  class: list_collections
+  inputs:
+    database: string #required
+  outputs:
+    collections: list[string]
+
+- name: Drop Collection
+  class: drop_collection
+  inputs:
+    collection: string #required
+    database: string #required
+  outputs:
+    success: boolean
+
+- name: Bulk Write Operations
+  class: bulk_write
+  inputs:
+    collection: string #required
+    database: string #required
+    operations: list[object] #required
+    ordered: boolean = true
+  outputs:
+    deleted_count: integer
+    inserted_count: integer
+    matched_count: integer
+    modified_count: integer
+    success: boolean
+    upserted_count: integer

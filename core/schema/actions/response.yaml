@@ -21,7 +21,7 @@
     success: boolean
 
 - name: Return JSON Response
-  class: json_response
+  class: json
   inputs:
     data: any #required
     pretty: boolean = false
@@ -30,7 +30,7 @@
     success: boolean
 
 - name: Return Plain Text Response
-  class: text_response
+  class: text
   inputs:
     content_type: string = text/plain
     status_code: integer = 200
@@ -39,7 +39,7 @@
     success: boolean
 
 - name: Return HTML Response
-  class: html_response
+  class: html
   inputs:
     html: string #required
     status_code: integer = 200
@@ -47,7 +47,7 @@
     success: boolean
 
 - name: Return XML Response
-  class: xml_response
+  class: xml
   inputs:
     status_code: integer = 200
     xml: string #required
@@ -55,7 +55,7 @@
     success: boolean
 
 - name: Return Binary Response
-  class: binary_response
+  class: binary
   inputs:
     content_type: string #required
     data: bytes #required
@@ -145,7 +145,7 @@
     success: boolean
 
 - name: Return Custom Error Response
-  class: error_response
+  class: error
   inputs:
     details: any
     error_code: string
@@ -189,7 +189,7 @@
     success: boolean
 
 - name: Return Streaming Response
-  class: streaming_response
+  class: streaming
   inputs:
     chunk_size: integer = 8192
     content_type: string = application/octet-stream
@@ -198,14 +198,14 @@
     success: boolean
 
 - name: Return Empty Response
-  class: empty_response
+  class: empty
   inputs:
     status_code: integer = 204
   outputs:
     success: boolean
 
 - name: Return Redirect Response
-  class: redirect_response
+  class: redirect
   inputs:
     preserve_method: boolean = false
     status_code: integer = 302
@@ -224,7 +224,7 @@
     success: boolean
 
 - name: Return GraphQL Response
-  class: graphql_response
+  class: graphql
   inputs:
     data: any
     errors: list[object]
@@ -233,7 +233,7 @@
     success: boolean
 
 - name: Return Paginated Response
-  class: paginated_response
+  class: paginated
   inputs:
     data: list[any] #required
     include_metadata: boolean = true
@@ -244,7 +244,7 @@
     success: boolean
 
 - name: Return CSV Response
-  class: csv_response
+  class: csv
   inputs:
     data: list[object] #required
     delimiter: string = ,

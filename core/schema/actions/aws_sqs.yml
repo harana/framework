@@ -1,0 +1,204 @@
+- name: Create SQS Queue
+  class: create_queue
+  inputs:
+    attributes: object
+    queue_name: string #required
+    region: string
+    tags: object
+  outputs:
+    queue_url: string
+    success: boolean
+
+- name: Delete SQS Queue
+  class: delete_queue
+  inputs:
+    queue_url: string #required
+    region: string
+  outputs:
+    success: boolean
+
+- name: Get SQS Queue URL
+  class: get_queue_url
+  inputs:
+    queue_name: string #required
+    queue_owner_aws_account_id: string
+    region: string
+  outputs:
+    queue_url: string
+
+- name: List SQS Queues
+  class: list_queues
+  inputs:
+    max_results: integer = 1000
+    next_token: string
+    queue_name_prefix: string
+    region: string
+  outputs:
+    next_token: string
+    queue_urls: list[string]
+
+- name: Send SQS Message
+  class: send_message
+  inputs:
+    delay_seconds: integer
+    message_attributes: object
+    message_body: string #required
+    message_deduplication_id: string
+    message_group_id: string
+    queue_url: string #required
+    region: string
+  outputs:
+    md5_of_message_attributes: string
+    md5_of_message_body: string
+    message_id: string
+    sequence_number: string
+    success: boolean
+
+- name: Send SQS Message Batch
+  class: send_message_batch
+  inputs:
+    entries: list[object] #required
+    queue_url: string #required
+    region: string
+  outputs:
+    failed: list[object]
+    successful: list[object]
+    success: boolean
+
+- name: Receive SQS Messages
+  class: receive_message
+  inputs:
+    attribute_names: list[string]
+    max_number_of_messages: integer = 1
+    message_attribute_names: list[string]
+    queue_url: string #required
+    receive_request_attempt_id: string
+    region: string
+    visibility_timeout: integer
+    wait_time_seconds: integer = 0
+  outputs:
+    messages: list[object]
+
+- name: Delete SQS Message
+  class: delete_message
+  inputs:
+    queue_url: string #required
+    receipt_handle: string #required
+    region: string
+  outputs:
+    success: boolean
+
+- name: Delete SQS Message Batch
+  class: delete_message_batch
+  inputs:
+    entries: list[object] #required
+    queue_url: string #required
+    region: string
+  outputs:
+    failed: list[object]
+    successful: list[object]
+    success: boolean
+
+- name: Change Message Visibility
+  class: change_message_visibility
+  inputs:
+    queue_url: string #required
+    receipt_handle: string #required
+    region: string
+    visibility_timeout: integer #required
+  outputs:
+    success: boolean
+
+- name: Change Message Visibility Batch
+  class: change_message_visibility_batch
+  inputs:
+    entries: list[object] #required
+    queue_url: string #required
+    region: string
+  outputs:
+    failed: list[object]
+    successful: list[object]
+    success: boolean
+
+- name: Get SQS Queue Attributes
+  class: get_queue_attributes
+  inputs:
+    attribute_names: list[string] = ["All"]
+    queue_url: string #required
+    region: string
+  outputs:
+    attributes: object
+
+- name: Set SQS Queue Attributes
+  class: set_queue_attributes
+  inputs:
+    attributes: object #required
+    queue_url: string #required
+    region: string
+  outputs:
+    success: boolean
+
+- name: Purge SQS Queue
+  class: purge_queue
+  inputs:
+    queue_url: string #required
+    region: string
+  outputs:
+    success: boolean
+
+- name: Add SQS Permission
+  class: add_permission
+  inputs:
+    aws_account_ids: list[string] #required
+    actions: list[string] #required
+    label: string #required
+    queue_url: string #required
+    region: string
+  outputs:
+    success: boolean
+
+- name: Remove SQS Permission
+  class: remove_permission
+  inputs:
+    label: string #required
+    queue_url: string #required
+    region: string
+  outputs:
+    success: boolean
+
+- name: Tag SQS Queue
+  class: tag_queue
+  inputs:
+    queue_url: string #required
+    region: string
+    tags: object #required
+  outputs:
+    success: boolean
+
+- name: Untag SQS Queue
+  class: untag_queue
+  inputs:
+    queue_url: string #required
+    region: string
+    tag_keys: list[string] #required
+  outputs:
+    success: boolean
+
+- name: List SQS Queue Tags
+  class: list_queue_tags
+  inputs:
+    queue_url: string #required
+    region: string
+  outputs:
+    tags: object
+
+- name: List SQS Dead Letter Source Queues
+  class: list_dead_letter_source_queues
+  inputs:
+    max_results: integer = 1000
+    next_token: string
+    queue_url: string #required
+    region: string
+  outputs:
+    next_token: string
+    queue_urls: list[string]

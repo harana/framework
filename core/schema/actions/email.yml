@@ -1,5 +1,5 @@
 - name: Send Email Message
-  class: send_email
+  class: send
   inputs:
     attachments: list[object]
     bcc: list[string]
@@ -15,7 +15,7 @@
     success: boolean
 
 - name: Send Email From Template
-  class: send_template_email
+  class: send_template
   inputs:
     attachments: list[object]
     bcc: list[string]
@@ -40,7 +40,7 @@
     valid: boolean
 
 - name: Get Email Status
-  class: get_email_status
+  class: status
   inputs:
     message_id: string #required
   outputs:
@@ -51,7 +51,7 @@
     status: queued | sent | delivered | bounced | failed
 
 - name: Send Bulk Email
-  class: send_bulk_email
+  class: send_bulk
   inputs:
     body: string #required
     content_type: text | html = text
@@ -65,7 +65,7 @@
     total: integer
 
 - name: Create Email Template
-  class: create_email_template
+  class: create_template
   inputs:
     body: string #required
     content_type: text | html = html
@@ -77,14 +77,14 @@
     template_id: string
 
 - name: Delete Email Template
-  class: delete_email_template
+  class: delete_template
   inputs:
     template_id: string #required
   outputs:
     success: boolean
 
 - name: List Email Templates
-  class: list_email_templates
+  class: list_templates
   inputs:
     limit: integer = 100
     offset: integer = 0

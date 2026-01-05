@@ -1,0 +1,116 @@
+namespace: math
+description: Mathematical operations
+
+actions:
+  round:
+    description: Round number
+    input:
+      value:
+        type: number
+        description: Number to round
+        required: true
+      precision:
+        type: integer
+        description: Decimal places
+        optional: true
+        default: 0
+    output:
+      type: number
+      description: Rounded number
+
+  floor:
+    description: Floor number
+    input:
+      value:
+        type: number
+        description: Number to floor
+        required: true
+    output:
+      type: number
+      description: Floor value
+
+  ceil:
+    description: Ceiling number
+    input:
+      value:
+        type: number
+        description: Number to ceil
+        required: true
+    output:
+      type: number
+      description: Ceiling value
+
+  abs:
+    description: Absolute value
+    input:
+      value:
+        type: number
+        description: Number to get absolute value of
+        required: true
+    output:
+      type: number
+      description: Absolute value
+
+  min:
+    description: Minimum of values
+    input:
+      values:
+        type: array
+        description: Array of numbers
+        required: true
+    output:
+      type: number
+      description: Minimum value
+
+  max:
+    description: Maximum of values
+    input:
+      values:
+        type: array
+        description: Array of numbers
+        required: true
+    output:
+      type: number
+      description: Maximum value
+
+  sum:
+    description: Sum of values
+    input:
+      values:
+        type: array
+        description: Array of numbers
+        required: true
+    output:
+      type: number
+      description: Sum
+
+  average:
+    description: Average of values
+    input:
+      values:
+        type: array
+        description: Array of numbers
+        required: true
+    output:
+      type: number
+      description: Average (mean)
+
+  percentage:
+    description: Calculate percentage
+    input:
+      value:
+        type: number
+        description: Value
+        required: true
+      total:
+        type: number
+        description: Total
+        required: true
+      precision:
+        type: integer
+        description: Decimal places
+        optional: true
+        default: 2
+    output:
+      type: number
+      description: Percentage

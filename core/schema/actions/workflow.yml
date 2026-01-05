@@ -1,5 +1,5 @@
 - name: Start Workflow Execution
-  class: start_workflow
+  class: start
   inputs:
     context: object
     input: any
@@ -10,7 +10,7 @@
     success: boolean
 
 - name: Pause Workflow Execution
-  class: pause_workflow
+  class: pause
   inputs:
     execution_id: string #required
     reason: string
@@ -18,7 +18,7 @@
     success: boolean
 
 - name: Resume Paused Workflow
-  class: resume_workflow
+  class: resume
   inputs:
     execution_id: string #required
     input: any
@@ -26,7 +26,7 @@
     success: boolean
 
 - name: Cancel Workflow Execution
-  class: cancel_workflow
+  class: cancel
   inputs:
     execution_id: string #required
     reason: string
@@ -34,7 +34,7 @@
     success: boolean
 
 - name: Get Workflow Status
-  class: get_workflow_status
+  class: get_status
   inputs:
     execution_id: string #required
   outputs:
@@ -46,7 +46,7 @@
     status: pending | running | paused | completed | failed | cancelled
 
 - name: Get Workflow Result
-  class: get_workflow_result
+  class: get_result
   inputs:
     execution_id: string #required
   outputs:
@@ -68,7 +68,7 @@
     total: integer
 
 - name: Send Signal To Workflow
-  class: signal_workflow
+  class: signal
   inputs:
     execution_id: string #required
     payload: any
@@ -88,7 +88,7 @@
     timed_out: boolean
 
 - name: Get Workflow History
-  class: get_workflow_history
+  class: history
   inputs:
     execution_id: string #required
   outputs:

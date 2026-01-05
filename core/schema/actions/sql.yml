@@ -1,0 +1,189 @@
+- name: Execute SQL Query
+  class: execute
+  inputs:
+    database: string
+    parameters: list[any]
+    query: string #required
+  outputs:
+    affected_rows: integer
+    last_insert_id: string
+    success: boolean
+
+- name: Execute SQL Select
+  class: select
+  inputs:
+    database: string
+    limit: integer
+    offset: integer = 0
+    parameters: list[any]
+    query: string #required
+  outputs:
+    column_names: list[string]
+    count: integer
+    rows: list[object]
+
+- name: Execute SQL Insert
+  class: insert
+  inputs:
+    database: string
+    parameters: list[any]
+    query: string #required
+  outputs:
+    affected_rows: integer
+    last_insert_id: string
+    success: boolean
+
+- name: Execute SQL Update
+  class: update
+  inputs:
+    database: string
+    parameters: list[any]
+    query: string #required
+  outputs:
+    affected_rows: integer
+    success: boolean
+
+- name: Execute SQL Delete
+  class: delete
+  inputs:
+    database: string
+    parameters: list[any]
+    query: string #required
+  outputs:
+    affected_rows: integer
+    success: boolean
+
+- name: Execute Batch SQL
+  class: batch
+  inputs:
+    database: string
+    queries: list[object] #required
+  outputs:
+    failed_count: integer
+    results: list[object]
+    success: boolean
+    success_count: integer
+
+- name: Begin Transaction
+  class: begin_transaction
+  inputs:
+    database: string
+    isolation_level: read_uncommitted | read_committed | repeatable_read | serializable
+  outputs:
+    success: boolean
+    transaction_id: string
+
+- name: Commit Transaction
+  class: commit
+  inputs:
+    database: string
+    transaction_id: string #required
+  outputs:
+    success: boolean
+
+- name: Rollback Transaction
+  class: rollback
+  inputs:
+    database: string
+    transaction_id: string #required
+  outputs:
+    success: boolean
+
+- name: Call Stored Procedure
+  class: call_procedure
+  inputs:
+    database: string
+    parameters: list[any]
+    procedure_name: string #required
+  outputs:
+    out_parameters: object
+    result_sets: list[object]
+    success: boolean
+
+- name: Get Table Schema
+  class: get_schema
+  inputs:
+    database: string
+    table_name: string #required
+  outputs:
+    columns: list[object]
+    indexes: list[object]
+    primary_key: list[string]
+
+- name: List Tables
+  class: list_tables
+  inputs:
+    database: string
+    schema: string
+  outputs:
+    tables: list[string]
+
+- name: Create Table
+  class: create_table
+  inputs:
+    columns: list[object] #required
+    database: string
+    if_not_exists: boolean = true
+    table_name: string #required
+  outputs:
+    success: boolean
+
+- name: Drop Table
+  class: drop_table
+  inputs:
+    database: string
+    if_exists: boolean = true
+    table_name: string #required
+  outputs:
+    success: boolean
+
+- name: Truncate Table
+  class: truncate_table
+  inputs:
+    database: string
+    table_name: string #required
+  outputs:
+    success: boolean
+
+- name: Create Index
+  class: create_index
+  inputs:
+    columns: list[string] #required
+    database: string
+    index_name: string #required
+    table_name: string #required
+    unique: boolean = false
+  outputs:
+    success: boolean
+
+- name: Drop Index
+  class: drop_index
+  inputs:
+    database: string
+    if_exists: boolean = true
+    index_name: string #required
+    table_name: string
+  outputs:
+    success: boolean
+
+- name: Bulk Insert
+  class: bulk_insert
+  inputs:
+    columns: list[string] #required
+    database: string
+    rows: list[list[any]] #required
+    table_name: string #required
+  outputs:
+    affected_rows: integer
+    success: boolean
+
+- name: Execute Prepared Statement
+  class: prepared_statement
+  inputs:
+    database: string
+    parameters: list[any]
+    statement: string #required
+  outputs:
+    affected_rows: integer
+    rows: list[object]
+    success: boolean

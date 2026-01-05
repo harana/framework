@@ -1,0 +1,157 @@
+- name: Create Node
+  class: create_node
+  inputs:
+    labels: list[string]
+    properties: object
+  outputs:
+    node_id: string
+    success: boolean
+
+- name: Create Relationship
+  class: create_relationship
+  inputs:
+    from_node_id: string #required
+    properties: object
+    to_node_id: string #required
+    type: string #required
+  outputs:
+    relationship_id: string
+    success: boolean
+
+- name: Find Nodes
+  class: find_nodes
+  inputs:
+    labels: list[string]
+    limit: integer
+    properties: object
+    skip: integer = 0
+  outputs:
+    count: integer
+    nodes: list[object]
+
+- name: Find Node By ID
+  class: find_node
+  inputs:
+    node_id: string #required
+  outputs:
+    found: boolean
+    node: object
+
+- name: Update Node
+  class: update_node
+  inputs:
+    node_id: string #required
+    properties: object #required
+  outputs:
+    success: boolean
+
+- name: Delete Node
+  class: delete_node
+  inputs:
+    detach: boolean = true
+    node_id: string #required
+  outputs:
+    success: boolean
+
+- name: Delete Relationship
+  class: delete_relationship
+  inputs:
+    relationship_id: string #required
+  outputs:
+    success: boolean
+
+- name: Execute Cypher Query
+  class: execute_query
+  inputs:
+    parameters: object
+    query: string #required
+  outputs:
+    records: list[object]
+    summary: object
+
+- name: Find Shortest Path
+  class: shortest_path
+  inputs:
+    from_node_id: string #required
+    max_depth: integer
+    relationship_types: list[string]
+    to_node_id: string #required
+  outputs:
+    found: boolean
+    length: integer
+    path: list[object]
+
+- name: Find All Paths
+  class: find_paths
+  inputs:
+    from_node_id: string #required
+    limit: integer = 100
+    max_depth: integer
+    relationship_types: list[string]
+    to_node_id: string #required
+  outputs:
+    count: integer
+    paths: list[object]
+
+- name: Get Node Neighbors
+  class: get_neighbors
+  inputs:
+    depth: integer = 1
+    direction: incoming | outgoing | both = both
+    node_id: string #required
+    relationship_types: list[string]
+  outputs:
+    neighbors: list[object]
+
+- name: Get Node Degree
+  class: get_degree
+  inputs:
+    direction: incoming | outgoing | both = both
+    node_id: string #required
+    relationship_types: list[string]
+  outputs:
+    degree: integer
+
+- name: Create Index
+  class: create_index
+  inputs:
+    label: string #required
+    property: string #required
+  outputs:
+    success: boolean
+
+- name: Drop Index
+  class: drop_index
+  inputs:
+    label: string #required
+    property: string #required
+  outputs:
+    success: boolean
+
+- name: Get Graph Stats
+  class: get_stats
+  inputs: {}
+  outputs:
+    node_count: integer
+    relationship_count: integer
+    stats: object
+
+- name: Run Graph Algorithm
+  class: run_algorithm
+  inputs:
+    algorithm: pagerank | betweenness | closeness | degree_centrality #required
+    parameters: object
+  outputs:
+    results: list[object]
+    success: boolean
+
+- name: Match Pattern
+  class: match_pattern
+  inputs:
+    limit: integer
+    parameters: object
+    pattern: string #required
+    where_clause: string
+  outputs:
+    count: integer
+    results: list[object]

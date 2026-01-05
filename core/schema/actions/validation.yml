@@ -1,5 +1,5 @@
 - name: Validate Against Schema
-  class: validate_schema
+  class: schema
   inputs:
     data: any #required
     schema: object #required
@@ -9,7 +9,7 @@
     valid: boolean
 
 - name: Validate Single Field
-  class: validate_field
+  class: field
   inputs:
     field_name: string
     rules: list[string] #required
@@ -19,7 +19,7 @@
     valid: boolean
 
 - name: Validate Email Format
-  class: validate_email_format
+  class: email_format
   inputs:
     email: string #required
   outputs:
@@ -27,7 +27,7 @@
     valid: boolean
 
 - name: Validate URL Format
-  class: validate_url
+  class: url
   inputs:
     allowed_schemes: list[string]
     url: string #required
@@ -36,7 +36,7 @@
     valid: boolean
 
 - name: Validate Phone Number
-  class: validate_phone
+  class: phone
   inputs:
     country_code: string
     phone: string #required
@@ -46,7 +46,7 @@
     valid: boolean
 
 - name: Validate Date Format
-  class: validate_date
+  class: date
   inputs:
     date: string #required
     format: string = "ISO8601"
@@ -56,7 +56,7 @@
     valid: boolean
 
 - name: Validate JSON Structure
-  class: validate_json
+  class: json
   inputs:
     json_string: string #required
   outputs:
@@ -65,17 +65,17 @@
     valid: boolean
 
 - name: Validate Credit Card
-  class: validate_credit_card
+  class: credit_card
   inputs:
     number: string #required
-    validate_luhn: boolean = true
+    luhn: boolean = true
   outputs:
     card_type: string
     last_four: string
     valid: boolean
 
 - name: Validate UUID Format
-  class: validate_uuid
+  class: uuid
   inputs:
     uuid: string #required
     version: integer
@@ -84,7 +84,7 @@
     version: integer
 
 - name: Validate IP Address
-  class: validate_ip
+  class: ip
   inputs:
     ip: string #required
     version: 4 | 6 | any = any
@@ -94,7 +94,7 @@
     version: integer
 
 - name: Validate Password Strength
-  class: validate_password
+  class: password
   inputs:
     min_length: integer = 8
     password: string #required

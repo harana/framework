@@ -1,0 +1,33 @@
+- name: Generate UUID V4
+  class: generate_v4
+  inputs:
+    count: integer = 1
+    uppercase: boolean = false
+  outputs:
+    uuid: string | list[string]
+
+- name: Generate UUID V7
+  class: generate_v7
+  inputs:
+    count: integer = 1
+    uppercase: boolean = false
+  outputs:
+    uuid: string | list[string]
+
+- name: Validate UUID Format
+  class: validate
+  inputs:
+    uuid: string #required
+    version: integer
+  outputs:
+    valid: boolean
+    version: integer
+
+- name: Parse UUID To Components
+  class: parse
+  inputs:
+    uuid: string #required
+  outputs:
+    timestamp: integer
+    variant: string
+    version: integer

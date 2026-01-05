@@ -1,0 +1,37 @@
+- name: Read Excel File To Data
+  class: read
+  inputs:
+    file: string #required
+    has_headers: boolean = true
+    range: string
+    sheet: string
+  outputs:
+    rows: list[object]
+
+- name: Write Data To Excel File
+  class: write
+  inputs:
+    data: list[object] #required
+    file: string #required
+    headers: list[string]
+    include_headers: boolean = true
+    sheet: string = "Sheet1"
+  outputs:
+    path: string
+
+- name: List Sheets In Workbook
+  class: get_sheets
+  inputs:
+    file: string #required
+  outputs:
+    sheets: list[string]
+
+- name: Read Specific Sheet
+  class: read_sheet
+  inputs:
+    file: string #required
+    has_headers: boolean = true
+    range: string
+    sheet: string #required
+  outputs:
+    rows: list[object]

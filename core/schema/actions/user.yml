@@ -1,0 +1,71 @@
+- name: Check User Permission
+  class: check_permission
+  inputs:
+    action: string #required
+    resource: string #required
+    user_id: string #required
+  outputs:
+    allowed: boolean
+    reason: string
+
+- name: Grant Permission To User
+  class: grant_permission
+  inputs:
+    action: string #required
+    conditions: object
+    expires_at: datetime
+    resource: string #required
+    user_id: string #required
+  outputs:
+    permission_id: string
+    success: boolean
+
+- name: Revoke User Permission
+  class: revoke_permission
+  inputs:
+    permission_id: string #required
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: List User Permissions
+  class: list_permissions
+  inputs:
+    resource: string
+    user_id: string #required
+  outputs:
+    permissions: list[object]
+    total: integer
+
+- name: Assign Role To User
+  class: assign_role
+  inputs:
+    role_id: string #required
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: Remove Role From User
+  class: remove_role
+  inputs:
+    role_id: string #required
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: List User Roles
+  class: list_roles
+  inputs:
+    user_id: string #required
+  outputs:
+    roles: list[object]
+    total: integer
+
+- name: Get User Effective Permissions
+  class: get_effective_permissions
+  inputs:
+    resource: string
+    user_id: string #required
+  outputs:
+    permissions: list[object]
+    sources: list[object]

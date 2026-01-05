@@ -1,5 +1,5 @@
 - name: Create New Session
-  class: create_session
+  class: create
   inputs:
     data: object
     ttl: integer = 3600
@@ -9,7 +9,7 @@
     session_id: string
 
 - name: Get Session Data
-  class: get_session
+  class: get
   inputs:
     session_id: string #required
   outputs:
@@ -20,7 +20,7 @@
     user_id: string
 
 - name: Update Session Data
-  class: update_session
+  class: update
   inputs:
     data: object #required
     merge: boolean = true
@@ -29,14 +29,14 @@
     success: boolean
 
 - name: Destroy Session
-  class: destroy_session
+  class: destroy
   inputs:
     session_id: string #required
   outputs:
     success: boolean
 
 - name: Refresh Session Expiry
-  class: refresh_session
+  class: refresh
   inputs:
     session_id: string #required
     ttl: integer
@@ -45,7 +45,7 @@
     success: boolean
 
 - name: Get Session Value
-  class: get_session_value
+  class: get_value
   inputs:
     key: string #required
     session_id: string #required
@@ -54,7 +54,7 @@
     value: any
 
 - name: Set Session Value
-  class: set_session_value
+  class: set_value
   inputs:
     key: string #required
     session_id: string #required
@@ -63,7 +63,7 @@
     success: boolean
 
 - name: Delete Session Value
-  class: delete_session_value
+  class: delete_value
   inputs:
     key: string #required
     session_id: string #required
@@ -71,7 +71,7 @@
     success: boolean
 
 - name: List User Sessions
-  class: list_user_sessions
+  class: list_users
   inputs:
     user_id: string #required
   outputs:
@@ -79,16 +79,16 @@
     total: integer
 
 - name: Destroy All User Sessions
-  class: destroy_user_sessions
+  class: destroy_users
   inputs:
-    except_session_id: string
+    except_id: string
     user_id: string #required
   outputs:
     destroyed_count: integer
     success: boolean
 
 - name: Check Session Valid
-  class: validate_session
+  class: validate
   inputs:
     session_id: string #required
   outputs:

@@ -14,17 +14,6 @@ name = "harana_core"
 path = "src/lib.rs"
 
 [dependencies]
-async-trait = "0.1"
-asynk-strim = "0.1"
-axum = "0.8"
-datastar = { version = "0.2", features = ["axum"] }
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-serde_yaml = "0.9"
-thiserror = "1.0"
-tokio = { version = "1.0", features = ["full"] }
-tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 [dev-dependencies]
 tokio-test = "0.4"

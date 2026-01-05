@@ -1,0 +1,121 @@
+- name: Send APNS Push Notification
+  class: send_apns
+  inputs:
+    alert: string #required
+    badge: integer
+    body: string
+    category: string
+    collapse_id: string
+    custom_data: object
+    device_token: string #required
+    expiration: integer
+    priority: 5 | 10 = 10
+    sound: string
+    subtitle: string
+    thread_id: string
+    title: string
+    topic: string #required
+  outputs:
+    apns_id: string
+    success: boolean
+    error: string
+
+- name: Send Web Push Notification
+  class: send_web_push
+  inputs:
+    actions: list[object]
+    badge: string
+    body: string #required
+    data: object
+    dir: auto | ltr | rtl = auto
+    icon: string
+    image: string
+    lang: string
+    renotify: boolean = false
+    require_interaction: boolean = false
+    silent: boolean = false
+    tag: string
+    timestamp: integer
+    title: string #required
+    vibrate: list[integer]
+    subscription: object #required
+  outputs:
+    success: boolean
+    error: string
+
+- name: Send Android FCM Notification
+  class: send_fcm
+  inputs:
+    body: string #required
+    channel_id: string
+    click_action: string
+    collapse_key: string
+    color: string
+    data: object
+    icon: string
+    image: string
+    priority: min | low | default | high | max = default
+    registration_token: string #required
+    sound: string
+    tag: string
+    time_to_live: integer
+    title: string #required
+  outputs:
+    message_id: string
+    success: boolean
+    error: string
+
+- name: Send Multicast Push
+  class: send_multicast_push
+  inputs:
+    body: string #required
+    data: object
+    platform: apns | web | fcm #required
+    title: string #required
+    tokens: list[string] #required
+  outputs:
+    failed: integer
+    successful: integer
+    total: integer
+    failures: list[object]
+
+- name: Send Topic Push
+  class: send_topic_push
+  inputs:
+    body: string #required
+    data: object
+    platform: apns | web | fcm #required
+    title: string #required
+    topic: string #required
+  outputs:
+    message_id: string
+    success: boolean
+
+- name: Subscribe To Topic
+  class: subscribe_to_topic
+  inputs:
+    platform: apns | web | fcm #required
+    tokens: list[string] #required
+    topic: string #required
+  outputs:
+    success: boolean
+    failed_tokens: list[string]
+
+- name: Unsubscribe From Topic
+  class: unsubscribe_from_topic
+  inputs:
+    platform: apns | web | fcm #required
+    tokens: list[string] #required
+    topic: string #required
+  outputs:
+    success: boolean
+    failed_tokens: list[string]
+
+- name: Validate Push Token
+  class: validate_push_token
+  inputs:
+    platform: apns | web | fcm #required
+    token: string #required
+  outputs:
+    valid: boolean
+    error: string

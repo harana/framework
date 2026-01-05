@@ -1,0 +1,325 @@
+- name: Create S3 Bucket
+  class: create_bucket
+  inputs:
+    acl: private | public-read | public-read-write | authenticated-read = private
+    bucket: string #required
+    region: string
+    tags: object
+  outputs:
+    bucket: string
+    location: string
+    success: boolean
+
+- name: Delete S3 Bucket
+  class: delete_bucket
+  inputs:
+    bucket: string #required
+    region: string
+  outputs:
+    success: boolean
+
+- name: List S3 Buckets
+  class: list_buckets
+  inputs:
+    region: string
+  outputs:
+    buckets: list[object]
+
+- name: Put S3 Object
+  class: put_object
+  inputs:
+    acl: private | public-read | public-read-write | authenticated-read
+    bucket: string #required
+    content: bytes #required
+    content_type: string
+    key: string #required
+    metadata: object
+    region: string
+    server_side_encryption: AES256 | aws:kms
+    storage_class: STANDARD | REDUCED_REDUNDANCY | STANDARD_IA | ONEZONE_IA | INTELLIGENT_TIERING | GLACIER | DEEP_ARCHIVE
+    tags: object
+  outputs:
+    etag: string
+    success: boolean
+    version_id: string
+
+- name: Get S3 Object
+  class: get_object
+  inputs:
+    bucket: string #required
+    key: string #required
+    region: string
+    version_id: string
+  outputs:
+    content: bytes
+    content_type: string
+    etag: string
+    last_modified: datetime
+    metadata: object
+    size: integer
+    storage_class: string
+    version_id: string
+
+- name: Delete S3 Object
+  class: delete_object
+  inputs:
+    bucket: string #required
+    key: string #required
+    region: string
+    version_id: string
+  outputs:
+    success: boolean
+    version_id: string
+
+- name: Delete S3 Objects
+  class: delete_objects
+  inputs:
+    bucket: string #required
+    keys: list[string] #required
+    region: string
+  outputs:
+    deleted: list[object]
+    errors: list[object]
+    success: boolean
+
+- name: List S3 Objects
+  class: list_objects
+  inputs:
+    bucket: string #required
+    continuation_token: string
+    delimiter: string
+    max_keys: integer = 1000
+    prefix: string
+    region: string
+    start_after: string
+  outputs:
+    contents: list[object]
+    continuation_token: string
+    is_truncated: boolean
+    key_count: integer
+    next_continuation_token: string
+    prefix: string
+
+- name: Copy S3 Object
+  class: copy_object
+  inputs:
+    destination_bucket: string #required
+    destination_key: string #required
+    metadata: object
+    metadata_directive: COPY | REPLACE = COPY
+    region: string
+    source_bucket: string #required
+    source_key: string #required
+    source_version_id: string
+    storage_class: string
+    tags: object
+  outputs:
+    etag: string
+    success: boolean
+    version_id: string
+
+- name: Head S3 Object
+  class: head_object
+  inputs:
+    bucket: string #required
+    key: string #required
+    region: string
+    version_id: string
+  outputs:
+    content_length: integer
+    content_type: string
+    etag: string
+    exists: boolean
+    last_modified: datetime
+    metadata: object
+    storage_class: string
+    version_id: string
+
+- name: Get S3 Object Presigned URL
+  class: get_presigned_url
+  inputs:
+    bucket: string #required
+    expires_in: integer = 3600
+    key: string #required
+    operation: get_object | put_object = get_object
+    region: string
+  outputs:
+    expires_at: datetime
+    url: string
+
+- name: Set S3 Bucket Policy
+  class: put_bucket_policy
+  inputs:
+    bucket: string #required
+    policy: string #required
+    region: string
+  outputs:
+    success: boolean
+
+- name: Get S3 Bucket Policy
+  class: get_bucket_policy
+  inputs:
+    bucket: string #required
+    region: string
+  outputs:
+    policy: string
+
+- name: Delete S3 Bucket Policy
+  class: delete_bucket_policy
+  inputs:
+    bucket: string #required
+    region: string
+  outputs:
+    success: boolean
+
+- name: Put S3 Bucket Versioning
+  class: put_bucket_versioning
+  inputs:
+    bucket: string #required
+    region: string
+    status: Enabled | Suspended #required
+  outputs:
+    success: boolean
+
+- name: Get S3 Bucket Versioning
+  class: get_bucket_versioning
+  inputs:
+    bucket: string #required
+    region: string
+  outputs:
+    mfa_delete: string
+    status: string
+
+- name: Put S3 Bucket Encryption
+  class: put_bucket_encryption
+  inputs:
+    bucket: string #required
+    kms_master_key_id: string
+    region: string
+    sse_algorithm: AES256 | aws:kms #required
+  outputs:
+    success: boolean
+
+- name: Get S3 Bucket Encryption
+  class: get_bucket_encryption
+  inputs:
+    bucket: string #required
+    region: string
+  outputs:
+    rules: list[object]
+
+- name: Put S3 Bucket CORS
+  class: put_bucket_cors
+  inputs:
+    bucket: string #required
+    cors_rules: list[object] #required
+    region: string
+  outputs:
+    success: boolean
+
+- name: Get S3 Bucket CORS
+  class: get_bucket_cors
+  inputs:
+    bucket: string #required
+    region: string
+  outputs:
+    cors_rules: list[object]
+
+- name: Delete S3 Bucket CORS
+  class: delete_bucket_cors
+  inputs:
+    bucket: string #required
+    region: string
+  outputs:
+    success: boolean
+
+- name: Put S3 Bucket Lifecycle
+  class: put_bucket_lifecycle
+  inputs:
+    bucket: string #required
+    lifecycle_rules: list[object] #required
+    region: string
+  outputs:
+    success: boolean
+
+- name: Get S3 Bucket Lifecycle
+  class: get_bucket_lifecycle
+  inputs:
+    bucket: string #required
+    region: string
+  outputs:
+    rules: list[object]
+
+- name: Put S3 Object Tagging
+  class: put_object_tagging
+  inputs:
+    bucket: string #required
+    key: string #required
+    region: string
+    tags: object #required
+    version_id: string
+  outputs:
+    success: boolean
+    version_id: string
+
+- name: Get S3 Object Tagging
+  class: get_object_tagging
+  inputs:
+    bucket: string #required
+    key: string #required
+    region: string
+    version_id: string
+  outputs:
+    tags: object
+    version_id: string
+
+- name: Create Multipart Upload
+  class: create_multipart_upload
+  inputs:
+    bucket: string #required
+    content_type: string
+    key: string #required
+    metadata: object
+    region: string
+    storage_class: string
+  outputs:
+    success: boolean
+    upload_id: string
+
+- name: Upload Part
+  class: upload_part
+  inputs:
+    body: bytes #required
+    bucket: string #required
+    key: string #required
+    part_number: integer #required
+    region: string
+    upload_id: string #required
+  outputs:
+    etag: string
+    success: boolean
+
+- name: Complete Multipart Upload
+  class: complete_multipart_upload
+  inputs:
+    bucket: string #required
+    key: string #required
+    parts: list[object] #required
+    region: string
+    upload_id: string #required
+  outputs:
+    bucket: string
+    etag: string
+    key: string
+    location: string
+    success: boolean
+
+- name: Abort Multipart Upload
+  class: abort_multipart_upload
+  inputs:
+    bucket: string #required
+    key: string #required
+    region: string
+    upload_id: string #required
+  outputs:
+    success: boolean

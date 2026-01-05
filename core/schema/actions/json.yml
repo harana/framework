@@ -1,0 +1,52 @@
+- name: Parse JSON String To Object
+  class: parse
+  inputs:
+    data: string #required
+    strict: boolean = true
+  outputs:
+    result: any
+
+- name: Convert Object To JSON String
+  class: stringify
+  inputs:
+    data: any #required
+    indent: integer = 0
+    sort_keys: boolean = false
+  outputs:
+    json: string
+
+- name: Validate JSON Against Schema
+  class: validate
+  inputs:
+    data: any #required
+    schema: object #required
+  outputs:
+    errors: list[object]
+    valid: boolean
+
+- name: Query JSON With JMESPath
+  class: jmespath_query
+  inputs:
+    data: any #required
+    query: string #required
+  outputs:
+    result: any
+
+- name: Deep Merge JSON Objects
+  class: merge
+  inputs:
+    objects: list[object] #required
+    strategy: deep | shallow | concat_arrays = deep
+  outputs:
+    result: object
+
+- name: Compare Two JSON Objects
+  class: diff
+  inputs:
+    include_unchanged: boolean = false
+    source: any #required
+    target: any #required
+  outputs:
+    added: object
+    changed: object
+    removed: object

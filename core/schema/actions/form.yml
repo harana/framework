@@ -1,5 +1,5 @@
 - name: Validate Form Data
-  class: validate_form
+  class: validate
   inputs:
     data: object #required
     form_id: string #required
@@ -9,7 +9,7 @@
     valid: boolean
 
 - name: Submit Form Data
-  class: submit_form
+  class: submit
   inputs:
     data: object #required
     form_id: string #required
@@ -20,7 +20,7 @@
     success: boolean
 
 - name: Get Form Definition
-  class: get_form
+  class: get
   inputs:
     form_id: string #required
   outputs:

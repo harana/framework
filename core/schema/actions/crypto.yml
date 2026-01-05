@@ -1,0 +1,179 @@
+namespace: crypto
+description: Cryptographic operations
+
+actions:
+  hash:
+    description: Hash data (SHA256, MD5, etc.)
+    input:
+      data:
+        type: string
+        description: Data to hash
+        required: true
+      algorithm:
+        type: string
+        description: Hash algorithm (sha256, sha512, md5, sha1, etc.)
+        optional: true
+        default: sha256
+      encoding:
+        type: string
+        description: Output encoding (hex, base64)
+        optional: true
+        default: hex
+    output:
+      type: string
+      description: Hash digest
+
+  hmac:
+    description: Generate HMAC
+    input:
+      data:
+        type: string
+        description: Data to sign
+        required: true
+      key:
+        type: string
+        description: Secret key
+        required: true
+      algorithm:
+        type: string
+        description: Hash algorithm (sha256, sha512, etc.)
+        optional: true
+        default: sha256
+      encoding:
+        type: string
+        description: Output encoding (hex, base64)
+        optional: true
+        default: hex
+    output:
+      type: string
+      description: HMAC digest
+
+  encrypt:
+    description: Encrypt data (AES)
+    input:
+      data:
+        type: string
+        description: Data to encrypt
+        required: true
+      key:
+        type: string
+        description: Encryption key
+        required: true
+      algorithm:
+        type: string
+        description: Encryption algorithm (aes-256-gcm, aes-256-cbc, etc.)
+        optional: true
+        default: aes-256-gcm
+      iv:
+        type: string
+        description: Initialization vector (generated if not provided)
+        optional: true
+    output:
+      type: object
+      description: Encrypted data with IV and auth tag
+
+  decrypt:
+    description: Decrypt data
+    input:
+      encrypted:
+        type: string
+        description: Encrypted data
+        required: true
+      key:
+        type: string
+        description: Decryption key
+        required: true
+      algorithm:
+        type: string
+        description: Encryption algorithm
+        optional: true
+        default: aes-256-gcm
+      iv:
+        type: string
+        description: Initialization vector
+        required: true
+      auth_tag:
+        type: string
+        description: Authentication tag (for GCM mode)
+        optional: true
+    output:
+      type: string
+      description: Decrypted data
+
+  generate_key:
+    description: Generate encryption key
+    input:
+      length:
+        type: integer
+        description: Key length in bytes
+        optional: true
+        default: 32
+      encoding:
+        type: string
+        description: Output encoding (hex, base64)
+        optional: true
+        default: hex
+    output:
+      type: string
+      description: Generated key
+
+  sign:
+    description: Sign data with private key
+    input:
+      data:
+        type: string
+        description: Data to sign
+        required: true
+      private_key:
+        type: string
+        description: Private key (PEM format)
+        required: true
+      algorithm:
+        type: string
+        description: Signature algorithm (RSA-SHA256, etc.)
+        optional: true
+        default: RSA-SHA256
+    output:
+      type: string
+      description: Signature
+
+  verify:
+    description: Verify signature
+    input:
+      data:
+        type: string
+        description: Original data
+        required: true
+      signature:
+        type: string
+        description: Signature to verify
+        required: true
+      public_key:
+        type: string
+        description: Public key (PEM format)
+        required: true
+      algorithm:
+        type: string
+        description: Signature algorithm
+        optional: true
+        default: RSA-SHA256
+    output:
+      type: boolean
+      description: Verification result
+
+  generate_keypair:
+    description: Generate key pair
+    input:
+      algorithm:
+        type: string
+        description: Algorithm (rsa, ed25519, ecdsa)
+        optional: true
+        default: rsa
+      key_size:
+        type: integer
+        description: Key size in bits (for RSA)
+        optional: true
+        default: 2048
+    output:
+      type: object
+      description: Public and private keys

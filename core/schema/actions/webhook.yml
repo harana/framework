@@ -1,5 +1,5 @@
 - name: Register Webhook Endpoint
-  class: register_webhook
+  class: register
   inputs:
     active: boolean = true
     description: string
@@ -12,7 +12,7 @@
     webhook_id: string
 
 - name: Update Webhook Configuration
-  class: update_webhook
+  class: update
   inputs:
     active: boolean
     description: string
@@ -24,14 +24,14 @@
     success: boolean
 
 - name: Unregister Webhook Endpoint
-  class: unregister_webhook
+  class: unregister
   inputs:
     webhook_id: string #required
   outputs:
     success: boolean
 
 - name: Trigger Webhook Event
-  class: trigger_webhook
+  class: trigger
   inputs:
     event: string #required
     payload: any #required
@@ -41,7 +41,7 @@
     triggered_count: integer
 
 - name: Get Webhook Details
-  class: get_webhook
+  class: get
   inputs:
     webhook_id: string #required
   outputs:
@@ -52,7 +52,7 @@
     url: string
 
 - name: List Registered Webhooks
-  class: list_webhooks
+  class: lists
   inputs:
     active_only: boolean = false
     event: string
@@ -63,7 +63,7 @@
     webhooks: list[object]
 
 - name: Test Webhook Endpoint
-  class: test_webhook
+  class: test
   inputs:
     payload: any
     webhook_id: string #required
@@ -74,7 +74,7 @@
     success: boolean
 
 - name: Get Webhook Delivery Log
-  class: get_webhook_deliveries
+  class: get_deliveries
   inputs:
     limit: integer = 50
     offset: integer = 0
@@ -103,7 +103,7 @@
     valid: boolean
 
 - name: Rotate Webhook Secret
-  class: rotate_webhook_secret
+  class: rotate_secret
   inputs:
     webhook_id: string #required
   outputs:

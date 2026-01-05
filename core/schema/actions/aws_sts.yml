@@ -1,0 +1,136 @@
+- name: Assume STS Role
+  class: assume_role
+  inputs:
+    duration_seconds: integer = 3600
+    external_id: string
+    policy: string
+    policy_arns: list[object]
+    region: string
+    role_arn: string #required
+    role_session_name: string #required
+    serial_number: string
+    source_identity: string
+    tags: object
+    token_code: string
+    transitive_tag_keys: list[string]
+  outputs:
+    access_key_id: string
+    assumed_role_user: object
+    credentials: object
+    expiration: datetime
+    packed_policy_size: integer
+    secret_access_key: string
+    session_token: string
+    source_identity: string
+    success: boolean
+
+- name: Assume STS Role With SAML
+  class: assume_role_with_saml
+  inputs:
+    duration_seconds: integer = 3600
+    policy: string
+    policy_arns: list[object]
+    principal_arn: string #required
+    region: string
+    role_arn: string #required
+    saml_assertion: string #required
+  outputs:
+    access_key_id: string
+    assumed_role_user: object
+    audience: string
+    credentials: object
+    expiration: datetime
+    issuer: string
+    name_qualifier: string
+    packed_policy_size: integer
+    secret_access_key: string
+    session_token: string
+    subject: string
+    subject_type: string
+    success: boolean
+
+- name: Assume STS Role With Web Identity
+  class: assume_role_with_web_identity
+  inputs:
+    duration_seconds: integer = 3600
+    policy: string
+    policy_arns: list[object]
+    provider_id: string
+    region: string
+    role_arn: string #required
+    role_session_name: string #required
+    web_identity_token: string #required
+  outputs:
+    access_key_id: string
+    assumed_role_user: object
+    audience: string
+    credentials: object
+    expiration: datetime
+    packed_policy_size: integer
+    provider: string
+    secret_access_key: string
+    session_token: string
+    source_identity: string
+    subject_from_web_identity_token: string
+    success: boolean
+
+- name: Decode STS Authorization Message
+  class: decode_authorization_message
+  inputs:
+    encoded_message: string #required
+    region: string
+  outputs:
+    decoded_message: string
+    success: boolean
+
+- name: Get STS Caller Identity
+  class: get_caller_identity
+  inputs:
+    region: string
+  outputs:
+    account: string
+    arn: string
+    user_id: string
+
+- name: Get STS Session Token
+  class: get_session_token
+  inputs:
+    duration_seconds: integer = 3600
+    region: string
+    serial_number: string
+    token_code: string
+  outputs:
+    access_key_id: string
+    credentials: object
+    expiration: datetime
+    secret_access_key: string
+    session_token: string
+    success: boolean
+
+- name: Get STS Federation Token
+  class: get_federation_token
+  inputs:
+    duration_seconds: integer = 3600
+    name: string #required
+    policy: string
+    policy_arns: list[object]
+    region: string
+    tags: object
+  outputs:
+    access_key_id: string
+    credentials: object
+    expiration: datetime
+    federated_user: object
+    packed_policy_size: integer
+    secret_access_key: string
+    session_token: string
+    success: boolean
+
+- name: Get STS Access Key Info
+  class: get_access_key_info
+  inputs:
+    access_key_id: string #required
+    region: string
+  outputs:
+    account: string
+    success: boolean

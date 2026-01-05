@@ -1,0 +1,103 @@
+- name: Create Group
+  class: create
+  inputs:
+    description: string
+    name: string #required
+  outputs:
+    group_id: string
+    success: boolean
+
+- name: Update Group
+  class: update
+  inputs:
+    description: string
+    group_id: string #required
+    name: string
+  outputs:
+    success: boolean
+
+- name: Delete Group
+  class: delete
+  inputs:
+    group_id: string #required
+  outputs:
+    success: boolean
+
+- name: Get Group Details
+  class: get
+  inputs:
+    group_id: string #required
+  outputs:
+    description: string
+    member_count: integer
+    name: string
+    roles: list[object]
+
+- name: List Groups
+  class: lists
+  inputs:
+    limit: integer = 100
+    offset: integer = 0
+  outputs:
+    groups: list[object]
+    total: integer
+
+- name: Add User To Group
+  class: add_user_to
+  inputs:
+    group_id: string #required
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: Remove User From Group
+  class: remove_user_from
+  inputs:
+    group_id: string #required
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: List Group Members
+  class: list_members
+  inputs:
+    group_id: string #required
+    limit: integer = 100
+    offset: integer = 0
+  outputs:
+    members: list[object]
+    total: integer
+
+- name: Assign Role To Group
+  class: assign_role_to
+  inputs:
+    group_id: string #required
+    role_id: string #required
+  outputs:
+    success: boolean
+
+- name: Remove Role From Group
+  class: remove_role_from
+  inputs:
+    group_id: string #required
+    role_id: string #required
+  outputs:
+    success: boolean
+
+- name: List Group Roles
+  class: list_roles
+  inputs:
+    group_id: string #required
+  outputs:
+    roles: list[object]
+    total: integer
+
+- name: Check Group Permission
+  class: check_permission
+  inputs:
+    action: string #required
+    group_id: string #required
+    resource: string #required
+  outputs:
+    allowed: boolean
+    reason: string

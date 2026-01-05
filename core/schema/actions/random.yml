@@ -1,0 +1,84 @@
+namespace: random
+description: Random value generation utilities
+
+actions:
+  uuid:
+    description: Generate UUID
+    input:
+      version:
+        type: string
+        description: UUID version (v4 by default)
+        optional: true
+        default: v4
+    output:
+      type: string
+      description: Generated UUID
+
+  bytes:
+    description: Generate random bytes
+    input:
+      length:
+        type: integer
+        description: Number of bytes to generate
+        required: true
+    output:
+      type: bytes
+      description: Random bytes
+
+  string:
+    description: Generate random string
+    input:
+      length:
+        type: integer
+        description: Length of string to generate
+        required: true
+      charset:
+        type: string
+        description: Character set to use (alphanumeric, alpha, numeric, hex, etc.)
+        optional: true
+        default: alphanumeric
+    output:
+      type: string
+      description: Random string
+
+  number:
+    description: Generate random number
+    input:
+      min:
+        type: number
+        description: Minimum value (inclusive)
+        optional: true
+      max:
+        type: number
+        description: Maximum value (exclusive)
+        optional: true
+      integer:
+        type: boolean
+        description: Whether to generate integer (true) or float (false)
+        optional: true
+        default: true
+    output:
+      type: number
+      description: Random number
+
+  choice:
+    description: Random choice from list
+    input:
+      items:
+        type: array
+        description: List of items to choose from
+        required: true
+    output:
+      type: any
+      description: Randomly selected item
+
+  shuffle:
+    description: Shuffle list
+    input:
+      items:
+        type: array
+        description: List to shuffle
+        required: true
+    output:
+      type: array
+      description: Shuffled list

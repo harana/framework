@@ -1,0 +1,68 @@
+namespace: geoip
+description: Geolocation and IP lookup utilities
+
+actions:
+  lookup:
+    description: Lookup IP location
+    input:
+      ip:
+        type: string
+        description: IP address to lookup
+        required: true
+    output:
+      type: object
+      description: Location information (country, region, city, lat, lon, etc.)
+
+  distance:
+    description: Calculate distance between coordinates
+    input:
+      from_lat:
+        type: number
+        description: Starting latitude
+        required: true
+      from_lon:
+        type: number
+        description: Starting longitude
+        required: true
+      to_lat:
+        type: number
+        description: Ending latitude
+        required: true
+      to_lon:
+        type: number
+        description: Ending longitude
+        required: true
+      unit:
+        type: string
+        description: Distance unit (km, mi, m)
+        optional: true
+        default: km
+    output:
+      type: number
+      description: Distance in specified units
+
+  geocode:
+    description: Convert address to coordinates
+    input:
+      address:
+        type: string
+        description: Address to geocode
+        required: true
+    output:
+      type: object
+      description: Coordinates and location details
+
+  reverse_geocode:
+    description: Convert coordinates to address
+    input:
+      latitude:
+        type: number
+        description: Latitude
+        required: true
+      longitude:
+        type: number
+        description: Longitude
+        required: true
+    output:
+      type: object
+      description: Address and location details

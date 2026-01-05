@@ -41,7 +41,7 @@
     next_token: string
 
 - name: Check If Blob Exists
-  class: blob_exists
+  class: exists
   inputs:
     bucket: string #required
     key: string #required

@@ -1,0 +1,97 @@
+- name: Create Policy
+  class: create
+  inputs:
+    conditions: object #required
+    description: string
+    effect: string #required # allow or deny
+    name: string #required
+    resources: list[string] #required
+    actions: list[string] #required
+  outputs:
+    policy_id: string
+    success: boolean
+
+- name: Update Policy
+  class: update
+  inputs:
+    conditions: object
+    description: string
+    effect: string
+    name: string
+    policy_id: string #required
+    resources: list[string]
+    actions: list[string]
+  outputs:
+    success: boolean
+
+- name: Delete Policy
+  class: delete
+  inputs:
+    policy_id: string #required
+  outputs:
+    success: boolean
+
+- name: Get Policy Details
+  class: get
+  inputs:
+    policy_id: string #required
+  outputs:
+    actions: list[string]
+    conditions: object
+    description: string
+    effect: string
+    name: string
+    resources: list[string]
+
+- name: List Policies
+  class: list_policies
+  inputs:
+    limit: integer = 100
+    offset: integer = 0
+  outputs:
+    policies: list[object]
+    total: integer
+
+- name: Attach Policy To User
+  class: attach_to_user
+  inputs:
+    policy_id: string #required
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: Detach Policy From User
+  class: detach_from_user
+  inputs:
+    policy_id: string #required
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: Attach Policy To Role
+  class: attach_to_role
+  inputs:
+    policy_id: string #required
+    role_id: string #required
+  outputs:
+    success: boolean
+
+- name: Detach Policy From Role
+  class: detach_from_role
+  inputs:
+    policy_id: string #required
+    role_id: string #required
+  outputs:
+    success: boolean
+
+- name: Evaluate Policy
+  class: evaluate
+  inputs:
+    action: string #required
+    context: object
+    policy_id: string #required
+    resource: string #required
+  outputs:
+    allowed: boolean
+    evaluated_conditions: object
+    reason: string

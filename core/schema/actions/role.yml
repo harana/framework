@@ -1,0 +1,82 @@
+- name: Create Role Definition
+  class: create
+  inputs:
+    description: string
+    name: string #required
+    permissions: list[object] #required
+  outputs:
+    role_id: string
+    success: boolean
+
+- name: Update Role Definition
+  class: update
+  inputs:
+    description: string
+    name: string
+    permissions: list[object]
+    role_id: string #required
+  outputs:
+    success: boolean
+
+- name: Delete Role Definition
+  class: delete
+  inputs:
+    role_id: string #required
+  outputs:
+    success: boolean
+
+- name: List Available Roles
+  class: list
+  inputs:
+    limit: integer = 100
+    offset: integer = 0
+  outputs:
+    roles: list[object]
+    total: integer
+
+- name: Get Role Details
+  class: get
+  inputs:
+    role_id: string #required
+  outputs:
+    description: string
+    name: string
+    permissions: list[object]
+    user_count: integer
+
+- name: Check Role Permission
+  class: check_permission
+  inputs:
+    action: string #required
+    resource: string #required
+    role_id: string #required
+  outputs:
+    allowed: boolean
+
+- name: Add Permission To Role
+  class: add_permission
+  inputs:
+    action: string #required
+    conditions: object
+    resource: string #required
+    role_id: string #required
+  outputs:
+    success: boolean
+
+- name: Remove Permission From Role
+  class: remove_permission
+  inputs:
+    action: string #required
+    resource: string #required
+    role_id: string #required
+  outputs:
+    success: boolean
+
+- name: Clone Role
+  class: clone
+  inputs:
+    new_name: string #required
+    source_id: string #required
+  outputs:
+    role_id: string
+    success: boolean

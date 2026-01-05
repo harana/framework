@@ -1,0 +1,344 @@
+- name: Create IAM User
+  class: create_user
+  inputs:
+    path: string = /
+    permissions_boundary: string
+    tags: object
+    user_name: string #required
+  outputs:
+    arn: string
+    create_date: datetime
+    success: boolean
+    user_id: string
+    user_name: string
+
+- name: Delete IAM User
+  class: delete_user
+  inputs:
+    user_name: string #required
+  outputs:
+    success: boolean
+
+- name: Get IAM User
+  class: get_user
+  inputs:
+    user_name: string
+  outputs:
+    arn: string
+    create_date: datetime
+    password_last_used: datetime
+    path: string
+    permissions_boundary: object
+    tags: list[object]
+    user_id: string
+    user_name: string
+
+- name: List IAM Users
+  class: list_users
+  inputs:
+    max_items: integer = 100
+    path_prefix: string = /
+  outputs:
+    is_truncated: boolean
+    marker: string
+    users: list[object]
+
+- name: Update IAM User
+  class: update_user
+  inputs:
+    new_path: string
+    new_user_name: string
+    user_name: string #required
+  outputs:
+    success: boolean
+
+- name: Create IAM Group
+  class: create_group
+  inputs:
+    group_name: string #required
+    path: string = /
+  outputs:
+    arn: string
+    create_date: datetime
+    group_id: string
+    group_name: string
+    success: boolean
+
+- name: Delete IAM Group
+  class: delete_group
+  inputs:
+    group_name: string #required
+  outputs:
+    success: boolean
+
+- name: List IAM Groups
+  class: list_groups
+  inputs:
+    max_items: integer = 100
+    path_prefix: string = /
+  outputs:
+    groups: list[object]
+    is_truncated: boolean
+    marker: string
+
+- name: Add User To Group
+  class: add_user_to_group
+  inputs:
+    group_name: string #required
+    user_name: string #required
+  outputs:
+    success: boolean
+
+- name: Remove User From Group
+  class: remove_user_from_group
+  inputs:
+    group_name: string #required
+    user_name: string #required
+  outputs:
+    success: boolean
+
+- name: List Groups For User
+  class: list_groups_for_user
+  inputs:
+    max_items: integer = 100
+    user_name: string #required
+  outputs:
+    groups: list[object]
+    is_truncated: boolean
+    marker: string
+
+- name: Create IAM Role
+  class: create_role
+  inputs:
+    assume_role_policy_document: string #required
+    description: string
+    max_session_duration: integer = 3600
+    path: string = /
+    permissions_boundary: string
+    role_name: string #required
+    tags: object
+  outputs:
+    arn: string
+    create_date: datetime
+    role_id: string
+    role_name: string
+    success: boolean
+
+- name: Delete IAM Role
+  class: delete_role
+  inputs:
+    role_name: string #required
+  outputs:
+    success: boolean
+
+- name: Get IAM Role
+  class: get_role
+  inputs:
+    role_name: string #required
+  outputs:
+    arn: string
+    assume_role_policy_document: string
+    create_date: datetime
+    description: string
+    max_session_duration: integer
+    path: string
+    permissions_boundary: object
+    role_id: string
+    role_name: string
+    tags: list[object]
+
+- name: List IAM Roles
+  class: list_roles
+  inputs:
+    max_items: integer = 100
+    path_prefix: string = /
+  outputs:
+    is_truncated: boolean
+    marker: string
+    roles: list[object]
+
+- name: Create IAM Policy
+  class: create_policy
+  inputs:
+    description: string
+    path: string = /
+    policy_document: string #required
+    policy_name: string #required
+    tags: object
+  outputs:
+    arn: string
+    create_date: datetime
+    policy_id: string
+    policy_name: string
+    success: boolean
+
+- name: Delete IAM Policy
+  class: delete_policy
+  inputs:
+    policy_arn: string #required
+  outputs:
+    success: boolean
+
+- name: Get IAM Policy
+  class: get_policy
+  inputs:
+    policy_arn: string #required
+  outputs:
+    arn: string
+    attachment_count: integer
+    create_date: datetime
+    default_version_id: string
+    description: string
+    is_attachable: boolean
+    path: string
+    permissions_boundary_usage_count: integer
+    policy_id: string
+    policy_name: string
+    tags: list[object]
+    update_date: datetime
+
+- name: List IAM Policies
+  class: list_policies
+  inputs:
+    max_items: integer = 100
+    only_attached: boolean = false
+    path_prefix: string = /
+    scope: All | AWS | Local = All
+  outputs:
+    is_truncated: boolean
+    marker: string
+    policies: list[object]
+
+- name: Attach User Policy
+  class: attach_user_policy
+  inputs:
+    policy_arn: string #required
+    user_name: string #required
+  outputs:
+    success: boolean
+
+- name: Detach User Policy
+  class: detach_user_policy
+  inputs:
+    policy_arn: string #required
+    user_name: string #required
+  outputs:
+    success: boolean
+
+- name: Attach Group Policy
+  class: attach_group_policy
+  inputs:
+    group_name: string #required
+    policy_arn: string #required
+  outputs:
+    success: boolean
+
+- name: Detach Group Policy
+  class: detach_group_policy
+  inputs:
+    group_name: string #required
+    policy_arn: string #required
+  outputs:
+    success: boolean
+
+- name: Attach Role Policy
+  class: attach_role_policy
+  inputs:
+    policy_arn: string #required
+    role_name: string #required
+  outputs:
+    success: boolean
+
+- name: Detach Role Policy
+  class: detach_role_policy
+  inputs:
+    policy_arn: string #required
+    role_name: string #required
+  outputs:
+    success: boolean
+
+- name: Put User Policy
+  class: put_user_policy
+  inputs:
+    policy_document: string #required
+    policy_name: string #required
+    user_name: string #required
+  outputs:
+    success: boolean
+
+- name: Put Group Policy
+  class: put_group_policy
+  inputs:
+    group_name: string #required
+    policy_document: string #required
+    policy_name: string #required
+  outputs:
+    success: boolean
+
+- name: Put Role Policy
+  class: put_role_policy
+  inputs:
+    policy_document: string #required
+    policy_name: string #required
+    role_name: string #required
+  outputs:
+    success: boolean
+
+- name: Create Access Key
+  class: create_access_key
+  inputs:
+    user_name: string
+  outputs:
+    access_key_id: string
+    create_date: datetime
+    secret_access_key: string
+    status: string
+    success: boolean
+
+- name: Delete Access Key
+  class: delete_access_key
+  inputs:
+    access_key_id: string #required
+    user_name: string
+  outputs:
+    success: boolean
+
+- name: List Access Keys
+  class: list_access_keys
+  inputs:
+    max_items: integer = 100
+    user_name: string
+  outputs:
+    access_key_metadata: list[object]
+    is_truncated: boolean
+    marker: string
+
+- name: Update Access Key
+  class: update_access_key
+  inputs:
+    access_key_id: string #required
+    status: Active | Inactive #required
+    user_name: string
+  outputs:
+    success: boolean
+
+- name: Get Account Summary
+  class: get_account_summary
+  inputs: {}
+  outputs:
+    summary_map: object
+
+- name: Generate Credential Report
+  class: generate_credential_report
+  inputs: {}
+  outputs:
+    state: string
+    success: boolean
+
+- name: Get Credential Report
+  class: get_credential_report
+  inputs: {}
+  outputs:
+    content: string
+    generated_time: datetime
+    report_format: string

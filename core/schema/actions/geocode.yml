@@ -1,0 +1,56 @@
+- name: Convert Address To Coordinates
+  class: forward
+  inputs:
+    address: string #required
+    country: string
+    limit: integer = 1
+  outputs:
+    latitude: float
+    longitude: float
+    results: list[object]
+
+- name: Convert Coordinates To Address
+  class: reverse
+  inputs:
+    language: string
+    latitude: float #required
+    longitude: float #required
+  outputs:
+    address: object
+    formatted_address: string
+
+- name: Calculate Distance Between Points
+  class: distance
+  inputs:
+    from: object #required
+    to: object #required
+    unit: km | miles | meters = km
+  outputs:
+    distance: float
+    unit: string
+
+- name: Get Route Between Points
+  class: route
+  inputs:
+    avoid: list[string]
+    from: object #required
+    mode: driving | walking | cycling | transit = driving
+    to: object #required
+    waypoints: list[object]
+  outputs:
+    distance: float
+    duration: integer
+    polyline: string
+    steps: list[object]
+
+- name: Get Timezone For Coordinates
+  class: timezone
+  inputs:
+    latitude: float #required
+    longitude: float #required
+    timestamp: integer
+  outputs:
+    dst_offset: integer
+    id: string
+    name: string
+    offset: integer

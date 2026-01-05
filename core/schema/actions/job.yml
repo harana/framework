@@ -1,5 +1,5 @@
 - name: Schedule Job For Execution
-  class: schedule_job
+  class: schedule
   inputs:
     cron: string
     handler: string #required
@@ -12,14 +12,14 @@
     scheduled_at: datetime
 
 - name: Cancel Scheduled Job
-  class: cancel_job
+  class: cancel
   inputs:
     job_id: string #required
   outputs:
     success: boolean
 
 - name: Get Job Status
-  class: get_job_status
+  class: get_status
   inputs:
     job_id: string #required
   outputs:
@@ -31,16 +31,16 @@
     status: pending | running | completed | failed | cancelled
 
 - name: Retry Failed Job
-  class: retry_job
+  class: retry
   inputs:
     delay_seconds: integer = 0
     job_id: string #required
   outputs:
-    new_job_id: string
+    new_id: string
     success: boolean
 
 - name: List Jobs By Status
-  class: list_jobs
+  class: lists
   inputs:
     end_date: datetime
     handler: string
@@ -53,21 +53,21 @@
     total: integer
 
 - name: Pause Job Execution
-  class: pause_job
+  class: pause
   inputs:
     job_id: string #required
   outputs:
     success: boolean
 
 - name: Resume Paused Job
-  class: resume_job
+  class: resume
   inputs:
     job_id: string #required
   outputs:
     success: boolean
 
 - name: Get Job Result
-  class: get_job_result
+  class: get_result
   inputs:
     job_id: string #required
     timeout: integer = 0
@@ -77,7 +77,7 @@
     result: any
 
 - name: Update Job Progress
-  class: update_job_progress
+  class: update_progress
   inputs:
     job_id: string #required
     message: string
@@ -86,7 +86,7 @@
     success: boolean
 
 - name: Delete Job Record
-  class: delete_job
+  class: delete
   inputs:
     job_id: string #required
   outputs:

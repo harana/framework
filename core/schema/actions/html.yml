@@ -1,0 +1,46 @@
+- name: Parse HTML To DOM
+  class: parse
+  inputs:
+    data: string #required
+    fragment: boolean = false
+  outputs:
+    result: object
+
+- name: Sanitize HTML Content
+  class: sanitize
+  inputs:
+    allowed_attributes: object
+    allowed_tags: list[string]
+    data: string #required
+    strip_comments: boolean = true
+  outputs:
+    html: string
+
+- name: Extract Text From HTML
+  class: extract_text
+  inputs:
+    data: string #required
+    preserve_whitespace: boolean = false
+    separator: string = " "
+  outputs:
+    text: string
+
+- name: Query HTML With CSS Selectors
+  class: css_select
+  inputs:
+    attribute: string
+    data: string #required
+    selector: string #required
+  outputs:
+    results: list[any]
+
+- name: Minify HTML Content
+  class: minify
+  inputs:
+    collapse_whitespace: boolean = true
+    data: string #required
+    minify_css: boolean = true
+    minify_js: boolean = true
+    remove_comments: boolean = true
+  outputs:
+    html: string

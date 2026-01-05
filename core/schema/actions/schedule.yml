@@ -1,0 +1,213 @@
+- name: Create Schedule
+  class: create_schedule
+  inputs:
+    name: string #required
+    cron_expression: string #required
+    timezone: string = UTC
+    description: string
+    enabled: boolean = true
+    metadata: object
+  outputs:
+    schedule_id: string
+    name: string
+    next_run: integer
+    success: boolean
+
+- name: Update Schedule
+  class: update_schedule
+  inputs:
+    schedule_id: string #required
+    name: string
+    cron_expression: string
+    timezone: string
+    description: string
+    enabled: boolean
+    metadata: object
+  outputs:
+    schedule_id: string
+    next_run: integer
+    success: boolean
+
+- name: Delete Schedule
+  class: delete_schedule
+  inputs:
+    schedule_id: string #required
+  outputs:
+    schedule_id: string
+    success: boolean
+
+- name: Enable Schedule
+  class: enable_schedule
+  inputs:
+    schedule_id: string #required
+  outputs:
+    schedule_id: string
+    enabled: boolean
+    next_run: integer
+    success: boolean
+
+- name: Disable Schedule
+  class: disable_schedule
+  inputs:
+    schedule_id: string #required
+  outputs:
+    schedule_id: string
+    enabled: boolean
+    success: boolean
+
+- name: Get Schedule
+  class: get_schedule
+  inputs:
+    schedule_id: string #required
+  outputs:
+    schedule_id: string
+    name: string
+    cron_expression: string
+    timezone: string
+    enabled: boolean
+    next_run: integer
+    last_run: integer
+    created_at: integer
+    metadata: object
+
+- name: List Schedules
+  class: list_schedules
+  inputs:
+    limit: integer = 100
+    offset: integer = 0
+    enabled: boolean
+    search: string
+  outputs:
+    schedules: list[object]
+    total: integer
+
+- name: Trigger Schedule Immediately
+  class: trigger_schedule
+  inputs:
+    schedule_id: string #required
+  outputs:
+    schedule_id: string
+    execution_id: string
+    triggered_at: integer
+    success: boolean
+
+- name: Get Next Run Time
+  class: get_next_run
+  inputs:
+    schedule_id: string #required
+    count: integer = 1
+  outputs:
+    schedule_id: string
+    next_runs: list[integer]
+
+- name: Validate Cron Expression
+  class: validate_cron
+  inputs:
+    cron_expression: string #required
+    timezone: string = UTC
+  outputs:
+    valid: boolean
+    error: string
+    next_run: integer
+
+- name: Create One-Time Schedule
+  class: create_one_time
+  inputs:
+    name: string #required
+    run_at: integer #required
+    timezone: string = UTC
+    description: string
+    metadata: object
+  outputs:
+    schedule_id: string
+    run_at: integer
+    success: boolean
+
+- name: Pause Schedule
+  class: pause_schedule
+  inputs:
+    schedule_id: string #required
+    resume_at: integer
+  outputs:
+    schedule_id: string
+    paused: boolean
+    resume_at: integer
+    success: boolean
+
+- name: Resume Schedule
+  class: resume_schedule
+  inputs:
+    schedule_id: string #required
+  outputs:
+    schedule_id: string
+    paused: boolean
+    next_run: integer
+    success: boolean
+
+- name: Get Schedule History
+  class: get_schedule_history
+  inputs:
+    schedule_id: string #required
+    limit: integer = 100
+    start_date: integer
+    end_date: integer
+  outputs:
+    schedule_id: string
+    executions: list[object]
+    total: integer
+
+- name: Get Schedule Stats
+  class: get_schedule_stats
+  inputs:
+    schedule_id: string #required
+    start_date: integer
+    end_date: integer
+  outputs:
+    schedule_id: string
+    total_executions: integer
+    successful_executions: integer
+    failed_executions: integer
+    average_duration: float
+    last_execution: object
+
+- name: Bulk Enable Schedules
+  class: bulk_enable
+  inputs:
+    schedule_ids: list[string] #required
+  outputs:
+    successful: integer
+    failed: integer
+    results: list[object]
+
+- name: Bulk Disable Schedules
+  class: bulk_disable
+  inputs:
+    schedule_ids: list[string] #required
+  outputs:
+    successful: integer
+    failed: integer
+    results: list[object]
+
+- name: Create Interval Schedule
+  class: create_interval
+  inputs:
+    name: string #required
+    interval_seconds: integer #required
+    start_time: integer
+    end_time: integer
+    description: string
+    enabled: boolean = true
+  outputs:
+    schedule_id: string
+    next_run: integer
+    success: boolean
+
+- name: Update Schedule Action
+  class: update_action
+  inputs:
+    schedule_id: string #required
+    action_type: webhook | function | job #required
+    action_config: object #required
+  outputs:
+    schedule_id: string
+    success: boolean

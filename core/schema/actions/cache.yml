@@ -1,5 +1,5 @@
 - name: Get Value From Cache
-  class: cache_get
+  class: get
   inputs:
     key: string #required
     namespace: string = "default"
@@ -8,7 +8,7 @@
     value: any
 
 - name: Set Value In Cache
-  class: cache_set
+  class: set
   inputs:
     key: string #required
     namespace: string = "default"
@@ -18,7 +18,7 @@
     success: boolean
 
 - name: Delete Value From Cache
-  class: cache_delete
+  class: delete
   inputs:
     key: string #required
     namespace: string = "default"
@@ -26,7 +26,7 @@
     success: boolean
 
 - name: Check If Key Exists
-  class: cache_exists
+  class: exists
   inputs:
     key: string #required
     namespace: string = "default"
@@ -34,7 +34,7 @@
     exists: boolean
 
 - name: Clear Cache Namespace
-  class: cache_clear
+  class: clear
   inputs:
     namespace: string = "default"
     pattern: string
@@ -42,7 +42,7 @@
     keys_deleted: integer
 
 - name: Get Multiple Values
-  class: cache_get_many
+  class: get_many
   inputs:
     keys: list[string] #required
     namespace: string = "default"
@@ -50,7 +50,7 @@
     values: object
 
 - name: Set Multiple Values
-  class: cache_set_many
+  class: set_many
   inputs:
     entries: object #required
     namespace: string = "default"
@@ -59,7 +59,7 @@
     success: boolean
 
 - name: Increment Numeric Value
-  class: cache_increment
+  class: increment
   inputs:
     amount: integer = 1
     key: string #required
@@ -68,7 +68,7 @@
     value: integer
 
 - name: Decrement Numeric Value
-  class: cache_decrement
+  class: decrement
   inputs:
     amount: integer = 1
     key: string #required
@@ -77,7 +77,7 @@
     value: integer
 
 - name: Get Time To Live
-  class: cache_ttl
+  class: ttl
   inputs:
     key: string #required
     namespace: string = "default"

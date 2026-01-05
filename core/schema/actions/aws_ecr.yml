@@ -1,0 +1,182 @@
+- name: Create ECR Repository
+  class: create_repository
+  inputs:
+    encryption_type: AES256 | KMS
+    image_tag_mutability: MUTABLE | IMMUTABLE = MUTABLE
+    kms_key: string
+    region: string
+    repository_name: string #required
+    scan_on_push: boolean = false
+    tags: object
+  outputs:
+    registry_id: string
+    repository_arn: string
+    repository_uri: string
+    success: boolean
+
+- name: Delete ECR Repository
+  class: delete_repository
+  inputs:
+    force: boolean = false
+    region: string
+    repository_name: string #required
+  outputs:
+    success: boolean
+
+- name: Describe ECR Repositories
+  class: describe_repositories
+  inputs:
+    region: string
+    repository_names: list[string]
+  outputs:
+    repositories: list[object]
+
+- name: List ECR Images
+  class: list_images
+  inputs:
+    filter: object
+    max_results: integer = 100
+    region: string
+    repository_name: string #required
+  outputs:
+    image_ids: list[object]
+    next_token: string
+
+- name: Describe ECR Images
+  class: describe_images
+  inputs:
+    image_ids: list[object]
+    region: string
+    repository_name: string #required
+  outputs:
+    image_details: list[object]
+
+- name: Put ECR Image
+  class: put_image
+  inputs:
+    image_manifest: string #required
+    image_tag: string #required
+    region: string
+    repository_name: string #required
+  outputs:
+    image: object
+    success: boolean
+
+- name: Batch Delete ECR Image
+  class: batch_delete_image
+  inputs:
+    image_ids: list[object] #required
+    region: string
+    repository_name: string #required
+  outputs:
+    failures: list[object]
+    image_ids: list[object]
+    success: boolean
+
+- name: Get ECR Authorization Token
+  class: get_auth_token
+  inputs:
+    region: string
+    registry_ids: list[string]
+  outputs:
+    authorization_token: string
+    expires_at: datetime
+    proxy_endpoint: string
+    success: boolean
+
+- name: Get ECR Download URL
+  class: get_download_url
+  inputs:
+    image_digest: string #required
+    region: string
+    repository_name: string #required
+  outputs:
+    download_url: string
+    success: boolean
+
+- name: Tag ECR Image
+  class: tag_image
+  inputs:
+    image_digest: string #required
+    image_tag: string #required
+    region: string
+    repository_name: string #required
+  outputs:
+    success: boolean
+
+- name: Set Repository Policy
+  class: set_repository_policy
+  inputs:
+    force: boolean = false
+    policy_text: string #required
+    region: string
+    repository_name: string #required
+  outputs:
+    policy_text: string
+    registry_id: string
+    repository_name: string
+    success: boolean
+
+- name: Get Repository Policy
+  class: get_repository_policy
+  inputs:
+    region: string
+    repository_name: string #required
+  outputs:
+    policy_text: string
+    registry_id: string
+    repository_name: string
+
+- name: Delete Repository Policy
+  class: delete_repository_policy
+  inputs:
+    region: string
+    repository_name: string #required
+  outputs:
+    success: boolean
+
+- name: Start Image Scan
+  class: start_image_scan
+  inputs:
+    image_id: object #required
+    region: string
+    repository_name: string #required
+  outputs:
+    image_id: object
+    scan_status: string
+    success: boolean
+
+- name: Describe Image Scan Findings
+  class: describe_scan_findings
+  inputs:
+    image_id: object #required
+    max_results: integer = 100
+    region: string
+    repository_name: string #required
+  outputs:
+    findings: list[object]
+    image_scan_status: object
+    next_token: string
+
+- name: Put Lifecycle Policy
+  class: put_lifecycle_policy
+  inputs:
+    lifecycle_policy_text: string #required
+    region: string
+    repository_name: string #required
+  outputs:
+    lifecycle_policy_text: string
+    registry_id: string
+    repository_name: string
+    success: boolean
+
+- name: Get Lifecycle Policy
+  class: get_lifecycle_policy
+  inputs:
+    region: string
+    repository_name: string #required
+  outputs:
+    last_evaluated_at: datetime
+    lifecycle_policy_text: string
+    registry_id: string
+    repository_name: string

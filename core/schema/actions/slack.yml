@@ -1,0 +1,193 @@
+- name: Send Message
+  class: send_message
+  inputs:
+    channel_id: string #required
+    text: string #required
+    attachments: list[object]
+    blocks: list[object]
+    thread_ts: string
+    icon_emoji: string
+    icon_url: string
+    username: string
+  outputs:
+    message_ts: string
+    channel_id: string
+    success: boolean
+
+- name: Update Message
+  class: update_message
+  inputs:
+    channel_id: string #required
+    timestamp: string #required
+    text: string #required
+    attachments: list[object]
+    blocks: list[object]
+  outputs:
+    message_ts: string
+    success: boolean
+
+- name: Delete Message
+  class: delete_message
+  inputs:
+    channel_id: string #required
+    timestamp: string #required
+  outputs:
+    success: boolean
+
+- name: Send Direct Message
+  class: send_dm
+  inputs:
+    user_id: string #required
+    text: string #required
+    attachments: list[object]
+    blocks: list[object]
+  outputs:
+    channel_id: string
+    message_ts: string
+    success: boolean
+
+- name: Create Channel
+  class: create_channel
+  inputs:
+    name: string #required
+    is_private: boolean = false
+    description: string
+  outputs:
+    channel_id: string
+    name: string
+    success: boolean
+
+- name: Archive Channel
+  class: archive_channel
+  inputs:
+    channel_id: string #required
+  outputs:
+    success: boolean
+
+- name: Unarchive Channel
+  class: unarchive_channel
+  inputs:
+    channel_id: string #required
+  outputs:
+    success: boolean
+
+- name: Invite Users To Channel
+  class: invite_users
+  inputs:
+    channel_id: string #required
+    user_ids: list[string] #required
+  outputs:
+    success: boolean
+
+- name: Kick User From Channel
+  class: kick_user
+  inputs:
+    channel_id: string #required
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: Get Channel Info
+  class: get_channel_info
+  inputs:
+    channel_id: string #required
+  outputs:
+    channel_id: string
+    name: string
+    is_private: boolean
+    is_archived: boolean
+    topic: string
+    purpose: string
+    num_members: integer
+
+- name: List Channels
+  class: list_channels
+  inputs:
+    exclude_archived: boolean = true
+    types: public | private | mpim | im
+    limit: integer = 100
+  outputs:
+    channels: list[object]
+
+- name: Get User Info
+  class: get_user_info
+  inputs:
+    user_id: string #required
+  outputs:
+    user_id: string
+    name: string
+    real_name: string
+    email: string
+    is_admin: boolean
+    is_bot: boolean
+    timezone: string
+
+- name: List Users
+  class: list_users
+  inputs:
+    limit: integer = 100
+  outputs:
+    users: list[object]
+
+- name: Add Reaction
+  class: add_reaction
+  inputs:
+    channel_id: string #required
+    timestamp: string #required
+    emoji: string #required
+  outputs:
+    success: boolean
+
+- name: Remove Reaction
+  class: remove_reaction
+  inputs:
+    channel_id: string #required
+    timestamp: string #required
+    emoji: string #required
+  outputs:
+    success: boolean
+
+- name: Upload File
+  class: upload_file
+  inputs:
+    channels: list[string]
+    content: string
+    file: string
+    filename: string
+    initial_comment: string
+    title: string
+  outputs:
+    file_id: string
+    success: boolean
+
+- name: Pin Message
+  class: pin_message
+  inputs:
+    channel_id: string #required
+    timestamp: string #required
+  outputs:
+    success: boolean
+
+- name: Unpin Message
+  class: unpin_message
+  inputs:
+    channel_id: string #required
+    timestamp: string #required
+  outputs:
+    success: boolean
+
+- name: Set Channel Topic
+  class: set_channel_topic
+  inputs:
+    channel_id: string #required
+    topic: string #required
+  outputs:
+    success: boolean
+
+- name: Set Channel Purpose
+  class: set_channel_purpose
+  inputs:
+    channel_id: string #required
+    purpose: string #required
+  outputs:
+    success: boolean

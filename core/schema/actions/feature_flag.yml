@@ -1,0 +1,183 @@
+- name: Create Feature Flag
+  class: create_flag
+  inputs:
+    key: string #required
+    name: string #required
+    description: string
+    enabled: boolean = false
+    variations: list[object] #required
+    default_variation: integer = 0
+    tags: list[string]
+  outputs:
+    flag_id: string
+    key: string
+    success: boolean
+
+- name: Update Feature Flag
+  class: update_flag
+  inputs:
+    flag_id: string #required
+    name: string
+    description: string
+    enabled: boolean
+    variations: list[object]
+    tags: list[string]
+  outputs:
+    flag_id: string
+    success: boolean
+
+- name: Toggle Feature Flag
+  class: toggle_flag
+  inputs:
+    flag_id: string #required
+    enabled: boolean #required
+  outputs:
+    flag_id: string
+    enabled: boolean
+    success: boolean
+
+- name: Delete Feature Flag
+  class: delete_flag
+  inputs:
+    flag_id: string #required
+  outputs:
+    success: boolean
+
+- name: Get Feature Flag
+  class: get_flag
+  inputs:
+    flag_id: string #required
+  outputs:
+    flag_id: string
+    key: string
+    name: string
+    description: string
+    enabled: boolean
+    variations: list[object]
+    created_at: integer
+    updated_at: integer
+
+- name: List Feature Flags
+  class: list_flags
+  inputs:
+    limit: integer = 100
+    offset: integer = 0
+    tags: list[string]
+    enabled: boolean
+  outputs:
+    flags: list[object]
+    total: integer
+
+- name: Evaluate Feature Flag
+  class: evaluate_flag
+  inputs:
+    flag_id: string #required
+    user_id: string
+    context: object
+  outputs:
+    flag_id: string
+    variation: object
+    enabled: boolean
+    reason: string
+
+- name: Create Targeting Rule
+  class: create_targeting_rule
+  inputs:
+    flag_id: string #required
+    name: string #required
+    conditions: list[object] #required
+    variation: integer #required
+    priority: integer = 0
+  outputs:
+    rule_id: string
+    flag_id: string
+    success: boolean
+
+- name: Update Targeting Rule
+  class: update_targeting_rule
+  inputs:
+    rule_id: string #required
+    name: string
+    conditions: list[object]
+    variation: integer
+    priority: integer
+  outputs:
+    rule_id: string
+    success: boolean
+
+- name: Delete Targeting Rule
+  class: delete_targeting_rule
+  inputs:
+    rule_id: string #required
+  outputs:
+    success: boolean
+
+- name: Create Percentage Rollout
+  class: create_rollout
+  inputs:
+    flag_id: string #required
+    percentages: object #required
+    seed: string
+  outputs:
+    rollout_id: string
+    flag_id: string
+    success: boolean
+
+- name: Update Percentage Rollout
+  class: update_rollout
+  inputs:
+    rollout_id: string #required
+    percentages: object #required
+  outputs:
+    rollout_id: string
+    success: boolean
+
+- name: Get Flag Evaluation Count
+  class: get_evaluation_count
+  inputs:
+    flag_id: string #required
+    start_date: integer
+    end_date: integer
+  outputs:
+    flag_id: string
+    total_evaluations: integer
+    variation_counts: object
+
+- name: Create Flag Environment
+  class: create_environment
+  inputs:
+    name: string #required
+    key: string #required
+    description: string
+  outputs:
+    environment_id: string
+    key: string
+    success: boolean
+
+- name: Clone Flag To Environment
+  class: clone_flag
+  inputs:
+    flag_id: string #required
+    source_environment: string #required
+    target_environment: string #required
+  outputs:
+    flag_id: string
+    success: boolean
+
+- name: Archive Feature Flag
+  class: archive_flag
+  inputs:
+    flag_id: string #required
+  outputs:
+    flag_id: string
+    archived: boolean
+    success: boolean
+
+- name: Restore Feature Flag
+  class: restore_flag
+  inputs:
+    flag_id: string #required
+  outputs:
+    flag_id: string
+    archived: boolean
+    success: boolean

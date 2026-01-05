@@ -1,0 +1,173 @@
+namespace: transform
+description: Data transformation and encoding utilities
+
+actions:
+  json_to_xml:
+    description: Convert JSON to XML
+    input:
+      data:
+        type: object
+        description: JSON data to convert
+        required: true
+      root_element:
+        type: string
+        description: Root element name for XML
+        optional: true
+        default: root
+    output:
+      type: string
+      description: XML string
+
+  xml_to_json:
+    description: Convert XML to JSON
+    input:
+      data:
+        type: string
+        description: XML string to convert
+        required: true
+    output:
+      type: object
+      description: JSON object
+
+  csv_to_json:
+    description: Convert CSV to JSON
+    input:
+      data:
+        type: string
+        description: CSV data to convert
+        required: true
+      headers:
+        type: array
+        description: Column headers (if not in first row)
+        optional: true
+      delimiter:
+        type: string
+        description: CSV delimiter
+        optional: true
+        default: ","
+    output:
+      type: array
+      description: Array of JSON objects
+
+  json_to_csv:
+    description: Convert JSON to CSV
+    input:
+      data:
+        type: array
+        description: Array of objects to convert
+        required: true
+      headers:
+        type: array
+        description: Column headers to include
+        optional: true
+      delimiter:
+        type: string
+        description: CSV delimiter
+        optional: true
+        default: ","
+    output:
+      type: string
+      description: CSV string
+
+  yaml_to_json:
+    description: Convert YAML to JSON
+    input:
+      data:
+        type: string
+        description: YAML string to convert
+        required: true
+    output:
+      type: object
+      description: JSON object
+
+  json_to_yaml:
+    description: Convert JSON to YAML
+    input:
+      data:
+        type: object
+        description: JSON data to convert
+        required: true
+    output:
+      type: string
+      description: YAML string
+
+  base64_encode:
+    description: Base64 encode
+    input:
+      data:
+        type: string
+        description: Data to encode
+        required: true
+    output:
+      type: string
+      description: Base64 encoded string
+
+  base64_decode:
+    description: Base64 decode
+    input:
+      data:
+        type: string
+        description: Base64 string to decode
+        required: true
+    output:
+      type: string
+      description: Decoded data
+
+  url_encode:
+    description: URL encode
+    input:
+      data:
+        type: string
+        description: String to URL encode
+        required: true
+    output:
+      type: string
+      description: URL encoded string
+
+  url_decode:
+    description: URL decode
+    input:
+      data:
+        type: string
+        description: URL encoded string to decode
+        required: true
+    output:
+      type: string
+      description: Decoded string
+
+  html_encode:
+    description: HTML encode
+    input:
+      data:
+        type: string
+        description: String to HTML encode
+        required: true
+    output:
+      type: string
+      description: HTML encoded string
+
+  html_decode:
+    description: HTML decode
+    input:
+      data:
+        type: string
+        description: HTML encoded string to decode
+        required: true
+    output:
+      type: string
+      description: Decoded string
+
+  markdown_to_html:
+    description: Convert Markdown to HTML
+    input:
+      data:
+        type: string
+        description: Markdown string to convert
+        required: true
+      options:
+        type: object
+        description: Markdown rendering options
+        optional: true
+    output:
+      type: string
+      description: HTML string

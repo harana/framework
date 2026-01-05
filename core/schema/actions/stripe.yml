@@ -1,0 +1,212 @@
+- name: Create Payment Intent
+  class: create_payment_intent
+  inputs:
+    amount: integer #required
+    currency: string #required
+    customer_id: string
+    description: string
+    metadata: object
+    payment_method: string
+    confirm: boolean = false
+    capture_method: automatic | manual = automatic
+  outputs:
+    payment_intent_id: string
+    client_secret: string
+    status: string
+    amount: integer
+
+- name: Confirm Payment Intent
+  class: confirm_payment_intent
+  inputs:
+    payment_intent_id: string #required
+    payment_method: string
+  outputs:
+    payment_intent_id: string
+    status: string
+    success: boolean
+
+- name: Capture Payment Intent
+  class: capture_payment_intent
+  inputs:
+    payment_intent_id: string #required
+    amount_to_capture: integer
+  outputs:
+    payment_intent_id: string
+    status: string
+    amount_captured: integer
+
+- name: Cancel Payment Intent
+  class: cancel_payment_intent
+  inputs:
+    payment_intent_id: string #required
+    cancellation_reason: duplicate | fraudulent | requested_by_customer | abandoned
+  outputs:
+    payment_intent_id: string
+    status: string
+    success: boolean
+
+- name: Create Customer
+  class: create_customer
+  inputs:
+    email: string
+    name: string
+    phone: string
+    description: string
+    metadata: object
+    payment_method: string
+  outputs:
+    customer_id: string
+    email: string
+    created: integer
+
+- name: Update Customer
+  class: update_customer
+  inputs:
+    customer_id: string #required
+    email: string
+    name: string
+    phone: string
+    description: string
+    metadata: object
+  outputs:
+    customer_id: string
+    success: boolean
+
+- name: Delete Customer
+  class: delete_customer
+  inputs:
+    customer_id: string #required
+  outputs:
+    customer_id: string
+    deleted: boolean
+
+- name: Get Customer
+  class: get_customer
+  inputs:
+    customer_id: string #required
+  outputs:
+    customer_id: string
+    email: string
+    name: string
+    phone: string
+    created: integer
+    metadata: object
+
+- name: Create Subscription
+  class: create_subscription
+  inputs:
+    customer_id: string #required
+    price_id: string #required
+    quantity: integer = 1
+    trial_period_days: integer
+    metadata: object
+  outputs:
+    subscription_id: string
+    status: string
+    current_period_end: integer
+
+- name: Cancel Subscription
+  class: cancel_subscription
+  inputs:
+    subscription_id: string #required
+    cancel_at_period_end: boolean = false
+  outputs:
+    subscription_id: string
+    status: string
+    canceled_at: integer
+
+- name: Create Refund
+  class: create_refund
+  inputs:
+    payment_intent_id: string #required
+    amount: integer
+    reason: duplicate | fraudulent | requested_by_customer
+    metadata: object
+  outputs:
+    refund_id: string
+    status: string
+    amount: integer
+
+- name: Create Price
+  class: create_price
+  inputs:
+    product_id: string #required
+    unit_amount: integer #required
+    currency: string #required
+    recurring_interval: day | week | month | year
+    recurring_interval_count: integer = 1
+    metadata: object
+  outputs:
+    price_id: string
+    unit_amount: integer
+    currency: string
+
+- name: Create Product
+  class: create_product
+  inputs:
+    name: string #required
+    description: string
+    active: boolean = true
+    metadata: object
+    images: list[string]
+  outputs:
+    product_id: string
+    name: string
+    created: integer
+
+- name: Create Checkout Session
+  class: create_checkout_session
+  inputs:
+    line_items: list[object] #required
+    mode: payment | subscription | setup #required
+    success_url: string #required
+    cancel_url: string #required
+    customer_id: string
+    customer_email: string
+    metadata: object
+  outputs:
+    session_id: string
+    url: string
+
+- name: Retrieve Payment Intent
+  class: retrieve_payment_intent
+  inputs:
+    payment_intent_id: string #required
+  outputs:
+    payment_intent_id: string
+    amount: integer
+    currency: string
+    status: string
+    customer_id: string
+    metadata: object
+
+- name: List Customers
+  class: list_customers
+  inputs:
+    limit: integer = 10
+    starting_after: string
+    ending_before: string
+  outputs:
+    customers: list[object]
+    has_more: boolean
+
+- name: Create Payment Method
+  class: create_payment_method
+  inputs:
+    type: card | bank_account | us_bank_account #required
+    card: object
+    billing_details: object
+  outputs:
+    payment_method_id: string
+    type: string
+    created: integer
+
+- name: Attach Payment Method
+  class: attach_payment_method
+  inputs:
+    payment_method_id: string #required
+    customer_id: string #required
+  outputs:
+    payment_method_id: string
+    customer_id: string
+    success: boolean

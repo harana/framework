@@ -4,6 +4,12 @@ resolver = "2"
 members = [
     # Action modules
     "actions/ai",
+    "actions/aws_ecr",
+    "actions/aws_iam",
+    "actions/aws_s3",
+    "actions/aws_ses",
+    "actions/aws_sqs",
+    "actions/aws_sts",
     "actions/blob",
     "actions/cache",
     "actions/client",
@@ -11,17 +17,24 @@ members = [
     "actions/event",
     "actions/file",
     "actions/form",
+    "actions/group",
     "actions/healthcheck",
     "actions/identity",
     "actions/job",
+    "actions/memgraph",
     "actions/metric",
+    "actions/mongodb",
     "actions/notification",
-    "actions/permission",
+    "actions/policy",
     "actions/queue",
+    "actions/response",
+    "actions/role",
     "actions/route",
     "actions/search",
     "actions/secret",
     "actions/session",
+    "actions/sql",
+    "actions/user",
     "actions/validation",
     "actions/webhook",
     "actions/workflow",
@@ -39,10 +52,11 @@ repository = "https://github.com/harana/framework"
 
 [workspace.dependencies]
 a2 = "0.10.0"
-actix-rt = "2"
-actix-web = "4"
 anyhow = "1"
 apalis = "0.7"
+async-stripe = "0.41.0"
+async-trait = "0.1"
+asynk-strim = "0.1"
 aws-config = { version= "1", features = ["behavior-version-latest"] }
 aws-credential-types = "1"
 aws-sdk-cloudwatch = "1"
@@ -55,11 +69,13 @@ aws-sdk-sqs = "1"
 aws-sdk-sts = "1"
 aws-smithy-types = "1"
 aws-types = "1"
+axum = "0.8"
 base64 = "0.22"
 bson = { version = "3", features = ["chrono-0_4", "uuid-1"] }
 bytes = "1"
 chrono = { version = "0.4", default-features = false, features = ["clock"] }
 csscolorparser = "0.8.1"
+datastar = { version = "0.2", features = ["axum"] }
 email_address = "0.2.9"
 emval = "0.1.12"
 fcm-service = "0.2.3"
@@ -88,17 +104,17 @@ semver = "1"
 sentry = "0.46.0"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+serde_yaml = "0.9"
 simd-json-derive = "0.18.0"
 snmalloc-rs = "0.3"
 sqlx = "0.8.6"
 thiserror = "2"
 time = "0.3.44"
 tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 ureq = { version = "2", default-features = false, features = ["json", "tls"] }
 url = "2"
 uuid = "1"
 web-push-native = "0.4.0"
 webauthn-rs = "0.5"
-
-[build-dependencies]
-conan2 = "0.1"
