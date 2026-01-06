@@ -81,3 +81,70 @@ pub async fn get_user_effective_permissions(
     // TODO: Implementation
     unimplemented!("get_user_effective_permissions")
 }
+
+/// Check User Permission
+pub async fn check_permission(
+    resource: Option<&str>,
+    action: Option<&str>,
+    user_id: Option<&str>,
+) -> Result<CheckPermissionOutput, String> {
+    unimplemented!("check_permission")
+}
+
+/// Grant Permission To User
+pub async fn grant_permission(
+    conditions: Option<HashMap<String, Value>>,
+    action: Option<&str>,
+    resource: Option<&str>,
+    user_id: Option<&str>,
+    expires_at: Option<&str>,
+) -> Result<GrantPermissionOutput, String> {
+    unimplemented!("grant_permission")
+}
+
+/// Revoke User Permission
+pub async fn revoke_permission(
+    permission_id: Option<&str>,
+    user_id: Option<&str>,
+) -> Result<RevokePermissionOutput, String> {
+    unimplemented!("revoke_permission")
+}
+
+/// List User Permissions
+pub async fn list_permissions(
+    user_id: Option<&str>,
+    resource: Option<&str>,
+) -> Result<ListPermissionsOutput, String> {
+    unimplemented!("list_permissions")
+}
+
+/// Assign Role To User
+pub async fn assign_role(
+    role_id: Option<&str>,
+    user_id: Option<&str>,
+) -> Result<AssignRoleOutput, String> {
+    unimplemented!("assign_role")
+}
+
+/// Remove Role From User
+pub async fn remove_role(
+    role_id: Option<&str>,
+    user_id: Option<&str>,
+) -> Result<RemoveRoleOutput, String> {
+    unimplemented!("remove_role")
+}
+
+/// List User Roles
+pub async fn list_roles(
+    user_id: Option<&str>,
+) -> Result<ListRolesOutput, String> {
+    unimplemented!("list_roles")
+}
+
+/// Get User Effective Permissions
+pub async fn get_effective_permissions(
+    user_id: Option<&str>,
+    resource: Option<&str>,
+) -> Result<GetEffectivePermissionsOutput, String> {
+    unimplemented!("get_effective_permissions")
+}

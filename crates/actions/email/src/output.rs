@@ -64,3 +64,56 @@ pub struct ListEmailTemplatesOutput {
     pub templates: Vec<HashMap<String, Value>>,
     pub total: i32,
 }
+
+// send
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SendOutput {
+    pub message_id: String,
+    pub success: bool
+}
+
+// send_template
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SendTemplateOutput {
+    pub message_id: String,
+    pub success: bool
+}
+
+// status
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StatusOutput {
+    pub error: String,
+    pub opened_at: String,
+    pub clicked_at: String,
+    pub status: String,
+    pub delivered_at: String
+}
+
+// send_bulk
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SendBulkOutput {
+    pub total: i32,
+    pub failed: i32,
+    pub message_ids: Vec<String>,
+    pub successful: i32
+}
+
+// create_template
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateTemplateOutput {
+    pub template_id: String,
+    pub success: bool
+}
+
+// delete_template
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DeleteTemplateOutput {
+    pub success: bool
+}
+
+// list_templates
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ListTemplatesOutput {
+    pub templates: Vec<HashMap<String, Value>>,
+    pub total: i32
+}

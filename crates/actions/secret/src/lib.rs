@@ -101,6 +101,88 @@ pub async fn generate(
     unimplemented!("generate")
 }
 
+
+/// Get Secret Value
+pub async fn get_secret(
+    version: Option<&str>,
+    name: Option<&str>,
+) -> Result<GetSecretOutput, String> {
+    unimplemented!("get_secret")
+}
+
+/// Set Secret Value
+pub async fn set_secret(
+    value: Option<&str>,
+    description: Option<&str>,
+    name: Option<&str>,
+    expires_at: Option<&str>,
+) -> Result<SetSecretOutput, String> {
+    unimplemented!("set_secret")
+}
+
+/// Delete Secret
+pub async fn delete_secret(
+    force: Option<bool>,
+    name: Option<&str>,
+) -> Result<DeleteSecretOutput, String> {
+    unimplemented!("delete_secret")
+}
+
+/// List Available Secrets
+pub async fn list_secrets(
+    limit: Option<i32>,
+    prefix: Option<&str>,
+) -> Result<ListSecretsOutput, String> {
+    unimplemented!("list_secrets")
+}
+
+/// Rotate Secret Value
+pub async fn rotate_secret(
+    name: Option<&str>,
+    new_value: Option<&str>,
+) -> Result<RotateSecretOutput, String> {
+    unimplemented!("rotate_secret")
+}
+
+/// Get Secret Metadata
+pub async fn get_secret_metadata(
+    name: Option<&str>,
+) -> Result<GetSecretMetadataOutput, String> {
+    unimplemented!("get_secret_metadata")
+}
+
+/// Check If Secret Exists
+pub async fn secret_exists(
+    name: Option<&str>,
+) -> Result<SecretExistsOutput, String> {
+    unimplemented!("secret_exists")
+}
+
+/// Get Secret Versions
+pub async fn list_secret_versions(
+    limit: Option<i32>,
+    name: Option<&str>,
+) -> Result<ListSecretVersionsOutput, String> {
+    unimplemented!("list_secret_versions")
+}
+
+/// Restore Secret Version
+pub async fn restore_secret_version(
+    version: Option<&str>,
+    name: Option<&str>,
+) -> Result<RestoreSecretVersionOutput, String> {
+    unimplemented!("restore_secret_version")
+}
+
+/// Generate Random Secret
+pub async fn generate_secret(
+    length: Option<i32>,
+    charset: Option<&str>,
+    name: Option<&str>,
+    description: Option<&str>,
+) -> Result<GenerateSecretOutput, String> {
+    unimplemented!("generate_secret")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

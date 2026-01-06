@@ -107,6 +107,21 @@ pub async fn validate(
     unimplemented!("validate")
 }
 
+
+/// List User Sessions
+pub async fn list_users(
+    user_id: Option<&str>,
+) -> Result<ListUsersOutput, String> {
+    unimplemented!("list_users")
+}
+
+/// Destroy All User Sessions
+pub async fn destroy_users(
+    except_id: Option<&str>,
+    user_id: Option<&str>,
+) -> Result<DestroyUsersOutput, String> {
+    unimplemented!("destroy_users")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

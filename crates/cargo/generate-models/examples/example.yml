@@ -1,0 +1,31 @@
+- name: User
+  class: user
+  id: [id]
+  schema:
+    - id: id #required
+    - email: string #required #email #unique #max(255)
+    - username: string #required #min(3) #max(50)
+    - password_hash: string #required #max(255)
+    - first_name: string? #max(100)
+    - last_name: string? #max(100)
+    - is_active: bool = true
+    - is_verified: bool = false
+    - role: admin | user | guest = user
+    - created_at: datetime = now()
+    - updated_at: datetime?
+    - last_login_at: datetime?
+
+- name: User Profile
+  class: user_profile
+  id: [user_id]
+  schema:
+    - user_id: id #required -> User.id
+    - bio: string? #max(500)
+    - avatar_url: string? #url
+    - phone: string? #max(20)
+    - website: string? #url
+    - location: string? #max(200)
+    - timezone: string? #max(50)
+    - language: string? #max(10)
+    - created_at: datetime = now()
+    - updated_at: datetime?

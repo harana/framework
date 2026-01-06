@@ -74,3 +74,73 @@ pub struct UpdateJobProgressOutput {
 pub struct DeleteJobOutput {
     pub success: bool,
 }
+
+// schedule
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ScheduleOutput {
+    pub job_id: String,
+    pub scheduled_at: String
+}
+
+// cancel
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CancelOutput {
+    pub success: bool
+}
+
+// get_status
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetStatusOutput {
+    pub started_at: String,
+    pub status: String,
+    pub completed_at: String,
+    pub error: String,
+    pub result: String,
+    pub progress: f64
+}
+
+// retry
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RetryOutput {
+    pub success: bool,
+    pub new_id: String
+}
+
+// lists
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ListsOutput {
+    pub jobs: Vec<HashMap<String, Value>>,
+    pub total: i32
+}
+
+// pause
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PauseOutput {
+    pub success: bool
+}
+
+// resume
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ResumeOutput {
+    pub success: bool
+}
+
+// get_result
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetResultOutput {
+    pub completed: bool,
+    pub error: String,
+    pub result: String
+}
+
+// update_progress
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UpdateProgressOutput {
+    pub success: bool
+}
+
+// delete
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DeleteOutput {
+    pub success: bool
+}

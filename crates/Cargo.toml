@@ -41,6 +41,9 @@ members = [
     
     # Component modules
     "components/http-server",
+    
+    # Tools
+    "cargo-generate-models",
 ]
 
 [workspace.package]

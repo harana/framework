@@ -89,6 +89,62 @@ pub async fn replay(
     unimplemented!("replay")
 }
 
+
+/// Emit Event To Channel
+pub async fn emit_event(
+    metadata: Option<HashMap<String, Value>>,
+    channel: Option<&str>,
+    event_type: Option<&str>,
+    payload: Option<&str>,
+) -> Result<EmitEventOutput, String> {
+    unimplemented!("emit_event")
+}
+
+/// Broadcast Event To All
+pub async fn broadcast_event(
+    payload: Option<&str>,
+    event_type: Option<&str>,
+    metadata: Option<HashMap<String, Value>>,
+    exclude_channels: Option<Vec<String>>,
+) -> Result<BroadcastEventOutput, String> {
+    unimplemented!("broadcast_event")
+}
+
+/// Get Event By ID
+pub async fn get_event(
+    event_id: Option<&str>,
+) -> Result<GetEventOutput, String> {
+    unimplemented!("get_event")
+}
+
+/// List Channel Events
+pub async fn list_events(
+    limit: Option<i32>,
+    event_types: Option<Vec<String>>,
+    end_time: Option<&str>,
+    channel: Option<&str>,
+    start_time: Option<&str>,
+) -> Result<ListEventsOutput, String> {
+    unimplemented!("list_events")
+}
+
+/// Acknowledge Event Receipt
+pub async fn acknowledge_event(
+    subscription_id: Option<&str>,
+    event_id: Option<&str>,
+) -> Result<AcknowledgeEventOutput, String> {
+    unimplemented!("acknowledge_event")
+}
+
+/// Replay Events From Time
+pub async fn replay_events(
+    start_time: Option<&str>,
+    end_time: Option<&str>,
+    channel: Option<&str>,
+    event_types: Option<Vec<String>>,
+) -> Result<ReplayEventsOutput, String> {
+    unimplemented!("replay_events")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

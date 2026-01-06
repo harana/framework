@@ -110,6 +110,54 @@ pub async fn delete(
     unimplemented!("delete")
 }
 
+
+/// Record Metric Value
+pub async fn record_metric(
+    name: Option<&str>,
+    tags: Option<HashMap<String, Value>>,
+    value: Option<f64>,
+    timestamp: Option<&str>,
+) -> Result<RecordMetricOutput, String> {
+    unimplemented!("record_metric")
+}
+
+/// Query Metric Values
+pub async fn query_metrics(
+    aggregation: Option<&str>,
+    end_time: Option<&str>,
+    name: Option<&str>,
+    tags: Option<HashMap<String, Value>>,
+    start_time: Option<&str>,
+    interval: Option<&str>,
+) -> Result<QueryMetricsOutput, String> {
+    unimplemented!("query_metrics")
+}
+
+/// Get Metric Summary
+pub async fn get_metric_summary(
+    period: Option<&str>,
+    tags: Option<HashMap<String, Value>>,
+    name: Option<&str>,
+) -> Result<GetMetricSummaryOutput, String> {
+    unimplemented!("get_metric_summary")
+}
+
+/// List Available Metrics
+pub async fn list_metrics(
+    limit: Option<i32>,
+    prefix: Option<&str>,
+) -> Result<ListMetricsOutput, String> {
+    unimplemented!("list_metrics")
+}
+
+/// Delete Metric Data
+pub async fn delete_metric(
+    name: Option<&str>,
+    before: Option<&str>,
+    tags: Option<HashMap<String, Value>>,
+) -> Result<DeleteMetricOutput, String> {
+    unimplemented!("delete_metric")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

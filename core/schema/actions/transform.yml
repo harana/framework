@@ -1,173 +1,96 @@
-namespace: transform
-description: Data transformation and encoding utilities
+- name: Convert JSON To XML
+  class: json_to_xml
+  inputs:
+    data: object #required
+    root_element: string = "root"
+  outputs:
+    xml: string
 
-actions:
-  json_to_xml:
-    description: Convert JSON to XML
-    input:
-      data:
-        type: object
-        description: JSON data to convert
-        required: true
-      root_element:
-        type: string
-        description: Root element name for XML
-        optional: true
-        default: root
-    output:
-      type: string
-      description: XML string
+- name: Convert XML To JSON
+  class: xml_to_json
+  inputs:
+    data: string #required
+  outputs:
+    json: object
 
-  xml_to_json:
-    description: Convert XML to JSON
-    input:
-      data:
-        type: string
-        description: XML string to convert
-        required: true
-    output:
-      type: object
-      description: JSON object
+- name: Convert CSV To JSON
+  class: csv_to_json
+  inputs:
+    data: string #required
+    delimiter: string = ","
+    headers: list[string]
+  outputs:
+    json: list[object]
 
-  csv_to_json:
-    description: Convert CSV to JSON
-    input:
-      data:
-        type: string
-        description: CSV data to convert
-        required: true
-      headers:
-        type: array
-        description: Column headers (if not in first row)
-        optional: true
-      delimiter:
-        type: string
-        description: CSV delimiter
-        optional: true
-        default: ","
-    output:
-      type: array
-      description: Array of JSON objects
+- name: Convert JSON To CSV
+  class: json_to_csv
+  inputs:
+    data: list[object] #required
+    delimiter: string = ","
+    headers: list[string]
+  outputs:
+    csv: string
 
-  json_to_csv:
-    description: Convert JSON to CSV
-    input:
-      data:
-        type: array
-        description: Array of objects to convert
-        required: true
-      headers:
-        type: array
-        description: Column headers to include
-        optional: true
-      delimiter:
-        type: string
-        description: CSV delimiter
-        optional: true
-        default: ","
-    output:
-      type: string
-      description: CSV string
+- name: Convert YAML To JSON
+  class: yaml_to_json
+  inputs:
+    data: string #required
+  outputs:
+    json: object
 
-  yaml_to_json:
-    description: Convert YAML to JSON
-    input:
-      data:
-        type: string
-        description: YAML string to convert
-        required: true
-    output:
-      type: object
-      description: JSON object
+- name: Convert JSON To YAML
+  class: json_to_yaml
+  inputs:
+    data: object #required
+  outputs:
+    yaml: string
 
-  json_to_yaml:
-    description: Convert JSON to YAML
-    input:
-      data:
-        type: object
-        description: JSON data to convert
-        required: true
-    output:
-      type: string
-      description: YAML string
+- name: Base64 Encode Data
+  class: base64_encode
+  inputs:
+    data: string #required
+  outputs:
+    encoded: string
 
-  base64_encode:
-    description: Base64 encode
-    input:
-      data:
-        type: string
-        description: Data to encode
-        required: true
-    output:
-      type: string
-      description: Base64 encoded string
+- name: Base64 Decode Data
+  class: base64_decode
+  inputs:
+    data: string #required
+  outputs:
+    decoded: string
 
-  base64_decode:
-    description: Base64 decode
-    input:
-      data:
-        type: string
-        description: Base64 string to decode
-        required: true
-    output:
-      type: string
-      description: Decoded data
+- name: URL Encode String
+  class: url_encode
+  inputs:
+    data: string #required
+  outputs:
+    encoded: string
 
-  url_encode:
-    description: URL encode
-    input:
-      data:
-        type: string
-        description: String to URL encode
-        required: true
-    output:
-      type: string
-      description: URL encoded string
+- name: URL Decode String
+  class: url_decode
+  inputs:
+    data: string #required
+  outputs:
+    decoded: string
 
-  url_decode:
-    description: URL decode
-    input:
-      data:
-        type: string
-        description: URL encoded string to decode
-        required: true
-    output:
-      type: string
-      description: Decoded string
+- name: HTML Encode String
+  class: html_encode
+  inputs:
+    data: string #required
+  outputs:
+    encoded: string
 
-  html_encode:
-    description: HTML encode
-    input:
-      data:
-        type: string
-        description: String to HTML encode
-        required: true
-    output:
-      type: string
-      description: HTML encoded string
+- name: HTML Decode String
+  class: html_decode
+  inputs:
+    data: string #required
+  outputs:
+    decoded: string
 
-  html_decode:
-    description: HTML decode
-    input:
-      data:
-        type: string
-        description: HTML encoded string to decode
-        required: true
-    output:
-      type: string
-      description: Decoded string
-
-  markdown_to_html:
-    description: Convert Markdown to HTML
-    input:
-      data:
-        type: string
-        description: Markdown string to convert
-        required: true
-      options:
-        type: object
-        description: Markdown rendering options
-        optional: true
-    output:
-      type: string
-      description: HTML string
+- name: Convert Markdown To HTML
+  class: markdown_to_html
+  inputs:
+    data: string #required
+    options: object
+  outputs:
+    html: string

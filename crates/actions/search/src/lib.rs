@@ -130,6 +130,20 @@ pub async fn suggest(
     unimplemented!("suggest")
 }
 
+
+/// Search Query Documents
+pub async fn search_query(
+    offset: Option<i32>,
+    limit: Option<i32>,
+    filters: Option<HashMap<String, Value>>,
+    query: Option<&str>,
+    index: Option<&str>,
+    fields: Option<Vec<String>>,
+    highlight: Option<bool>,
+    sort: Option<Vec<HashMap<String, Value>>>,
+) -> Result<SearchQueryOutput, String> {
+    unimplemented!("search_query")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

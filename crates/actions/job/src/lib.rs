@@ -103,6 +103,25 @@ pub async fn delete(
     unimplemented!("delete")
 }
 
+
+/// Get Job Status
+pub async fn get_status(
+    job_id: Option<&str>,
+) -> Result<GetStatusOutput, String> {
+    unimplemented!("get_status")
+}
+
+/// List Jobs By Status
+pub async fn lists(
+    end_date: Option<&str>,
+    handler: Option<&str>,
+    limit: Option<i32>,
+    offset: Option<i32>,
+    start_date: Option<&str>,
+    status: Option<&str>,
+) -> Result<ListsOutput, String> {
+    unimplemented!("lists")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -113,6 +113,24 @@ pub async fn proxy_websocket(
     unimplemented!("proxy_websocket")
 }
 
+
+/// Return JSON Response
+pub async fn json_response(
+    status_code: Option<i32>,
+    body: Option<&str>,
+    headers: Option<HashMap<String, Value>>,
+) -> Result<JsonResponseOutput, String> {
+    unimplemented!("json_response")
+}
+
+/// Return HTML Response
+pub async fn html_response(
+    status_code: Option<i32>,
+    body: Option<&str>,
+    headers: Option<HashMap<String, Value>>,
+) -> Result<HtmlResponseOutput, String> {
+    unimplemented!("html_response")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

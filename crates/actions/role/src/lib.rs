@@ -92,3 +92,80 @@ pub async fn clone_role(
     // TODO: Implementation
     unimplemented!("clone_role")
 }
+
+/// Create Role Definition
+pub async fn create(
+    description: Option<&str>,
+    permissions: Option<Vec<HashMap<String, Value>>>,
+    name: Option<&str>,
+) -> Result<CreateOutput, String> {
+    unimplemented!("create")
+}
+
+/// Update Role Definition
+pub async fn update(
+    role_id: Option<&str>,
+    permissions: Option<Vec<HashMap<String, Value>>>,
+    description: Option<&str>,
+    name: Option<&str>,
+) -> Result<UpdateOutput, String> {
+    unimplemented!("update")
+}
+
+/// Delete Role Definition
+pub async fn delete(
+    role_id: Option<&str>,
+) -> Result<DeleteOutput, String> {
+    unimplemented!("delete")
+}
+
+/// List Available Roles
+pub async fn list(
+    limit: Option<i32>,
+    offset: Option<i32>,
+) -> Result<ListOutput, String> {
+    unimplemented!("list")
+}
+
+/// Get Role Details
+pub async fn get(
+    role_id: Option<&str>,
+) -> Result<GetOutput, String> {
+    unimplemented!("get")
+}
+
+/// Check Role Permission
+pub async fn check_permission(
+    role_id: Option<&str>,
+    resource: Option<&str>,
+    action: Option<&str>,
+) -> Result<CheckPermissionOutput, String> {
+    unimplemented!("check_permission")
+}
+
+/// Add Permission To Role
+pub async fn add_permission(
+    action: Option<&str>,
+    conditions: Option<HashMap<String, Value>>,
+    role_id: Option<&str>,
+    resource: Option<&str>,
+) -> Result<AddPermissionOutput, String> {
+    unimplemented!("add_permission")
+}
+
+/// Remove Permission From Role
+pub async fn remove_permission(
+    resource: Option<&str>,
+    action: Option<&str>,
+    role_id: Option<&str>,
+) -> Result<RemovePermissionOutput, String> {
+    unimplemented!("remove_permission")
+}
+
+/// Clone Role
+pub async fn clone(
+    new_name: Option<&str>,
+    source_id: Option<&str>,
+) -> Result<CloneOutput, String> {
+    unimplemented!("clone")
+}

@@ -71,3 +71,65 @@ pub struct EvaluatePolicyOutput {
     pub evaluated_conditions: serde_json::Value,
     pub reason: String,
 }
+
+// create
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateOutput {
+    pub policy_id: String,
+    pub success: bool
+}
+
+// update
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UpdateOutput {
+    pub success: bool
+}
+
+// delete
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DeleteOutput {
+    pub success: bool
+}
+
+// get
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetOutput {
+    pub effect: String,
+    pub name: String,
+    pub resources: Vec<String>,
+    pub description: String,
+    pub actions: Vec<String>,
+    pub conditions: HashMap<String, Value>
+}
+
+// attach_to_user
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AttachToUserOutput {
+    pub success: bool
+}
+
+// detach_from_user
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DetachFromUserOutput {
+    pub success: bool
+}
+
+// attach_to_role
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AttachToRoleOutput {
+    pub success: bool
+}
+
+// detach_from_role
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DetachFromRoleOutput {
+    pub success: bool
+}
+
+// evaluate
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct EvaluateOutput {
+    pub reason: String,
+    pub evaluated_conditions: HashMap<String, Value>,
+    pub allowed: bool
+}

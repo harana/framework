@@ -81,3 +81,80 @@ pub struct ValidateSessionOutput {
     pub user_id: Option<String>,
     pub valid: bool,
 }
+
+// create
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateOutput {
+    pub expires_at: String,
+    pub session_id: String
+}
+
+// get
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetOutput {
+    pub data: HashMap<String, Value>,
+    pub found: bool,
+    pub created_at: String,
+    pub user_id: String,
+    pub expires_at: String
+}
+
+// update
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UpdateOutput {
+    pub success: bool
+}
+
+// destroy
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DestroyOutput {
+    pub success: bool
+}
+
+// refresh
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RefreshOutput {
+    pub success: bool,
+    pub expires_at: String
+}
+
+// get_value
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetValueOutput {
+    pub found: bool,
+    pub value: String
+}
+
+// set_value
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SetValueOutput {
+    pub success: bool
+}
+
+// delete_value
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DeleteValueOutput {
+    pub success: bool
+}
+
+// list_users
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ListUsersOutput {
+    pub total: i32,
+    pub sessions: Vec<HashMap<String, Value>>
+}
+
+// destroy_users
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DestroyUsersOutput {
+    pub destroyed_count: i32,
+    pub success: bool
+}
+
+// validate
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ValidateOutput {
+    pub valid: bool,
+    pub user_id: String,
+    pub expires_at: String
+}

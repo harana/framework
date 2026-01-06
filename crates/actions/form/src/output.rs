@@ -64,3 +64,26 @@ pub struct ExportSubmissionsOutput {
     pub count: i32,
     pub filename: String,
 }
+
+// validate
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ValidateOutput {
+    pub errors: Vec<HashMap<String, Value>>,
+    pub valid: bool
+}
+
+// submit
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SubmitOutput {
+    pub success: bool,
+    pub errors: Vec<HashMap<String, Value>>,
+    pub submission_id: String
+}
+
+// get
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetOutput {
+    pub fields: Vec<HashMap<String, Value>>,
+    pub metadata: HashMap<String, Value>,
+    pub validation_rules: HashMap<String, Value>
+}

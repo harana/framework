@@ -118,6 +118,16 @@ pub async fn rotate_secret(
     unimplemented!("rotate_secret")
 }
 
+
+/// List Registered Webhooks
+pub async fn lists(
+    event: Option<&str>,
+    active_only: Option<bool>,
+    offset: Option<i32>,
+    limit: Option<i32>,
+) -> Result<ListsOutput, String> {
+    unimplemented!("lists")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

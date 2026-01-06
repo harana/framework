@@ -289,6 +289,26 @@ pub async fn csv(
     unimplemented!("csv")
 }
 
+
+/// Render Template
+pub async fn render_template(
+    content_type: Option<&str>,
+    data: Option<HashMap<String, Value>>,
+    template_engine: Option<&str>,
+    template: Option<&str>,
+) -> Result<RenderTemplateOutput, String> {
+    unimplemented!("render_template")
+}
+
+/// Render Template From File
+pub async fn render_template_file(
+    content_type: Option<&str>,
+    template_engine: Option<&str>,
+    data: Option<HashMap<String, Value>>,
+    template_path: Option<&str>,
+) -> Result<RenderTemplateFileOutput, String> {
+    unimplemented!("render_template_file")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

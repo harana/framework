@@ -114,3 +114,99 @@ pub async fn check_group_permission(
     // TODO: Implementation
     unimplemented!("check_group_permission")
 }
+
+/// Create Group
+pub async fn create(
+    name: Option<&str>,
+    description: Option<&str>,
+) -> Result<CreateOutput, String> {
+    unimplemented!("create")
+}
+
+/// Update Group
+pub async fn update(
+    group_id: Option<&str>,
+    description: Option<&str>,
+    name: Option<&str>,
+) -> Result<UpdateOutput, String> {
+    unimplemented!("update")
+}
+
+/// Delete Group
+pub async fn delete(
+    group_id: Option<&str>,
+) -> Result<DeleteOutput, String> {
+    unimplemented!("delete")
+}
+
+/// Get Group Details
+pub async fn get(
+    group_id: Option<&str>,
+) -> Result<GetOutput, String> {
+    unimplemented!("get")
+}
+
+/// List Groups
+pub async fn lists(
+    offset: Option<i32>,
+    limit: Option<i32>,
+) -> Result<ListsOutput, String> {
+    unimplemented!("lists")
+}
+
+/// Add User To Group
+pub async fn add_user_to(
+    group_id: Option<&str>,
+    user_id: Option<&str>,
+) -> Result<AddUserToOutput, String> {
+    unimplemented!("add_user_to")
+}
+
+/// Remove User From Group
+pub async fn remove_user_from(
+    user_id: Option<&str>,
+    group_id: Option<&str>,
+) -> Result<RemoveUserFromOutput, String> {
+    unimplemented!("remove_user_from")
+}
+
+/// List Group Members
+pub async fn list_members(
+    limit: Option<i32>,
+    offset: Option<i32>,
+    group_id: Option<&str>,
+) -> Result<ListMembersOutput, String> {
+    unimplemented!("list_members")
+}
+
+/// Assign Role To Group
+pub async fn assign_role_to(
+    group_id: Option<&str>,
+    role_id: Option<&str>,
+) -> Result<AssignRoleToOutput, String> {
+    unimplemented!("assign_role_to")
+}
+
+/// Remove Role From Group
+pub async fn remove_role_from(
+    group_id: Option<&str>,
+    role_id: Option<&str>,
+) -> Result<RemoveRoleFromOutput, String> {
+    unimplemented!("remove_role_from")
+}
+
+/// List Group Roles
+pub async fn list_roles(
+    group_id: Option<&str>,
+) -> Result<ListRolesOutput, String> {
+    unimplemented!("list_roles")
+}
+
+/// Check Group Permission
+pub async fn check_permission(
+    group_id: Option<&str>,
+    action: Option<&str>,
+    resource: Option<&str>,
+) -> Result<CheckPermissionOutput, String> {
+    unimplemented!("check_permission")
+}

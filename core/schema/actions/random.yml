@@ -1,84 +1,44 @@
-namespace: random
-description: Random value generation utilities
+- name: Generate Random UUID
+  class: uuid
+  inputs:
+    version: v4 | v7 = v4
+  outputs:
+    uuid: string
 
-actions:
-  uuid:
-    description: Generate UUID
-    input:
-      version:
-        type: string
-        description: UUID version (v4 by default)
-        optional: true
-        default: v4
-    output:
-      type: string
-      description: Generated UUID
+- name: Generate Random Bytes
+  class: bytes
+  inputs:
+    length: integer #required
+  outputs:
+    bytes: bytes
 
-  bytes:
-    description: Generate random bytes
-    input:
-      length:
-        type: integer
-        description: Number of bytes to generate
-        required: true
-    output:
-      type: bytes
-      description: Random bytes
+- name: Generate Random String
+  class: string
+  inputs:
+    charset: alphanumeric | alpha | numeric | hex = alphanumeric
+    length: integer #required
+  outputs:
+    string: string
 
-  string:
-    description: Generate random string
-    input:
-      length:
-        type: integer
-        description: Length of string to generate
-        required: true
-      charset:
-        type: string
-        description: Character set to use (alphanumeric, alpha, numeric, hex, etc.)
-        optional: true
-        default: alphanumeric
-    output:
-      type: string
-      description: Random string
+- name: Generate Random Number
+  class: number
+  inputs:
+    integer: boolean = true
+    max: float
+    min: float
+  outputs:
+    number: float
 
-  number:
-    description: Generate random number
-    input:
-      min:
-        type: number
-        description: Minimum value (inclusive)
-        optional: true
-      max:
-        type: number
-        description: Maximum value (exclusive)
-        optional: true
-      integer:
-        type: boolean
-        description: Whether to generate integer (true) or float (false)
-        optional: true
-        default: true
-    output:
-      type: number
-      description: Random number
+- name: Random Choice From List
+  class: choice
+  inputs:
+    items: list[any] #required
+  outputs:
+    item: any
 
-  choice:
-    description: Random choice from list
-    input:
-      items:
-        type: array
-        description: List of items to choose from
-        required: true
-    output:
-      type: any
-      description: Randomly selected item
-
-  shuffle:
-    description: Shuffle list
-    input:
-      items:
-        type: array
-        description: List to shuffle
-        required: true
-    output:
-      type: array
-      description: Shuffled list
+- name: Shuffle List Items
+  class: shuffle
+  inputs:
+    items: list[any] #required
+  outputs:
+    items: list[any]

@@ -80,6 +80,61 @@ pub async fn generate_presigned_url(
     unimplemented!("generate_presigned_url")
 }
 
+
+/// Upload Blob To Storage
+pub async fn upload_blob(
+    content_type: Option<&str>,
+    metadata: Option<HashMap<String, Value>>,
+    bucket: Option<&str>,
+    content: Option<&[u8]>,
+    key: Option<&str>,
+) -> Result<UploadBlobOutput, String> {
+    unimplemented!("upload_blob")
+}
+
+/// Download Blob From Storage
+pub async fn download_blob(
+    bucket: Option<&str>,
+    key: Option<&str>,
+) -> Result<DownloadBlobOutput, String> {
+    unimplemented!("download_blob")
+}
+
+/// Delete Blob From Storage
+pub async fn delete_blob(
+    bucket: Option<&str>,
+    key: Option<&str>,
+) -> Result<DeleteBlobOutput, String> {
+    unimplemented!("delete_blob")
+}
+
+/// List Blobs In Bucket
+pub async fn list_blobs(
+    continuation_token: Option<&str>,
+    prefix: Option<&str>,
+    bucket: Option<&str>,
+    max_results: Option<i32>,
+) -> Result<ListBlobsOutput, String> {
+    unimplemented!("list_blobs")
+}
+
+/// Get Blob Metadata Info
+pub async fn get_blob_metadata(
+    bucket: Option<&str>,
+    key: Option<&str>,
+) -> Result<GetBlobMetadataOutput, String> {
+    unimplemented!("get_blob_metadata")
+}
+
+/// Copy Blob To Destination
+pub async fn copy_blob(
+    source_key: Option<&str>,
+    dest_key: Option<&str>,
+    source_bucket: Option<&str>,
+    dest_bucket: Option<&str>,
+) -> Result<CopyBlobOutput, String> {
+    unimplemented!("copy_blob")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

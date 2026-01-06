@@ -93,6 +93,15 @@ pub async fn list_templates(
     unimplemented!("list_templates")
 }
 
+
+/// Validate Email Address
+pub async fn validate_email(
+    check_mx: Option<bool>,
+    check_smtp: Option<bool>,
+    email: Option<&str>,
+) -> Result<ValidateEmailOutput, String> {
+    unimplemented!("validate_email")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -1,176 +1,79 @@
-namespace: text
-description: Text manipulation utilities
+- name: Render Template String
+  class: template
+  inputs:
+    data: object #required
+    engine: handlebars | mustache | tera = handlebars
+    template: string #required
+  outputs:
+    result: string
 
-actions:
-  template:
-    description: Render template string
-    input:
-      template:
-        type: string
-        description: Template string with placeholders
-        required: true
-      data:
-        type: object
-        description: Data to fill template
-        required: true
-      engine:
-        type: string
-        description: Template engine (handlebars, mustache, etc.)
-        optional: true
-        default: handlebars
-    output:
-      type: string
-      description: Rendered string
+- name: Match Regex Pattern
+  class: regex_match
+  inputs:
+    flags: string
+    pattern: string #required
+    text: string #required
+  outputs:
+    matches: list[string]
 
-  regex_match:
-    description: Match regex pattern
-    input:
-      text:
-        type: string
-        description: Text to search in
-        required: true
-      pattern:
-        type: string
-        description: Regex pattern
-        required: true
-      flags:
-        type: string
-        description: Regex flags (i, g, m, etc.)
-        optional: true
-    output:
-      type: array
-      description: Array of matches
+- name: Replace With Regex Pattern
+  class: regex_replace
+  inputs:
+    flags: string
+    pattern: string #required
+    replacement: string #required
+    text: string #required
+  outputs:
+    result: string
 
-  regex_replace:
-    description: Replace with regex
-    input:
-      text:
-        type: string
-        description: Text to perform replacement on
-        required: true
-      pattern:
-        type: string
-        description: Regex pattern to match
-        required: true
-      replacement:
-        type: string
-        description: Replacement string
-        required: true
-      flags:
-        type: string
-        description: Regex flags (i, g, m, etc.)
-        optional: true
-    output:
-      type: string
-      description: Text with replacements
+- name: Split String By Delimiter
+  class: split
+  inputs:
+    delimiter: string #required
+    limit: integer
+    text: string #required
+  outputs:
+    parts: list[string]
 
-  split:
-    description: Split string
-    input:
-      text:
-        type: string
-        description: Text to split
-        required: true
-      delimiter:
-        type: string
-        description: Delimiter to split on
-        required: true
-      limit:
-        type: integer
-        description: Maximum number of splits
-        optional: true
-    output:
-      type: array
-      description: Array of strings
+- name: Join Strings Together
+  class: join
+  inputs:
+    items: list[string] #required
+    separator: string = ""
+  outputs:
+    result: string
 
-  join:
-    description: Join strings
-    input:
-      items:
-        type: array
-        description: Array of strings to join
-        required: true
-      separator:
-        type: string
-        description: Separator between items
-        optional: true
-        default: ""
-    output:
-      type: string
-      description: Joined string
+- name: Trim Whitespace From String
+  class: trim
+  inputs:
+    characters: string
+    mode: both | start | end = both
+    text: string #required
+  outputs:
+    result: string
 
-  trim:
-    description: Trim whitespace
-    input:
-      text:
-        type: string
-        description: Text to trim
-        required: true
-      characters:
-        type: string
-        description: Characters to trim (whitespace by default)
-        optional: true
-      mode:
-        type: string
-        description: Trim mode (both, start, end)
-        optional: true
-        default: both
-    output:
-      type: string
-      description: Trimmed string
+- name: Convert String Case
+  class: case_convert
+  inputs:
+    format: upper | lower | camel | pascal | snake | kebab #required
+    text: string #required
+  outputs:
+    result: string
 
-  case_convert:
-    description: Convert case (upper/lower/camel/snake)
-    input:
-      text:
-        type: string
-        description: Text to convert
-        required: true
-      format:
-        type: string
-        description: Target format (upper, lower, camel, pascal, snake, kebab)
-        required: true
-    output:
-      type: string
-      description: Converted string
+- name: Truncate String Length
+  class: truncate
+  inputs:
+    length: integer #required
+    suffix: string = "..."
+    text: string #required
+  outputs:
+    result: string
 
-  truncate:
-    description: Truncate text
-    input:
-      text:
-        type: string
-        description: Text to truncate
-        required: true
-      length:
-        type: integer
-        description: Maximum length
-        required: true
-      suffix:
-        type: string
-        description: Suffix to append (e.g., "...")
-        optional: true
-        default: "..."
-    output:
-      type: string
-      description: Truncated string
-
-  slugify:
-    description: Convert to URL slug
-    input:
-      text:
-        type: string
-        description: Text to slugify
-        required: true
-      separator:
-        type: string
-        description: Separator character
-        optional: true
-        default: "-"
-      lowercase:
-        type: boolean
-        description: Convert to lowercase
-        optional: true
-        default: true
-    output:
-      type: string
-      description: URL slug
+- name: Convert Text To URL Slug
+  class: slugify
+  inputs:
+    lowercase: boolean = true
+    separator: string = "-"
+    text: string #required
+  outputs:
+    slug: string

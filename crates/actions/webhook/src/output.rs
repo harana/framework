@@ -84,3 +84,70 @@ pub struct RotateWebhookSecretOutput {
     pub new_secret: String,
     pub success: bool,
 }
+
+// register
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RegisterOutput {
+    pub webhook_id: String,
+    pub secret: String,
+    pub success: bool
+}
+
+// update
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UpdateOutput {
+    pub success: bool
+}
+
+// unregister
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UnregisterOutput {
+    pub success: bool
+}
+
+// trigger
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TriggerOutput {
+    pub success: bool,
+    pub triggered_count: i32
+}
+
+// get
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetOutput {
+    pub description: String,
+    pub events: Vec<String>,
+    pub url: String,
+    pub created_at: String,
+    pub active: bool
+}
+
+// lists
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ListsOutput {
+    pub total: i32,
+    pub webhooks: Vec<HashMap<String, Value>>
+}
+
+// test
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TestOutput {
+    pub status_code: i32,
+    pub success: bool,
+    pub error: String,
+    pub response_time_ms: i32
+}
+
+// get_deliveries
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetDeliveriesOutput {
+    pub deliveries: Vec<HashMap<String, Value>>,
+    pub total: i32
+}
+
+// rotate_secret
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RotateSecretOutput {
+    pub success: bool,
+    pub new_secret: String
+}

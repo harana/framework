@@ -66,3 +66,65 @@ pub struct CacheTtlOutput {
     pub expires_at: String, // datetime
     pub ttl: i32,
 }
+
+// get
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetOutput {
+    pub found: bool,
+    pub value: String
+}
+
+// set
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SetOutput {
+    pub success: bool
+}
+
+// delete
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DeleteOutput {
+    pub success: bool
+}
+
+// exists
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ExistsOutput {
+    pub exists: bool
+}
+
+// clear
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ClearOutput {
+    pub keys_deleted: i32
+}
+
+// get_many
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetManyOutput {
+    pub values: HashMap<String, Value>
+}
+
+// set_many
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SetManyOutput {
+    pub success: bool
+}
+
+// increment
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct IncrementOutput {
+    pub value: i32
+}
+
+// decrement
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DecrementOutput {
+    pub value: i32
+}
+
+// ttl
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TtlOutput {
+    pub ttl: i32,
+    pub expires_at: String
+}

@@ -100,6 +100,15 @@ pub async fn delete_directory(
     unimplemented!("delete_directory")
 }
 
+
+/// Move File To Destination
+pub async fn move(
+    overwrite: Option<bool>,
+    from: Option<&str>,
+    to: Option<&str>,
+) -> Result<MoveOutput, String> {
+    unimplemented!("move")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

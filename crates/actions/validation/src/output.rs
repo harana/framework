@@ -94,3 +94,86 @@ pub struct SanitizeHtmlOutput {
     pub removed_count: i32,
     pub sanitized: String,
 }
+
+// schema
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SchemaOutput {
+    pub valid: bool,
+    pub errors: Vec<HashMap<String, Value>>
+}
+
+// field
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FieldOutput {
+    pub valid: bool,
+    pub errors: Vec<String>
+}
+
+// email_format
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct EmailFormatOutput {
+    pub valid: bool,
+    pub reason: String
+}
+
+// url
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UrlOutput {
+    pub valid: bool,
+    pub reason: String
+}
+
+// phone
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PhoneOutput {
+    pub formatted: String,
+    pub country: String,
+    pub valid: bool
+}
+
+// date
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DateOutput {
+    pub valid: bool,
+    pub reason: String,
+    pub parsed: String
+}
+
+// json
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct JsonOutput {
+    pub valid: bool,
+    pub parsed: String,
+    pub error: String
+}
+
+// credit_card
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreditCardOutput {
+    pub card_type: String,
+    pub last_four: String,
+    pub valid: bool
+}
+
+// uuid
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UuidOutput {
+    pub version: i32,
+    pub valid: bool
+}
+
+// ip
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct IpOutput {
+    pub is_private: bool,
+    pub valid: bool,
+    pub version: i32
+}
+
+// password
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PasswordOutput {
+    pub strength: String,
+    pub suggestions: Vec<String>,
+    pub valid: bool
+}

@@ -1,116 +1,65 @@
-namespace: math
-description: Mathematical operations
+- name: Round Number Value
+  class: round
+  inputs:
+    precision: integer = 0
+    value: float #required
+  outputs:
+    result: float
 
-actions:
-  round:
-    description: Round number
-    input:
-      value:
-        type: number
-        description: Number to round
-        required: true
-      precision:
-        type: integer
-        description: Decimal places
-        optional: true
-        default: 0
-    output:
-      type: number
-      description: Rounded number
+- name: Floor Number Value
+  class: floor
+  inputs:
+    value: float #required
+  outputs:
+    result: float
 
-  floor:
-    description: Floor number
-    input:
-      value:
-        type: number
-        description: Number to floor
-        required: true
-    output:
-      type: number
-      description: Floor value
+- name: Ceiling Number Value
+  class: ceil
+  inputs:
+    value: float #required
+  outputs:
+    result: float
 
-  ceil:
-    description: Ceiling number
-    input:
-      value:
-        type: number
-        description: Number to ceil
-        required: true
-    output:
-      type: number
-      description: Ceiling value
+- name: Absolute Number Value
+  class: abs
+  inputs:
+    value: float #required
+  outputs:
+    result: float
 
-  abs:
-    description: Absolute value
-    input:
-      value:
-        type: number
-        description: Number to get absolute value of
-        required: true
-    output:
-      type: number
-      description: Absolute value
+- name: Minimum Of Values
+  class: min
+  inputs:
+    values: list[float] #required
+  outputs:
+    result: float
 
-  min:
-    description: Minimum of values
-    input:
-      values:
-        type: array
-        description: Array of numbers
-        required: true
-    output:
-      type: number
-      description: Minimum value
+- name: Maximum Of Values
+  class: max
+  inputs:
+    values: list[float] #required
+  outputs:
+    result: float
 
-  max:
-    description: Maximum of values
-    input:
-      values:
-        type: array
-        description: Array of numbers
-        required: true
-    output:
-      type: number
-      description: Maximum value
+- name: Sum Of Values
+  class: sum
+  inputs:
+    values: list[float] #required
+  outputs:
+    result: float
 
-  sum:
-    description: Sum of values
-    input:
-      values:
-        type: array
-        description: Array of numbers
-        required: true
-    output:
-      type: number
-      description: Sum
+- name: Average Of Values
+  class: average
+  inputs:
+    values: list[float] #required
+  outputs:
+    result: float
 
-  average:
-    description: Average of values
-    input:
-      values:
-        type: array
-        description: Array of numbers
-        required: true
-    output:
-      type: number
-      description: Average (mean)
-
-  percentage:
-    description: Calculate percentage
-    input:
-      value:
-        type: number
-        description: Value
-        required: true
-      total:
-        type: number
-        description: Total
-        required: true
-      precision:
-        type: integer
-        description: Decimal places
-        optional: true
-        default: 2
-    output:
-      type: number
-      description: Percentage
+- name: Calculate Percentage
+  class: percentage
+  inputs:
+    precision: integer = 2
+    total: float #required
+    value: float #required
+  outputs:
+    result: float

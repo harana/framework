@@ -131,6 +131,20 @@ pub async fn terminate_all(
     unimplemented!("terminate_all")
 }
 
+
+/// Get Workflow Status
+pub async fn get_status(
+    execution_id: Option<&str>,
+) -> Result<GetStatusOutput, String> {
+    unimplemented!("get_status")
+}
+
+/// Get Workflow History
+pub async fn history(
+    execution_id: Option<&str>,
+) -> Result<HistoryOutput, String> {
+    unimplemented!("history")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

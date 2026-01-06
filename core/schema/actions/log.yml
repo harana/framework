@@ -1,82 +1,40 @@
-namespace: log
-description: Logging utilities
+- name: Log Debug Message
+  class: debug
+  inputs:
+    context: object
+    message: string #required
+  outputs:
+    success: boolean
 
-actions:
-  debug:
-    description: Log debug message
-    input:
-      message:
-        type: string
-        description: Debug message
-        required: true
-      context:
-        type: object
-        description: Additional context data
-        optional: true
-    output:
-      type: boolean
-      description: Success
+- name: Log Info Message
+  class: info
+  inputs:
+    context: object
+    message: string #required
+  outputs:
+    success: boolean
 
-  info:
-    description: Log info message
-    input:
-      message:
-        type: string
-        description: Info message
-        required: true
-      context:
-        type: object
-        description: Additional context data
-        optional: true
-    output:
-      type: boolean
-      description: Success
+- name: Log Warning Message
+  class: warn
+  inputs:
+    context: object
+    message: string #required
+  outputs:
+    success: boolean
 
-  warn:
-    description: Log warning message
-    input:
-      message:
-        type: string
-        description: Warning message
-        required: true
-      context:
-        type: object
-        description: Additional context data
-        optional: true
-    output:
-      type: boolean
-      description: Success
+- name: Log Error Message
+  class: error
+  inputs:
+    context: object
+    error: object
+    message: string #required
+  outputs:
+    success: boolean
 
-  error:
-    description: Log error message
-    input:
-      message:
-        type: string
-        description: Error message
-        required: true
-      error:
-        type: object
-        description: Error object or stack trace
-        optional: true
-      context:
-        type: object
-        description: Additional context data
-        optional: true
-    output:
-      type: boolean
-      description: Success
-
-  structured:
-    description: Log structured data
-    input:
-      level:
-        type: string
-        description: Log level (debug, info, warn, error)
-        required: true
-      data:
-        type: object
-        description: Structured log data
-        required: true
-    output:
-      type: boolean
-      description: Success
+- name: Log Structured Data
+  class: structured
+  inputs:
+    data: object #required
+    level: debug | info | warn | error #required
+  outputs:
+    success: boolean

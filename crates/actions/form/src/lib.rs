@@ -87,6 +87,31 @@ pub async fn export_submissions(
     unimplemented!("export_submissions")
 }
 
+
+/// Validate Form Data
+pub async fn validate(
+    data: Option<HashMap<String, Value>>,
+    form_id: Option<&str>,
+    strict: Option<bool>,
+) -> Result<ValidateOutput, String> {
+    unimplemented!("validate")
+}
+
+/// Submit Form Data
+pub async fn submit(
+    validate: Option<bool>,
+    form_id: Option<&str>,
+    data: Option<HashMap<String, Value>>,
+) -> Result<SubmitOutput, String> {
+    unimplemented!("submit")
+}
+
+/// Get Form Definition
+pub async fn get(
+    form_id: Option<&str>,
+) -> Result<GetOutput, String> {
+    unimplemented!("get")
+}
 #[cfg(test)]
 mod tests {
     use super::*;

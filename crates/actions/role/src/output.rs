@@ -62,3 +62,63 @@ pub struct CloneRoleOutput {
     pub role_id: String,
     pub success: bool,
 }
+
+// create
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateOutput {
+    pub role_id: String,
+    pub success: bool
+}
+
+// update
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UpdateOutput {
+    pub success: bool
+}
+
+// delete
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DeleteOutput {
+    pub success: bool
+}
+
+// list
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ListOutput {
+    pub total: i32,
+    pub roles: Vec<HashMap<String, Value>>
+}
+
+// get
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetOutput {
+    pub description: String,
+    pub name: String,
+    pub user_count: i32,
+    pub permissions: Vec<HashMap<String, Value>>
+}
+
+// check_permission
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CheckPermissionOutput {
+    pub allowed: bool
+}
+
+// add_permission
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AddPermissionOutput {
+    pub success: bool
+}
+
+// remove_permission
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RemovePermissionOutput {
+    pub success: bool
+}
+
+// clone
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CloneOutput {
+    pub role_id: String,
+    pub success: bool
+}

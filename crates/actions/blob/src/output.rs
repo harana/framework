@@ -64,3 +64,9 @@ pub struct GeneratePresignedUrlOutput {
     pub expires_at: String, // datetime
     pub url: String,
 }
+
+// exists
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ExistsOutput {
+    pub exists: bool
+}
