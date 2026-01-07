@@ -1,185 +1,203 @@
 - name: Create Zip Archive
-  class: zip
+  action: zip
   inputs:
-    source_paths: list[string] #required
-    output_path: string #required
     compression_level: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 6
-    password: string
     include_hidden: boolean = false
+    output_path: string #required
+    password: string
+    source_paths: list[string] #required
   outputs:
     archive_path: string
-    size: integer
     file_count: integer
+    size: integer
     success: boolean
 
 - name: Extract Zip Archive
-  class: unzip
+  action: unzip
   inputs:
     archive_path: string #required
     destination_path: string #required
-    password: string
-    overwrite: boolean = false
     extract_files: list[string]
+    overwrite: boolean = false
+    password: string
   outputs:
     extracted_path: string
     file_count: integer
     success: boolean
 
 - name: Create Tar Archive
-  class: tar
+  action: tar
   inputs:
-    source_paths: list[string] #required
-    output_path: string #required
     format: tar | tar.gz | tar.bz2 | tar.xz = tar
     include_hidden: boolean = false
+    output_path: string #required
     preserve_permissions: boolean = true
+    source_paths: list[string] #required
   outputs:
     archive_path: string
-    size: integer
     file_count: integer
+    size: integer
     success: boolean
 
 - name: Extract Tar Archive
-  class: untar
+  action: untar
   inputs:
     archive_path: string #required
     destination_path: string #required
+    extract_files: list[string]
     format: tar | tar.gz | tar.bz2 | tar.xz = tar
     overwrite: boolean = false
-    extract_files: list[string]
   outputs:
     extracted_path: string
     file_count: integer
     success: boolean
 
 - name: Compress With Gzip
-  class: gzip
+  action: gzip
   inputs:
-    source_path: string #required
-    output_path: string
     compression_level: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 6
     keep_source: boolean = true
+    output_path: string
+    source_path: string #required
   outputs:
     compressed_path: string
-    original_size: integer
     compressed_size: integer
     compression_ratio: float
+    original_size: integer
     success: boolean
 
 - name: Decompress Gzip
-  class: gunzip
+  action: gunzip
   inputs:
     archive_path: string #required
-    output_path: string
     keep_archive: boolean = true
+    output_path: string
   outputs:
     decompressed_path: string
     size: integer
     success: boolean
 
 - name: List Archive Contents
-  class: list
+  action: list
   inputs:
     archive_path: string #required
     archive_type: zip | tar | tar.gz | tar.bz2 | tar.xz | gz #required
     password: string
   outputs:
-    files: list[object]
+    files: list[ArchiveEntry]
     total_files: integer
     total_size: integer
 
 - name: Add To Archive
-  class: add_to_archive
+  action: add_to_archive
   inputs:
     archive_path: string #required
-    source_paths: list[string] #required
     archive_type: zip | tar #required
+    source_paths: list[string] #required
   outputs:
-    archive_path: string
     added_count: integer
+    archive_path: string
     success: boolean
 
 - name: Remove From Archive
-  class: remove_from_archive
+  action: remove_from_archive
   inputs:
     archive_path: string #required
-    file_paths: list[string] #required
     archive_type: zip | tar #required
+    file_paths: list[string] #required
   outputs:
     archive_path: string
     removed_count: integer
     success: boolean
 
 - name: Compress With Bzip2
-  class: bzip2
+  action: bzip2
   inputs:
-    source_path: string #required
-    output_path: string
     compression_level: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 9
     keep_source: boolean = true
+    output_path: string
+    source_path: string #required
   outputs:
     compressed_path: string
-    original_size: integer
     compressed_size: integer
     compression_ratio: float
+    original_size: integer
     success: boolean
 
 - name: Decompress Bzip2
-  class: bunzip2
+  action: bunzip2
   inputs:
     archive_path: string #required
-    output_path: string
     keep_archive: boolean = true
+    output_path: string
   outputs:
     decompressed_path: string
     size: integer
     success: boolean
 
 - name: Compress With XZ
-  class: xz
+  action: xz
   inputs:
-    source_path: string #required
-    output_path: string
     compression_level: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 6
     keep_source: boolean = true
+    output_path: string
+    source_path: string #required
   outputs:
     compressed_path: string
-    original_size: integer
     compressed_size: integer
     compression_ratio: float
+    original_size: integer
     success: boolean
 
 - name: Decompress XZ
-  class: unxz
+  action: unxz
   inputs:
     archive_path: string #required
-    output_path: string
     keep_archive: boolean = true
+    output_path: string
   outputs:
     decompressed_path: string
     size: integer
     success: boolean
 
 - name: Verify Archive Integrity
-  class: verify_archive
+  action: verify_archive
   inputs:
     archive_path: string #required
     archive_type: zip | tar | tar.gz | tar.bz2 | tar.xz | gz #required
     password: string
   outputs:
-    valid: boolean
     error: string
     file_count: integer
+    valid: boolean
 
 - name: Get Archive Info
-  class: get_archive_info
+  action: get_archive_info
   inputs:
     archive_path: string #required
   outputs:
     archive_type: string
+    compressed_size: integer
+    compression_ratio: float
+    created_at: integer
+    file_count: integer
+    is_encrypted: boolean
+    size: integer
+
+- name: Archive
+  class:
+    path: string
+    archive_type: string
     size: integer
     compressed_size: integer
     file_count: integer
-    compression_ratio: float
-    created_at: integer
     is_encrypted: boolean
+    created_at: datetime
+
+- name: ArchiveEntry
+  class:
+    path: string
+    size: integer
+    compressed_size: integer
+    is_directory: boolean
+    modified_at: datetime

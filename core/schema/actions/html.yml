@@ -1,15 +1,15 @@
 - name: Parse HTML To DOM
-  class: parse
+  action: parse
   inputs:
     data: string #required
     fragment: boolean = false
   outputs:
-    result: object
+    result: HtmlDom
 
 - name: Sanitize HTML Content
-  class: sanitize
+  action: sanitize
   inputs:
-    allowed_attributes: object
+    allowed_attributes: HtmlAllowedAttributes
     allowed_tags: list[string]
     data: string #required
     strip_comments: boolean = true
@@ -17,7 +17,7 @@
     html: string
 
 - name: Extract Text From HTML
-  class: extract_text
+  action: extract_text
   inputs:
     data: string #required
     preserve_whitespace: boolean = false
@@ -26,7 +26,7 @@
     text: string
 
 - name: Query HTML With CSS Selectors
-  class: css_select
+  action: css_select
   inputs:
     attribute: string
     data: string #required
@@ -35,7 +35,7 @@
     results: list[any]
 
 - name: Minify HTML Content
-  class: minify
+  action: minify
   inputs:
     collapse_whitespace: boolean = true
     data: string #required
@@ -44,3 +44,33 @@
     remove_comments: boolean = true
   outputs:
     html: string
+
+- name: HtmlDocument
+  class:
+    content: string
+    title: string
+    charset: string
+    head: HtmlElement
+    body: HtmlElement
+
+- name: HtmlDom
+  class:
+    document_type: string
+    root: HtmlElement
+
+- name: HtmlElement
+  class:
+    tag_name: string
+    attributes: map[string, string]
+    children: list[HtmlNode]
+    text_content: string
+
+- name: HtmlNode
+  class:
+    node_type: string
+    value: any
+
+- name: HtmlAllowedAttributes
+  class:
+    global: list[string]
+    per_tag: map[string, list[string]]

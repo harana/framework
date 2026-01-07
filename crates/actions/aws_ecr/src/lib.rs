@@ -1,194 +1,167 @@
-// Harana Actions - AWS ECR Module
-// This module provides AWS ECR (Elastic Container Registry) actions and functionality.
+// Harana Actions - Aws Ecr Module
+// This module provides aws ecr actions and functionality.
 
 #![warn(missing_docs)]
 
 pub mod output;
 
-use output::*;
-use serde_json::Value;
 use std::collections::HashMap;
+use serde_json::Value;
+use output::*;
 
-/// Create ECR repository
-pub async fn create_repository(
-    repository_name: &str,
-    encryption_type: Option<&str>,
-    image_tag_mutability: Option<&str>,
-    kms_key: Option<&str>,
-    region: Option<&str>,
-    scan_on_push: Option<bool>,
-    tags: Option<HashMap<String, Value>>,
-) -> Result<CreateRepositoryOutput, String> {
-    // TODO: Implementation
-    unimplemented!("create_repository")
-}
-
-/// Delete ECR repository
-pub async fn delete_repository(
-    repository_name: &str,
-    force: Option<bool>,
-    region: Option<&str>,
-) -> Result<DeleteRepositoryOutput, String> {
-    // TODO: Implementation
-    unimplemented!("delete_repository")
-}
-
-/// Describe ECR repositories
-pub async fn describe_repositories(
-    region: Option<&str>,
-    repository_names: Option<Vec<&str>>,
-) -> Result<DescribeRepositoriesOutput, String> {
-    // TODO: Implementation
-    unimplemented!("describe_repositories")
-}
-
-/// List ECR images
-pub async fn list_images(
-    repository_name: &str,
-    filter: Option<HashMap<String, Value>>,
-    max_results: Option<i32>,
-    region: Option<&str>,
-) -> Result<ListImagesOutput, String> {
-    // TODO: Implementation
-    unimplemented!("list_images")
-}
-
-/// Describe ECR images
-pub async fn describe_images(
-    repository_name: &str,
-    image_ids: Option<Vec<HashMap<String, Value>>>,
-    region: Option<&str>,
-) -> Result<DescribeImagesOutput, String> {
-    // TODO: Implementation
-    unimplemented!("describe_images")
-}
-
-/// Put ECR image
-pub async fn put_image(
-    image_manifest: &str,
-    image_tag: &str,
-    repository_name: &str,
-    region: Option<&str>,
-) -> Result<PutImageOutput, String> {
-    // TODO: Implementation
-    unimplemented!("put_image")
-}
-
-/// Batch delete ECR images
+/// Batch Delete ECR Image
 pub async fn batch_delete_image(
     image_ids: Vec<HashMap<String, Value>>,
     repository_name: &str,
     region: Option<&str>,
 ) -> Result<BatchDeleteImageOutput, String> {
-    // TODO: Implementation
     unimplemented!("batch_delete_image")
 }
 
-/// Get ECR authorization token
-pub async fn get_auth_token(
+/// Create ECR Repository
+pub async fn create_repository(
+    repository_name: &str,
+    scan_on_push: Option<bool>,
+    tags: Option<HashMap<String, Value>>,
+    kms_key: Option<&str>,
+    image_tag_mutability: Option<&str>,
+    encryption_type: Option<&str>,
     region: Option<&str>,
-    registry_ids: Option<Vec<&str>>,
-) -> Result<GetAuthTokenOutput, String> {
-    // TODO: Implementation
-    unimplemented!("get_auth_token")
+) -> Result<CreateRepositoryOutput, String> {
+    unimplemented!("create_repository")
 }
 
-/// Get ECR download URL
-pub async fn get_download_url(
-    image_digest: &str,
+/// Delete ECR Repository
+pub async fn delete_repository(
     repository_name: &str,
     region: Option<&str>,
-) -> Result<GetDownloadUrlOutput, String> {
-    // TODO: Implementation
-    unimplemented!("get_download_url")
-}
-
-/// Tag ECR image
-pub async fn tag_image(
-    image_digest: &str,
-    image_tag: &str,
-    repository_name: &str,
-    region: Option<&str>,
-) -> Result<TagImageOutput, String> {
-    // TODO: Implementation
-    unimplemented!("tag_image")
-}
-
-/// Set repository policy
-pub async fn set_repository_policy(
-    policy_text: &str,
-    repository_name: &str,
     force: Option<bool>,
-    region: Option<&str>,
-) -> Result<SetRepositoryPolicyOutput, String> {
-    // TODO: Implementation
-    unimplemented!("set_repository_policy")
+) -> Result<DeleteRepositoryOutput, String> {
+    unimplemented!("delete_repository")
 }
 
-/// Get repository policy
-pub async fn get_repository_policy(
-    repository_name: &str,
-    region: Option<&str>,
-) -> Result<GetRepositoryPolicyOutput, String> {
-    // TODO: Implementation
-    unimplemented!("get_repository_policy")
-}
-
-/// Delete repository policy
+/// Delete Repository Policy
 pub async fn delete_repository_policy(
     repository_name: &str,
     region: Option<&str>,
 ) -> Result<DeleteRepositoryPolicyOutput, String> {
-    // TODO: Implementation
     unimplemented!("delete_repository_policy")
 }
 
-/// Start image scan
-pub async fn start_image_scan(
-    image_id: HashMap<String, Value>,
+/// Describe ECR Images
+pub async fn describe_images(
     repository_name: &str,
+    image_ids: Option<Vec<HashMap<String, Value>>>,
     region: Option<&str>,
-) -> Result<StartImageScanOutput, String> {
-    // TODO: Implementation
-    unimplemented!("start_image_scan")
+) -> Result<DescribeImagesOutput, String> {
+    unimplemented!("describe_images")
 }
 
-/// Describe image scan findings
+/// Describe ECR Repositories
+pub async fn describe_repositories(
+    region: Option<&str>,
+    repository_names: Option<Vec<String>>,
+) -> Result<DescribeRepositoriesOutput, String> {
+    unimplemented!("describe_repositories")
+}
+
+/// Describe Image Scan Findings
 pub async fn describe_scan_findings(
     image_id: HashMap<String, Value>,
     repository_name: &str,
     max_results: Option<i32>,
     region: Option<&str>,
 ) -> Result<DescribeScanFindingsOutput, String> {
-    // TODO: Implementation
     unimplemented!("describe_scan_findings")
 }
 
-/// Put lifecycle policy
+/// Get ECR Authorization Token
+pub async fn get_auth_token(
+    registry_ids: Option<Vec<String>>,
+    region: Option<&str>,
+) -> Result<GetAuthTokenOutput, String> {
+    unimplemented!("get_auth_token")
+}
+
+/// Get ECR Download URL
+pub async fn get_download_url(
+    repository_name: &str,
+    image_digest: &str,
+    region: Option<&str>,
+) -> Result<GetDownloadUrlOutput, String> {
+    unimplemented!("get_download_url")
+}
+
+/// Get Lifecycle Policy
+pub async fn get_lifecycle_policy(
+    repository_name: &str,
+    region: Option<&str>,
+) -> Result<GetLifecyclePolicyOutput, String> {
+    unimplemented!("get_lifecycle_policy")
+}
+
+/// Get Repository Policy
+pub async fn get_repository_policy(
+    repository_name: &str,
+    region: Option<&str>,
+) -> Result<GetRepositoryPolicyOutput, String> {
+    unimplemented!("get_repository_policy")
+}
+
+/// List ECR Images
+pub async fn list_images(
+    repository_name: &str,
+    filter: Option<HashMap<String, Value>>,
+    region: Option<&str>,
+    max_results: Option<i32>,
+) -> Result<ListImagesOutput, String> {
+    unimplemented!("list_images")
+}
+
+/// Put ECR Image
+pub async fn put_image(
+    repository_name: &str,
+    image_manifest: &str,
+    image_tag: &str,
+    region: Option<&str>,
+) -> Result<PutImageOutput, String> {
+    unimplemented!("put_image")
+}
+
+/// Put Lifecycle Policy
 pub async fn put_lifecycle_policy(
     lifecycle_policy_text: &str,
     repository_name: &str,
     region: Option<&str>,
 ) -> Result<PutLifecyclePolicyOutput, String> {
-    // TODO: Implementation
     unimplemented!("put_lifecycle_policy")
 }
 
-/// Get lifecycle policy
-pub async fn get_lifecycle_policy(
+/// Set Repository Policy
+pub async fn set_repository_policy(
     repository_name: &str,
+    policy_text: &str,
     region: Option<&str>,
-) -> Result<GetLifecyclePolicyOutput, String> {
-    // TODO: Implementation
-    unimplemented!("get_lifecycle_policy")
+    force: Option<bool>,
+) -> Result<SetRepositoryPolicyOutput, String> {
+    unimplemented!("set_repository_policy")
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+/// Start Image Scan
+pub async fn start_image_scan(
+    image_id: HashMap<String, Value>,
+    repository_name: &str,
+    region: Option<&str>,
+) -> Result<StartImageScanOutput, String> {
+    unimplemented!("start_image_scan")
+}
 
-    #[test]
-    fn test_placeholder() {
-        // Test placeholder
-    }
+/// Tag ECR Image
+pub async fn tag_image(
+    repository_name: &str,
+    image_digest: &str,
+    image_tag: &str,
+    region: Option<&str>,
+) -> Result<TagImageOutput, String> {
+    unimplemented!("tag_image")
 }

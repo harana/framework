@@ -1,73 +1,73 @@
 - name: Send HTTP GET Request
-  class: get
+  action: get
   inputs:
-    headers: object
-    query_params: object
+    headers: Headers
+    query_params: QueryParams
     timeout: integer = 30
     url: string #required
   outputs:
     body: any
-    headers: object
+    headers: Headers
     status_code: integer
 
 - name: Send HTTP POST Request
-  class: post
+  action: post
   inputs:
     body: any
     content_type: string = "application/json"
-    headers: object
-    query_params: object
+    headers: Headers
+    query_params: QueryParams
     timeout: integer = 30
     url: string #required
   outputs:
     body: any
-    headers: object
+    headers: Headers
     status_code: integer
 
 - name: Send HTTP PUT Request
-  class: put
+  action: put
   inputs:
     body: any
     content_type: string = "application/json"
-    headers: object
-    query_params: object
+    headers: Headers
+    query_params: QueryParams
     timeout: integer = 30
     url: string #required
   outputs:
     body: any
-    headers: object
+    headers: Headers
     status_code: integer
 
 - name: Send HTTP PATCH Request
-  class: patch
+  action: patch
   inputs:
     body: any
     content_type: string = "application/json"
-    headers: object
-    query_params: object
+    headers: Headers
+    query_params: QueryParams
     timeout: integer = 30
     url: string #required
   outputs:
     body: any
-    headers: object
+    headers: Headers
     status_code: integer
 
 - name: Send HTTP DELETE Request
-  class: delete
+  action: delete
   inputs:
-    headers: object
-    query_params: object
+    headers: Headers
+    query_params: QueryParams
     timeout: integer = 30
     url: string #required
   outputs:
     body: any
-    headers: object
+    headers: Headers
     status_code: integer
 
 - name: Download File From URL
-  class: download
+  action: download
   inputs:
-    headers: object
+    headers: Headers
     timeout: integer = 300
     url: string #required
   outputs:
@@ -76,11 +76,11 @@
     size: integer
 
 - name: Upload File To URL
-  class: upload
+  action: upload
   inputs:
     file: bytes #required
     filename: string #required
-    headers: object
+    headers: Headers
     timeout: integer = 300
     url: string #required
   outputs:
@@ -88,13 +88,50 @@
     status_code: integer
 
 - name: Send GraphQL Query
-  class: graphql_query
+  action: graphql_query
   inputs:
-    headers: object
+    headers: Headers
     query: string #required
     timeout: integer = 30
     url: string #required
-    variables: object
+    variables: Variables
   outputs:
     data: any
-    errors: list[object]
+    errors: list[GraphQLError]
+
+- name: HttpRequest
+  class:
+    url: string
+    method: string
+    headers: Headers
+    query_params: QueryParams
+    body: any
+    timeout: integer
+
+- name: Headers
+  class:
+    content_type: string
+    authorization: string
+    accept: string
+    user_agent: string
+
+- name: QueryParams
+  class:
+    key: string
+    value: string
+
+- name: Variables
+  class:
+    key: string
+    value: any
+
+- name: GraphQLError
+  class:
+    message: string
+    path: list[string]
+    locations: list[GraphQLErrorLocation]
+
+- name: GraphQLErrorLocation
+  class:
+    line: integer
+    column: integer

@@ -1,40 +1,66 @@
 - name: Log Debug Message
-  class: debug
+  action: debug
   inputs:
-    context: object
+    context: LogContext
     message: string #required
   outputs:
     success: boolean
 
 - name: Log Info Message
-  class: info
+  action: info
   inputs:
-    context: object
+    context: LogContext
     message: string #required
   outputs:
     success: boolean
 
 - name: Log Warning Message
-  class: warn
+  action: warn
   inputs:
-    context: object
+    context: LogContext
     message: string #required
   outputs:
     success: boolean
 
 - name: Log Error Message
-  class: error
+  action: error
   inputs:
-    context: object
-    error: object
+    context: LogContext
+    error: LogError
     message: string #required
   outputs:
     success: boolean
 
 - name: Log Structured Data
-  class: structured
+  action: structured
   inputs:
-    data: object #required
+    data: LogData #required
     level: debug | info | warn | error #required
   outputs:
     success: boolean
+
+- name: LogEntry
+  class:
+    level: string
+    message: string
+    timestamp: datetime
+    context: LogContext
+    error: LogError
+
+- name: LogContext
+  class:
+    request_id: string
+    user_id: string
+    trace_id: string
+    span_id: string
+
+- name: LogError
+  class:
+    message: string
+    stack_trace: string
+    code: string
+
+- name: LogData
+  class:
+    key: string
+    value: any

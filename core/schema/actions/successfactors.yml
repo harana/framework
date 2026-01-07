@@ -1,0 +1,321 @@
+- name: Get Employee
+  action: get_employee
+  inputs:
+    expand: list[string]
+    select: list[string]
+    user_id: string #required
+  outputs:
+    custom_fields: map[string, any]
+    department: string
+    email: string
+    first_name: string
+    hire_date: datetime
+    job_title: string
+    last_name: string
+    manager_id: string
+    status: string
+    user_id: string
+
+- name: List Employees
+  action: list_employees
+  inputs:
+    expand: list[string]
+    filter: string
+    order_by: string
+    select: list[string]
+    skip: integer = 0
+    top: integer = 100
+  outputs:
+    count: integer
+    employees: list[SfEmployee]
+    next_link: string
+
+- name: Create Employee
+  action: create_employee
+  inputs:
+    custom_fields: map[string, any]
+    department: string
+    email: string #required
+    first_name: string #required
+    hire_date: datetime #required
+    job_title: string
+    last_name: string #required
+    manager_id: string
+    user_id: string #required
+  outputs:
+    success: boolean
+    user_id: string
+
+- name: Update Employee
+  action: update_employee
+  inputs:
+    custom_fields: map[string, any]
+    department: string
+    email: string
+    first_name: string
+    job_title: string
+    last_name: string
+    manager_id: string
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: Terminate Employee
+  action: terminate_employee
+  inputs:
+    last_day_worked: datetime
+    notes: string
+    termination_date: datetime #required
+    termination_reason: string #required
+    user_id: string #required
+  outputs:
+    success: boolean
+
+- name: Get Job Information
+  action: get_job_info
+  inputs:
+    effective_date: datetime
+    user_id: string #required
+  outputs:
+    cost_center: string
+    department: string
+    division: string
+    effective_start_date: datetime
+    employment_type: string
+    job_code: string
+    job_title: string
+    location: string
+    manager_id: string
+
+- name: List Job History
+  action: list_job_history
+  inputs:
+    end_date: datetime
+    start_date: datetime
+    user_id: string #required
+  outputs:
+    count: integer
+    job_history: list[SfJobHistoryEntry]
+
+- name: Get Compensation Information
+  action: get_compensation
+  inputs:
+    effective_date: datetime
+    user_id: string #required
+  outputs:
+    bonus_target: float
+    currency: string
+    effective_start_date: datetime
+    frequency: string
+    pay_grade: string
+    pay_type: string
+    salary: float
+
+- name: List Compensation History
+  action: list_compensation_history
+  inputs:
+    end_date: datetime
+    start_date: datetime
+    user_id: string #required
+  outputs:
+    compensation_history: list[SfCompensationEntry]
+    count: integer
+
+- name: Get Time Off Balance
+  action: get_time_off_balance
+  inputs:
+    as_of_date: datetime
+    time_type: string
+    user_id: string #required
+  outputs:
+    balances: list[SfTimeOffBalance]
+    total_balance: float
+
+- name: Request Time Off
+  action: request_time_off
+  inputs:
+    comment: string
+    duration_hours: float
+    duration_type: full_day | half_day | hours = full_day
+    end_date: datetime #required
+    start_date: datetime #required
+    time_type: string #required
+    user_id: string #required
+  outputs:
+    request_id: string
+    status: string
+    success: boolean
+
+- name: List Time Off Requests
+  action: list_time_off_requests
+  inputs:
+    end_date: datetime
+    start_date: datetime
+    status: pending | approved | rejected | cancelled
+    top: integer = 100
+    user_id: string
+  outputs:
+    count: integer
+    requests: list[SfTimeOffRequest]
+
+- name: Approve Time Off Request
+  action: approve_time_off
+  inputs:
+    comment: string
+    request_id: string #required
+  outputs:
+    success: boolean
+
+- name: Reject Time Off Request
+  action: reject_time_off
+  inputs:
+    reason: string #required
+    request_id: string #required
+  outputs:
+    success: boolean
+
+- name: Get Org Chart
+  action: get_org_chart
+  inputs:
+    depth: integer = 3
+    direction: up | down | both = both
+    user_id: string #required
+  outputs:
+    levels: integer
+    org_chart: SfOrgChartNode
+
+- name: Get Direct Reports
+  action: get_direct_reports
+  inputs:
+    include_indirect: boolean = false
+    manager_id: string #required
+  outputs:
+    count: integer
+    direct_reports: list[SfEmployee]
+
+- name: List Departments
+  action: list_departments
+  inputs:
+    filter: string
+    top: integer = 100
+  outputs:
+    count: integer
+    departments: list[SfDepartment]
+
+- name: Get Department
+  action: get_department
+  inputs:
+    department_id: string #required
+  outputs:
+    cost_center: string
+    department_id: string
+    description: string
+    head_of_department: string
+    name: string
+    parent_department_id: string
+
+- name: List Positions
+  action: list_positions
+  inputs:
+    department_id: string
+    status: active | inactive
+    top: integer = 100
+  outputs:
+    count: integer
+    positions: list[SfPosition]
+
+- name: Get Position
+  action: get_position
+  inputs:
+    position_id: string #required
+  outputs:
+    department_id: string
+    incumbent_user_id: string
+    job_code: string
+    pay_grade: string
+    position_id: string
+    status: string
+    title: string
+
+- name: Employee
+  class:
+    user_id: string
+    first_name: string
+    last_name: string
+    email: string
+    department: string
+    job_title: string
+    manager_id: string
+    hire_date: datetime
+    status: string
+    custom_fields: map[string, any]
+
+- name: SfEmployee
+  class:
+    user_id: string
+    first_name: string
+    last_name: string
+    email: string
+    department: string
+    job_title: string
+    manager_id: string
+    hire_date: datetime
+    status: string
+
+- name: SfJobHistoryEntry
+  class:
+    effective_date: datetime
+    job_title: string
+    department: string
+    job_code: string
+    employment_type: string
+
+- name: SfCompensationEntry
+  class:
+    effective_date: datetime
+    salary: float
+    currency: string
+    pay_grade: string
+    frequency: string
+
+- name: SfTimeOffBalance
+  class:
+    time_type: string
+    balance: float
+    used: float
+    pending: float
+
+- name: SfTimeOffRequest
+  class:
+    request_id: string
+    user_id: string
+    time_type: string
+    start_date: datetime
+    end_date: datetime
+    duration_hours: float
+    status: string
+    comment: string
+
+- name: SfOrgChartNode
+  class:
+    user_id: string
+    name: string
+    job_title: string
+    reports: list[SfOrgChartNode]
+
+- name: SfDepartment
+  class:
+    department_id: string
+    name: string
+    description: string
+    parent_department_id: string
+    head_of_department: string
+
+- name: SfPosition
+  class:
+    position_id: string
+    title: string
+    department_id: string
+    job_code: string
+    status: string
+    incumbent_user_id: string

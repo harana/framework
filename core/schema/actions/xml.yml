@@ -1,16 +1,16 @@
 - name: Parse XML To Object
-  class: parse
+  action: parse
   inputs:
     data: string #required
     preserve_attributes: boolean = true
     preserve_namespaces: boolean = false
   outputs:
-    result: object
+    result: XmlObject
 
 - name: Generate XML From Object
-  class: generate
+  action: generate
   inputs:
-    data: object #required
+    data: XmlObject #required
     declaration: boolean = true
     indent: boolean = true
     root_element: string = "root"
@@ -18,19 +18,46 @@
     xml: string
 
 - name: Validate XML Against XSD Schema
-  class: validate
+  action: validate
   inputs:
     data: string #required
     schema: string #required
   outputs:
-    errors: list[object]
+    errors: list[XmlValidationError]
     valid: boolean
 
 - name: Query XML With XPath
-  class: xpath_query
+  action: xpath_query
   inputs:
     data: string #required
-    namespaces: object
+    namespaces: XmlNamespaces
     query: string #required
   outputs:
     results: list[any]
+
+- name: XmlDocument
+  class:
+    content: string
+    root_element: string
+    namespaces: XmlNamespaces
+    encoding: string
+
+- name: XmlObject
+  class:
+    elements: map[string, any]
+    attributes: map[string, string]
+
+- name: XmlValidationError
+  class:
+    line: integer
+    column: integer
+    message: string
+
+- name: XmlNamespaces
+  class:
+    namespaces: list[XmlNamespace]
+
+- name: XmlNamespace
+  class:
+    prefix: string
+    uri: string

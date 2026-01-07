@@ -1,91 +1,85 @@
-// Harana Actions - AI Module
-// This module provides AI-related actions and functionality.
+// Harana Actions - Ai Module
+// This module provides ai actions and functionality.
 
 #![warn(missing_docs)]
 
 pub mod output;
 
 use std::collections::HashMap;
+use serde_json::Value;
 use output::*;
 
-/// Generate text from a prompt
-pub async fn generate_text(
-    prompt: &str,
-    max_tokens: Option<i32>,
-    model: Option<&str>,
-    temperature: Option<f32>,
-) -> Result<GenerateTextOutput, String> {
-    // TODO: Implementation
-    unimplemented!("generate_text")
-}
-
-/// Generate chat completion
+/// Generate Chat Completion
 pub async fn chat_completion(
-    messages: Vec<HashMap<String, String>>,
+    messages: Vec<HashMap<String, Value>>,
     max_tokens: Option<i32>,
-    model: Option<&str>,
+    temperature: Option<f64>,
     system_prompt: Option<&str>,
-    temperature: Option<f32>,
+    model: Option<&str>,
 ) -> Result<ChatCompletionOutput, String> {
-    // TODO: Implementation
     unimplemented!("chat_completion")
 }
 
-/// Generate embeddings from text
-pub async fn generate_embeddings(text: &str, model: Option<&str>) -> Result<GenerateEmbeddingsOutput, String> {
-    // TODO: Implementation
-    unimplemented!("generate_embeddings")
-}
-
-/// Generate image from a prompt
-pub async fn generate_image(
-    prompt: &str,
-    model: Option<&str>,
-    quality: Option<&str>,
-    size: Option<&str>,
-) -> Result<GenerateImageOutput, String> {
-    // TODO: Implementation
-    unimplemented!("generate_image")
-}
-
-/// Transcribe audio to text
-pub async fn transcribe_audio(audio: &[u8], language: Option<&str>, model: Option<&str>) -> Result<TranscribeAudioOutput, String> {
-    // TODO: Implementation
-    unimplemented!("transcribe_audio")
-}
-
-/// Classify text content
+/// Classify Text Content
 pub async fn classify_text(
+    labels: Vec<String>,
     text: &str,
-    labels: Vec<&str>,
     model: Option<&str>,
 ) -> Result<ClassifyTextOutput, String> {
-    // TODO: Implementation
     unimplemented!("classify_text")
 }
 
-/// Summarize text content
-pub async fn summarize_text(text: &str, max_length: Option<i32>, model: Option<&str>) -> Result<SummarizeTextOutput, String> {
-    // TODO: Implementation
-    unimplemented!("summarize_text")
-}
-
-/// Extract entities from text
+/// Extract Entities From Text
 pub async fn extract_entities(
     text: &str,
-    entity_types: Option<Vec<&str>>,
+    entity_types: Option<Vec<String>>,
     model: Option<&str>,
 ) -> Result<ExtractEntitiesOutput, String> {
-    // TODO: Implementation
     unimplemented!("extract_entities")
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+/// Generate Embeddings From Text
+pub async fn generate_embeddings(
+    text: &str,
+    model: Option<&str>,
+) -> Result<GenerateEmbeddingsOutput, String> {
+    unimplemented!("generate_embeddings")
+}
 
-    #[test]
-    fn test_placeholder() {
-        // Test placeholder
-    }
+/// Generate Image From Prompt
+pub async fn generate_image(
+    prompt: &str,
+    size: Option<&str>,
+    model: Option<&str>,
+    quality: Option<&str>,
+) -> Result<GenerateImageOutput, String> {
+    unimplemented!("generate_image")
+}
+
+/// Generate Text From Prompt
+pub async fn generate_text(
+    prompt: &str,
+    model: Option<&str>,
+    temperature: Option<f64>,
+    max_tokens: Option<i32>,
+) -> Result<GenerateTextOutput, String> {
+    unimplemented!("generate_text")
+}
+
+/// Summarize Text Content
+pub async fn summarize_text(
+    text: &str,
+    model: Option<&str>,
+    max_length: Option<i32>,
+) -> Result<SummarizeTextOutput, String> {
+    unimplemented!("summarize_text")
+}
+
+/// Transcribe Audio To Text
+pub async fn transcribe_audio(
+    audio: &[u8],
+    model: Option<&str>,
+    language: Option<&str>,
+) -> Result<TranscribeAudioOutput, String> {
+    unimplemented!("transcribe_audio")
 }

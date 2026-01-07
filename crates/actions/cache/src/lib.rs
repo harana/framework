@@ -1,79 +1,95 @@
 // Harana Actions - Cache Module
-// This module provides caching actions and functionality.
+// This module provides cache actions and functionality.
 
 #![warn(missing_docs)]
 
 pub mod output;
 
+use std::collections::HashMap;
 use serde_json::Value;
 use output::*;
 
-/// Get value from cache
-pub async fn get(key: &str, namespace: Option<&str>) -> Result<GetOutput, String> {
-    // TODO: Implementation
-    unimplemented!("get")
-}
-
-/// Set value in cache
-pub async fn set(key: &str, value: Value, namespace: Option<&str>, ttl: Option<i32>) -> Result<SetOutput, String> {
-    // TODO: Implementation
-    unimplemented!("set")
-}
-
-/// Delete value from cache
-pub async fn delete(key: &str, namespace: Option<&str>) -> Result<DeleteOutput, String> {
-    // TODO: Implementation
-    unimplemented!("delete")
-}
-
-/// Check if key exists
-pub async fn exists(key: &str, namespace: Option<&str>) -> Result<ExistsOutput, String> {
-    // TODO: Implementation
-    unimplemented!("exists")
-}
-
-/// Clear cache namespace
-pub async fn clear(namespace: Option<&str>, pattern: Option<&str>) -> Result<ClearOutput, String> {
-    // TODO: Implementation
+/// Clear Cache Namespace
+pub async fn clear(
+    namespace: Option<&str>,
+    pattern: Option<&str>,
+) -> Result<ClearOutput, String> {
     unimplemented!("clear")
 }
 
-/// Get multiple values
-pub async fn get_many(keys: Vec<&str>, namespace: Option<&str>) -> Result<GetManyOutput, String> {
-    // TODO: Implementation
-    unimplemented!("get_many")
-}
-
-/// Set multiple values
-pub async fn set_many(entries: Value, namespace: Option<&str>, ttl: Option<i32>) -> Result<SetManyOutput, String> {
-    // TODO: Implementation
-    unimplemented!("set_many")
-}
-
-/// Increment numeric value
-pub async fn increment(key: &str, amount: Option<i32>, namespace: Option<&str>) -> Result<IncrementOutput, String> {
-    // TODO: Implementation
-    unimplemented!("increment")
-}
-
-/// Decrement numeric value
-pub async fn decrement(key: &str, amount: Option<i32>, namespace: Option<&str>) -> Result<DecrementOutput, String> {
-    // TODO: Implementation
+/// Decrement Numeric Value
+pub async fn decrement(
+    key: &str,
+    amount: Option<i32>,
+    namespace: Option<&str>,
+) -> Result<DecrementOutput, String> {
     unimplemented!("decrement")
 }
 
-/// Get time to live
-pub async fn ttl(key: &str, namespace: Option<&str>) -> Result<TtlOutput, String> {
-    // TODO: Implementation
-    unimplemented!("ttl")
+/// Delete Value From Cache
+pub async fn delete(
+    key: &str,
+    namespace: Option<&str>,
+) -> Result<DeleteOutput, String> {
+    unimplemented!("delete")
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+/// Check If Key Exists
+pub async fn exists(
+    key: &str,
+    namespace: Option<&str>,
+) -> Result<ExistsOutput, String> {
+    unimplemented!("exists")
+}
 
-    #[test]
-    fn test_placeholder() {
-        // Test placeholder
-    }
+/// Get Value From Cache
+pub async fn get(
+    key: &str,
+    namespace: Option<&str>,
+) -> Result<GetOutput, String> {
+    unimplemented!("get")
+}
+
+/// Get Multiple Values
+pub async fn get_many(
+    keys: Vec<String>,
+    namespace: Option<&str>,
+) -> Result<GetManyOutput, String> {
+    unimplemented!("get_many")
+}
+
+/// Increment Numeric Value
+pub async fn increment(
+    key: &str,
+    namespace: Option<&str>,
+    amount: Option<i32>,
+) -> Result<IncrementOutput, String> {
+    unimplemented!("increment")
+}
+
+/// Set Value In Cache
+pub async fn set(
+    key: &str,
+    value: &str,
+    namespace: Option<&str>,
+    ttl: Option<i32>,
+) -> Result<SetOutput, String> {
+    unimplemented!("set")
+}
+
+/// Set Multiple Values
+pub async fn set_many(
+    entries: HashMap<String, Value>,
+    ttl: Option<i32>,
+    namespace: Option<&str>,
+) -> Result<SetManyOutput, String> {
+    unimplemented!("set_many")
+}
+
+/// Get Time To Live
+pub async fn ttl(
+    key: &str,
+    namespace: Option<&str>,
+) -> Result<TtlOutput, String> {
+    unimplemented!("ttl")
 }

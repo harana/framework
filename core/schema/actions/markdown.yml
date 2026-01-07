@@ -1,5 +1,5 @@
 - name: Convert Markdown To HTML
-  class: to_html
+  action: to_html
   inputs:
     data: string #required
     gfm: boolean = true
@@ -9,7 +9,7 @@
     html: string
 
 - name: Convert HTML To Markdown
-  class: from_html
+  action: from_html
   inputs:
     bullet_style: string = "-"
     code_block_style: fenced | indented = fenced
@@ -19,9 +19,19 @@
     markdown: string
 
 - name: Extract YAML Frontmatter
-  class: extract_frontmatter
+  action: extract_frontmatter
   inputs:
     data: string #required
   outputs:
     content: string
-    frontmatter: object
+    frontmatter: MarkdownFrontmatter
+
+- name: MarkdownDocument
+  class:
+    content: string
+    frontmatter: MarkdownFrontmatter
+    html: string
+
+- name: MarkdownFrontmatter
+  class:
+    data: map[string, any]

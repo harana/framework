@@ -1,0 +1,205 @@
+- name: Create Calendar Event
+  action: create_event
+  inputs:
+    all_day: boolean = false
+    attendees: list[string]
+    calendar_id: string = "primary"
+    description: string
+    end_time: datetime #required
+    location: string
+    recurrence: string
+    reminders: list[CalendarReminder]
+    start_time: datetime #required
+    timezone: string = "UTC"
+    title: string #required
+  outputs:
+    event_id: string
+    html_link: string
+    success: boolean
+
+- name: Update Calendar Event
+  action: update_event
+  inputs:
+    attendees: list[string]
+    calendar_id: string = "primary"
+    description: string
+    end_time: datetime
+    event_id: string #required
+    location: string
+    recurrence: string
+    reminders: list[CalendarReminder]
+    start_time: datetime
+    timezone: string
+    title: string
+  outputs:
+    event_id: string
+    success: boolean
+
+- name: Delete Calendar Event
+  action: delete_event
+  inputs:
+    calendar_id: string = "primary"
+    event_id: string #required
+    send_updates: none | all | external_only = all
+  outputs:
+    success: boolean
+
+- name: Get Calendar Event
+  action: get_event
+  inputs:
+    calendar_id: string = "primary"
+    event_id: string #required
+  outputs:
+    attendees: list[CalendarAttendee]
+    description: string
+    end_time: datetime
+    event_id: string
+    html_link: string
+    location: string
+    start_time: datetime
+    status: string
+    title: string
+
+- name: List Calendar Events
+  action: list_events
+  inputs:
+    calendar_id: string = "primary"
+    end_time: datetime
+    max_results: integer = 100
+    order_by: start_time | updated = start_time
+    query: string
+    single_events: boolean = true
+    start_time: datetime
+  outputs:
+    events: list[CalendarEvent]
+    next_page_token: string
+    total: integer
+
+- name: Create Calendar
+  action: create_calendar
+  inputs:
+    color: string
+    description: string
+    name: string #required
+    timezone: string = "UTC"
+  outputs:
+    calendar_id: string
+    success: boolean
+
+- name: Delete Calendar
+  action: delete_calendar
+  inputs:
+    calendar_id: string #required
+  outputs:
+    success: boolean
+
+- name: List Calendars
+  action: list_calendars
+  inputs:
+    max_results: integer = 100
+    show_hidden: boolean = false
+  outputs:
+    calendars: list[Calendar]
+    total: integer
+
+- name: Check Availability
+  action: check_availability
+  inputs:
+    calendar_ids: list[string] #required
+    end_time: datetime #required
+    start_time: datetime #required
+    timezone: string = "UTC"
+  outputs:
+    busy_periods: list[CalendarTimePeriod]
+    free_periods: list[CalendarTimePeriod]
+
+- name: Add Event Attendee
+  action: add_attendee
+  inputs:
+    calendar_id: string = "primary"
+    email: string #required
+    event_id: string #required
+    optional: boolean = false
+    send_updates: none | all | external_only = all
+  outputs:
+    success: boolean
+
+- name: Remove Event Attendee
+  action: remove_attendee
+  inputs:
+    calendar_id: string = "primary"
+    email: string #required
+    event_id: string #required
+    send_updates: none | all | external_only = all
+  outputs:
+    success: boolean
+
+- name: Respond To Event Invitation
+  action: respond_to_invitation
+  inputs:
+    calendar_id: string = "primary"
+    comment: string
+    event_id: string #required
+    response: accepted | declined | tentative #required
+  outputs:
+    success: boolean
+
+- name: Find Available Slots
+  action: find_available_slots
+  inputs:
+    attendees: list[string] #required
+    duration_minutes: integer #required
+    end_time: datetime #required
+    start_time: datetime #required
+    timezone: string = "UTC"
+    working_hours_only: boolean = true
+  outputs:
+    available_slots: list[CalendarTimeSlot]
+    total: integer
+
+- name: CalendarEvent
+  class:
+    event_id: string
+    calendar_id: string
+    title: string
+    description: string
+    start_time: datetime
+    end_time: datetime
+    timezone: string
+    location: string
+    attendees: list[CalendarAttendee]
+    recurrence: string
+    status: string
+
+- name: Calendar
+  class:
+    calendar_id: string
+    name: string
+    description: string
+    color: string
+    timezone: string
+    primary: boolean
+
+- name: CalendarAttendee
+  class:
+    email: string
+    name: string
+    response_status: string
+    optional: boolean
+
+- name: CalendarReminder
+  class:
+    method: string
+    minutes: integer
+
+- name: CalendarTimePeriod
+  class:
+    start_time: datetime
+    end_time: datetime
+    calendar_id: string
+
+- name: CalendarTimeSlot
+  class:
+    start_time: datetime
+    end_time: datetime
+    duration_minutes: integer

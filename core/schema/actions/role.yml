@@ -1,51 +1,51 @@
 - name: Create Role Definition
-  class: create
+  action: create
   inputs:
     description: string
     name: string #required
-    permissions: list[object] #required
+    permissions: list[RolePermission] #required
   outputs:
     role_id: string
     success: boolean
 
 - name: Update Role Definition
-  class: update
+  action: update
   inputs:
     description: string
     name: string
-    permissions: list[object]
+    permissions: list[RolePermission]
     role_id: string #required
   outputs:
     success: boolean
 
 - name: Delete Role Definition
-  class: delete
+  action: delete
   inputs:
     role_id: string #required
   outputs:
     success: boolean
 
 - name: List Available Roles
-  class: list
+  action: list
   inputs:
     limit: integer = 100
     offset: integer = 0
   outputs:
-    roles: list[object]
+    roles: list[RoleInfo]
     total: integer
 
 - name: Get Role Details
-  class: get
+  action: get
   inputs:
     role_id: string #required
   outputs:
     description: string
     name: string
-    permissions: list[object]
+    permissions: list[RolePermission]
     user_count: integer
 
 - name: Check Role Permission
-  class: check_permission
+  action: check_permission
   inputs:
     action: string #required
     resource: string #required
@@ -54,17 +54,17 @@
     allowed: boolean
 
 - name: Add Permission To Role
-  class: add_permission
+  action: add_permission
   inputs:
     action: string #required
-    conditions: object
+    conditions: RolePermissionConditions
     resource: string #required
     role_id: string #required
   outputs:
     success: boolean
 
 - name: Remove Permission From Role
-  class: remove_permission
+  action: remove_permission
   inputs:
     action: string #required
     resource: string #required
@@ -73,10 +73,36 @@
     success: boolean
 
 - name: Clone Role
-  class: clone
+  action: clone
   inputs:
     new_name: string #required
     source_id: string #required
   outputs:
     role_id: string
     success: boolean
+
+- name: Role
+  class:
+    role_id: string
+    name: string
+    description: string
+    permissions: list[RolePermission]
+    user_count: integer
+    created_at: datetime
+
+- name: RolePermission
+  class:
+    action: string
+    resource: string
+    conditions: RolePermissionConditions
+
+- name: RoleInfo
+  class:
+    role_id: string
+    name: string
+    description: string
+    user_count: integer
+
+- name: RolePermissionConditions
+  class:
+    conditions: map[string, any]

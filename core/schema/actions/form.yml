@@ -1,45 +1,45 @@
 - name: Validate Form Data
-  class: validate
+  action: validate
   inputs:
-    data: object #required
+    data: FormData #required
     form_id: string #required
     strict: boolean = true
   outputs:
-    errors: list[object]
+    errors: list[FormValidationError]
     valid: boolean
 
 - name: Submit Form Data
-  class: submit
+  action: submit
   inputs:
-    data: object #required
+    data: FormData #required
     form_id: string #required
     validate: boolean = true
   outputs:
-    errors: list[object]
+    errors: list[FormValidationError]
     submission_id: string
     success: boolean
 
 - name: Get Form Definition
-  class: get
+  action: get
   inputs:
     form_id: string #required
   outputs:
-    fields: list[object]
-    metadata: object
-    validation_rules: object
+    fields: list[FormField]
+    metadata: FormMetadata
+    validation_rules: FormValidationRules
 
 - name: Get Form Submission
-  class: get_submission
+  action: get_submission
   inputs:
     submission_id: string #required
   outputs:
-    data: object
+    data: FormData
     form_id: string
     status: string
     submitted_at: datetime
 
 - name: List Form Submissions
-  class: list_submissions
+  action: list_submissions
   inputs:
     end_date: datetime
     form_id: string #required
@@ -48,28 +48,28 @@
     start_date: datetime
     status: string
   outputs:
-    submissions: list[object]
+    submissions: list[FormSubmissionInfo]
     total: integer
 
 - name: Update Form Submission
-  class: update_submission
+  action: update_submission
   inputs:
-    data: object #required
+    data: FormData #required
     submission_id: string #required
     validate: boolean = true
   outputs:
-    errors: list[object]
+    errors: list[FormValidationError]
     success: boolean
 
 - name: Delete Form Submission
-  class: delete_submission
+  action: delete_submission
   inputs:
     submission_id: string #required
   outputs:
     success: boolean
 
 - name: Export Form Submissions
-  class: export_submissions
+  action: export_submissions
   inputs:
     end_date: datetime
     form_id: string #required
@@ -79,3 +79,47 @@
     content: bytes
     count: integer
     filename: string
+
+- name: FormSubmission
+  class:
+    submission_id: string
+    form_id: string
+    data: FormData
+    status: string
+    submitted_at: datetime
+    updated_at: datetime
+
+- name: FormData
+  class:
+    values: map[string, any]
+
+- name: FormValidationError
+  class:
+    field: string
+    message: string
+    code: string
+
+- name: FormField
+  class:
+    name: string
+    type: string
+    label: string
+    required: boolean
+    options: list[string]
+
+- name: FormMetadata
+  class:
+    title: string
+    description: string
+    version: string
+
+- name: FormValidationRules
+  class:
+    rules: map[string, any]
+
+- name: FormSubmissionInfo
+  class:
+    submission_id: string
+    form_id: string
+    status: string
+    submitted_at: datetime

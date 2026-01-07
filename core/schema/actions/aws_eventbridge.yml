@@ -1,0 +1,327 @@
+- name: Put EventBridge Events
+  action: put_events
+  inputs:
+    entries: list[EventBridgeEntry] #required
+    endpoint_id: string
+  outputs:
+    failed_entry_count: integer
+    entries: list[PutEventsResultEntry]
+    success: boolean
+
+- name: Create EventBridge Rule
+  action: create_rule
+  inputs:
+    name: string #required
+    event_bus_name: string = "default"
+    schedule_expression: string
+    event_pattern: string
+    state: ENABLED | DISABLED = ENABLED
+    description: string
+    role_arn: string
+    tags: EventBridgeTags
+  outputs:
+    rule_arn: string
+    success: boolean
+
+- name: Delete EventBridge Rule
+  action: delete_rule
+  inputs:
+    name: string #required
+    event_bus_name: string = "default"
+    force: boolean = false
+  outputs:
+    success: boolean
+
+- name: Describe EventBridge Rule
+  action: describe_rule
+  inputs:
+    name: string #required
+    event_bus_name: string = "default"
+  outputs:
+    name: string
+    arn: string
+    event_pattern: string
+    schedule_expression: string
+    state: string
+    description: string
+    role_arn: string
+    event_bus_name: string
+    created_by: string
+
+- name: List EventBridge Rules
+  action: list_rules
+  inputs:
+    event_bus_name: string = "default"
+    name_prefix: string
+    limit: integer = 100
+    next_token: string
+  outputs:
+    rules: list[EventBridgeRule]
+    next_token: string
+
+- name: Enable EventBridge Rule
+  action: enable_rule
+  inputs:
+    name: string #required
+    event_bus_name: string = "default"
+  outputs:
+    success: boolean
+
+- name: Disable EventBridge Rule
+  action: disable_rule
+  inputs:
+    name: string #required
+    event_bus_name: string = "default"
+  outputs:
+    success: boolean
+
+- name: Put EventBridge Targets
+  action: put_targets
+  inputs:
+    rule: string #required
+    event_bus_name: string = "default"
+    targets: list[EventBridgeTarget] #required
+  outputs:
+    failed_entry_count: integer
+    failed_entries: list[TargetFailure]
+    success: boolean
+
+- name: Remove EventBridge Targets
+  action: remove_targets
+  inputs:
+    rule: string #required
+    event_bus_name: string = "default"
+    ids: list[string] #required
+    force: boolean = false
+  outputs:
+    failed_entry_count: integer
+    failed_entries: list[TargetFailure]
+    success: boolean
+
+- name: List EventBridge Targets By Rule
+  action: list_targets_by_rule
+  inputs:
+    rule: string #required
+    event_bus_name: string = "default"
+    limit: integer = 100
+    next_token: string
+  outputs:
+    targets: list[EventBridgeTarget]
+    next_token: string
+
+- name: Create Event Bus
+  action: create_event_bus
+  inputs:
+    name: string #required
+    event_source_name: string
+    tags: EventBridgeTags
+  outputs:
+    event_bus_arn: string
+    success: boolean
+
+- name: Delete Event Bus
+  action: delete_event_bus
+  inputs:
+    name: string #required
+  outputs:
+    success: boolean
+
+- name: Describe Event Bus
+  action: describe_event_bus
+  inputs:
+    name: string = "default"
+  outputs:
+    name: string
+    arn: string
+    policy: string
+
+- name: List Event Buses
+  action: list_event_buses
+  inputs:
+    name_prefix: string
+    limit: integer = 100
+    next_token: string
+  outputs:
+    event_buses: list[EventBus]
+    next_token: string
+
+- name: Put Event Bus Permission
+  action: put_permission
+  inputs:
+    event_bus_name: string = "default"
+    action: string = "events:PutEvents"
+    principal: string #required
+    statement_id: string #required
+    condition: RuleCondition
+  outputs:
+    success: boolean
+
+- name: Remove Event Bus Permission
+  action: remove_permission
+  inputs:
+    event_bus_name: string = "default"
+    statement_id: string #required
+    remove_all_permissions: boolean = false
+  outputs:
+    success: boolean
+
+- name: Create Archive
+  action: create_archive
+  inputs:
+    archive_name: string #required
+    event_source_arn: string #required
+    description: string
+    event_pattern: string
+    retention_days: integer
+  outputs:
+    archive_arn: string
+    state: string
+    state_reason: string
+    creation_time: datetime
+    success: boolean
+
+- name: Delete Archive
+  action: delete_archive
+  inputs:
+    archive_name: string #required
+  outputs:
+    success: boolean
+
+- name: Describe Archive
+  action: describe_archive
+  inputs:
+    archive_name: string #required
+  outputs:
+    archive_arn: string
+    archive_name: string
+    event_source_arn: string
+    description: string
+    event_pattern: string
+    state: string
+    retention_days: integer
+    size_bytes: integer
+    event_count: integer
+    creation_time: datetime
+
+- name: Start Replay
+  action: start_replay
+  inputs:
+    replay_name: string #required
+    event_source_arn: string #required
+    destination: EventDestination #required
+    event_start_time: datetime #required
+    event_end_time: datetime #required
+    description: string
+  outputs:
+    replay_arn: string
+    state: string
+    state_reason: string
+    replay_start_time: datetime
+    success: boolean
+
+- name: Cancel Replay
+  action: cancel_replay
+  inputs:
+    replay_name: string #required
+  outputs:
+    state: string
+    state_reason: string
+    success: boolean
+
+- name: Describe Replay
+  action: describe_replay
+  inputs:
+    replay_name: string #required
+  outputs:
+    replay_name: string
+    replay_arn: string
+    description: string
+    state: string
+    state_reason: string
+    event_source_arn: string
+    destination: EventDestination
+    event_start_time: datetime
+    event_end_time: datetime
+    replay_start_time: datetime
+    replay_end_time: datetime
+
+- name: Test Event Pattern
+  action: test_event_pattern
+  inputs:
+    event_pattern: string #required
+    event: string #required
+  outputs:
+    result: boolean
+
+- name: EventBridgeRule
+  class:
+    name: string
+    arn: string
+    event_bus_name: string
+    event_pattern: string
+    schedule_expression: string
+    state: string
+    description: string
+    role_arn: string
+
+- name: EventBridgeEntry
+  class:
+    source: string
+    detail_type: string
+    detail: string
+    resources: list[string]
+    event_bus_name: string
+    time: datetime
+    trace_header: string
+
+- name: PutEventsResultEntry
+  class:
+    event_id: string
+    error_code: string
+    error_message: string
+
+- name: EventBridgeTags
+  class:
+    items: list[EventBridgeTag]
+
+- name: EventBridgeTag
+  class:
+    key: string
+    value: string
+
+- name: EventBridgeTarget
+  class:
+    id: string
+    arn: string
+    role_arn: string
+    input: string
+    input_path: string
+    input_transformer: InputTransformer
+
+- name: InputTransformer
+  class:
+    input_paths_map: map[string, string]
+    input_template: string
+
+- name: TargetFailure
+  class:
+    target_id: string
+    error_code: string
+    error_message: string
+
+- name: EventBus
+  class:
+    name: string
+    arn: string
+    policy: string
+
+- name: RuleCondition
+  class:
+    type: string
+    key: string
+    value: string
+
+- name: EventDestination
+  class:
+    arn: string
+    filter_arns: list[string]

@@ -1,132 +1,110 @@
 // Harana Actions - Identity Module
-// This module provides identity management actions and functionality.
+// This module provides identity actions and functionality.
 
 #![warn(missing_docs)]
 
-
 pub mod output;
+
 use std::collections::HashMap;
 use serde_json::Value;
 use output::*;
 
-/// Authenticate user credentials
+/// Authenticate User Credentials
 pub async fn authenticate(
     username: &str,
     password: &str,
     mfa_code: Option<&str>,
 ) -> Result<AuthenticateOutput, String> {
-    // TODO: Implementation
     unimplemented!("authenticate")
 }
 
-/// Verify access token
-pub async fn verify_token(
-    token: &str,
-) -> Result<VerifyTokenOutput, String> {
-    // TODO: Implementation
-    unimplemented!("verify_token")
-}
-
-/// Refresh access token
-pub async fn refresh_token(
-    refresh_token: &str,
-) -> Result<RefreshTokenOutput, String> {
-    // TODO: Implementation
-    unimplemented!("refresh_token")
-}
-
-/// Revoke access token
-pub async fn revoke_token(
-    token: &str,
-) -> Result<RevokeTokenOutput, String> {
-    // TODO: Implementation
-    unimplemented!("revoke_token")
-}
-
-/// Get user by ID
-pub async fn get_user(
+/// Change User Password
+pub async fn change_password(
+    new_password: &str,
+    current_password: &str,
     user_id: &str,
-) -> Result<GetUserOutput, String> {
-    // TODO: Implementation
-    unimplemented!("get_user")
+) -> Result<ChangePasswordOutput, String> {
+    unimplemented!("change_password")
 }
 
-/// Create new user
+/// Create New User
 pub async fn create_user(
     username: &str,
-    email: &str,
     password: &str,
-    roles: Option<Vec<&str>>,
+    email: &str,
+    roles: Option<Vec<String>>,
     metadata: Option<HashMap<String, Value>>,
 ) -> Result<CreateUserOutput, String> {
-    // TODO: Implementation
     unimplemented!("create_user")
 }
 
-/// Update user details
-pub async fn update_user(
-    user_id: &str,
-    email: Option<&str>,
-    roles: Option<Vec<&str>>,
-    metadata: Option<HashMap<String, Value>>,
-) -> Result<UpdateUserOutput, String> {
-    // TODO: Implementation
-    unimplemented!("update_user")
-}
-
-/// Delete user account
+/// Delete User Account
 pub async fn delete_user(
     user_id: &str,
     hard_delete: Option<bool>,
 ) -> Result<DeleteUserOutput, String> {
-    // TODO: Implementation
     unimplemented!("delete_user")
 }
 
-/// Change user password
-pub async fn change_password(
+/// Get User By ID
+pub async fn get_user(
     user_id: &str,
-    current_password: &str,
-    new_password: &str,
-) -> Result<ChangePasswordOutput, String> {
-    // TODO: Implementation
-    unimplemented!("change_password")
+) -> Result<GetUserOutput, String> {
+    unimplemented!("get_user")
 }
 
-/// Request password reset
+/// List Users
+pub async fn list_users(
+    limit: Option<i32>,
+    roles: Option<Vec<String>>,
+    offset: Option<i32>,
+    search: Option<&str>,
+) -> Result<ListUsersOutput, String> {
+    unimplemented!("list_users")
+}
+
+/// Refresh Access Token
+pub async fn refresh_token(
+    refresh_token: &str,
+) -> Result<RefreshTokenOutput, String> {
+    unimplemented!("refresh_token")
+}
+
+/// Request Password Reset
 pub async fn request_password_reset(
     email: &str,
 ) -> Result<RequestPasswordResetOutput, String> {
-    // TODO: Implementation
     unimplemented!("request_password_reset")
 }
 
-/// Reset password with token
+/// Reset Password With Token
 pub async fn reset_password(
     reset_token: &str,
     new_password: &str,
 ) -> Result<ResetPasswordOutput, String> {
-    // TODO: Implementation
     unimplemented!("reset_password")
 }
 
-/// List users
-pub async fn list_users(
-    limit: Option<i32>,
-    offset: Option<i32>,
-    roles: Option<Vec<&str>>,
-    search: Option<&str>,
-) -> Result<ListUsersOutput, String> {
-    // TODO: Implementation
-    unimplemented!("list_users")
+/// Revoke Access Token
+pub async fn revoke_token(
+    token: &str,
+) -> Result<RevokeTokenOutput, String> {
+    unimplemented!("revoke_token")
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+/// Update User Details
+pub async fn update_user(
+    user_id: &str,
+    metadata: Option<HashMap<String, Value>>,
+    roles: Option<Vec<String>>,
+    email: Option<&str>,
+) -> Result<UpdateUserOutput, String> {
+    unimplemented!("update_user")
+}
 
-    #[test]
-    fn test_placeholder() {
-        // Test placeholder
-    }
+/// Verify Access Token
+pub async fn verify_token(
+    token: &str,
+) -> Result<VerifyTokenOutput, String> {
+    unimplemented!("verify_token")
 }

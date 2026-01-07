@@ -1,5 +1,5 @@
 - name: Create Group
-  class: create
+  action: create
   inputs:
     description: string
     name: string #required
@@ -8,7 +8,7 @@
     success: boolean
 
 - name: Update Group
-  class: update
+  action: update
   inputs:
     description: string
     group_id: string #required
@@ -17,33 +17,33 @@
     success: boolean
 
 - name: Delete Group
-  class: delete
+  action: delete
   inputs:
     group_id: string #required
   outputs:
     success: boolean
 
 - name: Get Group Details
-  class: get
+  action: get
   inputs:
     group_id: string #required
   outputs:
     description: string
     member_count: integer
     name: string
-    roles: list[object]
+    roles: list[GroupRoleInfo]
 
 - name: List Groups
-  class: lists
+  action: lists
   inputs:
     limit: integer = 100
     offset: integer = 0
   outputs:
-    groups: list[object]
+    groups: list[GroupInfo]
     total: integer
 
 - name: Add User To Group
-  class: add_user_to
+  action: add_user_to
   inputs:
     group_id: string #required
     user_id: string #required
@@ -51,7 +51,7 @@
     success: boolean
 
 - name: Remove User From Group
-  class: remove_user_from
+  action: remove_user_from
   inputs:
     group_id: string #required
     user_id: string #required
@@ -59,17 +59,17 @@
     success: boolean
 
 - name: List Group Members
-  class: list_members
+  action: list_members
   inputs:
     group_id: string #required
     limit: integer = 100
     offset: integer = 0
   outputs:
-    members: list[object]
+    members: list[GroupMember]
     total: integer
 
 - name: Assign Role To Group
-  class: assign_role_to
+  action: assign_role_to
   inputs:
     group_id: string #required
     role_id: string #required
@@ -77,7 +77,7 @@
     success: boolean
 
 - name: Remove Role From Group
-  class: remove_role_from
+  action: remove_role_from
   inputs:
     group_id: string #required
     role_id: string #required
@@ -85,15 +85,15 @@
     success: boolean
 
 - name: List Group Roles
-  class: list_roles
+  action: list_roles
   inputs:
     group_id: string #required
   outputs:
-    roles: list[object]
+    roles: list[GroupRoleInfo]
     total: integer
 
 - name: Check Group Permission
-  class: check_permission
+  action: check_permission
   inputs:
     action: string #required
     group_id: string #required
@@ -101,3 +101,18 @@
   outputs:
     allowed: boolean
     reason: string
+
+- name: Group
+  class:
+    group_id: string
+    name: string
+    description: string
+    member_count: integer
+    roles: list[GroupRole]
+    created_at: datetime
+
+- name: GroupRole
+  class:
+    role_id: string
+    name: string
+    permissions: list[string]

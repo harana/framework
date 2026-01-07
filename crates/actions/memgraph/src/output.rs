@@ -1,49 +1,27 @@
 // Harana Actions - Memgraph Module Output Types
-// Auto-generated output structs for Memgraph action methods.
+// Auto-generated output structs for action methods.
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
 
+// create_index
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateIndexOutput {
+    pub success: bool
+}
+
 // create_node
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateNodeOutput {
     pub node_id: String,
-    pub success: bool,
+    pub success: bool
 }
 
 // create_relationship
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateRelationshipOutput {
     pub relationship_id: String,
-    pub success: bool,
-}
-
-// execute_query
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ExecuteQueryOutput {
-    pub records: Vec<HashMap<String, Value>>,
-    pub summary: HashMap<String, Value>,
-}
-
-
-// find_nodes
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct FindNodesOutput {
-    pub count: i32,
-    pub nodes: Vec<HashMap<String, Value>>
-}
-
-// find_node
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct FindNodeOutput {
-    pub found: bool,
-    pub node: HashMap<String, Value>
-}
-
-// update_node
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct UpdateNodeOutput {
     pub success: bool
 }
 
@@ -59,12 +37,31 @@ pub struct DeleteRelationshipOutput {
     pub success: bool
 }
 
-// shortest_path
+// drop_index
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ShortestPathOutput {
-    pub length: i32,
-    pub path: Vec<HashMap<String, Value>>,
+pub struct DropIndexOutput {
+    pub success: bool
+}
+
+// execute_query
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ExecuteQueryOutput {
+    pub summary: HashMap<String, Value>,
+    pub records: Vec<HashMap<String, Value>>
+}
+
+// find_node
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FindNodeOutput {
+    pub node: HashMap<String, Value>,
     pub found: bool
+}
+
+// find_nodes
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FindNodesOutput {
+    pub count: i32,
+    pub nodes: Vec<HashMap<String, Value>>
 }
 
 // find_paths
@@ -74,36 +71,31 @@ pub struct FindPathsOutput {
     pub paths: Vec<HashMap<String, Value>>
 }
 
-// get_neighbors
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GetNeighborsOutput {
-    pub neighbors: Vec<HashMap<String, Value>>
-}
-
 // get_degree
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetDegreeOutput {
     pub degree: i32
 }
 
-// create_index
+// get_neighbors
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CreateIndexOutput {
-    pub success: bool
-}
-
-// drop_index
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct DropIndexOutput {
-    pub success: bool
+pub struct GetNeighborsOutput {
+    pub neighbors: Vec<HashMap<String, Value>>
 }
 
 // get_stats
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetStatsOutput {
-    pub node_count: i32,
     pub relationship_count: i32,
+    pub node_count: i32,
     pub stats: HashMap<String, Value>
+}
+
+// match_pattern
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct MatchPatternOutput {
+    pub count: i32,
+    pub results: Vec<HashMap<String, Value>>
 }
 
 // run_algorithm
@@ -113,10 +105,16 @@ pub struct RunAlgorithmOutput {
     pub success: bool
 }
 
-// match_pattern
+// shortest_path
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct MatchPatternOutput {
-    pub results: Vec<HashMap<String, Value>>,
-    pub count: i32
+pub struct ShortestPathOutput {
+    pub length: i32,
+    pub found: bool,
+    pub path: Vec<HashMap<String, Value>>
 }
-// TODO: Add remaining output types - see core/schema/actions/memgraph.yml
+
+// update_node
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UpdateNodeOutput {
+    pub success: bool
+}

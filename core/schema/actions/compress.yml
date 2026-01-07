@@ -1,0 +1,148 @@
+- name: Compress Data With Gzip
+  action: gzip_compress
+  inputs:
+    data: bytes #required
+    level: integer = 6
+  outputs:
+    compressed: bytes
+    compressed_size: integer
+    compression_ratio: float
+    original_size: integer
+
+- name: Decompress Gzip Data
+  action: gzip_decompress
+  inputs:
+    data: bytes #required
+  outputs:
+    decompressed: bytes
+    size: integer
+
+- name: Compress Data With Zstd
+  action: zstd_compress
+  inputs:
+    data: bytes #required
+    level: integer = 3
+  outputs:
+    compressed: bytes
+    compressed_size: integer
+    compression_ratio: float
+    original_size: integer
+
+- name: Decompress Zstd Data
+  action: zstd_decompress
+  inputs:
+    data: bytes #required
+  outputs:
+    decompressed: bytes
+    size: integer
+
+- name: Compress Data With Brotli
+  action: brotli_compress
+  inputs:
+    data: bytes #required
+    quality: integer = 4
+  outputs:
+    compressed: bytes
+    compressed_size: integer
+    compression_ratio: float
+    original_size: integer
+
+- name: Decompress Brotli Data
+  action: brotli_decompress
+  inputs:
+    data: bytes #required
+  outputs:
+    decompressed: bytes
+    size: integer
+
+- name: Compress Data With LZ4
+  action: lz4_compress
+  inputs:
+    data: bytes #required
+    high_compression: boolean = false
+  outputs:
+    compressed: bytes
+    compressed_size: integer
+    compression_ratio: float
+    original_size: integer
+
+- name: Decompress LZ4 Data
+  action: lz4_decompress
+  inputs:
+    data: bytes #required
+  outputs:
+    decompressed: bytes
+    size: integer
+
+- name: Compress Data With Deflate
+  action: deflate_compress
+  inputs:
+    data: bytes #required
+    level: integer = 6
+  outputs:
+    compressed: bytes
+    compressed_size: integer
+    compression_ratio: float
+    original_size: integer
+
+- name: Decompress Deflate Data
+  action: deflate_decompress
+  inputs:
+    data: bytes #required
+  outputs:
+    decompressed: bytes
+    size: integer
+
+- name: Auto Compress Data
+  action: auto_compress
+  inputs:
+    algorithm: gzip | zstd | brotli | lz4 | deflate = gzip
+    data: bytes #required
+    optimize_for: speed | size | balanced = balanced
+  outputs:
+    algorithm_used: string
+    compressed: bytes
+    compressed_size: integer
+    compression_ratio: float
+    original_size: integer
+
+- name: Auto Decompress Data
+  action: auto_decompress
+  inputs:
+    data: bytes #required
+  outputs:
+    algorithm_detected: string
+    decompressed: bytes
+    size: integer
+
+- name: Stream Compress
+  action: stream_compress
+  inputs:
+    algorithm: gzip | zstd | brotli = gzip
+    chunk: bytes #required
+    final: boolean = false
+    stream_id: string #required
+  outputs:
+    compressed_chunk: bytes
+    total_input: integer
+    total_output: integer
+
+- name: Stream Decompress
+  action: stream_decompress
+  inputs:
+    algorithm: gzip | zstd | brotli = gzip
+    chunk: bytes #required
+    final: boolean = false
+    stream_id: string #required
+  outputs:
+    decompressed_chunk: bytes
+    total_input: integer
+    total_output: integer
+
+- name: CompressedData
+  class:
+    algorithm: string
+    original_size: integer
+    compressed_size: integer
+    compression_ratio: float
+    data: bytes

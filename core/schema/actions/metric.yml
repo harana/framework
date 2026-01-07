@@ -1,51 +1,51 @@
 - name: Record Metric Value
-  class: record_metric
+  action: record_metric
   inputs:
     name: string #required
-    tags: object
+    tags: map[string, string]
     timestamp: datetime
     value: float #required
   outputs:
     success: boolean
 
 - name: Increment Counter Metric
-  class: increment_counter
+  action: increment_counter
   inputs:
     amount: float = 1
     name: string #required
-    tags: object
+    tags: map[string, string]
   outputs:
     value: float
 
 - name: Set Gauge Value
-  class: set_gauge
+  action: set_gauge
   inputs:
     name: string #required
-    tags: object
+    tags: map[string, string]
     value: float #required
   outputs:
     success: boolean
 
 - name: Record Histogram Value
-  class: record_histogram
+  action: record_histogram
   inputs:
     buckets: list[float]
     name: string #required
-    tags: object
+    tags: map[string, string]
     value: float #required
   outputs:
     success: boolean
 
 - name: Start Timer Measurement
-  class: start_timer
+  action: start_timer
   inputs:
     name: string #required
-    tags: object
+    tags: map[string, string]
   outputs:
     timer_id: string
 
 - name: Stop Timer Measurement
-  class: stop_timer
+  action: stop_timer
   inputs:
     timer_id: string #required
   outputs:
@@ -53,24 +53,24 @@
     success: boolean
 
 - name: Query Metric Values
-  class: query_metrics
+  action: query_metrics
   inputs:
     aggregation: sum | avg | min | max | count = avg
     end_time: datetime
     interval: string = "1m"
     name: string #required
     start_time: datetime #required
-    tags: object
+    tags: map[string, string]
   outputs:
-    datapoints: list[object]
+    datapoints: list[MetricDatapoint]
     total: integer
 
 - name: Get Metric Summary
-  class: get_metric_summary
+  action: get_metric_summary
   inputs:
     name: string #required
     period: string = "1h"
-    tags: object
+    tags: map[string, string]
   outputs:
     avg: float
     count: integer
@@ -82,20 +82,40 @@
     sum: float
 
 - name: List Available Metrics
-  class: list_metrics
+  action: list_metrics
   inputs:
     limit: integer = 100
     prefix: string
   outputs:
-    metrics: list[object]
+    metrics: list[MetricInfo]
     total: integer
 
 - name: Delete Metric Data
-  class: delete_metric
+  action: delete_metric
   inputs:
     before: datetime
     name: string #required
-    tags: object
+    tags: map[string, string]
   outputs:
     deleted_count: integer
     success: boolean
+
+- name: Metric
+  class:
+    name: string
+    value: float
+    tags: map[string, string]
+    timestamp: datetime
+    type: string
+
+- name: MetricDatapoint
+  class:
+    timestamp: datetime
+    value: float
+
+- name: MetricInfo
+  class:
+    name: string
+    type: string
+    description: string
+    tags: list[string]

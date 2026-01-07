@@ -1,22 +1,22 @@
 - name: Create Payment Intent
-  class: create_payment_intent
+  action: create_payment_intent
   inputs:
     amount: integer #required
+    capture_method: automatic | manual = automatic
+    confirm: boolean = false
     currency: string #required
     customer_id: string
     description: string
-    metadata: object
+    metadata: map[string, string]
     payment_method: string
-    confirm: boolean = false
-    capture_method: automatic | manual = automatic
   outputs:
-    payment_intent_id: string
-    client_secret: string
-    status: string
     amount: integer
+    client_secret: string
+    payment_intent_id: string
+    status: string
 
 - name: Confirm Payment Intent
-  class: confirm_payment_intent
+  action: confirm_payment_intent
   inputs:
     payment_intent_id: string #required
     payment_method: string
@@ -26,54 +26,54 @@
     success: boolean
 
 - name: Capture Payment Intent
-  class: capture_payment_intent
+  action: capture_payment_intent
   inputs:
-    payment_intent_id: string #required
     amount_to_capture: integer
+    payment_intent_id: string #required
   outputs:
+    amount_captured: integer
     payment_intent_id: string
     status: string
-    amount_captured: integer
 
 - name: Cancel Payment Intent
-  class: cancel_payment_intent
+  action: cancel_payment_intent
   inputs:
-    payment_intent_id: string #required
     cancellation_reason: duplicate | fraudulent | requested_by_customer | abandoned
+    payment_intent_id: string #required
   outputs:
     payment_intent_id: string
     status: string
     success: boolean
 
 - name: Create Customer
-  class: create_customer
+  action: create_customer
   inputs:
-    email: string
-    name: string
-    phone: string
     description: string
-    metadata: object
+    email: string
+    metadata: map[string, string]
+    name: string
     payment_method: string
+    phone: string
   outputs:
+    created: integer
     customer_id: string
     email: string
-    created: integer
 
 - name: Update Customer
-  class: update_customer
+  action: update_customer
   inputs:
     customer_id: string #required
+    description: string
     email: string
+    metadata: map[string, string]
     name: string
     phone: string
-    description: string
-    metadata: object
   outputs:
     customer_id: string
     success: boolean
 
 - name: Delete Customer
-  class: delete_customer
+  action: delete_customer
   inputs:
     customer_id: string #required
   outputs:
@@ -81,132 +81,180 @@
     deleted: boolean
 
 - name: Get Customer
-  class: get_customer
+  action: get_customer
   inputs:
     customer_id: string #required
   outputs:
+    created: integer
     customer_id: string
     email: string
+    metadata: map[string, string]
     name: string
     phone: string
-    created: integer
-    metadata: object
 
 - name: Create Subscription
-  class: create_subscription
+  action: create_subscription
   inputs:
     customer_id: string #required
+    metadata: map[string, string]
     price_id: string #required
     quantity: integer = 1
     trial_period_days: integer
-    metadata: object
   outputs:
-    subscription_id: string
-    status: string
     current_period_end: integer
+    status: string
+    subscription_id: string
 
 - name: Cancel Subscription
-  class: cancel_subscription
+  action: cancel_subscription
   inputs:
-    subscription_id: string #required
     cancel_at_period_end: boolean = false
+    subscription_id: string #required
   outputs:
-    subscription_id: string
-    status: string
     canceled_at: integer
+    status: string
+    subscription_id: string
 
 - name: Create Refund
-  class: create_refund
+  action: create_refund
   inputs:
-    payment_intent_id: string #required
     amount: integer
+    metadata: map[string, string]
+    payment_intent_id: string #required
     reason: duplicate | fraudulent | requested_by_customer
-    metadata: object
   outputs:
+    amount: integer
     refund_id: string
     status: string
-    amount: integer
 
 - name: Create Price
-  class: create_price
+  action: create_price
   inputs:
-    product_id: string #required
-    unit_amount: integer #required
     currency: string #required
+    metadata: map[string, string]
+    product_id: string #required
     recurring_interval: day | week | month | year
     recurring_interval_count: integer = 1
-    metadata: object
+    unit_amount: integer #required
   outputs:
+    currency: string
     price_id: string
     unit_amount: integer
-    currency: string
 
 - name: Create Product
-  class: create_product
+  action: create_product
   inputs:
-    name: string #required
-    description: string
     active: boolean = true
-    metadata: object
+    description: string
     images: list[string]
+    metadata: map[string, string]
+    name: string #required
   outputs:
-    product_id: string
-    name: string
     created: integer
+    name: string
+    product_id: string
 
 - name: Create Checkout Session
-  class: create_checkout_session
+  action: create_checkout_session
   inputs:
-    line_items: list[object] #required
+    cancel_url: string #required
+    customer_email: string
+    customer_id: string
+    line_items: list[StripeLineItem] #required
+    metadata: map[string, string]
     mode: payment | subscription | setup #required
     success_url: string #required
-    cancel_url: string #required
-    customer_id: string
-    customer_email: string
-    metadata: object
   outputs:
     session_id: string
     url: string
 
 - name: Retrieve Payment Intent
-  class: retrieve_payment_intent
+  action: retrieve_payment_intent
   inputs:
     payment_intent_id: string #required
   outputs:
+    amount: integer
+    currency: string
+    customer_id: string
+    metadata: map[string, string]
+    payment_intent_id: string
+    status: string
+
+- name: List Customers
+  action: list_customers
+  inputs:
+    ending_before: string
+    limit: integer = 10
+    starting_after: string
+  outputs:
+    customers: list[StripeCustomer]
+    has_more: boolean
+
+- name: Create Payment Method
+  action: create_payment_method
+  inputs:
+    billing_details: StripeBillingDetails
+    card: StripeCard
+    type: card | bank_account | us_bank_account #required
+  outputs:
+    created: integer
+    payment_method_id: string
+    type: string
+
+- name: Attach Payment Method
+  action: attach_payment_method
+  inputs:
+    customer_id: string #required
+    payment_method_id: string #required
+  outputs:
+    customer_id: string
+    payment_method_id: string
+    success: boolean
+
+- name: StripePaymentIntent
+  class:
     payment_intent_id: string
     amount: integer
     currency: string
     status: string
     customer_id: string
-    metadata: object
+    payment_method: string
+    client_secret: string
+    created: datetime
 
-- name: List Customers
-  class: list_customers
-  inputs:
-    limit: integer = 10
-    starting_after: string
-    ending_before: string
-  outputs:
-    customers: list[object]
-    has_more: boolean
+- name: StripeLineItem
+  class:
+    price_id: string
+    quantity: integer
 
-- name: Create Payment Method
-  class: create_payment_method
-  inputs:
-    type: card | bank_account | us_bank_account #required
-    card: object
-    billing_details: object
-  outputs:
-    payment_method_id: string
-    type: string
-    created: integer
-
-- name: Attach Payment Method
-  class: attach_payment_method
-  inputs:
-    payment_method_id: string #required
-    customer_id: string #required
-  outputs:
-    payment_method_id: string
+- name: StripeCustomer
+  class:
     customer_id: string
-    success: boolean
+    email: string
+    name: string
+    phone: string
+    created: datetime
+    metadata: map[string, string]
+
+- name: StripeBillingDetails
+  class:
+    name: string
+    email: string
+    phone: string
+    address: StripeAddress
+
+- name: StripeAddress
+  class:
+    line1: string
+    line2: string
+    city: string
+    state: string
+    postal_code: string
+    country: string
+
+- name: StripeCard
+  class:
+    number: string
+    exp_month: integer
+    exp_year: integer
+    cvc: string

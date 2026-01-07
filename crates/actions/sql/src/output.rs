@@ -1,75 +1,31 @@
-// Harana Actions - SQL Module Output Types
-// Auto-generated output structs for SQL action methods.
+// Harana Actions - Sql Module Output Types
+// Auto-generated output structs for action methods.
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
 
-// execute
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ExecuteOutput {
-    pub affected_rows: i32,
-    pub last_insert_id: String,
-    pub success: bool,
-}
-
-// select
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SelectOutput {
-    pub column_names: Vec<String>,
-    pub count: i32,
-    pub rows: Vec<HashMap<String, Value>>,
-}
-
-// insert
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct InsertOutput {
-    pub affected_rows: i32,
-    pub last_insert_id: String,
-    pub success: bool,
-}
-
-// update
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct UpdateOutput {
-    pub affected_rows: i32,
-    pub success: bool,
-}
-
-// delete
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct DeleteOutput {
-    pub affected_rows: i32,
-    pub success: bool,
-}
-
-
 // batch
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BatchOutput {
-    pub success: bool,
-    pub results: Vec<HashMap<String, Value>>,
+    pub success_count: i32,
     pub failed_count: i32,
-    pub success_count: i32
+    pub results: Vec<HashMap<String, Value>>,
+    pub success: bool
 }
 
 // begin_transaction
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BeginTransactionOutput {
-    pub transaction_id: String,
-    pub success: bool
+    pub success: bool,
+    pub transaction_id: String
 }
 
-// commit
+// bulk_insert
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CommitOutput {
-    pub success: bool
-}
-
-// rollback
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct RollbackOutput {
-    pub success: bool
+pub struct BulkInsertOutput {
+    pub success: bool,
+    pub affected_rows: i32
 }
 
 // call_procedure
@@ -80,35 +36,9 @@ pub struct CallProcedureOutput {
     pub success: bool
 }
 
-// get_schema
+// commit
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GetSchemaOutput {
-    pub primary_key: Vec<String>,
-    pub columns: Vec<HashMap<String, Value>>,
-    pub indexes: Vec<HashMap<String, Value>>
-}
-
-// list_tables
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ListTablesOutput {
-    pub tables: Vec<String>
-}
-
-// create_table
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CreateTableOutput {
-    pub success: bool
-}
-
-// drop_table
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct DropTableOutput {
-    pub success: bool
-}
-
-// truncate_table
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct TruncateTableOutput {
+pub struct CommitOutput {
     pub success: bool
 }
 
@@ -118,24 +48,92 @@ pub struct CreateIndexOutput {
     pub success: bool
 }
 
+// create_table
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateTableOutput {
+    pub success: bool
+}
+
+// delete
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DeleteOutput {
+    pub affected_rows: i32,
+    pub success: bool
+}
+
 // drop_index
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DropIndexOutput {
     pub success: bool
 }
 
-// bulk_insert
+// drop_table
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct BulkInsertOutput {
+pub struct DropTableOutput {
+    pub success: bool
+}
+
+// execute
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ExecuteOutput {
+    pub last_insert_id: String,
     pub success: bool,
     pub affected_rows: i32
+}
+
+// get_schema
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetSchemaOutput {
+    pub columns: Vec<HashMap<String, Value>>,
+    pub primary_key: Vec<String>,
+    pub indexes: Vec<HashMap<String, Value>>
+}
+
+// insert
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct InsertOutput {
+    pub affected_rows: i32,
+    pub success: bool,
+    pub last_insert_id: String
+}
+
+// list_tables
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ListTablesOutput {
+    pub tables: Vec<String>
 }
 
 // prepared_statement
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PreparedStatementOutput {
+    pub success: bool,
     pub rows: Vec<HashMap<String, Value>>,
+    pub affected_rows: i32
+}
+
+// rollback
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RollbackOutput {
+    pub success: bool
+}
+
+// select
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SelectOutput {
+    pub column_names: Vec<String>,
+    pub rows: Vec<HashMap<String, Value>>,
+    pub count: i32
+}
+
+// truncate_table
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TruncateTableOutput {
+    pub success: bool
+}
+
+// update
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UpdateOutput {
     pub success: bool,
     pub affected_rows: i32
 }
-// TODO: Add remaining output types - see core/schema/actions/sql.yml

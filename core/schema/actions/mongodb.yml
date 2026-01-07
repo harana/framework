@@ -1,19 +1,19 @@
 - name: Insert Document
-  class: insert
+  action: insert
   inputs:
     collection: string #required
     database: string #required
-    document: object #required
+    document: MongoDocumentData #required
   outputs:
     inserted_id: string
     success: boolean
 
 - name: Insert Many Documents
-  class: insert_many
+  action: insert_many
   inputs:
     collection: string #required
     database: string #required
-    documents: list[object] #required
+    documents: list[MongoDocumentData] #required
     ordered: boolean = true
   outputs:
     inserted_count: integer
@@ -21,37 +21,37 @@
     success: boolean
 
 - name: Find Document
-  class: find_one
+  action: find_one
   inputs:
     collection: string #required
     database: string #required
-    filter: object #required
-    projection: object
+    filter: MongoFilter #required
+    projection: MongoProjection
   outputs:
-    document: object
+    document: MongoDocumentData
     found: boolean
 
 - name: Find Documents
-  class: find
+  action: find
   inputs:
     collection: string #required
     database: string #required
-    filter: object = {}
+    filter: MongoFilter = {}
     limit: integer
-    projection: object
+    projection: MongoProjection
     skip: integer = 0
-    sort: object
+    sort: MongoSort
   outputs:
     count: integer
-    documents: list[object]
+    documents: list[MongoDocumentData]
 
 - name: Update Document
-  class: update_one
+  action: update_one
   inputs:
     collection: string #required
     database: string #required
-    filter: object #required
-    update: object #required
+    filter: MongoFilter #required
+    update: MongoUpdate #required
     upsert: boolean = false
   outputs:
     matched_count: integer
@@ -60,12 +60,12 @@
     upserted_id: string
 
 - name: Update Many Documents
-  class: update_many
+  action: update_many
   inputs:
     collection: string #required
     database: string #required
-    filter: object #required
-    update: object #required
+    filter: MongoFilter #required
+    update: MongoUpdate #required
     upsert: boolean = false
   outputs:
     matched_count: integer
@@ -74,12 +74,12 @@
     upserted_id: string
 
 - name: Replace Document
-  class: replace_one
+  action: replace_one
   inputs:
     collection: string #required
     database: string #required
-    filter: object #required
-    replacement: object #required
+    filter: MongoFilter #required
+    replacement: MongoDocumentData #required
     upsert: boolean = false
   outputs:
     matched_count: integer
@@ -88,49 +88,49 @@
     upserted_id: string
 
 - name: Delete Document
-  class: delete_one
+  action: delete_one
   inputs:
     collection: string #required
     database: string #required
-    filter: object #required
+    filter: MongoFilter #required
   outputs:
     deleted_count: integer
     success: boolean
 
 - name: Delete Many Documents
-  class: delete_many
+  action: delete_many
   inputs:
     collection: string #required
     database: string #required
-    filter: object #required
+    filter: MongoFilter #required
   outputs:
     deleted_count: integer
     success: boolean
 
 - name: Count Documents
-  class: count
+  action: count
   inputs:
     collection: string #required
     database: string #required
-    filter: object = {}
+    filter: MongoFilter = {}
   outputs:
     count: integer
 
 - name: Aggregate Documents
-  class: aggregate
+  action: aggregate
   inputs:
     collection: string #required
     database: string #required
-    pipeline: list[object] #required
+    pipeline: list[MongoPipelineStage] #required
   outputs:
-    documents: list[object]
+    documents: list[MongoDocumentData]
 
 - name: Create Index
-  class: create_index
+  action: create_index
   inputs:
     collection: string #required
     database: string #required
-    keys: object #required
+    keys: MongoIndexKeys #required
     name: string
     unique: boolean = false
   outputs:
@@ -138,7 +138,7 @@
     success: boolean
 
 - name: Drop Index
-  class: drop_index
+  action: drop_index
   inputs:
     collection: string #required
     database: string #required
@@ -147,14 +147,14 @@
     success: boolean
 
 - name: List Collections
-  class: list_collections
+  action: list_collections
   inputs:
     database: string #required
   outputs:
     collections: list[string]
 
 - name: Drop Collection
-  class: drop_collection
+  action: drop_collection
   inputs:
     collection: string #required
     database: string #required
@@ -162,11 +162,11 @@
     success: boolean
 
 - name: Bulk Write Operations
-  class: bulk_write
+  action: bulk_write
   inputs:
     collection: string #required
     database: string #required
-    operations: list[object] #required
+    operations: list[MongoBulkOperation] #required
     ordered: boolean = true
   outputs:
     deleted_count: integer
@@ -175,3 +175,45 @@
     modified_count: integer
     success: boolean
     upserted_count: integer
+
+- name: MongoDocument
+  class:
+    _id: string
+    collection: string
+    database: string
+    document: MongoDocumentData
+
+- name: MongoDocumentData
+  class:
+    data: map[string, any]
+
+- name: MongoFilter
+  class:
+    conditions: map[string, any]
+
+- name: MongoProjection
+  class:
+    fields: map[string, integer]
+
+- name: MongoSort
+  class:
+    fields: map[string, integer]
+
+- name: MongoUpdate
+  class:
+    operators: map[string, any]
+
+- name: MongoPipelineStage
+  class:
+    stage: map[string, any]
+
+- name: MongoIndexKeys
+  class:
+    fields: map[string, integer]
+
+- name: MongoBulkOperation
+  class:
+    operation_type: string
+    filter: MongoFilter
+    document: MongoDocumentData
+    update: MongoUpdate

@@ -1,12 +1,12 @@
 - name: Get Current Timestamp
-  class: now
+  action: now
   inputs:
     timezone: string = "UTC"
   outputs:
     timestamp: string
 
 - name: Format Date To String
-  class: format
+  action: format
   inputs:
     date: string #required
     format: string #required
@@ -15,7 +15,7 @@
     formatted: string
 
 - name: Parse Date From String
-  class: parse
+  action: parse
   inputs:
     date: string #required
     format: string
@@ -24,7 +24,7 @@
     timestamp: string
 
 - name: Add Duration To Date
-  class: add
+  action: add
   inputs:
     amount: integer #required
     date: string #required
@@ -33,7 +33,7 @@
     result: string
 
 - name: Subtract Duration From Date
-  class: subtract
+  action: subtract
   inputs:
     amount: integer #required
     date: string #required
@@ -42,7 +42,7 @@
     result: string
 
 - name: Calculate Date Difference
-  class: diff
+  action: diff
   inputs:
     end: string #required
     start: string #required
@@ -51,7 +51,7 @@
     difference: float
 
 - name: Convert Date Timezone
-  class: convert_timezone
+  action: convert_timezone
   inputs:
     date: string #required
     from_timezone: string #required
@@ -60,7 +60,7 @@
     result: string
 
 - name: Get Start Of Period
-  class: start_of
+  action: start_of
   inputs:
     date: string #required
     period: second | minute | hour | day | week | month | year #required
@@ -69,10 +69,21 @@
     result: string
 
 - name: Get End Of Period
-  class: end_of
+  action: end_of
   inputs:
     date: string #required
     period: second | minute | hour | day | week | month | year #required
     timezone: string
   outputs:
     result: string
+
+- name: DateTime
+  class:
+    timestamp: string
+    timezone: string
+    year: integer
+    month: integer
+    day: integer
+    hour: integer
+    minute: integer
+    second: integer

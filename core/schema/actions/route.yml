@@ -1,5 +1,5 @@
 - name: Redirect To URL
-  class: redirect
+  action: redirect
   inputs:
     preserve_query: boolean = true
     status_code: integer = 302
@@ -8,19 +8,19 @@
     success: boolean
 
 - name: Forward Request To Backend
-  class: forward
+  action: forward
   inputs:
-    headers: object
+    headers: map[string, string]
     preserve_host: boolean = false
     target_url: string #required
     timeout: integer = 30
   outputs:
     body: any
-    headers: object
+    headers: map[string, string]
     status_code: integer
 
 - name: Rewrite Request Path
-  class: rewrite_path
+  action: rewrite_path
   inputs:
     pattern: string #required
     replacement: string #required
@@ -29,21 +29,21 @@
     success: boolean
 
 - name: Add Response Headers
-  class: add_headers
+  action: add_headers
   inputs:
-    headers: object #required
+    headers: map[string, string] #required
   outputs:
     success: boolean
 
 - name: Remove Response Headers
-  class: remove_headers
+  action: remove_headers
   inputs:
     headers: list[string] #required
   outputs:
     success: boolean
 
 - name: Set Response Status
-  class: set_status
+  action: set_status
   inputs:
     message: string
     status_code: integer #required
@@ -51,25 +51,25 @@
     success: boolean
 
 - name: Return JSON Response
-  class: json_response
+  action: json_response
   inputs:
     body: any #required
-    headers: object
+    headers: map[string, string]
     status_code: integer = 200
   outputs:
     success: boolean
 
 - name: Return HTML Response
-  class: html_response
+  action: html_response
   inputs:
     body: string #required
-    headers: object
+    headers: map[string, string]
     status_code: integer = 200
   outputs:
     success: boolean
 
 - name: Apply Rate Limiting
-  class: rate_limit
+  action: rate_limit
   inputs:
     key: string #required
     limit: integer #required
@@ -80,19 +80,27 @@
     reset_at: datetime
 
 - name: Match Route Pattern
-  class: match_route
+  action: match_route
   inputs:
     method: string
     path: string #required
     pattern: string #required
   outputs:
     matched: boolean
-    params: object
+    params: map[string, string]
 
 - name: Proxy WebSocket Connection
-  class: proxy_websocket
+  action: proxy_websocket
   inputs:
-    headers: object
+    headers: map[string, string]
     target_url: string #required
   outputs:
     success: boolean
+
+- name: Route
+  class:
+    path: string
+    method: string
+    handler: string
+    middleware: list[string]
+    params: map[string, string]

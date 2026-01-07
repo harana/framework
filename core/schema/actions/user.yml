@@ -1,5 +1,5 @@
 - name: Check User Permission
-  class: check_permission
+  action: check_permission
   inputs:
     action: string #required
     resource: string #required
@@ -9,10 +9,10 @@
     reason: string
 
 - name: Grant Permission To User
-  class: grant_permission
+  action: grant_permission
   inputs:
     action: string #required
-    conditions: object
+    conditions: UserPermissionConditions
     expires_at: datetime
     resource: string #required
     user_id: string #required
@@ -21,7 +21,7 @@
     success: boolean
 
 - name: Revoke User Permission
-  class: revoke_permission
+  action: revoke_permission
   inputs:
     permission_id: string #required
     user_id: string #required
@@ -29,16 +29,16 @@
     success: boolean
 
 - name: List User Permissions
-  class: list_permissions
+  action: list_permissions
   inputs:
     resource: string
     user_id: string #required
   outputs:
-    permissions: list[object]
+    permissions: list[UserPermissionInfo]
     total: integer
 
 - name: Assign Role To User
-  class: assign_role
+  action: assign_role
   inputs:
     role_id: string #required
     user_id: string #required
@@ -46,7 +46,7 @@
     success: boolean
 
 - name: Remove Role From User
-  class: remove_role
+  action: remove_role
   inputs:
     role_id: string #required
     user_id: string #required
@@ -54,18 +54,56 @@
     success: boolean
 
 - name: List User Roles
-  class: list_roles
+  action: list_roles
   inputs:
     user_id: string #required
   outputs:
-    roles: list[object]
+    roles: list[UserRoleInfo]
     total: integer
 
 - name: Get User Effective Permissions
-  class: get_effective_permissions
+  action: get_effective_permissions
   inputs:
     resource: string
     user_id: string #required
   outputs:
-    permissions: list[object]
-    sources: list[object]
+    permissions: list[EffectivePermission]
+    sources: list[PermissionSource]
+
+- name: UserPermission
+  class:
+    permission_id: string
+    user_id: string
+    action: string
+    resource: string
+    conditions: UserPermissionConditions
+    expires_at: datetime
+
+- name: UserPermissionConditions
+  class:
+    conditions: map[string, any]
+
+- name: UserPermissionInfo
+  class:
+    permission_id: string
+    action: string
+    resource: string
+    expires_at: datetime
+
+- name: UserRoleInfo
+  class:
+    role_id: string
+    name: string
+    assigned_at: datetime
+
+- name: EffectivePermission
+  class:
+    action: string
+    resource: string
+    allowed: boolean
+
+- name: PermissionSource
+  class:
+    source_type: string
+    source_id: string
+    name: string

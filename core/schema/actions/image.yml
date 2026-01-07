@@ -1,68 +1,68 @@
 - name: Resize Image
-  class: resize
+  action: resize
   inputs:
-    width: integer
-    height: integer
     fit: cover | contain | fill | inside | outside = cover
+    format: jpeg | png | webp | avif | tiff
+    height: integer
     maintain_aspect_ratio: boolean = true
     source: string #required
-    format: jpeg | png | webp | avif | tiff
-  outputs:
-    image: string
     width: integer
+  outputs:
     height: integer
+    image: string
     size: integer
+    width: integer
 
 - name: Crop Image
-  class: crop
+  action: crop
   inputs:
-    x: integer #required
-    y: integer #required
-    width: integer #required
     height: integer #required
     source: string #required
+    width: integer #required
+    x: integer #required
+    y: integer #required
   outputs:
+    height: integer
     image: string
     width: integer
-    height: integer
 
 - name: Compress Image
-  class: compress
+  action: compress
   inputs:
-    quality: integer = 80
-    source: string #required
     format: jpeg | png | webp | avif = webp
     progressive: boolean = false
+    quality: integer = 80
+    source: string #required
   outputs:
+    compression_ratio: float
     image: string
     size: integer
-    compression_ratio: float
 
 - name: Rotate Image
-  class: rotate
+  action: rotate
   inputs:
     angle: integer #required
     background: string = transparent
     source: string #required
   outputs:
+    height: integer
     image: string
     width: integer
-    height: integer
 
 - name: Generate Thumbnail
-  class: thumbnail
+  action: thumbnail
   inputs:
-    size: integer = 150
     fit: cover | contain | fill = cover
-    source: string #required
     format: jpeg | png | webp
+    size: integer = 150
+    source: string #required
   outputs:
+    height: integer
     image: string
     width: integer
-    height: integer
 
 - name: Blur Image
-  class: blur
+  action: blur
   inputs:
     sigma: float = 5.0
     source: string #required
@@ -70,14 +70,14 @@
     image: string
 
 - name: Convert To Greyscale
-  class: greyscale
+  action: greyscale
   inputs:
     source: string #required
   outputs:
     image: string
 
 - name: Flip Image
-  class: flip
+  action: flip
   inputs:
     direction: horizontal | vertical #required
     source: string #required
@@ -85,7 +85,7 @@
     image: string
 
 - name: Apply Sharpen
-  class: sharpen
+  action: sharpen
   inputs:
     sigma: float = 1.0
     source: string #required
@@ -93,7 +93,7 @@
     image: string
 
 - name: Adjust Brightness
-  class: brightness
+  action: brightness
   inputs:
     brightness: float #required
     source: string #required
@@ -101,7 +101,7 @@
     image: string
 
 - name: Adjust Contrast
-  class: contrast
+  action: contrast
   inputs:
     contrast: float #required
     source: string #required
@@ -109,7 +109,7 @@
     image: string
 
 - name: Apply Tint
-  class: tint
+  action: tint
   inputs:
     color: string #required
     source: string #required
@@ -117,35 +117,44 @@
     image: string
 
 - name: Get Image Metadata
-  class: get_metadata
+  action: get_metadata
   inputs:
     source: string #required
   outputs:
+    color_space: string
+    format: string
+    has_alpha: boolean
+    height: integer
+    orientation: integer
+    size: integer
+    width: integer
+
+- name: Convert Image Format
+  action: convert_format
+  inputs:
+    format: jpeg | png | webp | avif | tiff | gif #required
+    quality: integer = 80
+    source: string #required
+  outputs:
+    format: string
+    image: string
+    size: integer
+
+- name: Add Watermark
+  action: watermark
+  inputs:
+    opacity: float = 0.5
+    position: top-left | top-right | bottom-left | bottom-right | center = bottom-right
+    source: string #required
+    watermark: string #required
+  outputs:
+    image: string
+
+- name: Image
+  class:
+    source: string
     width: integer
     height: integer
     format: string
     size: integer
-    orientation: integer
-    has_alpha: boolean
-    color_space: string
-
-- name: Convert Image Format
-  class: convert_format
-  inputs:
-    source: string #required
-    format: jpeg | png | webp | avif | tiff | gif #required
-    quality: integer = 80
-  outputs:
-    image: string
-    format: string
-    size: integer
-
-- name: Add Watermark
-  class: watermark
-  inputs:
-    source: string #required
-    watermark: string #required
-    position: top-left | top-right | bottom-left | bottom-right | center = bottom-right
-    opacity: float = 0.5
-  outputs:
-    image: string
+    content_type: string

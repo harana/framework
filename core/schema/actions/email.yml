@@ -1,7 +1,7 @@
 - name: Send Email Message
-  class: send
+  action: send
   inputs:
-    attachments: list[object]
+    attachments: list[EmailAttachment]
     bcc: list[string]
     body: string #required
     cc: list[string]
@@ -15,22 +15,22 @@
     success: boolean
 
 - name: Send Email From Template
-  class: send_template
+  action: send_template
   inputs:
-    attachments: list[object]
+    attachments: list[EmailAttachment]
     bcc: list[string]
     cc: list[string]
     from: string
     reply_to: string
     template_id: string #required
     to: list[string] #required
-    variables: object
+    variables: map[string, string]
   outputs:
     message_id: string
     success: boolean
 
 - name: Validate Email Address
-  class: validate_email
+  action: validate_email
   inputs:
     check_mx: boolean = false
     check_smtp: boolean = false
@@ -40,7 +40,7 @@
     valid: boolean
 
 - name: Get Email Status
-  class: status
+  action: status
   inputs:
     message_id: string #required
   outputs:
@@ -51,12 +51,12 @@
     status: queued | sent | delivered | bounced | failed
 
 - name: Send Bulk Email
-  class: send_bulk
+  action: send_bulk
   inputs:
     body: string #required
     content_type: text | html = text
     from: string
-    recipients: list[object] #required
+    recipients: list[EmailRecipient] #required
     subject: string #required
   outputs:
     failed: integer
@@ -65,7 +65,7 @@
     total: integer
 
 - name: Create Email Template
-  class: create_template
+  action: create_template
   inputs:
     body: string #required
     content_type: text | html = html
@@ -77,17 +77,52 @@
     template_id: string
 
 - name: Delete Email Template
-  class: delete_template
+  action: delete_template
   inputs:
     template_id: string #required
   outputs:
     success: boolean
 
 - name: List Email Templates
-  class: list_templates
+  action: list_templates
   inputs:
     limit: integer = 100
     offset: integer = 0
   outputs:
-    templates: list[object]
+    templates: list[EmailTemplate]
     total: integer
+
+- name: EmailMessage
+  class:
+    message_id: string
+    from: string
+    to: list[string]
+    cc: list[string]
+    bcc: list[string]
+    subject: string
+    body: string
+    content_type: string
+    attachments: list[EmailAttachment]
+    status: string
+
+- name: EmailAttachment
+  class:
+    filename: string
+    content_type: string
+    content: bytes
+    size: integer
+
+- name: EmailRecipient
+  class:
+    email: string
+    name: string
+    variables: map[string, string]
+
+- name: EmailTemplate
+  class:
+    template_id: string
+    name: string
+    subject: string
+    body: string
+    content_type: string
+    variables: list[string]

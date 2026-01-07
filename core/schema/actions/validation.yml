@@ -1,15 +1,15 @@
 - name: Validate Against Schema
-  class: schema
+  action: schema
   inputs:
     data: any #required
-    schema: object #required
+    schema: ValidationSchema #required
     strict: boolean = true
   outputs:
-    errors: list[object]
+    errors: list[ValidationError]
     valid: boolean
 
 - name: Validate Single Field
-  class: field
+  action: field
   inputs:
     field_name: string
     rules: list[string] #required
@@ -19,7 +19,7 @@
     valid: boolean
 
 - name: Validate Email Format
-  class: email_format
+  action: email_format
   inputs:
     email: string #required
   outputs:
@@ -27,7 +27,7 @@
     valid: boolean
 
 - name: Validate URL Format
-  class: url
+  action: url
   inputs:
     allowed_schemes: list[string]
     url: string #required
@@ -36,7 +36,7 @@
     valid: boolean
 
 - name: Validate Phone Number
-  class: phone
+  action: phone
   inputs:
     country_code: string
     phone: string #required
@@ -46,7 +46,7 @@
     valid: boolean
 
 - name: Validate Date Format
-  class: date
+  action: date
   inputs:
     date: string #required
     format: string = "ISO8601"
@@ -56,7 +56,7 @@
     valid: boolean
 
 - name: Validate JSON Structure
-  class: json
+  action: json
   inputs:
     json_string: string #required
   outputs:
@@ -65,7 +65,7 @@
     valid: boolean
 
 - name: Validate Credit Card
-  class: credit_card
+  action: credit_card
   inputs:
     number: string #required
     luhn: boolean = true
@@ -75,7 +75,7 @@
     valid: boolean
 
 - name: Validate UUID Format
-  class: uuid
+  action: uuid
   inputs:
     uuid: string #required
     version: integer
@@ -84,7 +84,7 @@
     version: integer
 
 - name: Validate IP Address
-  class: ip
+  action: ip
   inputs:
     ip: string #required
     version: 4 | 6 | any = any
@@ -94,7 +94,7 @@
     version: integer
 
 - name: Validate Password Strength
-  class: password
+  action: password
   inputs:
     min_length: integer = 8
     password: string #required
@@ -108,11 +108,35 @@
     valid: boolean
 
 - name: Sanitize HTML Content
-  class: sanitize_html
+  action: sanitize_html
   inputs:
-    allowed_attributes: object
+    allowed_attributes: HtmlAllowedAttributes
     allowed_tags: list[string]
     html: string #required
   outputs:
     removed_count: integer
     sanitized: string
+
+- name: ValidationResult
+  class:
+    valid: boolean
+    errors: list[ValidationError]
+    field_name: string
+    value: any
+
+- name: ValidationSchema
+  class:
+    type: string
+    properties: map[string, any]
+    required: list[string]
+
+- name: ValidationError
+  class:
+    path: string
+    message: string
+    code: string
+
+- name: HtmlAllowedAttributes
+  class:
+    global: list[string]
+    per_tag: map[string, list[string]]

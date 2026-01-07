@@ -1,23 +1,23 @@
 - name: Validate Postal Address
-  class: validate
+  action: validate
   inputs:
-    address: object #required
+    address: Address #required
     country: string
   outputs:
-    errors: list[object]
+    errors: list[AddressValidationError]
     valid: boolean
 
 - name: Normalize Address Format
-  class: normalize
+  action: normalize
   inputs:
-    address: object #required
+    address: Address #required
     country: string
     format: string = "standard"
   outputs:
-    address: object
+    address: Address
 
 - name: Parse Address String To Components
-  class: parse
+  action: parse
   inputs:
     address: string #required
     country: string
@@ -29,11 +29,31 @@
     street: string
 
 - name: Get Address Autocomplete Suggestions
-  class: autocomplete
+  action: autocomplete
   inputs:
     country: string
     limit: integer = 5
     query: string #required
     types: list[string]
   outputs:
-    suggestions: list[object]
+    suggestions: list[AddressSuggestion]
+
+- name: Address
+  class:
+    street: string
+    city: string
+    state: string
+    postal_code: string
+    country: string
+
+- name: AddressValidationError
+  class:
+    field: string
+    code: string
+    message: string
+
+- name: AddressSuggestion
+  class:
+    description: string
+    place_id: string
+    address: Address

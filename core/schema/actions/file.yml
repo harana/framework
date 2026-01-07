@@ -1,5 +1,5 @@
 - name: Read Content From File
-  class: read
+  action: read
   inputs:
     mode: text | binary = text
     path: string #required
@@ -7,7 +7,7 @@
     content: string | bytes
 
 - name: Write Content To File
-  class: write
+  action: write
   inputs:
     content: string | bytes #required
     mode: text | binary = text
@@ -17,14 +17,14 @@
     success: boolean
 
 - name: Delete File At Path
-  class: delete
+  action: delete
   inputs:
     path: string #required
   outputs:
     success: boolean
 
 - name: Copy File To Destination
-  class: copy
+  action: copy
   inputs:
     from: string #required
     overwrite: boolean = false
@@ -33,7 +33,7 @@
     success: boolean
 
 - name: Move File To Destination
-  class: move
+  action: move
   inputs:
     from: string #required
     overwrite: boolean = false
@@ -42,14 +42,14 @@
     success: boolean
 
 - name: Check If File Exists
-  class: exists
+  action: exists
   inputs:
     path: string #required
   outputs:
     exists: boolean
 
 - name: Get File Metadata Info
-  class: info
+  action: info
   inputs:
     path: string #required
   outputs:
@@ -60,7 +60,7 @@
     size: integer
 
 - name: List Files In Directory
-  class: list_directory
+  action: list_directory
   inputs:
     path: string #required
     pattern: string = "*"
@@ -69,7 +69,7 @@
     files: list[string]
 
 - name: Create New Directory Path
-  class: create_directory
+  action: create_directory
   inputs:
     path: string #required
     recursive: boolean = true
@@ -77,9 +77,20 @@
     success: boolean
 
 - name: Delete Directory At Path
-  class: delete_directory
+  action: delete_directory
   inputs:
     path: string #required
     recursive: boolean = false
   outputs:
     success: boolean
+
+- name: File
+  class:
+    path: string
+    name: string
+    size: integer
+    content_type: string
+    created: datetime
+    modified: datetime
+    is_directory: boolean
+    permissions: string

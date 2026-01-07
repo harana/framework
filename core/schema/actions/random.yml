@@ -1,19 +1,19 @@
 - name: Generate Random UUID
-  class: uuid
+  action: uuid
   inputs:
     version: v4 | v7 = v4
   outputs:
     uuid: string
 
 - name: Generate Random Bytes
-  class: bytes
+  action: bytes
   inputs:
     length: integer #required
   outputs:
     bytes: bytes
 
 - name: Generate Random String
-  class: string
+  action: string
   inputs:
     charset: alphanumeric | alpha | numeric | hex = alphanumeric
     length: integer #required
@@ -21,7 +21,7 @@
     string: string
 
 - name: Generate Random Number
-  class: number
+  action: number
   inputs:
     integer: boolean = true
     max: float
@@ -30,15 +30,21 @@
     number: float
 
 - name: Random Choice From List
-  class: choice
+  action: choice
   inputs:
     items: list[any] #required
   outputs:
     item: any
 
 - name: Shuffle List Items
-  class: shuffle
+  action: shuffle
   inputs:
     items: list[any] #required
   outputs:
     items: list[any]
+
+- name: RandomValue
+  class:
+    seed: integer
+    value: any
+    type: string

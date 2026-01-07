@@ -1,161 +1,161 @@
 - name: Create Feature Flag
-  class: create_flag
+  action: create_flag
   inputs:
-    key: string #required
-    name: string #required
+    default_variation: integer = 0
     description: string
     enabled: boolean = false
-    variations: list[object] #required
-    default_variation: integer = 0
+    key: string #required
+    name: string #required
     tags: list[string]
+    variations: list[FlagVariation] #required
   outputs:
     flag_id: string
     key: string
     success: boolean
 
 - name: Update Feature Flag
-  class: update_flag
+  action: update_flag
   inputs:
-    flag_id: string #required
-    name: string
     description: string
     enabled: boolean
-    variations: list[object]
+    flag_id: string #required
+    name: string
     tags: list[string]
+    variations: list[FlagVariation]
   outputs:
     flag_id: string
     success: boolean
 
 - name: Toggle Feature Flag
-  class: toggle_flag
+  action: toggle_flag
   inputs:
-    flag_id: string #required
     enabled: boolean #required
+    flag_id: string #required
   outputs:
-    flag_id: string
     enabled: boolean
+    flag_id: string
     success: boolean
 
 - name: Delete Feature Flag
-  class: delete_flag
+  action: delete_flag
   inputs:
     flag_id: string #required
   outputs:
     success: boolean
 
 - name: Get Feature Flag
-  class: get_flag
+  action: get_flag
   inputs:
     flag_id: string #required
   outputs:
+    created_at: integer
+    description: string
+    enabled: boolean
     flag_id: string
     key: string
     name: string
-    description: string
-    enabled: boolean
-    variations: list[object]
-    created_at: integer
     updated_at: integer
+    variations: list[FlagVariation]
 
 - name: List Feature Flags
-  class: list_flags
+  action: list_flags
   inputs:
+    enabled: boolean
     limit: integer = 100
     offset: integer = 0
     tags: list[string]
-    enabled: boolean
   outputs:
-    flags: list[object]
+    flags: list[FeatureFlag]
     total: integer
 
 - name: Evaluate Feature Flag
-  class: evaluate_flag
+  action: evaluate_flag
   inputs:
+    context: FlagEvaluationContext
     flag_id: string #required
     user_id: string
-    context: object
   outputs:
-    flag_id: string
-    variation: object
     enabled: boolean
+    flag_id: string
     reason: string
+    variation: FlagVariation
 
 - name: Create Targeting Rule
-  class: create_targeting_rule
+  action: create_targeting_rule
   inputs:
+    conditions: list[FlagRuleCondition] #required
     flag_id: string #required
     name: string #required
-    conditions: list[object] #required
-    variation: integer #required
     priority: integer = 0
+    variation: integer #required
   outputs:
-    rule_id: string
     flag_id: string
+    rule_id: string
     success: boolean
 
 - name: Update Targeting Rule
-  class: update_targeting_rule
+  action: update_targeting_rule
   inputs:
-    rule_id: string #required
+    conditions: list[FlagRuleCondition]
     name: string
-    conditions: list[object]
-    variation: integer
     priority: integer
+    rule_id: string #required
+    variation: integer
   outputs:
     rule_id: string
     success: boolean
 
 - name: Delete Targeting Rule
-  class: delete_targeting_rule
+  action: delete_targeting_rule
   inputs:
     rule_id: string #required
   outputs:
     success: boolean
 
 - name: Create Percentage Rollout
-  class: create_rollout
+  action: create_rollout
   inputs:
     flag_id: string #required
-    percentages: object #required
+    percentages: map[string, integer] #required
     seed: string
   outputs:
-    rollout_id: string
     flag_id: string
+    rollout_id: string
     success: boolean
 
 - name: Update Percentage Rollout
-  class: update_rollout
+  action: update_rollout
   inputs:
+    percentages: map[string, integer] #required
     rollout_id: string #required
-    percentages: object #required
   outputs:
     rollout_id: string
     success: boolean
 
 - name: Get Flag Evaluation Count
-  class: get_evaluation_count
+  action: get_evaluation_count
   inputs:
+    end_date: integer
     flag_id: string #required
     start_date: integer
-    end_date: integer
   outputs:
     flag_id: string
     total_evaluations: integer
-    variation_counts: object
+    variation_counts: map[string, integer]
 
 - name: Create Flag Environment
-  class: create_environment
+  action: create_environment
   inputs:
-    name: string #required
-    key: string #required
     description: string
+    key: string #required
+    name: string #required
   outputs:
     environment_id: string
     key: string
     success: boolean
 
 - name: Clone Flag To Environment
-  class: clone_flag
+  action: clone_flag
   inputs:
     flag_id: string #required
     source_environment: string #required
@@ -165,19 +165,49 @@
     success: boolean
 
 - name: Archive Feature Flag
-  class: archive_flag
+  action: archive_flag
   inputs:
     flag_id: string #required
   outputs:
-    flag_id: string
     archived: boolean
+    flag_id: string
     success: boolean
 
 - name: Restore Feature Flag
-  class: restore_flag
+  action: restore_flag
   inputs:
     flag_id: string #required
   outputs:
-    flag_id: string
     archived: boolean
+    flag_id: string
     success: boolean
+
+- name: FeatureFlag
+  class:
+    flag_id: string
+    key: string
+    name: string
+    description: string
+    enabled: boolean
+    variations: list[FlagVariation]
+    default_variation: integer
+    tags: list[string]
+    created_at: datetime
+    updated_at: datetime
+
+- name: FlagVariation
+  class:
+    name: string
+    value: any
+    description: string
+
+- name: FlagEvaluationContext
+  class:
+    user_id: string
+    attributes: map[string, any]
+
+- name: FlagRuleCondition
+  class:
+    attribute: string
+    operator: string
+    value: any

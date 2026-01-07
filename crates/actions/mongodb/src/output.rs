@@ -1,64 +1,44 @@
-// Harana Actions - MongoDB Module Output Types
-// Auto-generated output structs for MongoDB action methods.
+// Harana Actions - Mongodb Module Output Types
+// Auto-generated output structs for action methods.
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
 
-// insert
+// aggregate
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct InsertOutput {
-    pub inserted_id: String,
-    pub success: bool,
+pub struct AggregateOutput {
+    pub documents: Vec<HashMap<String, Value>>
 }
 
-// insert_many
+// bulk_write
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct InsertManyOutput {
+pub struct BulkWriteOutput {
+    pub success: bool,
+    pub modified_count: i32,
+    pub matched_count: i32,
     pub inserted_count: i32,
-    pub inserted_ids: Vec<String>,
-    pub success: bool,
+    pub deleted_count: i32,
+    pub upserted_count: i32
 }
 
-// find_one
+// count
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct FindOneOutput {
-    pub document: HashMap<String, Value>,
-    pub found: bool,
+pub struct CountOutput {
+    pub count: i32
 }
 
-// find
+// create_index
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct FindOutput {
-    pub count: i32,
-    pub documents: Vec<HashMap<String, Value>>,
+pub struct CreateIndexOutput {
+    pub index_name: String,
+    pub success: bool
 }
 
-
-// update_one
+// delete_many
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct UpdateOneOutput {
-    pub upserted_id: String,
-    pub modified_count: i32,
-    pub success: bool,
-    pub matched_count: i32
-}
-
-// update_many
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct UpdateManyOutput {
-    pub modified_count: i32,
-    pub matched_count: i32,
-    pub success: bool,
-    pub upserted_id: String
-}
-
-// replace_one
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ReplaceOneOutput {
-    pub matched_count: i32,
-    pub upserted_id: String,
-    pub modified_count: i32,
+pub struct DeleteManyOutput {
+    pub deleted_count: i32,
     pub success: bool
 }
 
@@ -69,30 +49,10 @@ pub struct DeleteOneOutput {
     pub success: bool
 }
 
-// delete_many
+// drop_collection
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct DeleteManyOutput {
-    pub success: bool,
-    pub deleted_count: i32
-}
-
-// count
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CountOutput {
-    pub count: i32
-}
-
-// aggregate
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AggregateOutput {
-    pub documents: Vec<HashMap<String, Value>>
-}
-
-// create_index
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CreateIndexOutput {
-    pub success: bool,
-    pub index_name: String
+pub struct DropCollectionOutput {
+    pub success: bool
 }
 
 // drop_index
@@ -101,26 +61,64 @@ pub struct DropIndexOutput {
     pub success: bool
 }
 
+// find
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FindOutput {
+    pub documents: Vec<HashMap<String, Value>>,
+    pub count: i32
+}
+
+// find_one
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FindOneOutput {
+    pub document: HashMap<String, Value>,
+    pub found: bool
+}
+
+// insert
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct InsertOutput {
+    pub inserted_id: String,
+    pub success: bool
+}
+
+// insert_many
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct InsertManyOutput {
+    pub inserted_count: i32,
+    pub success: bool,
+    pub inserted_ids: Vec<String>
+}
+
 // list_collections
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListCollectionsOutput {
     pub collections: Vec<String>
 }
 
-// drop_collection
+// replace_one
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct DropCollectionOutput {
+pub struct ReplaceOneOutput {
+    pub upserted_id: String,
+    pub matched_count: i32,
+    pub modified_count: i32,
     pub success: bool
 }
 
-// bulk_write
+// update_many
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct BulkWriteOutput {
+pub struct UpdateManyOutput {
     pub modified_count: i32,
-    pub deleted_count: i32,
-    pub matched_count: i32,
-    pub inserted_count: i32,
+    pub upserted_id: String,
     pub success: bool,
-    pub upserted_count: i32
+    pub matched_count: i32
 }
-// TODO: Add remaining output types - see core/schema/actions/mongodb.yml
+
+// update_one
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UpdateOneOutput {
+    pub success: bool,
+    pub matched_count: i32,
+    pub upserted_id: String,
+    pub modified_count: i32
+}

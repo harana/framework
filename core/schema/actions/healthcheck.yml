@@ -1,36 +1,36 @@
 - name: Check Service Health
-  class: check_service
+  action: check_service
   inputs:
     service_name: string #required
     timeout: integer = 5
   outputs:
-    details: object
+    details: HealthDetails
     healthy: boolean
     latency_ms: integer
     status: string
 
 - name: Check Database Connection
-  class: check_database
+  action: check_database
   inputs:
     connection_name: string = "default"
     timeout: integer = 5
   outputs:
-    details: object
+    details: HealthDetails
     healthy: boolean
     latency_ms: integer
 
 - name: Check Cache Connection
-  class: check_cache
+  action: check_cache
   inputs:
     cache_name: string = "default"
     timeout: integer = 5
   outputs:
-    details: object
+    details: HealthDetails
     healthy: boolean
     latency_ms: integer
 
 - name: Check External API
-  class: check_external_api
+  action: check_external_api
   inputs:
     expected_status: integer = 200
     method: GET | HEAD = GET
@@ -42,7 +42,7 @@
     status_code: integer
 
 - name: Check Disk Space
-  class: check_disk_space
+  action: check_disk_space
   inputs:
     path: string = "/"
     threshold_percent: integer = 90
@@ -54,7 +54,7 @@
     used_bytes: integer
 
 - name: Check Memory Usage
-  class: check_memory
+  action: check_memory
   inputs:
     threshold_percent: integer = 90
   outputs:
@@ -65,22 +65,51 @@
     used_bytes: integer
 
 - name: Run All Health Checks
-  class: check_all
+  action: check_all
   inputs:
     fail_fast: boolean = false
     timeout: integer = 30
   outputs:
-    checks: list[object]
+    checks: list[HealthCheck]
     failed_count: integer
     healthy: boolean
     passed_count: integer
 
 - name: Get System Status
-  class: get_system_status
+  action: get_system_status
   inputs:
     include_metrics: boolean = true
   outputs:
-    metrics: object
+    metrics: SystemMetrics
     status: healthy | degraded | unhealthy
     uptime_seconds: integer
     version: string
+
+- name: HealthStatus
+  class:
+    service_name: string
+    healthy: boolean
+    status: string
+    latency_ms: integer
+    details: HealthDetails
+    checked_at: datetime
+
+- name: HealthDetails
+  class:
+    message: string
+    error: string
+    extra: map[string, any]
+
+- name: HealthCheck
+  class:
+    name: string
+    healthy: boolean
+    latency_ms: integer
+    error: string
+
+- name: SystemMetrics
+  class:
+    cpu_usage: float
+    memory_usage: float
+    disk_usage: float
+    active_connections: integer

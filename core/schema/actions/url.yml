@@ -1,5 +1,5 @@
 - name: Parse URL To Components
-  class: parse
+  action: parse
   inputs:
     url: string #required
   outputs:
@@ -8,22 +8,22 @@
     path: string
     port: integer
     protocol: string
-    query: object
+    query: map[string, string]
 
 - name: Build URL From Components
-  class: build
+  action: build
   inputs:
     fragment: string
     host: string #required
     path: string
     port: integer
     protocol: string = "https"
-    query: object
+    query: map[string, string]
   outputs:
     url: string
 
 - name: URL Encode String
-  class: encode
+  action: encode
   inputs:
     component: boolean = true
     data: string #required
@@ -31,7 +31,7 @@
     encoded: string
 
 - name: URL Decode String
-  class: decode
+  action: decode
   inputs:
     component: boolean = true
     data: string #required
@@ -39,7 +39,7 @@
     decoded: string
 
 - name: Create Short URL
-  class: shorten
+  action: shorten
   inputs:
     custom_alias: string
     expiration: string
@@ -48,14 +48,14 @@
     short_url: string
 
 - name: Expand Short URL To Original
-  class: expand
+  action: expand
   inputs:
     url: string #required
   outputs:
     original_url: string
 
 - name: Validate URL Format
-  class: validate
+  action: validate
   inputs:
     allowed_protocols: list[string]
     require_tld: boolean = true
@@ -63,3 +63,13 @@
   outputs:
     errors: list[string]
     valid: boolean
+
+- name: Url
+  class:
+    url: string
+    protocol: string
+    host: string
+    port: integer
+    path: string
+    query: map[string, string]
+    fragment: string

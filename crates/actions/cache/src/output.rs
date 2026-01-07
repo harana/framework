@@ -1,83 +1,20 @@
 // Harana Actions - Cache Module Output Types
-// Auto-generated output structs for Cache action methods.
+// Auto-generated output structs for action methods.
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
 
-// cache_get
+// clear
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CacheGetOutput {
-    pub found: bool,
-    pub value: Value,
+pub struct ClearOutput {
+    pub keys_deleted: i32
 }
 
-// cache_set
+// decrement
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CacheSetOutput {
-    pub success: bool,
-}
-
-// cache_delete
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CacheDeleteOutput {
-    pub success: bool,
-}
-
-// cache_exists
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CacheExistsOutput {
-    pub exists: bool,
-}
-
-// cache_clear
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CacheClearOutput {
-    pub keys_deleted: i32,
-}
-
-// cache_get_many
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CacheGetManyOutput {
-    pub values: HashMap<String, Value>,
-}
-
-// cache_set_many
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CacheSetManyOutput {
-    pub success: bool,
-}
-
-// cache_increment
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CacheIncrementOutput {
-    pub value: i32,
-}
-
-// cache_decrement
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CacheDecrementOutput {
-    pub value: i32,
-}
-
-// cache_ttl
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CacheTtlOutput {
-    pub expires_at: String, // datetime
-    pub ttl: i32,
-}
-
-// get
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GetOutput {
-    pub found: bool,
-    pub value: String
-}
-
-// set
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SetOutput {
-    pub success: bool
+pub struct DecrementOutput {
+    pub value: i32
 }
 
 // delete
@@ -92,10 +29,11 @@ pub struct ExistsOutput {
     pub exists: bool
 }
 
-// clear
+// get
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ClearOutput {
-    pub keys_deleted: i32
+pub struct GetOutput {
+    pub value: String,
+    pub found: bool
 }
 
 // get_many
@@ -104,27 +42,27 @@ pub struct GetManyOutput {
     pub values: HashMap<String, Value>
 }
 
-// set_many
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SetManyOutput {
-    pub success: bool
-}
-
 // increment
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct IncrementOutput {
     pub value: i32
 }
 
-// decrement
+// set
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct DecrementOutput {
-    pub value: i32
+pub struct SetOutput {
+    pub success: bool
+}
+
+// set_many
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SetManyOutput {
+    pub success: bool
 }
 
 // ttl
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TtlOutput {
-    pub ttl: i32,
-    pub expires_at: String
+    pub expires_at: String,
+    pub ttl: i32
 }

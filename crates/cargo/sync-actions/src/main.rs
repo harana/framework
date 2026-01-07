@@ -1,6 +1,6 @@
-mod parser;
 mod analyzer;
 mod generator;
+mod parser;
 mod syncer;
 
 use anyhow::Result;
@@ -40,6 +40,14 @@ enum Commands {
         /// Only process specific action module (e.g., aws_iam)
         #[arg(short = 'm', long)]
         module: Option<String>,
+
+        /// Force mode - remove actions that exist in code but not in YAML
+        #[arg(short, long)]
+        force: bool,
+
+        /// Replace mode - completely regenerate lib.rs and output.rs from YAML
+        #[arg(short, long)]
+        replace: bool,
     },
 }
 
@@ -52,31 +60,49 @@ fn main() -> Result<()> {
             actions_dir,
             dry_run,
             module,
+            force,
+            replace,
         } => {
             println!("🔍 Scanning schema directory: {}", schema_dir.display());
             println!("📁 Actions directory: {}", actions_dir.display());
-            
+
             if dry_run {
                 println!("🔍 DRY RUN MODE - No files will be modified");
             }
-            
+
+            if force {
+                println!("⚠️  FORCE MODE - Actions not in YAML will be removed");
+            }
+
+            if replace {
+                println!("🔄 REPLACE MODE - Files will be completely regenerated from YAML");
+            }
+
             // Parse all schema files
             let schemas = parser::parse_action_schemas(&schema_dir, module.as_deref())?;
             println!("✅ Found {} schema files", schemas.len());
 
             // Sync each schema with its corresponding Rust crate
             let mut total_added = 0;
+            let mut total_removed = 0;
             for schema in schemas {
-                let added = syncer::sync_schema(&schema, &actions_dir, dry_run)?;
+                let (added, removed) = syncer::sync_schema(&schema, &actions_dir, dry_run, force, replace)?;
                 total_added += added;
+                total_removed += removed;
             }
 
             if dry_run {
-                println!("\n🎉 Dry run complete! {} methods would be added", total_added);
+                println!(
+                    "\n🎉 Dry run complete! {} methods would be added, {} would be removed",
+                    total_added, total_removed
+                );
             } else {
-                println!("\n🎉 Sync complete! {} methods added", total_added);
+                println!(
+                    "\n🎉 Sync complete! {} methods added, {} removed",
+                    total_added, total_removed
+                );
             }
-            
+
             Ok(())
         }
     }

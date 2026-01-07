@@ -1,28 +1,28 @@
 - name: Upload Blob To Storage
-  class: upload_blob
+  action: upload_blob
   inputs:
     bucket: string #required
     content: bytes #required
     content_type: string
     key: string #required
-    metadata: object
+    metadata: BlobMetadata
   outputs:
     etag: string
     url: string
 
 - name: Download Blob From Storage
-  class: download_blob
+  action: download_blob
   inputs:
     bucket: string #required
     key: string #required
   outputs:
     content: bytes
     content_type: string
-    metadata: object
+    metadata: BlobMetadata
     size: integer
 
 - name: Delete Blob From Storage
-  class: delete_blob
+  action: delete_blob
   inputs:
     bucket: string #required
     key: string #required
@@ -30,18 +30,18 @@
     success: boolean
 
 - name: List Blobs In Bucket
-  class: list_blobs
+  action: list_blobs
   inputs:
     bucket: string #required
     continuation_token: string
     max_results: integer = 1000
     prefix: string
   outputs:
-    blobs: list[object]
+    blobs: list[BlobInfo]
     next_token: string
 
 - name: Check If Blob Exists
-  class: exists
+  action: exists
   inputs:
     bucket: string #required
     key: string #required
@@ -49,7 +49,7 @@
     exists: boolean
 
 - name: Get Blob Metadata Info
-  class: get_blob_metadata
+  action: get_blob_metadata
   inputs:
     bucket: string #required
     key: string #required
@@ -57,12 +57,12 @@
     content_type: string
     created: datetime
     etag: string
-    metadata: object
+    metadata: BlobMetadata
     modified: datetime
     size: integer
 
 - name: Copy Blob To Destination
-  class: copy_blob
+  action: copy_blob
   inputs:
     dest_bucket: string #required
     dest_key: string #required
@@ -73,7 +73,7 @@
     success: boolean
 
 - name: Generate Presigned URL
-  class: generate_presigned_url
+  action: generate_presigned_url
   inputs:
     bucket: string #required
     expires_in: integer = 3600
@@ -82,3 +82,25 @@
   outputs:
     expires_at: datetime
     url: string
+
+- name: Blob
+  class:
+    bucket: string
+    key: string
+    etag: string
+    url: string
+    content_type: string
+    size: integer
+    metadata: BlobMetadata
+
+- name: BlobMetadata
+  class:
+    values: map[string, string]
+
+- name: BlobInfo
+  class:
+    key: string
+    size: integer
+    etag: string
+    last_modified: datetime
+    content_type: string

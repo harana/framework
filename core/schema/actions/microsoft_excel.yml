@@ -1,0 +1,49 @@
+- name: Read Excel File To Data
+  action: read
+  inputs:
+    file: string #required
+    has_headers: boolean = true
+    range: string
+    sheet: string
+  outputs:
+    rows: list[ExcelRow]
+
+- name: Write Data To Excel File
+  action: write
+  inputs:
+    data: list[ExcelRow] #required
+    file: string #required
+    headers: list[string]
+    include_headers: boolean = true
+    sheet: string = "Sheet1"
+  outputs:
+    path: string
+
+- name: List Sheets In Workbook
+  action: get_sheets
+  inputs:
+    file: string #required
+  outputs:
+    sheets: list[string]
+
+- name: Read Specific Sheet
+  action: read_sheet
+  inputs:
+    file: string #required
+    has_headers: boolean = true
+    range: string
+    sheet: string #required
+  outputs:
+    rows: list[ExcelRow]
+
+- name: ExcelWorkbook
+  class:
+    path: string
+    sheets: list[string]
+    active_sheet: string
+    row_count: integer
+    column_count: integer
+
+- name: ExcelRow
+  class:
+    values: map[string, any]

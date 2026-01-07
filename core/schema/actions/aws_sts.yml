@@ -1,22 +1,22 @@
 - name: Assume STS Role
-  class: assume_role
+  action: assume_role
   inputs:
     duration_seconds: integer = 3600
     external_id: string
     policy: string
-    policy_arns: list[object]
+    policy_arns: list[StsPolicyArn]
     region: string
     role_arn: string #required
     role_session_name: string #required
     serial_number: string
     source_identity: string
-    tags: object
+    tags: Tags
     token_code: string
     transitive_tag_keys: list[string]
   outputs:
     access_key_id: string
-    assumed_role_user: object
-    credentials: object
+    assumed_role_user: AssumedRoleUser
+    credentials: StsCredentials
     expiration: datetime
     packed_policy_size: integer
     secret_access_key: string
@@ -25,20 +25,20 @@
     success: boolean
 
 - name: Assume STS Role With SAML
-  class: assume_role_with_saml
+  action: assume_role_with_saml
   inputs:
     duration_seconds: integer = 3600
     policy: string
-    policy_arns: list[object]
+    policy_arns: list[StsPolicyArn]
     principal_arn: string #required
     region: string
     role_arn: string #required
     saml_assertion: string #required
   outputs:
     access_key_id: string
-    assumed_role_user: object
+    assumed_role_user: AssumedRoleUser
     audience: string
-    credentials: object
+    credentials: StsCredentials
     expiration: datetime
     issuer: string
     name_qualifier: string
@@ -50,11 +50,11 @@
     success: boolean
 
 - name: Assume STS Role With Web Identity
-  class: assume_role_with_web_identity
+  action: assume_role_with_web_identity
   inputs:
     duration_seconds: integer = 3600
     policy: string
-    policy_arns: list[object]
+    policy_arns: list[StsPolicyArn]
     provider_id: string
     region: string
     role_arn: string #required
@@ -62,9 +62,9 @@
     web_identity_token: string #required
   outputs:
     access_key_id: string
-    assumed_role_user: object
+    assumed_role_user: AssumedRoleUser
     audience: string
-    credentials: object
+    credentials: StsCredentials
     expiration: datetime
     packed_policy_size: integer
     provider: string
@@ -75,7 +75,7 @@
     success: boolean
 
 - name: Decode STS Authorization Message
-  class: decode_authorization_message
+  action: decode_authorization_message
   inputs:
     encoded_message: string #required
     region: string
@@ -84,7 +84,7 @@
     success: boolean
 
 - name: Get STS Caller Identity
-  class: get_caller_identity
+  action: get_caller_identity
   inputs:
     region: string
   outputs:
@@ -93,7 +93,7 @@
     user_id: string
 
 - name: Get STS Session Token
-  class: get_session_token
+  action: get_session_token
   inputs:
     duration_seconds: integer = 3600
     region: string
@@ -101,36 +101,62 @@
     token_code: string
   outputs:
     access_key_id: string
-    credentials: object
+    credentials: StsCredentials
     expiration: datetime
     secret_access_key: string
     session_token: string
     success: boolean
 
 - name: Get STS Federation Token
-  class: get_federation_token
+  action: get_federation_token
   inputs:
     duration_seconds: integer = 3600
     name: string #required
     policy: string
-    policy_arns: list[object]
+    policy_arns: list[StsPolicyArn]
     region: string
-    tags: object
+    tags: Tags
   outputs:
     access_key_id: string
-    credentials: object
+    credentials: StsCredentials
     expiration: datetime
-    federated_user: object
+    federated_user: FederatedUser
     packed_policy_size: integer
     secret_access_key: string
     session_token: string
     success: boolean
 
 - name: Get STS Access Key Info
-  class: get_access_key_info
+  action: get_access_key_info
   inputs:
     access_key_id: string #required
     region: string
   outputs:
     account: string
     success: boolean
+
+- name: StsCredentials
+  class:
+    access_key_id: string
+    secret_access_key: string
+    session_token: string
+    expiration: datetime
+
+- name: AssumedRoleUser
+  class:
+    assumed_role_id: string
+    arn: string
+
+- name: FederatedUser
+  class:
+    federated_user_id: string
+    arn: string
+
+- name: Tags
+  class:
+    key: string
+    value: string
+
+- name: StsPolicyArn
+  class:
+    arn: string

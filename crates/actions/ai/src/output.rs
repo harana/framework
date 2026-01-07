@@ -1,60 +1,61 @@
-// Harana Actions - AI Module Output Types
-// Auto-generated output structs for AI action methods.
+// Harana Actions - Ai Module Output Types
+// Auto-generated output structs for action methods.
 
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use std::collections::HashMap;
-
-// generate_text
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GenerateTextOutput {
-    pub text: String,
-    pub tokens_used: i32,
-}
 
 // chat_completion
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChatCompletionOutput {
     pub response: String,
-    pub tokens_used: i32,
+    pub tokens_used: i32
+}
+
+// classify_text
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ClassifyTextOutput {
+    pub confidence: f64,
+    pub label: String,
+    pub scores: HashMap<String, Value>
+}
+
+// extract_entities
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ExtractEntitiesOutput {
+    pub entities: Vec<HashMap<String, Value>>
 }
 
 // generate_embeddings
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GenerateEmbeddingsOutput {
     pub dimensions: i32,
-    pub embeddings: Vec<f32>,
+    pub embeddings: Vec<f64>
 }
 
 // generate_image
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GenerateImageOutput {
-    pub base64: String,
     pub url: String,
+    pub base64: String
 }
 
-// transcribe_audio
+// generate_text
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct TranscribeAudioOutput {
-    pub duration: f32,
+pub struct GenerateTextOutput {
     pub text: String,
-}
-
-// classify_text
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ClassifyTextOutput {
-    pub confidence: f32,
-    pub label: String,
-    pub scores: HashMap<String, serde_json::Value>,
+    pub tokens_used: i32
 }
 
 // summarize_text
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SummarizeTextOutput {
-    pub summary: String,
+    pub summary: String
 }
 
-// extract_entities
+// transcribe_audio
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ExtractEntitiesOutput {
-    pub entities: Vec<HashMap<String, String>>,
+pub struct TranscribeAudioOutput {
+    pub duration: f64,
+    pub text: String
 }

@@ -1,123 +1,80 @@
 // Harana Actions - Form Module
-// This module provides form handling actions and functionality.
+// This module provides form actions and functionality.
 
 #![warn(missing_docs)]
 
-
 pub mod output;
+
 use std::collections::HashMap;
 use serde_json::Value;
 use output::*;
 
-/// Validate form data
-pub async fn validate_form(
-    form_id: &str,
-    data: HashMap<String, Value>,
-    strict: Option<bool>,
-) -> Result<ValidateFormOutput, String> {
-    // TODO: Implementation
-    unimplemented!("validate_form")
+/// Delete Form Submission
+pub async fn delete_submission(
+    submission_id: &str,
+) -> Result<DeleteSubmissionOutput, String> {
+    unimplemented!("delete_submission")
 }
 
-/// Submit form data
-pub async fn submit_form(
+/// Export Form Submissions
+pub async fn export_submissions(
     form_id: &str,
-    data: HashMap<String, Value>,
-    validate: Option<bool>,
-) -> Result<SubmitFormOutput, String> {
-    // TODO: Implementation
-    unimplemented!("submit_form")
+    format: Option<&str>,
+    end_date: Option<&str>,
+    start_date: Option<&str>,
+) -> Result<ExportSubmissionsOutput, String> {
+    unimplemented!("export_submissions")
 }
 
-/// Get form definition
-pub async fn get_form(
+/// Get Form Definition
+pub async fn get(
     form_id: &str,
-) -> Result<GetFormOutput, String> {
-    // TODO: Implementation
-    unimplemented!("get_form")
+) -> Result<GetOutput, String> {
+    unimplemented!("get")
 }
 
-/// Get form submission
+/// Get Form Submission
 pub async fn get_submission(
     submission_id: &str,
 ) -> Result<GetSubmissionOutput, String> {
-    // TODO: Implementation
     unimplemented!("get_submission")
 }
 
-/// List form submissions
+/// List Form Submissions
 pub async fn list_submissions(
     form_id: &str,
-    start_date: Option<String>,
-    end_date: Option<String>,
-    status: Option<&str>,
-    limit: Option<i32>,
     offset: Option<i32>,
+    end_date: Option<&str>,
+    start_date: Option<&str>,
+    limit: Option<i32>,
+    status: Option<&str>,
 ) -> Result<ListSubmissionsOutput, String> {
-    // TODO: Implementation
     unimplemented!("list_submissions")
 }
 
-/// Update form submission
+/// Submit Form Data
+pub async fn submit(
+    data: HashMap<String, Value>,
+    form_id: &str,
+    validate: Option<bool>,
+) -> Result<SubmitOutput, String> {
+    unimplemented!("submit")
+}
+
+/// Update Form Submission
 pub async fn update_submission(
     submission_id: &str,
     data: HashMap<String, Value>,
     validate: Option<bool>,
 ) -> Result<UpdateSubmissionOutput, String> {
-    // TODO: Implementation
     unimplemented!("update_submission")
 }
 
-/// Delete form submission
-pub async fn delete_submission(
-    submission_id: &str,
-) -> Result<DeleteSubmissionOutput, String> {
-    // TODO: Implementation
-    unimplemented!("delete_submission")
-}
-
-/// Export form submissions
-pub async fn export_submissions(
-    form_id: &str,
-    format: Option<&str>,
-    start_date: Option<String>,
-    end_date: Option<String>,
-) -> Result<ExportSubmissionsOutput, String> {
-    // TODO: Implementation
-    unimplemented!("export_submissions")
-}
-
-
 /// Validate Form Data
 pub async fn validate(
-    data: Option<HashMap<String, Value>>,
-    form_id: Option<&str>,
+    form_id: &str,
+    data: HashMap<String, Value>,
     strict: Option<bool>,
 ) -> Result<ValidateOutput, String> {
     unimplemented!("validate")
-}
-
-/// Submit Form Data
-pub async fn submit(
-    validate: Option<bool>,
-    form_id: Option<&str>,
-    data: Option<HashMap<String, Value>>,
-) -> Result<SubmitOutput, String> {
-    unimplemented!("submit")
-}
-
-/// Get Form Definition
-pub async fn get(
-    form_id: Option<&str>,
-) -> Result<GetOutput, String> {
-    unimplemented!("get")
-}
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_placeholder() {
-        // Test placeholder
-    }
 }

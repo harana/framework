@@ -1,5 +1,5 @@
 - name: Schedule Job For Execution
-  class: schedule
+  action: schedule
   inputs:
     cron: string
     handler: string #required
@@ -12,14 +12,14 @@
     scheduled_at: datetime
 
 - name: Cancel Scheduled Job
-  class: cancel
+  action: cancel
   inputs:
     job_id: string #required
   outputs:
     success: boolean
 
 - name: Get Job Status
-  class: get_status
+  action: get_status
   inputs:
     job_id: string #required
   outputs:
@@ -31,7 +31,7 @@
     status: pending | running | completed | failed | cancelled
 
 - name: Retry Failed Job
-  class: retry
+  action: retry
   inputs:
     delay_seconds: integer = 0
     job_id: string #required
@@ -40,7 +40,7 @@
     success: boolean
 
 - name: List Jobs By Status
-  class: lists
+  action: lists
   inputs:
     end_date: datetime
     handler: string
@@ -49,25 +49,25 @@
     start_date: datetime
     status: string
   outputs:
-    jobs: list[object]
+    jobs: list[JobInfo]
     total: integer
 
 - name: Pause Job Execution
-  class: pause
+  action: pause
   inputs:
     job_id: string #required
   outputs:
     success: boolean
 
 - name: Resume Paused Job
-  class: resume
+  action: resume
   inputs:
     job_id: string #required
   outputs:
     success: boolean
 
 - name: Get Job Result
-  class: get_result
+  action: get_result
   inputs:
     job_id: string #required
     timeout: integer = 0
@@ -77,7 +77,7 @@
     result: any
 
 - name: Update Job Progress
-  class: update_progress
+  action: update_progress
   inputs:
     job_id: string #required
     message: string
@@ -86,8 +86,34 @@
     success: boolean
 
 - name: Delete Job Record
-  class: delete
+  action: delete
   inputs:
     job_id: string #required
   outputs:
     success: boolean
+
+- name: Job
+  class:
+    job_id: string
+    name: string
+    handler: string
+    payload: any
+    status: string
+    priority: string
+    scheduled_at: datetime
+    started_at: datetime
+    completed_at: datetime
+    progress: float
+    result: any
+    error: string
+
+- name: JobInfo
+  class:
+    job_id: string
+    name: string
+    handler: string
+    status: string
+    priority: string
+    scheduled_at: datetime
+    started_at: datetime
+    completed_at: datetime

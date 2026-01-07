@@ -1,17 +1,17 @@
 - name: Create Node
-  class: create_node
+  action: create_node
   inputs:
     labels: list[string]
-    properties: object
+    properties: NodeProperties
   outputs:
     node_id: string
     success: boolean
 
 - name: Create Relationship
-  class: create_relationship
+  action: create_relationship
   inputs:
     from_node_id: string #required
-    properties: object
+    properties: RelationshipProperties
     to_node_id: string #required
     type: string #required
   outputs:
@@ -19,34 +19,34 @@
     success: boolean
 
 - name: Find Nodes
-  class: find_nodes
+  action: find_nodes
   inputs:
     labels: list[string]
     limit: integer
-    properties: object
+    properties: NodeProperties
     skip: integer = 0
   outputs:
     count: integer
-    nodes: list[object]
+    nodes: list[GraphNode]
 
 - name: Find Node By ID
-  class: find_node
+  action: find_node
   inputs:
     node_id: string #required
   outputs:
     found: boolean
-    node: object
+    node: GraphNode
 
 - name: Update Node
-  class: update_node
+  action: update_node
   inputs:
     node_id: string #required
-    properties: object #required
+    properties: NodeProperties #required
   outputs:
     success: boolean
 
 - name: Delete Node
-  class: delete_node
+  action: delete_node
   inputs:
     detach: boolean = true
     node_id: string #required
@@ -54,23 +54,23 @@
     success: boolean
 
 - name: Delete Relationship
-  class: delete_relationship
+  action: delete_relationship
   inputs:
     relationship_id: string #required
   outputs:
     success: boolean
 
 - name: Execute Cypher Query
-  class: execute_query
+  action: execute_query
   inputs:
-    parameters: object
+    parameters: map[string, any]
     query: string #required
   outputs:
-    records: list[object]
-    summary: object
+    records: list[map[string, any]]
+    summary: QuerySummary
 
 - name: Find Shortest Path
-  class: shortest_path
+  action: shortest_path
   inputs:
     from_node_id: string #required
     max_depth: integer
@@ -79,10 +79,10 @@
   outputs:
     found: boolean
     length: integer
-    path: list[object]
+    path: list[GraphPathElement]
 
 - name: Find All Paths
-  class: find_paths
+  action: find_paths
   inputs:
     from_node_id: string #required
     limit: integer = 100
@@ -91,20 +91,20 @@
     to_node_id: string #required
   outputs:
     count: integer
-    paths: list[object]
+    paths: list[GraphPath]
 
 - name: Get Node Neighbors
-  class: get_neighbors
+  action: get_neighbors
   inputs:
     depth: integer = 1
     direction: incoming | outgoing | both = both
     node_id: string #required
     relationship_types: list[string]
   outputs:
-    neighbors: list[object]
+    neighbors: list[GraphNode]
 
 - name: Get Node Degree
-  class: get_degree
+  action: get_degree
   inputs:
     direction: incoming | outgoing | both = both
     node_id: string #required
@@ -113,7 +113,7 @@
     degree: integer
 
 - name: Create Index
-  class: create_index
+  action: create_index
   inputs:
     label: string #required
     property: string #required
@@ -121,7 +121,7 @@
     success: boolean
 
 - name: Drop Index
-  class: drop_index
+  action: drop_index
   inputs:
     label: string #required
     property: string #required
@@ -129,29 +129,65 @@
     success: boolean
 
 - name: Get Graph Stats
-  class: get_stats
+  action: get_stats
   inputs: {}
   outputs:
     node_count: integer
     relationship_count: integer
-    stats: object
+    stats: GraphStats
 
 - name: Run Graph Algorithm
-  class: run_algorithm
+  action: run_algorithm
   inputs:
     algorithm: pagerank | betweenness | closeness | degree_centrality #required
-    parameters: object
+    parameters: map[string, any]
   outputs:
-    results: list[object]
+    results: list[AlgorithmResult]
     success: boolean
 
 - name: Match Pattern
-  class: match_pattern
+  action: match_pattern
   inputs:
     limit: integer
-    parameters: object
+    parameters: map[string, any]
     pattern: string #required
     where_clause: string
   outputs:
     count: integer
-    results: list[object]
+    results: list[map[string, any]]
+
+- name: GraphNode
+  class:
+    node_id: string
+    labels: list[string]
+    properties: map[string, any]
+
+- name: QuerySummary
+  class:
+    nodes_created: integer
+    nodes_deleted: integer
+    relationships_created: integer
+    relationships_deleted: integer
+    properties_set: integer
+
+- name: GraphPathElement
+  class:
+    node_id: string
+    relationship_id: string
+    relationship_type: string
+
+- name: GraphPath
+  class:
+    elements: list[GraphPathElement]
+    length: integer
+
+- name: GraphStats
+  class:
+    labels: map[string, integer]
+    relationship_types: map[string, integer]
+    indexes: list[string]
+
+- name: AlgorithmResult
+  class:
+    node_id: string
+    score: float

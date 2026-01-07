@@ -1,0 +1,225 @@
+- name: Generate Text Content
+  action: generate_content
+  inputs:
+    max_output_tokens: integer = 1024
+    model: gemini-pro | gemini-pro-vision | gemini-ultra = gemini-pro
+    prompt: string #required
+    safety_settings: list[GeminiSafetySetting]
+    stop_sequences: list[string]
+    temperature: float = 0.7
+    top_k: integer = 40
+    top_p: float = 0.95
+  outputs:
+    finish_reason: string
+    safety_ratings: list[GeminiSafetyRating]
+    text: string
+    usage: GeminiUsage
+
+- name: Generate Chat Response
+  action: chat
+  inputs:
+    max_output_tokens: integer = 1024
+    messages: list[GeminiChatMessage] #required
+    model: gemini-pro | gemini-ultra = gemini-pro
+    safety_settings: list[GeminiSafetySetting]
+    temperature: float = 0.7
+    top_k: integer = 40
+    top_p: float = 0.95
+  outputs:
+    finish_reason: string
+    response: string
+    safety_ratings: list[GeminiSafetyRating]
+    usage: GeminiUsage
+
+- name: Generate From Multimodal Input
+  action: generate_multimodal
+  inputs:
+    audio: list[bytes]
+    images: list[bytes]
+    max_output_tokens: integer = 1024
+    model: gemini-pro-vision | gemini-ultra-vision = gemini-pro-vision
+    prompt: string #required
+    temperature: float = 0.4
+    videos: list[bytes]
+  outputs:
+    finish_reason: string
+    safety_ratings: list[GeminiSafetyRating]
+    text: string
+    usage: GeminiUsage
+
+- name: Stream Generate Content
+  action: stream_generate
+  inputs:
+    max_output_tokens: integer = 1024
+    model: gemini-pro | gemini-ultra = gemini-pro
+    prompt: string #required
+    temperature: float = 0.7
+  outputs:
+    stream_id: string
+    success: boolean
+
+- name: Generate Embeddings
+  action: embed_content
+  inputs:
+    content: string #required
+    model: embedding-001 = embedding-001
+    task_type: retrieval_query | retrieval_document | semantic_similarity | classification | clustering
+  outputs:
+    dimensions: integer
+    embedding: list[float]
+
+- name: Batch Generate Embeddings
+  action: batch_embed
+  inputs:
+    contents: list[string] #required
+    model: embedding-001 = embedding-001
+    task_type: retrieval_query | retrieval_document | semantic_similarity | classification | clustering
+  outputs:
+    count: integer
+    embeddings: list[GeminiEmbedding]
+
+- name: Count Tokens
+  action: count_tokens
+  inputs:
+    content: string #required
+    model: gemini-pro | gemini-pro-vision | gemini-ultra = gemini-pro
+  outputs:
+    total_tokens: integer
+
+- name: List Available Models
+  action: list_models
+  inputs:
+    page_size: integer = 50
+    page_token: string
+  outputs:
+    models: list[GeminiModel]
+    next_page_token: string
+
+- name: Get Model Info
+  action: get_model
+  inputs:
+    model: string #required
+  outputs:
+    description: string
+    display_name: string
+    input_token_limit: integer
+    name: string
+    output_token_limit: integer
+    supported_generation_methods: list[string]
+    temperature: GeminiParameterRange
+    top_k: GeminiParameterRange
+    top_p: GeminiParameterRange
+
+- name: Analyze Image
+  action: analyze_image
+  inputs:
+    image: bytes #required
+    model: gemini-pro-vision | gemini-ultra-vision = gemini-pro-vision
+    prompt: string = "Describe this image in detail"
+    temperature: float = 0.4
+  outputs:
+    description: string
+    safety_ratings: list[GeminiSafetyRating]
+
+- name: Generate Code
+  action: generate_code
+  inputs:
+    language: string
+    max_output_tokens: integer = 2048
+    model: gemini-pro | gemini-ultra = gemini-pro
+    prompt: string #required
+    temperature: float = 0.2
+  outputs:
+    code: string
+    explanation: string
+    language: string
+
+- name: Summarize Text
+  action: summarize
+  inputs:
+    max_length: integer = 500
+    model: gemini-pro | gemini-ultra = gemini-pro
+    style: brief | detailed | bullet_points = brief
+    text: string #required
+  outputs:
+    original_length: integer
+    summary: string
+    summary_length: integer
+
+- name: Translate Text
+  action: translate
+  inputs:
+    model: gemini-pro | gemini-ultra = gemini-pro
+    source_language: string
+    target_language: string #required
+    text: string #required
+  outputs:
+    detected_source_language: string
+    translated_text: string
+
+- name: Extract Structured Data
+  action: extract_structured
+  inputs:
+    model: gemini-pro | gemini-ultra = gemini-pro
+    schema: ExtractSchema #required
+    text: string #required
+  outputs:
+    confidence: float
+    data: ExtractedData
+
+- name: GeminiModel
+  class:
+    model_id: string
+    name: string
+    version: string
+    input_token_limit: integer
+    output_token_limit: integer
+    supported_generation_methods: list[string]
+
+- name: GeminiSafetySetting
+  class:
+    category: string
+    threshold: string
+
+- name: GeminiSafetyRating
+  class:
+    category: string
+    probability: string
+    blocked: boolean
+
+- name: GeminiUsage
+  class:
+    prompt_token_count: integer
+    candidates_token_count: integer
+    total_token_count: integer
+
+- name: GeminiChatMessage
+  class:
+    role: string
+    content: string
+
+- name: GeminiEmbedding
+  class:
+    values: list[float]
+    dimensions: integer
+
+- name: GeminiParameterRange
+  class:
+    min: float
+    max: float
+    default: float
+
+- name: ExtractSchema
+  class:
+    fields: list[ExtractSchemaField]
+
+- name: ExtractSchemaField
+  class:
+    name: string
+    type: string
+    description: string
+    required: boolean
+
+- name: ExtractedData
+  class:
+    values: map[string, any]

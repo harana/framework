@@ -3,111 +3,90 @@
 
 #![warn(missing_docs)]
 
-
 pub mod output;
-use serde_json::Value;
+
 use std::collections::HashMap;
+use serde_json::Value;
 use output::*;
 
-/// Send email message
-pub async fn send(
-    to: Vec<&str>,
-    subject: &str,
-    body: &str,
-    from: Option<&str>,
-    cc: Option<Vec<&str>>,
-    bcc: Option<Vec<&str>>,
-    content_type: Option<&str>,
-    reply_to: Option<&str>,
-    attachments: Option<Vec<HashMap<String, Value>>>,
-) -> Result<SendOutput, String> {
-    // TODO: Implementation
-    unimplemented!("send")
-}
-
-/// Send email from template
-pub async fn send_template(
-    to: Vec<&str>,
-    template_id: &str,
-    variables: Option<HashMap<String, Value>>,
-    from: Option<&str>,
-    cc: Option<Vec<&str>>,
-    bcc: Option<Vec<&str>>,
-    reply_to: Option<&str>,
-    attachments: Option<Vec<HashMap<String, Value>>>,
-) -> Result<SendTemplateOutput, String> {
-    // TODO: Implementation
-    unimplemented!("send_template")
-}
-
-/// Validate email address
-pub async fn validate(email: &str, check_mx: Option<bool>, check_smtp: Option<bool>) -> Result<ValidateOutput, String> {
-    // TODO: Implementation
-    unimplemented!("validate")
-}
-
-/// Get email status
-pub async fn status(
-    message_id: &str,
-) -> Result<GetStatusOutput, String> {
-    // TODO: Implementation
-    unimplemented!("status")
-}
-
-/// Send bulk email
-pub async fn send_bulk(
-    recipients: Vec<HashMap<String, Value>>,
-    subject: &str,
-    body: &str,
-    from: Option<&str>,
-    content_type: Option<&str>,
-) -> Result<SendBulkOutput, String> {
-    // TODO: Implementation
-    unimplemented!("send_bulk")
-}
-
-/// Create email template
+/// Create Email Template
 pub async fn create_template(
     name: &str,
-    subject: &str,
     body: &str,
+    subject: &str,
     content_type: Option<&str>,
-    variables: Option<Vec<&str>>,
+    variables: Option<Vec<String>>,
 ) -> Result<CreateTemplateOutput, String> {
-    // TODO: Implementation
     unimplemented!("create_template")
 }
 
-/// Delete email template
-pub async fn delete_template(template_id: &str) -> Result<DeleteTemplateOutput, String> {
-    // TODO: Implementation
+/// Delete Email Template
+pub async fn delete_template(
+    template_id: &str,
+) -> Result<DeleteTemplateOutput, String> {
     unimplemented!("delete_template")
 }
 
-/// List email templates
+/// List Email Templates
 pub async fn list_templates(
     limit: Option<i32>,
     offset: Option<i32>,
 ) -> Result<ListTemplatesOutput, String> {
-    // TODO: Implementation
     unimplemented!("list_templates")
 }
 
+/// Send Email Message
+pub async fn send(
+    body: &str,
+    subject: &str,
+    to: Vec<String>,
+    from: Option<&str>,
+    attachments: Option<Vec<HashMap<String, Value>>>,
+    reply_to: Option<&str>,
+    cc: Option<Vec<String>>,
+    content_type: Option<&str>,
+    bcc: Option<Vec<String>>,
+) -> Result<SendOutput, String> {
+    unimplemented!("send")
+}
+
+/// Send Bulk Email
+pub async fn send_bulk(
+    body: &str,
+    subject: &str,
+    recipients: Vec<HashMap<String, Value>>,
+    from: Option<&str>,
+    content_type: Option<&str>,
+) -> Result<SendBulkOutput, String> {
+    unimplemented!("send_bulk")
+}
+
+/// Send Email From Template
+pub async fn send_template(
+    to: Vec<String>,
+    template_id: &str,
+    attachments: Option<Vec<HashMap<String, Value>>>,
+    cc: Option<Vec<String>>,
+    from: Option<&str>,
+    variables: Option<HashMap<String, Value>>,
+    bcc: Option<Vec<String>>,
+    reply_to: Option<&str>,
+) -> Result<SendTemplateOutput, String> {
+    unimplemented!("send_template")
+}
+
+/// Get Email Status
+pub async fn status(
+    message_id: &str,
+) -> Result<StatusOutput, String> {
+    unimplemented!("status")
+}
 
 /// Validate Email Address
 pub async fn validate_email(
-    check_mx: Option<bool>,
+    email: &str,
     check_smtp: Option<bool>,
-    email: Option<&str>,
+    check_mx: Option<bool>,
 ) -> Result<ValidateEmailOutput, String> {
     unimplemented!("validate_email")
-}
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_placeholder() {
-        // Test placeholder
-    }
 }

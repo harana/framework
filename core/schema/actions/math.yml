@@ -1,5 +1,5 @@
 - name: Round Number Value
-  class: round
+  action: round
   inputs:
     precision: integer = 0
     value: float #required
@@ -7,59 +7,65 @@
     result: float
 
 - name: Floor Number Value
-  class: floor
+  action: floor
   inputs:
     value: float #required
   outputs:
     result: float
 
 - name: Ceiling Number Value
-  class: ceil
+  action: ceil
   inputs:
     value: float #required
   outputs:
     result: float
 
 - name: Absolute Number Value
-  class: abs
+  action: abs
   inputs:
     value: float #required
   outputs:
     result: float
 
 - name: Minimum Of Values
-  class: min
+  action: min
   inputs:
     values: list[float] #required
   outputs:
     result: float
 
 - name: Maximum Of Values
-  class: max
+  action: max
   inputs:
     values: list[float] #required
   outputs:
     result: float
 
 - name: Sum Of Values
-  class: sum
+  action: sum
   inputs:
     values: list[float] #required
   outputs:
     result: float
 
 - name: Average Of Values
-  class: average
+  action: average
   inputs:
     values: list[float] #required
   outputs:
     result: float
 
 - name: Calculate Percentage
-  class: percentage
+  action: percentage
   inputs:
     precision: integer = 2
     total: float #required
     value: float #required
   outputs:
     result: float
+
+- name: NumberValue
+  class:
+    value: float
+    precision: integer
+    formatted: string

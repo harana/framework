@@ -1,14 +1,14 @@
 - name: Render Template String
-  class: template
+  action: template
   inputs:
-    data: object #required
+    data: TemplateData #required
     engine: handlebars | mustache | tera = handlebars
     template: string #required
   outputs:
     result: string
 
 - name: Match Regex Pattern
-  class: regex_match
+  action: regex_match
   inputs:
     flags: string
     pattern: string #required
@@ -17,7 +17,7 @@
     matches: list[string]
 
 - name: Replace With Regex Pattern
-  class: regex_replace
+  action: regex_replace
   inputs:
     flags: string
     pattern: string #required
@@ -27,7 +27,7 @@
     result: string
 
 - name: Split String By Delimiter
-  class: split
+  action: split
   inputs:
     delimiter: string #required
     limit: integer
@@ -36,7 +36,7 @@
     parts: list[string]
 
 - name: Join Strings Together
-  class: join
+  action: join
   inputs:
     items: list[string] #required
     separator: string = ""
@@ -44,7 +44,7 @@
     result: string
 
 - name: Trim Whitespace From String
-  class: trim
+  action: trim
   inputs:
     characters: string
     mode: both | start | end = both
@@ -53,7 +53,7 @@
     result: string
 
 - name: Convert String Case
-  class: case_convert
+  action: case_convert
   inputs:
     format: upper | lower | camel | pascal | snake | kebab #required
     text: string #required
@@ -61,7 +61,7 @@
     result: string
 
 - name: Truncate String Length
-  class: truncate
+  action: truncate
   inputs:
     length: integer #required
     suffix: string = "..."
@@ -70,10 +70,20 @@
     result: string
 
 - name: Convert Text To URL Slug
-  class: slugify
+  action: slugify
   inputs:
     lowercase: boolean = true
     separator: string = "-"
     text: string #required
   outputs:
     slug: string
+
+- name: TextString
+  class:
+    content: string
+    length: integer
+    encoding: string
+
+- name: TemplateData
+  class:
+    values: map[string, any]

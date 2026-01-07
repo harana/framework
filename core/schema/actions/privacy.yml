@@ -1,42 +1,42 @@
 - name: Record Consent
-  class: record_consent
+  action: record_consent
   inputs:
-    user_id: string #required
     consent_type: marketing | analytics | functional | necessary #required
     granted: boolean #required
-    version: string #required
     ip_address: string
+    metadata: map[string, any]
     user_agent: string
-    metadata: object
+    user_id: string #required
+    version: string #required
   outputs:
     consent_id: string
-    user_id: string
-    timestamp: integer
     success: boolean
+    timestamp: integer
+    user_id: string
 
 - name: Revoke Consent
-  class: revoke_consent
+  action: revoke_consent
   inputs:
-    user_id: string #required
     consent_type: marketing | analytics | functional | necessary #required
     reason: string
+    user_id: string #required
   outputs:
     consent_id: string
-    user_id: string
     revoked_at: integer
     success: boolean
+    user_id: string
 
 - name: Get Consent Status
-  class: get_consent_status
+  action: get_consent_status
   inputs:
-    user_id: string #required
     consent_type: marketing | analytics | functional | necessary
+    user_id: string #required
   outputs:
+    consents: list[PrivacyConsent]
     user_id: string
-    consents: list[object]
 
 - name: Update Consent
-  class: update_consent
+  action: update_consent
   inputs:
     consent_id: string #required
     granted: boolean #required
@@ -46,153 +46,190 @@
     success: boolean
 
 - name: Export User Data
-  class: export_data
+  action: export_data
   inputs:
-    user_id: string #required
+    exclude_sections: list[string]
     format: json | csv | xml = json
     include_sections: list[string]
-    exclude_sections: list[string]
+    user_id: string #required
   outputs:
-    export_id: string
-    user_id: string
-    status: string
     download_url: string
     expires_at: integer
+    export_id: string
+    status: string
+    user_id: string
 
 - name: Get Export Status
-  class: get_export_status
+  action: get_export_status
   inputs:
     export_id: string #required
   outputs:
+    completed_at: integer
+    created_at: integer
+    download_url: string
     export_id: string
     status: pending | processing | completed | failed
-    download_url: string
-    created_at: integer
-    completed_at: integer
 
 - name: Delete User Data
-  class: delete_data
+  action: delete_data
   inputs:
-    user_id: string #required
     delete_type: soft | hard = soft
     reason: string #required
     retain_sections: list[string]
+    user_id: string #required
   outputs:
-    user_id: string
     deletion_id: string
-    status: string
     scheduled_at: integer
+    status: string
     success: boolean
+    user_id: string
 
 - name: Get Deletion Status
-  class: get_deletion_status
+  action: get_deletion_status
   inputs:
     deletion_id: string #required
   outputs:
-    deletion_id: string
-    user_id: string
-    status: pending | processing | completed | failed
-    scheduled_at: integer
     completed_at: integer
+    deletion_id: string
+    scheduled_at: integer
+    status: pending | processing | completed | failed
+    user_id: string
 
 - name: Cancel Data Deletion
-  class: cancel_deletion
+  action: cancel_deletion
   inputs:
     deletion_id: string #required
   outputs:
-    deletion_id: string
     cancelled: boolean
+    deletion_id: string
     success: boolean
 
 - name: Anonymize User Data
-  class: anonymize_data
+  action: anonymize_data
   inputs:
-    user_id: string #required
     retain_sections: list[string]
+    user_id: string #required
   outputs:
-    user_id: string
     anonymization_id: string
     success: boolean
+    user_id: string
 
 - name: List Consent History
-  class: list_consent_history
+  action: list_consent_history
   inputs:
-    user_id: string #required
     consent_type: marketing | analytics | functional | necessary
-    start_date: integer
     end_date: integer
     limit: integer = 100
+    start_date: integer
+    user_id: string #required
   outputs:
-    user_id: string
-    history: list[object]
+    history: list[PrivacyConsentHistory]
     total: integer
+    user_id: string
 
 - name: Record Data Access
-  class: record_data_access
+  action: record_data_access
   inputs:
-    user_id: string #required
-    accessor_id: string #required
     access_type: read | write | delete #required
-    resource: string #required
+    accessor_id: string #required
     purpose: string
+    resource: string #required
+    user_id: string #required
   outputs:
     access_id: string
-    timestamp: integer
     success: boolean
+    timestamp: integer
 
 - name: Get Data Access Log
-  class: get_access_log
+  action: get_access_log
   inputs:
-    user_id: string #required
-    start_date: integer
     end_date: integer
     limit: integer = 100
+    start_date: integer
+    user_id: string #required
   outputs:
-    user_id: string
-    accesses: list[object]
+    accesses: list[PrivacyDataAccess]
     total: integer
+    user_id: string
 
 - name: Create Privacy Policy Version
-  class: create_policy_version
+  action: create_policy_version
   inputs:
-    title: string #required
     content: string #required
-    version: string #required
     effective_date: integer #required
+    title: string #required
+    version: string #required
   outputs:
     policy_id: string
-    version: string
     success: boolean
+    version: string
 
 - name: Get Active Policy Version
-  class: get_active_policy
+  action: get_active_policy
   inputs:
     policy_type: privacy | terms | cookie = privacy
   outputs:
-    policy_id: string
-    version: string
     content: string
     effective_date: integer
+    policy_id: string
+    version: string
 
 - name: Record Policy Acceptance
-  class: record_policy_acceptance
+  action: record_policy_acceptance
   inputs:
-    user_id: string #required
-    policy_id: string #required
     ip_address: string
+    policy_id: string #required
     user_agent: string
+    user_id: string #required
   outputs:
     acceptance_id: string
-    user_id: string
-    timestamp: integer
     success: boolean
+    timestamp: integer
+    user_id: string
 
 - name: Verify Right To Be Forgotten
-  class: verify_rtbf_eligibility
+  action: verify_rtbf_eligibility
   inputs:
     user_id: string #required
   outputs:
-    user_id: string
+    blocking_factors: list[string]
     eligible: boolean
     reasons: list[string]
-    blocking_factors: list[string]
+    user_id: string
+
+- name: Consent
+  class:
+    consent_id: string
+    user_id: string
+    consent_type: string
+    granted: boolean
+    version: string
+    timestamp: datetime
+    ip_address: string
+    user_agent: string
+
+- name: PrivacyConsent
+  class:
+    consent_id: string
+    consent_type: string
+    granted: boolean
+    version: string
+    timestamp: datetime
+
+- name: PrivacyConsentHistory
+  class:
+    consent_id: string
+    consent_type: string
+    granted: boolean
+    version: string
+    action: string
+    timestamp: datetime
+
+- name: PrivacyDataAccess
+  class:
+    access_id: string
+    accessor_id: string
+    access_type: string
+    resource: string
+    purpose: string
+    timestamp: datetime

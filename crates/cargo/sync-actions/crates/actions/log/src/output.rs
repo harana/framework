@@ -7,30 +7,23 @@ use std::collections::HashMap;
 
 // debug
 #[derive(Debug, Clone, Serialize, Deserialize)]
+
 pub struct DebugOutput {
     pub success: bool
 }
 
-// info
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct InfoOutput {
-    pub success: bool
-}
-
-// warn
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct WarnOutput {
-    pub success: bool
-}
-
-// error
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ErrorOutput {
     pub success: bool
 }
 
-// structured
-#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct InfoOutput {
+    pub success: bool
+}
+
 pub struct StructuredOutput {
+    pub success: bool
+}
+
+pub struct WarnOutput {
     pub success: bool
 }

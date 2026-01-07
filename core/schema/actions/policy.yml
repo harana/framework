@@ -1,7 +1,7 @@
 - name: Create Policy
-  class: create
+  action: create
   inputs:
-    conditions: object #required
+    conditions: PolicyConditions #required
     description: string
     effect: string #required # allow or deny
     name: string #required
@@ -12,9 +12,9 @@
     success: boolean
 
 - name: Update Policy
-  class: update
+  action: update
   inputs:
-    conditions: object
+    conditions: PolicyConditions
     description: string
     effect: string
     name: string
@@ -25,35 +25,35 @@
     success: boolean
 
 - name: Delete Policy
-  class: delete
+  action: delete
   inputs:
     policy_id: string #required
   outputs:
     success: boolean
 
 - name: Get Policy Details
-  class: get
+  action: get
   inputs:
     policy_id: string #required
   outputs:
     actions: list[string]
-    conditions: object
+    conditions: PolicyConditions
     description: string
     effect: string
     name: string
     resources: list[string]
 
 - name: List Policies
-  class: list_policies
+  action: list_policies
   inputs:
     limit: integer = 100
     offset: integer = 0
   outputs:
-    policies: list[object]
+    policies: list[PolicyInfo]
     total: integer
 
 - name: Attach Policy To User
-  class: attach_to_user
+  action: attach_to_user
   inputs:
     policy_id: string #required
     user_id: string #required
@@ -61,7 +61,7 @@
     success: boolean
 
 - name: Detach Policy From User
-  class: detach_from_user
+  action: detach_from_user
   inputs:
     policy_id: string #required
     user_id: string #required
@@ -69,7 +69,7 @@
     success: boolean
 
 - name: Attach Policy To Role
-  class: attach_to_role
+  action: attach_to_role
   inputs:
     policy_id: string #required
     role_id: string #required
@@ -77,7 +77,7 @@
     success: boolean
 
 - name: Detach Policy From Role
-  class: detach_from_role
+  action: detach_from_role
   inputs:
     policy_id: string #required
     role_id: string #required
@@ -85,13 +85,42 @@
     success: boolean
 
 - name: Evaluate Policy
-  class: evaluate
+  action: evaluate
   inputs:
     action: string #required
-    context: object
+    context: PolicyEvaluationContext
     policy_id: string #required
     resource: string #required
   outputs:
     allowed: boolean
-    evaluated_conditions: object
+    evaluated_conditions: PolicyEvaluatedConditions
     reason: string
+
+- name: Policy
+  class:
+    policy_id: string
+    name: string
+    description: string
+    effect: string
+    actions: list[string]
+    resources: list[string]
+    conditions: PolicyConditions
+
+- name: PolicyConditions
+  class:
+    conditions: map[string, any]
+
+- name: PolicyInfo
+  class:
+    policy_id: string
+    name: string
+    description: string
+    effect: string
+
+- name: PolicyEvaluationContext
+  class:
+    values: map[string, any]
+
+- name: PolicyEvaluatedConditions
+  class:
+    results: map[string, boolean]

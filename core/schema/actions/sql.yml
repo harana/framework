@@ -1,5 +1,5 @@
 - name: Execute SQL Query
-  class: execute
+  action: execute
   inputs:
     database: string
     parameters: list[any]
@@ -10,7 +10,7 @@
     success: boolean
 
 - name: Execute SQL Select
-  class: select
+  action: select
   inputs:
     database: string
     limit: integer
@@ -20,10 +20,10 @@
   outputs:
     column_names: list[string]
     count: integer
-    rows: list[object]
+    rows: list[SqlRow]
 
 - name: Execute SQL Insert
-  class: insert
+  action: insert
   inputs:
     database: string
     parameters: list[any]
@@ -34,7 +34,7 @@
     success: boolean
 
 - name: Execute SQL Update
-  class: update
+  action: update
   inputs:
     database: string
     parameters: list[any]
@@ -44,7 +44,7 @@
     success: boolean
 
 - name: Execute SQL Delete
-  class: delete
+  action: delete
   inputs:
     database: string
     parameters: list[any]
@@ -54,18 +54,18 @@
     success: boolean
 
 - name: Execute Batch SQL
-  class: batch
+  action: batch
   inputs:
     database: string
-    queries: list[object] #required
+    queries: list[SqlBatchQuery] #required
   outputs:
     failed_count: integer
-    results: list[object]
+    results: list[SqlBatchResult]
     success: boolean
     success_count: integer
 
 - name: Begin Transaction
-  class: begin_transaction
+  action: begin_transaction
   inputs:
     database: string
     isolation_level: read_uncommitted | read_committed | repeatable_read | serializable
@@ -74,7 +74,7 @@
     transaction_id: string
 
 - name: Commit Transaction
-  class: commit
+  action: commit
   inputs:
     database: string
     transaction_id: string #required
@@ -82,7 +82,7 @@
     success: boolean
 
 - name: Rollback Transaction
-  class: rollback
+  action: rollback
   inputs:
     database: string
     transaction_id: string #required
@@ -90,28 +90,28 @@
     success: boolean
 
 - name: Call Stored Procedure
-  class: call_procedure
+  action: call_procedure
   inputs:
     database: string
     parameters: list[any]
     procedure_name: string #required
   outputs:
-    out_parameters: object
-    result_sets: list[object]
+    out_parameters: SqlOutputParameters
+    result_sets: list[SqlResultSet]
     success: boolean
 
 - name: Get Table Schema
-  class: get_schema
+  action: get_schema
   inputs:
     database: string
     table_name: string #required
   outputs:
-    columns: list[object]
-    indexes: list[object]
+    columns: list[SqlColumnInfo]
+    indexes: list[SqlIndexInfo]
     primary_key: list[string]
 
 - name: List Tables
-  class: list_tables
+  action: list_tables
   inputs:
     database: string
     schema: string
@@ -119,9 +119,9 @@
     tables: list[string]
 
 - name: Create Table
-  class: create_table
+  action: create_table
   inputs:
-    columns: list[object] #required
+    columns: list[SqlColumnDefinition] #required
     database: string
     if_not_exists: boolean = true
     table_name: string #required
@@ -129,7 +129,7 @@
     success: boolean
 
 - name: Drop Table
-  class: drop_table
+  action: drop_table
   inputs:
     database: string
     if_exists: boolean = true
@@ -138,7 +138,7 @@
     success: boolean
 
 - name: Truncate Table
-  class: truncate_table
+  action: truncate_table
   inputs:
     database: string
     table_name: string #required
@@ -146,7 +146,7 @@
     success: boolean
 
 - name: Create Index
-  class: create_index
+  action: create_index
   inputs:
     columns: list[string] #required
     database: string
@@ -157,7 +157,7 @@
     success: boolean
 
 - name: Drop Index
-  class: drop_index
+  action: drop_index
   inputs:
     database: string
     if_exists: boolean = true
@@ -167,7 +167,7 @@
     success: boolean
 
 - name: Bulk Insert
-  class: bulk_insert
+  action: bulk_insert
   inputs:
     columns: list[string] #required
     database: string
@@ -178,12 +178,66 @@
     success: boolean
 
 - name: Execute Prepared Statement
-  class: prepared_statement
+  action: prepared_statement
   inputs:
     database: string
     parameters: list[any]
     statement: string #required
   outputs:
     affected_rows: integer
-    rows: list[object]
+    rows: list[SqlRow]
     success: boolean
+
+- name: SqlQuery
+  class:
+    query: string
+    parameters: list[any]
+    database: string
+    affected_rows: integer
+    rows: list[SqlRow]
+
+- name: SqlRow
+  class:
+    values: map[string, any]
+
+- name: SqlBatchQuery
+  class:
+    query: string
+    parameters: list[any]
+
+- name: SqlBatchResult
+  class:
+    success: boolean
+    affected_rows: integer
+    error: string
+
+- name: SqlOutputParameters
+  class:
+    values: map[string, any]
+
+- name: SqlResultSet
+  class:
+    columns: list[string]
+    rows: list[SqlRow]
+
+- name: SqlColumnInfo
+  class:
+    name: string
+    data_type: string
+    nullable: boolean
+    default_value: string
+    max_length: integer
+
+- name: SqlIndexInfo
+  class:
+    name: string
+    columns: list[string]
+    unique: boolean
+
+- name: SqlColumnDefinition
+  class:
+    name: string
+    data_type: string
+    nullable: boolean
+    default_value: string
+    primary_key: boolean

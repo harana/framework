@@ -1,0 +1,271 @@
+- name: Send Teams Message
+  action: send_message
+  inputs:
+    attachments: list[TeamsAttachment]
+    channel_id: string #required
+    content: string #required
+    content_type: text | html = text
+    importance: normal | high | urgent = normal
+    mentions: list[TeamsMention]
+    team_id: string #required
+  outputs:
+    created_at: datetime
+    message_id: string
+    success: boolean
+
+- name: Reply To Teams Message
+  action: reply_to_message
+  inputs:
+    attachments: list[TeamsAttachment]
+    channel_id: string #required
+    content: string #required
+    content_type: text | html = text
+    message_id: string #required
+    team_id: string #required
+  outputs:
+    reply_id: string
+    success: boolean
+
+- name: Update Teams Message
+  action: update_message
+  inputs:
+    channel_id: string #required
+    content: string #required
+    content_type: text | html = text
+    message_id: string #required
+    team_id: string #required
+  outputs:
+    success: boolean
+
+- name: Delete Teams Message
+  action: delete_message
+  inputs:
+    channel_id: string #required
+    message_id: string #required
+    team_id: string #required
+  outputs:
+    success: boolean
+
+- name: Send Teams Chat Message
+  action: send_chat_message
+  inputs:
+    attachments: list[TeamsAttachment]
+    chat_id: string #required
+    content: string #required
+    content_type: text | html = text
+  outputs:
+    message_id: string
+    success: boolean
+
+- name: Create Teams Channel
+  action: create_channel
+  inputs:
+    description: string
+    display_name: string #required
+    membership_type: standard | private | shared = standard
+    team_id: string #required
+  outputs:
+    channel_id: string
+    success: boolean
+    web_url: string
+
+- name: Delete Teams Channel
+  action: delete_channel
+  inputs:
+    channel_id: string #required
+    team_id: string #required
+  outputs:
+    success: boolean
+
+- name: List Team Channels
+  action: list_channels
+  inputs:
+    filter: string
+    team_id: string #required
+  outputs:
+    channels: list[TeamsChannel]
+    count: integer
+
+- name: Get Channel Messages
+  action: get_channel_messages
+  inputs:
+    channel_id: string #required
+    order_by: string
+    team_id: string #required
+    top: integer = 50
+  outputs:
+    messages: list[TeamsMessage]
+    next_link: string
+
+- name: Create Teams Meeting
+  action: create_meeting
+  inputs:
+    allow_new_time_proposals: boolean = true
+    attendees: list[string] #required
+    body: string
+    end_time: datetime #required
+    is_online_meeting: boolean = true
+    location: string
+    start_time: datetime #required
+    subject: string #required
+  outputs:
+    join_url: string
+    meeting_id: string
+    success: boolean
+
+- name: Get Teams Meeting
+  action: get_meeting
+  inputs:
+    meeting_id: string #required
+  outputs:
+    attendees: list[TeamsAttendee]
+    end_time: datetime
+    join_url: string
+    meeting_id: string
+    start_time: datetime
+    subject: string
+
+- name: Cancel Teams Meeting
+  action: cancel_meeting
+  inputs:
+    comment: string
+    meeting_id: string #required
+  outputs:
+    success: boolean
+
+- name: List Teams
+  action: list_teams
+  inputs:
+    filter: string
+    top: integer = 100
+  outputs:
+    count: integer
+    teams: list[TeamsTeam]
+
+- name: Get Team Info
+  action: get_team
+  inputs:
+    team_id: string #required
+  outputs:
+    description: string
+    display_name: string
+    team_id: string
+    visibility: string
+    web_url: string
+
+- name: List Team Members
+  action: list_team_members
+  inputs:
+    role: owner | member
+    team_id: string #required
+  outputs:
+    count: integer
+    members: list[TeamsMember]
+
+- name: Add Team Member
+  action: add_team_member
+  inputs:
+    roles: list[string]
+    team_id: string #required
+    user_id: string #required
+  outputs:
+    membership_id: string
+    success: boolean
+
+- name: Remove Team Member
+  action: remove_team_member
+  inputs:
+    membership_id: string #required
+    team_id: string #required
+  outputs:
+    success: boolean
+
+- name: Send Adaptive Card
+  action: send_adaptive_card
+  inputs:
+    card: TeamsAdaptiveCard #required
+    channel_id: string #required
+    team_id: string #required
+  outputs:
+    message_id: string
+    success: boolean
+
+- name: Upload File To Channel
+  action: upload_file
+  inputs:
+    channel_id: string #required
+    content: bytes #required
+    file_name: string #required
+    folder_path: string
+    team_id: string #required
+  outputs:
+    file_id: string
+    success: boolean
+    web_url: string
+
+- name: TeamsMessage
+  class:
+    message_id: string
+    channel_id: string
+    team_id: string
+    content: string
+    content_type: string
+    created_at: datetime
+    from_user: TeamsUser
+    importance: string
+
+- name: TeamsUser
+  class:
+    user_id: string
+    display_name: string
+    email: string
+
+- name: TeamsAttachment
+  class:
+    id: string
+    content_type: string
+    content_url: string
+    name: string
+
+- name: TeamsMention
+  class:
+    id: string
+    mentioned_id: string
+    mentioned_text: string
+
+- name: TeamsChannel
+  class:
+    channel_id: string
+    display_name: string
+    description: string
+    membership_type: string
+    web_url: string
+
+- name: TeamsAttendee
+  class:
+    email: string
+    display_name: string
+    response_status: string
+
+- name: TeamsTeam
+  class:
+    team_id: string
+    display_name: string
+    description: string
+    visibility: string
+    web_url: string
+
+- name: TeamsMember
+  class:
+    membership_id: string
+    user_id: string
+    display_name: string
+    email: string
+    roles: list[string]
+
+- name: TeamsAdaptiveCard
+  class:
+    type: string
+    version: string
+    body: list[any]
+    actions: list[any]

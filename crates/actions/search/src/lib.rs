@@ -3,153 +3,117 @@
 
 #![warn(missing_docs)]
 
-
 pub mod output;
+
 use std::collections::HashMap;
 use serde_json::Value;
 use output::*;
 
-/// Search query documents
-pub async fn query(
-    index: &str,
-    query: &str,
-    fields: Option<Vec<&str>>,
-    filters: Option<HashMap<String, Value>>,
-    limit: Option<i32>,
-    offset: Option<i32>,
-    sort: Option<Vec<HashMap<String, Value>>>,
-    highlight: Option<bool>,
-) -> Result<QueryOutput, String> {
-    // TODO: Implementation
-    unimplemented!("query")
-}
-
-/// Index single document
-pub async fn index_document(
-    index: &str,
-    document_id: &str,
-    document: HashMap<String, Value>,
-    refresh: Option<bool>,
-) -> Result<IndexDocumentOutput, String> {
-    // TODO: Implementation
-    unimplemented!("index_document")
-}
-
-/// Index multiple documents
+/// Index Multiple Documents
 pub async fn bulk_index(
-    index: &str,
     documents: Vec<HashMap<String, Value>>,
+    index: &str,
     refresh: Option<bool>,
 ) -> Result<BulkIndexOutput, String> {
-    // TODO: Implementation
     unimplemented!("bulk_index")
 }
 
-/// Get document by ID
-pub async fn get_document(
+/// Create Search Index
+pub async fn create_index(
     index: &str,
-    document_id: &str,
-) -> Result<GetDocumentOutput, String> {
-    // TODO: Implementation
-    unimplemented!("get_document")
+    settings: Option<HashMap<String, Value>>,
+    mappings: Option<HashMap<String, Value>>,
+) -> Result<CreateIndexOutput, String> {
+    unimplemented!("create_index")
 }
 
-/// Update existing document
-pub async fn update_document(
-    index: &str,
-    document_id: &str,
-    document: HashMap<String, Value>,
-    upsert: Option<bool>,
-) -> Result<UpdateDocumentOutput, String> {
-    // TODO: Implementation
-    unimplemented!("update_document")
-}
-
-/// Delete document by ID
-pub async fn delete_document(
-    index: &str,
-    document_id: &str,
-    refresh: Option<bool>,
-) -> Result<DeleteDocumentOutput, String> {
-    // TODO: Implementation
-    unimplemented!("delete_document")
-}
-
-/// Delete documents by query
+/// Delete Documents By Query
 pub async fn delete_by_query(
     index: &str,
     query: HashMap<String, Value>,
     refresh: Option<bool>,
 ) -> Result<DeleteByQueryOutput, String> {
-    // TODO: Implementation
     unimplemented!("delete_by_query")
 }
 
-/// Create search index
-pub async fn create_index(
+/// Delete Document By ID
+pub async fn delete_document(
     index: &str,
-    mappings: Option<HashMap<String, Value>>,
-    settings: Option<HashMap<String, Value>>,
-) -> Result<CreateIndexOutput, String> {
-    // TODO: Implementation
-    unimplemented!("create_index")
+    document_id: &str,
+    refresh: Option<bool>,
+) -> Result<DeleteDocumentOutput, String> {
+    unimplemented!("delete_document")
 }
 
-/// Delete search index
+/// Delete Search Index
 pub async fn delete_index(
     index: &str,
 ) -> Result<DeleteIndexOutput, String> {
-    // TODO: Implementation
     unimplemented!("delete_index")
 }
 
-/// List search indexes
-pub async fn list_indexes(
-    pattern: Option<&str>,
-) -> Result<ListIndexesOutput, String> {
-    // TODO: Implementation
-    unimplemented!("list_indexes")
+/// Get Document By ID
+pub async fn get_document(
+    document_id: &str,
+    index: &str,
+) -> Result<GetDocumentOutput, String> {
+    unimplemented!("get_document")
 }
 
-/// Get index statistics
+/// Get Index Statistics
 pub async fn get_index_stats(
     index: &str,
 ) -> Result<GetIndexStatsOutput, String> {
-    // TODO: Implementation
     unimplemented!("get_index_stats")
 }
 
-/// Suggest search terms
+/// Index Single Document
+pub async fn index_document(
+    index: &str,
+    document: HashMap<String, Value>,
+    document_id: &str,
+    refresh: Option<bool>,
+) -> Result<IndexDocumentOutput, String> {
+    unimplemented!("index_document")
+}
+
+/// List Search Indexes
+pub async fn list_indexes(
+    pattern: Option<&str>,
+) -> Result<ListIndexesOutput, String> {
+    unimplemented!("list_indexes")
+}
+
+/// Search Query Documents
+pub async fn search_query(
+    index: &str,
+    query: &str,
+    fields: Option<Vec<String>>,
+    limit: Option<i32>,
+    offset: Option<i32>,
+    sort: Option<Vec<HashMap<String, Value>>>,
+    filters: Option<HashMap<String, Value>>,
+    highlight: Option<bool>,
+) -> Result<SearchQueryOutput, String> {
+    unimplemented!("search_query")
+}
+
+/// Suggest Search Terms
 pub async fn suggest(
     index: &str,
     field: &str,
     text: &str,
     size: Option<i32>,
 ) -> Result<SuggestOutput, String> {
-    // TODO: Implementation
     unimplemented!("suggest")
 }
 
-
-/// Search Query Documents
-pub async fn search_query(
-    offset: Option<i32>,
-    limit: Option<i32>,
-    filters: Option<HashMap<String, Value>>,
-    query: Option<&str>,
-    index: Option<&str>,
-    fields: Option<Vec<String>>,
-    highlight: Option<bool>,
-    sort: Option<Vec<HashMap<String, Value>>>,
-) -> Result<SearchQueryOutput, String> {
-    unimplemented!("search_query")
-}
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_placeholder() {
-        // Test placeholder
-    }
+/// Update Existing Document
+pub async fn update_document(
+    document_id: &str,
+    index: &str,
+    document: HashMap<String, Value>,
+    upsert: Option<bool>,
+) -> Result<UpdateDocumentOutput, String> {
+    unimplemented!("update_document")
 }

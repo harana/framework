@@ -1,5 +1,5 @@
 - name: Generate Text From Prompt
-  class: generate_text
+  action: generate_text
   inputs:
     max_tokens: integer = 1000
     model: string = "default"
@@ -10,10 +10,10 @@
     tokens_used: integer
 
 - name: Generate Chat Completion
-  class: chat_completion
+  action: chat_completion
   inputs:
     max_tokens: integer = 1000
-    messages: list[object] #required
+    messages: list[AiChatMessage] #required
     model: string = "default"
     system_prompt: string
     temperature: float = 0.7
@@ -22,7 +22,7 @@
     tokens_used: integer
 
 - name: Generate Embeddings From Text
-  class: generate_embeddings
+  action: generate_embeddings
   inputs:
     model: string = "default"
     text: string #required
@@ -31,7 +31,7 @@
     embeddings: list[float]
 
 - name: Generate Image From Prompt
-  class: generate_image
+  action: generate_image
   inputs:
     model: string = "default"
     prompt: string #required
@@ -42,7 +42,7 @@
     url: string
 
 - name: Transcribe Audio To Text
-  class: transcribe_audio
+  action: transcribe_audio
   inputs:
     audio: bytes #required
     language: string
@@ -52,7 +52,7 @@
     text: string
 
 - name: Classify Text Content
-  class: classify_text
+  action: classify_text
   inputs:
     labels: list[string] #required
     model: string = "default"
@@ -60,10 +60,10 @@
   outputs:
     confidence: float
     label: string
-    scores: object
+    scores: map[string, float]
 
 - name: Summarize Text Content
-  class: summarize_text
+  action: summarize_text
   inputs:
     max_length: integer = 500
     model: string = "default"
@@ -72,10 +72,132 @@
     summary: string
 
 - name: Extract Entities From Text
-  class: extract_entities
+  action: extract_entities
   inputs:
     entity_types: list[string]
     model: string = "default"
     text: string #required
   outputs:
-    entities: list[object]
+    entities: list[AiEntity]
+
+- name: Load ONNX Model
+  action: onnx_load_model
+  inputs:
+    model_path: string #required
+    optimize: boolean = true
+  outputs:
+    input_shapes: list[AiTensorShape]
+    model_id: string
+    output_shapes: list[AiTensorShape]
+
+- name: Run ONNX Inference
+  action: onnx_inference
+  inputs:
+    input_data: map[string, any] #required
+    model_id: string #required
+  outputs:
+    inference_time_ms: float
+    outputs: map[string, any]
+
+- name: Run ONNX Inference From Bytes
+  action: onnx_inference_bytes
+  inputs:
+    input_data: map[string, any] #required
+    model_bytes: bytes #required
+    optimize: boolean = true
+  outputs:
+    inference_time_ms: float
+    outputs: map[string, any]
+
+- name: Get ONNX Model Info
+  action: onnx_model_info
+  inputs:
+    model_path: string #required
+  outputs:
+    input_names: list[string]
+    input_shapes: list[AiTensorShape]
+    output_names: list[string]
+    output_shapes: list[AiTensorShape]
+
+- name: Unload ONNX Model
+  action: onnx_unload_model
+  inputs:
+    model_id: string #required
+  outputs:
+    success: boolean
+
+- name: Run ONNX Image Classification
+  action: onnx_classify_image
+  inputs:
+    image: bytes #required
+    labels: list[string]
+    model_id: string #required
+    top_k: integer = 5
+  outputs:
+    inference_time_ms: float
+    predictions: list[AiClassificationPrediction]
+
+- name: Run ONNX Object Detection
+  action: onnx_detect_objects
+  inputs:
+    confidence_threshold: float = 0.5
+    image: bytes #required
+    labels: list[string]
+    model_id: string #required
+    nms_threshold: float = 0.4
+  outputs:
+    detections: list[AiObjectDetection]
+    inference_time_ms: float
+
+- name: Run ONNX Text Embedding
+  action: onnx_text_embedding
+  inputs:
+    model_id: string #required
+    text: string #required
+  outputs:
+    dimensions: integer
+    embedding: list[float]
+    inference_time_ms: float
+
+- name: AiModel
+  class:
+    model_id: string
+    name: string
+    provider: string
+    max_tokens: integer
+    temperature: float
+    capabilities: list[string]
+
+- name: AiChatMessage
+  class:
+    role: string
+    content: string
+
+- name: AiEntity
+  class:
+    text: string
+    type: string
+    start: integer
+    end: integer
+    confidence: float
+
+- name: AiTensorShape
+  class:
+    name: string
+    dtype: string
+    shape: list[integer]
+
+- name: AiClassificationPrediction
+  class:
+    label: string
+    confidence: float
+    index: integer
+
+- name: AiObjectDetection
+  class:
+    label: string
+    confidence: float
+    x: float
+    y: float
+    width: float
+    height: float

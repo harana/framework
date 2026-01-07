@@ -1,33 +1,33 @@
 - name: Send Message
-  class: send_message
+  action: send_message
   inputs:
+    attachments: list[SlackAttachment]
+    blocks: list[SlackBlock]
     channel_id: string #required
-    text: string #required
-    attachments: list[object]
-    blocks: list[object]
-    thread_ts: string
     icon_emoji: string
     icon_url: string
+    text: string #required
+    thread_ts: string
     username: string
   outputs:
-    message_ts: string
     channel_id: string
+    message_ts: string
     success: boolean
 
 - name: Update Message
-  class: update_message
+  action: update_message
   inputs:
+    attachments: list[SlackAttachment]
+    blocks: list[SlackBlock]
     channel_id: string #required
-    timestamp: string #required
     text: string #required
-    attachments: list[object]
-    blocks: list[object]
+    timestamp: string #required
   outputs:
     message_ts: string
     success: boolean
 
 - name: Delete Message
-  class: delete_message
+  action: delete_message
   inputs:
     channel_id: string #required
     timestamp: string #required
@@ -35,44 +35,44 @@
     success: boolean
 
 - name: Send Direct Message
-  class: send_dm
+  action: send_dm
   inputs:
-    user_id: string #required
+    attachments: list[SlackAttachment]
+    blocks: list[SlackBlock]
     text: string #required
-    attachments: list[object]
-    blocks: list[object]
+    user_id: string #required
   outputs:
     channel_id: string
     message_ts: string
     success: boolean
 
 - name: Create Channel
-  class: create_channel
+  action: create_channel
   inputs:
-    name: string #required
-    is_private: boolean = false
     description: string
+    is_private: boolean = false
+    name: string #required
   outputs:
     channel_id: string
     name: string
     success: boolean
 
 - name: Archive Channel
-  class: archive_channel
+  action: archive_channel
   inputs:
     channel_id: string #required
   outputs:
     success: boolean
 
 - name: Unarchive Channel
-  class: unarchive_channel
+  action: unarchive_channel
   inputs:
     channel_id: string #required
   outputs:
     success: boolean
 
 - name: Invite Users To Channel
-  class: invite_users
+  action: invite_users
   inputs:
     channel_id: string #required
     user_ids: list[string] #required
@@ -80,7 +80,7 @@
     success: boolean
 
 - name: Kick User From Channel
-  class: kick_user
+  action: kick_user
   inputs:
     channel_id: string #required
     user_id: string #required
@@ -88,67 +88,67 @@
     success: boolean
 
 - name: Get Channel Info
-  class: get_channel_info
+  action: get_channel_info
   inputs:
     channel_id: string #required
   outputs:
     channel_id: string
-    name: string
-    is_private: boolean
     is_archived: boolean
-    topic: string
-    purpose: string
+    is_private: boolean
+    name: string
     num_members: integer
+    purpose: string
+    topic: string
 
 - name: List Channels
-  class: list_channels
+  action: list_channels
   inputs:
     exclude_archived: boolean = true
-    types: public | private | mpim | im
     limit: integer = 100
+    types: public | private | mpim | im
   outputs:
-    channels: list[object]
+    channels: list[SlackChannel]
 
 - name: Get User Info
-  class: get_user_info
+  action: get_user_info
   inputs:
     user_id: string #required
   outputs:
-    user_id: string
-    name: string
-    real_name: string
     email: string
     is_admin: boolean
     is_bot: boolean
+    name: string
+    real_name: string
     timezone: string
+    user_id: string
 
 - name: List Users
-  class: list_users
+  action: list_users
   inputs:
     limit: integer = 100
   outputs:
-    users: list[object]
+    users: list[SlackUser]
 
 - name: Add Reaction
-  class: add_reaction
+  action: add_reaction
   inputs:
     channel_id: string #required
-    timestamp: string #required
     emoji: string #required
+    timestamp: string #required
   outputs:
     success: boolean
 
 - name: Remove Reaction
-  class: remove_reaction
+  action: remove_reaction
   inputs:
     channel_id: string #required
-    timestamp: string #required
     emoji: string #required
+    timestamp: string #required
   outputs:
     success: boolean
 
 - name: Upload File
-  class: upload_file
+  action: upload_file
   inputs:
     channels: list[string]
     content: string
@@ -161,7 +161,7 @@
     success: boolean
 
 - name: Pin Message
-  class: pin_message
+  action: pin_message
   inputs:
     channel_id: string #required
     timestamp: string #required
@@ -169,7 +169,7 @@
     success: boolean
 
 - name: Unpin Message
-  class: unpin_message
+  action: unpin_message
   inputs:
     channel_id: string #required
     timestamp: string #required
@@ -177,7 +177,7 @@
     success: boolean
 
 - name: Set Channel Topic
-  class: set_channel_topic
+  action: set_channel_topic
   inputs:
     channel_id: string #required
     topic: string #required
@@ -185,9 +185,68 @@
     success: boolean
 
 - name: Set Channel Purpose
-  class: set_channel_purpose
+  action: set_channel_purpose
   inputs:
     channel_id: string #required
     purpose: string #required
   outputs:
     success: boolean
+
+- name: SlackMessage
+  class:
+    message_ts: string
+    channel_id: string
+    text: string
+    user_id: string
+    thread_ts: string
+    blocks: list[SlackBlock]
+    attachments: list[SlackAttachment]
+
+- name: SlackBlock
+  class:
+    type: string
+    block_id: string
+    text: SlackTextObject
+    elements: list[any]
+
+- name: SlackTextObject
+  class:
+    type: string
+    text: string
+    emoji: boolean
+
+- name: SlackAttachment
+  class:
+    fallback: string
+    color: string
+    pretext: string
+    title: string
+    title_link: string
+    text: string
+    fields: list[SlackAttachmentField]
+
+- name: SlackAttachmentField
+  class:
+    title: string
+    value: string
+    short: boolean
+
+- name: SlackChannel
+  class:
+    channel_id: string
+    name: string
+    is_private: boolean
+    is_archived: boolean
+    num_members: integer
+    topic: string
+    purpose: string
+
+- name: SlackUser
+  class:
+    user_id: string
+    name: string
+    real_name: string
+    email: string
+    is_admin: boolean
+    is_bot: boolean
+    timezone: string

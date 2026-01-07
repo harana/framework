@@ -1,7 +1,7 @@
 - name: Create New Session
-  class: create
+  action: create
   inputs:
-    data: object
+    data: SessionData
     ttl: integer = 3600
     user_id: string #required
   outputs:
@@ -9,34 +9,34 @@
     session_id: string
 
 - name: Get Session Data
-  class: get
+  action: get
   inputs:
     session_id: string #required
   outputs:
     created_at: datetime
-    data: object
+    data: SessionData
     expires_at: datetime
     found: boolean
     user_id: string
 
 - name: Update Session Data
-  class: update
+  action: update
   inputs:
-    data: object #required
+    data: SessionData #required
     merge: boolean = true
     session_id: string #required
   outputs:
     success: boolean
 
 - name: Destroy Session
-  class: destroy
+  action: destroy
   inputs:
     session_id: string #required
   outputs:
     success: boolean
 
 - name: Refresh Session Expiry
-  class: refresh
+  action: refresh
   inputs:
     session_id: string #required
     ttl: integer
@@ -45,7 +45,7 @@
     success: boolean
 
 - name: Get Session Value
-  class: get_value
+  action: get_value
   inputs:
     key: string #required
     session_id: string #required
@@ -54,7 +54,7 @@
     value: any
 
 - name: Set Session Value
-  class: set_value
+  action: set_value
   inputs:
     key: string #required
     session_id: string #required
@@ -63,7 +63,7 @@
     success: boolean
 
 - name: Delete Session Value
-  class: delete_value
+  action: delete_value
   inputs:
     key: string #required
     session_id: string #required
@@ -71,15 +71,15 @@
     success: boolean
 
 - name: List User Sessions
-  class: list_users
+  action: list_users
   inputs:
     user_id: string #required
   outputs:
-    sessions: list[object]
+    sessions: list[SessionInfo]
     total: integer
 
 - name: Destroy All User Sessions
-  class: destroy_users
+  action: destroy_users
   inputs:
     except_id: string
     user_id: string #required
@@ -88,10 +88,29 @@
     success: boolean
 
 - name: Check Session Valid
-  class: validate
+  action: validate
   inputs:
     session_id: string #required
   outputs:
     expires_at: datetime
     user_id: string
     valid: boolean
+
+- name: Session
+  class:
+    session_id: string
+    user_id: string
+    data: SessionData
+    created_at: datetime
+    expires_at: datetime
+
+- name: SessionData
+  class:
+    values: map[string, any]
+
+- name: SessionInfo
+  class:
+    session_id: string
+    user_id: string
+    created_at: datetime
+    expires_at: datetime

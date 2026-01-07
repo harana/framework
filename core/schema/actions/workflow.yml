@@ -1,7 +1,7 @@
 - name: Start Workflow Execution
-  class: start
+  action: start
   inputs:
-    context: object
+    context: WorkflowContext
     input: any
     workflow_id: string #required
   outputs:
@@ -10,7 +10,7 @@
     success: boolean
 
 - name: Pause Workflow Execution
-  class: pause
+  action: pause
   inputs:
     execution_id: string #required
     reason: string
@@ -18,7 +18,7 @@
     success: boolean
 
 - name: Resume Paused Workflow
-  class: resume
+  action: resume
   inputs:
     execution_id: string #required
     input: any
@@ -26,7 +26,7 @@
     success: boolean
 
 - name: Cancel Workflow Execution
-  class: cancel
+  action: cancel
   inputs:
     execution_id: string #required
     reason: string
@@ -34,7 +34,7 @@
     success: boolean
 
 - name: Get Workflow Status
-  class: get_status
+  action: get_status
   inputs:
     execution_id: string #required
   outputs:
@@ -46,7 +46,7 @@
     status: pending | running | paused | completed | failed | cancelled
 
 - name: Get Workflow Result
-  class: get_result
+  action: get_result
   inputs:
     execution_id: string #required
   outputs:
@@ -55,7 +55,7 @@
     output: any
 
 - name: List Workflow Executions
-  class: list_executions
+  action: list_executions
   inputs:
     end_date: datetime
     limit: integer = 100
@@ -64,11 +64,11 @@
     status: string
     workflow_id: string
   outputs:
-    executions: list[object]
+    executions: list[WorkflowExecutionInfo]
     total: integer
 
 - name: Send Signal To Workflow
-  class: signal
+  action: signal
   inputs:
     execution_id: string #required
     payload: any
@@ -77,7 +77,7 @@
     success: boolean
 
 - name: Wait For External Event
-  class: wait_for_event
+  action: wait_for_event
   inputs:
     event_name: string #required
     execution_id: string #required
@@ -88,15 +88,15 @@
     timed_out: boolean
 
 - name: Get Workflow History
-  class: history
+  action: history
   inputs:
     execution_id: string #required
   outputs:
-    events: list[object]
+    events: list[WorkflowHistoryEvent]
     total: integer
 
 - name: Retry Failed Step
-  class: retry_step
+  action: retry_step
   inputs:
     execution_id: string #required
     step_id: string #required
@@ -104,7 +104,7 @@
     success: boolean
 
 - name: Skip Workflow Step
-  class: skip_step
+  action: skip_step
   inputs:
     execution_id: string #required
     output: any
@@ -113,10 +113,42 @@
     success: boolean
 
 - name: Terminate All Executions
-  class: terminate_all
+  action: terminate_all
   inputs:
     reason: string
     workflow_id: string #required
   outputs:
     success: boolean
     terminated_count: integer
+
+- name: WorkflowExecution
+  class:
+    execution_id: string
+    workflow_id: string
+    status: string
+    current_step: string
+    input: any
+    output: any
+    started_at: datetime
+    completed_at: datetime
+    error: string
+
+- name: WorkflowContext
+  class:
+    values: map[string, any]
+
+- name: WorkflowExecutionInfo
+  class:
+    execution_id: string
+    workflow_id: string
+    status: string
+    started_at: datetime
+    completed_at: datetime
+
+- name: WorkflowHistoryEvent
+  class:
+    event_id: string
+    event_type: string
+    step_id: string
+    timestamp: datetime
+    data: any

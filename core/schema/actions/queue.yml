@@ -1,5 +1,5 @@
 - name: Enqueue Message To Queue
-  class: enqueue
+  action: enqueue
   inputs:
     deduplication_id: string
     delay_seconds: integer = 0
@@ -11,7 +11,7 @@
     success: boolean
 
 - name: Dequeue Message From Queue
-  class: dequeue
+  action: dequeue
   inputs:
     queue_name: string #required
     visibility_timeout: integer = 30
@@ -23,15 +23,15 @@
     receipt_handle: string
 
 - name: Peek Message Without Removing
-  class: peek
+  action: peek
   inputs:
     count: integer = 1
     queue_name: string #required
   outputs:
-    messages: list[object]
+    messages: list[QueuePeekMessage]
 
 - name: Acknowledge Message Processing
-  class: acknowledge
+  action: acknowledge
   inputs:
     queue_name: string #required
     receipt_handle: string #required
@@ -39,7 +39,7 @@
     success: boolean
 
 - name: Return Message To Queue
-  class: nack
+  action: nack
   inputs:
     delay_seconds: integer = 0
     queue_name: string #required
@@ -48,7 +48,7 @@
     success: boolean
 
 - name: Get Queue Statistics
-  class: get_queue_stats
+  action: get_queue_stats
   inputs:
     queue_name: string #required
   outputs:
@@ -58,7 +58,7 @@
     oldest_message_age: integer
 
 - name: Purge All Queue Messages
-  class: purge_queue
+  action: purge_queue
   inputs:
     queue_name: string #required
   outputs:
@@ -66,7 +66,7 @@
     success: boolean
 
 - name: Create New Queue
-  class: create_queue
+  action: create_queue
   inputs:
     max_message_size: integer = 262144
     message_retention: integer = 345600
@@ -77,14 +77,14 @@
     success: boolean
 
 - name: Delete Existing Queue
-  class: delete_queue
+  action: delete_queue
   inputs:
     queue_name: string #required
   outputs:
     success: boolean
 
 - name: List Available Queues
-  class: list_queues
+  action: list_queues
   inputs:
     prefix: string
   outputs:
@@ -92,10 +92,26 @@
     total: integer
 
 - name: Move Message To Dead Letter
-  class: move_to_dlq
+  action: move_to_dlq
   inputs:
     queue_name: string #required
     reason: string
     receipt_handle: string #required
   outputs:
     success: boolean
+
+- name: QueueMessage
+  class:
+    message_id: string
+    queue_name: string
+    message: any
+    priority: integer
+    delay_seconds: integer
+    receipt_handle: string
+    visible_at: datetime
+
+- name: QueuePeekMessage
+  class:
+    message_id: string
+    message: any
+    enqueued_at: datetime

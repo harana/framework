@@ -3,137 +3,106 @@
 
 #![warn(missing_docs)]
 
-
 pub mod output;
+
 use std::collections::HashMap;
 use serde_json::Value;
 use output::*;
 
-/// Register webhook endpoint
-pub async fn register(
-    url: &str,
-    events: Vec<&str>,
-    description: Option<&str>,
-    secret: Option<&str>,
-    active: Option<bool>,
-) -> Result<RegisterOutput, String> {
-    // TODO: Implementation
-    unimplemented!("register")
-}
-
-/// Update webhook configuration
-pub async fn update(
-    webhook_id: &str,
-    url: Option<&str>,
-    events: Option<Vec<&str>>,
-    description: Option<&str>,
-    secret: Option<&str>,
-    active: Option<bool>,
-) -> Result<UpdateOutput, String> {
-    // TODO: Implementation
-    unimplemented!("update")
-}
-
-/// Unregister webhook endpoint
-pub async fn unregister(
-    webhook_id: &str,
-) -> Result<UnregisterOutput, String> {
-    // TODO: Implementation
-    unimplemented!("unregister")
-}
-
-/// Trigger webhook event
-pub async fn trigger(
-    event: &str,
-    payload: Value,
-    webhook_ids: Option<Vec<&str>>,
-) -> Result<TriggerOutput, String> {
-    // TODO: Implementation
-    unimplemented!("trigger")
-}
-
-/// Get webhook details
+/// Get Webhook Details
 pub async fn get(
     webhook_id: &str,
 ) -> Result<GetOutput, String> {
-    // TODO: Implementation
     unimplemented!("get")
 }
 
-/// List registered webhooks
-pub async fn list(
-    event: Option<&str>,
-    active_only: Option<bool>,
-    limit: Option<i32>,
-    offset: Option<i32>,
-) -> Result<ListOutput, String> {
-    // TODO: Implementation
-    unimplemented!("list")
-}
-
-/// Test webhook endpoint
-pub async fn test(
-    webhook_id: &str,
-    payload: Option<Value>,
-) -> Result<TestOutput, String> {
-    // TODO: Implementation
-    unimplemented!("test")
-}
-
-/// Get webhook delivery log
+/// Get Webhook Delivery Log
 pub async fn get_deliveries(
     webhook_id: &str,
     status: Option<&str>,
-    limit: Option<i32>,
     offset: Option<i32>,
+    limit: Option<i32>,
 ) -> Result<GetDeliveriesOutput, String> {
-    // TODO: Implementation
     unimplemented!("get_deliveries")
 }
-
-/// Retry failed delivery
-pub async fn retry_delivery(
-    delivery_id: &str,
-) -> Result<RetryDeliveryOutput, String> {
-    // TODO: Implementation
-    unimplemented!("retry_delivery")
-}
-
-/// Verify webhook signature
-pub async fn verify_signature(
-    payload: &str,
-    signature: &str,
-    secret: &str,
-    algorithm: Option<&str>,
-) -> Result<VerifySignatureOutput, String> {
-    // TODO: Implementation
-    unimplemented!("verify_signature")
-}
-
-/// Rotate webhook secret
-pub async fn rotate_secret(
-    webhook_id: &str,
-) -> Result<RotateSecretOutput, String> {
-    // TODO: Implementation
-    unimplemented!("rotate_secret")
-}
-
 
 /// List Registered Webhooks
 pub async fn lists(
     event: Option<&str>,
     active_only: Option<bool>,
-    offset: Option<i32>,
     limit: Option<i32>,
+    offset: Option<i32>,
 ) -> Result<ListsOutput, String> {
     unimplemented!("lists")
 }
-#[cfg(test)]
-mod tests {
-    use super::*;
 
-    #[test]
-    fn test_placeholder() {
-        // Test placeholder
-    }
+/// Register Webhook Endpoint
+pub async fn register(
+    url: &str,
+    events: Vec<String>,
+    active: Option<bool>,
+    secret: Option<&str>,
+    description: Option<&str>,
+) -> Result<RegisterOutput, String> {
+    unimplemented!("register")
+}
+
+/// Retry Failed Delivery
+pub async fn retry_delivery(
+    delivery_id: &str,
+) -> Result<RetryDeliveryOutput, String> {
+    unimplemented!("retry_delivery")
+}
+
+/// Rotate Webhook Secret
+pub async fn rotate_secret(
+    webhook_id: &str,
+) -> Result<RotateSecretOutput, String> {
+    unimplemented!("rotate_secret")
+}
+
+/// Test Webhook Endpoint
+pub async fn test(
+    webhook_id: &str,
+    payload: Option<&str>,
+) -> Result<TestOutput, String> {
+    unimplemented!("test")
+}
+
+/// Trigger Webhook Event
+pub async fn trigger(
+    event: &str,
+    payload: &str,
+    webhook_ids: Option<Vec<String>>,
+) -> Result<TriggerOutput, String> {
+    unimplemented!("trigger")
+}
+
+/// Unregister Webhook Endpoint
+pub async fn unregister(
+    webhook_id: &str,
+) -> Result<UnregisterOutput, String> {
+    unimplemented!("unregister")
+}
+
+/// Update Webhook Configuration
+pub async fn update(
+    webhook_id: &str,
+    events: Option<Vec<String>>,
+    active: Option<bool>,
+    description: Option<&str>,
+    secret: Option<&str>,
+    url: Option<&str>,
+) -> Result<UpdateOutput, String> {
+    unimplemented!("update")
+}
+
+/// Verify Webhook Signature
+pub async fn verify_signature(
+    signature: &str,
+    payload: &str,
+    secret: &str,
+    algorithm: Option<&str>,
+) -> Result<VerifySignatureOutput, String> {
+    unimplemented!("verify_signature")
 }

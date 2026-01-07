@@ -1,17 +1,17 @@
 - name: Create S3 Bucket
-  class: create_bucket
+  action: create_bucket
   inputs:
     acl: private | public-read | public-read-write | authenticated-read = private
     bucket: string #required
     region: string
-    tags: object
+    tags: S3Tags
   outputs:
     bucket: string
     location: string
     success: boolean
 
 - name: Delete S3 Bucket
-  class: delete_bucket
+  action: delete_bucket
   inputs:
     bucket: string #required
     region: string
@@ -19,32 +19,32 @@
     success: boolean
 
 - name: List S3 Buckets
-  class: list_buckets
+  action: list_buckets
   inputs:
     region: string
   outputs:
-    buckets: list[object]
+    buckets: list[S3Bucket]
 
 - name: Put S3 Object
-  class: put_object
+  action: put_object
   inputs:
     acl: private | public-read | public-read-write | authenticated-read
     bucket: string #required
     content: bytes #required
     content_type: string
     key: string #required
-    metadata: object
+    metadata: ObjectMetadata
     region: string
     server_side_encryption: AES256 | aws:kms
     storage_class: STANDARD | REDUCED_REDUNDANCY | STANDARD_IA | ONEZONE_IA | INTELLIGENT_TIERING | GLACIER | DEEP_ARCHIVE
-    tags: object
+    tags: S3Tags
   outputs:
     etag: string
     success: boolean
     version_id: string
 
 - name: Get S3 Object
-  class: get_object
+  action: get_object
   inputs:
     bucket: string #required
     key: string #required
@@ -55,13 +55,13 @@
     content_type: string
     etag: string
     last_modified: datetime
-    metadata: object
+    metadata: ObjectMetadata
     size: integer
     storage_class: string
     version_id: string
 
 - name: Delete S3 Object
-  class: delete_object
+  action: delete_object
   inputs:
     bucket: string #required
     key: string #required
@@ -72,18 +72,18 @@
     version_id: string
 
 - name: Delete S3 Objects
-  class: delete_objects
+  action: delete_objects
   inputs:
     bucket: string #required
     keys: list[string] #required
     region: string
   outputs:
-    deleted: list[object]
-    errors: list[object]
+    deleted: list[DeletedObject]
+    errors: list[S3Error]
     success: boolean
 
 - name: List S3 Objects
-  class: list_objects
+  action: list_objects
   inputs:
     bucket: string #required
     continuation_token: string
@@ -93,7 +93,7 @@
     region: string
     start_after: string
   outputs:
-    contents: list[object]
+    contents: list[S3Object]
     continuation_token: string
     is_truncated: boolean
     key_count: integer
@@ -101,25 +101,25 @@
     prefix: string
 
 - name: Copy S3 Object
-  class: copy_object
+  action: copy_object
   inputs:
     destination_bucket: string #required
     destination_key: string #required
-    metadata: object
+    metadata: ObjectMetadata
     metadata_directive: COPY | REPLACE = COPY
     region: string
     source_bucket: string #required
     source_key: string #required
     source_version_id: string
     storage_class: string
-    tags: object
+    tags: S3Tags
   outputs:
     etag: string
     success: boolean
     version_id: string
 
 - name: Head S3 Object
-  class: head_object
+  action: head_object
   inputs:
     bucket: string #required
     key: string #required
@@ -131,12 +131,12 @@
     etag: string
     exists: boolean
     last_modified: datetime
-    metadata: object
+    metadata: ObjectMetadata
     storage_class: string
     version_id: string
 
 - name: Get S3 Object Presigned URL
-  class: get_presigned_url
+  action: get_presigned_url
   inputs:
     bucket: string #required
     expires_in: integer = 3600
@@ -148,7 +148,7 @@
     url: string
 
 - name: Set S3 Bucket Policy
-  class: put_bucket_policy
+  action: put_bucket_policy
   inputs:
     bucket: string #required
     policy: string #required
@@ -157,7 +157,7 @@
     success: boolean
 
 - name: Get S3 Bucket Policy
-  class: get_bucket_policy
+  action: get_bucket_policy
   inputs:
     bucket: string #required
     region: string
@@ -165,7 +165,7 @@
     policy: string
 
 - name: Delete S3 Bucket Policy
-  class: delete_bucket_policy
+  action: delete_bucket_policy
   inputs:
     bucket: string #required
     region: string
@@ -173,7 +173,7 @@
     success: boolean
 
 - name: Put S3 Bucket Versioning
-  class: put_bucket_versioning
+  action: put_bucket_versioning
   inputs:
     bucket: string #required
     region: string
@@ -182,7 +182,7 @@
     success: boolean
 
 - name: Get S3 Bucket Versioning
-  class: get_bucket_versioning
+  action: get_bucket_versioning
   inputs:
     bucket: string #required
     region: string
@@ -191,7 +191,7 @@
     status: string
 
 - name: Put S3 Bucket Encryption
-  class: put_bucket_encryption
+  action: put_bucket_encryption
   inputs:
     bucket: string #required
     kms_master_key_id: string
@@ -201,32 +201,32 @@
     success: boolean
 
 - name: Get S3 Bucket Encryption
-  class: get_bucket_encryption
+  action: get_bucket_encryption
   inputs:
     bucket: string #required
     region: string
   outputs:
-    rules: list[object]
+    rules: list[EncryptionRule]
 
 - name: Put S3 Bucket CORS
-  class: put_bucket_cors
+  action: put_bucket_cors
   inputs:
     bucket: string #required
-    cors_rules: list[object] #required
+    cors_rules: list[CorsRule] #required
     region: string
   outputs:
     success: boolean
 
 - name: Get S3 Bucket CORS
-  class: get_bucket_cors
+  action: get_bucket_cors
   inputs:
     bucket: string #required
     region: string
   outputs:
-    cors_rules: list[object]
+    cors_rules: list[CorsRule]
 
 - name: Delete S3 Bucket CORS
-  class: delete_bucket_cors
+  action: delete_bucket_cors
   inputs:
     bucket: string #required
     region: string
@@ -234,52 +234,52 @@
     success: boolean
 
 - name: Put S3 Bucket Lifecycle
-  class: put_bucket_lifecycle
+  action: put_bucket_lifecycle
   inputs:
     bucket: string #required
-    lifecycle_rules: list[object] #required
+    lifecycle_rules: list[LifecycleRule] #required
     region: string
   outputs:
     success: boolean
 
 - name: Get S3 Bucket Lifecycle
-  class: get_bucket_lifecycle
+  action: get_bucket_lifecycle
   inputs:
     bucket: string #required
     region: string
   outputs:
-    rules: list[object]
+    rules: list[LifecycleRule]
 
 - name: Put S3 Object Tagging
-  class: put_object_tagging
+  action: put_object_tagging
   inputs:
     bucket: string #required
     key: string #required
     region: string
-    tags: object #required
+    tags: S3Tags #required
     version_id: string
   outputs:
     success: boolean
     version_id: string
 
 - name: Get S3 Object Tagging
-  class: get_object_tagging
+  action: get_object_tagging
   inputs:
     bucket: string #required
     key: string #required
     region: string
     version_id: string
   outputs:
-    tags: object
+    tags: S3Tags
     version_id: string
 
 - name: Create Multipart Upload
-  class: create_multipart_upload
+  action: create_multipart_upload
   inputs:
     bucket: string #required
     content_type: string
     key: string #required
-    metadata: object
+    metadata: ObjectMetadata
     region: string
     storage_class: string
   outputs:
@@ -287,7 +287,7 @@
     upload_id: string
 
 - name: Upload Part
-  class: upload_part
+  action: upload_part
   inputs:
     body: bytes #required
     bucket: string #required
@@ -300,11 +300,11 @@
     success: boolean
 
 - name: Complete Multipart Upload
-  class: complete_multipart_upload
+  action: complete_multipart_upload
   inputs:
     bucket: string #required
     key: string #required
-    parts: list[object] #required
+    parts: list[CompletedPart] #required
     region: string
     upload_id: string #required
   outputs:
@@ -315,7 +315,7 @@
     success: boolean
 
 - name: Abort Multipart Upload
-  class: abort_multipart_upload
+  action: abort_multipart_upload
   inputs:
     bucket: string #required
     key: string #required
@@ -323,3 +323,85 @@
     upload_id: string #required
   outputs:
     success: boolean
+
+- name: S3Object
+  class:
+    bucket: string
+    key: string
+    etag: string
+    size: integer
+    content_type: string
+    storage_class: string
+    last_modified: datetime
+    metadata: ObjectMetadata
+    version_id: string
+
+- name: S3Bucket
+  class:
+    name: string
+    creation_date: datetime
+
+- name: S3Tags
+  class:
+    items: list[S3Tag]
+
+- name: S3Tag
+  class:
+    key: string
+    value: string
+
+- name: ObjectMetadata
+  class:
+    content_type: string
+    content_encoding: string
+    content_language: string
+    content_disposition: string
+    cache_control: string
+    custom: map[string, string]
+
+- name: DeletedObject
+  class:
+    key: string
+    version_id: string
+    delete_marker: boolean
+    delete_marker_version_id: string
+
+- name: S3Error
+  class:
+    key: string
+    version_id: string
+    code: string
+    message: string
+
+- name: EncryptionRule
+  class:
+    sse_algorithm: string
+    kms_master_key_id: string
+    bucket_key_enabled: boolean
+
+- name: CorsRule
+  class:
+    allowed_headers: list[string]
+    allowed_methods: list[string]
+    allowed_origins: list[string]
+    expose_headers: list[string]
+    max_age_seconds: integer
+
+- name: LifecycleRule
+  class:
+    id: string
+    status: string
+    prefix: string
+    expiration_days: integer
+    noncurrent_version_expiration_days: integer
+    transitions: list[LifecycleTransition]
+
+- name: LifecycleTransition
+  class:
+    days: integer
+    storage_class: string
+
+- name: CompletedPart
+  class:
+    etag: string
+    part_number: integer

@@ -1,23 +1,23 @@
 - name: Search Query Documents
-  class: search_query
+  action: search_query
   inputs:
     fields: list[string]
-    filters: object
+    filters: SearchFilters
     highlight: boolean = false
     index: string #required
     limit: integer = 10
     offset: integer = 0
     query: string #required
-    sort: list[object]
+    sort: list[SearchSortField]
   outputs:
-    hits: list[object]
+    hits: list[SearchHit]
     took_ms: integer
     total: integer
 
 - name: Index Single Document
-  class: index_document
+  action: index_document
   inputs:
-    document: object #required
+    document: SearchDocumentData #required
     document_id: string #required
     index: string #required
     refresh: boolean = false
@@ -26,30 +26,30 @@
     version: integer
 
 - name: Index Multiple Documents
-  class: bulk_index
+  action: bulk_index
   inputs:
-    documents: list[object] #required
+    documents: list[SearchDocumentData] #required
     index: string #required
     refresh: boolean = false
   outputs:
-    errors: list[object]
+    errors: list[SearchIndexError]
     failed: integer
     indexed: integer
 
 - name: Get Document By ID
-  class: get_document
+  action: get_document
   inputs:
     document_id: string #required
     index: string #required
   outputs:
-    document: object
+    document: SearchDocumentData
     found: boolean
     version: integer
 
 - name: Update Existing Document
-  class: update_document
+  action: update_document
   inputs:
-    document: object #required
+    document: SearchDocumentData #required
     document_id: string #required
     index: string #required
     upsert: boolean = false
@@ -58,7 +58,7 @@
     version: integer
 
 - name: Delete Document By ID
-  class: delete_document
+  action: delete_document
   inputs:
     document_id: string #required
     index: string #required
@@ -67,50 +67,50 @@
     success: boolean
 
 - name: Delete Documents By Query
-  class: delete_by_query
+  action: delete_by_query
   inputs:
     index: string #required
-    query: object #required
+    query: SearchQuery #required
     refresh: boolean = false
   outputs:
     deleted: integer
     success: boolean
 
 - name: Create Search Index
-  class: create_index
+  action: create_index
   inputs:
     index: string #required
-    mappings: object
-    settings: object
+    mappings: SearchMappings
+    settings: SearchIndexSettings
   outputs:
     success: boolean
 
 - name: Delete Search Index
-  class: delete_index
+  action: delete_index
   inputs:
     index: string #required
   outputs:
     success: boolean
 
 - name: List Search Indexes
-  class: list_indexes
+  action: list_indexes
   inputs:
     pattern: string = "*"
   outputs:
-    indexes: list[object]
+    indexes: list[SearchIndexInfo]
     total: integer
 
 - name: Get Index Statistics
-  class: get_index_stats
+  action: get_index_stats
   inputs:
     index: string #required
   outputs:
     document_count: integer
-    mappings: object
+    mappings: SearchMappings
     size_bytes: integer
 
 - name: Suggest Search Terms
-  class: suggest
+  action: suggest
   inputs:
     field: string #required
     index: string #required
@@ -118,3 +118,63 @@
     text: string #required
   outputs:
     suggestions: list[string]
+
+- name: SearchDocument
+  class:
+    document_id: string
+    index: string
+    document: SearchDocumentData
+    score: float
+    version: integer
+
+- name: SearchDocumentData
+  class:
+    fields: map[string, any]
+
+- name: SearchFilters
+  class:
+    conditions: map[string, any]
+
+- name: SearchSortField
+  class:
+    field: string
+    order: string
+
+- name: SearchHit
+  class:
+    document_id: string
+    score: float
+    source: SearchDocumentData
+    highlight: map[string, list[string]]
+
+- name: SearchIndexError
+  class:
+    document_id: string
+    error: string
+    status: integer
+
+- name: SearchQuery
+  class:
+    query: map[string, any]
+
+- name: SearchMappings
+  class:
+    properties: map[string, SearchFieldMapping]
+
+- name: SearchFieldMapping
+  class:
+    type: string
+    analyzer: string
+    index: boolean
+
+- name: SearchIndexSettings
+  class:
+    number_of_shards: integer
+    number_of_replicas: integer
+
+- name: SearchIndexInfo
+  class:
+    name: string
+    document_count: integer
+    size_bytes: integer
+    status: string

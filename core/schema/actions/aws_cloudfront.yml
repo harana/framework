@@ -1,0 +1,358 @@
+- name: Create CloudFront Distribution
+  action: create_distribution
+  inputs:
+    origin_domain_name: string #required
+    origin_id: string #required
+    default_root_object: string = "index.html"
+    enabled: boolean = true
+    price_class: PriceClass_All | PriceClass_200 | PriceClass_100 = PriceClass_All
+    aliases: list[string]
+    certificate_arn: string
+    ssl_support_method: sni-only | vip | static-ip
+    minimum_protocol_version: TLSv1.2_2021 | TLSv1.2_2019 | TLSv1.2_2018 = TLSv1.2_2021
+    default_cache_behavior: CacheBehavior
+    cache_behaviors: list[CacheBehavior]
+    custom_error_responses: list[CustomErrorResponse]
+    comment: string
+    tags: CloudFrontTags
+  outputs:
+    distribution_id: string
+    domain_name: string
+    arn: string
+    status: string
+    success: boolean
+
+- name: Get CloudFront Distribution
+  action: get_distribution
+  inputs:
+    distribution_id: string #required
+  outputs:
+    distribution_id: string
+    domain_name: string
+    arn: string
+    status: string
+    enabled: boolean
+    aliases: list[string]
+    origins: list[CloudFrontOrigin]
+    default_cache_behavior: CacheBehavior
+    cache_behaviors: list[CacheBehavior]
+    price_class: string
+    last_modified_time: datetime
+
+- name: Update CloudFront Distribution
+  action: update_distribution
+  inputs:
+    distribution_id: string #required
+    if_match: string #required
+    enabled: boolean
+    default_root_object: string
+    aliases: list[string]
+    default_cache_behavior: CacheBehavior
+    cache_behaviors: list[CacheBehavior]
+    custom_error_responses: list[CustomErrorResponse]
+    comment: string
+  outputs:
+    distribution_id: string
+    status: string
+    success: boolean
+
+- name: Delete CloudFront Distribution
+  action: delete_distribution
+  inputs:
+    distribution_id: string #required
+    if_match: string #required
+  outputs:
+    success: boolean
+
+- name: List CloudFront Distributions
+  action: list_distributions
+  inputs:
+    max_items: integer = 100
+    marker: string
+  outputs:
+    distributions: list[CloudFrontDistribution]
+    next_marker: string
+    is_truncated: boolean
+
+- name: Create Invalidation
+  action: create_invalidation
+  inputs:
+    distribution_id: string #required
+    paths: list[string] #required
+    caller_reference: string
+  outputs:
+    invalidation_id: string
+    status: string
+    create_time: datetime
+    success: boolean
+
+- name: Get Invalidation
+  action: get_invalidation
+  inputs:
+    distribution_id: string #required
+    invalidation_id: string #required
+  outputs:
+    invalidation_id: string
+    status: string
+    create_time: datetime
+    paths: list[string]
+
+- name: List Invalidations
+  action: list_invalidations
+  inputs:
+    distribution_id: string #required
+    max_items: integer = 100
+    marker: string
+  outputs:
+    invalidations: list[CloudFrontInvalidation]
+    next_marker: string
+    is_truncated: boolean
+
+- name: Create Cache Policy
+  action: create_cache_policy
+  inputs:
+    name: string #required
+    default_ttl: integer = 86400
+    max_ttl: integer = 31536000
+    min_ttl: integer = 0
+    parameters_in_cache_key_and_forwarded_to_origin: CacheKeyParameters
+    comment: string
+  outputs:
+    cache_policy_id: string
+    etag: string
+    success: boolean
+
+- name: Get Cache Policy
+  action: get_cache_policy
+  inputs:
+    cache_policy_id: string #required
+  outputs:
+    cache_policy_id: string
+    name: string
+    default_ttl: integer
+    max_ttl: integer
+    min_ttl: integer
+    parameters_in_cache_key: CacheKeyParameters
+    etag: string
+
+- name: Delete Cache Policy
+  action: delete_cache_policy
+  inputs:
+    cache_policy_id: string #required
+    if_match: string #required
+  outputs:
+    success: boolean
+
+- name: List Cache Policies
+  action: list_cache_policies
+  inputs:
+    type: managed | custom = custom
+    max_items: integer = 100
+    marker: string
+  outputs:
+    cache_policies: list[CachePolicy]
+    next_marker: string
+
+- name: Create Origin Request Policy
+  action: create_origin_request_policy
+  inputs:
+    name: string #required
+    headers_config: HeadersConfig
+    cookies_config: CookiesConfig
+    query_strings_config: QueryStringsConfig
+    comment: string
+  outputs:
+    origin_request_policy_id: string
+    etag: string
+    success: boolean
+
+- name: Create Response Headers Policy
+  action: create_response_headers_policy
+  inputs:
+    name: string #required
+    cors_config: CorsConfig
+    security_headers_config: SecurityHeadersConfig
+    custom_headers_config: CustomHeadersConfig
+    comment: string
+  outputs:
+    response_headers_policy_id: string
+    etag: string
+    success: boolean
+
+- name: Create CloudFront Function
+  action: create_function
+  inputs:
+    name: string #required
+    runtime: cloudfront-js-1.0 | cloudfront-js-2.0 = cloudfront-js-2.0
+    function_code: string #required
+    comment: string
+  outputs:
+    function_name: string
+    function_arn: string
+    etag: string
+    status: string
+    success: boolean
+
+- name: Publish CloudFront Function
+  action: publish_function
+  inputs:
+    name: string #required
+    if_match: string #required
+  outputs:
+    function_arn: string
+    status: string
+    success: boolean
+
+- name: Get Distribution Config
+  action: get_distribution_config
+  inputs:
+    distribution_id: string #required
+  outputs:
+    distribution_config: DistributionConfig
+    etag: string
+
+- name: Tag CloudFront Resource
+  action: tag_resource
+  inputs:
+    resource_arn: string #required
+    tags: CloudFrontTags #required
+  outputs:
+    success: boolean
+
+- name: List Tags For Resource
+  action: list_tags_for_resource
+  inputs:
+    resource_arn: string #required
+  outputs:
+    tags: CloudFrontTags
+
+- name: CloudFrontDistribution
+  class:
+    distribution_id: string
+    domain_name: string
+    arn: string
+    status: string
+    enabled: boolean
+    aliases: list[string]
+    origins: list[CloudFrontOrigin]
+    price_class: string
+    last_modified_time: datetime
+
+- name: CloudFrontOrigin
+  class:
+    id: string
+    domain_name: string
+    origin_path: string
+    connection_attempts: integer
+    connection_timeout: integer
+
+- name: CacheBehavior
+  class:
+    path_pattern: string
+    target_origin_id: string
+    viewer_protocol_policy: string
+    allowed_methods: list[string]
+    cached_methods: list[string]
+    cache_policy_id: string
+    origin_request_policy_id: string
+    compress: boolean
+    smooth_streaming: boolean
+
+- name: CacheKeyParameters
+  class:
+    headers_config: HeadersConfig
+    cookies_config: CookiesConfig
+    query_strings_config: QueryStringsConfig
+    enable_accept_encoding_gzip: boolean
+    enable_accept_encoding_brotli: boolean
+
+- name: HeadersConfig
+  class:
+    header_behavior: string
+    headers: list[string]
+
+- name: CookiesConfig
+  class:
+    cookie_behavior: string
+    cookies: list[string]
+
+- name: QueryStringsConfig
+  class:
+    query_string_behavior: string
+    query_strings: list[string]
+
+- name: CorsConfig
+  class:
+    access_control_allow_origins: list[string]
+    access_control_allow_headers: list[string]
+    access_control_allow_methods: list[string]
+    access_control_allow_credentials: boolean
+    access_control_max_age_sec: integer
+    origin_override: boolean
+
+- name: SecurityHeadersConfig
+  class:
+    content_security_policy: string
+    content_type_options: string
+    frame_options: string
+    referrer_policy: string
+    strict_transport_security: string
+    xss_protection: string
+
+- name: CustomHeadersConfig
+  class:
+    items: list[CustomHeader]
+
+- name: CustomHeader
+  class:
+    header: string
+    value: string
+    override: boolean
+
+- name: CustomErrorResponse
+  class:
+    error_code: integer
+    response_page_path: string
+    response_code: string
+    error_caching_min_ttl: integer
+
+- name: CloudFrontInvalidation
+  class:
+    id: string
+    status: string
+    create_time: datetime
+
+- name: CloudFrontTags
+  class:
+    items: list[CloudFrontTag]
+
+- name: CloudFrontTag
+  class:
+    key: string
+    value: string
+
+- name: DistributionConfig
+  class:
+    caller_reference: string
+    aliases: list[string]
+    default_root_object: string
+    origins: list[CloudFrontOrigin]
+    default_cache_behavior: CacheBehavior
+    cache_behaviors: list[CacheBehavior]
+    custom_error_responses: list[CustomErrorResponse]
+    comment: string
+    logging: boolean
+    price_class: string
+    enabled: boolean
+    viewer_certificate: string
+    restrictions: string
+    web_acl_id: string
+
+- name: CachePolicy
+  class:
+    cache_policy_id: string
+    name: string
+    default_ttl: integer
+    max_ttl: integer
+    min_ttl: integer
+    comment: string

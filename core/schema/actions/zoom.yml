@@ -1,0 +1,351 @@
+- name: Create Zoom Meeting
+  action: create_meeting
+  inputs:
+    agenda: string
+    duration: integer = 60
+    password: string
+    recurrence: ZoomRecurrence
+    settings: ZoomMeetingSettings
+    start_time: datetime
+    timezone: string
+    topic: string #required
+    type: instant | scheduled | recurring_fixed | recurring_unfixed = scheduled
+  outputs:
+    join_url: string
+    meeting_id: string
+    password: string
+    start_url: string
+    success: boolean
+
+- name: Get Zoom Meeting
+  action: get_meeting
+  inputs:
+    meeting_id: string #required
+  outputs:
+    agenda: string
+    duration: integer
+    host_id: string
+    join_url: string
+    meeting_id: string
+    password: string
+    start_time: datetime
+    status: string
+    timezone: string
+    topic: string
+    type: integer
+
+- name: Update Zoom Meeting
+  action: update_meeting
+  inputs:
+    agenda: string
+    duration: integer
+    meeting_id: string #required
+    password: string
+    settings: ZoomMeetingSettings
+    start_time: datetime
+    timezone: string
+    topic: string
+    type: instant | scheduled | recurring_fixed | recurring_unfixed
+  outputs:
+    success: boolean
+
+- name: Delete Zoom Meeting
+  action: delete_meeting
+  inputs:
+    meeting_id: string #required
+    occurrence_id: string
+    schedule_for_reminder: boolean = false
+  outputs:
+    success: boolean
+
+- name: List Zoom Meetings
+  action: list_meetings
+  inputs:
+    next_page_token: string
+    page_size: integer = 30
+    type: scheduled | live | upcoming | upcoming_meetings | previous_meetings = scheduled
+    user_id: string = "me"
+  outputs:
+    meetings: list[ZoomMeeting]
+    next_page_token: string
+    total_records: integer
+
+- name: Add Meeting Registrant
+  action: add_registrant
+  inputs:
+    custom_questions: list[ZoomCustomQuestion]
+    email: string #required
+    first_name: string #required
+    last_name: string
+    meeting_id: string #required
+    phone: string
+  outputs:
+    join_url: string
+    registrant_id: string
+    success: boolean
+
+- name: List Meeting Registrants
+  action: list_registrants
+  inputs:
+    meeting_id: string #required
+    next_page_token: string
+    page_size: integer = 30
+    status: pending | approved | denied = approved
+  outputs:
+    next_page_token: string
+    registrants: list[ZoomRegistrant]
+    total_records: integer
+
+- name: Update Registrant Status
+  action: update_registrant_status
+  inputs:
+    action: approve | deny | cancel #required
+    meeting_id: string #required
+    registrants: list[ZoomRegistrantId] #required
+  outputs:
+    success: boolean
+
+- name: Get Meeting Participants
+  action: get_participants
+  inputs:
+    meeting_id: string #required
+    next_page_token: string
+    page_size: integer = 30
+    type: past | pastOne | live = live
+  outputs:
+    next_page_token: string
+    participants: list[ZoomParticipant]
+    total_records: integer
+
+- name: Create Zoom Webinar
+  action: create_webinar
+  inputs:
+    agenda: string
+    duration: integer = 60
+    password: string
+    settings: ZoomWebinarSettings
+    start_time: datetime
+    timezone: string
+    topic: string #required
+    type: webinar | recurring_webinar_fixed | recurring_webinar_unfixed = webinar
+  outputs:
+    join_url: string
+    password: string
+    start_url: string
+    success: boolean
+    webinar_id: string
+
+- name: Get Zoom Webinar
+  action: get_webinar
+  inputs:
+    webinar_id: string #required
+  outputs:
+    agenda: string
+    duration: integer
+    host_id: string
+    join_url: string
+    start_time: datetime
+    timezone: string
+    topic: string
+    type: integer
+    webinar_id: string
+
+- name: Delete Zoom Webinar
+  action: delete_webinar
+  inputs:
+    occurrence_id: string
+    webinar_id: string #required
+  outputs:
+    success: boolean
+
+- name: Get Zoom User
+  action: get_user
+  inputs:
+    user_id: string = "me"
+  outputs:
+    created_at: datetime
+    email: string
+    first_name: string
+    last_name: string
+    status: string
+    timezone: string
+    type: integer
+    user_id: string
+
+- name: List Zoom Users
+  action: list_users
+  inputs:
+    next_page_token: string
+    page_size: integer = 30
+    role_id: string
+    status: active | inactive | pending = active
+  outputs:
+    next_page_token: string
+    total_records: integer
+    users: list[ZoomUser]
+
+- name: Get Meeting Recording
+  action: get_recording
+  inputs:
+    meeting_id: string #required
+  outputs:
+    download_url: string
+    duration: integer
+    recording_files: list[ZoomRecordingFile]
+    share_url: string
+
+- name: Delete Meeting Recording
+  action: delete_recording
+  inputs:
+    action: trash | delete = trash
+    meeting_id: string #required
+  outputs:
+    success: boolean
+
+- name: List Cloud Recordings
+  action: list_recordings
+  inputs:
+    from_date: datetime
+    next_page_token: string
+    page_size: integer = 30
+    to_date: datetime
+    user_id: string = "me"
+  outputs:
+    next_page_token: string
+    recordings: list[ZoomRecording]
+    total_records: integer
+
+- name: End Zoom Meeting
+  action: end_meeting
+  inputs:
+    meeting_id: string #required
+  outputs:
+    success: boolean
+
+- name: Send Meeting Invitation
+  action: send_invitation
+  inputs:
+    emails: list[string] #required
+    meeting_id: string #required
+  outputs:
+    success: boolean
+
+- name: ZoomMeeting
+  class:
+    meeting_id: string
+    topic: string
+    type: integer
+    start_time: datetime
+    duration: integer
+    timezone: string
+    password: string
+    join_url: string
+    start_url: string
+    host_id: string
+    status: string
+
+- name: ZoomRecurrence
+  class:
+    type: daily | weekly | monthly
+    repeat_interval: integer
+    weekly_days: string
+    monthly_day: integer
+    monthly_week: integer
+    monthly_week_day: integer
+    end_times: integer
+    end_date_time: datetime
+
+- name: ZoomMeetingSettings
+  class:
+    host_video: boolean
+    participant_video: boolean
+    join_before_host: boolean
+    mute_upon_entry: boolean
+    watermark: boolean
+    use_pmi: boolean
+    approval_type: integer
+    registration_type: integer
+    audio: string
+    auto_recording: string
+    waiting_room: boolean
+
+- name: ZoomWebinarSettings
+  class:
+    host_video: boolean
+    panelists_video: boolean
+    practice_session: boolean
+    hd_video: boolean
+    approval_type: integer
+    registration_type: integer
+    audio: string
+    auto_recording: string
+    close_registration: boolean
+    show_share_button: boolean
+    allow_multiple_devices: boolean
+
+- name: ZoomCustomQuestion
+  class:
+    title: string
+    value: string
+
+- name: ZoomRegistrant
+  class:
+    id: string
+    email: string
+    first_name: string
+    last_name: string
+    status: string
+    create_time: datetime
+    join_url: string
+
+- name: ZoomRegistrantId
+  class:
+    id: string
+    email: string
+
+- name: ZoomParticipant
+  class:
+    id: string
+    user_id: string
+    name: string
+    email: string
+    join_time: datetime
+    leave_time: datetime
+    duration: integer
+    attentiveness_score: string
+    status: string
+
+- name: ZoomUser
+  class:
+    id: string
+    email: string
+    first_name: string
+    last_name: string
+    type: integer
+    status: string
+    created_at: datetime
+    timezone: string
+
+- name: ZoomRecordingFile
+  class:
+    id: string
+    meeting_id: string
+    recording_start: datetime
+    recording_end: datetime
+    file_type: string
+    file_size: integer
+    download_url: string
+    play_url: string
+    status: string
+
+- name: ZoomRecording
+  class:
+    id: string
+    meeting_id: string
+    topic: string
+    type: integer
+    start_time: datetime
+    duration: integer
+    total_size: integer
+    recording_count: integer
+    recording_files: list[ZoomRecordingFile]

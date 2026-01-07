@@ -1,5 +1,5 @@
 - name: Authenticate User Credentials
-  class: authenticate
+  action: authenticate
   inputs:
     mfa_code: string
     password: string #required
@@ -12,17 +12,17 @@
     user_id: string
 
 - name: Verify Access Token
-  class: verify_token
+  action: verify_token
   inputs:
     token: string #required
   outputs:
-    claims: object
+    claims: TokenClaims
     expires_at: datetime
     user_id: string
     valid: boolean
 
 - name: Refresh Access Token
-  class: refresh_token
+  action: refresh_token
   inputs:
     refresh_token: string #required
   outputs:
@@ -31,29 +31,29 @@
     refresh_token: string
 
 - name: Revoke Access Token
-  class: revoke_token
+  action: revoke_token
   inputs:
     token: string #required
   outputs:
     success: boolean
 
 - name: Get User By ID
-  class: get_user
+  action: get_user
   inputs:
     user_id: string #required
   outputs:
     created_at: datetime
     email: string
-    metadata: object
+    metadata: UserMetadata
     roles: list[string]
     user_id: string
     username: string
 
 - name: Create New User
-  class: create_user
+  action: create_user
   inputs:
     email: string #required
-    metadata: object
+    metadata: UserMetadata
     password: string #required
     roles: list[string]
     username: string #required
@@ -62,17 +62,17 @@
     user_id: string
 
 - name: Update User Details
-  class: update_user
+  action: update_user
   inputs:
     email: string
-    metadata: object
+    metadata: UserMetadata
     roles: list[string]
     user_id: string #required
   outputs:
     success: boolean
 
 - name: Delete User Account
-  class: delete_user
+  action: delete_user
   inputs:
     hard_delete: boolean = false
     user_id: string #required
@@ -80,7 +80,7 @@
     success: boolean
 
 - name: Change User Password
-  class: change_password
+  action: change_password
   inputs:
     current_password: string #required
     new_password: string #required
@@ -89,7 +89,7 @@
     success: boolean
 
 - name: Request Password Reset
-  class: request_password_reset
+  action: request_password_reset
   inputs:
     email: string #required
   outputs:
@@ -97,7 +97,7 @@
     success: boolean
 
 - name: Reset Password With Token
-  class: reset_password
+  action: reset_password
   inputs:
     new_password: string #required
     reset_token: string #required
@@ -105,7 +105,7 @@
     success: boolean
 
 - name: List Users
-  class: list_users
+  action: list_users
   inputs:
     limit: integer = 100
     offset: integer = 0
@@ -113,4 +113,30 @@
     search: string
   outputs:
     total: integer
-    users: list[object]
+    users: list[UserInfo]
+
+- name: User
+  class:
+    user_id: string
+    username: string
+    email: string
+    roles: list[string]
+    metadata: UserMetadata
+    created_at: datetime
+    last_login: datetime
+
+- name: TokenClaims
+  class:
+    claims: map[string, any]
+
+- name: UserMetadata
+  class:
+    values: map[string, any]
+
+- name: UserInfo
+  class:
+    user_id: string
+    username: string
+    email: string
+    roles: list[string]
+    created_at: datetime
