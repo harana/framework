@@ -1,0 +1,7 @@
+name: ComboboxDescription
+type: UIComponent
+id:
+  - identifier
+
+  option_id: id #required -> ComboboxOption.id
+  text: String #required

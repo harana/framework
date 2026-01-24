@@ -1,0 +1,219 @@
+- name: Insert Document
+  action: insert
+  inputs:
+    collection: String #required
+    database: String #required
+    document: MongoDocumentData #required
+  outputs:
+    inserted_id: String
+    success: Boolean
+
+- name: Insert Many Documents
+  action: insert_many
+  inputs:
+    collection: String #required
+    database: String #required
+    documents: List[MongoDocumentData] #required
+    ordered: Boolean = true
+  outputs:
+    inserted_count: Int
+    inserted_ids: List[String]
+    success: Boolean
+
+- name: Find Document
+  action: find_one
+  inputs:
+    collection: String #required
+    database: String #required
+    filter: MongoFilter #required
+    projection: MongoProjection
+  outputs:
+    document: MongoDocumentData
+    found: Boolean
+
+- name: Find Documents
+  action: find
+  inputs:
+    collection: String #required
+    database: String #required
+    filter: MongoFilter = {}
+    limit: Int
+    projection: MongoProjection
+    skip: Int = 0
+    sort: MongoSort
+  outputs:
+    count: Int
+    documents: List[MongoDocumentData]
+
+- name: Update Document
+  action: update_one
+  inputs:
+    collection: String #required
+    database: String #required
+    filter: MongoFilter #required
+    update: MongoUpdate #required
+    upsert: Boolean = false
+  outputs:
+    matched_count: Int
+    modified_count: Int
+    success: Boolean
+    upserted_id: String
+
+- name: Update Many Documents
+  action: update_many
+  inputs:
+    collection: String #required
+    database: String #required
+    filter: MongoFilter #required
+    update: MongoUpdate #required
+    upsert: Boolean = false
+  outputs:
+    matched_count: Int
+    modified_count: Int
+    success: Boolean
+    upserted_id: String
+
+- name: Replace Document
+  action: replace_one
+  inputs:
+    collection: String #required
+    database: String #required
+    filter: MongoFilter #required
+    replacement: MongoDocumentData #required
+    upsert: Boolean = false
+  outputs:
+    matched_count: Int
+    modified_count: Int
+    success: Boolean
+    upserted_id: String
+
+- name: Delete Document
+  action: delete_one
+  inputs:
+    collection: String #required
+    database: String #required
+    filter: MongoFilter #required
+  outputs:
+    deleted_count: Int
+    success: Boolean
+
+- name: Delete Many Documents
+  action: delete_many
+  inputs:
+    collection: String #required
+    database: String #required
+    filter: MongoFilter #required
+  outputs:
+    deleted_count: Int
+    success: Boolean
+
+- name: Count Documents
+  action: count
+  inputs:
+    collection: String #required
+    database: String #required
+    filter: MongoFilter = {}
+  outputs:
+    count: Int
+
+- name: Aggregate Documents
+  action: aggregate
+  inputs:
+    collection: String #required
+    database: String #required
+    pipeline: List[MongoPipelineStage] #required
+  outputs:
+    documents: List[MongoDocumentData]
+
+- name: Create Index
+  action: create_index
+  inputs:
+    collection: String #required
+    database: String #required
+    keys: MongoIndexKeys #required
+    name: String
+    unique: Boolean = false
+  outputs:
+    index_name: String
+    success: Boolean
+
+- name: Drop Index
+  action: drop_index
+  inputs:
+    collection: String #required
+    database: String #required
+    index_name: String #required
+  outputs:
+    success: Boolean
+
+- name: List Collections
+  action: list_collections
+  inputs:
+    database: String #required
+  outputs:
+    collections: List[String]
+
+- name: Drop Collection
+  action: drop_collection
+  inputs:
+    collection: String #required
+    database: String #required
+  outputs:
+    success: Boolean
+
+- name: Bulk Write Operations
+  action: bulk_write
+  inputs:
+    collection: String #required
+    database: String #required
+    operations: List[MongoBulkOperation] #required
+    ordered: Boolean = true
+  outputs:
+    deleted_count: Int
+    inserted_count: Int
+    matched_count: Int
+    modified_count: Int
+    success: Boolean
+    upserted_count: Int
+
+- name: MongoDocument
+  class:
+    _id: String
+    collection: String
+    database: String
+    document: MongoDocumentData
+
+- name: MongoDocumentData
+  class:
+    data: Map[String, Any]
+
+- name: MongoFilter
+  class:
+    conditions: Map[String, Any]
+
+- name: MongoProjection
+  class:
+    fields: Map[string, integer]
+
+- name: MongoSort
+  class:
+    fields: Map[string, integer]
+
+- name: MongoUpdate
+  class:
+    operators: Map[String, Any]
+
+- name: MongoPipelineStage
+  class:
+    stage: Map[String, Any]
+
+- name: MongoIndexKeys
+  class:
+    fields: Map[string, integer]
+
+- name: MongoBulkOperation
+  class:
+    operation_type: String
+    filter: MongoFilter
+    document: MongoDocumentData
+    update: MongoUpdate

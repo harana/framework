@@ -1,0 +1,15 @@
+<!-- Bento Grid -->
+<div id="{{id}}" class="py-24 sm:py-32 bento-grid-bg-{{background}}"
+     data-on:item-click="{{item_click}}">
+  <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
+    {{#if subtitle}}
+    <h2 class="text-base/7 font-semibold text-indigo-600 dark:text-indigo-400 {{#if layout_three_column}}text-center{{/if}}">{{subtitle}}</h2>
+    {{/if}}
+    {{#if title}}
+    <p class="mt-2 max-w-lg text-4xl font-semibold tracking-tight text-pretty text-gray-950 sm:text-5xl dark:text-white {{#if layout_three_column}}mx-auto text-center text-balance{{/if}}">{{title}}</p>
+    {{/if}}
+    <div class="mt-10 grid grid-cols-1 gap-4 sm:mt-16 bento-grid-layout-{{layout}}">
+      {{> bento_grid_items}}
+    </div>
+  </div>
+</div>

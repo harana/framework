@@ -1,0 +1,27 @@
+<!-- Feed -->
+<div id="{{id}}" class="flow-root"
+     data-on:item-click="{{item_click}}"
+     data-on:comment-submit="{{comment_submit}}">
+  <ul role="list" class="feed-variant-{{variant}}">
+    {{> feed_items}}
+  </ul>
+
+  {{#if show_comment_form}}
+  <!-- Comment Form -->
+  <div class="mt-6 flex gap-x-3">
+    <img src="{{current_user_avatar}}" alt="" class="size-6 flex-none rounded-full bg-gray-50 outline -outline-offset-1 outline-black/5 dark:bg-gray-800 dark:outline-white/10" />
+    <form action="#" class="relative flex-auto">
+      <div class="overflow-hidden rounded-lg pb-12 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 dark:bg-white/5 dark:outline-white/10 dark:focus-within:outline-indigo-500">
+        <label for="{{id}}-comment" class="sr-only">Add your comment</label>
+        <textarea id="{{id}}-comment" name="comment" rows="2" placeholder="Add your comment..." class="block w-full resize-none bg-transparent px-3 py-1.5 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6 dark:text-white dark:placeholder:text-gray-500"></textarea>
+      </div>
+      <div class="absolute inset-x-0 bottom-0 flex justify-between py-2 pr-2 pl-3">
+        <div class="flex items-center space-x-5">
+          {{> feed_comment_actions}}
+        </div>
+        <button type="submit" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20">Comment</button>
+      </div>
+    </form>
+  </div>
+  {{/if}}
+</div>

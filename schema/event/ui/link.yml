@@ -1,0 +1,23 @@
+- name: Link Clicked
+  type: link_clicked
+  schema:
+    link_id: Id #required
+    link_label: String?
+    link_href: String?
+    link_target: _self | _blank | _parent | _top = _self
+    clicked_at: Date = now()
+
+- name: Link Hovered
+  type: link_hovered
+  schema:
+    link_id: Id #required
+    link_label: String?
+    link_href: String?
+    hovered_at: Date = now()
+
+- name: Link Focused
+  type: link_focused
+  schema:
+    link_id: Id #required
+    link_label: String?
+    focused_at: Date = now()

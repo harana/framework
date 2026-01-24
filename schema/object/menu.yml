@@ -1,0 +1,31 @@
+- name: Menu Item
+  type: menu_item
+  id: [menu_id, slug]
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - href: String? #max(500)
+    - icon: String? #max(100)
+    - is_active: Boolean = true
+    - label: String #required #max(200)
+    - menu_id: Id #required
+    - order: int = 0 #min(0)
+    - parent_id: Id? -> MenuItem.id
+    - slug: String #required #unique #lowercase
+    - target: Self | Blank | Parent | Top = Self
+    - updated_at: Date = now()
+
+- name: Menu Item Action
+  type: menu_item_action
+  id: [menu_item_id, slug]
+  schema:
+    - created_at: Date = now()
+    - href: String? #max(500)
+    - icon: String? #max(100)
+    - is_active: Boolean = true
+    - label: String #required #max(200)
+    - menu_item_id: Id #required -> MenuItem.id
+    - order: int = 0 #min(0)
+    - slug: String #required #unique #lowercase
+    - target: Self | Blank | Parent | Top = Self
+    - updated_at: Date = now()

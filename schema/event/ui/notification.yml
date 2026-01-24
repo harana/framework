@@ -1,0 +1,44 @@
+- name: Notification Shown
+  type: notification_shown
+  schema:
+    notification_id: Id #required
+    notification_type: Info | Success | Warning | Error = Info
+    notification_title: String?
+    notification_message: String?
+    duration_ms: int? #min(0)
+    shown_at: Date = now()
+
+- name: Notification Dismissed
+  type: notification_dismissed
+  schema:
+    notification_id: Id #required
+    notification_type: Info | Success | Warning | Error = Info
+    dismiss_method: Button | Swipe | Timeout | Action = Button
+    time_visible_ms: int? #min(0)
+    dismissed_at: Date = now()
+
+- name: Notification Clicked
+  type: notification_clicked
+  schema:
+    notification_id: Id #required
+    notification_type: Info | Success | Warning | Error = Info
+    notification_title: String?
+    clicked_at: Date = now()
+
+- name: Notification Action Clicked
+  type: notification_action_clicked
+  schema:
+    notification_id: Id #required
+    action_id: Id #required
+    action_label: String?
+    action_type: Primary | Secondary | Dismiss = Primary
+    clicked_at: Date = now()
+
+- name: Toast Expired
+  type: toast_expired
+  schema:
+    toast_id: Id #required
+    toast_type: Info | Success | Warning | Error = Info
+    toast_message: String?
+    duration_ms: int? #min(0)
+    expired_at: Date = now()

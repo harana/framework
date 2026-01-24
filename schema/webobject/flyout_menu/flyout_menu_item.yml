@@ -1,0 +1,12 @@
+- name: Flyout Menu Item Component
+  type: flyout_menu_item
+  id: [flyout_menu_id, name]
+  attributes:
+    - description: String? #max(500)
+    - flyout_menu_id: Id #required -> UIFlyoutMenu.id
+    - href: String? #max(500)
+    - icon: String? #max(100)
+    - label: String #required #max(200)
+    - order: int = 0 #min(0)
+  events:
+    - click

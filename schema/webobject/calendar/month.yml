@@ -1,0 +1,21 @@
+- name: Month Calendar Component
+  type: month_calendar
+  attributes:
+    - add_event_label: String = "Add event" #max(50)
+    - current_month_datetime: String #required #max(20)
+    - current_month_display: String #required #max(50)
+    - days: [CalendarDay] #required
+    - selected_view: String = "month" #max(20)
+    - title: String #required #max(100)
+    - today_label: String = "Today" #max(20)
+    - view_options: [CalendarViewOption]
+    - weekday_labels: [String]
+  events:
+    - previous_month
+    - next_month
+    - go_to_today
+    - select_view
+    - select_date
+    - add_event
+    - view_event
+    - edit_event

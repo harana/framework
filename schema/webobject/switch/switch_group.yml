@@ -1,0 +1,6 @@
+- name: Switch Group Component
+  type: switch_group
+  attributes:
+    - aria_label: String? #max(200)
+  events:
+    - change

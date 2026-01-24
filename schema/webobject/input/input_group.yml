@@ -1,0 +1,5 @@
+- name: Input Group Component
+  type: input_group
+  attributes:
+    - icon: String? #max(100)
+    - input_id: Id #required -> UIInput.id

@@ -1,0 +1,6 @@
+- name: Navbar Divider Component
+  type: navbar_divider
+  id: [navbar_id, name]
+  attributes:
+    - navbar_id: Id #required -> UINavbar.id
+    - order: int = 0 #min(0)

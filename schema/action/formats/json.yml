@@ -1,0 +1,75 @@
+- name: Parse JSON String To Object
+  action: parse
+  inputs:
+    data: String #required
+    strict: Boolean = true
+  outputs:
+    result: Any
+
+- name: Convert Object To JSON String
+  action: Stringify
+  inputs:
+    data: Any #required
+    indent: Int = 0
+    sort_keys: Boolean = false
+  outputs:
+    json: String
+
+- name: Validate JSON Against Schema
+  action: validate
+  inputs:
+    data: Any #required
+    schema: JsonSchema #required
+  outputs:
+    errors: List[JsonValidationError]
+    valid: Boolean
+
+- name: Query JSON With JMESPath
+  action: jmespath_query
+  inputs:
+    data: Any #required
+    query: String #required
+  outputs:
+    result: Any
+
+- name: Deep Merge JSON Objects
+  action: merge
+  inputs:
+    objects: List[JsonObject] #required
+    strategy: Deep | Shallow | ConcatArrays = Deep
+  outputs:
+    result: JsonObject
+
+- name: Compare Two JSON Objects
+  action: diff
+  inputs:
+    include_unchanged: Boolean = false
+    source: Any #required
+    target: Any #required
+  outputs:
+    added: JsonObject
+    changed: JsonObject
+    removed: JsonObject
+
+- name: JsonDocument
+  class:
+    data: Any
+    schema: JsonSchema
+    valid: Boolean
+
+- name: JsonSchema
+  class:
+    type: String
+    properties: Map[String, Any]
+    required: List[String]
+    additional_properties: Boolean
+
+- name: JsonValidationError
+  class:
+    path: String
+    message: String
+    keyword: String
+
+- name: JsonObject
+  class:
+    data: Map[String, Any]

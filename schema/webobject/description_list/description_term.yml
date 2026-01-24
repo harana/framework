@@ -1,0 +1,7 @@
+name: DescriptionTerm
+type: UIComponent
+id:
+  - identifier
+
+  list_id: id #required -> DescriptionList.id
+  text: String #required

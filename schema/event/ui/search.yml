@@ -1,0 +1,42 @@
+- name: Search Initiated
+  type: search_initiated
+  schema:
+    search_id: Id #required
+    search_query: String #required
+    search_type: Global | Local | Filter = Global
+    search_context: String?
+    initiated_at: Date = now()
+
+- name: Search Cleared
+  type: search_cleared
+  schema:
+    search_id: Id #required
+    previous_query: String?
+    cleared_at: Date = now()
+
+- name: Search Results Shown
+  type: search_results_shown
+  schema:
+    search_id: Id #required
+    search_query: String #required
+    results_count: int #required #min(0)
+    search_duration_ms: int? #min(0)
+    shown_at: Date = now()
+
+- name: Search Result Selected
+  type: search_result_selected
+  schema:
+    search_id: Id #required
+    result_id: Id #required
+    result_index: int? #min(0)
+    result_type: String?
+    search_query: String?
+    selected_at: Date = now()
+
+- name: Search Empty State
+  type: search_empty_state
+  schema:
+    search_id: Id #required
+    search_query: String #required
+    suggestions_shown: Boolean = false
+    shown_at: Date = now()

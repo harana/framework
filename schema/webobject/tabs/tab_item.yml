@@ -1,0 +1,13 @@
+- name: Tab Item Component
+  type: tab_item
+  id: [tabs_id, name]
+  attributes:
+    - badge: String? #max(50)
+    - href: String? #max(500)
+    - icon: String? #max(100)
+    - is_current: Boolean = false
+    - label: String #required #max(100)
+    - order: Int = 0 #min(0)
+    - tabs_id: Id #required -> UITabs.id
+  events:
+    - click

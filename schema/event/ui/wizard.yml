@@ -1,0 +1,48 @@
+- name: Step Completed
+  type: step_completed
+  schema:
+    wizard_id: Id #required
+    step_id: Id #required
+    step_number: int #required #min(1)
+    step_name: String?
+    total_steps: int? #min(1)
+    completed_at: Date = now()
+
+- name: Step Skipped
+  type: step_skipped
+  schema:
+    wizard_id: Id #required
+    step_id: Id #required
+    step_number: int #required #min(1)
+    step_name: String?
+    skip_reason: String?
+    skipped_at: Date = now()
+
+- name: Step Navigated
+  type: step_navigated
+  schema:
+    wizard_id: Id #required
+    from_step: int #required #min(1)
+    to_step: int #required #min(1)
+    navigation_type: Next | Previous | Jump = Next
+    navigated_at: Date = now()
+
+- name: Wizard Completed
+  type: wizard_completed
+  schema:
+    wizard_id: Id #required
+    wizard_name: String?
+    total_steps: int? #min(1)
+    steps_skipped: int? #min(0)
+    completion_time_ms: int? #min(0)
+    completed_at: Date = now()
+
+- name: Wizard Cancelled
+  type: wizard_cancelled
+  schema:
+    wizard_id: Id #required
+    wizard_name: String?
+    cancelled_at_step: int? #min(1)
+    total_steps: int? #min(1)
+    cancel_reason: String?
+    cancelled_at: Date = now()

@@ -1,0 +1,7 @@
+name: ComboboxOption
+type: UIComponent
+id: [combobox_id]
+attributes:
+  combobox_id: id #required -> Combobox.id
+  value: String #required
+  is_disabled: bool = false

@@ -1,0 +1,67 @@
+- name: Blob Storage
+  type: blob_storage
+  schema:
+    - access_key_id: String? #max(255)
+    - allowed_mime_types: String? # comma-separated
+    - base_path: String? #max(1000)
+    - bucket: String? #max(255)
+    - created_at: Date = now()
+    - endpoint: String? #url
+    - is_active: Boolean = true
+    - max_file_size: int = 104857600 #min(1) # 100MB default
+    - provider: S3 | Azure | Gcs | Local | Minio = Local
+    - region: String? #max(100)
+    - secret_access_key: String? #max(255)
+    - updated_at: Date = now()
+
+- name: Blob Object
+  type: blob_object
+  id: [storage_id, key]
+  schema:
+    - cdn_url: String? #url
+    - content_hash: String? #max(128) # MD5, SHA256, etc.
+    - created_at: Date = now()
+    - expires_at: Date?
+    - file_name: String #required #max(255)
+    - file_size: int #required #min(1)
+    - is_encrypted: Boolean = false
+    - is_public: Boolean = false
+    - key: String #required #max(1000)
+    - metadata: String? # JSON metadata
+    - mime_type: String #required #max(100)
+    - storage_id: Id #required -> BlobStorage.id
+    - updated_at: Date = now()
+    - uploaded_by: Id? -> User.id
+    - url: String? #url
+    - version: String? #max(100)
+
+- name: Blob Access Log
+  type: blob_access_log
+  id: [object_id, accessed_at, accessed_by]
+  schema:
+    - accessed_at: Date = now()
+    - accessed_by: Id? -> User.id
+    - action: Upload | Download | Delete | View | Copy | Move = View
+    - bytes_transferred: int? #min(0)
+    - ip_address: String? #max(45)
+    - object_id: Id #required -> BlobObject.id
+    - status: Success | Failed | Unauthorized = Success
+    - user_agent: String? #max(500)
+
+- name: Blob Multipart Upload
+  type: blob_multipart_upload
+  id: [upload_id]
+  schema:
+    - completed_at: Date?
+    - completed_parts: int = 0 #min(0)
+    - created_at: Date = now()
+    - expires_at: Date?
+    - file_name: String #required #max(255)
+    - key: String #required #max(1000)
+    - status: Initiated | InProgress | Completed | Aborted | Failed = Initiated
+    - storage_id: Id #required -> BlobStorage.id
+    - total_parts: int #required #min(1)
+    - total_size: int? #min(0)
+    - updated_at: Date = now()
+    - upload_id: String #required #unique #max(255)
+    - uploaded_by: Id? -> User.id

@@ -1,0 +1,17 @@
+- name: Select Component
+  type: select
+  attributes:
+    - aria_label: String? #max(200)
+    - default_value: String? #max(200)
+    - description: String? #max(500)
+    - error_message: String? #max(500)
+    - is_disabled: Boolean = false
+    - is_invalid: Boolean = false
+    - label: String? #max(200)
+  events:
+    - blur
+    - change
+    - close
+    - focus
+    - open
+    - option_select

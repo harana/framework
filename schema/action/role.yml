@@ -1,0 +1,108 @@
+- name: Create Role Definition
+  action: create
+  inputs:
+    description: String
+    name: String #required
+    permissions: List[RolePermission] #required
+  outputs:
+    role_id: String
+    success: Boolean
+
+- name: Update Role Definition
+  action: update
+  inputs:
+    description: String
+    name: String
+    permissions: List[RolePermission]
+    role_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Delete Role Definition
+  action: delete
+  inputs:
+    role_id: String #required
+  outputs:
+    success: Boolean
+
+- name: List Available Roles
+  action: list
+  inputs:
+    limit: Int = 100
+    offset: Int = 0
+  outputs:
+    roles: List[RoleInfo]
+    total: Int
+
+- name: Get Role Details
+  action: get
+  inputs:
+    role_id: String #required
+  outputs:
+    description: String
+    name: String
+    permissions: List[RolePermission]
+    user_count: Int
+
+- name: Check Role Permission
+  action: check_permission
+  inputs:
+    action: String #required
+    resource: String #required
+    role_id: String #required
+  outputs:
+    allowed: Boolean
+
+- name: Add Permission To Role
+  action: add_permission
+  inputs:
+    action: String #required
+    conditions: RolePermissionConditions
+    resource: String #required
+    role_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Remove Permission From Role
+  action: remove_permission
+  inputs:
+    action: String #required
+    resource: String #required
+    role_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Clone Role
+  action: clone
+  inputs:
+    new_name: String #required
+    source_id: String #required
+  outputs:
+    role_id: String
+    success: Boolean
+
+- name: Role
+  class:
+    role_id: String
+    name: String
+    description: String
+    permissions: List[RolePermission]
+    user_count: Int
+    created_at: Date
+
+- name: RolePermission
+  class:
+    action: String
+    resource: String
+    conditions: RolePermissionConditions
+
+- name: RoleInfo
+  class:
+    role_id: String
+    name: String
+    description: String
+    user_count: Int
+
+- name: RolePermissionConditions
+  class:
+    conditions: Map[String, Any]

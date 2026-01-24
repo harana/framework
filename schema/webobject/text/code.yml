@@ -1,0 +1,6 @@
+- name: Code Component
+  type: code
+  attributes:
+    - content: String #required #max(1000)
+  events:
+    - copy

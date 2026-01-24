@@ -1,0 +1,5 @@
+- name: Stacked Layout Component
+  type: stacked_layout
+  attributes:
+    - navbar_id: Id #required -> UINavbar.id
+    - sidebar_id: Id #required -> UISidebar.id

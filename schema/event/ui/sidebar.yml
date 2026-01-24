@@ -1,0 +1,23 @@
+- name: Sidebar Toggled
+  type: sidebar_toggled
+  schema:
+    sidebar_id: Id #required
+    sidebar_name: String?
+    new_state: Expanded | Collapsed #required
+    toggled_at: Date = now()
+
+- name: Sidebar Collapsed
+  type: sidebar_collapsed
+  schema:
+    sidebar_id: Id #required
+    sidebar_name: String?
+    collapse_trigger: Button | Gesture | Auto = Button
+    collapsed_at: Date = now()
+
+- name: Sidebar Expanded
+  type: sidebar_expanded
+  schema:
+    sidebar_id: Id #required
+    sidebar_name: String?
+    expand_trigger: Button | Gesture | Hover = Button
+    expanded_at: Date = now()

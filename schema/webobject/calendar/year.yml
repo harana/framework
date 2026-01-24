@@ -1,0 +1,18 @@
+- name: Year Calendar Component
+  type: year_calendar
+  attributes:
+    - add_event_label: String = "Add event" #max(50)
+    - current_year_datetime: String #required #max(20)
+    - current_year: String #required #max(20)
+    - months: [CalendarMonth] #required
+    - selected_view: String = "year" #max(20)
+    - today_label: String = "Today" #max(20)
+    - view_options: [CalendarViewOption]
+    - weekday_labels: [String]
+  events:
+    - previous_year
+    - next_year
+    - go_to_today
+    - select_view
+    - select_date
+    - add_event

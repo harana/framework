@@ -1,0 +1,9 @@
+- name: Navbar Section Component
+  type: navbar_section
+  id: [navbar_id, name]
+  attributes:
+    - navbar_id: Id #required -> UINavbar.id
+    - order: int = 0 #min(0)
+  events:
+    - collapse
+    - expand

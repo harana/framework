@@ -1,0 +1,13 @@
+- name: Sidebar Item Component
+  type: sidebar_item
+  id: [sidebar_id, name]
+  attributes:
+    - href: String? #max(500)
+    - icon: String? #max(100)
+    - is_current: Boolean = false
+    - label: String #required #max(200)
+    - order: int = 0 #min(0)
+    - section_id: Id? -> UISidebarSection.id
+    - sidebar_id: Id #required -> UISidebar.id
+  events:
+    - click

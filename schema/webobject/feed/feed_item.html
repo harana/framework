@@ -1,0 +1,58 @@
+<!-- Feed Item -->
+<li class="relative flex gap-x-4" data-on:click="{{click}}">
+  <!-- Timeline connector -->
+  {{#unless is_last}}
+  <div class="absolute top-0 -bottom-6 left-0 flex w-6 justify-center">
+    <div class="w-px bg-gray-200 dark:bg-white/15"></div>
+  </div>
+  {{/unless}}
+  {{#if is_last}}
+  <div class="absolute top-0 left-0 flex h-6 w-6 justify-center">
+    <div class="w-px bg-gray-200 dark:bg-white/15"></div>
+  </div>
+  {{/if}}
+
+  <!-- Icon or Avatar -->
+  {{#if type_comment}}
+  <img src="{{actor_avatar}}" alt="{{actor_name}}" class="relative mt-3 size-6 flex-none rounded-full bg-gray-50 outline -outline-offset-1 outline-black/5 dark:bg-gray-800 dark:outline-white/10" />
+  {{else if is_complete}}
+  <div class="relative flex size-6 flex-none items-center justify-center bg-white dark:bg-gray-900">
+    <svg viewBox="0 0 24 24" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-6 text-indigo-600 dark:text-indigo-500">
+      <path d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" fill-rule="evenodd" />
+    </svg>
+  </div>
+  {{else}}
+  <div class="relative flex size-6 flex-none items-center justify-center bg-white dark:bg-gray-900">
+    <div class="size-1.5 rounded-full bg-gray-100 ring ring-gray-300 dark:bg-white/10 dark:ring-white/20"></div>
+  </div>
+  {{/if}}
+
+  <!-- Content -->
+  {{#if type_comment}}
+  <div class="flex-auto rounded-md p-3 ring-1 ring-gray-200 ring-inset dark:ring-white/15">
+    <div class="flex justify-between gap-x-4">
+      <div class="py-0.5 text-xs/5 text-gray-500 dark:text-gray-400">
+        <a href="{{actor_href}}" class="font-medium text-gray-900 dark:text-white">{{actor_name}}</a> commented
+      </div>
+      {{#if timestamp}}
+      <time class="flex-none py-0.5 text-xs/5 text-gray-500 dark:text-gray-400">{{timestamp}}</time>
+      {{/if}}
+    </div>
+    {{#if content}}
+    <p class="text-sm/6 text-gray-500 dark:text-gray-400">{{content}}</p>
+    {{/if}}
+  </div>
+  {{else}}
+  <p class="flex-auto py-0.5 text-xs/5 text-gray-500 dark:text-gray-400">
+    <a href="{{actor_href}}" class="font-medium text-gray-900 dark:text-white">{{actor_name}}</a>
+    {{content}}
+    {{#if target_name}}
+    <a href="{{target_href}}" class="font-medium text-gray-900 dark:text-white">{{target_name}}</a>
+    {{/if}}
+    {{> feed_item_tags}}
+  </p>
+  {{#if timestamp}}
+  <time class="flex-none py-0.5 text-xs/5 text-gray-500 dark:text-gray-400">{{timestamp}}</time>
+  {{/if}}
+  {{/if}}
+</li>

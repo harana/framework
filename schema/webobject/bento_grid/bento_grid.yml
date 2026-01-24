@@ -1,0 +1,10 @@
+- name: Bento Grid Component
+  type: bento_grid
+  attributes:
+    - background: White | Gray = White
+    - description: String? #max(500)
+    - layout: Mixed | ThreeColumn | TwoRow = Mixed
+    - subtitle: String? #max(200)
+    - title: String? #max(200)
+  events:
+    - item_click

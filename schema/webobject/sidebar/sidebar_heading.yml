@@ -1,0 +1,6 @@
+- name: Sidebar Heading Component
+  type: sidebar_heading
+  id: [section_id]
+  attributes:
+    - section_id: Id #required -> UISidebarSection.id
+    - title: String #required #max(100)

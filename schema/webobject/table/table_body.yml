@@ -1,0 +1,6 @@
+name: TableBody
+type: UIComponent
+id:
+  - identifier
+
+  id #required -> Table.id

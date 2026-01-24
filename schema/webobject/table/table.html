@@ -1,0 +1,17 @@
+<div id="{{id}}" class="flow-root"
+     data-on:bulk-selection-toggle="{{bulk_selection_toggle}}"
+     data-on:page-change="{{page_change}}"
+     data-on:page-size-change="{{page_size_change}}"
+     data-on:select-all-click="{{select_all_click}}">
+  <div class="-mx-(--gutter) overflow-x-auto whitespace-nowrap">
+    <div class="inline-block min-w-full align-middle {{#unless is_bleed}}sm:px-(--gutter){{/unless}}">
+      <table class="min-w-full text-left text-sm/6 text-zinc-950 dark:text-white"
+             {{#if is_dense}}data-dense{{/if}}
+             {{#if is_grid}}data-grid{{/if}}
+             {{#if is_striped}}data-striped{{/if}}
+             {{#if is_bleed}}data-bleed{{/if}}>
+        {{> table_content}}
+      </table>
+    </div>
+  </div>
+</div>

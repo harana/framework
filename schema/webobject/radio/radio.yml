@@ -1,0 +1,15 @@
+- name: Radio Component
+  type: radio
+  id: [group_id, value]
+  attributes:
+    - color: DarkZinc | DarkWhite | Dark | Zinc | White | Red | Orange | Amber | Yellow | Lime | Green | Emerald | Teal | Cyan | Sky | Blue | Indigo | Violet | Purple | Fuchsia | Pink | Rose = DarkZinc
+    - description: String? #max(500)
+    - group_id: Id #required -> UIRadioGroup.id
+    - is_disabled: Boolean = false
+    - label: String #required #max(200)
+    - order: int = 0 #min(0)
+    - value: String #required #max(200)
+  events:
+    - blur
+    - focus
+    - select

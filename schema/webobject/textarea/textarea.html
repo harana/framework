@@ -1,0 +1,40 @@
+<!-- Textarea Field Wrapper -->
+<div id="{{id}}" class="[&>[data-slot=label]+[data-slot=control]]:mt-3 [&>[data-slot=label]+[data-slot=description]]:mt-1 [&>[data-slot=description]+[data-slot=control]]:mt-3 [&>[data-slot=control]+[data-slot=description]]:mt-3 [&>[data-slot=control]+[data-slot=error]]:mt-3 *:data-[slot=label]:font-medium">
+  {{#if label}}
+  <label data-slot="label"
+         class="text-base/6 text-zinc-950 select-none data-disabled:opacity-50 sm:text-sm/6 dark:text-white">
+    {{label}}
+  </label>
+  {{/if}}
+  {{#if description}}
+  <p data-slot="description"
+     class="text-base/6 text-zinc-500 data-disabled:opacity-50 sm:text-sm/6 dark:text-zinc-400">
+    {{description}}
+  </p>
+  {{/if}}
+
+  <!-- Textarea Control Wrapper -->
+  <span data-slot="control"
+        class="relative block w-full before:absolute before:inset-px before:rounded-[calc(var(--radius-lg)-1px)] before:bg-white before:shadow-sm dark:before:hidden after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-transparent after:ring-inset sm:has-[:focus]:after:ring-2 sm:has-[:focus]:after:ring-blue-500 has-[:disabled]:opacity-50 has-[:disabled]:before:bg-zinc-950/5 has-[:disabled]:before:shadow-none">
+    <textarea class="relative block h-full w-full appearance-none rounded-lg px-[calc(--spacing(3.5)-1px)] py-[calc(--spacing(2.5)-1px)] sm:px-[calc(--spacing(3)-1px)] sm:py-[calc(--spacing(1.5)-1px)] text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6 dark:text-white border border-zinc-950/10 hover:border-zinc-950/20 dark:border-white/10 dark:hover:border-white/20 bg-transparent dark:bg-white/5 focus:outline-hidden data-invalid:border-red-500 data-invalid:hover:border-red-500 dark:data-invalid:border-red-600 dark:data-invalid:hover:border-red-600 disabled:border-zinc-950/20 dark:disabled:border-white/15 dark:disabled:bg-white/2.5 dark:hover:disabled:border-white/15 {{#if is_resizable}}resize-y{{else}}resize-none{{/if}}"
+              {{#if name}}name="{{name}}"{{/if}}
+              {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}
+              {{#if rows}}rows="{{rows}}"{{/if}}
+              {{#if is_required}}required{{/if}}
+              data-bind="$value"
+              data-attr:disabled="$is_disabled"
+              data-attr:data-invalid="$is_invalid"
+              data-on:blur="{{blur}}"
+              data-on:change="{{change}}"
+              data-on:focus="{{focus}}"
+              data-on:input="{{input}}"
+              data-on:resize="{{resize}}"
+              data-on:character-limit-reach="{{character_limit_reach}}"></textarea>
+  </span>
+
+  <p data-slot="error"
+     data-show="$error_message"
+     class="text-base/6 text-red-600 data-disabled:opacity-50 sm:text-sm/6 dark:text-red-500"
+     data-text="$error_message">
+  </p>
+</div>

@@ -1,0 +1,12 @@
+- name: Dropdown Button Component
+  type: dropdown_button
+  id: [dropdown_id, name]
+  attributes:
+    - color: DarkZinc | Light | DarkWhite | Dark | Zinc | White | Red | Orange | Amber | Yellow | Lime | Green | Emerald | Teal | Cyan | Sky | Blue | Indigo | Violet | Purple | Fuchsia | Pink | Rose = DarkZinc
+    - dropdown_id: Id #required -> UIDropdown.id
+    - icon: String? #max(100)
+    - is_outline: Boolean = false
+    - is_plain: Boolean = false
+    - label: String #required #max(100)
+  events:
+    - click

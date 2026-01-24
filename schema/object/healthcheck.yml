@@ -1,0 +1,85 @@
+- name: Healthcheck
+  type: healthcheck
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - is_active: Boolean = true
+    - interval_seconds: int = 60 #min(1)
+    - name: String #required #unique #max(200)
+    - timeout_seconds: int = 30 #min(1)
+    - type: Route | ResponseTime | JobExecution | EventRate | Custom = Route
+    - updated_at: Date = now()
+
+- name: Healthcheck Route
+  type: healthcheck_route
+  id: [healthcheck_id]
+  schema:
+    - expected_status_codes: String = 200 #max(100)
+    - expected_body_contains: String? #max(1000)
+    - headers: String?
+    - healthcheck_id: Id #required -> Healthcheck.id
+    - method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
+    - url: String #required #url #max(2000)
+
+- name: Healthcheck Response Time
+  type: healthcheck_response_time
+  id: [healthcheck_id]
+  schema:
+    - healthcheck_id: Id #required -> Healthcheck.id
+    - route_id: Id? -> Route.id
+    - threshold_ms: int = 1000 #min(1)
+    - url: String? #url #max(2000)
+
+- name: Healthcheck Job Execution
+  type: healthcheck_job_execution
+  id: [healthcheck_id]
+  schema:
+    - healthcheck_id: Id #required -> Healthcheck.id
+    - job_name: String #required #max(200)
+    - max_duration_seconds: int? #min(1)
+    - max_failures_percent: decimal? #min(0) #max(100)
+    - queue: String? #max(100)
+
+- name: Healthcheck Event Rate
+  type: healthcheck_event_rate
+  id: [healthcheck_id]
+  schema:
+    - comparison: Gt | Gte | Lt | Lte | Eq | Neq = Gte
+    - event_type: String #required #max(100)
+    - healthcheck_id: Id #required -> Healthcheck.id
+    - source: String? #max(200)
+    - threshold: decimal #required #min(0)
+    - window: Second | Minute | Hour | Day = Minute
+
+- name: Healthcheck Custom
+  type: healthcheck_custom
+  id: [healthcheck_id]
+  schema:
+    - healthcheck_id: Id #required -> Healthcheck.id
+    - metric_id: Id? -> Metric.id
+    - query: String #required #max(5000)
+    - success_condition: String #required #max(1000)
+
+- name: Healthcheck Result
+  type: healthcheck_result
+  id: [healthcheck_id, checked_at]
+  schema:
+    - checked_at: Date = now()
+    - duration_ms: int? #min(0)
+    - error_message: String? #max(2000)
+    - healthcheck_id: Id #required -> Healthcheck.id
+    - metadata: String?
+    - status: Healthy | Degraded | Unhealthy = Healthy
+
+- name: Healthcheck Alert
+  type: healthcheck_alert
+  id: [healthcheck_id]
+  schema:
+    - consecutive_failures: int = 3 #min(1)
+    - cooldown_seconds: int = 300 #min(0)
+    - created_at: Date = now()
+    - healthcheck_id: Id #required -> Healthcheck.id
+    - is_active: Boolean = true
+    - last_triggered_at: Date?
+    - notification_channel: String? #max(100)
+    - updated_at: Date = now()

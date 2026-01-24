@@ -1,0 +1,344 @@
+- name: Create IAM User
+  action: create_user
+  inputs:
+    path: String = /
+    permissions_boundary: String
+    tags: IamTags
+    user_name: String #required
+  outputs:
+    arn: String
+    create_date: Date
+    success: Boolean
+    user_id: String
+    user_name: String
+
+- name: Delete IAM User
+  action: delete_user
+  inputs:
+    user_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Get IAM User
+  action: get_user
+  inputs:
+    user_name: String
+  outputs:
+    arn: String
+    create_date: Date
+    password_last_used: Date
+    path: String
+    permissions_boundary: PermissionsBoundary
+    tags: List[IamTag]
+    user_id: String
+    user_name: String
+
+- name: List IAM Users
+  action: list_users
+  inputs:
+    max_items: Int = 100
+    path_prefix: String = /
+  outputs:
+    is_truncated: Boolean
+    marker: String
+    users: List[IamUser]
+
+- name: Update IAM User
+  action: update_user
+  inputs:
+    new_path: String
+    new_user_name: String
+    user_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Create IAM Group
+  action: create_group
+  inputs:
+    group_name: String #required
+    path: String = /
+  outputs:
+    arn: String
+    create_date: Date
+    group_id: String
+    group_name: String
+    success: Boolean
+
+- name: Delete IAM Group
+  action: delete_group
+  inputs:
+    group_name: String #required
+  outputs:
+    success: Boolean
+
+- name: List IAM Groups
+  action: list_groups
+  inputs:
+    max_items: Int = 100
+    path_prefix: String = /
+  outputs:
+    groups: List[IamGroup]
+    is_truncated: Boolean
+    marker: String
+
+- name: Add User To Group
+  action: add_user_to_group
+  inputs:
+    group_name: String #required
+    user_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Remove User From Group
+  action: remove_user_from_group
+  inputs:
+    group_name: String #required
+    user_name: String #required
+  outputs:
+    success: Boolean
+
+- name: List Groups For User
+  action: list_groups_for_user
+  inputs:
+    max_items: Int = 100
+    user_name: String #required
+  outputs:
+    groups: List[IamGroup]
+    is_truncated: Boolean
+    marker: String
+
+- name: Create IAM Role
+  action: create_role
+  inputs:
+    assume_role_policy_document: String #required
+    description: String
+    max_session_duration: Int = 3600
+    path: String = /
+    permissions_boundary: String
+    role_name: String #required
+    tags: IamTags
+  outputs:
+    arn: String
+    create_date: Date
+    role_id: String
+    role_name: String
+    success: Boolean
+
+- name: Delete IAM Role
+  action: delete_role
+  inputs:
+    role_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Get IAM Role
+  action: get_role
+  inputs:
+    role_name: String #required
+  outputs:
+    arn: String
+    assume_role_policy_document: String
+    create_date: Date
+    description: String
+    max_session_duration: Int
+    path: String
+    permissions_boundary: PermissionsBoundary
+    role_id: String
+    role_name: String
+    tags: List[IamTag]
+
+- name: List IAM Roles
+  action: list_roles
+  inputs:
+    max_items: Int = 100
+    path_prefix: String = /
+  outputs:
+    is_truncated: Boolean
+    marker: String
+    roles: List[IamRole]
+
+- name: Create IAM Policy
+  action: create_policy
+  inputs:
+    description: String
+    path: String = /
+    policy_document: String #required
+    policy_name: String #required
+    tags: IamTags
+  outputs:
+    arn: String
+    create_date: Date
+    policy_id: String
+    policy_name: String
+    success: Boolean
+
+- name: Delete IAM Policy
+  action: delete_policy
+  inputs:
+    policy_arn: String #required
+  outputs:
+    success: Boolean
+
+- name: Get IAM Policy
+  action: get_policy
+  inputs:
+    policy_arn: String #required
+  outputs:
+    arn: String
+    attachment_count: Int
+    create_date: Date
+    default_version_id: String
+    description: String
+    is_attachable: Boolean
+    path: String
+    permissions_boundary_usage_count: Int
+    policy_id: String
+    policy_name: String
+    tags: List[IamTag]
+    update_date: Date
+
+- name: List IAM Policies
+  action: list_policies
+  inputs:
+    max_items: Int = 100
+    only_attached: Boolean = false
+    path_prefix: String = /
+    scope: All | AWS | Local = All
+  outputs:
+    is_truncated: Boolean
+    marker: String
+    policies: List[IamPolicy]
+
+- name: Attach User Policy
+  action: attach_user_policy
+  inputs:
+    policy_arn: String #required
+    user_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Detach User Policy
+  action: detach_user_policy
+  inputs:
+    policy_arn: String #required
+    user_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Attach Group Policy
+  action: attach_group_policy
+  inputs:
+    group_name: String #required
+    policy_arn: String #required
+  outputs:
+    success: Boolean
+
+- name: Detach Group Policy
+  action: detach_group_policy
+  inputs:
+    group_name: String #required
+    policy_arn: String #required
+  outputs:
+    success: Boolean
+
+- name: Attach Role Policy
+  action: attach_role_policy
+  inputs:
+    policy_arn: String #required
+    role_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Detach Role Policy
+  action: detach_role_policy
+  inputs:
+    policy_arn: String #required
+    role_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Put User Policy
+  action: put_user_policy
+  inputs:
+    policy_document: String #required
+    policy_name: String #required
+    user_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Put Group Policy
+  action: put_group_policy
+  inputs:
+    group_name: String #required
+    policy_document: String #required
+    policy_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Put Role Policy
+  action: put_role_policy
+  inputs:
+    policy_document: String #required
+    policy_name: String #required
+    role_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Create Access Key
+  action: create_access_key
+  inputs:
+    user_name: String
+  outputs:
+    access_key_id: String
+    create_date: Date
+    secret_access_key: String
+    status: String
+    success: Boolean
+
+- name: Delete Access Key
+  action: delete_access_key
+  inputs:
+    access_key_id: String #required
+    user_name: String
+  outputs:
+    success: Boolean
+
+- name: List Access Keys
+  action: list_access_keys
+  inputs:
+    max_items: Int = 100
+    user_name: String
+  outputs:
+    access_key_metadata: List[AccessKeyMetadata]
+    is_truncated: Boolean
+    marker: String
+
+- name: Update Access Key
+  action: update_access_key
+  inputs:
+    access_key_id: String #required
+    status: Active | Inactive #required
+    user_name: String
+  outputs:
+    success: Boolean
+
+- name: Get Account Summary
+  action: get_account_summary
+  inputs: {}
+  outputs:
+    summary_map: AccountSummary
+
+- name: Generate Credential Report
+  action: generate_credential_report
+  inputs: {}
+  outputs:
+    state: String
+    success: Boolean
+
+- name: Get Credential Report
+  action: get_credential_report
+  inputs: {}
+  outputs:
+    content: String
+    generated_time: Date
+    report_format: String

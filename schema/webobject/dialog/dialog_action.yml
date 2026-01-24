@@ -1,0 +1,11 @@
+- name: Dialog Action Component
+  type: dialog_action
+  id: [dialog_id, name]
+  attributes:
+    - color: DarkZinc | Light | DarkWhite | Dark | Zinc | White | Red | Orange | Amber | Yellow | Lime | Green | Emerald | Teal | Cyan | Sky | Blue | Indigo | Violet | Purple | Fuchsia | Pink | Rose = DarkZinc
+    - dialog_id: Id #required -> UIDialog.id
+    - is_plain: Boolean = false
+    - label: String #required #max(100)
+    - order: int = 0 #min(0)
+  events:
+    - click

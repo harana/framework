@@ -1,0 +1,260 @@
+- name: Create Schedule
+  action: create_schedule
+  inputs:
+    cron_expression: String #required
+    description: String
+    enabled: Boolean = true
+    metadata: ScheduleMetadata
+    name: String #required
+    timezone: String = UTC
+  outputs:
+    name: String
+    next_run: Int
+    schedule_id: String
+    success: Boolean
+
+- name: Update Schedule
+  action: update_schedule
+  inputs:
+    cron_expression: String
+    description: String
+    enabled: Boolean
+    metadata: ScheduleMetadata
+    name: String
+    schedule_id: String #required
+    timezone: String
+  outputs:
+    next_run: Int
+    schedule_id: String
+    success: Boolean
+
+- name: Delete Schedule
+  action: delete_schedule
+  inputs:
+    schedule_id: String #required
+  outputs:
+    schedule_id: String
+    success: Boolean
+
+- name: Enable Schedule
+  action: enable_schedule
+  inputs:
+    schedule_id: String #required
+  outputs:
+    enabled: Boolean
+    next_run: Int
+    schedule_id: String
+    success: Boolean
+
+- name: Disable Schedule
+  action: disable_schedule
+  inputs:
+    schedule_id: String #required
+  outputs:
+    enabled: Boolean
+    schedule_id: String
+    success: Boolean
+
+- name: Get Schedule
+  action: get_schedule
+  inputs:
+    schedule_id: String #required
+  outputs:
+    created_at: Int
+    cron_expression: String
+    enabled: Boolean
+    last_run: Int
+    metadata: ScheduleMetadata
+    name: String
+    next_run: Int
+    schedule_id: String
+    timezone: String
+
+- name: List Schedules
+  action: list_schedules
+  inputs:
+    enabled: Boolean
+    limit: Int = 100
+    offset: Int = 0
+    search: String
+  outputs:
+    schedules: List[ScheduleInfo]
+    total: Int
+
+- name: Trigger Schedule Immediately
+  action: trigger_schedule
+  inputs:
+    schedule_id: String #required
+  outputs:
+    execution_id: String
+    schedule_id: String
+    success: Boolean
+    triggered_at: Int
+
+- name: Get Next Run Time
+  action: get_next_run
+  inputs:
+    count: Int = 1
+    schedule_id: String #required
+  outputs:
+    next_runs: List[integer]
+    schedule_id: String
+
+- name: Validate Cron Expression
+  action: validate_cron
+  inputs:
+    cron_expression: String #required
+    timezone: String = UTC
+  outputs:
+    error: String
+    next_run: Int
+    valid: Boolean
+
+- name: Create One-Time Schedule
+  action: create_one_time
+  inputs:
+    description: String
+    metadata: ScheduleMetadata
+    name: String #required
+    run_at: Int #required
+    timezone: String = UTC
+  outputs:
+    run_at: Int
+    schedule_id: String
+    success: Boolean
+
+- name: Pause Schedule
+  action: pause_schedule
+  inputs:
+    resume_at: Int
+    schedule_id: String #required
+  outputs:
+    paused: Boolean
+    resume_at: Int
+    schedule_id: String
+    success: Boolean
+
+- name: Resume Schedule
+  action: resume_schedule
+  inputs:
+    schedule_id: String #required
+  outputs:
+    next_run: Int
+    paused: Boolean
+    schedule_id: String
+    success: Boolean
+
+- name: Get Schedule History
+  action: get_schedule_history
+  inputs:
+    end_date: Int
+    limit: Int = 100
+    schedule_id: String #required
+    start_date: Int
+  outputs:
+    executions: List[ScheduleExecution]
+    schedule_id: String
+    total: Int
+
+- name: Get Schedule Stats
+  action: get_schedule_stats
+  inputs:
+    end_date: Int
+    schedule_id: String #required
+    start_date: Int
+  outputs:
+    average_duration: Float
+    failed_executions: Int
+    last_execution: ScheduleExecution
+    schedule_id: String
+    successful_executions: Int
+    total_executions: Int
+
+- name: Bulk Enable Schedules
+  action: bulk_enable
+  inputs:
+    schedule_ids: List[String] #required
+  outputs:
+    failed: Int
+    results: List[ScheduleBulkResult]
+    successful: Int
+
+- name: Bulk Disable Schedules
+  action: bulk_disable
+  inputs:
+    schedule_ids: List[String] #required
+  outputs:
+    failed: Int
+    results: List[ScheduleBulkResult]
+    successful: Int
+
+- name: Create Interval Schedule
+  action: create_interval
+  inputs:
+    description: String
+    enabled: Boolean = true
+    end_time: Int
+    interval_seconds: Int #required
+    name: String #required
+    start_time: Int
+  outputs:
+    next_run: Int
+    schedule_id: String
+    success: Boolean
+
+- name: Update Schedule Action
+  action: update_action
+  inputs:
+    action_config: ScheduleActionConfig #required
+    action_type: Webhook | Function | Job #required
+    schedule_id: String #required
+  outputs:
+    schedule_id: String
+    success: Boolean
+
+- name: Schedule
+  class:
+    schedule_id: String
+    name: String
+    cron_expression: String
+    timezone: String
+    enabled: Boolean
+    next_run: Date
+    last_run: Date
+    metadata: ScheduleMetadata
+
+- name: ScheduleMetadata
+  class:
+    values: Map[String, Any]
+
+- name: ScheduleInfo
+  class:
+    schedule_id: String
+    name: String
+    cron_expression: String
+    enabled: Boolean
+    next_run: Int
+    last_run: Int
+
+- name: ScheduleExecution
+  class:
+    execution_id: String
+    schedule_id: String
+    started_at: Int
+    completed_at: Int
+    status: String
+    duration_ms: Int
+    error: String
+
+- name: ScheduleBulkResult
+  class:
+    schedule_id: String
+    success: Boolean
+    error: String
+
+- name: ScheduleActionConfig
+  class:
+    url: String
+    method: String
+    headers: Map[String, String]
+    body: Any

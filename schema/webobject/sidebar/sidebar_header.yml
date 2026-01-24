@@ -1,0 +1,5 @@
+- name: Sidebar Header Component
+  type: sidebar_header
+  id: [sidebar_id]
+  attributes:
+    - sidebar_id: Id #required -> UISidebar.id

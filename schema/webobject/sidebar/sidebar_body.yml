@@ -1,0 +1,5 @@
+- name: Sidebar Body Component
+  type: sidebar_body
+  id: [sidebar_id]
+  attributes:
+    - sidebar_id: Id #required -> UISidebar.id

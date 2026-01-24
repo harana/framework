@@ -1,0 +1,45 @@
+{{#if href}}
+<a id="{{id}}" href="{{href}}"
+   class="{{#if is_square}}rounded-[20%]{{else}}rounded-full{{/if}} relative inline-grid focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-blue-500"
+   data-on:click="{{click}}">
+  <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 pointer-fine:hidden" aria-hidden="true"></span>
+  <span data-slot="avatar"
+        class="inline-grid shrink-0 align-middle [--avatar-radius:20%] *:col-start-1 *:row-start-1 outline -outline-offset-1 outline-black/10 dark:outline-white/10 {{#if is_square}}rounded-(--avatar-radius) *:rounded-(--avatar-radius){{else}}rounded-full *:rounded-full{{/if}} {{size}}">
+    {{#if initials}}
+    <svg class="size-full fill-current p-[5%] text-[48px] font-medium uppercase select-none"
+         viewBox="0 0 100 100"
+         {{#unless alt}}aria-hidden="true"{{/unless}}>
+      {{#if alt}}<title>{{alt}}</title>{{/if}}
+      <text x="50%" y="50%" alignment-baseline="middle" dominant-baseline="middle" text-anchor="middle" dy=".125em">
+        {{initials}}
+      </text>
+    </svg>
+    {{/if}}
+    {{#if src}}
+    <img class="size-full" src="{{src}}" alt="{{alt}}" />
+    {{/if}}
+  </span>
+</a>
+{{else}}
+<button type="button"
+        class="{{#if is_square}}rounded-[20%]{{else}}rounded-full{{/if}} relative inline-grid focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-blue-500"
+        data-on:click="{{click}}">
+  <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 pointer-fine:hidden" aria-hidden="true"></span>
+  <span data-slot="avatar"
+        class="inline-grid shrink-0 align-middle [--avatar-radius:20%] *:col-start-1 *:row-start-1 outline -outline-offset-1 outline-black/10 dark:outline-white/10 {{#if is_square}}rounded-(--avatar-radius) *:rounded-(--avatar-radius){{else}}rounded-full *:rounded-full{{/if}} {{size}}">
+    {{#if initials}}
+    <svg class="size-full fill-current p-[5%] text-[48px] font-medium uppercase select-none"
+         viewBox="0 0 100 100"
+         {{#unless alt}}aria-hidden="true"{{/unless}}>
+      {{#if alt}}<title>{{alt}}</title>{{/if}}
+      <text x="50%" y="50%" alignment-baseline="middle" dominant-baseline="middle" text-anchor="middle" dy=".125em">
+        {{initials}}
+      </text>
+    </svg>
+    {{/if}}
+    {{#if src}}
+    <img class="size-full" src="{{src}}" alt="{{alt}}" />
+    {{/if}}
+  </span>
+</button>
+{{/if}}

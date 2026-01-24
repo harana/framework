@@ -1,0 +1,152 @@
+- name: Send APNS Push Notification
+  action: send_apns
+  inputs:
+    alert: String #required
+    badge: Int
+    body: String
+    category: String
+    collapse_id: String
+    custom_data: Map[String, Any]
+    device_token: String #required
+    expiration: Int
+    priority: 5 | 10 = 10
+    sound: String
+    subtitle: String
+    thread_id: String
+    title: String
+    topic: String #required
+  outputs:
+    apns_id: String
+    error: String
+    success: Boolean
+
+- name: Send Web Push Notification
+  action: send_web_push
+  inputs:
+    actions: List[PushAction]
+    badge: String
+    body: String #required
+    data: Map[String, Any]
+    dir: Auto | Ltr | Rtl = Auto
+    icon: String
+    image: String
+    lang: String
+    renotify: Boolean = false
+    require_interaction: Boolean = false
+    silent: Boolean = false
+    subscription: PushSubscription #required
+    tag: String
+    timestamp: Int
+    title: String #required
+    vibrate: List[integer]
+  outputs:
+    error: String
+    success: Boolean
+
+- name: Send Android FCM Notification
+  action: send_fcm
+  inputs:
+    body: String #required
+    channel_id: String
+    click_action: String
+    collapse_key: String
+    color: String
+    data: Map[String, Any]
+    icon: String
+    image: String
+    priority: Min | Low | Default | High | Max = Default
+    registration_token: String #required
+    sound: String
+    tag: String
+    time_to_live: Int
+    title: String #required
+  outputs:
+    error: String
+    message_id: String
+    success: Boolean
+
+- name: Send Multicast Push
+  action: send_multicast_push
+  inputs:
+    body: String #required
+    data: Map[String, Any]
+    platform: Apns | Web | Fcm #required
+    title: String #required
+    tokens: List[String] #required
+  outputs:
+    failed: Int
+    failures: List[PushFailure]
+    successful: Int
+    total: Int
+
+- name: Send Topic Push
+  action: send_topic_push
+  inputs:
+    body: String #required
+    data: Map[String, Any]
+    platform: Apns | Web | Fcm #required
+    title: String #required
+    topic: String #required
+  outputs:
+    message_id: String
+    success: Boolean
+
+- name: Subscribe To Topic
+  action: subscribe_to_topic
+  inputs:
+    platform: Apns | Web | Fcm #required
+    tokens: List[String] #required
+    topic: String #required
+  outputs:
+    failed_tokens: List[String]
+    success: Boolean
+
+- name: Unsubscribe From Topic
+  action: unsubscribe_from_topic
+  inputs:
+    platform: Apns | Web | Fcm #required
+    tokens: List[String] #required
+    topic: String #required
+  outputs:
+    failed_tokens: List[String]
+    success: Boolean
+
+- name: Validate Push Token
+  action: validate_push_token
+  inputs:
+    platform: Apns | Web | Fcm #required
+    token: String #required
+  outputs:
+    error: String
+    valid: Boolean
+
+- name: PushNotification
+  class:
+    title: String
+    body: String
+    platform: String
+    token: String
+    data: Map[String, Any]
+    badge: Int
+    sound: String
+
+- name: PushAction
+  class:
+    action: String
+    title: String
+    icon: String
+
+- name: PushSubscription
+  class:
+    endpoint: String
+    keys: PushSubscriptionKeys
+
+- name: PushSubscriptionKeys
+  class:
+    p256dh: String
+    auth: String
+
+- name: PushFailure
+  class:
+    token: String
+    error: String

@@ -1,0 +1,31 @@
+- name: Notification
+  type: notification
+  id: [user_id, created_at]
+  schema:
+    - action_url: String? #url
+    - body: String #required #max(1000)
+    - created_at: Date = now()
+    - is_read: Boolean = false
+    - read_at: Date?
+    - title: String #required #max(200)
+    - type: Info | Warning | Error | Success = Info
+    - user_id: Id #required -> User.id
+
+- name: Notification Preference
+  type: notification_preference
+  id: [user_id, notification_type, channel]
+  schema:
+    - channel: Email | Sms | Push | InApp = Email
+    - is_enabled: Boolean = true
+    - notification_type: String #required #max(100)
+    - user_id: Id #required -> User.id
+
+- name: Push Subscription
+  type: push_subscription
+  id: [user_id, device_token]
+  schema:
+    - created_at: Date = now()
+    - device_token: String #required #max(500)
+    - is_active: Boolean = true
+    - updated_at: Date = now()
+    - user_id: Id #required -> User.id

@@ -1,0 +1,46 @@
+- name: Workflow
+  type: workflow
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(1000)
+    - is_active: Boolean = true
+    - trigger_type: Manual | Scheduled | Event | Webhook = Manual
+    - updated_at: Date = now()
+    - version: int = 1 #min(1)
+
+- name: Workflow Step
+  type: workflow_step
+  id: [workflow_id, name]
+  schema:
+    - action: String #required #max(200)
+    - condition: String?
+    - on_failure: Continue | Stop | Retry = Stop
+    - retry_count: int = 0 #min(0)
+    - sort_order: int = 0
+    - timeout_seconds: int = 300 #min(1)
+    - workflow_id: Id #required -> Workflow.id
+
+- name: Workflow Execution
+  type: workflow_execution
+  id: [workflow_id, created_at]
+  schema:
+    - completed_at: Date?
+    - created_at: Date = now()
+    - input: String?
+    - output: String?
+    - started_at: Date?
+    - status: Pending | Running | Completed | Failed | Cancelled = Pending
+    - triggered_by: Id? -> User.id
+    - workflow_id: Id #required -> Workflow.id
+
+- name: Workflow Step Execution
+  type: workflow_step_execution
+  id: [execution_id, step_id]
+  schema:
+    - completed_at: Date?
+    - error_message: String? #max(2000)
+    - input: String?
+    - output: String?
+    - started_at: Date?
+    - status: Pending | Running | Completed | Failed | Skipped = Pending
+    - step_id: Id #required -> WorkflowStep.id

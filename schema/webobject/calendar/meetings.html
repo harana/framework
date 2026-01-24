@@ -1,0 +1,96 @@
+<!-- Meetings Component -->
+<div id="{{id}}"
+     data-on:previous_month="{{previous_month}}"
+     data-on:next_month="{{next_month}}"
+     data-on:select_date="{{select_date}}"
+     data-on:add_event="{{add_event}}"
+     data-on:edit_meeting="{{edit_meeting}}"
+     data-on:cancel_meeting="{{cancel_meeting}}">
+  <h2 class="text-base font-semibold text-gray-900 dark:text-white">{{title}}</h2>
+  <div class="lg:grid lg:grid-cols-12 lg:gap-x-16">
+    <div class="mt-10 text-center lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
+      <div class="flex items-center text-gray-900 dark:text-white">
+        <button type="button" data-on:click="$dispatch('previous_month')" class="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-white">
+          <span class="sr-only">Previous month</span>
+          <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+            <path d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" fill-rule="evenodd" />
+          </svg>
+        </button>
+        <div class="flex-auto text-sm font-semibold">{{current_month}}</div>
+        <button type="button" data-on:click="$dispatch('next_month')" class="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-white">
+          <span class="sr-only">Next month</span>
+          <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+            <path d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+      <div class="mt-6 grid grid-cols-7 text-xs/6 text-gray-500 dark:text-gray-400">
+        <div>M</div>
+        <div>T</div>
+        <div>W</div>
+        <div>T</div>
+        <div>F</div>
+        <div>S</div>
+        <div>S</div>
+      </div>
+      <div class="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm shadow-sm ring-1 ring-gray-200 dark:bg-white/15 dark:shadow-none dark:ring-white/15">
+        {{#each days}}
+        <button type="button" {{#if is_current_month}}data-is-current-month{{/if}} {{#if is_today}}data-is-today{{/if}} {{#if is_selected}}data-is-selected{{/if}} data-on:click="$dispatch('select_date', { date: '{{date}}' })" class="py-1.5 not-data-is-current-month:bg-gray-50 not-data-is-selected:not-data-is-current-month:not-data-is-today:text-gray-400 first:rounded-tl-lg last:rounded-br-lg hover:bg-gray-100 focus:z-10 data-is-current-month:bg-white not-data-is-selected:data-is-current-month:not-data-is-today:text-gray-900 data-is-current-month:hover:bg-gray-100 data-is-selected:font-semibold data-is-selected:text-white data-is-today:font-semibold data-is-today:not-data-is-selected:text-indigo-600 nth-36:rounded-bl-lg nth-7:rounded-tr-lg dark:not-data-is-current-month:bg-gray-900/75 dark:not-data-is-selected:not-data-is-current-month:not-data-is-today:text-gray-500 dark:hover:bg-gray-900/25 dark:data-is-current-month:bg-gray-900/90 dark:not-data-is-selected:data-is-current-month:not-data-is-today:text-white dark:data-is-current-month:hover:bg-gray-900/50 dark:data-is-selected:text-gray-900 dark:data-is-today:not-data-is-selected:text-indigo-400">
+          <time datetime="{{date}}" class="mx-auto flex size-7 items-center justify-center rounded-full in-data-is-selected:not-in-data-is-today:bg-gray-900 in-data-is-selected:in-data-is-today:bg-indigo-600 dark:in-data-is-selected:not-in-data-is-today:bg-white dark:in-data-is-selected:in-data-is-today:bg-indigo-500">{{day_number}}</time>
+        </button>
+        {{/each}}
+      </div>
+      <button type="button" data-on:click="$dispatch('add_event')" class="mt-8 w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:shadow-none dark:hover:bg-indigo-400 dark:focus-visible:outline-indigo-500">Add event</button>
+    </div>
+    <ol class="mt-4 divide-y divide-gray-100 text-sm/6 lg:col-span-7 xl:col-span-8 dark:divide-white/10">
+      {{#each meetings}}
+      <li class="relative flex gap-x-6 py-6 xl:static">
+        {{#if image_url}}
+        <img src="{{image_url}}" alt="" class="size-14 flex-none rounded-full dark:outline dark:-outline-offset-1 dark:outline-white/10" />
+        {{/if}}
+        <div class="flex-auto">
+          <h3 class="pr-10 font-semibold text-gray-900 xl:pr-0 dark:text-white">{{name}}</h3>
+          <dl class="mt-2 flex flex-col text-gray-500 xl:flex-row dark:text-gray-400">
+            <div class="flex items-start gap-x-3">
+              <dt class="mt-0.5">
+                <span class="sr-only">Date</span>
+                <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 text-gray-400 dark:text-gray-500">
+                  <path d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z" clip-rule="evenodd" fill-rule="evenodd" />
+                </svg>
+              </dt>
+              <dd><time datetime="{{datetime}}">{{datetime_display}}</time></dd>
+            </div>
+            {{#if location}}
+            <div class="mt-2 flex items-start gap-x-3 xl:mt-0 xl:ml-3.5 xl:border-l xl:border-gray-400/50 xl:pl-3.5 dark:xl:border-gray-500/50">
+              <dt class="mt-0.5">
+                <span class="sr-only">Location</span>
+                <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 text-gray-400 dark:text-gray-500">
+                  <path d="m9.69 18.933.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 0 0 2.273 1.765 11.842 11.842 0 0 0 .976.544l.062.029.018.008.006.003ZM10 11.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z" clip-rule="evenodd" fill-rule="evenodd" />
+                </svg>
+              </dt>
+              <dd>{{location}}</dd>
+            </div>
+            {{/if}}
+          </dl>
+        </div>
+        <el-dropdown class="absolute top-6 right-0 xl:relative xl:top-auto xl:right-auto xl:self-center">
+          <button class="relative flex items-center rounded-full text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-white">
+            <span class="absolute -inset-2"></span>
+            <span class="sr-only">Open options</span>
+            <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+              <path d="M3 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM8.5 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM15.5 8.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z" />
+            </svg>
+          </button>
+
+          <el-menu anchor="bottom end" popover class="w-36 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in dark:bg-gray-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
+            <div class="py-1">
+              <a href="#" data-on:click="$dispatch('edit_meeting', { id: '{{id}}' })" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden dark:text-gray-300 dark:focus:bg-white/5 dark:focus:text-white">Edit</a>
+              <a href="#" data-on:click="$dispatch('cancel_meeting', { id: '{{id}}' })" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden dark:text-gray-300 dark:focus:bg-white/5 dark:focus:text-white">Cancel</a>
+            </div>
+          </el-menu>
+        </el-dropdown>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+</div>

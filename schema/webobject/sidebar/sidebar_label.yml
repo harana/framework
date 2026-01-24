@@ -1,0 +1,6 @@
+name: SidebarLabel
+type: UIComponent
+id:
+  - identifier
+
+  text: String #required

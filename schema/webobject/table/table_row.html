@@ -1,0 +1,18 @@
+<tr id="{{id}}" class="{{#if href}}has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:-outline-offset-2 has-[[data-row-link][data-focus]]:outline-blue-500 dark:focus-within:bg-white/2.5{{/if}} [table[data-striped]_&]:even:bg-zinc-950/2.5 dark:[table[data-striped]_&]:even:bg-white/2.5 {{#if href}}[table[data-striped]_&]:hover:bg-zinc-950/5 dark:[table[data-striped]_&]:hover:bg-white/5 [table:not([data-striped])_&]:hover:bg-zinc-950/2.5 dark:[table:not([data-striped])_&]:hover:bg-white/2.5{{/if}}"
+    data-order="{{order}}"
+    data-on:click="{{click}}"
+    data-on:select="{{select}}"
+    data-on:deselect="{{deselect}}"
+    data-on:expand="{{expand}}"
+    data-on:collapse="{{collapse}}">
+  {{#if href}}
+  <td class="relative w-0">
+    <a data-row-link
+       href="{{href}}"
+       {{#if target}}target="{{target}}"{{/if}}
+       {{#if title}}aria-label="{{title}}"{{/if}}
+       class="absolute inset-0 focus:outline-hidden"></a>
+  </td>
+  {{/if}}
+  {{> table_cells}}
+</tr>

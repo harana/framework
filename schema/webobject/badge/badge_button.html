@@ -1,0 +1,21 @@
+{{#if href}}
+<a id="{{id}}" href="{{href}}"
+   class="group relative inline-flex rounded-md focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-blue-500"
+   data-on:click="{{click}}"
+   data-on:mouseenter="{{hover}}">
+  <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 pointer-fine:hidden" aria-hidden="true"></span>
+  <span class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline badge-color-{{color}}">
+    {{label}}
+  </span>
+</a>
+{{else}}
+<button id="{{id}}" type="button"
+        class="group relative inline-flex rounded-md focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-blue-500"
+        data-on:click="{{click}}"
+        data-on:mouseenter="{{hover}}">
+  <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 pointer-fine:hidden" aria-hidden="true"></span>
+  <span class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline badge-color-{{color}}">
+    {{label}}
+  </span>
+</button>
+{{/if}}

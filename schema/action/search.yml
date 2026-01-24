@@ -1,0 +1,180 @@
+- name: Search Query Documents
+  action: search_query
+  inputs:
+    fields: List[String]
+    filters: SearchFilters
+    highlight: Boolean = false
+    index: String #required
+    limit: Int = 10
+    offset: Int = 0
+    query: String #required
+    sort: List[SearchSortField]
+  outputs:
+    hits: List[SearchHit]
+    took_ms: Int
+    total: Int
+
+- name: Index Single Document
+  action: index_document
+  inputs:
+    document: SearchDocumentData #required
+    document_id: String #required
+    index: String #required
+    refresh: Boolean = false
+  outputs:
+    success: Boolean
+    version: Int
+
+- name: Index Multiple Documents
+  action: bulk_index
+  inputs:
+    documents: List[SearchDocumentData] #required
+    index: String #required
+    refresh: Boolean = false
+  outputs:
+    errors: List[SearchIndexError]
+    failed: Int
+    indexed: Int
+
+- name: Get Document By ID
+  action: get_document
+  inputs:
+    document_id: String #required
+    index: String #required
+  outputs:
+    document: SearchDocumentData
+    found: Boolean
+    version: Int
+
+- name: Update Existing Document
+  action: update_document
+  inputs:
+    document: SearchDocumentData #required
+    document_id: String #required
+    index: String #required
+    upsert: Boolean = false
+  outputs:
+    success: Boolean
+    version: Int
+
+- name: Delete Document By ID
+  action: delete_document
+  inputs:
+    document_id: String #required
+    index: String #required
+    refresh: Boolean = false
+  outputs:
+    success: Boolean
+
+- name: Delete Documents By Query
+  action: delete_by_query
+  inputs:
+    index: String #required
+    query: SearchQuery #required
+    refresh: Boolean = false
+  outputs:
+    deleted: Int
+    success: Boolean
+
+- name: Create Search Index
+  action: create_index
+  inputs:
+    index: String #required
+    mappings: SearchMappings
+    settings: SearchIndexSettings
+  outputs:
+    success: Boolean
+
+- name: Delete Search Index
+  action: delete_index
+  inputs:
+    index: String #required
+  outputs:
+    success: Boolean
+
+- name: List Search Indexes
+  action: list_indexes
+  inputs:
+    pattern: String = "*"
+  outputs:
+    indexes: List[SearchIndexInfo]
+    total: Int
+
+- name: Get Index Statistics
+  action: get_index_stats
+  inputs:
+    index: String #required
+  outputs:
+    document_count: Int
+    mappings: SearchMappings
+    size_bytes: Int
+
+- name: Suggest Search Terms
+  action: suggest
+  inputs:
+    field: String #required
+    index: String #required
+    size: Int = 5
+    text: String #required
+  outputs:
+    suggestions: List[String]
+
+- name: SearchDocument
+  class:
+    document_id: String
+    index: String
+    document: SearchDocumentData
+    score: Float
+    version: Int
+
+- name: SearchDocumentData
+  class:
+    fields: Map[String, Any]
+
+- name: SearchFilters
+  class:
+    conditions: Map[String, Any]
+
+- name: SearchSortField
+  class:
+    field: String
+    order: String
+
+- name: SearchHit
+  class:
+    document_id: String
+    score: Float
+    source: SearchDocumentData
+    highlight: Map[string, List[String]]
+
+- name: SearchIndexError
+  class:
+    document_id: String
+    error: String
+    status: Int
+
+- name: SearchQuery
+  class:
+    query: Map[String, Any]
+
+- name: SearchMappings
+  class:
+    properties: Map[string, SearchFieldMapping]
+
+- name: SearchFieldMapping
+  class:
+    type: String
+    analyzer: String
+    index: Boolean
+
+- name: SearchIndexSettings
+  class:
+    number_of_shards: Int
+    number_of_replicas: Int
+
+- name: SearchIndexInfo
+  class:
+    name: String
+    document_count: Int
+    size_bytes: Int
+    status: String

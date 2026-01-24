@@ -1,0 +1,11 @@
+- name: Alert Action Component
+  type: alert_action
+  id: [alert_id, name]
+  attributes:
+    - alert_id: Id #required -> UIAlert.id
+    - color: DarkZinc | Light | DarkWhite | Dark | Zinc | White | Red | Orange | Amber | Yellow | Lime | Green | Emerald | Teal | Cyan | Sky | Blue | Indigo | Violet | Purple | Fuchsia | Pink | Rose = DarkZinc
+    - is_plain: Boolean = false
+    - label: String #required #max(100)
+    - order: int = 0 #min(0)
+  events:
+    - click

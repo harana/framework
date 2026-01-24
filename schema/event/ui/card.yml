@@ -1,0 +1,38 @@
+- name: Card Clicked
+  type: card_clicked
+  schema:
+    card_id: Id #required
+    card_title: String?
+    card_type: String?
+    clicked_at: Date = now()
+
+- name: Card Expanded
+  type: card_expanded
+  schema:
+    card_id: Id #required
+    card_title: String?
+    expanded_at: Date = now()
+
+- name: Card Collapsed
+  type: card_collapsed
+  schema:
+    card_id: Id #required
+    card_title: String?
+    collapsed_at: Date = now()
+
+- name: Card Action Clicked
+  type: card_action_clicked
+  schema:
+    card_id: Id #required
+    action_id: Id #required
+    action_name: String?
+    action_type: Primary | Secondary | Menu = Primary
+    clicked_at: Date = now()
+
+- name: Card Dismissed
+  type: card_dismissed
+  schema:
+    card_id: Id #required
+    card_title: String?
+    dismiss_method: Button | Swipe | Timeout = Button
+    dismissed_at: Date = now()

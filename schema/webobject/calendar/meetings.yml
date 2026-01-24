@@ -1,0 +1,15 @@
+- name: Meetings Component
+  type: meetings
+  attributes:
+    - current_month: String #required #max(50)
+    - days: [CalendarDay] #required
+    - meetings: [CalendarMeeting] #required
+    - selected_date: String? #max(20)
+    - title: String = "Upcoming meetings" #max(200)
+  events:
+    - previous_month
+    - next_month
+    - select_date
+    - add_event
+    - edit_meeting
+    - cancel_meeting

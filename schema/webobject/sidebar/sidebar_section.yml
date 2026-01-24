@@ -1,0 +1,7 @@
+- name: Sidebar Section Component
+  type: sidebar_section
+  id: [sidebar_id, name]
+  attributes:
+    - order: int = 0 #min(0)
+    - parent_type: Header | Body | Footer = Body
+    - sidebar_id: Id #required -> UISidebar.id

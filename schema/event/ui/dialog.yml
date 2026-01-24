@@ -1,0 +1,37 @@
+- name: Dialog Opened
+  type: dialog_opened
+  schema:
+    dialog_id: Id #required
+    dialog_name: String?
+    dialog_title: String?
+    opened_at: Date = now()
+
+- name: Dialog Closed
+  type: dialog_closed
+  schema:
+    dialog_id: Id #required
+    dialog_name: String?
+    close_reason: Button | Escape | ClickOutside | Action = Button
+    closed_at: Date = now()
+
+- name: Dialog Action Clicked
+  type: dialog_action_clicked
+  schema:
+    dialog_id: Id #required
+    action_id: Id #required
+    action_label: String?
+    clicked_at: Date = now()
+
+- name: Dialog Submitted
+  type: dialog_submitted
+  schema:
+    dialog_id: Id #required
+    dialog_name: String?
+    submitted_at: Date = now()
+
+- name: Dialog Cancelled
+  type: dialog_cancelled
+  schema:
+    dialog_id: Id #required
+    dialog_name: String?
+    cancelled_at: Date = now()

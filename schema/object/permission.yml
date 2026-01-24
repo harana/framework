@@ -1,0 +1,30 @@
+- name: Permission
+  type: permission
+  schema:
+    - action: Create | Read | Update | Delete | Execute | Manage = Read
+    - description: String? #max(500)
+    - resource: String #required #max(100)
+
+- name: Role
+  type: role
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - is_system: Boolean = false
+    - updated_at: Date = now()
+
+- name: Role Permission
+  type: role_permission
+  id: [role_id, permission_id]
+  schema:
+    - permission_id: Id #required -> Permission.id
+    - role_id: Id #required -> Role.id
+
+- name: User Role
+  type: user_role
+  id: [user_id, role_id]
+  schema:
+    - assigned_at: Date = now()
+    - assigned_by: Id? -> User.id
+    - role_id: Id #required -> Role.id
+    - user_id: Id #required -> User.id

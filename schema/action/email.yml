@@ -1,0 +1,128 @@
+- name: Send Email Message
+  action: send
+  inputs:
+    attachments: List[EmailAttachment]
+    bcc: List[String]
+    body: String #required
+    cc: List[String]
+    content_type: Text | Html = Text
+    from: String
+    reply_to: String
+    subject: String #required
+    to: List[String] #required
+  outputs:
+    message_id: String
+    success: Boolean
+
+- name: Send Email From Template
+  action: send_template
+  inputs:
+    attachments: List[EmailAttachment]
+    bcc: List[String]
+    cc: List[String]
+    from: String
+    reply_to: String
+    template_id: String #required
+    to: List[String] #required
+    variables: Map[String, String]
+  outputs:
+    message_id: String
+    success: Boolean
+
+- name: Validate Email Address
+  action: validate_email
+  inputs:
+    check_mx: Boolean = false
+    check_smtp: Boolean = false
+    email: String #required
+  outputs:
+    reason: String
+    valid: Boolean
+
+- name: Get Email Status
+  action: status
+  inputs:
+    message_id: String #required
+  outputs:
+    clicked_at: Date
+    delivered_at: Date
+    error: String
+    opened_at: Date
+    status: Queued | Sent | Delivered | Bounced | Failed
+
+- name: Send Bulk Email
+  action: send_bulk
+  inputs:
+    body: String #required
+    content_type: Text | Html = Text
+    from: String
+    recipients: List[EmailRecipient] #required
+    subject: String #required
+  outputs:
+    failed: Int
+    message_ids: List[String]
+    successful: Int
+    total: Int
+
+- name: Create Email Template
+  action: create_template
+  inputs:
+    body: String #required
+    content_type: Text | Html = Html
+    name: String #required
+    subject: String #required
+    variables: List[String]
+  outputs:
+    success: Boolean
+    template_id: String
+
+- name: Delete Email Template
+  action: delete_template
+  inputs:
+    template_id: String #required
+  outputs:
+    success: Boolean
+
+- name: List Email Templates
+  action: list_templates
+  inputs:
+    limit: Int = 100
+    offset: Int = 0
+  outputs:
+    templates: List[EmailTemplate]
+    total: Int
+
+- name: EmailMessage
+  class:
+    message_id: String
+    from: String
+    to: List[String]
+    cc: List[String]
+    bcc: List[String]
+    subject: String
+    body: String
+    content_type: String
+    attachments: List[EmailAttachment]
+    status: String
+
+- name: EmailAttachment
+  class:
+    filename: String
+    content_type: String
+    content: bytes
+    size: Int
+
+- name: EmailRecipient
+  class:
+    email: String
+    name: String
+    variables: Map[String, String]
+
+- name: EmailTemplate
+  class:
+    template_id: String
+    name: String
+    subject: String
+    body: String
+    content_type: String
+    variables: List[String]

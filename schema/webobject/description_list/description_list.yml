@@ -1,0 +1,3 @@
+- name: Description List Component
+  type: description_list
+  id: [name]

@@ -1,0 +1,61 @@
+# Calendar event - used for displaying events on day/week/month views
+- name: CalendarEvent
+  type: calendar_event
+  schema:
+    - id: String #required
+    - name: String #required #max(200)
+    - datetime: String #required
+    - time_display: String #required #max(20)
+    - href: String? #max(500)
+    - location: String? #max(200)
+    - color: String = "blue" #max(20)
+    - grid_row_start: Integer?
+    - grid_row_span: Integer?
+    - day_column: Integer?
+
+# Calendar meeting - used for meetings list with attendee images
+- name: CalendarMeeting
+  type: calendar_meeting
+  schema:
+    - id: String #required
+    - name: String #required #max(200)
+    - image_url: String? #max(500)
+    - datetime: String #required
+    - datetime_display: String #required #max(100)
+    - location: String? #max(200)
+
+# Calendar day - used for day cells in month/week/day views
+- name: CalendarDay
+  type: calendar_day
+  schema:
+    - date: String #required
+    - day_number: Integer #required
+    - weekday_short: String? #max(3)
+    - weekday_long: String? #max(10)
+    - is_current_month: Boolean = false
+    - is_today: Boolean = false
+    - is_selected: Boolean = false
+    - events: [CalendarEvent]
+
+# Calendar view option - dropdown menu items for view selection
+- name: CalendarViewOption
+  type: calendar_view_option
+  schema:
+    - id: String #required
+    - label: String #required #max(50)
+    - href: String? #max(500)
+    - is_active: Boolean = false
+
+# Calendar month - used for year view with month sections
+- name: CalendarMonth
+  type: calendar_month
+  schema:
+    - name: String #required #max(20)
+    - days: [CalendarDay] #required
+
+# Time slot - hour markers on the time axis
+- name: TimeSlot
+  type: time_slot
+  schema:
+    - label: String #required #max(10)
+    - hour: Integer #required

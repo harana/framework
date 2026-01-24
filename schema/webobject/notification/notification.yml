@@ -1,0 +1,18 @@
+- name: Notification Component
+  type: notification
+  attributes:
+    - avatar_url: String? #max(2000)
+    - description: String? #max(500)
+    - icon: Success | Info | Warning | Error | Inbox | None = None
+    - is_open: Boolean = false
+    - primary_action_label: String? #max(100)
+    - secondary_action_label: String? #max(100)
+    - show_close_button: Boolean = true
+    - title: String #required #max(200)
+    - variant: Simple | Avatar | ButtonsBelow | Condensed | Actions = Simple
+  events:
+    - close
+    - dismiss
+    - open
+    - primary_action
+    - secondary_action

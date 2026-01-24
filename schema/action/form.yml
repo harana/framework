@@ -1,0 +1,125 @@
+- name: Validate Form Data
+  action: validate
+  inputs:
+    data: FormData #required
+    form_id: String #required
+    strict: Boolean = true
+  outputs:
+    errors: List[FormValidationError]
+    valid: Boolean
+
+- name: Submit Form Data
+  action: submit
+  inputs:
+    data: FormData #required
+    form_id: String #required
+    validate: Boolean = true
+  outputs:
+    errors: List[FormValidationError]
+    submission_id: String
+    success: Boolean
+
+- name: Get Form Definition
+  action: get
+  inputs:
+    form_id: String #required
+  outputs:
+    fields: List[FormField]
+    metadata: FormMetadata
+    validation_rules: FormValidationRules
+
+- name: Get Form Submission
+  action: get_submission
+  inputs:
+    submission_id: String #required
+  outputs:
+    data: FormData
+    form_id: String
+    status: String
+    submitted_at: Date
+
+- name: List Form Submissions
+  action: list_submissions
+  inputs:
+    end_date: Date
+    form_id: String #required
+    limit: Int = 100
+    offset: Int = 0
+    start_date: Date
+    status: String
+  outputs:
+    submissions: List[FormSubmissionInfo]
+    total: Int
+
+- name: Update Form Submission
+  action: update_submission
+  inputs:
+    data: FormData #required
+    submission_id: String #required
+    validate: Boolean = true
+  outputs:
+    errors: List[FormValidationError]
+    success: Boolean
+
+- name: Delete Form Submission
+  action: delete_submission
+  inputs:
+    submission_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Export Form Submissions
+  action: export_submissions
+  inputs:
+    end_date: Date
+    form_id: String #required
+    format: Csv | Json | Xlsx = Csv
+    start_date: Date
+  outputs:
+    content: bytes
+    count: Int
+    filename: String
+
+- name: FormSubmission
+  class:
+    submission_id: String
+    form_id: String
+    data: FormData
+    status: String
+    submitted_at: Date
+    updated_at: Date
+
+- name: FormData
+  class:
+    values: Map[String, Any]
+
+- name: FormValidationError
+  class:
+    field: String
+    message: String
+    code: String
+
+- name: FormField
+  class:
+    name: String
+    type: String
+    label: String
+    required: Boolean
+    options: List[String]
+
+- name: FormMetadata
+  class:
+    title: String
+    description: String
+    version: String
+
+- name: FormValidationRules
+  class:
+    rules: Map[String, Any]
+
+- name: FormSubmissionInfo
+  class:
+    submission_id: String
+    form_id: String
+    status: String
+    submitted_at: Date

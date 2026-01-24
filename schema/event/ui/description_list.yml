@@ -1,0 +1,21 @@
+- name: Description List Item Clicked
+  type: description_list_item_clicked
+  schema:
+    list_id: Id #required
+    item_term: String?
+    item_details: String?
+    clicked_at: Date = now()
+
+- name: Description List Item Expanded
+  type: description_list_item_expanded
+  schema:
+    list_id: Id #required
+    item_term: String?
+    expanded_at: Date = now()
+
+- name: Description List Item Collapsed
+  type: description_list_item_collapsed
+  schema:
+    list_id: Id #required
+    item_term: String?
+    collapsed_at: Date = now()

@@ -1,0 +1,38 @@
+- name: Search Index
+  type: search_index
+  schema:
+    - created_at: Date = now()
+    - is_active: Boolean = true
+    - settings: String?
+    - updated_at: Date = now()
+
+- name: Search Field
+  type: search_field
+  id: [index_id, name]
+  schema:
+    - boost: decimal = 1.0 #min(0)
+    - index_id: Id #required -> SearchIndex.id
+    - is_facet: Boolean = false
+    - is_filterable: Boolean = true
+    - is_searchable: Boolean = true
+    - is_sortable: Boolean = false
+    - type: Text | Keyword | Number | Date | Boolean | Geo = Text
+
+- name: Search Synonym
+  type: search_synonym
+  id: [index_id, term]
+  schema:
+    - index_id: Id #required -> SearchIndex.id
+    - synonyms: String #required #max(1000)
+    - term: String #required #max(200)
+
+- name: Search Query Log
+  type: search_query_log
+  id: [index_id, query, created_at]
+  schema:
+    - created_at: Date = now()
+    - index_id: Id #required -> SearchIndex.id
+    - query: String #required #max(1000)
+    - response_time_ms: int? #min(0)
+    - results_count: int = 0 #min(0)
+    - user_id: Id? -> User.id

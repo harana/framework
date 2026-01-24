@@ -1,0 +1,33 @@
+- name: Session
+  type: session
+  id: [token]
+  schema:
+    - created_at: Date = now()
+    - data: String?
+    - ip_address: String? #max(45)
+    - is_active: Boolean = true
+    - last_activity_at: Date = now()
+    - token: String #required #unique #max(500)
+    - user_agent: String? #max(500)
+    - user_id: Id #required -> User.id
+
+- name: Refresh Token
+  type: refresh_token
+  id: [token]
+  schema:
+    - created_at: Date = now()
+    - expires_at: Date #required
+    - is_revoked: Boolean = false
+    - revoked_at: Date?
+    - session_id: Id #required -> Session.id
+    - token: String #required #unique #max(500)
+
+- name: Session Activity
+  type: session_activity
+  id: [session_id, action, created_at]
+  schema:
+    - action: String #required #max(100)
+    - created_at: Date = now()
+    - ip_address: String? #max(45)
+    - metadata: String?
+    - session_id: Id #required -> Session.id

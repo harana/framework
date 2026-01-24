@@ -1,0 +1,160 @@
+- name: Resize Image
+  action: resize
+  inputs:
+    fit: Cover | Contain | Fill | Inside | Outside = Cover
+    format: Jpeg | Png | Webp | Avif | Tiff
+    height: Int
+    maintain_aspect_ratio: Boolean = true
+    source: String #required
+    width: Int
+  outputs:
+    height: Int
+    image: String
+    size: Int
+    width: Int
+
+- name: Crop Image
+  action: crop
+  inputs:
+    height: Int #required
+    source: String #required
+    width: Int #required
+    x: Int #required
+    y: Int #required
+  outputs:
+    height: Int
+    image: String
+    width: Int
+
+- name: Compress Image
+  action: compress
+  inputs:
+    format: Jpeg | Png | Webp | Avif = Webp
+    progressive: Boolean = false
+    quality: Int = 80
+    source: String #required
+  outputs:
+    compression_ratio: Float
+    image: String
+    size: Int
+
+- name: Rotate Image
+  action: rotate
+  inputs:
+    angle: Int #required
+    background: String = transparent
+    source: String #required
+  outputs:
+    height: Int
+    image: String
+    width: Int
+
+- name: Generate Thumbnail
+  action: thumbnail
+  inputs:
+    fit: Cover | Contain | Fill = Cover
+    format: Jpeg | Png | Webp
+    size: Int = 150
+    source: String #required
+  outputs:
+    height: Int
+    image: String
+    width: Int
+
+- name: Blur Image
+  action: blur
+  inputs:
+    sigma: Float = 5.0
+    source: String #required
+  outputs:
+    image: String
+
+- name: Convert To Greyscale
+  action: greyscale
+  inputs:
+    source: String #required
+  outputs:
+    image: String
+
+- name: Flip Image
+  action: flip
+  inputs:
+    direction: Horizontal | Vertical #required
+    source: String #required
+  outputs:
+    image: String
+
+- name: Apply Sharpen
+  action: sharpen
+  inputs:
+    sigma: Float = 1.0
+    source: String #required
+  outputs:
+    image: String
+
+- name: Adjust Brightness
+  action: brightness
+  inputs:
+    brightness: Float #required
+    source: String #required
+  outputs:
+    image: String
+
+- name: Adjust Contrast
+  action: contrast
+  inputs:
+    contrast: Float #required
+    source: String #required
+  outputs:
+    image: String
+
+- name: Apply Tint
+  action: tint
+  inputs:
+    color: String #required
+    source: String #required
+  outputs:
+    image: String
+
+- name: Get Image Metadata
+  action: get_metadata
+  inputs:
+    source: String #required
+  outputs:
+    color_space: String
+    format: String
+    has_alpha: Boolean
+    height: Int
+    orientation: Int
+    size: Int
+    width: Int
+
+- name: Convert Image Format
+  action: convert_format
+  inputs:
+    format: Jpeg | Png | Webp | Avif | Tiff | Gif #required
+    quality: Int = 80
+    source: String #required
+  outputs:
+    format: String
+    image: String
+    size: Int
+
+- name: Add Watermark
+  action: watermark
+  inputs:
+    opacity: Float = 0.5
+    position: top-left | top-right | bottom-left | bottom-right | center = bottom-right
+    source: String #required
+    watermark: String #required
+  outputs:
+    image: String
+
+- name: Image
+  class:
+    source: String
+    width: Int
+    height: Int
+    format: String
+    size: Int
+    content_type: String

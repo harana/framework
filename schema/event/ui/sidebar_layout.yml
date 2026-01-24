@@ -1,0 +1,17 @@
+- name: Sidebar Layout Initialized
+  type: sidebar_layout_initialized
+  schema:
+    layout_id: Id #required
+    layout_name: String?
+    sidebar_id: Id #required
+    navbar_id: Id?
+    initialized_at: Date = now()
+
+- name: Sidebar Layout Resized
+  type: sidebar_layout_resized
+  schema:
+    layout_id: Id #required
+    layout_name: String?
+    old_sidebar_width: int? #min(0)
+    new_sidebar_width: int? #min(0)
+    resized_at: Date = now()

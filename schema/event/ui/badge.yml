@@ -1,0 +1,14 @@
+- name: Badge Button Clicked
+  type: badge_button_clicked
+  schema:
+    badge_id: Id #required
+    badge_label: String?
+    badge_color: String?
+    clicked_at: Date = now()
+
+- name: Badge Hovered
+  type: badge_hovered
+  schema:
+    badge_id: Id #required
+    badge_label: String?
+    hovered_at: Date = now()

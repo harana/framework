@@ -1,0 +1,17 @@
+- name: Stacked Layout Initialized
+  type: stacked_layout_initialized
+  schema:
+    layout_id: Id #required
+    layout_name: String?
+    navbar_id: Id #required
+    sidebar_id: Id #required
+    initialized_at: Date = now()
+
+- name: Stacked Layout View Changed
+  type: stacked_layout_view_changed
+  schema:
+    layout_id: Id #required
+    layout_name: String?
+    old_view: String?
+    new_view: String #required
+    changed_at: Date = now()

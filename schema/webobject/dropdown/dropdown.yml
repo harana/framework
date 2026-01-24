@@ -1,0 +1,5 @@
+- name: Dropdown Component
+  type: dropdown
+  events:
+    - close
+    - open

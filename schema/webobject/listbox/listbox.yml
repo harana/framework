@@ -1,0 +1,17 @@
+- name: Listbox Component
+  type: Listbox
+  attributes:
+    - aria_label: String? #max(200)
+    - default_value: String? #max(200)
+    - description: String? #max(500)
+    - error_message: String? #max(500)
+    - is_disabled: Boolean = false
+    - is_invalid: Boolean = false
+    - label: String? #max(200)
+    - placeholder: String? #max(200)
+  events:
+    - close
+    - open
+    - option_highlight
+    - option_select
+    - search

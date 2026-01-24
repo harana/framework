@@ -1,0 +1,102 @@
+- name: Group
+  type: group
+  id: [id]
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - id: Id #required
+    - is_active: Boolean = true
+    - name: String #required #unique #max(100)
+    - parent_id: Id? -> Group.id
+    - updated_at: Date = now()
+
+- name: Group Member
+  type: group_member
+  id: [group_id, user_id]
+  schema:
+    - added_at: Date = now()
+    - added_by: Id? -> User.id
+    - group_id: Id #required -> Group.id
+    - is_admin: Boolean = false
+    - user_id: Id #required -> User.id
+
+- name: Group Role
+  type: group_role
+  id: [group_id, role_id]
+  schema:
+    - assigned_at: Date = now()
+    - assigned_by: Id? -> User.id
+    - group_id: Id #required -> Group.id
+    - role_id: Id #required -> Role.id
+
+- name: Role
+  type: role
+  id: [id]
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - id: Id #required
+    - is_system: Boolean = false
+    - name: String #required #unique #max(100)
+    - updated_at: Date = now()
+
+- name: Role Permission
+  type: role_permission
+  id: [role_id, permission_id]
+  schema:
+    - granted_at: Date = now()
+    - granted_by: Id? -> User.id
+    - permission_id: Id #required -> Permission.id
+    - role_id: Id #required -> Role.id
+
+- name: User Role
+  type: user_role
+  id: [user_id, role_id]
+  schema:
+    - assigned_at: Date = now()
+    - assigned_by: Id? -> User.id
+    - expires_at: Date?
+    - role_id: Id #required -> Role.id
+    - user_id: Id #required -> User.id
+
+- name: User
+  type: user
+  id: [id]
+  schema:
+    - avatar_url: String? #url
+    - created_at: Date = now()
+    - email: String #required #unique #email #max(255)
+    - first_name: String? #max(100)
+    - id: Id #required
+    - is_active: Boolean = true
+    - is_verified: Boolean = false
+    - last_login_at: Date?
+    - last_name: String? #max(100)
+    - phone: String? #max(20)
+    - timezone: String? #max(50)
+    - updated_at: Date = now()
+    - username: String #required #unique #max(50)
+
+- name: User Profile
+  type: user_profile
+  id: [user_id]
+  schema:
+    - bio: String? #max(1000)
+    - date_of_birth: date?
+    - job_title: String? #max(100)
+    - location: String? #max(200)
+    - organisation: String? #max(200)
+    - updated_at: Date = now()
+    - user_id: Id #required -> User.id
+    - website: String? #url
+
+- name: User Credential
+  type: user_credential
+  id: [user_id, credential_type]
+  schema:
+    - created_at: Date = now()
+    - credential_type: Password | Passkey | Oauth | ApiKey = Password
+    - credential_value: String #required #max(500)
+    - is_primary: Boolean = false
+    - updated_at: Date = now()
+    - user_id: Id #required -> User.id

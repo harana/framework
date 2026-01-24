@@ -1,0 +1,28 @@
+- name: Input Cleared
+  type: input_cleared
+  schema:
+    input_id: Id #required
+    input_name: String?
+    input_type: Text | Email | Password | Number | Tel | Url | Search = Text
+    previous_value: String?
+    cleared_at: Date = now()
+
+- name: Textarea Resized
+  type: textarea_resized
+  schema:
+    textarea_id: Id #required
+    textarea_name: String?
+    old_width: int? #min(0)
+    old_height: int? #min(0)
+    new_width: int? #min(0)
+    new_height: int? #min(0)
+    resized_at: Date = now()
+
+- name: Character Limit Reached
+  type: character_limit_reached
+  schema:
+    input_id: Id #required
+    input_name: String?
+    character_limit: int #required #min(1)
+    current_length: int #required #min(0)
+    reached_at: Date = now()

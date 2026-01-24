@@ -1,0 +1,34 @@
+- name: Form
+  type: form
+  id: [slug]
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(1000)
+    - is_active: Boolean = true
+    - slug: String #required #unique #lowercase
+    - updated_at: Date = now()
+
+- name: Form Field
+  type: form_field
+  id: [form_id, name]
+  schema:
+    - default_value: String?
+    - form_id: Id #required -> Form.id
+    - is_required: Boolean = false
+    - label: String #required #max(200)
+    - options: String?
+    - placeholder: String? #max(200)
+    - sort_order: int = 0
+    - type: Text | Email | Number | Date | Select | Checkbox | Radio | Textarea | File = Text
+    - validation_rules: String?
+
+- name: Form Submission
+  type: form_submission
+  id: [form_id, created_at, submitted_by]
+  schema:
+    - created_at: Date = now()
+    - data: String #required
+    - ip_address: String? #max(45)
+    - status: Pending | Reviewed | Approved | Rejected = Pending
+    - submitted_by: Id? -> User.id
+    - user_agent: String? #max(500)

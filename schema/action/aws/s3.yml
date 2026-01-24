@@ -1,0 +1,325 @@
+- name: Create S3 Bucket
+  action: create_bucket
+  inputs:
+    acl: Private | Public-read | public-read-write | authenticated-read = private
+    bucket: String #required
+    region: String
+    tags: S3Tags
+  outputs:
+    bucket: String
+    location: String
+    success: Boolean
+
+- name: Delete S3 Bucket
+  action: delete_bucket
+  inputs:
+    bucket: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: List S3 Buckets
+  action: list_buckets
+  inputs:
+    region: String
+  outputs:
+    buckets: List[S3Bucket]
+
+- name: Put S3 Object
+  action: put_object
+  inputs:
+    acl: Private | Public-read | public-read-write | authenticated-read
+    bucket: String #required
+    content: bytes #required
+    content_type: String
+    key: String #required
+    metadata: ObjectMetadata
+    region: String
+    server_side_encryption: AES256 | Aws:kms
+    storage_class: STANDARD | REDUCED_REDUNDANCY | STANDARD_IA | ONEZONE_IA | INTELLIGENT_TIERING | GLACIER | DEEP_ARCHIVE
+    tags: S3Tags
+  outputs:
+    etag: String
+    success: Boolean
+    version_id: String
+
+- name: Get S3 Object
+  action: get_object
+  inputs:
+    bucket: String #required
+    key: String #required
+    region: String
+    version_id: String
+  outputs:
+    content: bytes
+    content_type: String
+    etag: String
+    last_modified: Date
+    metadata: ObjectMetadata
+    size: Int
+    storage_class: String
+    version_id: String
+
+- name: Delete S3 Object
+  action: delete_object
+  inputs:
+    bucket: String #required
+    key: String #required
+    region: String
+    version_id: String
+  outputs:
+    success: Boolean
+    version_id: String
+
+- name: Delete S3 Objects
+  action: delete_objects
+  inputs:
+    bucket: String #required
+    keys: List[String] #required
+    region: String
+  outputs:
+    deleted: List[DeletedObject]
+    errors: List[S3Error]
+    success: Boolean
+
+- name: List S3 Objects
+  action: list_objects
+  inputs:
+    bucket: String #required
+    continuation_token: String
+    delimiter: String
+    max_keys: Int = 1000
+    prefix: String
+    region: String
+    start_after: String
+  outputs:
+    contents: List[S3Object]
+    continuation_token: String
+    is_truncated: Boolean
+    key_count: Int
+    next_continuation_token: String
+    prefix: String
+
+- name: Copy S3 Object
+  action: copy_object
+  inputs:
+    destination_bucket: String #required
+    destination_key: String #required
+    metadata: ObjectMetadata
+    metadata_directive: COPY | REPLACE = COPY
+    region: String
+    source_bucket: String #required
+    source_key: String #required
+    source_version_id: String
+    storage_class: String
+    tags: S3Tags
+  outputs:
+    etag: String
+    success: Boolean
+    version_id: String
+
+- name: Head S3 Object
+  action: head_object
+  inputs:
+    bucket: String #required
+    key: String #required
+    region: String
+    version_id: String
+  outputs:
+    content_length: Int
+    content_type: String
+    etag: String
+    exists: Boolean
+    last_modified: Date
+    metadata: ObjectMetadata
+    storage_class: String
+    version_id: String
+
+- name: Get S3 Object Presigned URL
+  action: get_presigned_url
+  inputs:
+    bucket: String #required
+    expires_in: Int = 3600
+    key: String #required
+    operation: GetObject | PutObject = GetObject
+    region: String
+  outputs:
+    expires_at: Date
+    url: String
+
+- name: Set S3 Bucket Policy
+  action: put_bucket_policy
+  inputs:
+    bucket: String #required
+    policy: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Get S3 Bucket Policy
+  action: get_bucket_policy
+  inputs:
+    bucket: String #required
+    region: String
+  outputs:
+    policy: String
+
+- name: Delete S3 Bucket Policy
+  action: delete_bucket_policy
+  inputs:
+    bucket: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Put S3 Bucket Versioning
+  action: put_bucket_versioning
+  inputs:
+    bucket: String #required
+    region: String
+    status: Enabled | Suspended #required
+  outputs:
+    success: Boolean
+
+- name: Get S3 Bucket Versioning
+  action: get_bucket_versioning
+  inputs:
+    bucket: String #required
+    region: String
+  outputs:
+    mfa_delete: String
+    status: String
+
+- name: Put S3 Bucket Encryption
+  action: put_bucket_encryption
+  inputs:
+    bucket: String #required
+    kms_master_key_id: String
+    region: String
+    sse_algorithm: AES256 | Aws:kms #required
+  outputs:
+    success: Boolean
+
+- name: Get S3 Bucket Encryption
+  action: get_bucket_encryption
+  inputs:
+    bucket: String #required
+    region: String
+  outputs:
+    rules: List[EncryptionRule]
+
+- name: Put S3 Bucket CORS
+  action: put_bucket_cors
+  inputs:
+    bucket: String #required
+    cors_rules: List[CorsRule] #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Get S3 Bucket CORS
+  action: get_bucket_cors
+  inputs:
+    bucket: String #required
+    region: String
+  outputs:
+    cors_rules: List[CorsRule]
+
+- name: Delete S3 Bucket CORS
+  action: delete_bucket_cors
+  inputs:
+    bucket: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Put S3 Bucket Lifecycle
+  action: put_bucket_lifecycle
+  inputs:
+    bucket: String #required
+    lifecycle_rules: List[LifecycleRule] #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Get S3 Bucket Lifecycle
+  action: get_bucket_lifecycle
+  inputs:
+    bucket: String #required
+    region: String
+  outputs:
+    rules: List[LifecycleRule]
+
+- name: Put S3 Object Tagging
+  action: put_object_tagging
+  inputs:
+    bucket: String #required
+    key: String #required
+    region: String
+    tags: S3Tags #required
+    version_id: String
+  outputs:
+    success: Boolean
+    version_id: String
+
+- name: Get S3 Object Tagging
+  action: get_object_tagging
+  inputs:
+    bucket: String #required
+    key: String #required
+    region: String
+    version_id: String
+  outputs:
+    tags: S3Tags
+    version_id: String
+
+- name: Create Multipart Upload
+  action: create_multipart_upload
+  inputs:
+    bucket: String #required
+    content_type: String
+    key: String #required
+    metadata: ObjectMetadata
+    region: String
+    storage_class: String
+  outputs:
+    success: Boolean
+    upload_id: String
+
+- name: Upload Part
+  action: upload_part
+  inputs:
+    body: bytes #required
+    bucket: String #required
+    key: String #required
+    part_number: Int #required
+    region: String
+    upload_id: String #required
+  outputs:
+    etag: String
+    success: Boolean
+
+- name: Complete Multipart Upload
+  action: complete_multipart_upload
+  inputs:
+    bucket: String #required
+    key: String #required
+    parts: List[CompletedPart] #required
+    region: String
+    upload_id: String #required
+  outputs:
+    bucket: String
+    etag: String
+    key: String
+    location: String
+    success: Boolean
+
+- name: Abort Multipart Upload
+  action: abort_multipart_upload
+  inputs:
+    bucket: String #required
+    key: String #required
+    region: String
+    upload_id: String #required
+  outputs:
+    success: Boolean

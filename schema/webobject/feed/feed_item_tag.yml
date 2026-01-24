@@ -1,0 +1,11 @@
+- name: Feed Item Tag Component
+  type: feed_item_tag
+  id: [feed_item_id, name]
+  attributes:
+    - color: Red | Orange | Yellow | Green | Blue | Indigo | Purple | Pink | Gray = Gray
+    - feed_item_id: Id #required -> UIFeedItem.id
+    - href: String? #max(500)
+    - label: String #required #max(100)
+    - order: int = 0 #min(0)
+  events:
+    - click

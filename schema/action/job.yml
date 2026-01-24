@@ -1,0 +1,119 @@
+- name: Schedule Job For Execution
+  action: schedule
+  inputs:
+    cron: String
+    handler: String #required
+    name: String #required
+    payload: Any
+    priority: Low | Normal | High = Normal
+    run_at: Date
+  outputs:
+    job_id: String
+    scheduled_at: Date
+
+- name: Cancel Scheduled Job
+  action: cancel
+  inputs:
+    job_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Get Job Status
+  action: get_status
+  inputs:
+    job_id: String #required
+  outputs:
+    completed_at: Date
+    error: String
+    progress: Float
+    result: Any
+    started_at: Date
+    status: Pending | Running | Completed | Failed | Cancelled
+
+- name: Retry Failed Job
+  action: retry
+  inputs:
+    delay_seconds: Int = 0
+    job_id: String #required
+  outputs:
+    new_id: String
+    success: Boolean
+
+- name: List Jobs By Status
+  action: lists
+  inputs:
+    end_date: Date
+    handler: String
+    limit: Int = 100
+    offset: Int = 0
+    start_date: Date
+    status: String
+  outputs:
+    jobs: List[JobInfo]
+    total: Int
+
+- name: Pause Job Execution
+  action: pause
+  inputs:
+    job_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Resume Paused Job
+  action: resume
+  inputs:
+    job_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Get Job Result
+  action: get_result
+  inputs:
+    job_id: String #required
+    timeout: Int = 0
+  outputs:
+    completed: Boolean
+    error: String
+    result: Any
+
+- name: Update Job Progress
+  action: update_progress
+  inputs:
+    job_id: String #required
+    message: String
+    progress: Float #required
+  outputs:
+    success: Boolean
+
+- name: Delete Job Record
+  action: delete
+  inputs:
+    job_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Job
+  class:
+    job_id: String
+    name: String
+    handler: String
+    payload: Any
+    status: String
+    priority: String
+    scheduled_at: Date
+    started_at: Date
+    completed_at: Date
+    progress: Float
+    result: Any
+    error: String
+
+- name: JobInfo
+  class:
+    job_id: String
+    name: String
+    handler: String
+    status: String
+    priority: String
+    scheduled_at: Date
+    started_at: Date
+    completed_at: Date

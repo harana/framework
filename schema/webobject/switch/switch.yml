@@ -1,0 +1,13 @@
+- name: Switch Component
+  type: switch
+  attributes:
+    - color: DarkZinc | DarkWhite | Dark | Zinc | White | Red | Orange | Amber | Yellow | Lime | Green | Emerald | Teal | Cyan | Sky | Blue | Indigo | Violet | Purple | Fuchsia | Pink | Rose = DarkZinc
+    - default_checked: Boolean = false
+    - description: String? #max(500)
+    - is_disabled: Boolean = false
+    - label: String? #max(200)
+    - value: String? #max(100)
+  events:
+    - change
+    - toggle_off
+    - toggle_on

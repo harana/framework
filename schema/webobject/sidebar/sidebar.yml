@@ -1,0 +1,6 @@
+- name: Sidebar Component
+  type: sidebar
+  events:
+    - collapse
+    - expand
+    - toggle

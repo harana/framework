@@ -1,0 +1,62 @@
+parameter:
+  title: User Authentication
+
+state:
+  login_button_clicked: Boolean = false
+  username_field_enabled: Boolean = true
+  password_field_enabled: Boolean = true
+
+component:
+  - name: Username Field
+    id: username_field
+    type: input_field
+    with:
+      label: Username
+      placeholder: Enter your username
+      required: true
+
+  - name: Password Field
+    id: password_field
+    type: input_field
+    with:
+      label: Password
+      placeholder: Enter your password
+      input_type: password
+      required: true
+
+  - name: Login Button
+    type: input
+    click: login_button_click
+    with:
+      label: Login
+
+flow:
+  - name: Login Clicked
+    when: login_button_click
+    steps:
+      - name: Log Process
+        log: "Login process started for user_id: {{ user_id }} email: {{ email }}"
+        channel: true
+
+      - name: Update Button State
+        set:
+          login_button_clicked: true
+          username_field_enabled: false
+          password_field_enabled: false
+
+      - name: Send Login Event
+        send_event:
+          id: login_attempt
+          with:
+            username: username_field.value
+            password: password_field.value
+
+  - name: Incorrect Credentials
+    when: login_attempt_failure
+    steps:
+      - name: Update Button State
+        set:
+          login_button_clicked: false
+          username_field_enabled: true
+          password_field_enabled: true
+          error_message: "Incorrect username or password. Please try again."

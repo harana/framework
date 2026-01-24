@@ -1,0 +1,6 @@
+- name: Divider Clicked
+  type: divider_clicked
+  schema:
+    divider_id: Id #required
+    divider_name: String?
+    clicked_at: Date = now()

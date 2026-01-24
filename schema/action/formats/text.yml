@@ -1,0 +1,89 @@
+- name: Render Template String
+  action: template
+  inputs:
+    data: TemplateData #required
+    engine: Handlebars | Mustache | Tera = Handlebars
+    template: String #required
+  outputs:
+    result: String
+
+- name: Match Regex Pattern
+  action: regex_match
+  inputs:
+    flags: String
+    pattern: String #required
+    text: String #required
+  outputs:
+    matches: List[String]
+
+- name: Replace With Regex Pattern
+  action: regex_replace
+  inputs:
+    flags: String
+    pattern: String #required
+    replacement: String #required
+    text: String #required
+  outputs:
+    result: String
+
+- name: Split String By Delimiter
+  action: split
+  inputs:
+    delimiter: String #required
+    limit: Int
+    text: String #required
+  outputs:
+    parts: List[String]
+
+- name: Join Strings Together
+  action: join
+  inputs:
+    items: List[String] #required
+    separator: String = ""
+  outputs:
+    result: String
+
+- name: Trim Whitespace From String
+  action: trim
+  inputs:
+    characters: String
+    mode: Both | Start | End = Both
+    text: String #required
+  outputs:
+    result: String
+
+- name: Convert String Case
+  action: case_convert
+  inputs:
+    format: Upper | Lower | Camel | Pascal | Snake | Kebab #required
+    text: String #required
+  outputs:
+    result: String
+
+- name: Truncate String Length
+  action: truncate
+  inputs:
+    length: Int #required
+    suffix: String = "..."
+    text: String #required
+  outputs:
+    result: String
+
+- name: Convert Text To URL Slug
+  action: slugify
+  inputs:
+    lowercase: Boolean = true
+    separator: String = "-"
+    text: String #required
+  outputs:
+    slug: String
+
+- name: TextString
+  class:
+    content: String
+    length: Int
+    encoding: String
+
+- name: TemplateData
+  class:
+    values: Map[String, Any]

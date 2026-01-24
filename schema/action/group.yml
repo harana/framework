@@ -1,0 +1,118 @@
+- name: Create Group
+  action: create
+  inputs:
+    description: String
+    name: String #required
+  outputs:
+    group_id: String
+    success: Boolean
+
+- name: Update Group
+  action: update
+  inputs:
+    description: String
+    group_id: String #required
+    name: String
+  outputs:
+    success: Boolean
+
+- name: Delete Group
+  action: delete
+  inputs:
+    group_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Get Group Details
+  action: get
+  inputs:
+    group_id: String #required
+  outputs:
+    description: String
+    member_count: Int
+    name: String
+    roles: List[GroupRoleInfo]
+
+- name: List Groups
+  action: lists
+  inputs:
+    limit: Int = 100
+    offset: Int = 0
+  outputs:
+    groups: List[GroupInfo]
+    total: Int
+
+- name: Add User To Group
+  action: add_user_to
+  inputs:
+    group_id: String #required
+    user_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Remove User From Group
+  action: remove_user_from
+  inputs:
+    group_id: String #required
+    user_id: String #required
+  outputs:
+    success: Boolean
+
+- name: List Group Members
+  action: list_members
+  inputs:
+    group_id: String #required
+    limit: Int = 100
+    offset: Int = 0
+  outputs:
+    members: List[GroupMember]
+    total: Int
+
+- name: Assign Role To Group
+  action: assign_role_to
+  inputs:
+    group_id: String #required
+    role_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Remove Role From Group
+  action: remove_role_from
+  inputs:
+    group_id: String #required
+    role_id: String #required
+  outputs:
+    success: Boolean
+
+- name: List Group Roles
+  action: list_roles
+  inputs:
+    group_id: String #required
+  outputs:
+    roles: List[GroupRoleInfo]
+    total: Int
+
+- name: Check Group Permission
+  action: check_permission
+  inputs:
+    action: String #required
+    group_id: String #required
+    resource: String #required
+  outputs:
+    allowed: Boolean
+    reason: String
+
+- name: Group
+  class:
+    group_id: String
+    name: String
+    description: String
+    member_count: Int
+    roles: List[GroupRole]
+    created_at: Date
+
+- name: GroupRole
+  class:
+    role_id: String
+    name: String
+    permissions: List[String]

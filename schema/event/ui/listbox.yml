@@ -1,0 +1,41 @@
+- name: Listbox Opened
+  type: Listbox_opened
+  schema:
+    listbox_id: Id #required
+    listbox_name: String?
+    options_count: int? #min(0)
+    opened_at: Date = now()
+
+- name: Listbox Closed
+  type: Listbox_closed
+  schema:
+    listbox_id: Id #required
+    listbox_name: String?
+    close_reason: Selection | Blur | Escape = Blur
+    closed_at: Date = now()
+
+- name: Listbox Option Selected
+  type: Listbox_option_selected
+  schema:
+    listbox_id: Id #required
+    listbox_name: String?
+    option_value: String #required
+    option_label: String?
+    selected_at: Date = now()
+
+- name: Listbox Option Highlighted
+  type: Listbox_option_highlighted
+  schema:
+    listbox_id: Id #required
+    option_value: String?
+    option_label: String?
+    highlighted_at: Date = now()
+
+- name: Listbox Searched
+  type: Listbox_searched
+  schema:
+    listbox_id: Id #required
+    listbox_name: String?
+    search_query: String?
+    results_count: int? #min(0)
+    searched_at: Date = now()

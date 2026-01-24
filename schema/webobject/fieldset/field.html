@@ -1,0 +1,25 @@
+<div id="{{id}}" class="[&>[data-slot=label]+[data-slot=control]]:mt-3 [&>[data-slot=label]+[data-slot=description]]:mt-1 [&>[data-slot=description]+[data-slot=control]]:mt-3 [&>[data-slot=control]+[data-slot=description]]:mt-3 [&>[data-slot=control]+[data-slot=error]]:mt-3 *:data-[slot=label]:font-medium"
+     data-attr:data-disabled="$is_disabled"
+     data-on:blur="{{blur}}"
+     data-on:focus="{{focus}}"
+     data-on:error-clear="$error_message = ''; {{error_clear}}"
+     data-on:error-show="{{error_show}}">
+  {{#if label}}
+  <label data-slot="label"
+         class="text-base/6 text-zinc-950 select-none data-disabled:opacity-50 sm:text-sm/6 dark:text-white">
+    {{label}}
+  </label>
+  {{/if}}
+  {{#if description}}
+  <p data-slot="description"
+     class="text-base/6 text-zinc-500 data-disabled:opacity-50 sm:text-sm/6 dark:text-zinc-400">
+    {{description}}
+  </p>
+  {{/if}}
+  {{> field_control}}
+  <p data-slot="error"
+     data-show="$error_message"
+     class="text-base/6 text-red-600 data-disabled:opacity-50 sm:text-sm/6 dark:text-red-500"
+     data-text="$error_message">
+  </p>
+</div>

@@ -1,0 +1,38 @@
+- name: Job
+  type: job
+  id: [name, queue, created_at]
+  schema:
+    - completed_at: Date?
+    - created_at: Date = now()
+    - error_message: String? #max(2000)
+    - max_retries: int = 3 #min(0)
+    - payload: String?
+    - priority: int = 0
+    - queue: String = default #max(100)
+    - result: String?
+    - retry_count: int = 0 #min(0)
+    - scheduled_at: Date?
+    - started_at: Date?
+    - status: Pending | Running | Completed | Failed | Cancelled = Pending
+    - timeout_seconds: int = 300 #min(1)
+    - updated_at: Date = now()
+
+- name: Job Schedule
+  type: job_schedule
+  schema:
+    - cron_expression: String #required #max(100)
+    - is_active: Boolean = true
+    - job_name: String #required #max(200)
+    - last_run_at: Date?
+    - next_run_at: Date?
+    - payload: String?
+    - timezone: String = UTC #max(50)
+
+- name: Job Log
+  type: job_log
+  id: [job_id, created_at]
+  schema:
+    - created_at: Date = now()
+    - job_id: Id #required -> Job.id
+    - level: Debug | Info | Warning | Error = Info
+    - message: String #required #max(5000)

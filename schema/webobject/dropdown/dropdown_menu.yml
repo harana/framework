@@ -1,0 +1,6 @@
+- name: Dropdown Menu Component
+  type: dropdown_menu
+  id: [dropdown_id]
+  attributes:
+    - anchor: Top | Bottom | Left | Right | TopStart | TopEnd | BottomStart | BottomEnd = Bottom
+    - dropdown_id: Id #required -> UIDropdown.id

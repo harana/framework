@@ -1,0 +1,13 @@
+- name: Field Component
+  type: field
+  attributes:
+    - description: String? #max(500)
+    - error_message: String? #max(500)
+    - field_group_id: Id? -> UIFieldGroup.id
+    - is_disabled: Boolean = false
+    - label: String? #max(200)
+  events:
+    - blur
+    - error_clear
+    - error_show
+    - focus

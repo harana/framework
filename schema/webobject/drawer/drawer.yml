@@ -1,0 +1,12 @@
+- name: Drawer Component
+  type: drawer
+  attributes:
+    - is_open: Boolean = false
+    - position: Left | Right = Right
+    - show_backdrop: Boolean = true
+    - show_footer: Boolean = false
+    - size: Sm | Md | Lg | Xl | 2xl = Md
+    - title: String #required #max(200)
+  events:
+    - close
+    - open

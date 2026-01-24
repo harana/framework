@@ -1,0 +1,52 @@
+- name: Dropdown Opened
+  type: dropdown_opened
+  schema:
+    dropdown_id: Id #required
+    dropdown_name: String?
+    options_count: int? #min(0)
+    opened_at: Date = now()
+
+- name: Dropdown Closed
+  type: dropdown_closed
+  schema:
+    dropdown_id: Id #required
+    dropdown_name: String?
+    close_reason: Selection | Blur | Escape | ClickOutside = Blur
+    closed_at: Date = now()
+
+- name: Option Selected
+  type: option_selected
+  schema:
+    dropdown_id: Id #required
+    dropdown_name: String?
+    option_value: String #required
+    option_label: String?
+    option_index: int? #min(0)
+    selected_at: Date = now()
+
+- name: Option Deselected
+  type: option_deselected
+  schema:
+    dropdown_id: Id #required
+    dropdown_name: String?
+    option_value: String #required
+    option_label: String?
+    deselected_at: Date = now()
+
+- name: Search Filtered
+  type: search_filtered
+  schema:
+    dropdown_id: Id #required
+    dropdown_name: String?
+    search_query: String?
+    results_count: int? #min(0)
+    filtered_at: Date = now()
+
+- name: Combobox Typed
+  type: combobox_typed
+  schema:
+    combobox_id: Id #required
+    combobox_name: String?
+    typed_value: String?
+    suggestions_shown: int? #min(0)
+    typed_at: Date = now()

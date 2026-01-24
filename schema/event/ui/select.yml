@@ -1,0 +1,47 @@
+- name: Select Opened
+  type: select_opened
+  schema:
+    select_id: Id #required
+    select_name: String?
+    options_count: int? #min(0)
+    opened_at: Date = now()
+
+- name: Select Closed
+  type: select_closed
+  schema:
+    select_id: Id #required
+    select_name: String?
+    close_reason: Selection | Blur | Escape = Blur
+    closed_at: Date = now()
+
+- name: Select Option Selected
+  type: select_option_selected
+  schema:
+    select_id: Id #required
+    select_name: String?
+    option_value: String #required
+    option_label: String?
+    selected_at: Date = now()
+
+- name: Select Value Changed
+  type: select_value_changed
+  schema:
+    select_id: Id #required
+    select_name: String?
+    old_value: String?
+    new_value: String #required
+    changed_at: Date = now()
+
+- name: Select Focused
+  type: select_focused
+  schema:
+    select_id: Id #required
+    select_name: String?
+    focused_at: Date = now()
+
+- name: Select Blurred
+  type: select_blurred
+  schema:
+    select_id: Id #required
+    select_name: String?
+    blurred_at: Date = now()

@@ -1,0 +1,7 @@
+<a id="{{id}}" href="{{href}}"
+   aria-label="Page {{page_number}}"
+   {{#if is_current}}aria-current="page"{{/if}}
+   class="cursor-default relative isolate inline-flex items-baseline justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(--spacing(3.5)-1px)] py-[calc(--spacing(2.5)-1px)] sm:px-[calc(--spacing(3)-1px)] sm:py-[calc(--spacing(1.5)-1px)] sm:text-sm/6 focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-blue-500 data-disabled:opacity-50 border-transparent text-zinc-950 data-active:bg-zinc-950/5 data-hover:bg-zinc-950/5 dark:text-white dark:data-active:bg-white/10 dark:data-hover:bg-white/10 min-w-9 before:absolute before:-inset-px before:rounded-lg {{#if is_current}}before:bg-zinc-950/5 dark:before:bg-white/10{{/if}}">
+  <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 pointer-fine:hidden" aria-hidden="true"></span>
+  <span class="-mx-0.5">{{page_number}}</span>
+</a>

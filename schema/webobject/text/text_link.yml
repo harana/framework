@@ -1,0 +1,7 @@
+- name: Text Link Component
+  type: text_link
+  attributes:
+    - href: String #required #max(500)
+    - label: String #required #max(200)
+  events:
+    - click

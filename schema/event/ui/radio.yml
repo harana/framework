@@ -1,0 +1,31 @@
+- name: Radio Selected
+  type: radio_selected
+  schema:
+    group_id: Id #required
+    radio_value: String #required
+    radio_label: String?
+    selected_at: Date = now()
+
+- name: Radio Group Changed
+  type: radio_group_changed
+  schema:
+    group_id: Id #required
+    group_name: String?
+    old_value: String?
+    new_value: String #required
+    new_label: String?
+    changed_at: Date = now()
+
+- name: Radio Focused
+  type: radio_focused
+  schema:
+    group_id: Id #required
+    radio_value: String?
+    focused_at: Date = now()
+
+- name: Radio Blurred
+  type: radio_blurred
+  schema:
+    group_id: Id #required
+    radio_value: String?
+    blurred_at: Date = now()

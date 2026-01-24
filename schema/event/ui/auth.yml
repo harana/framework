@@ -1,0 +1,38 @@
+- name: Login Attempted
+  type: login_attempted
+  schema:
+    login_method: Email | Username | Phone | Oauth = Email
+    provider: String?
+    success: Boolean = false
+    failure_reason: String?
+    attempted_at: Date = now()
+
+- name: Logout Clicked
+  type: logout_clicked
+  schema:
+    user_id: Id?
+    session_id: Id?
+    logout_type: Manual | Timeout | Forced = Manual
+    clicked_at: Date = now()
+
+- name: Password Reset Requested
+  type: password_reset_requested
+  schema:
+    identifier: String #required
+    identifier_type: Email | Phone | Username = Email
+    requested_at: Date = now()
+
+- name: Signup Initiated
+  type: signup_initiated
+  schema:
+    signup_method: Email | Phone | Oauth = Email
+    provider: String?
+    referral_source: String?
+    initiated_at: Date = now()
+
+- name: OAuth Provider Selected
+  type: oauth_provider_selected
+  schema:
+    provider: Google | Github | Facebook | Apple | Microsoft | Twitter | Linkedin #required
+    context: Login | Signup | Link = Login
+    selected_at: Date = now()

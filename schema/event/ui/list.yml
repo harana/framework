@@ -1,0 +1,52 @@
+- name: List Item Clicked
+  type: List_item_clicked
+  schema:
+    list_id: Id #required
+    item_id: Id #required
+    item_index: int? #min(0)
+    item_label: String?
+    clicked_at: Date = now()
+
+- name: List Item Reordered
+  type: List_item_reordered
+  schema:
+    list_id: Id #required
+    item_id: Id #required
+    from_index: int #required #min(0)
+    to_index: int #required #min(0)
+    reordered_at: Date = now()
+
+- name: List Item Deleted
+  type: List_item_deleted
+  schema:
+    list_id: Id #required
+    item_id: Id #required
+    item_index: int? #min(0)
+    item_label: String?
+    deleted_at: Date = now()
+
+- name: List Item Archived
+  type: List_item_archived
+  schema:
+    list_id: Id #required
+    item_id: Id #required
+    item_index: int? #min(0)
+    item_label: String?
+    archived_at: Date = now()
+
+- name: List Filtered
+  type: List_filtered
+  schema:
+    list_id: Id #required
+    filter_type: String?
+    filter_value: String?
+    results_count: int? #min(0)
+    filtered_at: Date = now()
+
+- name: List Grouped
+  type: List_grouped
+  schema:
+    list_id: Id #required
+    group_by: String #required
+    groups_count: int? #min(0)
+    grouped_at: Date = now()

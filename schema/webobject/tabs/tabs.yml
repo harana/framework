@@ -1,0 +1,7 @@
+- name: Tabs Component
+  type: tabs
+  attributes:
+    - active_tab: String? #max(100)
+    - variant: Simple | BarUnderline | FullWidth | Icons | Pills | Underline | UnderlineBadge = Simple
+  events:
+    - tab_change

@@ -1,0 +1,10 @@
+- name: Flyout Menu Component
+  type: flyout_menu
+  attributes:
+    - anchor: Bottom | BottomEnd | BottomStart | Left | LeftEnd | LeftStart | Right | RightEnd | RightStart | Top | TopEnd | TopStart = Bottom
+    - is_open: Boolean = false
+    - label: String #required #max(200)
+    - size: Sm | Md | Lg = Md
+  events:
+    - close
+    - open

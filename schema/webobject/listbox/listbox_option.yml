@@ -1,0 +1,12 @@
+- name: Listbox Option Component
+  type: Listbox_option
+  id: [listbox_id, value]
+  attributes:
+    - avatar_initials: String? #max(3)
+    - avatar_src: String? #max(500)
+    - description: String? #max(500)
+    - icon: String? #max(100)
+    - label: String #required #max(200)
+    - listbox_id: Id #required -> UIListbox.id
+    - order: int = 0 #min(0)
+    - value: String #required #max(200)

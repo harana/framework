@@ -1,0 +1,37 @@
+- name: Feed
+  type: feed
+  id: [slug]
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - is_active: Boolean = true
+    - slug: String #required #unique #lowercase
+    - title: String? #max(200)
+    - updated_at: Date = now()
+
+- name: Feed Item
+  type: feed_item
+  id: [feed_id, created_at]
+  schema:
+    - actor_id: Id? -> User.id
+    - content: String? #max(2000)
+    - created_at: Date = now()
+    - feed_id: Id #required -> Feed.id
+    - is_complete: Boolean = false
+    - target_id: Id?
+    - target_name: String? #max(200)
+    - target_type: String? #max(100)
+    - type: Comment | Assignment | Tag | Action | Status = Action
+    - updated_at: Date = now()
+
+- name: Feed Item Tag
+  type: feed_item_tag
+  id: [feed_item_id, slug]
+  schema:
+    - color: Red | Orange | Yellow | Green | Blue | Indigo | Purple | Pink | Gray = Gray
+    - created_at: Date = now()
+    - feed_item_id: Id #required -> FeedItem.id
+    - href: String? #max(500)
+    - label: String #required #max(100)
+    - order: int = 0 #min(0)
+    - slug: String #required #lowercase

@@ -1,0 +1,10 @@
+- name: Link Component
+  type: link
+  attributes:
+    - href: String #required #max(500)
+    - label: String #required #max(200)
+    - target: _self | _blank | _parent | _top = _self
+  events:
+    - click
+    - focus
+    - hover

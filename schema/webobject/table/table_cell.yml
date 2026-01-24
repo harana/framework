@@ -1,0 +1,12 @@
+- name: Table Cell Component
+  type: table_cell
+  id: [row_id, column_order]
+  attributes:
+    - alignment: Left | Center | Right = Left
+    - column_order: int = 0 #min(0)
+    - content: String #required #max(1000)
+    - is_bold: Boolean = false
+    - is_muted: Boolean = false
+    - row_id: Id #required -> UITableRow.id
+  events:
+    - edit

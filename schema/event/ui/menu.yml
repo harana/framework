@@ -1,0 +1,26 @@
+- name: Menu Opened
+  type: menu_opened
+  schema:
+    menu_id: Id #required
+    menu_name: String?
+    menu_type: Context | Dropdown | Hamburger | Overflow = Dropdown
+    trigger_element: String?
+    items_count: int? #min(0)
+    opened_at: Date = now()
+
+- name: Menu Closed
+  type: menu_closed
+  schema:
+    menu_id: Id #required
+    menu_name: String?
+    close_reason: Selection | Blur | Escape | ClickOutside = Blur
+    closed_at: Date = now()
+
+- name: Submenu Expanded
+  type: submenu_expanded
+  schema:
+    menu_id: Id #required
+    submenu_id: Id #required
+    submenu_label: String?
+    parent_item_id: Id?
+    expanded_at: Date = now()

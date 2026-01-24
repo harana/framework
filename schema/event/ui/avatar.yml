@@ -1,0 +1,24 @@
+- name: Avatar Clicked
+  type: avatar_clicked
+  schema:
+    avatar_id: Id #required
+    user_id: Id?
+    avatar_type: User | Group | Placeholder = User
+    clicked_at: Date = now()
+
+- name: Badge Clicked
+  type: badge_clicked
+  schema:
+    badge_id: Id #required
+    badge_type: Status | Count | Label = Label
+    badge_value: String?
+    clicked_at: Date = now()
+
+- name: Status Changed
+  type: status_changed
+  schema:
+    entity_id: Id #required
+    entity_type: String?
+    old_status: String?
+    new_status: String #required
+    changed_at: Date = now()

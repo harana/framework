@@ -1,0 +1,24 @@
+- name: Route
+  type: route
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - is_active: Boolean = true
+    - method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
+    - middleware: String?
+    - path: String #required #max(500)
+    - rate_limit: int? #min(1)
+    - updated_at: Date = now()
+
+- name: Route Group
+  type: route_group
+  schema:
+    - middleware: String?
+    - prefix: String #required #max(200)
+
+- name: Route Group Assignment
+  type: route_group_assignment
+  id: [route_id, group_id]
+  schema:
+    - group_id: Id #required -> RouteGroup.id
+    - route_id: Id #required -> Route.id

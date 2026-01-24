@@ -1,0 +1,267 @@
+- name: Send SES Email
+  action: send_email
+  inputs:
+    bcc_addresses: List[String]
+    cc_addresses: List[String]
+    configuration_set_name: String
+    from_address: String #required
+    html_body: String
+    region: String
+    reply_to_addresses: List[String]
+    return_path: String
+    subject: String #required
+    tags: SesTags
+    text_body: String
+    to_addresses: List[String] #required
+  outputs:
+    message_id: String
+    success: Boolean
+
+- name: Send SES Raw Email
+  action: send_raw_email
+  inputs:
+    configuration_set_name: String
+    destinations: List[String]
+    from_arn: String
+    raw_message: bytes #required
+    region: String
+    return_path_arn: String
+    source: String
+    source_arn: String
+    tags: SesTags
+  outputs:
+    message_id: String
+    success: Boolean
+
+- name: Send SES Templated Email
+  action: send_templated_email
+  inputs:
+    bcc_addresses: List[String]
+    cc_addresses: List[String]
+    configuration_set_name: String
+    from_address: String #required
+    region: String
+    reply_to_addresses: List[String]
+    return_path: String
+    tags: SesTags
+    template_data: String #required
+    template_name: String #required
+    to_addresses: List[String] #required
+  outputs:
+    message_id: String
+    success: Boolean
+
+- name: Send SES Bulk Templated Email
+  action: send_bulk_templated_email
+  inputs:
+    configuration_set_name: String
+    default_tags: DefaultTags
+    default_template_data: String
+    destinations: List[BulkEmailDestination] #required
+    from_address: String #required
+    region: String
+    reply_to_addresses: List[String]
+    return_path: String
+    template_name: String #required
+  outputs:
+    message_ids: List[String]
+    status: List[BulkEmailStatus]
+    success: Boolean
+
+- name: Verify SES Email Identity
+  action: verify_email_identity
+  inputs:
+    email_address: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Verify SES Domain Identity
+  action: verify_domain_identity
+  inputs:
+    domain: String #required
+    region: String
+  outputs:
+    success: Boolean
+    verification_token: String
+
+- name: Delete SES Identity
+  action: delete_identity
+  inputs:
+    identity: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: List SES Identities
+  action: list_identities
+  inputs:
+    identity_type: EmailAddress | Domain
+    max_items: Int = 100
+    region: String
+  outputs:
+    identities: List[String]
+    next_token: String
+
+- name: Get SES Identity Verification Attributes
+  action: get_identity_verification_attributes
+  inputs:
+    identities: List[String] #required
+    region: String
+  outputs:
+    verification_attributes: VerificationAttributes
+
+- name: Set SES Identity Notification Topic
+  action: set_identity_notification_topic
+  inputs:
+    identity: String #required
+    notification_type: Bounce | Complaint | Delivery #required
+    region: String
+    sns_topic: String
+  outputs:
+    success: Boolean
+
+- name: Create SES Template
+  action: create_template
+  inputs:
+    html_part: String
+    region: String
+    subject_part: String #required
+    template_name: String #required
+    text_part: String
+  outputs:
+    success: Boolean
+
+- name: Update SES Template
+  action: update_template
+  inputs:
+    html_part: String
+    region: String
+    subject_part: String
+    template_name: String #required
+    text_part: String
+  outputs:
+    success: Boolean
+
+- name: Delete SES Template
+  action: delete_template
+  inputs:
+    region: String
+    template_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Get SES Template
+  action: get_template
+  inputs:
+    region: String
+    template_name: String #required
+  outputs:
+    html_part: String
+    subject_part: String
+    template_name: String
+    text_part: String
+
+- name: List SES Templates
+  action: list_templates
+  inputs:
+    max_items: Int = 100
+    region: String
+  outputs:
+    next_token: String
+    templates: List[SesTemplate]
+
+- name: Get SES Send Quota
+  action: get_send_quota
+  inputs:
+    region: String
+  outputs:
+    max_24_hour_send: Float
+    max_send_rate: Float
+    sent_last_24_hours: Float
+
+- name: Get SES Send Statistics
+  action: get_send_statistics
+  inputs:
+    region: String
+  outputs:
+    send_data_points: List[SendDataPoint]
+
+- name: Put SES Configuration Set
+  action: put_configuration_set
+  inputs:
+    configuration_set_name: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Delete SES Configuration Set
+  action: delete_configuration_set
+  inputs:
+    configuration_set_name: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: List SES Configuration Sets
+  action: list_configuration_sets
+  inputs:
+    max_items: Int = 100
+    region: String
+  outputs:
+    configuration_sets: List[SesConfigurationSet]
+    next_token: String
+
+- name: Put SES Identity Policy
+  action: put_identity_policy
+  inputs:
+    identity: String #required
+    policy: String #required
+    policy_name: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Get SES Identity Policies
+  action: get_identity_policies
+  inputs:
+    identity: String #required
+    policy_names: List[String] #required
+    region: String
+  outputs:
+    policies: IdentityPolicies
+
+- name: Delete SES Identity Policy
+  action: delete_identity_policy
+  inputs:
+    identity: String #required
+    policy_name: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Set SES Identity Feedback Forwarding
+  action: set_identity_feedback_forwarding
+  inputs:
+    forwarding_enabled: Boolean #required
+    identity: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Set SES Identity DKIM Enabled
+  action: set_identity_dkim_enabled
+  inputs:
+    dkim_enabled: Boolean #required
+    identity: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Get SES Identity DKIM Attributes
+  action: get_identity_dkim_attributes
+  inputs:
+    identities: List[String] #required
+    region: String
+  outputs:
+    dkim_attributes: DkimAttributes

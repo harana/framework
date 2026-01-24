@@ -1,0 +1,17 @@
+- name: Side Calendar Component
+  type: side_calendar
+  attributes:
+    - current_month_display: String #required #max(50)
+    - days: [CalendarDay] #required
+    - meetings: [CalendarMeeting]
+    - schedule_title: String = "Schedule for" #max(50)
+    - selected_date_datetime: String? #max(20)
+    - selected_date_display: String? #max(50)
+    - selected_date: String? #max(20)
+    - weekday_labels: [String]
+  events:
+    - previous_month
+    - next_month
+    - select_date
+    - edit_meeting
+    - cancel_meeting

@@ -1,0 +1,25 @@
+<!-- Bento Grid Item -->
+<div class="relative bento-grid-item-col-{{col_span}} bento-grid-item-row-{{row_span}}"
+     data-on:click="{{click}}">
+  <div class="absolute inset-px rounded-lg bg-white dark:bg-gray-800 {{corner_class}}"></div>
+  <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] {{corner_inner_class}}">
+    {{#if image_light}}
+    <img src="{{image_light}}" alt="{{title}}" class="h-80 object-cover object-left dark:hidden" />
+    {{/if}}
+    {{#if image_dark}}
+    <img src="{{image_dark}}" alt="{{title}}" class="h-80 object-cover object-left not-dark:hidden" />
+    {{/if}}
+    <div class="p-10 pt-4">
+      {{#if subtitle}}
+      <h3 class="text-sm/4 font-semibold text-indigo-600 dark:text-indigo-400">{{subtitle}}</h3>
+      {{/if}}
+      {{#if title}}
+      <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 dark:text-white">{{title}}</p>
+      {{/if}}
+      {{#if description}}
+      <p class="mt-2 max-w-lg text-sm/6 text-gray-600 dark:text-gray-400">{{description}}</p>
+      {{/if}}
+    </div>
+  </div>
+  <div class="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-black/5 dark:outline-white/15 {{corner_class}}"></div>
+</div>

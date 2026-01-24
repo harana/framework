@@ -1,0 +1,76 @@
+- name: Client Connection
+  type: client_connection
+  schema:
+    - client_type: Memcache | Memgraph | Mongodb | Rocksdb | Meilisearch | Tantivy | Http | Aws | Redis | Postgres | Mysql = Http
+    - connection_retry_attempts: int = 3 #min(0)
+    - connection_retry_delay_ms: int = 1000 #min(0)
+    - connection_string: String? #max(1000)
+    - created_at: Date = now()
+    - database: String? #max(100)
+    - host: String #required #max(255)
+    - is_active: Boolean = true
+    - max_connections: int = 10 #min(1)
+    - metadata: String? # JSON for provider-specific config
+    - min_connections: int = 1 #min(1)
+    - password: String? #max(255)
+    - port: int #required #min(1) #max(65535)
+    - ssl_cert_path: String? #max(500)
+    - timeout_seconds: int = 30 #min(1)
+    - updated_at: Date = now()
+    - use_ssl: Boolean = false
+    - username: String? #max(255)
+
+- name: Client Pool
+  type: client_pool
+  schema:
+    - active_connections: int = 0 #min(0)
+    - connection_id: Id #required -> ClientConnection.id
+    - created_at: Date = now()
+    - idle_connections: int = 0 #min(0)
+    - idle_timeout_seconds: int = 300 #min(1)
+    - is_healthy: Boolean = true
+    - max_wait_time_ms: int = 5000 #min(0)
+    - pool_size: int #required #min(1) #max(1000)
+    - updated_at: Date = now()
+    - wait_queue_size: int = 0 #min(0)
+
+- name: Client Query
+  type: client_query
+  id: [connection_id, executed_at, query_hash]
+  schema:
+    - bytes_returned: int? #min(0)
+    - connection_id: Id #required -> ClientConnection.id
+    - duration_ms: int? #min(0)
+    - error_message: String? #max(1000)
+    - executed_at: Date = now()
+    - executed_by: Id? -> User.id
+    - parameters: String? # JSON parameters
+    - query_hash: String? #max(128)
+    - query_text: String? #max(10000)
+    - query_type: Select | Insert | Update | Delete | Execute | Get | Set | DeleteKey | Search | Aggregate = Select
+    - rows_affected: int? #min(0)
+    - status: Success | Failed | Timeout | Cancelled = Success
+
+- name: Client Health Check
+  type: client_health_check
+  id: [connection_id, checked_at]
+  schema:
+    - checked_at: Date = now()
+    - connection_id: Id #required -> ClientConnection.id
+    - error_message: String? #max(1000)
+    - is_healthy: Boolean = true
+    - metadata: String? # JSON health metrics
+    - response_time_ms: int? #min(0)
+
+- name: Client Configuration
+  type: client_config
+  id: [connection_id, key]
+  schema:
+    - connection_id: Id #required -> ClientConnection.id
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - is_encrypted: Boolean = false
+    - is_required: Boolean = false
+    - key: String #required #max(255)
+    - updated_at: Date = now()
+    - value: String #required

@@ -1,0 +1,32 @@
+- name: Command Palette Opened
+  type: command_palette_opened
+  schema:
+    palette_id: Id #required
+    trigger_method: Keyboard | Button | Menu = Keyboard
+    opened_at: Date = now()
+
+- name: Command Palette Closed
+  type: command_palette_closed
+  schema:
+    palette_id: Id #required
+    close_reason: Selection | Escape | Blur = Escape
+    time_open_ms: int? #min(0)
+    closed_at: Date = now()
+
+- name: Command Selected
+  type: command_selected
+  schema:
+    palette_id: Id #required
+    command_id: Id #required
+    command_name: String?
+    command_category: String?
+    selection_index: int? #min(0)
+    selected_at: Date = now()
+
+- name: Command Searched
+  type: command_searched
+  schema:
+    palette_id: Id #required
+    search_query: String #required
+    results_count: int? #min(0)
+    searched_at: Date = now()

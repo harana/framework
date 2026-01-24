@@ -1,0 +1,53 @@
+- name: Toggle Switched
+  type: toggle_switched
+  schema:
+    toggle_id: Id #required
+    toggle_name: String?
+    old_state: Boolean #required
+    new_state: Boolean #required
+    switched_at: Date = now()
+
+- name: Checkbox Checked
+  type: checkbox_checked
+  schema:
+    checkbox_id: Id #required
+    checkbox_name: String?
+    checkbox_label: String?
+    form_id: Id?
+    checked_at: Date = now()
+
+- name: Checkbox Unchecked
+  type: checkbox_unchecked
+  schema:
+    checkbox_id: Id #required
+    checkbox_name: String?
+    checkbox_label: String?
+    form_id: Id?
+    unchecked_at: Date = now()
+
+- name: Radio Selected
+  type: radio_selected
+  schema:
+    radio_group_id: Id #required
+    radio_id: Id #required
+    radio_name: String?
+    radio_value: String?
+    previous_value: String?
+    form_id: Id?
+    selected_at: Date = now()
+
+- name: Switch Enabled
+  type: switch_enabled
+  schema:
+    switch_id: Id #required
+    switch_name: String?
+    switch_label: String?
+    enabled_at: Date = now()
+
+- name: Switch Disabled
+  type: switch_disabled
+  schema:
+    switch_id: Id #required
+    switch_name: String?
+    switch_label: String?
+    disabled_at: Date = now()

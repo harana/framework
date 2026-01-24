@@ -1,0 +1,6 @@
+- name: Strong Component
+  type: strong
+  attributes:
+    - content: String #required #max(1000)
+  events:
+    - click

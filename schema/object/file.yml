@@ -1,0 +1,172 @@
+- name: File
+  type: file
+  id: [full_path]
+  schema:
+    - created_at: Date = now()
+    - path: String #required #max(2000)
+    - full_path: String #required #unique #max(4000)
+    - parent_id: Id? -> File.id
+    - type: File | Directory = File
+    - extension: String? #max(50)
+    - mime_type: String? #max(100)
+    - size: int = 0 #min(0)
+    - content_hash: String? #max(128) # MD5, SHA256, etc.
+    - is_hidden: Boolean = false
+    - is_system: Boolean = false
+    - is_readonly: Boolean = false
+    - is_archived: Boolean = false
+    - permissions: String? #max(20) # e.g., "755", "rwxr-xr-x"
+    - owner: String? #max(255)
+    - group: String? #max(255)
+    - blob_id: Id? -> BlobObject.id
+    - created_by: Id? -> User.id
+    - modified_at: Date?
+    - modified_by: Id? -> User.id
+    - accessed_at: Date?
+    - updated_at: Date = now()
+
+- name: File Version
+  type: file_version
+  id: [file_id, version_number]
+  schema:
+    - file_id: Id #required -> File.id
+    - version_number: int #required #min(1)
+    - size: int #required #min(0)
+    - content_hash: String #required #max(128)
+    - blob_id: Id? -> BlobObject.id
+    - comment: String? #max(500)
+    - created_at: Date = now()
+    - created_by: Id? -> User.id
+    - is_current: Boolean = true
+
+- name: File Metadata
+  type: file_metadata
+  id: [file_id, key]
+  schema:
+    - file_id: Id #required -> File.id
+    - key: String #required #max(255)
+    - value: String #required
+    - value_type: String | Int | Float | Bool | Date | Json = String
+    - source: User | System | Extracted | Indexed = User
+    - created_at: Date = now()
+    - updated_at: Date = now()
+
+- name: File Tag
+  type: file_tag
+  schema:
+    - color: String? #max(7) # hex color
+    - description: String? #max(500)
+    - created_at: Date = now()
+    - created_by: Id? -> User.id
+
+- name: File Tag Association
+  type: file_tag_association
+  id: [file_id, tag_id]
+  schema:
+    - file_id: Id #required -> File.id
+    - tag_id: Id #required -> FileTag.id
+    - created_at: Date = now()
+    - created_by: Id? -> User.id
+
+- name: File Share
+  type: file_share
+  id: [share_token]
+  schema:
+    - file_id: Id #required -> File.id
+    - shared_by: Id #required -> User.id
+    - shared_with: Id? -> User.id # null = public share
+    - share_token: String #required #unique #max(255)
+    - permissions: Read | Write | Delete = Read
+    - password: String? #max(255)
+    - download_limit: int? #min(1)
+    - download_count: int = 0 #min(0)
+    - expires_at: Date?
+    - is_active: Boolean = true
+    - created_at: Date = now()
+    - accessed_at: Date?
+
+- name: File Operation
+  type: file_operation
+  id: [file_id, operation, performed_at]
+  schema:
+    - file_id: Id #required -> File.id
+    - operation: Create | Read | Update | Delete | Copy | Move | Rename | Upload | Download | Compress | Decompress | Convert = Read
+    - status: Pending | InProgress | Completed | Failed | Cancelled = Pending
+    - source_path: String? #max(4000)
+    - destination_path: String? #max(4000)
+    - bytes_processed: int = 0 #min(0)
+    - total_bytes: int? #min(0)
+    - progress_percent: int = 0 #min(0) #max(100)
+    - error_message: String? #max(1000)
+    - performed_at: Date = now()
+    - performed_by: Id? -> User.id
+    - completed_at: Date?
+
+- name: File Format
+  type: file_format
+  id: [format_type]
+  schema:
+    - format_type: Csv | Docx | Ical | Ipynb | Json | Md | Parquet | Pbix | Pdf | Pptx | Qif | Rtf | Txt | Vcard | Warc | Xlsx | Yaml | Zip = Txt
+    - encoding: String? #max(50) # e.g., utf-8, ascii
+    - page_count: int? #min(0)
+    - word_count: int? #min(0)
+    - line_count: int? #min(0)
+    - column_count: int? #min(0)
+    - row_count: int? #min(0)
+    - has_macros: Boolean = false
+    - is_encrypted: Boolean = false
+    - language: String? #max(10) # ISO 639-1 code
+    - author: String? #max(255)
+    - title: String? #max(500)
+    - subject: String? #max(500)
+    - keywords: String? #max(1000)
+    - created_at: Date = now()
+    - updated_at: Date = now()
+
+- name: File Index
+  type: file_index
+  id: [file_id, index_type]
+  schema:
+    - file_id: Id #required -> File.id
+    - index_type: Fulltext | Metadata | Ocr | Embedding = Fulltext
+    - content: String? # indexed content
+    - content_vector: String? # JSON array for embeddings
+    - language: String? #max(10)
+    - indexed_at: Date = now()
+    - index_version: String? #max(50)
+    - is_current: Boolean = true
+
+- name: File Watch
+  type: file_watch
+  id: [path, pattern, watch_type]
+  schema:
+    - path: String #required #max(4000)
+    - pattern: String? #max(255) # glob pattern
+    - watch_type: Create | Modify | Delete | All = All
+    - is_recursive: Boolean = true
+    - is_active: Boolean = true
+    - callback_url: String? #url
+    - callback_event: String? #max(100)
+    - created_at: Date = now()
+    - created_by: Id? -> User.id
+    - last_triggered_at: Date?
+
+- name: File Crawl
+  type: file_crawl
+  id: [root_path, started_at]
+  schema:
+    - root_path: String #required #max(4000)
+    - pattern: String? #max(255) # glob pattern
+    - exclude_pattern: String? #max(255)
+    - max_depth: int? #min(0)
+    - max_files: int? #min(1)
+    - follow_symlinks: Boolean = false
+    - status: Pending | Running | Completed | Failed | Cancelled = Pending
+    - files_found: int = 0 #min(0)
+    - files_processed: int = 0 #min(0)
+    - total_size: int = 0 #min(0)
+    - error_message: String? #max(1000)
+    - started_at: Date?
+    - completed_at: Date?
+    - created_at: Date = now()
+    - created_by: Id? -> User.id

@@ -1,0 +1,6 @@
+- name: Sidebar Spacer Component
+  type: sidebar_spacer
+  id: [sidebar_id, name]
+  attributes:
+    - order: int = 0 #min(0)
+    - sidebar_id: Id #required -> UISidebar.id

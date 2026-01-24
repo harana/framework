@@ -1,0 +1,15 @@
+- name: Dropdown Item Component
+  type: dropdown_item
+  id: [dropdown_id, name]
+  attributes:
+    - description: String? #max(500)
+    - dropdown_id: Id #required -> UIDropdown.id
+    - href: String? #max(500)
+    - icon: String? #max(100)
+    - is_disabled: Boolean = false
+    - label: String #required #max(200)
+    - order: int = 0 #min(0)
+    - section_id: Id? -> UIDropdownSection.id
+    - shortcut: String? #max(20)
+  events:
+    - click

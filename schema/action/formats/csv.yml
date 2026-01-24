@@ -1,0 +1,74 @@
+- name: Parse CSV To Data
+  action: parse
+  inputs:
+    data: String #required
+    delimiter: String = ","
+    has_headers: Boolean = true
+    headers: List[String]
+    skip_empty_lines: Boolean = true
+  outputs:
+    rows: List[CsvRow]
+
+- name: Generate CSV From Data
+  action: generate
+  inputs:
+    data: List[CsvRow] #required
+    delimiter: String = ","
+    headers: List[String]
+    include_headers: Boolean = true
+  outputs:
+    csv: String
+
+- name: Transform CSV Columns And Rows
+  action: transform
+  inputs:
+    data: String #required
+    delimiter: String = ","
+    operations: List[CsvTransformOperation] #required
+  outputs:
+    csv: String
+
+- name: Validate CSV Against Schema
+  action: validate
+  inputs:
+    data: String #required
+    delimiter: String = ","
+    schema: CsvSchema #required
+  outputs:
+    errors: List[CsvValidationError]
+    valid: Boolean
+
+- name: CsvDocument
+  class:
+    headers: List[String]
+    rows: List[CsvRow]
+    delimiter: String
+    row_count: Int
+
+- name: CsvRow
+  class:
+    values: Map[String, String]
+
+- name: CsvTransformOperation
+  class:
+    operation: String
+    column: String
+    parameters: Map[String, Any]
+
+- name: CsvSchema
+  class:
+    columns: List[CsvColumnSchema]
+    allow_extra_columns: Boolean
+
+- name: CsvColumnSchema
+  class:
+    name: String
+    type: String
+    required: Boolean
+    pattern: String
+
+- name: CsvValidationError
+  class:
+    row: Int
+    column: String
+    message: String

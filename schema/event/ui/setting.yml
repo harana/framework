@@ -1,0 +1,34 @@
+- name: Setting Changed
+  type: setting_changed
+  schema:
+    setting_id: Id #required
+    setting_key: String #required
+    setting_category: String?
+    old_value: String?
+    new_value: String #required
+    changed_at: Date = now()
+
+- name: Preference Toggled
+  type: preference_toggled
+  schema:
+    preference_id: Id #required
+    preference_key: String #required
+    preference_category: String?
+    new_state: Boolean #required
+    toggled_at: Date = now()
+
+- name: Theme Switched
+  type: theme_switched
+  schema:
+    from_theme: String?
+    to_theme: String #required
+    theme_type: Light | Dark | System | Custom = System
+    switched_at: Date = now()
+
+- name: Language Changed
+  type: language_changed
+  schema:
+    from_language: String?
+    to_language: String #required
+    language_code: String #required
+    changed_at: Date = now()

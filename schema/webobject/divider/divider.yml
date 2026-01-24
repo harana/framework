@@ -1,0 +1,7 @@
+- name: Divider Component
+  type: divider
+  attributes:
+    - is_soft: Boolean = false
+    - spacing: String? #max(20)
+  events:
+    - click

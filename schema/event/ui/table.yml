@@ -1,0 +1,105 @@
+- name: Row Selected
+  type: row_selected
+  schema:
+    table_id: Id #required
+    row_id: Id #required
+    row_index: int? #min(0)
+    row_data_key: String?
+    selection_type: Single | Multi = Single
+    selected_at: Date = now()
+
+- name: Row Deselected
+  type: row_deselected
+  schema:
+    table_id: Id #required
+    row_id: Id #required
+    row_index: int? #min(0)
+    deselected_at: Date = now()
+
+- name: Row Expanded
+  type: row_expanded
+  schema:
+    table_id: Id #required
+    row_id: Id #required
+    row_index: int? #min(0)
+    expanded_at: Date = now()
+
+- name: Row Collapsed
+  type: row_collapsed
+  schema:
+    table_id: Id #required
+    row_id: Id #required
+    row_index: int? #min(0)
+    collapsed_at: Date = now()
+
+- name: Column Sorted
+  type: column_sorted
+  schema:
+    table_id: Id #required
+    column_id: Id #required
+    column_name: String?
+    sort_direction: Asc | Desc | None = Asc
+    sorted_at: Date = now()
+
+- name: Column Resized
+  type: column_resized
+  schema:
+    table_id: Id #required
+    column_id: Id #required
+    column_name: String?
+    old_width: int? #min(0)
+    new_width: int? #min(0)
+    resized_at: Date = now()
+
+- name: Bulk Selection Toggled
+  type: bulk_selection_toggled
+  schema:
+    table_id: Id #required
+    new_state: Selected | Deselected #required
+    rows_affected: int? #min(0)
+    toggled_at: Date = now()
+
+- name: Select All Clicked
+  type: select_all_clicked
+  schema:
+    table_id: Id #required
+    total_rows: int? #min(0)
+    selected_rows: int? #min(0)
+    clicked_at: Date = now()
+
+- name: Pagination Changed
+  type: pagination_changed
+  schema:
+    table_id: Id #required
+    from_page: int? #min(1)
+    to_page: int #required #min(1)
+    total_pages: int? #min(1)
+    changed_at: Date = now()
+
+- name: Page Size Changed
+  type: page_size_changed
+  schema:
+    table_id: Id #required
+    old_page_size: int? #min(1)
+    new_page_size: int #required #min(1)
+    changed_at: Date = now()
+
+- name: Row Clicked
+  type: row_clicked
+  schema:
+    table_id: Id #required
+    row_id: Id #required
+    row_index: int? #min(0)
+    row_data_key: String?
+    clicked_at: Date = now()
+
+- name: Cell Edited
+  type: cell_edited
+  schema:
+    table_id: Id #required
+    row_id: Id #required
+    column_id: Id #required
+    column_name: String?
+    old_value: String?
+    new_value: String?
+    edited_at: Date = now()

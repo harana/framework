@@ -1,0 +1,41 @@
+<!-- Input Field Wrapper -->
+<div id="{{id}}" class="[&>[data-slot=label]+[data-slot=control]]:mt-3 [&>[data-slot=label]+[data-slot=description]]:mt-1 [&>[data-slot=description]+[data-slot=control]]:mt-3 [&>[data-slot=control]+[data-slot=description]]:mt-3 [&>[data-slot=control]+[data-slot=error]]:mt-3 *:data-[slot=label]:font-medium">
+  {{#if label}}
+  <label data-slot="label"
+         class="text-base/6 text-zinc-950 select-none data-disabled:opacity-50 sm:text-sm/6 dark:text-white">
+    {{label}}
+  </label>
+  {{/if}}
+  {{#if description}}
+  <p data-slot="description"
+     class="text-base/6 text-zinc-500 data-disabled:opacity-50 sm:text-sm/6 dark:text-zinc-400">
+    {{description}}
+  </p>
+  {{/if}}
+
+  <!-- Input Control Wrapper -->
+  <span data-slot="control"
+        class="relative block w-full before:absolute before:inset-px before:rounded-[calc(var(--radius-lg)-1px)] before:bg-white before:shadow-sm dark:before:hidden after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-transparent after:ring-inset sm:focus-within:after:ring-2 sm:focus-within:after:ring-blue-500 has-data-disabled:opacity-50 has-data-disabled:before:bg-zinc-950/5 has-data-disabled:before:shadow-none {{#if icon}}has-[[data-slot=icon]:first-child]:[&_input]:pl-10 has-[[data-slot=icon]:last-child]:[&_input]:pr-10 sm:has-[[data-slot=icon]:first-child]:[&_input]:pl-8 sm:has-[[data-slot=icon]:last-child]:[&_input]:pr-8 *:data-[slot=icon]:pointer-events-none *:data-[slot=icon]:absolute *:data-[slot=icon]:top-3 *:data-[slot=icon]:z-10 *:data-[slot=icon]:size-5 sm:*:data-[slot=icon]:top-2.5 sm:*:data-[slot=icon]:size-4 [&>[data-slot=icon]:first-child]:left-3 sm:[&>[data-slot=icon]:first-child]:left-2.5 [&>[data-slot=icon]:last-child]:right-3 sm:[&>[data-slot=icon]:last-child]:right-2.5 *:data-[slot=icon]:text-zinc-500 dark:*:data-[slot=icon]:text-zinc-400{{/if}}">
+    {{#if icon}}<span data-slot="icon">{{{icon}}}</span>{{/if}}
+    <input type="{{type}}"
+           class="relative block w-full appearance-none rounded-lg px-[calc(--spacing(3.5)-1px)] py-[calc(--spacing(2.5)-1px)] sm:px-[calc(--spacing(3)-1px)] sm:py-[calc(--spacing(1.5)-1px)] text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6 dark:text-white border border-zinc-950/10 data-hover:border-zinc-950/20 dark:border-white/10 dark:data-hover:border-white/20 bg-transparent dark:bg-white/5 focus:outline-hidden data-invalid:border-red-500 data-invalid:data-hover:border-red-500 dark:data-invalid:border-red-600 dark:data-invalid:data-hover:border-red-600 data-disabled:border-zinc-950/20 dark:data-disabled:border-white/15 dark:data-disabled:bg-white/2.5 dark:data-hover:data-disabled:border-white/15 dark:scheme-dark"
+           {{#if aria_label}}aria-label="{{aria_label}}"{{/if}}
+           {{#if auto_focus}}autofocus{{/if}}
+           {{#if pattern}}pattern="{{pattern}}"{{/if}}
+           {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}
+           data-bind="$value"
+           data-attr:disabled="$is_disabled"
+           data-attr:data-invalid="$is_invalid"
+           data-on:blur="{{blur}}"
+           data-on:change="{{change}}"
+           data-on:focus="{{focus}}"
+           data-on:input="{{input}}"
+           data-on:clear="{{clear}}" />
+  </span>
+
+  <p data-slot="error"
+     data-show="$error_message"
+     class="text-base/6 text-red-600 data-disabled:opacity-50 sm:text-sm/6 dark:text-red-500"
+     data-text="$error_message">
+  </p>
+</div>

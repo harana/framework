@@ -1,0 +1,6 @@
+- name: Navbar Label Component
+  type: navbar_label
+  id: [navbar_item_id]
+  attributes:
+    - content: String #required #max(200)
+    - navbar_item_id: Id #required -> UINavbarItem.id

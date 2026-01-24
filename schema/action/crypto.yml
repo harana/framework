@@ -1,0 +1,84 @@
+- name: Hash Data With Algorithm
+  action: hash
+  inputs:
+    algorithm: Sha256 | Sha512 | Md5 | Sha1 = Sha256
+    data: String #required
+    encoding: Hex | Base64 = Hex
+  outputs:
+    digest: String
+
+- name: Generate HMAC Digest
+  action: hmac
+  inputs:
+    algorithm: Sha256 | Sha512 = Sha256
+    data: String #required
+    encoding: Hex | Base64 = Hex
+    key: String #required
+  outputs:
+    digest: String
+
+- name: Encrypt Data With AES
+  action: encrypt
+  inputs:
+    algorithm: Aes-256-gcm | Aes-256-cbc = Aes-256-gcm
+    data: String #required
+    iv: String
+    key: String #required
+  outputs:
+    auth_tag: String
+    ciphertext: String
+    iv: String
+
+- name: Decrypt Data
+  action: decrypt
+  inputs:
+    algorithm: Aes-256-gcm | Aes-256-cbc = Aes-256-gcm
+    auth_tag: String
+    ciphertext: String #required
+    iv: String #required
+    key: String #required
+  outputs:
+    plaintext: String
+
+- name: Generate Encryption Key
+  action: generate_key
+  inputs:
+    encoding: Hex | Base64 = Hex
+    length: Int = 32
+  outputs:
+    key: String
+
+- name: Sign Data With Private Key
+  action: sign
+  inputs:
+    algorithm: RSA-SHA256 | RSA-SHA512 | Ed25519 = RSA-SHA256
+    data: String #required
+    private_key: String #required
+  outputs:
+    signature: String
+
+- name: Verify Signature With Public Key
+  action: verify
+  inputs:
+    algorithm: RSA-SHA256 | RSA-SHA512 | Ed25519 = RSA-SHA256
+    data: String #required
+    public_key: String #required
+    signature: String #required
+  outputs:
+    valid: Boolean
+
+- name: Generate Key Pair
+  action: generate_keypair
+  inputs:
+    algorithm: Rsa | Ed25519 | Ecdsa = Rsa
+    key_size: Int = 2048
+  outputs:
+    private_key: String
+    public_key: String
+
+- name: KeyPair
+  class:
+    algorithm: String
+    private_key: String
+    public_key: String
+    key_size: Int

@@ -1,0 +1,7 @@
+name: ComboboxLabel
+type: UIComponent
+id:
+  - identifier
+attributes:
+  option_id: id #required -> ComboboxOption.id
+  text: String #required

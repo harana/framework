@@ -1,0 +1,227 @@
+- name: Create CloudFront Distribution
+  action: create_distribution
+  inputs:
+    origin_domain_name: String #required
+    origin_id: String #required
+    default_root_object: String = "index.html"
+    enabled: Boolean = true
+    price_class: PriceclassAll | Priceclass200 | Priceclass100 = PriceclassAll
+    aliases: List[String]
+    certificate_arn: String
+    ssl_support_method: sni-only | vip | static-ip
+    minimum_protocol_version: TLSv1.2_2021 | TLSv1.2_2019 | TLSv1.2_2018 = TLSv1.2_2021
+    default_cache_behavior: CacheBehavior
+    cache_behaviors: List[CacheBehavior]
+    custom_error_responses: List[CustomErrorResponse]
+    comment: String
+    tags: CloudFrontTags
+  outputs:
+    distribution_id: String
+    domain_name: String
+    arn: String
+    status: String
+    success: Boolean
+
+- name: Get CloudFront Distribution
+  action: get_distribution
+  inputs:
+    distribution_id: String #required
+  outputs:
+    distribution_id: String
+    domain_name: String
+    arn: String
+    status: String
+    enabled: Boolean
+    aliases: List[String]
+    origins: List[CloudFrontOrigin]
+    default_cache_behavior: CacheBehavior
+    cache_behaviors: List[CacheBehavior]
+    price_class: String
+    last_modified_time: Date
+
+- name: Update CloudFront Distribution
+  action: update_distribution
+  inputs:
+    distribution_id: String #required
+    if_match: String #required
+    enabled: Boolean
+    default_root_object: String
+    aliases: List[String]
+    default_cache_behavior: CacheBehavior
+    cache_behaviors: List[CacheBehavior]
+    custom_error_responses: List[CustomErrorResponse]
+    comment: String
+  outputs:
+    distribution_id: String
+    status: String
+    success: Boolean
+
+- name: Delete CloudFront Distribution
+  action: delete_distribution
+  inputs:
+    distribution_id: String #required
+    if_match: String #required
+  outputs:
+    success: Boolean
+
+- name: List CloudFront Distributions
+  action: list_distributions
+  inputs:
+    max_items: Int = 100
+    marker: String
+  outputs:
+    distributions: List[CloudFrontDistribution]
+    next_marker: String
+    is_truncated: Boolean
+
+- name: Create Invalidation
+  action: create_invalidation
+  inputs:
+    distribution_id: String #required
+    paths: List[String] #required
+    caller_reference: String
+  outputs:
+    invalidation_id: String
+    status: String
+    create_time: Date
+    success: Boolean
+
+- name: Get Invalidation
+  action: get_invalidation
+  inputs:
+    distribution_id: String #required
+    invalidation_id: String #required
+  outputs:
+    invalidation_id: String
+    status: String
+    create_time: Date
+    paths: List[String]
+
+- name: List Invalidations
+  action: list_invalidations
+  inputs:
+    distribution_id: String #required
+    max_items: Int = 100
+    marker: String
+  outputs:
+    invalidations: List[CloudFrontInvalidation]
+    next_marker: String
+    is_truncated: Boolean
+
+- name: Create Cache Policy
+  action: create_cache_policy
+  inputs:
+    name: String #required
+    default_ttl: Int = 86400
+    max_ttl: Int = 31536000
+    min_ttl: Int = 0
+    parameters_in_cache_key_and_forwarded_to_origin: CacheKeyParameters
+    comment: String
+  outputs:
+    cache_policy_id: String
+    etag: String
+    success: Boolean
+
+- name: Get Cache Policy
+  action: get_cache_policy
+  inputs:
+    cache_policy_id: String #required
+  outputs:
+    cache_policy_id: String
+    name: String
+    default_ttl: Int
+    max_ttl: Int
+    min_ttl: Int
+    parameters_in_cache_key: CacheKeyParameters
+    etag: String
+
+- name: Delete Cache Policy
+  action: delete_cache_policy
+  inputs:
+    cache_policy_id: String #required
+    if_match: String #required
+  outputs:
+    success: Boolean
+
+- name: List Cache Policies
+  action: list_cache_policies
+  inputs:
+    type: Managed | Custom = Custom
+    max_items: Int = 100
+    marker: String
+  outputs:
+    cache_policies: List[CachePolicy]
+    next_marker: String
+
+- name: Create Origin Request Policy
+  action: create_origin_request_policy
+  inputs:
+    name: String #required
+    headers_config: HeadersConfig
+    cookies_config: CookiesConfig
+    query_strings_config: QueryStringsConfig
+    comment: String
+  outputs:
+    origin_request_policy_id: String
+    etag: String
+    success: Boolean
+
+- name: Create Response Headers Policy
+  action: create_response_headers_policy
+  inputs:
+    name: String #required
+    cors_config: CorsConfig
+    security_headers_config: SecurityHeadersConfig
+    custom_headers_config: CustomHeadersConfig
+    comment: String
+  outputs:
+    response_headers_policy_id: String
+    etag: String
+    success: Boolean
+
+- name: Create CloudFront Function
+  action: create_function
+  inputs:
+    name: String #required
+    runtime: cloudfront-js-1.0 | cloudfront-js-2.0 = cloudfront-js-2.0
+    function_code: String #required
+    comment: String
+  outputs:
+    function_name: String
+    function_arn: String
+    etag: String
+    status: String
+    success: Boolean
+
+- name: Publish CloudFront Function
+  action: publish_function
+  inputs:
+    name: String #required
+    if_match: String #required
+  outputs:
+    function_arn: String
+    status: String
+    success: Boolean
+
+- name: Get Distribution Config
+  action: get_distribution_config
+  inputs:
+    distribution_id: String #required
+  outputs:
+    distribution_config: DistributionConfig
+    etag: String
+
+- name: Tag CloudFront Resource
+  action: tag_resource
+  inputs:
+    resource_arn: String #required
+    tags: CloudFrontTags #required
+  outputs:
+    success: Boolean
+
+- name: List Tags For Resource
+  action: list_tags_for_resource
+  inputs:
+    resource_arn: String #required
+  outputs:
+    tags: CloudFrontTags

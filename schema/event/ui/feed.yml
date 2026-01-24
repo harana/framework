@@ -1,0 +1,45 @@
+- name: Feed Item Liked
+  type: feed_item_liked
+  schema:
+    feed_id: Id #required
+    item_id: Id #required
+    item_type: Post | Comment | Reply = Post
+    user_id: Id?
+    liked_at: Date = now()
+
+- name: Feed Item Commented
+  type: feed_item_commented
+  schema:
+    feed_id: Id #required
+    item_id: Id #required
+    comment_id: Id #required
+    item_type: Post | Comment | Reply = Post
+    user_id: Id?
+    commented_at: Date = now()
+
+- name: Feed Item Shared
+  type: feed_item_shared
+  schema:
+    feed_id: Id #required
+    item_id: Id #required
+    item_type: Post | Comment | Reply = Post
+    share_destination: Clipboard | Email | Social | Internal = Clipboard
+    user_id: Id?
+    shared_at: Date = now()
+
+- name: Feed Scrolled
+  type: feed_scrolled
+  schema:
+    feed_id: Id #required
+    scroll_direction: Up | Down = Down
+    scroll_depth_percent: int? #min(0) #max(100)
+    items_viewed: int? #min(0)
+    scrolled_at: Date = now()
+
+- name: Load More Clicked
+  type: load_more_clicked
+  schema:
+    feed_id: Id #required
+    current_count: int? #min(0)
+    page_number: int? #min(1)
+    clicked_at: Date = now()

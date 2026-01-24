@@ -1,0 +1,21 @@
+- name: Textarea Component
+  type: textarea
+  attributes:
+    - aria_label: String? #max(200)
+    - auto_focus: Boolean = false
+    - default_value: String? #max(10000)
+    - description: String? #max(500)
+    - error_message: String? #max(500)
+    - is_disabled: Boolean = false
+    - is_invalid: Boolean = false
+    - is_resizable: Boolean = true
+    - label: String? #max(200)
+    - placeholder: String? #max(200)
+    - rows: int? #min(1)
+  events:
+    - blur
+    - change
+    - character_limit_reach
+    - focus
+    - input
+    - resize

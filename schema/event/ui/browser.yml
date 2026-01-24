@@ -1,0 +1,329 @@
+- name: Browser Visibility Hidden
+  type: browser_visibility_hidden
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    hidden_at: Date = now()
+
+- name: Browser Visibility Visible
+  type: browser_visibility_visible
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    hidden_duration_ms: int? #min(0)
+    visible_at: Date = now()
+
+- name: Browser Page Hide
+  type: browser_page_hide
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    persisted: Boolean = false
+    hidden_at: Date = now()
+
+- name: Browser Page Show
+  type: browser_page_show
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    persisted: Boolean = false
+    shown_at: Date = now()
+
+- name: Browser Before Unload
+  type: browser_before_unload
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    triggered_at: Date = now()
+
+- name: Browser Online
+  type: browser_online
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    offline_duration_ms: int? #min(0)
+    online_at: Date = now()
+
+- name: Browser Offline
+  type: browser_offline
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    offline_at: Date = now()
+
+- name: Browser Exception
+  type: browser_exception
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    error_message: String #required
+    error_type: String?
+    stack_trace: String?
+    filename: String?
+    line_number: int? #min(0)
+    column_number: int? #min(0)
+    occurred_at: Date = now()
+
+- name: Browser Promise Rejection
+  type: browser_promise_rejection
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    reason: String #required
+    promise_id: String?
+    stack_trace: String?
+    occurred_at: Date = now()
+
+- name: Browser LCP
+  type: browser_lcp
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    value_ms: Float #required #min(0)
+    element: String?
+    element_id: String?
+    rating: Good | NeedsImprovement | Poor = Good
+    recorded_at: Date = now()
+
+- name: Browser FID
+  type: browser_fid
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    value_ms: Float #required #min(0)
+    event_type: String?
+    event_target: String?
+    rating: Good | NeedsImprovement | Poor = Good
+    recorded_at: Date = now()
+
+- name: Browser CLS
+  type: browser_cls
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    value: Float #required #min(0)
+    sources: String?
+    rating: Good | NeedsImprovement | Poor = Good
+    recorded_at: Date = now()
+
+- name: Browser Long Task
+  type: browser_long_task
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    duration_ms: Float #required #min(0)
+    start_time_ms: Float? #min(0)
+    attribution: String?
+    container_type: String?
+    container_id: String?
+    container_name: String?
+    occurred_at: Date = now()
+
+- name: Browser Resize
+  type: browser_resize
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    width: int #required #min(0)
+    height: int #required #min(0)
+    previous_width: int? #min(0)
+    previous_height: int? #min(0)
+    resized_at: Date = now()
+
+- name: Browser Orientation Change
+  type: browser_orientation_change
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    orientation: Portrait | Landscape #required
+    angle: int? #min(0) #max(360)
+    previous_orientation: Portrait | Landscape?
+    changed_at: Date = now()
+
+- name: Browser Fullscreen Enter
+  type: browser_fullscreen_enter
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    element: String?
+    element_id: String?
+    entered_at: Date = now()
+
+- name: Browser Fullscreen Exit
+  type: browser_fullscreen_exit
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    duration_ms: int? #min(0)
+    exited_at: Date = now()
+
+- name: Browser Storage Change
+  type: browser_storage_change
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    storage_type: Local | Session #required
+    key: String #required
+    old_value: String?
+    new_value: String?
+    changed_at: Date = now()
+
+- name: Browser Focus Gained
+  type: browser_focus_gained
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    blur_duration_ms: int? #min(0)
+    focused_at: Date = now()
+
+- name: Browser Focus Lost
+  type: browser_focus_lost
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    lost_at: Date = now()
+
+- name: Browser Idle Start
+  type: browser_idle_start
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    idle_threshold_ms: int? #min(0)
+    started_at: Date = now()
+
+- name: Browser Idle End
+  type: browser_idle_end
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    idle_duration_ms: int? #min(0)
+    ended_at: Date = now()
+
+- name: Browser Back
+  type: browser_back
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    previous_url: String?
+    navigated_at: Date = now()
+
+- name: Browser Forward
+  type: browser_forward
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    next_url: String?
+    navigated_at: Date = now()
+
+- name: Browser Scroll Depth 25
+  type: browser_scroll_depth_25
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    scroll_top: int? #min(0)
+    page_height: int? #min(0)
+    reached_at: Date = now()
+
+- name: Browser Scroll Depth 50
+  type: browser_scroll_depth_50
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    scroll_top: int? #min(0)
+    page_height: int? #min(0)
+    reached_at: Date = now()
+
+- name: Browser Scroll Depth 75
+  type: browser_scroll_depth_75
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    scroll_top: int? #min(0)
+    page_height: int? #min(0)
+    reached_at: Date = now()
+
+- name: Browser Scroll Depth 100
+  type: browser_scroll_depth_100
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    scroll_top: int? #min(0)
+    page_height: int? #min(0)
+    reached_at: Date = now()
+
+- name: Browser Element Visible
+  type: browser_element_visible
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    element: String #required
+    element_id: String?
+    element_class: String?
+    visibility_ratio: Float? #min(0) #max(1)
+    visible_at: Date = now()
+
+- name: Browser Rage Click
+  type: browser_rage_click
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    element: String?
+    element_id: String?
+    element_class: String?
+    click_count: int #required #min(2)
+    x: int? #min(0)
+    y: int? #min(0)
+    detected_at: Date = now()
+
+- name: Browser Media Play
+  type: browser_media_play
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    media_type: Audio | Video #required
+    media_url: String?
+    media_id: String?
+    media_title: String?
+    duration_seconds: Float? #min(0)
+    current_time_seconds: Float? #min(0)
+    played_at: Date = now()
+
+- name: Browser Media Pause
+  type: browser_media_pause
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    media_type: Audio | Video #required
+    media_url: String?
+    media_id: String?
+    media_title: String?
+    duration_seconds: Float? #min(0)
+    current_time_seconds: Float? #min(0)
+    paused_at: Date = now()
+
+- name: Browser Media Ended
+  type: browser_media_ended
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    media_type: Audio | Video #required
+    media_url: String?
+    media_id: String?
+    media_title: String?
+    duration_seconds: Float? #min(0)
+    watch_duration_seconds: Float? #min(0)
+    ended_at: Date = now()
+
+- name: Browser Media Progress
+  type: browser_media_progress
+  schema:
+    session_id: Id #required
+    page_url: String #required
+    media_type: Audio | Video #required
+    media_url: String?
+    media_id: String?
+    media_title: String?
+    duration_seconds: Float? #min(0)
+    current_time_seconds: Float? #min(0)
+    progress_percent: int? #min(0) #max(100)
+    recorded_at: Date = now()

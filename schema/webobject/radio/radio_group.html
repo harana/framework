@@ -1,0 +1,8 @@
+<div id="{{id}}" data-slot="control"
+     class="space-y-3 **:data-[slot=label]:font-normal has-data-[slot=description]:space-y-6 has-data-[slot=description]:**:data-[slot=label]:font-medium"
+     role="radiogroup"
+     {{#if aria_label}}aria-label="{{aria_label}}"{{/if}}
+     {{#if is_disabled}}data-disabled{{/if}}
+     {{#if default_value}}data-value="{{default_value}}"{{/if}}>
+  {{> radio_group_items}}
+</div>

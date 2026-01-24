@@ -1,0 +1,49 @@
+- name: Modal Opened
+  type: modal_opened
+  schema:
+    modal_id: Id #required
+    modal_name: String?
+    modal_type: Dialog | Alert | Confirm | Drawer | Fullscreen = Dialog
+    trigger_source: String?
+    opened_at: Date = now()
+
+- name: Modal Closed
+  type: modal_closed
+  schema:
+    modal_id: Id #required
+    modal_name: String?
+    close_reason: Button | Escape | Backdrop | Action = Button
+    time_open_ms: int? #min(0)
+    closed_at: Date = now()
+
+- name: Modal Dismissed
+  type: modal_dismissed
+  schema:
+    modal_id: Id #required
+    modal_name: String?
+    dismiss_method: Escape | Backdrop | Swipe | Timeout = Escape
+    dismissed_at: Date = now()
+
+- name: Confirmation Accepted
+  type: confirmation_accepted
+  schema:
+    modal_id: Id #required
+    modal_name: String?
+    confirmation_type: Delete | Submit | Save | Discard | Proceed = Proceed
+    accepted_at: Date = now()
+
+- name: Confirmation Rejected
+  type: confirmation_rejected
+  schema:
+    modal_id: Id #required
+    modal_name: String?
+    confirmation_type: Delete | Submit | Save | Discard | Proceed = Proceed
+    rejected_at: Date = now()
+
+- name: Modal Backdrop Clicked
+  type: modal_backdrop_clicked
+  schema:
+    modal_id: Id #required
+    modal_name: String?
+    closes_modal: Boolean = true
+    clicked_at: Date = now()

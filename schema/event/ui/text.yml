@@ -1,0 +1,37 @@
+- name: Text Clicked
+  type: text_clicked
+  schema:
+    text_id: Id #required
+    text_content: String?
+    clicked_at: Date = now()
+
+- name: Text Link Clicked
+  type: text_link_clicked
+  schema:
+    link_id: Id #required
+    link_label: String?
+    link_href: String?
+    clicked_at: Date = now()
+
+- name: Text Selected
+  type: text_selected
+  schema:
+    text_id: Id #required
+    selected_text: String?
+    selection_start: int? #min(0)
+    selection_end: int? #min(0)
+    selected_at: Date = now()
+
+- name: Text Copied
+  type: text_copied
+  schema:
+    text_id: Id #required
+    copied_text: String?
+    copied_at: Date = now()
+
+- name: Code Copied
+  type: code_copied
+  schema:
+    code_id: Id #required
+    code_content: String?
+    copied_at: Date = now()

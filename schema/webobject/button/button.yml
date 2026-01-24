@@ -1,0 +1,15 @@
+- name: Button Component
+  type: button
+  attributes:
+    - color: DarkZinc | Light | DarkWhite | Dark | Zinc | White | Red | Orange | Amber | Yellow | Lime | Green | Emerald | Teal | Cyan | Sky | Blue | Indigo | Violet | Purple | Fuchsia | Pink | Rose = DarkZinc
+    - href: String? #max(500)
+    - icon: String? #max(100)
+    - is_disabled: Boolean = false
+    - is_outline: Boolean = false
+    - is_plain: Boolean = false
+    - label: String #required #max(100)
+    - type: Button | Submit | Reset = Button
+  events:
+    - click
+    - double_click
+    - long_press

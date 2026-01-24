@@ -1,0 +1,96 @@
+- name: App Started
+  type: app_started
+  schema:
+    app_id: Id #required
+    app_name: String #required
+    version: String #required
+    environment: Development | Staging | Production = Development
+    host: String #required
+    port: int #required #min(1) #max(65535)
+    started_at: Date = now()
+
+- name: App Stopped
+  type: app_stopped
+  schema:
+    app_id: Id #required
+    app_name: String #required
+    reason: Shutdown | Crash | Restart | Sigterm | Sigint = Shutdown
+    exit_code: int? #min(0) #max(255)
+    uptime_seconds: int? #min(0)
+    stopped_at: Date = now()
+
+- name: App Config Updated
+  type: app_config_updated
+  schema:
+    app_id: Id #required
+    config_key: String #required
+    old_value: String?
+    new_value: String?
+    source: File | Env | Remote | Api = File
+    updated_by: String?
+    updated_at: Date = now()
+
+- name: App Config Loaded
+  type: app_config_loaded
+  schema:
+    app_id: Id #required
+    config_path: String?
+    source: File | Env | Remote | Api = File
+    keys_loaded: int? #min(0)
+    loaded_at: Date = now()
+
+- name: App Health Check
+  type: app_health_check
+  schema:
+    app_id: Id #required
+    status: Healthy | Degraded | Unhealthy = Healthy
+    checks_passed: int? #min(0)
+    checks_failed: int? #min(0)
+    response_time_ms: int? #min(0)
+    checked_at: Date = now()
+
+- name: App Ready
+  type: app_ready
+  schema:
+    app_id: Id #required
+    app_name: String #required
+    startup_time_ms: int? #min(0)
+    ready_at: Date = now()
+
+- name: App Shutting Down
+  type: app_shutting_down
+  schema:
+    app_id: Id #required
+    reason: Shutdown | Restart | Sigterm | Sigint | Timeout = Shutdown
+    grace_period_ms: int? #min(0)
+    initiated_at: Date = now()
+
+- name: App Error
+  type: app_error
+  schema:
+    app_id: Id #required
+    error_type: String #required
+    error_message: String #required
+    stack_trace: String?
+    severity: Debug | Info | Warning | Error | Critical = Error
+    occurred_at: Date = now()
+
+- name: App Connection Pool Created
+  type: app_connection_pool_created
+  schema:
+    app_id: Id #required
+    pool_name: String #required
+    pool_type: Database | Redis | Http | Custom = Database
+    min_connections: int? #min(0)
+    max_connections: int? #min(1)
+    created_at: Date = now()
+
+- name: App Connection Pool Exhausted
+  type: app_connection_pool_exhausted
+  schema:
+    app_id: Id #required
+    pool_name: String #required
+    active_connections: int #required #min(0)
+    max_connections: int #required #min(1)
+    waiting_requests: int? #min(0)
+    occurred_at: Date = now()

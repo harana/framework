@@ -1,0 +1,19 @@
+<fieldset id="{{id}}" class="*:data-[slot=text]:mt-1 [&>*+[data-slot=control]]:mt-6"
+          {{#if aria_label}}aria-label="{{aria_label}}"{{/if}}
+          data-attr:disabled="$is_disabled"
+          data-on:disable="$is_disabled = true"
+          data-on:enable="$is_disabled = false">
+  {{#if legend}}
+  <legend data-slot="legend"
+          class="text-base/6 font-semibold text-zinc-950 data-disabled:opacity-50 sm:text-sm/6 dark:text-white">
+    {{legend}}
+  </legend>
+  {{/if}}
+  {{#if description}}
+  <p data-slot="text"
+     class="text-base/6 text-zinc-500 data-disabled:opacity-50 sm:text-sm/6 dark:text-zinc-400">
+    {{description}}
+  </p>
+  {{/if}}
+  {{> fieldset_content}}
+</fieldset>

@@ -1,0 +1,51 @@
+- name: Textarea Changed
+  type: textarea_changed
+  schema:
+    textarea_id: Id #required
+    textarea_name: String?
+    old_value: String?
+    new_value: String?
+    changed_at: Date = now()
+
+- name: Textarea Focused
+  type: textarea_focused
+  schema:
+    textarea_id: Id #required
+    textarea_name: String?
+    focused_at: Date = now()
+
+- name: Textarea Blurred
+  type: textarea_blurred
+  schema:
+    textarea_id: Id #required
+    textarea_name: String?
+    final_value: String?
+    blurred_at: Date = now()
+
+- name: Textarea Input
+  type: textarea_input
+  schema:
+    textarea_id: Id #required
+    textarea_name: String?
+    current_value: String?
+    input_at: Date = now()
+
+- name: Textarea Resized
+  type: textarea_resized
+  schema:
+    textarea_id: Id #required
+    textarea_name: String?
+    old_width: int? #min(0)
+    old_height: int? #min(0)
+    new_width: int? #min(0)
+    new_height: int? #min(0)
+    resized_at: Date = now()
+
+- name: Textarea Character Limit Reached
+  type: textarea_character_limit_reached
+  schema:
+    textarea_id: Id #required
+    textarea_name: String?
+    character_limit: int #required #min(1)
+    current_length: int #required #min(0)
+    reached_at: Date = now()

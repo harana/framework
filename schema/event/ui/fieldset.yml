@@ -1,0 +1,44 @@
+- name: Fieldset Enabled
+  type: fieldset_enabled
+  schema:
+    fieldset_id: Id #required
+    fieldset_name: String?
+    enabled_at: Date = now()
+
+- name: Fieldset Disabled
+  type: fieldset_disabled
+  schema:
+    fieldset_id: Id #required
+    fieldset_name: String?
+    disabled_at: Date = now()
+
+- name: Field Focused
+  type: field_focused
+  schema:
+    field_id: Id #required
+    field_name: String?
+    fieldset_id: Id?
+    focused_at: Date = now()
+
+- name: Field Blurred
+  type: field_blurred
+  schema:
+    field_id: Id #required
+    field_name: String?
+    fieldset_id: Id?
+    blurred_at: Date = now()
+
+- name: Field Error Shown
+  type: field_error_shown
+  schema:
+    field_id: Id #required
+    field_name: String?
+    error_message: String?
+    shown_at: Date = now()
+
+- name: Field Error Cleared
+  type: field_error_cleared
+  schema:
+    field_id: Id #required
+    field_name: String?
+    cleared_at: Date = now()

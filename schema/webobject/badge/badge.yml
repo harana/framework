@@ -1,0 +1,7 @@
+- name: Badge Component
+  type: badge
+  attributes:
+    - color: Red | Orange | Amber | Yellow | Lime | Green | Emerald | Teal | Cyan | Sky | Blue | Indigo | Violet | Purple | Fuchsia | Pink | Rose | Zinc = Zinc
+    - label: String #required #max(100)
+  events:
+    - hover

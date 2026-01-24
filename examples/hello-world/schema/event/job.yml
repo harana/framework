@@ -1,9 +1,8 @@
 - name: New Job
-  type: event
-  event: job_new #push
+  type: job_new #push
   schema:
-    - user_id: id
-    - email: string #email
-    - ip_address: string? #ip
-    - user_agent: string?
-    - logged_in_at: datetime = now()
+    - user_id: Id
+    - email: String #email
+    - ip_address: String? #ip
+    - user_agent: String?
+    - logged_in_at: Date = now()

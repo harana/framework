@@ -1,0 +1,5 @@
+- name: Sidebar Footer Component
+  type: sidebar_footer
+  id: [sidebar_id]
+  attributes:
+    - sidebar_id: Id #required -> UISidebar.id

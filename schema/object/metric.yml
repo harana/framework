@@ -1,0 +1,28 @@
+- name: Metric
+  type: metric
+  schema:
+    - description: String? #max(500)
+    - labels: String?
+    - type: Counter | Gauge | Histogram | Summary = Gauge
+    - unit: String? #max(50)
+
+- name: Metric Value
+  type: metric_value
+  id: [metric_id, timestamp, labels]
+  schema:
+    - labels: String?
+    - metric_id: Id #required -> Metric.id
+    - timestamp: Date = now()
+    - value: decimal #required
+
+- name: Metric Alert
+  type: metric_alert
+  schema:
+    - comparison: Gt | Gte | Lt | Lte | Eq | Neq = Gt
+    - created_at: Date = now()
+    - is_active: Boolean = true
+    - last_triggered_at: Date?
+    - metric_id: Id #required -> Metric.id
+    - notification_channel: String? #max(100)
+    - threshold: decimal #required
+    - updated_at: Date = now()

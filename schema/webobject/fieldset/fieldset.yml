@@ -1,0 +1,10 @@
+- name: Fieldset Component
+  type: fieldset
+  attributes:
+    - aria_label: String? #max(200)
+    - description: String? #max(500)
+    - is_disabled: Boolean = false
+    - legend: String? #max(200)
+  events:
+    - disable
+    - enable

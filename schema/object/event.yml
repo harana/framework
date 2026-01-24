@@ -1,0 +1,31 @@
+- name: Event
+  type: Event
+  id: [type, source]
+  schema:
+    - attributes: Map[any] #required
+    - created_at: Date = now()
+    - source: String #required #max(200)
+    - occured_at: Date = now()
+    - type: String #required #max(100)
+
+- name: Event Subscription
+  type: Event_subscription
+  schema:
+    - callback_url: String? #url
+    - created_at: Date = now()
+    - event_type: String #required #max(100)
+    - filter: String?
+    - id: Id
+    - is_active: Boolean = true
+    - updated_at: Date = now()
+
+- name: Event Log
+  type: Event_log
+  schema:
+    - error_message: String? #max(2000)
+    - event_id: Id #required -> Event.id
+    - id: Id
+    - processed_at: Date = now()
+    - retry_count: int = 0 #min(0)
+    - status: Received | Processing | Processed | Failed = Received
+    - subscription_id: Id? -> EventSubscription.id
