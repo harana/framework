@@ -1,139 +1,173 @@
-// Harana Actions - Aws Sqs Module Output Types
-// Auto-generated output structs for action methods.
+//! Output types for AWS SQS actions
+//!
+//! This module contains all the output structs and helper types used by the AWS SQS actions.
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
 
-// add_permission
+/// Output for add_permission
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AddPermissionOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// change_message_visibility
+/// Output for change_message_visibility
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChangeMessageVisibilityOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// change_message_visibility_batch
+/// Output for change_message_visibility_batch
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChangeMessageVisibilityBatchOutput {
+    /// List of successfully changed messages
     pub successful: Vec<HashMap<String, Value>>,
+    /// List of failed messages
     pub failed: Vec<HashMap<String, Value>>,
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// create_queue
+/// Output for create_queue
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateQueueOutput {
+    /// The URL of the created Amazon SQS queue
     pub queue_url: String,
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// delete_message
+/// Output for delete_message
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteMessageOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// delete_message_batch
+/// Output for delete_message_batch
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteMessageBatchOutput {
+    /// List of successfully deleted messages
     pub successful: Vec<HashMap<String, Value>>,
+    /// List of failed messages
     pub failed: Vec<HashMap<String, Value>>,
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// delete_queue
+/// Output for delete_queue
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteQueueOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// get_queue_attributes
+/// Output for get_queue_attributes
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetQueueAttributesOutput {
-    pub attributes: HashMap<String, Value>
+    /// A map of attributes to their respective values
+    pub attributes: HashMap<String, Value>,
 }
 
-// get_queue_url
+/// Output for get_queue_url
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetQueueUrlOutput {
-    pub queue_url: String
+    /// The URL of the queue
+    pub queue_url: String,
 }
 
-// list_dead_letter_source_queues
+/// Output for list_dead_letter_source_queues
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListDeadLetterSourceQueuesOutput {
+    /// A list of source queue URLs that have the RedrivePolicy queue attribute configured with a dead-letter queue
     pub queue_urls: Vec<String>,
-    pub next_token: String
+    /// Pagination token to include in the next request
+    pub next_token: String,
 }
 
-// list_queue_tags
+/// Output for list_queue_tags
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListQueueTagsOutput {
-    pub tags: HashMap<String, Value>
+    /// The list of tags associated with the specified queue
+    pub tags: HashMap<String, Value>,
 }
 
-// list_queues
+/// Output for list_queues
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListQueuesOutput {
+    /// Pagination token to include in the next request
     pub next_token: String,
-    pub queue_urls: Vec<String>
+    /// A list of queue URLs, up to 1,000 entries
+    pub queue_urls: Vec<String>,
 }
 
-// purge_queue
+/// Output for purge_queue
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PurgeQueueOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// receive_message
+/// Output for receive_message
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ReceiveMessageOutput {
-    pub messages: Vec<HashMap<String, Value>>
+    /// A list of messages
+    pub messages: Vec<HashMap<String, Value>>,
 }
 
-// remove_permission
+/// Output for remove_permission
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RemovePermissionOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// send_message
+/// Output for send_message
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SendMessageOutput {
+    /// This parameter applies only to FIFO queues. The large, non-consecutive number that Amazon SQS assigns to each message
     pub sequence_number: String,
+    /// Whether the operation was successful
     pub success: bool,
+    /// An MD5 digest of the message body
     pub md5_of_message_body: String,
+    /// An MD5 digest of the message attributes
     pub md5_of_message_attributes: String,
-    pub message_id: String
+    /// An identifier for the message
+    pub message_id: String,
 }
 
-// send_message_batch
+/// Output for send_message_batch
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SendMessageBatchOutput {
+    /// List of failed messages
     pub failed: Vec<HashMap<String, Value>>,
+    /// List of successfully sent messages
     pub successful: Vec<HashMap<String, Value>>,
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// set_queue_attributes
+/// Output for set_queue_attributes
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SetQueueAttributesOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// tag_queue
+/// Output for tag_queue
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TagQueueOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// untag_queue
+/// Output for untag_queue
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UntagQueueOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }

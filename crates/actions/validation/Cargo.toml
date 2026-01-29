@@ -1,6 +1,18 @@
 [package]
 name = "harana-actions-validation"
-version = "0.1.0"
-edition = "2021"
+version.workspace = true
+edition.workspace = true
 
 [dependencies]
+serde.workspace = true
+serde_json.workspace = true
+regex.workspace = true
+url.workspace = true
+uuid.workspace = true
+ammonia.workspace = true
+jsonschema.workspace = true
+chrono.workspace = true
+tokio.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true

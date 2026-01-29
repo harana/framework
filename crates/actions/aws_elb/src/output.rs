@@ -1,12 +1,13 @@
-// Harana Actions - AWS ELB Module Output Types
-// Auto-generated output structs for action methods.
+//! Output types for AWS ELB actions
+//!
+//! This module contains all the output structs and helper types used by the AWS ELB actions.
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
 use chrono::{DateTime, Utc};
 
-// create_load_balancer
+/// Output for create_load_balancer
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateLoadBalancerOutput {
     pub load_balancers: Vec<LoadBalancer>,

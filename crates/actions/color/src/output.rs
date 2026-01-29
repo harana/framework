@@ -85,6 +85,27 @@ pub struct GradientOutput {
     pub css: String,
 }
 
+// luminance
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LuminanceOutput {
+    pub is_dark: bool,
+    pub is_light: bool,
+    pub luminance: f64,
+}
+
+// validate
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ValidateOutput {
+    pub detected_format: String,
+    pub valid: bool,
+}
+
+// random
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RandomOutput {
+    pub color: String,
+}
+
 // Helper structs
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ColorComponents {

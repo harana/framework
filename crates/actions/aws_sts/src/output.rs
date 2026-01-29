@@ -1,101 +1,107 @@
 // Harana Actions - Aws Sts Module Output Types
 // Auto-generated output structs for action methods.
 
+#![allow(missing_docs)]
+
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
-use std::collections::HashMap;
+use chrono::{DateTime, Utc};
+
+/// Credentials returned from STS operations
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Credentials {
+    pub access_key_id: String,
+    pub secret_access_key: String,
+    pub session_token: String,
+    pub expiration: Option<DateTime<Utc>>,
+}
+
+/// Assumed role user information
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AssumedRoleUser {
+    pub assumed_role_id: String,
+    pub arn: String,
+}
+
+/// Federated user information
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FederatedUser {
+    pub federated_user_id: String,
+    pub arn: String,
+}
 
 // assume_role
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AssumeRoleOutput {
-    pub credentials: HashMap<String, Value>,
-    pub secret_access_key: String,
-    pub packed_policy_size: i32,
-    pub expiration: String,
+    pub credentials: Option<Credentials>,
+    pub assumed_role_user: Option<AssumedRoleUser>,
+    pub packed_policy_size: Option<i32>,
+    pub source_identity: Option<String>,
     pub success: bool,
-    pub assumed_role_user: HashMap<String, Value>,
-    pub session_token: String,
-    pub access_key_id: String,
-    pub source_identity: String
 }
 
 // assume_role_with_saml
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AssumeRoleWithSamlOutput {
-    pub subject_type: String,
-    pub audience: String,
-    pub expiration: String,
-    pub access_key_id: String,
-    pub issuer: String,
-    pub assumed_role_user: HashMap<String, Value>,
-    pub packed_policy_size: i32,
-    pub secret_access_key: String,
-    pub subject: String,
-    pub name_qualifier: String,
-    pub session_token: String,
-    pub credentials: HashMap<String, Value>,
-    pub success: bool
+    pub credentials: Option<Credentials>,
+    pub assumed_role_user: Option<AssumedRoleUser>,
+    pub packed_policy_size: Option<i32>,
+    pub subject: Option<String>,
+    pub subject_type: Option<String>,
+    pub issuer: Option<String>,
+    pub audience: Option<String>,
+    pub name_qualifier: Option<String>,
+    pub source_identity: Option<String>,
+    pub success: bool,
 }
 
 // assume_role_with_web_identity
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AssumeRoleWithWebIdentityOutput {
-    pub assumed_role_user: HashMap<String, Value>,
-    pub audience: String,
-    pub access_key_id: String,
-    pub packed_policy_size: i32,
-    pub provider: String,
-    pub source_identity: String,
-    pub expiration: String,
-    pub session_token: String,
-    pub credentials: HashMap<String, Value>,
-    pub secret_access_key: String,
-    pub subject_from_web_identity_token: String,
-    pub success: bool
+    pub credentials: Option<Credentials>,
+    pub assumed_role_user: Option<AssumedRoleUser>,
+    pub packed_policy_size: Option<i32>,
+    pub provider: Option<String>,
+    pub audience: Option<String>,
+    pub subject_from_web_identity_token: Option<String>,
+    pub source_identity: Option<String>,
+    pub success: bool,
 }
 
 // decode_authorization_message
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DecodeAuthorizationMessageOutput {
+    pub decoded_message: Option<String>,
     pub success: bool,
-    pub decoded_message: String
 }
 
 // get_access_key_info
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetAccessKeyInfoOutput {
-    pub account: String,
-    pub success: bool
+    pub account: Option<String>,
+    pub success: bool,
 }
 
 // get_caller_identity
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetCallerIdentityOutput {
-    pub user_id: String,
-    pub arn: String,
-    pub account: String
+    pub user_id: Option<String>,
+    pub account: Option<String>,
+    pub arn: Option<String>,
+    pub success: bool,
 }
 
 // get_federation_token
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetFederationTokenOutput {
-    pub expiration: String,
-    pub federated_user: HashMap<String, Value>,
-    pub credentials: HashMap<String, Value>,
-    pub packed_policy_size: i32,
-    pub access_key_id: String,
-    pub session_token: String,
+    pub credentials: Option<Credentials>,
+    pub federated_user: Option<FederatedUser>,
+    pub packed_policy_size: Option<i32>,
     pub success: bool,
-    pub secret_access_key: String
 }
 
 // get_session_token
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetSessionTokenOutput {
-    pub access_key_id: String,
-    pub credentials: HashMap<String, Value>,
-    pub secret_access_key: String,
-    pub session_token: String,
-    pub expiration: String,
-    pub success: bool
+    pub credentials: Option<Credentials>,
+    pub success: bool,
 }

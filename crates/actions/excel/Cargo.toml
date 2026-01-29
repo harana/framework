@@ -1,7 +1,14 @@
 [package]
 name = "harana-actions-excel"
-version = "0.1.0"
-edition = "2021"
+version.workspace = true
+edition.workspace = true
 
 [dependencies]
+serde.workspace = true
+serde_json.workspace = true
+calamine.workspace = true
+rust_xlsxwriter.workspace = true
 
+[dev-dependencies]
+tokio.workspace = true
+tempfile.workspace = true

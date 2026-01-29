@@ -66,6 +66,30 @@ pub struct VerifyContainerOutput {
     pub error: Option<String>,
 }
 
+// sign_jar
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SignJarOutput {
+    pub signed_jar_path: String,
+    pub success: bool,
+}
+
+// verify_jar
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct VerifyJarOutput {
+    pub valid: bool,
+    pub signers: Vec<String>,
+    pub timestamp: Option<DateTime<Utc>>,
+    pub error: Option<String>,
+}
+
+// timestamp
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TimestampOutput {
+    pub timestamp: DateTime<Utc>,
+    pub timestamp_token: String,
+    pub success: bool,
+}
+
 // Helper structs
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatureMetadata {

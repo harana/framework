@@ -8,47 +8,47 @@ use std::collections::HashMap;
 // build
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BuildOutput {
-    pub url: String
+    pub url: String,
 }
 
 // decode
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DecodeOutput {
-    pub decoded: String
+    pub decoded: String,
 }
 
 // encode
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EncodeOutput {
-    pub encoded: String
+    pub encoded: String,
 }
 
 // expand
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExpandOutput {
-    pub original_url: String
+    pub original_url: String,
 }
 
 // parse
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ParseOutput {
     pub protocol: String,
-    pub query: HashMap<String, Value>,
-    pub fragment: String,
-    pub path: String,
     pub host: String,
-    pub port: i32
+    pub port: Option<i32>,
+    pub path: String,
+    pub query: HashMap<String, Value>,
+    pub fragment: Option<String>,
 }
 
 // shorten
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ShortenOutput {
-    pub short_url: String
+    pub short_url: String,
 }
 
 // validate
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ValidateOutput {
+    pub valid: bool,
     pub errors: Vec<String>,
-    pub valid: bool
 }

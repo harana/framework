@@ -5,21 +5,21 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
 
-// extract_frontmatter
+// to_html
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ExtractFrontmatterOutput {
-    pub content: String,
-    pub frontmatter: HashMap<String, Value>
+pub struct ToHtmlOutput {
+    pub html: String,
 }
 
 // from_html
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FromHtmlOutput {
-    pub markdown: String
+    pub markdown: String,
 }
 
-// to_html
+// extract_frontmatter
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ToHtmlOutput {
-    pub html: String
+pub struct ExtractFrontmatterOutput {
+    pub content: String,
+    pub frontmatter: HashMap<String, Value>,
 }

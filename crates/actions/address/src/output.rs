@@ -2,34 +2,58 @@
 // Auto-generated output structs for action methods.
 
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
-use std::collections::HashMap;
+
+// Address struct
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct Address {
+    pub street: String,
+    pub city: String,
+    pub state: String,
+    pub postal_code: String,
+    pub country: String,
+}
+
+// AddressValidationError struct
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AddressValidationError {
+    pub field: String,
+    pub code: String,
+    pub message: String,
+}
+
+// AddressSuggestion struct
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AddressSuggestion {
+    pub description: String,
+    pub place_id: String,
+    pub address: Address,
+}
 
 // autocomplete
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AutocompleteOutput {
-    pub suggestions: Vec<HashMap<String, Value>>
+    pub suggestions: Vec<AddressSuggestion>,
 }
 
 // normalize
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct NormalizeOutput {
-    pub address: HashMap<String, Value>
+    pub address: Address,
 }
 
 // parse
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ParseOutput {
     pub street: String,
-    pub postal_code: String,
     pub city: String,
+    pub state: String,
+    pub postal_code: String,
     pub country: String,
-    pub state: String
 }
 
 // validate
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ValidateOutput {
-    pub errors: Vec<HashMap<String, Value>>,
-    pub valid: bool
+    pub valid: bool,
+    pub errors: Vec<AddressValidationError>,
 }

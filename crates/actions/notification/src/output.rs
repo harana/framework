@@ -26,7 +26,7 @@ pub struct SendInAppOutput {
     pub success: bool,
 }
 
-// send_bulk_notification
+// send_bulk
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SendBulkNotificationOutput {
     pub failed: i32,
@@ -34,7 +34,7 @@ pub struct SendBulkNotificationOutput {
     pub total: i32,
 }
 
-// get_notification_status
+// status
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetNotificationStatusOutput {
     pub delivered_at: Option<String>, // datetime
@@ -50,7 +50,7 @@ pub struct MarkAsReadOutput {
     pub success: bool,
 }
 
-// list_notifications
+// list
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListNotificationsOutput {
     pub notifications: Vec<HashMap<String, Value>>,
@@ -58,7 +58,7 @@ pub struct ListNotificationsOutput {
     pub unread_count: i32,
 }
 
-// delete_notification
+// delete
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteNotificationOutput {
     pub success: bool,

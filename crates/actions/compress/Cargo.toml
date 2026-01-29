@@ -1,7 +1,16 @@
 [package]
 name = "harana-actions-compress"
-version = "0.1.0"
-edition = "2021"
+version.workspace = true
+edition.workspace = true
 
 [dependencies]
+flate2.workspace = true
+zstd.workspace = true
+brotli.workspace = true
+lz4_flex.workspace = true
+lazy_static.workspace = true
+serde.workspace = true
+serde_json.workspace = true
 
+[dev-dependencies]
+tokio.workspace = true

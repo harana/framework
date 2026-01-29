@@ -1,7 +1,19 @@
 [package]
 name = "harana-actions-crypto"
-version = "0.1.0"
-edition = "2021"
+version.workspace = true
+edition.workspace = true
 
 [dependencies]
+sha2.workspace = true
+sha3.workspace = true
+blake3.workspace = true
+hmac.workspace = true
+aes-gcm.workspace = true
+rand.workspace = true
+base64.workspace = true
+hex.workspace = true
+serde.workspace = true
+serde_json.workspace = true
 
+[dev-dependencies]
+tokio.workspace = true

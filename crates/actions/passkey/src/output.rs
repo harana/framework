@@ -1,115 +1,140 @@
 // Harana Actions - Passkey Module Output Types
-// Auto-generated output structs for action methods.
+// Output structs for WebAuthn passkey action methods using webauthn-rs.
 
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
 use chrono::{DateTime, Utc};
 
-// generate_registration_options
+// ============================================================================
+// Action Output Types
+// ============================================================================
+
+/// Output for generate_registration_options action
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GenerateRegistrationOptionsOutput {
     pub challenge: String,
     pub options: PasskeyRegistrationOptions,
 }
 
-// verify_registration
+/// Output for verify_registration action
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VerifyRegistrationOutput {
-    pub aaguid: String,
-    pub attestation_object: Vec<u8>,
-    pub counter: i32,
-    pub credential_backed_up: bool,
-    pub credential_device_type: String,
+    pub verified: bool,
     pub credential_id: String,
     pub credential_public_key: Vec<u8>,
-    pub verified: bool,
+    pub counter: i32,
+    pub aaguid: String,
+    pub attestation_object: Vec<u8>,
+    pub credential_device_type: String,
+    pub credential_backed_up: bool,
 }
 
-// generate_authentication_options
+/// Output for generate_authentication_options action
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GenerateAuthenticationOptionsOutput {
     pub challenge: String,
     pub options: PasskeyAuthenticationOptions,
 }
 
-// verify_authentication
+/// Output for verify_authentication action
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VerifyAuthenticationOutput {
-    pub credential_backed_up: bool,
-    pub credential_device_type: String,
-    pub new_counter: i32,
     pub verified: bool,
+    pub new_counter: i32,
+    pub credential_id: String,
+    pub user_verified: bool,
+    pub credential_backed_up: bool,
 }
 
-// store_credential
+/// Output for store_credential action
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StoreCredentialOutput {
-    pub passkey_id: String,
     pub success: bool,
+    pub credential_id: String,
 }
 
-// get_user_passkeys
+/// Output for get_user_passkeys action
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetUserPasskeysOutput {
-    pub count: i32,
     pub passkeys: Vec<PasskeyInfo>,
 }
 
-// get_passkey
+/// Output for get_passkey action
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetPasskeyOutput {
-    pub backed_up: bool,
-    pub counter: i32,
-    pub created_at: DateTime<Utc>,
-    pub credential_id: String,
-    pub credential_public_key: Vec<u8>,
-    pub device_type: String,
-    pub friendly_name: Option<String>,
-    pub last_used_at: Option<DateTime<Utc>>,
-    pub passkey_id: String,
-    pub transports: Vec<String>,
+    pub found: bool,
+    pub passkey: Option<PasskeyInfo>,
 }
 
-// delete_passkey
+/// Output for update_counter action
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UpdateCounterOutput {
+    pub success: bool,
+    pub new_counter: i32,
+}
+
+/// Output for delete_passkey action
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeletePasskeyOutput {
     pub success: bool,
 }
 
-// update_passkey
+/// Output for update_passkey_name action
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct UpdatePasskeyOutput {
+pub struct UpdatePasskeyNameOutput {
     pub success: bool,
 }
 
-// Helper structs
+/// Output for check_support action
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PasskeyRegistrationOptions {
-    pub challenge: String,
-    pub rp: RelyingParty,
-    pub user: PasskeyUser,
-    pub pub_key_cred_params: Vec<PubKeyCredParam>,
-    pub authenticator_selection: Option<PasskeyAuthenticatorSelection>,
-    pub attestation: Option<String>,
-    pub timeout: Option<i32>,
-    pub exclude_credentials: Option<Vec<PasskeyCredentialDescriptor>>,
+pub struct CheckSupportOutput {
+    pub supported: bool,
+    pub platform_authenticator_available: bool,
+    pub conditional_mediation_available: bool,
 }
 
+// ============================================================================
+// Supporting Types - WebAuthn Options
+// ============================================================================
+
+/// Authenticator selection criteria for registration
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PasskeyAuthenticationOptions {
-    pub challenge: String,
-    pub timeout: Option<i32>,
-    pub rp_id: String,
-    pub allow_credentials: Option<Vec<PasskeyCredentialDescriptor>>,
+pub struct PasskeyAuthenticatorSelection {
+    pub authenticator_attachment: Option<String>,
+    pub resident_key: Option<String>,
+    pub require_resident_key: Option<bool>,
     pub user_verification: Option<String>,
 }
 
+/// Credential descriptor for allow/exclude lists
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct RelyingParty {
+pub struct PasskeyCredentialDescriptor {
+    pub id: String,
+    #[serde(rename = "type")]
+    pub credential_type: String,
+    pub transports: Option<Vec<String>>,
+}
+
+/// Registration options sent to client
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PasskeyRegistrationOptions {
+    pub rp: PasskeyRelyingParty,
+    pub user: PasskeyUser,
+    pub challenge: String,
+    pub pub_key_cred_params: Vec<PasskeyCredParam>,
+    pub timeout: i32,
+    pub attestation: String,
+    pub exclude_credentials: Option<Vec<PasskeyCredentialDescriptor>>,
+    pub authenticator_selection: Option<PasskeyAuthenticatorSelection>,
+}
+
+/// Relying party information
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PasskeyRelyingParty {
     pub id: String,
     pub name: String,
 }
 
+/// User information for registration
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PasskeyUser {
     pub id: String,
@@ -117,67 +142,87 @@ pub struct PasskeyUser {
     pub display_name: String,
 }
 
+/// Public key credential parameters
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PubKeyCredParam {
+pub struct PasskeyCredParam {
     #[serde(rename = "type")]
-    pub cred_type: String,
+    pub credential_type: String,
     pub alg: i32,
 }
 
+/// Authentication options sent to client
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PasskeyAuthenticatorSelection {
-    pub authenticator_attachment: Option<String>,
-    pub resident_key: Option<String>,
-    pub user_verification: Option<String>,
+pub struct PasskeyAuthenticationOptions {
+    pub challenge: String,
+    pub timeout: i32,
+    pub rp_id: String,
+    pub allow_credentials: Option<Vec<PasskeyCredentialDescriptor>>,
+    pub user_verification: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PasskeyCredentialDescriptor {
-    #[serde(rename = "type")]
-    pub cred_type: String,
-    pub id: String,
-    pub transports: Option<Vec<String>>,
-}
+// ============================================================================
+// Supporting Types - Client Responses
+// ============================================================================
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PasskeyInfo {
-    pub passkey_id: String,
-    pub credential_id: String,
-    pub friendly_name: Option<String>,
-    pub device_type: String,
-    pub backed_up: bool,
-    pub created_at: DateTime<Utc>,
-    pub last_used_at: Option<DateTime<Utc>>,
-}
-
+/// Registration response from client authenticator
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PasskeyRegistrationResponse {
     pub id: String,
-    pub raw_id: Vec<u8>,
-    pub response: AuthenticatorAttestationResponse,
+    pub raw_id: String,
+    pub response: PasskeyAuthenticatorAttestationResponse,
     #[serde(rename = "type")]
-    pub cred_type: String,
+    pub credential_type: String,
 }
 
+/// Attestation response data from registration
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AuthenticatorAttestationResponse {
-    pub client_data_json: Vec<u8>,
-    pub attestation_object: Vec<u8>,
+pub struct PasskeyAuthenticatorAttestationResponse {
+    pub client_data_json: String,
+    pub attestation_object: String,
+    pub transports: Option<Vec<String>>,
 }
 
+/// Authentication response from client authenticator
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PasskeyAuthenticationResponse {
     pub id: String,
-    pub raw_id: Vec<u8>,
-    pub response: AuthenticatorAssertionResponse,
+    pub raw_id: String,
+    pub response: PasskeyAuthenticatorAssertionResponse,
     #[serde(rename = "type")]
-    pub cred_type: String,
+    pub credential_type: String,
 }
 
+/// Assertion response data from authentication
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AuthenticatorAssertionResponse {
-    pub client_data_json: Vec<u8>,
-    pub authenticator_data: Vec<u8>,
-    pub signature: Vec<u8>,
-    pub user_handle: Option<Vec<u8>>,
+pub struct PasskeyAuthenticatorAssertionResponse {
+    pub client_data_json: String,
+    pub authenticator_data: String,
+    pub signature: String,
+    pub user_handle: Option<String>,
+}
+
+// ============================================================================
+// Supporting Types - Storage
+// ============================================================================
+
+/// Passkey information for listing/display
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PasskeyInfo {
+    pub credential_id: String,
+    pub name: Option<String>,
+    pub created_at: String,
+    pub last_used_at: Option<String>,
+    pub counter: i32,
+}
+
+/// Stored passkey data (in-memory or database)
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StoredPasskey {
+    pub credential_id: String,
+    pub user_id: String,
+    pub credential_public_key: Vec<u8>,
+    pub counter: i32,
+    pub name: Option<String>,
+    pub created_at: DateTime<Utc>,
+    pub last_used_at: Option<DateTime<Utc>>,
 }

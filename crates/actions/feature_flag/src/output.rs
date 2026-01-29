@@ -2,22 +2,81 @@
 // Auto-generated output structs for action methods.
 
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
 use std::collections::HashMap;
+
+/// Represents a flag variation.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FlagVariation {
+    pub name: String,
+    pub value: serde_json::Value,
+}
+
+/// Represents a feature flag.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FeatureFlag {
+    pub flag_id: String,
+    pub key: String,
+    pub name: String,
+    pub description: String,
+    pub enabled: bool,
+    pub archived: bool,
+    pub variations: Vec<FlagVariation>,
+    pub default_variation: i32,
+    pub tags: Vec<String>,
+    pub created_at: i64,
+    pub updated_at: i64,
+}
+
+/// Represents a targeting rule condition.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RuleCondition {
+    pub attribute: String,
+    pub operator: String,
+    pub value: serde_json::Value,
+}
+
+/// Represents a targeting rule.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TargetingRule {
+    pub rule_id: String,
+    pub flag_id: String,
+    pub name: String,
+    pub priority: i32,
+    pub variation: i32,
+    pub conditions: Vec<RuleCondition>,
+}
+
+/// Represents a percentage rollout.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Rollout {
+    pub rollout_id: String,
+    pub flag_id: String,
+    pub percentages: HashMap<String, i32>,
+    pub seed: Option<String>,
+}
+
+/// Represents an environment.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Environment {
+    pub environment_id: String,
+    pub key: String,
+    pub name: String,
+    pub description: String,
+}
 
 // archive_flag
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ArchiveFlagOutput {
     pub success: bool,
     pub archived: bool,
-    pub flag_id: String
+    pub flag_id: String,
 }
 
 // clone_flag
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CloneFlagOutput {
     pub success: bool,
-    pub flag_id: String
+    pub flag_id: String,
 }
 
 // create_environment
@@ -25,7 +84,7 @@ pub struct CloneFlagOutput {
 pub struct CreateEnvironmentOutput {
     pub success: bool,
     pub environment_id: String,
-    pub key: String
+    pub key: String,
 }
 
 // create_flag
@@ -33,7 +92,7 @@ pub struct CreateEnvironmentOutput {
 pub struct CreateFlagOutput {
     pub flag_id: String,
     pub key: String,
-    pub success: bool
+    pub success: bool,
 }
 
 // create_rollout
@@ -41,7 +100,7 @@ pub struct CreateFlagOutput {
 pub struct CreateRolloutOutput {
     pub flag_id: String,
     pub rollout_id: String,
-    pub success: bool
+    pub success: bool,
 }
 
 // create_targeting_rule
@@ -49,56 +108,49 @@ pub struct CreateRolloutOutput {
 pub struct CreateTargetingRuleOutput {
     pub flag_id: String,
     pub success: bool,
-    pub rule_id: String
+    pub rule_id: String,
 }
 
 // delete_flag
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteFlagOutput {
-    pub success: bool
+    pub success: bool,
 }
 
 // delete_targeting_rule
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteTargetingRuleOutput {
-    pub success: bool
+    pub success: bool,
 }
 
 // evaluate_flag
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EvaluateFlagOutput {
-    pub variation: HashMap<String, Value>,
+    pub variation: FlagVariation,
     pub enabled: bool,
     pub reason: String,
-    pub flag_id: String
+    pub flag_id: String,
 }
 
 // get_evaluation_count
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetEvaluationCountOutput {
-    pub variation_counts: HashMap<String, Value>,
+    pub variation_counts: HashMap<String, i32>,
     pub flag_id: String,
-    pub total_evaluations: i32
+    pub total_evaluations: i32,
 }
 
 // get_flag
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetFlagOutput {
-    pub updated_at: i32,
-    pub enabled: bool,
-    pub name: String,
-    pub variations: Vec<HashMap<String, Value>>,
-    pub description: String,
-    pub created_at: i32,
-    pub key: String,
-    pub flag_id: String
+    pub flag: FeatureFlag,
 }
 
 // list_flags
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListFlagsOutput {
-    pub flags: Vec<HashMap<String, Value>>,
-    pub total: i32
+    pub flags: Vec<FeatureFlag>,
+    pub total: i32,
 }
 
 // restore_flag
@@ -106,7 +158,7 @@ pub struct ListFlagsOutput {
 pub struct RestoreFlagOutput {
     pub archived: bool,
     pub success: bool,
-    pub flag_id: String
+    pub flag_id: String,
 }
 
 // toggle_flag
@@ -114,26 +166,26 @@ pub struct RestoreFlagOutput {
 pub struct ToggleFlagOutput {
     pub enabled: bool,
     pub success: bool,
-    pub flag_id: String
+    pub flag_id: String,
 }
 
 // update_flag
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UpdateFlagOutput {
     pub flag_id: String,
-    pub success: bool
+    pub success: bool,
 }
 
 // update_rollout
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UpdateRolloutOutput {
     pub success: bool,
-    pub rollout_id: String
+    pub rollout_id: String,
 }
 
 // update_targeting_rule
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UpdateTargetingRuleOutput {
     pub success: bool,
-    pub rule_id: String
+    pub rule_id: String,
 }

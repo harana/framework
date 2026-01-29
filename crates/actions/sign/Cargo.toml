@@ -1,7 +1,17 @@
 [package]
 name = "harana-actions-sign"
-version = "0.1.0"
-edition = "2021"
+version.workspace = true
+edition.workspace = true
 
 [dependencies]
+serde.workspace = true
+serde_json.workspace = true
+chrono.workspace = true
+base64.workspace = true
+ring.workspace = true
+rand.workspace = true
+sha2.workspace = true
+pem.workspace = true
 
+[dev-dependencies]
+tokio.workspace = true

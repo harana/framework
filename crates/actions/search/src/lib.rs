@@ -13,7 +13,7 @@ use output::*;
 pub async fn bulk_index(
     documents: Vec<HashMap<String, Value>>,
     index: &str,
-    refresh: Option<bool>,
+    refresh: Option<bool>
 ) -> Result<BulkIndexOutput, String> {
     unimplemented!("bulk_index")
 }

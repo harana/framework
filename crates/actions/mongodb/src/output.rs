@@ -71,7 +71,7 @@ pub struct FindOutput {
 // find_one
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FindOneOutput {
-    pub document: HashMap<String, Value>,
+    pub document: Option<HashMap<String, Value>>,
     pub found: bool
 }
 
@@ -99,7 +99,7 @@ pub struct ListCollectionsOutput {
 // replace_one
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ReplaceOneOutput {
-    pub upserted_id: String,
+    pub upserted_id: Option<String>,
     pub matched_count: i32,
     pub modified_count: i32,
     pub success: bool
@@ -109,7 +109,7 @@ pub struct ReplaceOneOutput {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UpdateManyOutput {
     pub modified_count: i32,
-    pub upserted_id: String,
+    pub upserted_id: Option<String>,
     pub success: bool,
     pub matched_count: i32
 }
@@ -119,6 +119,7 @@ pub struct UpdateManyOutput {
 pub struct UpdateOneOutput {
     pub success: bool,
     pub matched_count: i32,
-    pub upserted_id: String,
+    pub upserted_id: Option<String>,
     pub modified_count: i32
 }
+

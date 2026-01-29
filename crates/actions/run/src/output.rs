@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 // start
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StartOutput {
-    pub process_id: i32,
+    pub process_id: u32,
     pub started: bool,
     pub error: Option<String>,
 }
@@ -55,24 +55,24 @@ pub struct OutputOutput {
 }
 
 // Helper structs
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct ProcessStatus {
-    pub process_id: i32,
+    pub process_id: u32,
     pub running: bool,
     pub exit_code: Option<i32>,
     pub cpu_usage: Option<f64>,
     pub memory_usage: Option<i64>,
-    pub uptime: Option<i64>,
+    pub uptime_secs: Option<i64>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ProcessInfo {
-    pub process_id: i32,
+    pub process_id: u32,
     pub name: String,
     pub command: String,
     pub user: Option<String>,
     pub cpu_usage: Option<f64>,
     pub memory_usage: Option<i64>,
     pub status: String,
-    pub uptime: Option<i64>,
+    pub uptime_secs: Option<i64>,
 }

@@ -1,218 +1,286 @@
-// Harana Actions - Aws S3 Module Output Types
-// Auto-generated output structs for action methods.
+//! Output types for AWS S3 actions
+//!
+//! This module contains all the output structs and helper types used by the AWS S3 actions.
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
 
-// abort_multipart_upload
+/// Output for abort_multipart_upload
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AbortMultipartUploadOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// complete_multipart_upload
+/// Output for complete_multipart_upload
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CompleteMultipartUploadOutput {
+    /// Whether the operation was successful
     pub success: bool,
+    /// The object key
     pub key: String,
+    /// The name of the bucket
     pub bucket: String,
+    /// Entity tag for the uploaded object
     pub etag: String,
-    pub location: String
+    /// The URI that identifies the newly created object
+    pub location: String,
 }
 
-// copy_object
+/// Output for copy_object
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CopyObjectOutput {
+    /// Whether the operation was successful
     pub success: bool,
+    /// Entity tag of the copied object
     pub etag: String,
-    pub version_id: String
+    /// Version ID of the copy
+    pub version_id: String,
 }
 
-// create_bucket
+/// Output for create_bucket
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateBucketOutput {
+    /// The location of the bucket
     pub location: String,
+    /// Whether the operation was successful
     pub success: bool,
-    pub bucket: String
+    /// The name of the bucket
+    pub bucket: String,
 }
 
-// create_multipart_upload
+/// Output for create_multipart_upload
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateMultipartUploadOutput {
+    /// Whether the operation was successful
     pub success: bool,
-    pub upload_id: String
+    /// Upload ID identifying the multipart upload
+    pub upload_id: String,
 }
 
-// delete_bucket
+/// Output for delete_bucket
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteBucketOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// delete_bucket_cors
+/// Output for delete_bucket_cors
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteBucketCorsOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// delete_bucket_policy
+/// Output for delete_bucket_policy
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteBucketPolicyOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// delete_object
+/// Output for delete_object
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteObjectOutput {
+    /// Whether the operation was successful
     pub success: bool,
-    pub version_id: String
+    /// Version ID of the delete marker
+    pub version_id: String,
 }
 
-// delete_objects
+/// Output for delete_objects
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteObjectsOutput {
+    /// Container for errors that occurred during the delete operation
     pub errors: Vec<HashMap<String, Value>>,
+    /// Whether the operation was successful (no errors)
     pub success: bool,
-    pub deleted: Vec<HashMap<String, Value>>
+    /// Container for objects that were deleted
+    pub deleted: Vec<HashMap<String, Value>>,
 }
 
-// get_bucket_cors
+/// Output for get_bucket_cors
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetBucketCorsOutput {
-    pub cors_rules: Vec<HashMap<String, Value>>
+    /// A set of origins and methods enabled for this bucket
+    pub cors_rules: Vec<HashMap<String, Value>>,
 }
 
-// get_bucket_encryption
+/// Output for get_bucket_encryption
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetBucketEncryptionOutput {
-    pub rules: Vec<HashMap<String, Value>>
+    /// Server-side encryption configuration rules
+    pub rules: Vec<HashMap<String, Value>>,
 }
 
-// get_bucket_lifecycle
+/// Output for get_bucket_lifecycle
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetBucketLifecycleOutput {
-    pub rules: Vec<HashMap<String, Value>>
+    /// Container for lifecycle rules
+    pub rules: Vec<HashMap<String, Value>>,
 }
 
-// get_bucket_policy
+/// Output for get_bucket_policy
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetBucketPolicyOutput {
-    pub policy: String
+    /// The bucket policy as a JSON string
+    pub policy: String,
 }
 
-// get_bucket_versioning
+/// Output for get_bucket_versioning
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetBucketVersioningOutput {
+    /// Specifies whether MFA delete is enabled in the bucket versioning configuration
     pub mfa_delete: String,
-    pub status: String
+    /// The versioning state of the bucket
+    pub status: String,
 }
 
-// get_object
+/// Output for get_object
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetObjectOutput {
+    /// Entity tag for the object
     pub etag: String,
+    /// The date and time the object was last modified
     pub last_modified: String,
+    /// A map of metadata to store with the object
     pub metadata: HashMap<String, Value>,
+    /// Version ID of the object
     pub version_id: String,
+    /// Provides storage class information of the object
     pub storage_class: String,
+    /// The object content as bytes
     pub content: Vec<u8>,
+    /// A standard MIME type describing the format of the object data
     pub content_type: String,
-    pub size: i32
+    /// Size of the body in bytes
+    pub size: i32,
 }
 
-// get_object_tagging
+/// Output for get_object_tagging
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetObjectTaggingOutput {
+    /// Contains the tag set
     pub tags: HashMap<String, Value>,
-    pub version_id: String
+    /// The version ID of the object for which you got the tagging information
+    pub version_id: String,
 }
 
-// get_presigned_url
+/// Output for get_presigned_url
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetPresignedUrlOutput {
+    /// The time at which the URL expires
     pub expires_at: String,
-    pub url: String
+    /// The presigned URL
+    pub url: String,
 }
 
-// head_object
+/// Output for head_object
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HeadObjectOutput {
+    /// Size of the body in bytes
     pub content_length: i32,
+    /// Specifies whether the object exists
     pub exists: bool,
+    /// A map of metadata to store with the object
     pub metadata: HashMap<String, Value>,
+    /// A standard MIME type describing the format of the object data
     pub content_type: String,
+    /// Provides storage class information of the object
     pub storage_class: String,
+    /// The date and time the object was last modified
     pub last_modified: String,
+    /// Entity tag for the object
     pub etag: String,
-    pub version_id: String
+    /// Version ID of the object
+    pub version_id: String,
 }
 
-// list_buckets
+/// Output for list_buckets
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListBucketsOutput {
-    pub buckets: Vec<HashMap<String, Value>>
+    /// The list of buckets owned by the authenticated sender
+    pub buckets: Vec<HashMap<String, Value>>,
 }
 
-// list_objects
+/// Output for list_objects
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListObjectsOutput {
+    /// If ContinuationToken was sent with the request, it is included in the response
     pub continuation_token: String,
+    /// Metadata about each object returned
     pub contents: Vec<HashMap<String, Value>>,
+    /// Set to false if all of the results were returned
     pub is_truncated: bool,
+    /// Token that can be used in subsequent request to get next set of results
     pub next_continuation_token: String,
+    /// Number of keys returned with this response
     pub key_count: i32,
-    pub prefix: String
+    /// Keys that begin with the indicated prefix
+    pub prefix: String,
 }
 
-// put_bucket_cors
+/// Output for put_bucket_cors
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PutBucketCorsOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// put_bucket_encryption
+/// Output for put_bucket_encryption
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PutBucketEncryptionOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// put_bucket_lifecycle
+/// Output for put_bucket_lifecycle
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PutBucketLifecycleOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// put_bucket_policy
+/// Output for put_bucket_policy
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PutBucketPolicyOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// put_bucket_versioning
+/// Output for put_bucket_versioning
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PutBucketVersioningOutput {
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// put_object
+/// Output for put_object
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PutObjectOutput {
+    /// Whether the operation was successful
     pub success: bool,
+    /// Version ID of the object
     pub version_id: String,
-    pub etag: String
+    /// Entity tag for the uploaded object
+    pub etag: String,
 }
 
-// put_object_tagging
+/// Output for put_object_tagging
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PutObjectTaggingOutput {
+    /// The version ID of the object the tag-set was added to
     pub version_id: String,
-    pub success: bool
+    /// Whether the operation was successful
+    pub success: bool,
 }
 
-// upload_part
+/// Output for upload_part
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UploadPartOutput {
+    /// Whether the operation was successful
     pub success: bool,
-    pub etag: String
+    /// Entity tag for the uploaded part
+    pub etag: String,
 }

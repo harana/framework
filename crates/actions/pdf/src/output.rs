@@ -116,6 +116,34 @@ pub struct RotatePagesOutput {
     pub success: bool,
 }
 
+// add_page_numbers
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AddPageNumbersOutput {
+    pub pdf: Vec<u8>,
+    pub size: i64,
+}
+
+// to_images
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ToImagesOutput {
+    pub count: i32,
+    pub images: Vec<Vec<u8>>,
+}
+
+// fill_form
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FillFormOutput {
+    pub pdf: Vec<u8>,
+    pub size: i64,
+}
+
+// get_form_fields
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetFormFieldsOutput {
+    pub count: i32,
+    pub fields: Vec<PdfFormField>,
+}
+
 // Helper structs
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PdfPageText {
@@ -150,4 +178,19 @@ pub struct PdfOptions {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PdfTemplateData {
     pub data: HashMap<String, Value>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PdfFormField {
+    pub name: String,
+    pub field_type: String,
+    pub value: String,
+    pub required: bool,
+    pub options: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PdfFormFieldValue {
+    pub name: String,
+    pub value: String,
 }

@@ -10,36 +10,38 @@ use std::collections::HashMap;
 pub struct DiffOutput {
     pub removed: HashMap<String, Value>,
     pub changed: HashMap<String, Value>,
-    pub added: HashMap<String, Value>
+    pub added: HashMap<String, Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub unchanged: Option<HashMap<String, Value>>,
 }
 
 // jmespath_query
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct JmespathQueryOutput {
-    pub result: String
+    pub result: Value,
 }
 
 // merge
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MergeOutput {
-    pub result: HashMap<String, Value>
+    pub result: HashMap<String, Value>,
 }
 
 // parse
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ParseOutput {
-    pub result: String
+    pub result: Value,
 }
 
 // stringify
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StringifyOutput {
-    pub json: String
+    pub json: String,
 }
 
 // validate
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ValidateOutput {
     pub valid: bool,
-    pub errors: Vec<HashMap<String, Value>>
+    pub errors: Vec<HashMap<String, Value>>,
 }

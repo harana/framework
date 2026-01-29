@@ -1,7 +1,13 @@
-// Harana Actions - Compress Module Output Types
-// Auto-generated output structs for action methods.
-
 use serde::{Deserialize, Serialize};
+
+/// Optimization strategy for auto compression
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub enum OptimizeFor {
+    Speed,
+    Size,
+    #[default]
+    Balanced,
+}
 
 // gzip_compress
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -86,7 +92,7 @@ pub struct DeflateDecompressOutput {
 // auto_compress
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AutoCompressOutput {
-    pub algorithm: String,
+    pub algorithm_used: String,
     pub compressed: Vec<u8>,
     pub compressed_size: i64,
     pub compression_ratio: f64,
@@ -96,7 +102,23 @@ pub struct AutoCompressOutput {
 // auto_decompress
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AutoDecompressOutput {
-    pub algorithm: String,
+    pub algorithm_detected: String,
     pub decompressed: Vec<u8>,
     pub size: i64,
+}
+
+// stream_compress
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StreamCompressOutput {
+    pub compressed_chunk: Vec<u8>,
+    pub total_input: i64,
+    pub total_output: i64,
+}
+
+// stream_decompress
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StreamDecompressOutput {
+    pub decompressed_chunk: Vec<u8>,
+    pub total_input: i64,
+    pub total_output: i64,
 }

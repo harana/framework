@@ -1,5 +1,6 @@
-// Harana Actions - AWS Auto Scaling Module
-// This module provides AWS Auto Scaling actions.
+//! Harana Actions - AWS Auto Scaling Module
+//!
+//! This module provides AWS Auto Scaling actions.
 
 #![warn(missing_docs)]
 
