@@ -1,8 +1,6 @@
 // Harana Actions - Geocode Module
 // This module provides geocode actions and functionality.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use std::collections::HashMap;

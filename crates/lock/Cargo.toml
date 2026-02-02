@@ -1,0 +1,19 @@
+[package]
+name = "harana-components-lock"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+path = "lib.rs"
+
+[dependencies]
+harana-components-storage = { path = "../storage" }
+async-trait.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+tokio = { workspace = true, features = ["sync", "time", "rt"] }
+
+[dev-dependencies]
+tokio.workspace = true

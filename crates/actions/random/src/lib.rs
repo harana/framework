@@ -1,8 +1,6 @@
 // Harana Actions - Random Module
 // This module provides random actions and functionality.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use output::*;

@@ -1,0 +1,38 @@
+[package]
+name = "harana-components-events"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+path = "lib.rs"
+
+[features]
+default = []
+postgres = ["harana-components-storage/postgres"]
+mysql = ["harana-components-storage/mysql"]
+sqlite = ["harana-components-storage/sqlite"]
+mongodb = ["harana-components-storage/mongodb"]
+full = ["postgres", "mysql", "sqlite", "mongodb"]
+
+# Client-side features (no persistence, in-memory only)
+client = []
+
+# Server-side features (with persistence)
+server = []
+
+[dependencies]
+async-trait.workspace = true
+chrono.workspace = true
+dashmap.workspace = true
+futures.workspace = true
+harana-components-lock = { path = "../lock" }
+harana-components-storage = { path = "../storage" }
+parking_lot.workspace = true
+serde_json.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["sync", "time"] }
+uuid.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true

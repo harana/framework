@@ -5,12 +5,3 @@ edition.workspace = true
 
 [dependencies]
 serde.workspace = true
-serde_json.workspace = true
-uuid.workspace = true
-chrono.workspace = true
-tokio.workspace = true
-parking_lot.workspace = true
-dashmap.workspace = true
-
-[dev-dependencies]
-tokio.workspace = true

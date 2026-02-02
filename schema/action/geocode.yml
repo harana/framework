@@ -1,0 +1,87 @@
+- name: Calculate Distance Between Points
+  action: distance
+  inputs:
+    from: GeoCoordinate #required
+    to: GeoCoordinate #required
+    unit: km | mi | m = km
+  outputs:
+    distance: Float
+    unit: String
+
+- name: Convert Address To Coordinates
+  action: forward
+  inputs:
+    address: String #required
+    country: String
+    limit: Int = 5
+  outputs:
+    latitude: Float
+    longitude: Float
+    results: List[GeocodingResult]
+
+- name: Convert Coordinates To Address
+  action: reverse
+  inputs:
+    latitude: Float #required
+    longitude: Float #required
+    language: String
+  outputs:
+    address: GeoAddress
+    formatted_address: String
+
+- name: Get Route Between Points
+  action: route
+  inputs:
+    from: GeoCoordinate #required
+    to: GeoCoordinate #required
+    mode: driving | walking | cycling | transit = driving
+    waypoints: List[GeoCoordinate]
+    avoid: List[String]
+  outputs:
+    distance: Float
+    duration: Int
+    polyline: String
+    steps: List[RouteStep]
+
+- name: Get Timezone For Coordinates
+  action: timezone
+  inputs:
+    latitude: Float #required
+    longitude: Float #required
+    timestamp: Int
+  outputs:
+    id: String
+    name: String
+    offset: Int
+    dst_offset: Int
+
+- name: GeoCoordinate
+  class:
+    latitude: Float
+    longitude: Float
+
+- name: GeocodingResult
+  class:
+    latitude: Float
+    longitude: Float
+    formatted_address: String
+    confidence: Float
+
+- name: GeoAddress
+  class:
+    street: String
+    city: String
+    county: String
+    state: String
+    postal_code: String
+    country: String
+    latitude: Float
+    longitude: Float
+
+- name: RouteStep
+  class:
+    instruction: String
+    distance: Float
+    duration: Int
+    latitude: Float
+    longitude: Float

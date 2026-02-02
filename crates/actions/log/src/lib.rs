@@ -1,8 +1,6 @@
 // Harana Actions - Log Module
 // This module provides log actions and functionality using tracing.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use std::collections::HashMap;

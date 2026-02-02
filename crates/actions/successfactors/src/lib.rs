@@ -1,8 +1,6 @@
 // Harana Actions - SuccessFactors Module
 // This module provides SAP SuccessFactors HR integration actions.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use std::collections::HashMap;

@@ -3,8 +3,6 @@
 //! This module provides AWS Identity and Access Management (IAM) actions for managing
 //! users, groups, roles, policies, and access keys.
 
-#![warn(missing_docs)]
-
 /// Output types for AWS IAM actions
 pub mod output;
 

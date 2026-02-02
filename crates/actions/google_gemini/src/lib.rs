@@ -1,8 +1,6 @@
 // Harana Actions - Google Gemini Module
 // This module provides Google Gemini AI integration actions.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use output::*;

@@ -28,8 +28,6 @@
 //! ).await;
 //! ```
 
-#![warn(missing_docs)]
-
 /// Output types for push actions
 pub mod output;
 
@@ -53,48 +51,37 @@ use web_push_native::{Auth, WebPushBuilder};
 /// Configuration for APNS authentication
 #[derive(Debug, Clone)]
 pub struct ApnsConfig {
-    /// Path to .p8 private key file for token-based auth
-    pub key_path: String,
-    /// Key ID from Apple Developer account
-    pub key_id: String,
-    /// Team ID from Apple Developer account
-    pub team_id: String,
-    /// Use sandbox environment (default: false for production)
-    pub sandbox: bool,
+        pub key_path: String,
+        pub key_id: String,
+        pub team_id: String,
+        pub sandbox: bool,
 }
 
 /// Configuration for FCM authentication
 #[derive(Debug, Clone)]
 pub struct FcmConfig {
-    /// Path to the service account JSON credential file
-    pub credential_file: String,
+        pub credential_file: String,
 }
 
 /// Configuration for Web Push (VAPID)
 #[derive(Debug, Clone)]
 pub struct WebPushConfig {
-    /// Base64url-encoded VAPID private key
-    pub vapid_private_key: String,
-    /// Contact email for VAPID (mailto:...)
-    pub contact_email: String,
+        pub vapid_private_key: String,
+        pub contact_email: String,
 }
 
 /// Web Push subscription information from browser
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PushSubscription {
-    /// The push endpoint URL
-    pub endpoint: String,
-    /// The subscription keys
-    pub keys: PushSubscriptionKeys,
+        pub endpoint: String,
+        pub keys: PushSubscriptionKeys,
 }
 
 /// Keys from the browser push subscription
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PushSubscriptionKeys {
-    /// The p256dh public key (base64url encoded)
-    pub p256dh: String,
-    /// The auth secret (base64url encoded)
-    pub auth: String,
+        pub p256dh: String,
+        pub auth: String,
 }
 
 /// Send APNS Push Notification

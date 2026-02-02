@@ -5,3 +5,12 @@ edition.workspace = true
 
 [dependencies]
 serde.workspace = true
+serde_json.workspace = true
+slack-morphism.workspace = true
+tokio.workspace = true
+reqwest.workspace = true
+hyper-util.workspace = true
+hyper-rustls.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true

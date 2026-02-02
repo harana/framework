@@ -1,153 +1,343 @@
-// Harana Actions - Privacy Module Output Types
-// Auto-generated output structs for action methods.
-
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
-use std::collections::HashMap;
 
-// anonymize_data
+// === Action Outputs ===
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RecordConsentOutput {
+    pub consent_id: String,
+    pub user_id: String,
+    pub timestamp: i64,
+    pub success: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RevokeConsentOutput {
+    pub consent_id: String,
+    pub user_id: String,
+    pub revoked_at: i64,
+    pub success: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetConsentStatusOutput {
+    pub user_id: String,
+    pub consents: Vec<PrivacyConsent>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UpdateConsentOutput {
+    pub consent_id: String,
+    pub success: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ExportDataOutput {
+    pub export_id: String,
+    pub user_id: String,
+    pub status: String,
+    pub download_url: Option<String>,
+    pub expires_at: Option<i64>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetExportStatusOutput {
+    pub export_id: String,
+    pub status: ExportStatus,
+    pub created_at: i64,
+    pub completed_at: Option<i64>,
+    pub download_url: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DeleteDataOutput {
+    pub deletion_id: String,
+    pub user_id: String,
+    pub status: String,
+    pub scheduled_at: i64,
+    pub success: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GetDeletionStatusOutput {
+    pub deletion_id: String,
+    pub user_id: String,
+    pub status: DeletionStatus,
+    pub scheduled_at: i64,
+    pub completed_at: Option<i64>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CancelDeletionOutput {
+    pub deletion_id: String,
+    pub cancelled: bool,
+    pub success: bool,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AnonymizeDataOutput {
     pub anonymization_id: String,
     pub user_id: String,
-    pub success: bool
-}
-
-// cancel_deletion
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CancelDeletionOutput {
     pub success: bool,
-    pub cancelled: bool,
-    pub deletion_id: String
 }
 
-// create_policy_version
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CreatePolicyVersionOutput {
-    pub policy_id: String,
-    pub success: bool,
-    pub version: String
-}
-
-// delete_data
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct DeleteDataOutput {
-    pub status: String,
-    pub deletion_id: String,
-    pub scheduled_at: i32,
+pub struct ListConsentHistoryOutput {
     pub user_id: String,
-    pub success: bool
+    pub history: Vec<PrivacyConsentHistory>,
+    pub total: i64,
 }
 
-// export_data
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ExportDataOutput {
-    pub expires_at: i32,
-    pub status: String,
-    pub download_url: String,
-    pub export_id: String,
-    pub user_id: String
+pub struct RecordDataAccessOutput {
+    pub access_id: String,
+    pub timestamp: i64,
+    pub success: bool,
 }
 
-// get_access_log
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetAccessLogOutput {
     pub user_id: String,
-    pub accesses: Vec<HashMap<String, Value>>,
-    pub total: i32
+    pub accesses: Vec<PrivacyDataAccess>,
+    pub total: i64,
 }
 
-// get_active_policy
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreatePolicyVersionOutput {
+    pub policy_id: String,
+    pub version: String,
+    pub success: bool,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetActivePolicyOutput {
-    pub effective_date: i32,
-    pub content: String,
+    pub policy_id: String,
     pub version: String,
-    pub policy_id: String
+    pub effective_date: i64,
+    pub content: String,
 }
 
-// get_consent_status
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GetConsentStatusOutput {
-    pub user_id: String,
-    pub consents: Vec<HashMap<String, Value>>
-}
-
-// get_deletion_status
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GetDeletionStatusOutput {
-    pub user_id: String,
-    pub status: String,
-    pub deletion_id: String,
-    pub completed_at: i32,
-    pub scheduled_at: i32
-}
-
-// get_export_status
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GetExportStatusOutput {
-    pub created_at: i32,
-    pub completed_at: i32,
-    pub download_url: String,
-    pub status: String,
-    pub export_id: String
-}
-
-// list_consent_history
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ListConsentHistoryOutput {
-    pub history: Vec<HashMap<String, Value>>,
-    pub total: i32,
-    pub user_id: String
-}
-
-// record_consent
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct RecordConsentOutput {
-    pub consent_id: String,
-    pub success: bool,
-    pub timestamp: i32,
-    pub user_id: String
-}
-
-// record_data_access
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct RecordDataAccessOutput {
-    pub timestamp: i32,
-    pub success: bool,
-    pub access_id: String
-}
-
-// record_policy_acceptance
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RecordPolicyAcceptanceOutput {
-    pub success: bool,
-    pub user_id: String,
     pub acceptance_id: String,
-    pub timestamp: i32
-}
-
-// revoke_consent
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct RevokeConsentOutput {
     pub user_id: String,
-    pub consent_id: String,
-    pub revoked_at: i32,
-    pub success: bool
-}
-
-// update_consent
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct UpdateConsentOutput {
+    pub timestamp: i64,
     pub success: bool,
-    pub consent_id: String
 }
 
-// verify_rtbf_eligibility
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VerifyRtbfEligibilityOutput {
-    pub reasons: Vec<String>,
-    pub eligible: bool,
     pub user_id: String,
-    pub blocking_factors: Vec<String>
+    pub eligible: bool,
+    pub reasons: Vec<String>,
+    pub blocking_factors: Vec<String>,
+}
+
+// === Class Types ===
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Consent {
+    pub consent_id: String,
+    pub user_id: String,
+    pub consent_type: ConsentType,
+    pub granted: bool,
+    pub version: String,
+    pub timestamp: DateTime<Utc>,
+    pub ip_address: Option<String>,
+    pub user_agent: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PrivacyConsent {
+    pub consent_id: String,
+    pub consent_type: String,
+    pub granted: bool,
+    pub version: String,
+    pub timestamp: DateTime<Utc>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PrivacyConsentHistory {
+    pub consent_id: String,
+    pub consent_type: String,
+    pub granted: bool,
+    pub version: String,
+    pub action: String,
+    pub timestamp: DateTime<Utc>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PrivacyDataAccess {
+    pub access_id: String,
+    pub accessor_id: String,
+    pub access_type: String,
+    pub resource: String,
+    pub purpose: Option<String>,
+    pub timestamp: DateTime<Utc>,
+}
+
+// === Enums ===
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum ConsentType {
+    Marketing,
+    Analytics,
+    Functional,
+    Necessary,
+}
+
+impl std::fmt::Display for ConsentType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ConsentType::Marketing => write!(f, "Marketing"),
+            ConsentType::Analytics => write!(f, "Analytics"),
+            ConsentType::Functional => write!(f, "Functional"),
+            ConsentType::Necessary => write!(f, "Necessary"),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum ExportFormat {
+    Json,
+    Csv,
+    Xml,
+}
+
+impl Default for ExportFormat {
+    fn default() -> Self {
+        ExportFormat::Json
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum DeleteType {
+    Soft,
+    Hard,
+}
+
+impl Default for DeleteType {
+    fn default() -> Self {
+        DeleteType::Soft
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum ExportStatus {
+    Pending,
+    Processing,
+    Completed,
+    Failed,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum DeletionStatus {
+    Pending,
+    Processing,
+    Completed,
+    Failed,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum AccessType {
+    Read,
+    Write,
+    Delete,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum PolicyType {
+    Privacy,
+    Terms,
+    Cookie,
+}
+
+impl Default for PolicyType {
+    fn default() -> Self {
+        PolicyType::Privacy
+    }
+}
+
+// === Internal Storage Types ===
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StoredConsent {
+    pub consent_id: String,
+    pub user_id: String,
+    pub consent_type: ConsentType,
+    pub granted: bool,
+    pub version: String,
+    pub ip_address: Option<String>,
+    pub user_agent: Option<String>,
+    pub timestamp: DateTime<Utc>,
+    pub revoked_at: Option<DateTime<Utc>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StoredExport {
+    pub export_id: String,
+    pub user_id: String,
+    pub format: ExportFormat,
+    pub status: ExportStatus,
+    pub include_sections: Vec<String>,
+    pub exclude_sections: Vec<String>,
+    pub download_url: Option<String>,
+    pub created_at: DateTime<Utc>,
+    pub completed_at: Option<DateTime<Utc>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StoredDeletion {
+    pub deletion_id: String,
+    pub user_id: String,
+    pub delete_type: DeleteType,
+    pub reason: String,
+    pub retain_sections: Vec<String>,
+    pub status: DeletionStatus,
+    pub scheduled_at: DateTime<Utc>,
+    pub completed_at: Option<DateTime<Utc>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StoredDataAccess {
+    pub access_id: String,
+    pub user_id: String,
+    pub accessor_id: String,
+    pub access_type: AccessType,
+    pub resource: String,
+    pub purpose: Option<String>,
+    pub timestamp: DateTime<Utc>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StoredPolicy {
+    pub policy_id: String,
+    pub policy_type: PolicyType,
+    pub version: String,
+    pub title: String,
+    pub content: String,
+    pub effective_date: DateTime<Utc>,
+    pub created_at: DateTime<Utc>,
+    pub is_active: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StoredPolicyAcceptance {
+    pub acceptance_id: String,
+    pub user_id: String,
+    pub policy_id: String,
+    pub ip_address: Option<String>,
+    pub user_agent: Option<String>,
+    pub timestamp: DateTime<Utc>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StoredConsentHistory {
+    pub consent_id: String,
+    pub user_id: String,
+    pub consent_type: ConsentType,
+    pub granted: bool,
+    pub version: String,
+    pub action: String,
+    pub timestamp: DateTime<Utc>,
 }

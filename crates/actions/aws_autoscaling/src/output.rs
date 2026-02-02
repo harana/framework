@@ -2,8 +2,6 @@
 // Auto-generated output structs for action methods.
 
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
-use std::collections::HashMap;
 
 // create_auto_scaling_group
 #[derive(Debug, Clone, Serialize, Deserialize)]

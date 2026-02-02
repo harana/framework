@@ -3,8 +3,6 @@
 //! This module provides AWS Virtual Private Cloud (VPC) actions for managing
 //! VPCs, subnets, internet gateways, NAT gateways, route tables, and elastic IPs.
 
-#![warn(missing_docs)]
-
 /// Output types for AWS VPC actions
 pub mod output;
 

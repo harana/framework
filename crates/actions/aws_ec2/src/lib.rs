@@ -2,8 +2,6 @@
 //!
 //! This module provides AWS EC2 compute actions.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use aws_config::BehaviorVersion;

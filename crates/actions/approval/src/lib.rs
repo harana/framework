@@ -1,8 +1,6 @@
 // Harana Actions - Approval Module
 // This module provides approval workflow actions and functionality.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use std::collections::HashMap;

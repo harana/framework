@@ -3,8 +3,6 @@
 //! This module provides AWS Route 53 actions for managing DNS zones,
 //! resource record sets, and health checks.
 
-#![warn(missing_docs)]
-
 /// Output types for AWS Route53 actions
 pub mod output;
 

@@ -1,8 +1,6 @@
 // Harana Actions - Transform Module
 // This module provides transform actions and functionality.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 #[cfg(test)]

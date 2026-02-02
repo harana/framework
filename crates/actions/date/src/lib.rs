@@ -1,8 +1,6 @@
 // Harana Actions - Date Module
 // This module provides date actions and functionality.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use chrono::{DateTime, Datelike, Duration, NaiveDateTime, TimeZone, Timelike, Utc};

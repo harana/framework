@@ -9,7 +9,7 @@ use std::collections::HashMap;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChatCompletionOutput {
     pub response: String,
-    pub tokens_used: i32
+    pub tokens_used: i32,
 }
 
 // classify_text
@@ -17,45 +17,45 @@ pub struct ChatCompletionOutput {
 pub struct ClassifyTextOutput {
     pub confidence: f64,
     pub label: String,
-    pub scores: HashMap<String, Value>
+    pub scores: HashMap<String, Value>,
 }
 
 // extract_entities
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExtractEntitiesOutput {
-    pub entities: Vec<HashMap<String, Value>>
+    pub entities: Vec<HashMap<String, Value>>,
 }
 
 // generate_embeddings
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GenerateEmbeddingsOutput {
     pub dimensions: i32,
-    pub embeddings: Vec<f64>
+    pub embeddings: Vec<f64>,
 }
 
 // generate_image
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GenerateImageOutput {
     pub url: String,
-    pub base64: String
+    pub base64: String,
 }
 
 // generate_text
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GenerateTextOutput {
     pub text: String,
-    pub tokens_used: i32
+    pub tokens_used: i32,
 }
 
 // summarize_text
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SummarizeTextOutput {
-    pub summary: String
+    pub summary: String,
 }
 
 // transcribe_audio
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TranscribeAudioOutput {
     pub duration: f64,
-    pub text: String
+    pub text: String,
 }

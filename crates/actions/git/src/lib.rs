@@ -1,8 +1,6 @@
 // Harana Actions - Git Module
 // This module provides Git/GitHub repository management actions and functionality.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use output::*;

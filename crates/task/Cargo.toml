@@ -1,0 +1,26 @@
+[package]
+name = "harana-components-task"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+path = "lib.rs"
+
+[dependencies]
+harana-components-lock = { path = "../lock" }
+harana-components-storage = { path = "../storage" }
+harana-components-schedule = { path = "../schedule" }
+async-trait.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+futures.workspace = true
+chrono.workspace = true
+uuid.workspace = true
+tokio = { workspace = true, features = ["sync", "time", "rt"] }
+dashmap.workspace = true
+parking_lot.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true

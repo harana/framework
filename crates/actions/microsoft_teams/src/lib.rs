@@ -1,8 +1,6 @@
 // Harana Actions - Microsoft Teams Module
 // This module provides Microsoft Teams integration actions via Microsoft Graph API.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use chrono::{DateTime, Utc};

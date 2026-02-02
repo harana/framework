@@ -1,0 +1,124 @@
+- name: Send Push Notification
+  action: send_push
+  inputs:
+    user_id: String #required
+    title: String #required
+    body: String #required
+    data: Map[String, Any]
+    badge: Int
+    sound: String
+    priority: String = "normal"
+  outputs:
+    notification_id: String
+    success: Boolean
+
+- name: Send SMS Message
+  action: send_sms
+  inputs:
+    phone_number: String #required
+    message: String #required
+    sender_id: String
+  outputs:
+    message_id: String
+    success: Boolean
+
+- name: Send In-App Notification
+  action: send_in_app
+  inputs:
+    user_id: String #required
+    title: String #required
+    message: String #required
+    notification_type: info | warning | error | success = info
+    action_url: String
+    data: Map[String, Any]
+  outputs:
+    notification_id: String
+    success: Boolean
+
+- name: Send Bulk Notification
+  action: send_bulk
+  inputs:
+    user_ids: List[String] #required
+    title: String #required
+    body: String #required
+    channel: push | sms | in_app = push
+    data: Map[String, Any]
+  outputs:
+    total: Int
+    successful: Int
+    failed: Int
+
+- name: Get Notification Status
+  action: status
+  inputs:
+    notification_id: String #required
+  outputs:
+    status: String
+    sent_at: Date
+    delivered_at: Date
+    read_at: Date
+    error: String
+
+- name: Mark Notification As Read
+  action: mark_as_read
+  inputs:
+    notification_id: String #required
+  outputs:
+    success: Boolean
+
+- name: List User Notifications
+  action: list
+  inputs:
+    user_id: String #required
+    unread_only: Boolean = false
+    limit: Int = 100
+    offset: Int = 0
+  outputs:
+    notifications: List[Notification]
+    total: Int
+    unread_count: Int
+
+- name: Delete Notification
+  action: delete
+  inputs:
+    notification_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Register Device For Push
+  action: register_device
+  inputs:
+    user_id: String #required
+    device_token: String #required
+    platform: ios | android | web #required
+  outputs:
+    success: Boolean
+
+- name: Unregister Device
+  action: unregister_device
+  inputs:
+    device_token: String #required
+  outputs:
+    success: Boolean
+
+- name: Notification
+  class:
+    notification_id: String
+    user_id: String
+    title: String
+    body: String
+    notification_type: String
+    channel: String
+    status: String
+    sent_at: Date
+    delivered_at: Date
+    read_at: Date
+    action_url: String
+    data: Map[String, Any]
+
+- name: DeviceRegistration
+  class:
+    device_token: String
+    user_id: String
+    platform: String
+    registered_at: Date

@@ -1,8 +1,6 @@
 // Harana Actions - Image Module
 // This module provides image actions and functionality.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 #[cfg(test)]

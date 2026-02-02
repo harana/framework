@@ -1,8 +1,6 @@
 // Harana Actions - Excel Module
 // This module provides excel actions and functionality.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 #[cfg(test)]

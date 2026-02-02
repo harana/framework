@@ -3,8 +3,6 @@
 //! This module provides AWS Security Token Service (STS) actions for managing
 //! temporary security credentials.
 
-#![warn(missing_docs)]
-
 /// Output types for AWS STS actions
 pub mod output;
 

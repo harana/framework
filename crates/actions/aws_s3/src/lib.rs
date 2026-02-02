@@ -3,8 +3,6 @@
 //! This module provides AWS Simple Storage Service (S3) actions for managing
 //! buckets, objects, and related configurations.
 
-#![warn(missing_docs)]
-
 /// Output types for AWS S3 actions
 pub mod output;
 

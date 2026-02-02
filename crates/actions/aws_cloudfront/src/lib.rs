@@ -3,8 +3,6 @@
 //! This module provides AWS CloudFront CDN actions for managing distributions,
 //! invalidations, and cache behaviors.
 
-#![warn(missing_docs)]
-
 /// Output types for AWS CloudFront actions
 pub mod output;
 

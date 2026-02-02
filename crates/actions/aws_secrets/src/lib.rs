@@ -3,8 +3,6 @@
 //! This module provides AWS Secrets Manager actions for managing secrets,
 //! secret versions, rotation, and replication.
 
-#![warn(missing_docs)]
-
 /// Output types for AWS Secrets Manager actions
 pub mod output;
 

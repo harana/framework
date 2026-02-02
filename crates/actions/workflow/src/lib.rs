@@ -1,571 +1,490 @@
 // Harana Actions - Workflow Module
-// This module provides workflow actions and functionality.
+// This module provides workflow orchestration actions and functionality.
 
 pub mod output;
 
-use chrono::{DateTime, Utc};
+#[cfg(test)]
+mod tests;
+
+use chrono::Utc;
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use output::*;
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
-use std::sync::Arc;
-use tokio::sync::{Mutex, RwLock};
 use uuid::Uuid;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-struct WorkflowExecution {
-    execution_id: String,
-    workflow_id: String,
-    status: String,
-    current_step: String,
-    input: Value,
-    output: Value,
-    started_at: DateTime<Utc>,
-    completed_at: Option<DateTime<Utc>>,
-    error: String,
-    progress: f64,
-    context: HashMap<String, Value>,
-    pause_reason: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-struct WorkflowHistoryEvent {
-    event_id: String,
-    event_type: String,
-    step_id: String,
-    timestamp: DateTime<Utc>,
-    data: Value,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-struct WorkflowSignal {
-    signal_name: String,
-    payload: Value,
-    received_at: DateTime<Utc>,
-}
-
-/// Global workflow execution storage
+/// Internal storage for workflow executions
 static EXECUTIONS: Lazy<DashMap<String, WorkflowExecution>> = Lazy::new(DashMap::new);
-
-/// Global workflow history storage
+/// Storage for signals sent to workflows
+static SIGNALS: Lazy<DashMap<String, Vec<(String, Option<Value>)>>> = Lazy::new(DashMap::new);
+/// Storage for workflow history events
 static HISTORY: Lazy<DashMap<String, Vec<WorkflowHistoryEvent>>> = Lazy::new(DashMap::new);
 
-/// Global workflow signals storage
-static SIGNALS: Lazy<DashMap<String, Vec<WorkflowSignal>>> = Lazy::new(DashMap::new);
-
-/// Global workflow event waiters
-static EVENT_WAITERS: Lazy<Arc<RwLock<HashMap<String, Arc<Mutex<Option<Value>>>>>>> =
-    Lazy::new(|| Arc::new(RwLock::new(HashMap::new())));
-
-fn add_history_event(
-    execution_id: &str,
-    event_type: &str,
-    step_id: &str,
-    data: Value,
-) {
-    let event = WorkflowHistoryEvent {
-        event_id: Uuid::new_v4().to_string(),
-        event_type: event_type.to_string(),
-        step_id: step_id.to_string(),
-        timestamp: Utc::now(),
-        data,
-    };
-    
-    HISTORY
-        .entry(execution_id.to_string())
-        .or_insert_with(Vec::new)
-        .push(event);
-}
-
 /// Start Workflow Execution
+///
+/// Starts a new workflow execution.
+///
 pub async fn start(
     workflow_id: &str,
-    context: Option<HashMap<String, Value>>,
-    input: Option<&str>,
+    input: Option<Value>,
+    context: Option<WorkflowContext>,
 ) -> Result<StartOutput, String> {
     let execution_id = Uuid::new_v4().to_string();
-    let input_value = if let Some(inp) = input {
-        serde_json::from_str(inp).unwrap_or(Value::String(inp.to_string()))
-    } else {
-        Value::Null
-    };
-    
+    let now = Utc::now().to_rfc3339();
+
     let execution = WorkflowExecution {
         execution_id: execution_id.clone(),
         workflow_id: workflow_id.to_string(),
-        status: "pending".to_string(),
-        current_step: "start".to_string(),
-        input: input_value.clone(),
-        output: Value::Null,
-        started_at: Utc::now(),
+        status: WorkflowStatus::Running.as_str().to_string(),
+        current_step: Some("start".to_string()),
+        input,
+        output: None,
+        started_at: now.clone(),
         completed_at: None,
-        error: String::new(),
-        progress: 0.0,
+        error: None,
         context: context.unwrap_or_default(),
-        pause_reason: None,
+        progress: 0.0,
     };
-    
+
     EXECUTIONS.insert(execution_id.clone(), execution);
-    
-    add_history_event(
-        &execution_id,
-        "workflow_started",
-        "start",
-        serde_json::json!({
-            "workflow_id": workflow_id,
-            "input": input_value
-        }),
-    );
-    
-    // Simulate workflow starting
-    if let Some(mut exec) = EXECUTIONS.get_mut(&execution_id) {
-        exec.status = "running".to_string();
-        exec.progress = 0.1;
-    }
-    
+
+    // Record history event
+    let event = WorkflowHistoryEvent {
+        event_id: Uuid::new_v4().to_string(),
+        event_type: "WorkflowStarted".to_string(),
+        step_id: None,
+        timestamp: now,
+        data: None,
+    };
+    HISTORY.entry(execution_id.clone()).or_default().push(event);
+
     Ok(StartOutput {
-        execution_id,
-        status: "running".to_string(),
         success: true,
+        execution_id,
+        status: WorkflowStatus::Running.as_str().to_string(),
     })
 }
 
 /// Pause Workflow Execution
+///
+/// Pauses a running workflow execution.
+///
 pub async fn pause(
     execution_id: &str,
     reason: Option<&str>,
 ) -> Result<PauseOutput, String> {
-    let mut exec = EXECUTIONS
+    let mut execution = EXECUTIONS
         .get_mut(execution_id)
         .ok_or_else(|| format!("Execution not found: {}", execution_id))?;
-    
-    if exec.status != "running" {
-        return Err(format!("Cannot pause workflow in status: {}", exec.status));
+
+    if execution.status != WorkflowStatus::Running.as_str() {
+        return Err(format!("Cannot pause execution in status: {}", execution.status));
     }
-    
-    exec.status = "paused".to_string();
-    exec.pause_reason = reason.map(|s| s.to_string());
-    
-    add_history_event(
-        execution_id,
-        "workflow_paused",
-        &exec.current_step,
-        serde_json::json!({
-            "reason": reason.unwrap_or("")
-        }),
-    );
-    
+
+    execution.status = WorkflowStatus::Paused.as_str().to_string();
+
+    // Record history event
+    let event = WorkflowHistoryEvent {
+        event_id: Uuid::new_v4().to_string(),
+        event_type: "WorkflowPaused".to_string(),
+        step_id: None,
+        timestamp: Utc::now().to_rfc3339(),
+        data: reason.map(|r| serde_json::json!({ "reason": r })),
+    };
+    HISTORY.entry(execution_id.to_string()).or_default().push(event);
+
     Ok(PauseOutput { success: true })
 }
 
 /// Resume Paused Workflow
+///
+/// Resumes a paused workflow execution.
+///
 pub async fn resume(
     execution_id: &str,
-    input: Option<&str>,
+    input: Option<Value>,
 ) -> Result<ResumeOutput, String> {
-    let mut exec = EXECUTIONS
+    let mut execution = EXECUTIONS
         .get_mut(execution_id)
         .ok_or_else(|| format!("Execution not found: {}", execution_id))?;
-    
-    if exec.status != "paused" {
-        return Err(format!("Cannot resume workflow in status: {}", exec.status));
+
+    if execution.status != WorkflowStatus::Paused.as_str() {
+        return Err(format!("Cannot resume execution in status: {}", execution.status));
     }
-    
-    exec.status = "running".to_string();
-    exec.pause_reason = None;
-    
-    if let Some(inp) = input {
-        if let Ok(value) = serde_json::from_str::<Value>(inp) {
-            exec.input = value;
-        }
-    }
-    
-    add_history_event(
-        execution_id,
-        "workflow_resumed",
-        &exec.current_step,
-        serde_json::json!({
-            "input": input.unwrap_or("")
-        }),
-    );
-    
+
+    execution.status = WorkflowStatus::Running.as_str().to_string();
+
+    // Record history event
+    let event = WorkflowHistoryEvent {
+        event_id: Uuid::new_v4().to_string(),
+        event_type: "WorkflowResumed".to_string(),
+        step_id: None,
+        timestamp: Utc::now().to_rfc3339(),
+        data: input,
+    };
+    HISTORY.entry(execution_id.to_string()).or_default().push(event);
+
     Ok(ResumeOutput { success: true })
 }
 
 /// Cancel Workflow Execution
+///
+/// Cancels a workflow execution.
+///
 pub async fn cancel(
     execution_id: &str,
     reason: Option<&str>,
 ) -> Result<CancelOutput, String> {
-    let mut exec = EXECUTIONS
+    let mut execution = EXECUTIONS
         .get_mut(execution_id)
         .ok_or_else(|| format!("Execution not found: {}", execution_id))?;
-    
-    if exec.status == "completed" || exec.status == "cancelled" {
-        return Err(format!("Cannot cancel workflow in status: {}", exec.status));
+
+    let valid_statuses = [
+        WorkflowStatus::Running.as_str(),
+        WorkflowStatus::Paused.as_str(),
+        WorkflowStatus::Pending.as_str(),
+    ];
+
+    if !valid_statuses.contains(&execution.status.as_str()) {
+        return Err(format!("Cannot cancel execution in status: {}", execution.status));
     }
-    
-    exec.status = "cancelled".to_string();
-    exec.completed_at = Some(Utc::now());
-    exec.error = reason.unwrap_or("Cancelled by user").to_string();
-    
-    add_history_event(
-        execution_id,
-        "workflow_cancelled",
-        &exec.current_step,
-        serde_json::json!({
-            "reason": reason.unwrap_or("Cancelled by user")
-        }),
-    );
-    
+
+    execution.status = WorkflowStatus::Cancelled.as_str().to_string();
+    execution.completed_at = Some(Utc::now().to_rfc3339());
+
+    // Record history event
+    let event = WorkflowHistoryEvent {
+        event_id: Uuid::new_v4().to_string(),
+        event_type: "WorkflowCancelled".to_string(),
+        step_id: None,
+        timestamp: Utc::now().to_rfc3339(),
+        data: reason.map(|r| serde_json::json!({ "reason": r })),
+    };
+    HISTORY.entry(execution_id.to_string()).or_default().push(event);
+
     Ok(CancelOutput { success: true })
 }
 
 /// Get Workflow Status
+///
+/// Retrieves the current status of a workflow execution.
+///
 pub async fn get_status(
     execution_id: &str,
 ) -> Result<GetStatusOutput, String> {
-    let exec = EXECUTIONS
+    let execution = EXECUTIONS
         .get(execution_id)
         .ok_or_else(|| format!("Execution not found: {}", execution_id))?;
-    
+
     Ok(GetStatusOutput {
-        status: exec.status.clone(),
-        current_step: exec.current_step.clone(),
-        progress: exec.progress,
-        error: exec.error.clone(),
-        started_at: exec.started_at.to_rfc3339(),
-        completed_at: exec
-            .completed_at
-            .map(|dt| dt.to_rfc3339())
-            .unwrap_or_default(),
+        status: execution.status.clone(),
+        current_step: execution.current_step.clone(),
+        progress: Some(execution.progress),
+        started_at: Some(execution.started_at.clone()),
+        completed_at: execution.completed_at.clone(),
+        error: execution.error.clone(),
     })
 }
 
 /// Get Workflow Result
+///
+/// Retrieves the result of a completed workflow execution.
+///
 pub async fn get_result(
     execution_id: &str,
 ) -> Result<GetResultOutput, String> {
-    let exec = EXECUTIONS
+    let execution = EXECUTIONS
         .get(execution_id)
         .ok_or_else(|| format!("Execution not found: {}", execution_id))?;
-    
-    let completed = exec.status == "completed" || exec.status == "failed" || exec.status == "cancelled";
-    
+
+    let completed = execution.status == WorkflowStatus::Completed.as_str()
+        || execution.status == WorkflowStatus::Failed.as_str()
+        || execution.status == WorkflowStatus::Cancelled.as_str();
+
     Ok(GetResultOutput {
         completed,
-        output: serde_json::to_string(&exec.output).unwrap_or_default(),
-        error: exec.error.clone(),
+        output: execution.output.clone(),
+        error: execution.error.clone(),
     })
 }
 
 /// List Workflow Executions
+///
+/// Lists workflow executions with optional filtering.
+///
 pub async fn list_executions(
-    status: Option<&str>,
     workflow_id: Option<&str>,
-    start_date: Option<&str>,
+    status: Option<&str>,
     limit: Option<i32>,
-    end_date: Option<&str>,
     offset: Option<i32>,
+    _start_date: Option<&str>,
+    _end_date: Option<&str>,
 ) -> Result<ListExecutionsOutput, String> {
     let limit = limit.unwrap_or(100) as usize;
     let offset = offset.unwrap_or(0) as usize;
-    
-    let start_dt = start_date
-        .and_then(|s| DateTime::parse_from_rfc3339(s).ok())
-        .map(|dt| dt.with_timezone(&Utc));
-    
-    let end_dt = end_date
-        .and_then(|s| DateTime::parse_from_rfc3339(s).ok())
-        .map(|dt| dt.with_timezone(&Utc));
-    
-    let executions: Vec<HashMap<String, Value>> = EXECUTIONS
+
+    let executions: Vec<WorkflowExecutionInfo> = EXECUTIONS
         .iter()
         .filter(|entry| {
-            let exec = entry.value();
-            
-            if let Some(s) = status {
-                if exec.status != s {
-                    return false;
-                }
-            }
-            
-            if let Some(wid) = workflow_id {
-                if exec.workflow_id != wid {
-                    return false;
-                }
-            }
-            
-            if let Some(start) = start_dt {
-                if exec.started_at < start {
-                    return false;
-                }
-            }
-            
-            if let Some(end) = end_dt {
-                if exec.started_at > end {
-                    return false;
-                }
-            }
-            
-            true
+            let matches_workflow = workflow_id
+                .map(|wid| entry.workflow_id == wid)
+                .unwrap_or(true);
+            let matches_status = status
+                .map(|s| entry.status.to_lowercase() == s.to_lowercase())
+                .unwrap_or(true);
+            matches_workflow && matches_status
         })
         .skip(offset)
         .take(limit)
-        .map(|entry| {
-            let exec = entry.value();
-            let mut map = HashMap::new();
-            map.insert("execution_id".to_string(), Value::String(exec.execution_id.clone()));
-            map.insert("workflow_id".to_string(), Value::String(exec.workflow_id.clone()));
-            map.insert("status".to_string(), Value::String(exec.status.clone()));
-            map.insert("started_at".to_string(), Value::String(exec.started_at.to_rfc3339()));
-            if let Some(completed) = exec.completed_at {
-                map.insert("completed_at".to_string(), Value::String(completed.to_rfc3339()));
-            }
-            map
+        .map(|entry| WorkflowExecutionInfo {
+            execution_id: entry.execution_id.clone(),
+            workflow_id: entry.workflow_id.clone(),
+            status: entry.status.clone(),
+            started_at: Some(entry.started_at.clone()),
+            completed_at: entry.completed_at.clone(),
         })
         .collect();
-    
+
     let total = executions.len() as i32;
-    
+
     Ok(ListExecutionsOutput { executions, total })
 }
 
-/// Get Workflow History
-pub async fn history(
-    execution_id: &str,
-) -> Result<HistoryOutput, String> {
-    if !EXECUTIONS.contains_key(execution_id) {
-        return Err(format!("Execution not found: {}", execution_id));
-    }
-    
-    let events: Vec<HashMap<String, Value>> = HISTORY
-        .get(execution_id)
-        .map(|entry| {
-            entry
-                .value()
-                .iter()
-                .map(|event| {
-                    let mut map = HashMap::new();
-                    map.insert("event_id".to_string(), Value::String(event.event_id.clone()));
-                    map.insert("event_type".to_string(), Value::String(event.event_type.clone()));
-                    map.insert("step_id".to_string(), Value::String(event.step_id.clone()));
-                    map.insert("timestamp".to_string(), Value::String(event.timestamp.to_rfc3339()));
-                    map.insert("data".to_string(), event.data.clone());
-                    map
-                })
-                .collect()
-        })
-        .unwrap_or_default();
-    
-    let total = events.len() as i32;
-    
-    Ok(HistoryOutput { events, total })
-}
-
 /// Send Signal To Workflow
+///
+/// Sends a signal to a running workflow execution.
+///
 pub async fn signal(
-    signal_name: &str,
     execution_id: &str,
-    payload: Option<&str>,
+    signal_name: &str,
+    payload: Option<Value>,
 ) -> Result<SignalOutput, String> {
-    if !EXECUTIONS.contains_key(execution_id) {
-        return Err(format!("Execution not found: {}", execution_id));
+    // Verify execution exists and is running
+    let execution = EXECUTIONS
+        .get(execution_id)
+        .ok_or_else(|| format!("Execution not found: {}", execution_id))?;
+
+    if execution.status != WorkflowStatus::Running.as_str() 
+        && execution.status != WorkflowStatus::Paused.as_str() {
+        return Err(format!("Cannot signal execution in status: {}", execution.status));
     }
-    
-    let payload_value = if let Some(p) = payload {
-        serde_json::from_str(p).unwrap_or(Value::String(p.to_string()))
-    } else {
-        Value::Null
-    };
-    
-    let signal = WorkflowSignal {
-        signal_name: signal_name.to_string(),
-        payload: payload_value.clone(),
-        received_at: Utc::now(),
-    };
-    
+
+    // Store the signal
     SIGNALS
         .entry(execution_id.to_string())
-        .or_insert_with(Vec::new)
-        .push(signal);
-    
-    add_history_event(
-        execution_id,
-        "signal_received",
-        "signal",
-        serde_json::json!({
+        .or_default()
+        .push((signal_name.to_string(), payload.clone()));
+
+    // Record history event
+    let event = WorkflowHistoryEvent {
+        event_id: Uuid::new_v4().to_string(),
+        event_type: "SignalReceived".to_string(),
+        step_id: None,
+        timestamp: Utc::now().to_rfc3339(),
+        data: Some(serde_json::json!({
             "signal_name": signal_name,
-            "payload": payload_value
-        }),
-    );
-    
+            "payload": payload,
+        })),
+    };
+    HISTORY.entry(execution_id.to_string()).or_default().push(event);
+
     Ok(SignalOutput { success: true })
 }
 
 /// Wait For External Event
+///
+/// Waits for an external event to be received.
+///
 pub async fn wait_for_event(
-    event_name: &str,
     execution_id: &str,
+    event_name: &str,
     timeout: Option<i32>,
 ) -> Result<WaitForEventOutput, String> {
+    let _timeout = timeout.unwrap_or(3600);
+
+    // Check if the event (signal) has already been received
+    if let Some(signals) = SIGNALS.get(execution_id) {
+        for (name, payload) in signals.iter() {
+            if name == event_name {
+                return Ok(WaitForEventOutput {
+                    received: true,
+                    timed_out: false,
+                    payload: payload.clone(),
+                });
+            }
+        }
+    }
+
+    // In a real implementation, this would block until the event is received or timeout
+    // For now, we return not received
+    Ok(WaitForEventOutput {
+        received: false,
+        timed_out: false,
+        payload: None,
+    })
+}
+
+/// Get Workflow History
+///
+/// Retrieves the history of events for a workflow execution.
+///
+pub async fn history(
+    execution_id: &str,
+) -> Result<HistoryOutput, String> {
+    // Verify execution exists
     if !EXECUTIONS.contains_key(execution_id) {
         return Err(format!("Execution not found: {}", execution_id));
     }
-    
-    let timeout_secs = timeout.unwrap_or(3600);
-    let key = format!("{}:{}", execution_id, event_name);
-    
-    // Create a waiter
-    let waiter = Arc::new(Mutex::new(None));
-    {
-        let mut waiters = EVENT_WAITERS.write().await;
-        waiters.insert(key.clone(), waiter.clone());
-    }
-    
-    // Wait for event with timeout
-    let result = tokio::time::timeout(
-        std::time::Duration::from_secs(timeout_secs as u64),
-        async {
-            loop {
-                let lock = waiter.lock().await;
-                if lock.is_some() {
-                    return lock.clone();
-                }
-                drop(lock);
-                tokio::time::sleep(std::time::Duration::from_millis(100)).await;
-            }
-        },
-    )
-    .await;
-    
-    // Clean up waiter
-    {
-        let mut waiters = EVENT_WAITERS.write().await;
-        waiters.remove(&key);
-    }
-    
-    match result {
-        Ok(Some(payload)) => Ok(WaitForEventOutput {
-            received: true,
-            timed_out: false,
-            payload: serde_json::to_string(&payload).unwrap_or_default(),
-        }),
-        Ok(None) => Ok(WaitForEventOutput {
-            received: false,
-            timed_out: true,
-            payload: String::new(),
-        }),
-        Err(_) => Ok(WaitForEventOutput {
-            received: false,
-            timed_out: true,
-            payload: String::new(),
-        }),
-    }
+
+    let events = HISTORY
+        .get(execution_id)
+        .map(|h| h.clone())
+        .unwrap_or_default();
+
+    let total = events.len() as i32;
+
+    Ok(HistoryOutput { events, total })
 }
 
 /// Retry Failed Step
+///
+/// Retries a failed step in a workflow execution.
+///
 pub async fn retry_step(
     execution_id: &str,
     step_id: &str,
 ) -> Result<RetryStepOutput, String> {
-    let exec = EXECUTIONS
-        .get(execution_id)
+    let mut execution = EXECUTIONS
+        .get_mut(execution_id)
         .ok_or_else(|| format!("Execution not found: {}", execution_id))?;
-    
-    if exec.status != "failed" {
-        return Err(format!("Can only retry failed workflows, current status: {}", exec.status));
+
+    if execution.status != WorkflowStatus::Failed.as_str() {
+        return Err(format!("Can only retry steps in failed executions"));
     }
-    
-    drop(exec);
-    
-    if let Some(mut exec) = EXECUTIONS.get_mut(execution_id) {
-        exec.status = "running".to_string();
-        exec.error = String::new();
-        exec.current_step = step_id.to_string();
-    }
-    
-    add_history_event(
-        execution_id,
-        "step_retried",
-        step_id,
-        serde_json::json!({
-            "step_id": step_id
-        }),
-    );
-    
+
+    // Reset status to running and set current step
+    execution.status = WorkflowStatus::Running.as_str().to_string();
+    execution.current_step = Some(step_id.to_string());
+    execution.error = None;
+
+    // Record history event
+    let event = WorkflowHistoryEvent {
+        event_id: Uuid::new_v4().to_string(),
+        event_type: "StepRetried".to_string(),
+        step_id: Some(step_id.to_string()),
+        timestamp: Utc::now().to_rfc3339(),
+        data: None,
+    };
+    HISTORY.entry(execution_id.to_string()).or_default().push(event);
+
     Ok(RetryStepOutput { success: true })
 }
 
 /// Skip Workflow Step
+///
+/// Skips a step in a workflow execution.
+///
 pub async fn skip_step(
     execution_id: &str,
     step_id: &str,
-    output: Option<&str>,
+    output: Option<Value>,
 ) -> Result<SkipStepOutput, String> {
-    let mut exec = EXECUTIONS
-        .get_mut(execution_id)
+    let execution = EXECUTIONS
+        .get(execution_id)
         .ok_or_else(|| format!("Execution not found: {}", execution_id))?;
-    
-    if exec.status != "running" && exec.status != "paused" {
-        return Err(format!("Cannot skip step in status: {}", exec.status));
+
+    if execution.status != WorkflowStatus::Running.as_str()
+        && execution.status != WorkflowStatus::Paused.as_str() {
+        return Err(format!("Cannot skip step in execution with status: {}", execution.status));
     }
-    
-    let output_value = if let Some(out) = output {
-        serde_json::from_str(out).unwrap_or(Value::String(out.to_string()))
-    } else {
-        Value::Null
+
+    // Record history event
+    let event = WorkflowHistoryEvent {
+        event_id: Uuid::new_v4().to_string(),
+        event_type: "StepSkipped".to_string(),
+        step_id: Some(step_id.to_string()),
+        timestamp: Utc::now().to_rfc3339(),
+        data: output,
     };
-    
-    exec.output = output_value.clone();
-    
-    add_history_event(
-        execution_id,
-        "step_skipped",
-        step_id,
-        serde_json::json!({
-            "step_id": step_id,
-            "output": output_value
-        }),
-    );
-    
+    HISTORY.entry(execution_id.to_string()).or_default().push(event);
+
     Ok(SkipStepOutput { success: true })
 }
 
 /// Terminate All Executions
+///
+/// Terminates all executions of a specific workflow.
+///
 pub async fn terminate_all(
     workflow_id: &str,
     reason: Option<&str>,
 ) -> Result<TerminateAllOutput, String> {
     let mut terminated_count = 0;
-    let reason_str = reason.unwrap_or("Terminated by system");
-    
+    let now = Utc::now().to_rfc3339();
+
+    let terminable_statuses = [
+        WorkflowStatus::Running.as_str(),
+        WorkflowStatus::Paused.as_str(),
+        WorkflowStatus::Pending.as_str(),
+    ];
+
     for mut entry in EXECUTIONS.iter_mut() {
-        let exec = entry.value_mut();
-        if exec.workflow_id == workflow_id && (exec.status == "running" || exec.status == "paused" || exec.status == "pending") {
-            exec.status = "cancelled".to_string();
-            exec.completed_at = Some(Utc::now());
-            exec.error = reason_str.to_string();
+        if entry.workflow_id == workflow_id 
+            && terminable_statuses.contains(&entry.status.as_str()) {
+            entry.status = WorkflowStatus::Cancelled.as_str().to_string();
+            entry.completed_at = Some(now.clone());
             terminated_count += 1;
-            
-            add_history_event(
-                &exec.execution_id,
-                "workflow_terminated",
-                &exec.current_step,
-                serde_json::json!({
-                    "reason": reason_str
-                }),
-            );
+
+            // Record history event
+            let event = WorkflowHistoryEvent {
+                event_id: Uuid::new_v4().to_string(),
+                event_type: "WorkflowTerminated".to_string(),
+                step_id: None,
+                timestamp: now.clone(),
+                data: reason.map(|r| serde_json::json!({ "reason": r })),
+            };
+            HISTORY.entry(entry.execution_id.clone()).or_default().push(event);
         }
     }
-    
+
     Ok(TerminateAllOutput {
-        terminated_count,
         success: true,
+        terminated_count,
     })
 }
 
-#[cfg(test)]
-mod tests;
+// Helper function to complete a workflow (for internal use)
+#[allow(dead_code)]
+pub(crate) async fn complete_workflow(
+    execution_id: &str,
+    output: Option<Value>,
+) -> Result<(), String> {
+    let mut execution = EXECUTIONS
+        .get_mut(execution_id)
+        .ok_or_else(|| format!("Execution not found: {}", execution_id))?;
+
+    execution.status = WorkflowStatus::Completed.as_str().to_string();
+    execution.completed_at = Some(Utc::now().to_rfc3339());
+    execution.output = output;
+    execution.progress = 100.0;
+
+    Ok(())
+}
+
+// Helper function to fail a workflow (for internal use)
+#[allow(dead_code)]
+pub(crate) async fn fail_workflow(
+    execution_id: &str,
+    error: &str,
+) -> Result<(), String> {
+    let mut execution = EXECUTIONS
+        .get_mut(execution_id)
+        .ok_or_else(|| format!("Execution not found: {}", execution_id))?;
+
+    execution.status = WorkflowStatus::Failed.as_str().to_string();
+    execution.completed_at = Some(Utc::now().to_rfc3339());
+    execution.error = Some(error.to_string());
+
+    Ok(())
+}

@@ -3,8 +3,6 @@
 //! This module provides AWS Simple Email Service (SES) actions for sending emails,
 //! managing templates, identities, and configuration sets.
 
-#![warn(missing_docs)]
-
 /// Output types for AWS SES actions
 pub mod output;
 

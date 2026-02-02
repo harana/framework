@@ -3,19 +3,17 @@
 //! This module provides AWS Certificate Manager (ACM) actions for managing
 //! SSL/TLS certificates.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use aws_config::BehaviorVersion;
 use aws_sdk_acm::{
+    Client,
     config::Region,
     primitives::Blob,
     types::{
-        CertificateStatus, DomainValidationOption as AwsDomainValidationOption, Filters,
-        KeyAlgorithm, KeyUsageName, ExtendedKeyUsageName, Tag as AcmTag, ValidationMethod,
+        CertificateStatus, DomainValidationOption as AwsDomainValidationOption, ExtendedKeyUsageName, Filters,
+        KeyAlgorithm, KeyUsageName, Tag as AcmTag, ValidationMethod,
     },
-    Client,
 };
 use output::*;
 
@@ -62,13 +60,12 @@ fn convert_domain_validation_options(
     options.map(|opts| {
         opts.iter()
             .filter_map(|opt| {
-                let mut builder = AwsDomainValidationOption::builder()
-                    .domain_name(&opt.domain_name);
-                
+                let mut builder = AwsDomainValidationOption::builder().domain_name(&opt.domain_name);
+
                 if let Some(ref validation_domain) = opt.validation_domain {
                     builder = builder.validation_domain(validation_domain);
                 }
-                
+
                 Some(builder.build().ok()?)
             })
             .collect()
@@ -76,9 +73,7 @@ fn convert_domain_validation_options(
 }
 
 /// Converts AWS DomainValidation to output format
-fn convert_domain_validation(
-    validations: &[aws_sdk_acm::types::DomainValidation],
-) -> Vec<DomainValidationOption> {
+fn convert_domain_validation(validations: &[aws_sdk_acm::types::DomainValidation]) -> Vec<DomainValidationOption> {
     validations
         .iter()
         .map(|v| {
@@ -103,17 +98,15 @@ fn convert_domain_validation(
 fn convert_statuses(statuses: Option<Vec<String>>) -> Option<Vec<CertificateStatus>> {
     statuses.map(|s| {
         s.iter()
-            .filter_map(|status| {
-                match status.to_uppercase().as_str() {
-                    "PENDING_VALIDATION" => Some(CertificateStatus::PendingValidation),
-                    "ISSUED" => Some(CertificateStatus::Issued),
-                    "INACTIVE" => Some(CertificateStatus::Inactive),
-                    "EXPIRED" => Some(CertificateStatus::Expired),
-                    "VALIDATION_TIMED_OUT" => Some(CertificateStatus::ValidationTimedOut),
-                    "REVOKED" => Some(CertificateStatus::Revoked),
-                    "FAILED" => Some(CertificateStatus::Failed),
-                    _ => None,
-                }
+            .filter_map(|status| match status.to_uppercase().as_str() {
+                "PENDING_VALIDATION" => Some(CertificateStatus::PendingValidation),
+                "ISSUED" => Some(CertificateStatus::Issued),
+                "INACTIVE" => Some(CertificateStatus::Inactive),
+                "EXPIRED" => Some(CertificateStatus::Expired),
+                "VALIDATION_TIMED_OUT" => Some(CertificateStatus::ValidationTimedOut),
+                "REVOKED" => Some(CertificateStatus::Revoked),
+                "FAILED" => Some(CertificateStatus::Failed),
+                _ => None,
             })
             .collect()
     })
@@ -297,10 +290,7 @@ pub async fn import_certificate(
         .map_err(|e| format!("Failed to import certificate: {}", e))?;
 
     Ok(ImportCertificateOutput {
-        certificate_arn: response
-            .certificate_arn()
-            .unwrap_or_default()
-            .to_string(),
+        certificate_arn: response.certificate_arn().unwrap_or_default().to_string(),
         success: true,
     })
 }
@@ -347,19 +337,9 @@ pub async fn describe_certificate(
     let certificate = Certificate {
         certificate_arn: cert.certificate_arn().unwrap_or_default().to_string(),
         domain_name: cert.domain_name().unwrap_or_default().to_string(),
-        subject_alternative_names: cert
-            .subject_alternative_names()
-            .iter()
-            .map(|s| s.to_string())
-            .collect(),
-        status: cert
-            .status()
-            .map(|s| s.as_str().to_string())
-            .unwrap_or_default(),
-        certificate_type: cert
-            .r#type()
-            .map(|t| t.as_str().to_string())
-            .unwrap_or_default(),
+        subject_alternative_names: cert.subject_alternative_names().iter().map(|s| s.to_string()).collect(),
+        status: cert.status().map(|s| s.as_str().to_string()).unwrap_or_default(),
+        certificate_type: cert.r#type().map(|t| t.as_str().to_string()).unwrap_or_default(),
         issuer: cert.issuer().map(|s| s.to_string()),
         created_at: cert.created_at().map(|dt| dt.to_string()),
         issued_at: cert.issued_at().map(|dt| dt.to_string()),
@@ -369,9 +349,7 @@ pub async fn describe_certificate(
         signature_algorithm: cert.signature_algorithm().map(|s| s.to_string()),
         in_use_by: cert.in_use_by().iter().map(|s| s.to_string()).collect(),
         domain_validation_options: convert_domain_validation(cert.domain_validation_options()),
-        renewal_eligibility: cert
-            .renewal_eligibility()
-            .map(|r| r.as_str().to_string()),
+        renewal_eligibility: cert.renewal_eligibility().map(|r| r.as_str().to_string()),
     };
 
     Ok(DescribeCertificateOutput { certificate })
@@ -436,10 +414,7 @@ pub async fn list_certificates(
 ///
 /// Retrieves an ACM certificate and the certificate chain.
 ///
-pub async fn get_certificate(
-    certificate_arn: &str,
-    region: Option<&str>,
-) -> Result<GetCertificateOutput, String> {
+pub async fn get_certificate(certificate_arn: &str, region: Option<&str>) -> Result<GetCertificateOutput, String> {
     let client = create_client(region).await?;
 
     let response = client
@@ -459,11 +434,7 @@ pub async fn get_certificate(
 ///
 /// Adds one or more tags to an ACM certificate.
 ///
-pub async fn add_tags(
-    certificate_arn: &str,
-    tags: AcmTags,
-    region: Option<&str>,
-) -> Result<AddTagsOutput, String> {
+pub async fn add_tags(certificate_arn: &str, tags: AcmTags, region: Option<&str>) -> Result<AddTagsOutput, String> {
     let client = create_client(region).await?;
 
     let aws_tags = tags_to_aws_tags(Some(tags)).unwrap_or_default();
@@ -510,10 +481,7 @@ pub async fn remove_tags(
 ///
 /// Lists the tags that have been applied to an ACM certificate.
 ///
-pub async fn list_tags(
-    certificate_arn: &str,
-    region: Option<&str>,
-) -> Result<ListTagsOutput, String> {
+pub async fn list_tags(certificate_arn: &str, region: Option<&str>) -> Result<ListTagsOutput, String> {
     let client = create_client(region).await?;
 
     let response = client
@@ -532,10 +500,7 @@ pub async fn list_tags(
 ///
 /// Renews an eligible ACM certificate.
 ///
-pub async fn renew_certificate(
-    certificate_arn: &str,
-    region: Option<&str>,
-) -> Result<RenewCertificateOutput, String> {
+pub async fn renew_certificate(certificate_arn: &str, region: Option<&str>) -> Result<RenewCertificateOutput, String> {
     let client = create_client(region).await?;
 
     client
@@ -598,3 +563,93 @@ pub async fn resend_validation_email(
     Ok(ResendValidationEmailOutput { success: true })
 }
 
+/// Update Certificate Options
+///
+/// Updates a certificate's options, such as certificate transparency logging.
+///
+pub async fn update_certificate_options(
+    certificate_arn: &str,
+    options: CertificateOptions,
+    region: Option<&str>,
+) -> Result<UpdateCertificateOptionsOutput, String> {
+    let client = create_client(region).await?;
+
+    let mut aws_options = aws_sdk_acm::types::CertificateOptions::builder();
+
+    if let Some(transparency_logging) = options.certificate_transparency_logging_preference {
+        let preference = match transparency_logging.to_uppercase().as_str() {
+            "ENABLED" => aws_sdk_acm::types::CertificateTransparencyLoggingPreference::Enabled,
+            "DISABLED" => aws_sdk_acm::types::CertificateTransparencyLoggingPreference::Disabled,
+            _ => aws_sdk_acm::types::CertificateTransparencyLoggingPreference::Enabled,
+        };
+        aws_options = aws_options.certificate_transparency_logging_preference(preference);
+    }
+
+    client
+        .update_certificate_options()
+        .certificate_arn(certificate_arn)
+        .options(aws_options.build())
+        .send()
+        .await
+        .map_err(|e| format!("Failed to update certificate options: {}", e))?;
+
+    Ok(UpdateCertificateOptionsOutput { success: true })
+}
+
+/// Get Account Configuration
+///
+/// Returns the account configuration options associated with an AWS account.
+///
+pub async fn get_account_configuration(region: Option<&str>) -> Result<GetAccountConfigurationOutput, String> {
+    let client = create_client(region).await?;
+
+    let response = client
+        .get_account_configuration()
+        .send()
+        .await
+        .map_err(|e| format!("Failed to get account configuration: {}", e))?;
+
+    let configuration = response
+        .expiry_events()
+        .map(|ee| AccountConfiguration {
+            expiry_events: Some(ExpiryEventsConfiguration {
+                days_before_expiry: ee.days_before_expiry(),
+            }),
+        })
+        .unwrap_or(AccountConfiguration { expiry_events: None });
+
+    Ok(GetAccountConfigurationOutput { configuration })
+}
+
+/// Put Account Configuration
+///
+/// Adds or modifies account-level configurations in ACM.
+///
+pub async fn put_account_configuration(
+    expiry_events: ExpiryEventsConfiguration,
+    idempotency_token: Option<&str>,
+    region: Option<&str>,
+) -> Result<PutAccountConfigurationOutput, String> {
+    let client = create_client(region).await?;
+
+    let mut aws_expiry_events = aws_sdk_acm::types::ExpiryEventsConfiguration::builder();
+
+    if let Some(days) = expiry_events.days_before_expiry {
+        aws_expiry_events = aws_expiry_events.days_before_expiry(days);
+    }
+
+    let mut request = client
+        .put_account_configuration()
+        .expiry_events(aws_expiry_events.build());
+
+    if let Some(token) = idempotency_token {
+        request = request.idempotency_token(token);
+    }
+
+    request
+        .send()
+        .await
+        .map_err(|e| format!("Failed to put account configuration: {}", e))?;
+
+    Ok(PutAccountConfigurationOutput { success: true })
+}

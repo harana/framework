@@ -1,0 +1,27 @@
+[package]
+name = "harana-components-schedule"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+path = "lib.rs"
+
+[dependencies]
+async-trait.workspace = true
+chrono.workspace = true
+chrono-tz.workspace = true
+cron.workspace = true
+dashmap.workspace = true
+futures.workspace = true
+harana-components-lock = { path = "../lock" }
+harana-components-storage = { path = "../storage" }
+parking_lot.workspace = true
+serde_json.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["sync", "time", "rt"] }
+tracing.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true

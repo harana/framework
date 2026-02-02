@@ -2,8 +2,6 @@
 //!
 //! This module provides AWS EventBridge actions.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use aws_config::BehaviorVersion;

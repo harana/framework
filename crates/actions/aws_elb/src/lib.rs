@@ -3,8 +3,6 @@
 //! This module provides AWS Elastic Load Balancer v2 (ALB/NLB) actions for managing
 //! Application Load Balancers and Network Load Balancers.
 
-#![warn(missing_docs)]
-
 /// Output types for AWS ELB actions
 pub mod output;
 

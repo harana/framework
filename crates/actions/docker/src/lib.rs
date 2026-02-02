@@ -1,8 +1,6 @@
 // Harana Actions - Docker Module
 // This module provides Docker container management actions and functionality.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use std::collections::HashMap;

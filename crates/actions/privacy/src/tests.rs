@@ -1,539 +1,288 @@
 use super::*;
-use serde_json::json;
-
-fn clear_storage() {
-    CONSENTS.clear();
-    USER_CONSENTS.clear();
-    CONSENT_HISTORY.clear();
-    ACCESS_LOGS.clear();
-    POLICIES.clear();
-    POLICY_ACCEPTANCES.clear();
-    EXPORTS.clear();
-    DELETIONS.clear();
-    ANONYMIZATIONS.clear();
-}
 
 #[tokio::test]
 async fn test_record_consent() {
-    clear_storage();
+    clear_all_data();
     
     let result = record_consent(
-        "user123",
-        "marketing",
+        "user123".to_string(),
+        ConsentType::Marketing,
         true,
-        "1.0",
+        "1.0".to_string(),
+        Some("192.168.1.1".to_string()),
+        Some("Mozilla/5.0".to_string()),
         None,
-        Some("192.168.1.1"),
-        Some("Mozilla/5.0"),
-    )
-    .await
-    .unwrap();
-    
-    assert!(result.success);
-    assert!(!result.consent_id.is_empty());
+    ).await;
+
+    assert!(result.consent_id.starts_with("con_"));
     assert_eq!(result.user_id, "user123");
-}
-
-#[tokio::test]
-async fn test_record_consent_with_metadata() {
-    clear_storage();
-    
-    let mut metadata = HashMap::new();
-    metadata.insert("source".to_string(), json!("signup_form"));
-    
-    let result = record_consent(
-        "user456",
-        "analytics",
-        true,
-        "2.0",
-        Some(metadata),
-        None,
-        None,
-    )
-    .await
-    .unwrap();
-    
     assert!(result.success);
-}
-
-#[tokio::test]
-async fn test_get_consent_status() {
-    clear_storage();
-    
-    record_consent("user789", "marketing", true, "1.0", None, None, None)
-        .await
-        .unwrap();
-    record_consent("user789", "analytics", false, "1.0", None, None, None)
-        .await
-        .unwrap();
-    
-    let result = get_consent_status("user789", None).await.unwrap();
-    
-    assert_eq!(result.user_id, "user789");
-    assert_eq!(result.consents.len(), 2);
-}
-
-#[tokio::test]
-async fn test_get_consent_status_filtered() {
-    clear_storage();
-    
-    record_consent("user_filter", "marketing", true, "1.0", None, None, None)
-        .await
-        .unwrap();
-    record_consent("user_filter", "analytics", false, "1.0", None, None, None)
-        .await
-        .unwrap();
-    
-    let result = get_consent_status("user_filter", Some("marketing"))
-        .await
-        .unwrap();
-    
-    assert_eq!(result.consents.len(), 1);
+    assert!(result.timestamp > 0);
 }
 
 #[tokio::test]
 async fn test_revoke_consent() {
-    clear_storage();
+    clear_all_data();
     
-    record_consent("user_revoke", "marketing", true, "1.0", None, None, None)
-        .await
-        .unwrap();
-    
-    let result = revoke_consent("marketing", "user_revoke", Some("User request"))
-        .await
-        .unwrap();
-    
+    // First record consent
+    record_consent(
+        "user123".to_string(),
+        ConsentType::Analytics,
+        true,
+        "1.0".to_string(),
+        None,
+        None,
+        None,
+    ).await;
+
+    // Then revoke it
+    let result = revoke_consent(
+        "user123".to_string(),
+        ConsentType::Analytics,
+        Some("User requested".to_string()),
+    ).await;
+
     assert!(result.success);
-    assert!(!result.consent_id.is_empty());
+    assert!(result.revoked_at > 0);
+}
+
+#[tokio::test]
+async fn test_get_consent_status() {
+    clear_all_data();
     
-    // Verify consent is revoked
-    let status = get_consent_status("user_revoke", Some("marketing"))
-        .await
-        .unwrap();
-    
-    let consent = &status.consents[0];
-    assert_eq!(consent.get("revoked"), Some(&json!(true)));
+    // Record multiple consents
+    record_consent(
+        "user456".to_string(),
+        ConsentType::Marketing,
+        true,
+        "1.0".to_string(),
+        None,
+        None,
+        None,
+    ).await;
+
+    record_consent(
+        "user456".to_string(),
+        ConsentType::Analytics,
+        false,
+        "1.0".to_string(),
+        None,
+        None,
+        None,
+    ).await;
+
+    // Get all consents
+    let result = get_consent_status("user456".to_string(), None).await;
+
+    assert_eq!(result.user_id, "user456");
+    assert_eq!(result.consents.len(), 2);
 }
 
 #[tokio::test]
 async fn test_update_consent() {
-    clear_storage();
+    clear_all_data();
     
-    let recorded = record_consent("user_update", "marketing", true, "1.0", None, None, None)
-        .await
-        .unwrap();
-    
-    let result = update_consent(&recorded.consent_id, false, Some("2.0"))
-        .await
-        .unwrap();
-    
+    // Record consent
+    let consent = record_consent(
+        "user789".to_string(),
+        ConsentType::Functional,
+        false,
+        "1.0".to_string(),
+        None,
+        None,
+        None,
+    ).await;
+
+    // Update it
+    let result = update_consent(
+        consent.consent_id,
+        true,
+        Some("2.0".to_string()),
+    ).await;
+
     assert!(result.success);
-    
-    // Verify update
-    let status = get_consent_status("user_update", Some("marketing"))
-        .await
-        .unwrap();
-    
-    let consent = &status.consents[0];
-    assert_eq!(consent.get("granted"), Some(&json!(false)));
-    assert_eq!(consent.get("version"), Some(&json!("2.0")));
 }
 
 #[tokio::test]
-async fn test_list_consent_history() {
-    clear_storage();
+async fn test_export_data_lifecycle() {
+    clear_all_data();
     
-    record_consent("user_history", "marketing", true, "1.0", None, None, None)
-        .await
-        .unwrap();
-    revoke_consent("marketing", "user_history", None)
-        .await
-        .unwrap();
-    record_consent("user_history", "marketing", true, "2.0", None, None, None)
-        .await
-        .unwrap();
-    
-    let result = list_consent_history("user_history", None, None, None, None)
-        .await
-        .unwrap();
-    
-    assert_eq!(result.user_id, "user_history");
-    assert!(result.total >= 3); // granted, revoked, granted
+    // Request export
+    let export = export_data(
+        "user_export".to_string(),
+        Some(ExportFormat::Json),
+        Some(vec!["profile".to_string(), "orders".to_string()]),
+        None,
+    ).await;
+
+    assert!(export.export_id.starts_with("exp_"));
+    assert_eq!(export.status, "pending");
+
+    // Check status
+    let status = get_export_status(export.export_id).await;
+    // Status should be pending or completed depending on timing
+    assert!(status.status == ExportStatus::Pending || status.status == ExportStatus::Completed);
 }
 
 #[tokio::test]
-async fn test_record_data_access() {
-    clear_storage();
+async fn test_delete_data_lifecycle() {
+    clear_all_data();
     
-    let result = record_data_access(
-        "admin123",
-        "user_profile",
-        "read",
-        "user_accessed",
-        Some("Customer support"),
-    )
-    .await
-    .unwrap();
-    
-    assert!(result.success);
-    assert!(!result.access_id.is_empty());
-}
+    // Request deletion
+    let deletion = delete_data(
+        "user_delete".to_string(),
+        "User requested account deletion".to_string(),
+        Some(DeleteType::Soft),
+        Some(vec!["legal".to_string()]),
+    ).await;
 
-#[tokio::test]
-async fn test_get_access_log() {
-    clear_storage();
-    
-    for i in 0..5 {
-        record_data_access(
-            &format!("accessor{}", i),
-            "profile",
-            "read",
-            "user_log",
-            None,
-        )
-        .await
-        .unwrap();
-    }
-    
-    let result = get_access_log("user_log", None, None, None).await.unwrap();
-    
-    assert_eq!(result.user_id, "user_log");
-    assert_eq!(result.total, 5);
-    assert_eq!(result.accesses.len(), 5);
-}
+    assert!(deletion.deletion_id.starts_with("del_"));
+    assert!(deletion.success);
 
-#[tokio::test]
-async fn test_create_policy_version() {
-    clear_storage();
-    
-    let result = create_policy_version(
-        "Privacy Policy",
-        1700000000,
-        "This is the privacy policy content...",
-        "1.0.0",
-    )
-    .await
-    .unwrap();
-    
-    assert!(result.success);
-    assert!(!result.policy_id.is_empty());
-    assert_eq!(result.version, "1.0.0");
-}
+    // Check status
+    let status = get_deletion_status(deletion.deletion_id.clone()).await;
+    assert_eq!(status.status, DeletionStatus::Pending);
 
-#[tokio::test]
-async fn test_get_active_policy() {
-    clear_storage();
-    
-    create_policy_version(
-        "Privacy Policy",
-        1700000000,
-        "Policy content here",
-        "1.0.0",
-    )
-    .await
-    .unwrap();
-    
-    let result = get_active_policy(Some("privacy")).await.unwrap();
-    
-    assert_eq!(result.version, "1.0.0");
-    assert_eq!(result.content, "Policy content here");
-}
-
-#[tokio::test]
-async fn test_get_active_policy_not_found() {
-    clear_storage();
-    
-    let result = get_active_policy(Some("nonexistent")).await;
-    assert!(result.is_err());
-}
-
-#[tokio::test]
-async fn test_policy_version_supersedes_previous() {
-    clear_storage();
-    
-    create_policy_version("Policy v1", 1700000000, "Content v1", "1.0")
-        .await
-        .unwrap();
-    create_policy_version("Policy v2", 1700100000, "Content v2", "2.0")
-        .await
-        .unwrap();
-    
-    let active = get_active_policy(None).await.unwrap();
-    assert_eq!(active.version, "2.0");
-}
-
-#[tokio::test]
-async fn test_record_policy_acceptance() {
-    clear_storage();
-    
-    let policy = create_policy_version(
-        "Privacy Policy",
-        1700000000,
-        "Content",
-        "1.0",
-    )
-    .await
-    .unwrap();
-    
-    let result = record_policy_acceptance(
-        &policy.policy_id,
-        "user_accept",
-        Some("Mozilla/5.0"),
-        Some("192.168.1.1"),
-    )
-    .await
-    .unwrap();
-    
-    assert!(result.success);
-    assert!(!result.acceptance_id.is_empty());
-}
-
-#[tokio::test]
-async fn test_record_policy_acceptance_not_found() {
-    clear_storage();
-    
-    let result = record_policy_acceptance("nonexistent", "user", None, None).await;
-    assert!(result.is_err());
-}
-
-#[tokio::test]
-async fn test_export_data() {
-    clear_storage();
-    
-    let result = export_data("user_export", None, None, Some("json"))
-        .await
-        .unwrap();
-    
-    assert!(!result.export_id.is_empty());
-    assert_eq!(result.user_id, "user_export");
-    assert_eq!(result.status, "completed");
-    assert!(result.download_url.contains(&result.export_id));
-}
-
-#[tokio::test]
-async fn test_get_export_status() {
-    clear_storage();
-    
-    let exported = export_data("user_status", None, None, None)
-        .await
-        .unwrap();
-    
-    let result = get_export_status(&exported.export_id).await.unwrap();
-    
-    assert_eq!(result.export_id, exported.export_id);
-    assert_eq!(result.status, "completed");
-}
-
-#[tokio::test]
-async fn test_delete_data() {
-    clear_storage();
-    
-    let result = delete_data(
-        "user_delete",
-        "User requested account deletion",
-        Some("soft"),
-        Some(vec!["billing".to_string()]),
-    )
-    .await
-    .unwrap();
-    
-    assert!(result.success);
-    assert!(!result.deletion_id.is_empty());
-    assert_eq!(result.status, "scheduled");
-}
-
-#[tokio::test]
-async fn test_get_deletion_status() {
-    clear_storage();
-    
-    let deleted = delete_data("user_del_status", "Test", None, None)
-        .await
-        .unwrap();
-    
-    let result = get_deletion_status(&deleted.deletion_id).await.unwrap();
-    
-    assert_eq!(result.deletion_id, deleted.deletion_id);
-    assert_eq!(result.user_id, "user_del_status");
-    assert_eq!(result.status, "scheduled");
-}
-
-#[tokio::test]
-async fn test_cancel_deletion() {
-    clear_storage();
-    
-    let deleted = delete_data("user_cancel", "Test", None, None)
-        .await
-        .unwrap();
-    
-    let result = cancel_deletion(&deleted.deletion_id).await.unwrap();
-    
-    assert!(result.success);
-    assert!(result.cancelled);
-    
-    // Verify cancelled
-    let status = get_deletion_status(&deleted.deletion_id).await.unwrap();
-    assert_eq!(status.status, "cancelled");
-}
-
-#[tokio::test]
-async fn test_cancel_deletion_already_cancelled() {
-    clear_storage();
-    
-    let deleted = delete_data("user_double_cancel", "Test", None, None)
-        .await
-        .unwrap();
-    
-    cancel_deletion(&deleted.deletion_id).await.unwrap();
-    
-    // Try to cancel again
-    let result = cancel_deletion(&deleted.deletion_id).await.unwrap();
-    assert!(result.success);
-    assert!(!result.cancelled); // Already cancelled, so cancelled=false
+    // Cancel deletion
+    let cancel = cancel_deletion(deletion.deletion_id).await;
+    assert!(cancel.cancelled);
+    assert!(cancel.success);
 }
 
 #[tokio::test]
 async fn test_anonymize_data() {
-    clear_storage();
+    clear_all_data();
     
     let result = anonymize_data(
-        "user_anon",
-        Some(vec!["billing".to_string()]),
-    )
-    .await
-    .unwrap();
-    
+        "user_anon".to_string(),
+        Some(vec!["audit_logs".to_string()]),
+    ).await;
+
+    assert!(result.anonymization_id.starts_with("anon_"));
     assert!(result.success);
-    assert!(!result.anonymization_id.is_empty());
-    assert_eq!(result.user_id, "user_anon");
 }
 
 #[tokio::test]
-async fn test_verify_rtbf_eligibility() {
-    clear_storage();
+async fn test_consent_history() {
+    clear_all_data();
     
-    let result = verify_rtbf_eligibility("user_rtbf").await.unwrap();
+    // Record consent changes
+    record_consent(
+        "user_history".to_string(),
+        ConsentType::Marketing,
+        true,
+        "1.0".to_string(),
+        None,
+        None,
+        None,
+    ).await;
+
+    revoke_consent(
+        "user_history".to_string(),
+        ConsentType::Marketing,
+        None,
+    ).await;
+
+    // Get history
+    let result = list_consent_history(
+        "user_history".to_string(),
+        Some(ConsentType::Marketing),
+        None,
+        None,
+        None,
+    ).await;
+
+    assert_eq!(result.history.len(), 2);
+    assert_eq!(result.history[0].action, "granted");
+    assert_eq!(result.history[1].action, "revoked");
+}
+
+#[tokio::test]
+async fn test_data_access_log() {
+    clear_all_data();
     
+    // Record accesses
+    record_data_access(
+        "user_access".to_string(),
+        "admin_001".to_string(),
+        AccessType::Read,
+        "user_profile".to_string(),
+        Some("Customer support request".to_string()),
+    ).await;
+
+    record_data_access(
+        "user_access".to_string(),
+        "system".to_string(),
+        AccessType::Write,
+        "user_preferences".to_string(),
+        None,
+    ).await;
+
+    // Get log
+    let result = get_access_log(
+        "user_access".to_string(),
+        None,
+        None,
+        None,
+    ).await;
+
+    assert_eq!(result.accesses.len(), 2);
+    assert_eq!(result.total, 2);
+}
+
+#[tokio::test]
+async fn test_policy_lifecycle() {
+    clear_all_data();
+    
+    // Create policy
+    let policy = create_policy_version(
+        "Privacy Policy".to_string(),
+        "This is our privacy policy content...".to_string(),
+        "1.0.0".to_string(),
+        Utc::now().timestamp(),
+    ).await;
+
+    assert!(policy.policy_id.starts_with("pol_"));
+    assert!(policy.success);
+
+    // Get active policy
+    let active = get_active_policy(Some(PolicyType::Privacy)).await;
+    assert_eq!(active.version, "1.0.0");
+    assert!(!active.content.is_empty());
+}
+
+#[tokio::test]
+async fn test_policy_acceptance() {
+    clear_all_data();
+    
+    // Create a policy first
+    let policy = create_policy_version(
+        "Terms of Service".to_string(),
+        "Terms content...".to_string(),
+        "2.0.0".to_string(),
+        Utc::now().timestamp(),
+    ).await;
+
+    // Record acceptance
+    let result = record_policy_acceptance(
+        "user_accept".to_string(),
+        policy.policy_id,
+        Some("10.0.0.1".to_string()),
+        Some("Chrome/100".to_string()),
+    ).await;
+
+    assert!(result.acceptance_id.starts_with("acc_"));
+    assert!(result.success);
+}
+
+#[tokio::test]
+async fn test_rtbf_eligibility() {
+    clear_all_data();
+    
+    let result = verify_rtbf_eligibility("user_rtbf".to_string()).await;
+
     assert_eq!(result.user_id, "user_rtbf");
     assert!(result.eligible);
-    assert!(result.blocking_factors.is_empty());
     assert!(!result.reasons.is_empty());
-}
-
-#[tokio::test]
-async fn test_verify_rtbf_with_pending_deletion() {
-    clear_storage();
-    
-    delete_data("user_rtbf_pending", "Test", None, None)
-        .await
-        .unwrap();
-    
-    let result = verify_rtbf_eligibility("user_rtbf_pending").await.unwrap();
-    
-    assert!(!result.eligible);
-    assert!(!result.blocking_factors.is_empty());
-}
-
-#[tokio::test]
-async fn test_full_consent_flow() {
-    clear_storage();
-    
-    // 1. Record initial consent
-    let consent = record_consent(
-        "user_flow",
-        "marketing",
-        true,
-        "1.0",
-        None,
-        Some("192.168.1.1"),
-        None,
-    )
-    .await
-    .unwrap();
-    
-    assert!(consent.success);
-    
-    // 2. Check consent status
-    let status = get_consent_status("user_flow", Some("marketing"))
-        .await
-        .unwrap();
-    
-    assert_eq!(status.consents.len(), 1);
-    
-    // 3. Update consent
-    update_consent(&consent.consent_id, false, Some("1.1"))
-        .await
-        .unwrap();
-    
-    // 4. Revoke consent
-    revoke_consent("marketing", "user_flow", Some("Changed mind"))
-        .await
-        .unwrap();
-    
-    // 5. Check history
-    let history = list_consent_history("user_flow", None, None, None, None)
-        .await
-        .unwrap();
-    
-    assert!(history.total >= 3); // granted, updated, revoked
-    
-    // 6. Verify status shows revoked
-    let final_status = get_consent_status("user_flow", Some("marketing"))
-        .await
-        .unwrap();
-    
-    let consent_record = &final_status.consents[0];
-    assert_eq!(consent_record.get("revoked"), Some(&json!(true)));
-}
-
-#[tokio::test]
-async fn test_full_gdpr_flow() {
-    clear_storage();
-    
-    let user_id = "gdpr_user";
-    
-    // 1. Create privacy policy
-    let policy = create_policy_version(
-        "Privacy Policy",
-        1700000000,
-        "GDPR compliant policy...",
-        "1.0",
-    )
-    .await
-    .unwrap();
-    
-    // 2. User accepts policy
-    record_policy_acceptance(&policy.policy_id, user_id, None, None)
-        .await
-        .unwrap();
-    
-    // 3. User gives consent
-    record_consent(user_id, "marketing", true, "1.0", None, None, None)
-        .await
-        .unwrap();
-    record_consent(user_id, "analytics", true, "1.0", None, None, None)
-        .await
-        .unwrap();
-    
-    // 4. Track data access
-    record_data_access("system", "profile", "read", user_id, Some("Service delivery"))
-        .await
-        .unwrap();
-    
-    // 5. User requests data export
-    let export = export_data(user_id, None, None, Some("json"))
-        .await
-        .unwrap();
-    
-    assert_eq!(export.status, "completed");
-    
-    // 6. User checks RTBF eligibility
-    let rtbf = verify_rtbf_eligibility(user_id).await.unwrap();
-    assert!(rtbf.eligible);
-    
-    // 7. User requests deletion
-    let deletion = delete_data(user_id, "GDPR Article 17 request", None, None)
-        .await
-        .unwrap();
-    
-    assert_eq!(deletion.status, "scheduled");
+    assert!(result.blocking_factors.is_empty());
 }

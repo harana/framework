@@ -3,8 +3,6 @@
 //! This module provides AWS Simple Queue Service (SQS) actions for managing queues
 //! and messages.
 
-#![warn(missing_docs)]
-
 /// Output types for AWS SQS actions
 pub mod output;
 

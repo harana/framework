@@ -1,8 +1,6 @@
 // Harana Actions - File Module
 // This module provides file actions and functionality.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 #[cfg(test)]

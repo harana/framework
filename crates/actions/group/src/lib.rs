@@ -1,8 +1,6 @@
 // Harana Actions - Group Module
 // This module provides group actions and functionality.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use std::collections::HashMap;

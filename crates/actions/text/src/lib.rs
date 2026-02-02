@@ -1,8 +1,6 @@
 // Harana Actions - Text Module
 // This module provides text actions and functionality.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use std::collections::HashMap;

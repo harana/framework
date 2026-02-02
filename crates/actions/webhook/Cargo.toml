@@ -10,11 +10,17 @@ uuid.workspace = true
 chrono.workspace = true
 reqwest.workspace = true
 tokio.workspace = true
-dashmap.workspace = true
 hmac.workspace = true
 sha2.workspace = true
 hex.workspace = true
-lazy_static.workspace = true
+thiserror.workspace = true
+async-trait.workspace = true
+futures.workspace = true
+
+# Storage backends
+redis.workspace = true
+mongodb.workspace = true
+dashmap.workspace = true
 
 [dev-dependencies]
 tokio.workspace = true

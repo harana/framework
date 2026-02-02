@@ -1,8 +1,6 @@
 // Harana Actions - Geolocation Module
 // This module provides geolocation and geocoding actions and functionality.
 
-#![warn(missing_docs)]
-
 pub mod output;
 
 use output::*;

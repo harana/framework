@@ -1,23 +1,260 @@
-[package]
-name = "harana-core"
+[workspace]
+resolver = "2"
+
+members = [
+    # Action modules
+    "crates/actions/address",
+    "crates/actions/ai",
+    "crates/actions/approval",
+    "crates/actions/archive",
+    "crates/actions/audit",
+    "crates/actions/aws_acm",
+    "crates/actions/aws_autoscaling",
+    "crates/actions/aws_cloudfront",
+    "crates/actions/aws_ec2",
+    "crates/actions/aws_ecr",
+    "crates/actions/aws_ecs",
+    "crates/actions/aws_elb",
+    "crates/actions/aws_eventbridge",
+    "crates/actions/aws_iam",
+    "crates/actions/aws_route53",
+    "crates/actions/aws_s3",
+    "crates/actions/aws_secrets",
+    "crates/actions/aws_ses",
+    "crates/actions/aws_sqs",
+    "crates/actions/aws_sts",
+    "crates/actions/aws_vpc",
+    "crates/actions/cache",
+    "crates/actions/calendar",
+    "crates/actions/client",
+    "crates/actions/color",
+    "crates/actions/compress",
+    "crates/actions/crypto",
+    "crates/actions/csv",
+    "crates/actions/date",
+    "crates/actions/docker",
+    "crates/actions/email",
+    "crates/actions/event",
+    "crates/actions/excel",
+    "crates/actions/feature_flag",
+    "crates/actions/file",
+    "crates/actions/form",
+    "crates/actions/geocode",
+    "crates/actions/geoip",
+    "crates/actions/geolocation",
+    "crates/actions/git",
+    "crates/actions/github",
+    "crates/actions/google_gemini",
+    "crates/actions/group",
+    "crates/actions/healthcheck",
+    "crates/actions/html",
+    "crates/actions/http_response",
+    "crates/actions/identity",
+    "crates/actions/image",
+    "crates/actions/job",
+    "crates/actions/json",
+    "crates/actions/log",
+    "crates/actions/markdown",
+    "crates/actions/math",
+    "crates/actions/memgraph",
+    "crates/actions/metric",
+    "crates/actions/microsoft_teams",
+    "crates/actions/mongodb",
+    "crates/actions/notification",
+    "crates/actions/parallel",
+    "crates/actions/passkey",
+    "crates/actions/pdf",
+    "crates/actions/policy",
+    "crates/actions/push",
+    "crates/actions/queue",
+    "crates/actions/random",
+    "crates/actions/response",
+    "crates/actions/role",
+    "crates/actions/route",
+    "crates/actions/run",
+    "crates/actions/schedule",
+    "crates/actions/search",
+    "crates/actions/session",
+    "crates/actions/sign",
+    "crates/actions/slack",
+    "crates/actions/sql",
+    "crates/actions/successfactors",
+    "crates/actions/text",
+    "crates/actions/transform",
+    "crates/actions/url",
+    "crates/actions/user",
+    "crates/actions/uuid",
+    "crates/actions/validation",
+    "crates/actions/webhook",
+    "crates/actions/xml",
+    
+    # Core modules
+    "crates/event",
+    "crates/lock",
+    "crates/schedule",
+    "crates/server",
+    "crates/storage",
+    "crates/task",
+    "crates/workflow",
+]
+
+[workspace.package]
 version = "0.1.0"
 edition = "2021"
 authors = ["Harana Team"]
-description = "Core types and traits for the Harana framework"
-license = "MIT"
+license = "MIT OR Apache-2.0"
 repository = "https://github.com/harana/framework"
-keywords = ["harana", "build", "framework", "plugin"]
-categories = ["development-tools::build-utils"]
 
-[lib]
-name = "harana_core"
-path = "src/lib.rs"
-
-[dependencies]
-serde.workspace = true
-
-[dev-dependencies]
-tokio-test = "0.4"
-
-[features]
-default = []
+[workspace.dependencies]
+a2 = "0.10.0"
+aes-gcm = "0.10"
+ammonia = "4"
+anyhow = "1"
+apalis = "0.7"
+askama = "0.15.1"
+async-stripe = "0.41.0"
+async-trait = "0.1"
+asynk-strim = "0.1"
+aws-config = { version = "1", features = ["behavior-version-latest"] }
+aws-credential-types = "1"
+aws-sdk-acm = { version = "1", features = ["behavior-version-latest"] }
+aws-sdk-autoscaling = { version = "1", features = ["behavior-version-latest"] }
+aws-sdk-cloudfront = { version = "1", features = ["behavior-version-latest"] }
+aws-sdk-cloudwatch = "1"
+aws-sdk-ec2 = { version = "1", features = ["behavior-version-latest"] }
+aws-sdk-ecr = "1"
+aws-sdk-ecs = "1"
+aws-sdk-elasticloadbalancingv2 = "1"
+aws-sdk-eventbridge = "1"
+aws-sdk-iam = "1"
+aws-sdk-kms = "1"
+aws-sdk-route53 = { version = "1", features = ["behavior-version-latest"] }
+aws-sdk-s3 = { version = "1", features = ["behavior-version-latest"] }
+aws-sdk-secretsmanager = { version = "1", features = ["behavior-version-latest"] }
+aws-sdk-ses = { version = "1", features = ["behavior-version-latest"] }
+aws-sdk-sesv2 = "1"
+aws-sdk-sqs = { version = "1", features = ["behavior-version-latest"] }
+aws-sdk-sts = { version = "1", features = ["behavior-version-latest"] }
+aws-smithy-types = "1"
+aws-types = "1"
+axum = "0.8"
+base64 = "0.22"
+blake3 = "1"
+brotli = "7"
+bson = { version = "3", features = ["chrono-0_4", "uuid-1"] }
+bytes = "1"
+calamine = "0.32.0"
+calendar-link = "0.0.5"
+chrono = { version = "0.4", features = ["serde"] }
+chrono-tz = "0.10"
+cpc = "3"
+cron = "0.15"
+croner = "3"
+csv = "1"
+csscolorparser = "0.8.1"
+dashmap = "6"
+datastar = { version = "0.3.1", features = ["axum"] }
+ed25519-dalek = { version = "2.1", features = ["rand_core", "pem"] }
+email_address = "0.2.9"
+emval = "0.1.12"
+eventix = { version = "0.3", features = ["redis"] }
+fcm-service = "0.2.3"
+flate2 = "1"
+fred = "10"
+futures = "0.3"
+futures-timer = "3"
+geo = "0.32"
+geo-uri = "0.2.4"
+geoutils = "0.5.1"
+glob = "0.3"
+google-calendar3 = "7.0.0"
+handlebars = "6"
+heck = "0.5"
+hex = "0.4"
+hex_color = "3.0.0"
+hmac = "0.12"
+html2md = "0.2"
+htmlize = { version = "1.0", features = ["unescape"] }
+http = "1"
+http-body-util = "0.1"
+hyper-rustls = "0.27"
+hyper-util = "0.1"
+image = "0.25"
+indexmap = { version = "2", features = ["serde"] }
+infer = "0.19"
+jsonpath-rust = "1"
+jsonschema = "0.40"
+jsonwebtoken = "10"
+krilla = "0.6"
+language-tags = "0.3.2"
+latlon = "0.1.3"
+lazy_static = "1"
+libc = "0.2"
+loki_text = "0.1.7"
+lopdf = "0.39"
+lz4_flex = "0.12"
+macaddr = "1.0.1"
+mime = "0.3.17"
+minijinja = "2"
+moka = { version = "0.12", features = ["sync"] }
+mongodb = { version = "3", features = ["zlib-compression"] }
+object_store_opendal = "0.55.0"
+once_cell = "1"
+opendal = "0.55.0"
+opentelemetry = { version = "0.31.0", features = ["rt-tokio"] }
+opentelemetry-gcloud-trace = "0.22.0"
+parquet_opendal = "0.7.0"
+parking_lot = "0.12"
+pem = "3"
+percent-encoding = "2"
+phonelib = "1"
+prometheus = "0.14"
+pulldown-cmark = { version = "0.10", default-features = false, features = ["html"] }
+quick-xml = { version = "0.39", features = ["serialize"] }
+rand = "0.9"
+redis = { version = "1", features = ["tokio-comp", "connection-manager"] }
+regex = "1"
+reqwest = { version = "0.13", features = ["json", "multipart"] }
+ring = "0.17"
+rsmgclient = "3"
+rust_xlsxwriter = "0.93"
+rusty-money = "0.5"
+scraper = "0.25"
+secret-vault = "1"
+semver = "1"
+sentry = "0.46.0"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+serial_test = "3"
+sha2 = "0.10"
+sha3 = "0.10"
+simd-json-derive = "0.18.0"
+slack-morphism = { version = "2", features = ["hyper"] }
+snmalloc-rs = "0.3"
+sqlx = "0.8.6"
+stringzilla = "4.6.0"
+sysinfo = "0.38"
+tar = "0.4"
+tempfile = "3"
+textwrap = "0.16"
+thiserror = "2"
+time = "0.3.44"
+tokio = { version = "1", features = ["full"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["cors", "trace", "compression-full", "fs"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+ulid = "1"
+unicode-segmentation = "1"
+ureq = { version = "3", default-features = false, features = ["json", "tls"] }
+url = "2"
+urlencoding = "2"
+uuid = { version = "1", features = ["v4", "v7", "serde"] }
+walkdir = "2"
+web-push-native = "0.4.0"
+webauthn-rs = { version = "0.5", features = ["danger-allow-state-serialisation"] }
+webauthn-rs-proto = "0.5"
+wiremock = "0.6"
+zip = "2"
+zstd = "0.13"

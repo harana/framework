@@ -1,32 +1,28 @@
-// Harana Actions - Blob Module Output Types
-// Auto-generated output structs for action methods.
-
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-// upload_blob
+// === Action Outputs ===
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UploadBlobOutput {
-    pub etag: String,
     pub url: String,
+    pub etag: String,
 }
 
-// download_blob
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DownloadBlobOutput {
     pub content: Vec<u8>,
     pub content_type: String,
-    pub metadata: HashMap<String, String>,
-    pub size: i32,
+    pub size: i64,
+    pub metadata: BlobMetadata,
 }
 
-// delete_blob
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteBlobOutput {
     pub success: bool,
 }
 
-// list_blobs
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListBlobsOutput {
     pub blobs: Vec<BlobInfo>,
@@ -34,40 +30,83 @@ pub struct ListBlobsOutput {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct BlobInfo {
-    pub key: String,
-    pub size: i32,
-    pub last_modified: String,
-    pub etag: String,
-}
-
-// exists
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExistsOutput {
     pub exists: bool,
 }
 
-// get_blob_metadata
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetBlobMetadataOutput {
     pub content_type: String,
-    pub created: String,
+    pub size: i64,
     pub etag: String,
-    pub metadata: HashMap<String, String>,
-    pub modified: String,
-    pub size: i32,
+    pub created: DateTime<Utc>,
+    pub modified: DateTime<Utc>,
+    pub metadata: BlobMetadata,
 }
 
-// copy_blob
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CopyBlobOutput {
-    pub etag: String,
     pub success: bool,
+    pub etag: String,
 }
 
-// generate_presigned_url
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GeneratePresignedUrlOutput {
-    pub expires_at: String,
     pub url: String,
+    pub expires_at: DateTime<Utc>,
+}
+
+// === Class Types ===
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct Blob {
+    pub bucket: String,
+    pub key: String,
+    pub etag: String,
+    pub url: String,
+    pub content_type: String,
+    pub size: i64,
+    pub metadata: BlobMetadata,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct BlobMetadata {
+    pub values: HashMap<String, String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BlobInfo {
+    pub key: String,
+    pub size: i64,
+    pub etag: String,
+    pub last_modified: DateTime<Utc>,
+    pub content_type: String,
+}
+
+// === Enums ===
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum PresignedUrlOperation {
+    Get,
+    Put,
+}
+
+impl Default for PresignedUrlOperation {
+    fn default() -> Self {
+        PresignedUrlOperation::Get
+    }
+}
+
+// === Internal Storage Types ===
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StoredBlob {
+    pub bucket: String,
+    pub key: String,
+    pub content: Vec<u8>,
+    pub content_type: String,
+    pub etag: String,
+    pub metadata: BlobMetadata,
+    pub created: DateTime<Utc>,
+    pub modified: DateTime<Utc>,
 }
