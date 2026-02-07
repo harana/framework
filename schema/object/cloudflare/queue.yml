@@ -1,0 +1,37 @@
+- name: Cloudflare Queue
+  type: cf_queue
+  id: [account_id, queue_name]
+  schema:
+    - account_id: String #required #max(50)
+    - created_at: Date = now()
+    - queue_id: String? #unique #max(255)
+    - queue_name: String #required #unique #max(255)
+    - updated_at: Date = now()
+
+- name: Cloudflare Queue Message
+  type: cf_queue_message
+  id: [queue_id, message_id]
+  schema:
+    - body: String #required
+    - content_type: Json | Text | Bytes | V8 = Json
+    - created_at: Date = now()
+    - delay_seconds: int? #min(0)
+    - message_id: String #required #unique #max(255)
+    - queue_id: Id #required -> CfQueue.id
+    - receive_count: int = 0 #min(0)
+    - status: Pending | InFlight | Processed | DeadLetter = Pending
+    - timestamp: Date = now()
+
+- name: Cloudflare Queue Consumer
+  type: cf_queue_consumer
+  id: [queue_id, consumer_name]
+  schema:
+    - consumer_name: String #required #max(255)
+    - created_at: Date = now()
+    - max_batch_size: int = 10 #min(1) #max(100)
+    - max_batch_timeout: int = 5 #min(0) #max(30)
+    - max_retries: int = 3 #min(0) #max(100)
+    - queue_id: Id #required -> CfQueue.id
+    - script_name: String? #max(255)
+    - updated_at: Date = now()
+

@@ -1,0 +1,28 @@
+- name: Group
+  type: group
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - is_active: Boolean = true
+    - name: String #required #unique #max(200)
+    - parent_id: Id? -> Group.id
+    - updated_at: Date = now()
+
+- name: Group Member
+  type: group_member
+  id: [group_id, user_id]
+  schema:
+    - added_at: Date = now()
+    - added_by: Id? -> User.id
+    - group_id: Id #required -> Group.id
+    - is_admin: Boolean = false
+    - user_id: Id #required -> User.id
+
+- name: Group Role
+  type: group_role
+  id: [group_id, role_id]
+  schema:
+    - assigned_at: Date = now()
+    - assigned_by: Id? -> User.id
+    - group_id: Id #required -> Group.id
+    - role_id: Id #required -> Role.id

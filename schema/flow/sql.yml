@@ -1,0 +1,243 @@
+- name: Execute SQL Query
+  method: execute
+  inputs:
+    database: String
+    parameters: List[any]
+    query: String #required
+  outputs:
+    affected_rows: Int
+    last_insert_id: String
+    success: Boolean
+
+- name: Execute SQL Select
+  method: select
+  inputs:
+    database: String
+    limit: Int
+    offset: Int = 0
+    parameters: List[any]
+    query: String #required
+  outputs:
+    column_names: List[String]
+    count: Int
+    rows: List[SqlRow]
+
+- name: Execute SQL Insert
+  method: insert
+  inputs:
+    database: String
+    parameters: List[any]
+    query: String #required
+  outputs:
+    affected_rows: Int
+    last_insert_id: String
+    success: Boolean
+
+- name: Execute SQL Update
+  method: update
+  inputs:
+    database: String
+    parameters: List[any]
+    query: String #required
+  outputs:
+    affected_rows: Int
+    success: Boolean
+
+- name: Execute SQL Delete
+  method: delete
+  inputs:
+    database: String
+    parameters: List[any]
+    query: String #required
+  outputs:
+    affected_rows: Int
+    success: Boolean
+
+- name: Execute Batch SQL
+  method: batch
+  inputs:
+    database: String
+    queries: List[SqlBatchQuery] #required
+  outputs:
+    failed_count: Int
+    results: List[SqlBatchResult]
+    success: Boolean
+    success_count: Int
+
+- name: Begin Transaction
+  method: begin_transaction
+  inputs:
+    database: String
+    isolation_level: ReadUncommitted | ReadCommitted | RepeatableRead | Serializable
+  outputs:
+    success: Boolean
+    transaction_id: String
+
+- name: Commit Transaction
+  method: commit
+  inputs:
+    database: String
+    transaction_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Rollback Transaction
+  method: rollback
+  inputs:
+    database: String
+    transaction_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Call Stored Procedure
+  method: call_procedure
+  inputs:
+    database: String
+    parameters: List[any]
+    procedure_name: String #required
+  outputs:
+    out_parameters: SqlOutputParameters
+    result_sets: List[SqlResultSet]
+    success: Boolean
+
+- name: Get Table Schema
+  method: get_schema
+  inputs:
+    database: String
+    table_name: String #required
+  outputs:
+    columns: List[SqlColumnInfo]
+    indexes: List[SqlIndexInfo]
+    primary_key: List[String]
+
+- name: List Tables
+  method: list_tables
+  inputs:
+    database: String
+    schema: String
+  outputs:
+    tables: List[String]
+
+- name: Create Table
+  method: create_table
+  inputs:
+    columns: List[SqlColumnDefinition] #required
+    database: String
+    if_not_exists: Boolean = true
+    table_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Drop Table
+  method: drop_table
+  inputs:
+    database: String
+    if_exists: Boolean = true
+    table_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Truncate Table
+  method: truncate_table
+  inputs:
+    database: String
+    table_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Create Index
+  method: create_index
+  inputs:
+    columns: List[String] #required
+    database: String
+    index_name: String #required
+    table_name: String #required
+    unique: Boolean = false
+  outputs:
+    success: Boolean
+
+- name: Drop Index
+  method: drop_index
+  inputs:
+    database: String
+    if_exists: Boolean = true
+    index_name: String #required
+    table_name: String
+  outputs:
+    success: Boolean
+
+- name: Bulk Insert
+  method: bulk_insert
+  inputs:
+    columns: List[String] #required
+    database: String
+    rows: List[list[any]] #required
+    table_name: String #required
+  outputs:
+    affected_rows: Int
+    success: Boolean
+
+- name: Execute Prepared Statement
+  method: prepared_statement
+  inputs:
+    database: String
+    parameters: List[any]
+    statement: String #required
+  outputs:
+    affected_rows: Int
+    rows: List[SqlRow]
+    success: Boolean
+
+- name: SqlQuery
+  class:
+    query: String
+    parameters: List[any]
+    database: String
+    affected_rows: Int
+    rows: List[SqlRow]
+
+- name: SqlRow
+  class:
+    values: Map[String, Any]
+
+- name: SqlBatchQuery
+  class:
+    query: String
+    parameters: List[any]
+
+- name: SqlBatchResult
+  class:
+    success: Boolean
+    affected_rows: Int
+    error: String
+
+- name: SqlOutputParameters
+  class:
+    values: Map[String, Any]
+
+- name: SqlResultSet
+  class:
+    columns: List[String]
+    rows: List[SqlRow]
+
+- name: SqlColumnInfo
+  class:
+    name: String
+    data_type: String
+    nullable: Boolean
+    default_value: String
+    max_length: Int
+
+- name: SqlIndexInfo
+  class:
+    name: String
+    columns: List[String]
+    unique: Boolean
+
+- name: SqlColumnDefinition
+  class:
+    name: String
+    data_type: String
+    nullable: Boolean
+    default_value: String
+    primary_key: Boolean

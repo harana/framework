@@ -1,0 +1,8 @@
+- name: Math Expression
+  type: math_expression
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - expression: String #required #max(2000)
+    - result: decimal?
+    - variables: String? # JSON map

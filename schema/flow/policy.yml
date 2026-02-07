@@ -1,0 +1,126 @@
+- name: Create Policy
+  method: create
+  inputs:
+    conditions: PolicyConditions #required
+    description: String
+    effect: String #required # allow or deny
+    name: String #required
+    resources: List[String] #required
+    actions: List[String] #required
+  outputs:
+    policy_id: String
+    success: Boolean
+
+- name: Update Policy
+  method: update
+  inputs:
+    conditions: PolicyConditions
+    description: String
+    effect: String
+    name: String
+    policy_id: String #required
+    resources: List[String]
+    actions: List[String]
+  outputs:
+    success: Boolean
+
+- name: Delete Policy
+  method: delete
+  inputs:
+    policy_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Get Policy Details
+  method: get
+  inputs:
+    policy_id: String #required
+  outputs:
+    actions: List[String]
+    conditions: PolicyConditions
+    description: String
+    effect: String
+    name: String
+    resources: List[String]
+
+- name: List Policies
+  method: list_policies
+  inputs:
+    limit: Int = 100
+    offset: Int = 0
+  outputs:
+    policies: List[PolicyInfo]
+    total: Int
+
+- name: Attach Policy To User
+  method: attach_to_user
+  inputs:
+    policy_id: String #required
+    user_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Detach Policy From User
+  method: detach_from_user
+  inputs:
+    policy_id: String #required
+    user_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Attach Policy To Role
+  method: attach_to_role
+  inputs:
+    policy_id: String #required
+    role_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Detach Policy From Role
+  method: detach_from_role
+  inputs:
+    policy_id: String #required
+    role_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Evaluate Policy
+  method: evaluate
+  inputs:
+    method: String #required
+    context: PolicyEvaluationContext
+    policy_id: String #required
+    resource: String #required
+  outputs:
+    allowed: Boolean
+    evaluated_conditions: PolicyEvaluatedConditions
+    reason: String
+
+- name: Policy
+  class:
+    policy_id: String
+    name: String
+    description: String
+    effect: String
+    actions: List[String]
+    resources: List[String]
+    conditions: PolicyConditions
+
+- name: PolicyConditions
+  class:
+    conditions: Map[String, Any]
+
+- name: PolicyInfo
+  class:
+    policy_id: String
+    name: String
+    description: String
+    effect: String
+
+- name: PolicyEvaluationContext
+  class:
+    values: Map[String, Any]
+
+- name: PolicyEvaluatedConditions
+  class:
+    results: Map[string, boolean]

@@ -1,0 +1,37 @@
+- name: Approval Request
+  type: approval_request
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(2000)
+    - due_date: Date?
+    - metadata: String?
+    - priority: Low | Normal | High | Urgent = Normal
+    - request_type: String #required #max(100)
+    - requester_id: Id #required -> User.id
+    - resource_id: String #required #max(200)
+    - resource_type: String #required #max(100)
+    - status: Pending | Approved | Rejected | Cancelled | Expired = Pending
+    - title: String #required #max(500)
+    - updated_at: Date = now()
+
+- name: Approval Approver
+  type: approval_approver
+  id: [request_id, approver_id]
+  schema:
+    - approver_id: Id #required -> User.id
+    - comment: String? #max(2000)
+    - decided_at: Date?
+    - is_required: Boolean = true
+    - reason: String? #max(2000)
+    - request_id: Id #required -> ApprovalRequest.id
+    - status: Pending | Approved | Rejected = Pending
+
+- name: Approval History
+  type: approval_history
+  id: [request_id, created_at]
+  schema:
+    - action: Created | Approved | Rejected | Cancelled | Expired | ApproverAdded | ApproverRemoved = Created
+    - actor_id: Id? -> User.id
+    - comment: String? #max(2000)
+    - created_at: Date = now()
+    - request_id: Id #required -> ApprovalRequest.id

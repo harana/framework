@@ -1,0 +1,117 @@
+- name: Enqueue Message To Queue
+  method: enqueue
+  inputs:
+    deduplication_id: String
+    delay_seconds: Int = 0
+    message: Any #required
+    priority: Int = 0
+    queue_name: String #required
+  outputs:
+    message_id: String
+    success: Boolean
+
+- name: Dequeue Message From Queue
+  method: dequeue
+  inputs:
+    queue_name: String #required
+    visibility_timeout: Int = 30
+    wait_time_seconds: Int = 0
+  outputs:
+    found: Boolean
+    message: Any
+    message_id: String
+    receipt_handle: String
+
+- name: Peek Message Without Removing
+  method: peek
+  inputs:
+    count: Int = 1
+    queue_name: String #required
+  outputs:
+    messages: List[QueuePeekMessage]
+
+- name: Acknowledge Message Processing
+  method: acknowledge
+  inputs:
+    queue_name: String #required
+    receipt_handle: String #required
+  outputs:
+    success: Boolean
+
+- name: Return Message To Queue
+  method: nack
+  inputs:
+    delay_seconds: Int = 0
+    queue_name: String #required
+    receipt_handle: String #required
+  outputs:
+    success: Boolean
+
+- name: Get Queue Statistics
+  method: get_queue_stats
+  inputs:
+    queue_name: String #required
+  outputs:
+    delayed_count: Int
+    in_flight_count: Int
+    message_count: Int
+    oldest_message_age: Int
+
+- name: Purge All Queue Messages
+  method: purge_queue
+  inputs:
+    queue_name: String #required
+  outputs:
+    messages_deleted: Int
+    success: Boolean
+
+- name: Create New Queue
+  method: create_queue
+  inputs:
+    max_message_size: Int = 262144
+    message_retention: Int = 345600
+    queue_name: String #required
+    visibility_timeout: Int = 30
+  outputs:
+    queue_url: String
+    success: Boolean
+
+- name: Delete Existing Queue
+  method: delete_queue
+  inputs:
+    queue_name: String #required
+  outputs:
+    success: Boolean
+
+- name: List Available Queues
+  method: list_queues
+  inputs:
+    prefix: String
+  outputs:
+    queues: List[String]
+    total: Int
+
+- name: Move Message To Dead Letter
+  method: move_to_dlq
+  inputs:
+    queue_name: String #required
+    reason: String
+    receipt_handle: String #required
+  outputs:
+    success: Boolean
+
+- name: QueueMessage
+  class:
+    message_id: String
+    queue_name: String
+    message: Any
+    priority: Int
+    delay_seconds: Int
+    receipt_handle: String
+    visible_at: Date
+
+- name: QueuePeekMessage
+  class:
+    message_id: String
+    message: Any
+    enqueued_at: Date

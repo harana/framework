@@ -1,0 +1,10 @@
+- name: File Document
+  type: file_document
+  schema:
+    - content_type: String? #max(100)
+    - created_at: Date = now()
+    - is_directory: Boolean = false
+    - modified_at: Date?
+    - path: String #required #max(2000)
+    - permissions: String? #max(20)
+    - size: int = 0 #min(0)

@@ -1,0 +1,41 @@
+- name: AWS ACM Certificate
+  type: aws_acm_certificate
+  id: [account_id, certificate_arn]
+  schema:
+    - account_id: String #required #max(20)
+    - certificate_arn: String #required #unique #max(255)
+    - certificate_authority_arn: String? #max(255)
+    - created_at: Date = now()
+    - domain_name: String #required #max(253)
+    - failure_reason: String? #max(255)
+    - imported_at: Date?
+    - in_use_by: String? # JSON list of ARNs
+    - issued_at: Date?
+    - issuer: String? #max(255)
+    - key_algorithm: RSA_1024 | RSA_2048 | RSA_3072 | RSA_4096 | EC_prime256v1 | EC_secp384r1 | EC_secp521r1 = RSA_2048
+    - not_after: Date?
+    - not_before: Date?
+    - region: String? #max(50)
+    - renewal_eligibility: Eligible | Ineligible = Ineligible
+    - revocation_reason: String? #max(255)
+    - revoked_at: Date?
+    - serial: String? #max(255)
+    - status: PendingValidation | Issued | Inactive | Revoked | Expired | ValidationTimedOut | Failed = PendingValidation
+    - subject_alternative_names: String? # JSON list
+    - tags: String? # JSON
+    - type: Imported | AmazonIssued | Private = AmazonIssued
+    - updated_at: Date = now()
+    - validation_method: Dns | Email = Dns
+
+- name: AWS ACM Domain Validation
+  type: aws_acm_domain_validation
+  id: [certificate_id, domain_name]
+  schema:
+    - certificate_id: Id #required -> AwsAcmCertificate.id
+    - domain_name: String #required #max(253)
+    - resource_record_name: String? #max(253)
+    - resource_record_type: String? #max(10)
+    - resource_record_value: String? #max(500)
+    - validation_domain: String? #max(253)
+    - validation_method: Dns | Email = Dns
+    - validation_status: PendingValidation | Success | Failed = PendingValidation

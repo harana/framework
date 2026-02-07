@@ -1,0 +1,54 @@
+- name: AWS SES Identity
+  type: aws_ses_identity
+  id: [account_id, identity]
+  schema:
+    - account_id: String #required #max(20)
+    - created_at: Date = now()
+    - dkim_enabled: Boolean = false
+    - feedback_forwarding_enabled: Boolean = true
+    - identity: String #required #unique #max(255)
+    - identity_type: EmailAddress | Domain #required
+    - region: String? #max(50)
+    - updated_at: Date = now()
+    - verification_status: Pending | Success | Failed | TemporaryFailure | NotStarted = NotStarted
+    - verification_token: String? #max(500)
+
+- name: AWS SES Template
+  type: aws_ses_template
+  id: [account_id, template_name]
+  schema:
+    - account_id: String #required #max(20)
+    - created_at: Date = now()
+    - html_part: String?
+    - region: String? #max(50)
+    - subject_part: String #required #max(500)
+    - template_name: String #required #unique #max(64)
+    - text_part: String?
+    - updated_at: Date = now()
+
+- name: AWS SES Configuration Set
+  type: aws_ses_configuration_set
+  id: [account_id, configuration_set_name]
+  schema:
+    - account_id: String #required #max(20)
+    - configuration_set_name: String #required #unique #max(64)
+    - created_at: Date = now()
+    - region: String? #max(50)
+    - updated_at: Date = now()
+
+- name: AWS SES Send Log
+  type: aws_ses_send_log
+  id: [identity_id, message_id]
+  schema:
+    - bcc_addresses: String? # JSON list
+    - cc_addresses: String? # JSON list
+    - configuration_set_name: String? #max(64)
+    - created_at: Date = now()
+    - from_address: String #required #max(255) #email
+    - identity_id: Id? -> AwsSesIdentity.id
+    - message_id: String #required #unique #max(255)
+    - status: Queued | Sent | Delivered | Bounced | Complained | Failed = Queued
+    - subject: String? #max(500)
+    - template_name: String? #max(64)
+    - to_addresses: String #required # JSON list
+    - updated_at: Date = now()

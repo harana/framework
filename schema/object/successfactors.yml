@@ -1,0 +1,80 @@
+- name: SuccessFactors Employee
+  type: sf_employee
+  id: [user_id]
+  schema:
+    - created_at: Date = now()
+    - department: String? #max(200)
+    - email: String #required #email #max(255)
+    - first_name: String #required #max(100)
+    - hire_date: Date?
+    - job_title: String? #max(200)
+    - last_name: String #required #max(100)
+    - manager_id: String? #max(200)
+    - status: Active | Inactive | Terminated = Active
+    - updated_at: Date = now()
+    - user_id: String #required #unique #max(200)
+
+- name: SuccessFactors Job Info
+  type: sf_job_info
+  id: [employee_id, effective_start_date]
+  schema:
+    - cost_center: String? #max(100)
+    - department: String? #max(200)
+    - division: String? #max(200)
+    - effective_start_date: Date #required
+    - employee_id: Id #required -> SfEmployee.id
+    - employment_type: String? #max(100)
+    - job_code: String? #max(100)
+    - job_title: String? #max(200)
+    - location: String? #max(200)
+    - manager_id: String? #max(200)
+
+- name: SuccessFactors Compensation
+  type: sf_compensation
+  id: [employee_id, effective_start_date]
+  schema:
+    - bonus_target: decimal? #min(0)
+    - currency: String? #max(3)
+    - effective_start_date: Date #required
+    - employee_id: Id #required -> SfEmployee.id
+    - frequency: String? #max(50)
+    - pay_grade: String? #max(50)
+    - pay_type: String? #max(50)
+    - salary: decimal? #min(0)
+
+- name: SuccessFactors Time Off Request
+  type: sf_time_off_request
+  id: [request_id]
+  schema:
+    - comment: String? #max(1000)
+    - created_at: Date = now()
+    - duration_hours: decimal? #min(0)
+    - duration_type: FullDay | HalfDay | Hours = FullDay
+    - employee_id: Id #required -> SfEmployee.id
+    - end_date: Date #required
+    - request_id: String #required #unique #max(200)
+    - start_date: Date #required
+    - status: Pending | Approved | Rejected | Cancelled = Pending
+    - time_type: String #required #max(100)
+    - updated_at: Date = now()
+
+- name: SuccessFactors Time Off Balance
+  type: sf_time_off_balance
+  id: [employee_id, time_type]
+  schema:
+    - as_of_date: Date = now()
+    - balance: decimal = 0
+    - employee_id: Id #required -> SfEmployee.id
+    - time_type: String #required #max(100)
+    - unit: Days | Hours = Days
+
+- name: SuccessFactors Department
+  type: sf_department
+  id: [department_id]
+  schema:
+    - cost_center: String? #max(100)
+    - department_id: String #required #unique #max(200)
+    - description: String? #max(500)
+    - head_id: String? #max(200)
+    - name: String #required #max(200)
+    - parent_id: String? #max(200)

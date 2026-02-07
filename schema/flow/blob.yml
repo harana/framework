@@ -1,0 +1,106 @@
+- name: Upload Blob To Storage
+  method: upload_blob
+  inputs:
+    bucket: String #required
+    content: bytes #required
+    content_type: String
+    key: String #required
+    metadata: BlobMetadata
+  outputs:
+    etag: String
+    url: String
+
+- name: Download Blob From Storage
+  method: download_blob
+  inputs:
+    bucket: String #required
+    key: String #required
+  outputs:
+    content: bytes
+    content_type: String
+    metadata: BlobMetadata
+    size: Int
+
+- name: Delete Blob From Storage
+  method: delete_blob
+  inputs:
+    bucket: String #required
+    key: String #required
+  outputs:
+    success: Boolean
+
+- name: List Blobs In Bucket
+  method: list_blobs
+  inputs:
+    bucket: String #required
+    continuation_token: String
+    max_results: Int = 1000
+    prefix: String
+  outputs:
+    blobs: List[BlobInfo]
+    next_token: String
+
+- name: Check If Blob Exists
+  method: exists
+  inputs:
+    bucket: String #required
+    key: String #required
+  outputs:
+    exists: Boolean
+
+- name: Get Blob Metadata Info
+  method: get_blob_metadata
+  inputs:
+    bucket: String #required
+    key: String #required
+  outputs:
+    content_type: String
+    created: Date
+    etag: String
+    metadata: BlobMetadata
+    modified: Date
+    size: Int
+
+- name: Copy Blob To Destination
+  method: copy_blob
+  inputs:
+    dest_bucket: String #required
+    dest_key: String #required
+    source_bucket: String #required
+    source_key: String #required
+  outputs:
+    etag: String
+    success: Boolean
+
+- name: Generate Presigned URL
+  method: generate_presigned_url
+  inputs:
+    bucket: String #required
+    expires_in: Int = 3600
+    key: String #required
+    operation: Get | Put = Get
+  outputs:
+    expires_at: Date
+    url: String
+
+- name: Blob
+  class:
+    bucket: String
+    key: String
+    etag: String
+    url: String
+    content_type: String
+    size: Int
+    metadata: BlobMetadata
+
+- name: BlobMetadata
+  class:
+    values: Map[String, String]
+
+- name: BlobInfo
+  class:
+    key: String
+    size: Int
+    etag: String
+    last_modified: Date
+    content_type: String

@@ -1,0 +1,10 @@
+- name: Hyperdrive Connect
+  method: connect
+  inputs:
+    binding: String #required
+  outputs:
+    connection_string: String
+    host: String
+    password: String
+    port: Int
+    user: String

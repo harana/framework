@@ -1,0 +1,32 @@
+- name: XML Document
+  type: xml_document
+  schema:
+    - charset: String = UTF-8 #max(20)
+    - created_at: Date = now()
+    - created_by: Id? -> User.id
+    - root_element: String? #max(255)
+    - size: int = 0 #min(0)
+    - source_path: String? #max(2000)
+    - updated_at: Date = now()
+
+- name: XML Schema
+  type: xml_schema
+  schema:
+    - content: String #required
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - is_active: Boolean = true
+    - schema_type: Xsd | Dtd | RelaxNg = Xsd
+    - updated_at: Date = now()
+    - version: int = 1 #min(1)
+
+- name: XML Validation Result
+  type: xml_validation_result
+  id: [document_id, validated_at]
+  schema:
+    - document_id: Id #required -> XmlDocument.id
+    - error_count: int = 0 #min(0)
+    - errors: String? # JSON array
+    - is_valid: Boolean = false
+    - schema_id: Id #required -> XmlSchema.id
+    - validated_at: Date = now()

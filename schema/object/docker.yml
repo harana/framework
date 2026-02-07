@@ -1,0 +1,52 @@
+- name: Docker Image
+  type: docker_image
+  id: [image_id]
+  schema:
+    - created_at: Date = now()
+    - digest: String? #max(200)
+    - image_id: String #required #max(200)
+    - platform: String? #max(50)
+    - repository: String? #max(500)
+    - size: int? #min(0)
+    - tags: String? # JSON array
+    - updated_at: Date = now()
+
+- name: Docker Container
+  type: docker_container
+  id: [container_id]
+  schema:
+    - command: String? #max(2000)
+    - container_id: String #required #max(200)
+    - created_at: Date = now()
+    - exit_code: int?
+    - image_id: String #required #max(200)
+    - labels: String? # JSON map
+    - name: String? #max(255)
+    - network: String? #max(100)
+    - ports: String? # JSON array
+    - restart_policy: No | Always | OnFailure | UnlessStopped = No
+    - started_at: Date?
+    - status: Created | Running | Paused | Restarting | Exited | Dead = Created
+    - stopped_at: Date?
+    - updated_at: Date = now()
+
+- name: Docker Network
+  type: docker_network
+  id: [network_id]
+  schema:
+    - created_at: Date = now()
+    - driver: Bridge | Host | Overlay | Macvlan | None = Bridge
+    - labels: String? # JSON map
+    - name: String #required #max(255)
+    - network_id: String #required #max(200)
+    - subnet: String? #max(50)
+
+- name: Docker Volume
+  type: docker_volume
+  id: [name]
+  schema:
+    - created_at: Date = now()
+    - driver: String = local #max(100)
+    - labels: String? # JSON map
+    - mountpoint: String? #max(2000)
+    - name: String #required #unique #max(255)

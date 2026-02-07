@@ -1,0 +1,28 @@
+- name: Schedule
+  type: schedule
+  schema:
+    - created_at: Date = now()
+    - cron_expression: String? #max(100)
+    - description: String? #max(500)
+    - enabled: Boolean = true
+    - interval_seconds: int? #min(1)
+    - last_run_at: Date?
+    - metadata: String?
+    - name: String #required #unique #max(200)
+    - next_run_at: Date?
+    - schedule_type: Cron | Interval | OneTime = Cron
+    - timezone: String = UTC #max(50)
+    - updated_at: Date = now()
+
+- name: Schedule Execution
+  type: schedule_execution
+  id: [schedule_id, started_at]
+  schema:
+    - completed_at: Date?
+    - duration_ms: int? #min(0)
+    - error_message: String? #max(2000)
+    - output: String?
+    - schedule_id: Id #required -> Schedule.id
+    - started_at: Date = now()
+    - status: Pending | Running | Completed | Failed | Skipped = Pending
+    - triggered_by: Manual | Scheduled | Api = Scheduled

@@ -1,0 +1,63 @@
+- name: GitHub Repository
+  type: github_repository
+  id: [full_name]
+  schema:
+    - created_at: Date = now()
+    - default_branch: String = main #max(200)
+    - description: String? #max(1000)
+    - fork: Boolean = false
+    - full_name: String #required #unique #max(500)
+    - has_issues: Boolean = true
+    - has_wiki: Boolean = true
+    - homepage: String? #url
+    - is_private: Boolean = false
+    - repo_id: int?
+    - updated_at: Date = now()
+    - url: String? #url
+
+- name: GitHub Issue
+  type: github_issue
+  id: [repository_id, issue_number]
+  schema:
+    - assignees: String? # JSON array
+    - body: String?
+    - closed_at: Date?
+    - created_at: Date = now()
+    - issue_number: int #required #min(1)
+    - labels: String? # JSON array
+    - repository_id: Id #required -> GitHubRepository.id
+    - state: Open | Closed = Open
+    - title: String #required #max(500)
+    - updated_at: Date = now()
+    - url: String? #url
+
+- name: GitHub Pull Request
+  type: github_pull_request
+  id: [repository_id, pr_number]
+  schema:
+    - base_branch: String #required #max(200)
+    - body: String?
+    - closed_at: Date?
+    - created_at: Date = now()
+    - head_branch: String #required #max(200)
+    - is_draft: Boolean = false
+    - merged_at: Date?
+    - pr_number: int #required #min(1)
+    - repository_id: Id #required -> GitHubRepository.id
+    - state: Open | Closed | Merged = Open
+    - title: String #required #max(500)
+    - updated_at: Date = now()
+    - url: String? #url
+
+- name: GitHub Webhook
+  type: github_webhook
+  id: [repository_id, hook_id]
+  schema:
+    - created_at: Date = now()
+    - events: String #required # JSON array
+    - hook_id: int #required
+    - is_active: Boolean = true
+    - repository_id: Id #required -> GitHubRepository.id
+    - secret: String? #max(255) #encrypted
+    - updated_at: Date = now()
+    - url: String #required #url

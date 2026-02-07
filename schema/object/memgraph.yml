@@ -1,0 +1,40 @@
+- name: Memgraph Node
+  type: memgraph_node
+  id: [node_id]
+  schema:
+    - created_at: Date = now()
+    - labels: String? # JSON array
+    - node_id: String #required #max(200)
+    - properties: String? # JSON
+
+- name: Memgraph Relationship
+  type: memgraph_relationship
+  id: [relationship_id]
+  schema:
+    - created_at: Date = now()
+    - from_node_id: String #required #max(200)
+    - properties: String? # JSON
+    - relationship_id: String #required #max(200)
+    - to_node_id: String #required #max(200)
+    - type: String #required #max(200)
+
+- name: Memgraph Index
+  type: memgraph_index
+  id: [label, property]
+  schema:
+    - created_at: Date = now()
+    - label: String #required #max(200)
+    - property: String #required #max(200)
+
+- name: Memgraph Query Log
+  type: memgraph_query_log
+  id: [executed_at]
+  schema:
+    - duration_ms: int? #min(0)
+    - error_message: String? #max(1000)
+    - executed_at: Date = now()
+    - nodes_affected: int = 0 #min(0)
+    - query: String #required #max(10000)
+    - relationships_affected: int = 0 #min(0)
+    - status: Success | Failed | Timeout = Success
+    - user_id: Id? -> User.id

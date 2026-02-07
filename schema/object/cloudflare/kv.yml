@@ -1,0 +1,25 @@
+- name: Cloudflare KV Namespace
+  type: cf_kv_namespace
+  id: [account_id, namespace_name]
+  schema:
+    - account_id: String #required #max(50)
+    - created_at: Date = now()
+    - namespace_id: String? #unique #max(255)
+    - namespace_name: String #required #unique #max(255)
+    - updated_at: Date = now()
+
+- name: Cloudflare KV Entry
+  type: cf_kv_entry
+  id: [namespace_id, key]
+  schema:
+    - cache_ttl: int? #min(60)
+    - created_at: Date = now()
+    - expiration: int?
+    - expiration_ttl: int? #min(60)
+    - key: String #required #max(512)
+    - metadata: String? # JSON
+    - namespace_id: Id #required -> CfKvNamespace.id
+    - updated_at: Date = now()
+    - value: String?
+    - value_type: Text | Json | ArrayBuffer | Stream = Text
+

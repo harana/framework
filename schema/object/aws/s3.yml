@@ -1,0 +1,58 @@
+- name: AWS S3 Bucket
+  type: aws_s3_bucket
+  id: [account_id, bucket_name]
+  schema:
+    - account_id: String #required #max(20)
+    - acl: Private | PublicRead | PublicReadWrite | AuthenticatedRead = Private
+    - bucket_name: String #required #unique #max(63)
+    - cors_enabled: Boolean = false
+    - created_at: Date = now()
+    - encryption_algorithm: None | AES256 | AwsKms = None
+    - is_versioned: Boolean = false
+    - kms_key_id: String? #max(255)
+    - lifecycle_rules_count: int = 0 #min(0)
+    - location: String? #max(100)
+    - region: String? #max(50)
+    - tags: String? # JSON
+    - updated_at: Date = now()
+
+- name: AWS S3 Object
+  type: aws_s3_object
+  id: [bucket_id, key]
+  schema:
+    - bucket_id: Id #required -> AwsS3Bucket.id
+    - content_type: String? #max(255)
+    - created_at: Date = now()
+    - etag: String? #max(255)
+    - is_delete_marker: Boolean = false
+    - key: String #required #max(1024)
+    - last_modified: Date?
+    - metadata: String? # JSON
+    - size: int? #min(0)
+    - storage_class: Standard | ReducedRedundancy | StandardIa | OnezoneIa | IntelligentTiering | Glacier | DeepArchive = Standard
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - version_id: String? #max(255)
+
+- name: AWS S3 Bucket Policy
+  type: aws_s3_bucket_policy
+  id: [bucket_id]
+  schema:
+    - bucket_id: Id #required -> AwsS3Bucket.id
+    - created_at: Date = now()
+    - policy_document: String #required
+    - updated_at: Date = now()
+
+- name: AWS S3 Multipart Upload
+  type: aws_s3_multipart_upload
+  id: [bucket_id, key, upload_id]
+  schema:
+    - bucket_id: Id #required -> AwsS3Bucket.id
+    - completed_at: Date?
+    - content_type: String? #max(255)
+    - created_at: Date = now()
+    - key: String #required #max(1024)
+    - metadata: String? # JSON
+    - status: Initiated | InProgress | Completed | Aborted = Initiated
+    - storage_class: String? #max(50)
+    - upload_id: String #required #unique #max(255)

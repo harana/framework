@@ -1,0 +1,43 @@
+- name: Audit Event
+  type: audit_event
+  id: [actor_id, resource_id, created_at]
+  schema:
+    - action: String #required #max(200)
+    - actor_id: String #required #max(200)
+    - actor_type: User | Service | System = User
+    - created_at: Date = now()
+    - details: String?
+    - ip_address: String? #max(45)
+    - metadata: String?
+    - outcome: Success | Failure | Partial = Success
+    - resource_id: String #required #max(200)
+    - resource_type: String #required #max(100)
+    - user_agent: String? #max(500)
+
+- name: Audit Alert
+  type: audit_alert
+  schema:
+    - action_pattern: String? #max(500)
+    - actor_pattern: String? #max(500)
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - is_active: Boolean = true
+    - last_triggered_at: Date?
+    - notification_channel: String? #max(100)
+    - resource_pattern: String? #max(500)
+    - updated_at: Date = now()
+
+- name: Audit Export
+  type: audit_export
+  id: [created_at]
+  schema:
+    - completed_at: Date?
+    - created_at: Date = now()
+    - download_url: String? #url
+    - end_time: Date #required
+    - expires_at: Date?
+    - file_size: int? #min(0)
+    - format: Json | Csv | Parquet = Json
+    - record_count: int? #min(0)
+    - start_time: Date #required
+    - status: Pending | Processing | Completed | Failed = Pending

@@ -1,0 +1,340 @@
+- name: Build Docker Image
+  method: build
+  inputs:
+    build_args: Map[String, String]
+    context: String #required
+    dockerfile: String = "Dockerfile"
+    no_cache: Boolean = false
+    platform: String
+    pull: Boolean = false
+    tags: List[String] #required
+    target: String
+  outputs:
+    image_id: String
+    size: Int
+    success: Boolean
+
+- name: Push Docker Image
+  method: push
+  inputs:
+    all_tags: Boolean = false
+    image: String #required
+    tag: String
+  outputs:
+    digest: String
+    success: Boolean
+
+- name: Pull Docker Image
+  method: pull
+  inputs:
+    all_tags: Boolean = false
+    image: String #required
+    platform: String
+    tag: String = "latest"
+  outputs:
+    digest: String
+    image_id: String
+    success: Boolean
+
+- name: List Docker Images
+  method: list_images
+  inputs:
+    all: Boolean = false
+    filters: DockerImageFilters
+  outputs:
+    images: List[DockerImage]
+    total: Int
+
+- name: Remove Docker Image
+  method: remove_image
+  inputs:
+    force: Boolean = false
+    image: String #required
+    no_prune: Boolean = false
+  outputs:
+    success: Boolean
+
+- name: Tag Docker Image
+  method: tag
+  inputs:
+    source: String #required
+    target: String #required
+  outputs:
+    success: Boolean
+
+- name: Run Docker Container
+  method: run
+  inputs:
+    command: List[String]
+    detach: Boolean = false
+    entrypoint: String
+    env: Map[String, String]
+    image: String #required
+    labels: Map[String, String]
+    name: String
+    network: String
+    ports: List[DockerPortMapping]
+    remove: Boolean = false
+    restart: No | Always | On-failure | unless-stopped = no
+    volumes: List[DockerVolumeMount]
+    working_dir: String
+  outputs:
+    container_id: String
+    exit_code: Int
+    logs: String
+    success: Boolean
+
+- name: Start Docker Container
+  method: start
+  inputs:
+    container: String #required
+  outputs:
+    success: Boolean
+
+- name: Stop Docker Container
+  method: stop
+  inputs:
+    container: String #required
+    timeout: Int = 10
+  outputs:
+    success: Boolean
+
+- name: Restart Docker Container
+  method: restart
+  inputs:
+    container: String #required
+    timeout: Int = 10
+  outputs:
+    success: Boolean
+
+- name: Remove Docker Container
+  method: remove_container
+  inputs:
+    container: String #required
+    force: Boolean = false
+    volumes: Boolean = false
+  outputs:
+    success: Boolean
+
+- name: List Docker Containers
+  method: list_containers
+  inputs:
+    all: Boolean = false
+    filters: DockerContainerFilters
+    limit: Int
+  outputs:
+    containers: List[DockerContainer]
+    total: Int
+
+- name: Get Container Logs
+  method: logs
+  inputs:
+    container: String #required
+    follow: Boolean = false
+    since: String
+    tail: Int
+    timestamps: Boolean = false
+    until: String
+  outputs:
+    logs: String
+
+- name: Execute Command In Container
+  method: exec
+  inputs:
+    command: List[String] #required
+    container: String #required
+    detach: Boolean = false
+    env: Map[String, String]
+    privileged: Boolean = false
+    tty: Boolean = false
+    user: String
+    working_dir: String
+  outputs:
+    exit_code: Int
+    output: String
+    success: Boolean
+
+- name: Inspect Docker Container
+  method: inspect_container
+  inputs:
+    container: String #required
+  outputs:
+    config: DockerContainerConfig
+    created: Date
+    id: String
+    image: String
+    name: String
+    network_settings: DockerNetworkSettings
+    state: DockerContainerState
+
+- name: Create Docker Network
+  method: create_network
+  inputs:
+    driver: Bridge | Host | Overlay | Macvlan | None = Bridge
+    labels: Map[String, String]
+    name: String #required
+    options: Map[String, String]
+  outputs:
+    network_id: String
+    success: Boolean
+
+- name: Remove Docker Network
+  method: remove_network
+  inputs:
+    network: String #required
+  outputs:
+    success: Boolean
+
+- name: List Docker Networks
+  method: list_networks
+  inputs:
+    filters: DockerNetworkFilters
+  outputs:
+    networks: List[DockerNetwork]
+    total: Int
+
+- name: Create Docker Volume
+  method: create_volume
+  inputs:
+    driver: String = "local"
+    labels: Map[String, String]
+    name: String #required
+    options: Map[String, String]
+  outputs:
+    success: Boolean
+    volume_name: String
+
+- name: Remove Docker Volume
+  method: remove_volume
+  inputs:
+    force: Boolean = false
+    volume: String #required
+  outputs:
+    success: Boolean
+
+- name: List Docker Volumes
+  method: list_volumes
+  inputs:
+    filters: DockerVolumeFilters
+  outputs:
+    total: Int
+    volumes: List[DockerVolume]
+
+- name: Docker Registry Login
+  method: login
+  inputs:
+    password: String #required
+    registry: String
+    username: String #required
+  outputs:
+    success: Boolean
+
+- name: Docker Registry Logout
+  method: logout
+  inputs:
+    registry: String
+  outputs:
+    success: Boolean
+
+- name: DockerImage
+  class:
+    id: String
+    tags: List[String]
+    created: Date
+    size: Int
+    labels: Map[String, String]
+
+- name: DockerContainer
+  class:
+    id: String
+    name: String
+    image: String
+    status: String
+    state: String
+    created: Date
+    ports: List[DockerPortMapping]
+
+- name: DockerContainerState
+  class:
+    status: String
+    running: Boolean
+    paused: Boolean
+    restarting: Boolean
+    exit_code: Int
+    started_at: Date
+    finished_at: Date
+
+- name: DockerContainerConfig
+  class:
+    hostname: String
+    user: String
+    env: List[String]
+    cmd: List[String]
+    working_dir: String
+    entrypoint: List[String]
+    labels: Map[String, String]
+
+- name: DockerNetworkSettings
+  class:
+    networks: Map[string, DockerNetworkEndpoint]
+    ip_address: String
+    gateway: String
+
+- name: DockerNetworkEndpoint
+  class:
+    network_id: String
+    ip_address: String
+    gateway: String
+
+- name: DockerPortMapping
+  class:
+    container_port: Int
+    host_port: Int
+    protocol: String
+
+- name: DockerVolumeMount
+  class:
+    source: String
+    target: String
+    read_only: Boolean
+
+- name: DockerNetwork
+  class:
+    id: String
+    name: String
+    driver: String
+    scope: String
+    created: Date
+
+- name: DockerVolume
+  class:
+    name: String
+    driver: String
+    mountpoint: String
+    created: Date
+    labels: Map[String, String]
+
+- name: DockerImageFilters
+  class:
+    dangling: Boolean
+    label: List[String]
+    reference: List[String]
+
+- name: DockerContainerFilters
+  class:
+    id: List[String]
+    name: List[String]
+    status: List[String]
+    label: List[String]
+
+- name: DockerNetworkFilters
+  class:
+    driver: List[String]
+    id: List[String]
+    name: List[String]
+
+- name: DockerVolumeFilters
+  class:
+    dangling: Boolean
+    driver: List[String]
+    name: List[String]

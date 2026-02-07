@@ -1,0 +1,43 @@
+- name: Git Repository
+  type: git_repository
+  id: [full_name]
+  schema:
+    - created_at: Date = now()
+    - default_branch: String = main #max(200)
+    - description: String? #max(1000)
+    - full_name: String #required #unique #max(500)
+    - is_private: Boolean = false
+    - provider: Github | Gitlab | Bitbucket | Local = Github
+    - updated_at: Date = now()
+    - url: String? #url
+
+- name: Git Branch
+  type: git_branch
+  id: [repository_id, name]
+  schema:
+    - created_at: Date = now()
+    - is_protected: Boolean = false
+    - name: String #required #max(200)
+    - repository_id: Id #required -> GitRepository.id
+    - sha: String? #max(64)
+
+- name: Git Commit
+  type: git_commit
+  id: [repository_id, sha]
+  schema:
+    - author_email: String? #max(255)
+    - author_name: String? #max(200)
+    - committed_at: Date = now()
+    - message: String? #max(5000)
+    - repository_id: Id #required -> GitRepository.id
+    - sha: String #required #max(64)
+
+- name: Git Tag
+  type: git_tag
+  id: [repository_id, name]
+  schema:
+    - created_at: Date = now()
+    - message: String? #max(2000)
+    - name: String #required #max(200)
+    - repository_id: Id #required -> GitRepository.id
+    - sha: String #required #max(64)

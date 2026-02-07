@@ -1,0 +1,25 @@
+- name: Run Process
+  type: run_process
+  id: [process_id]
+  schema:
+    - args: String? # JSON array
+    - command: String #required #max(2000)
+    - cpu_usage: decimal? #min(0)
+    - environment: String? # JSON map
+    - exit_code: int?
+    - is_detached: Boolean = false
+    - memory_usage: int? #min(0)
+    - process_id: int? #min(0)
+    - started_at: Date = now()
+    - status: Pending | Running | Completed | Failed | Killed = Pending
+    - stopped_at: Date?
+    - working_directory: String? #max(2000)
+
+- name: Run Process Log
+  type: run_process_log
+  id: [process_id, created_at]
+  schema:
+    - content: String #required #max(10000)
+    - created_at: Date = now()
+    - process_id: Id #required -> RunProcess.id
+    - stream: Stdout | Stderr = Stdout

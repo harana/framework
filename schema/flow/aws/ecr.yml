@@ -1,0 +1,182 @@
+- name: Create ECR Repository
+  method: create_repository
+  inputs:
+    encryption_type: AES256 | KMS
+    image_tag_mutability: MUTABLE | IMMUTABLE = MUTABLE
+    kms_key: String
+    region: String
+    repository_name: String #required
+    scan_on_push: Boolean = false
+    tags: EcrTags
+  outputs:
+    registry_id: String
+    repository_arn: String
+    repository_uri: String
+    success: Boolean
+
+- name: Delete ECR Repository
+  method: delete_repository
+  inputs:
+    force: Boolean = false
+    region: String
+    repository_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Describe ECR Repositories
+  method: describe_repositories
+  inputs:
+    region: String
+    repository_names: List[String]
+  outputs:
+    repositories: List[EcrRepository]
+
+- name: List ECR Images
+  method: list_images
+  inputs:
+    filter: ImageFilter
+    max_results: Int = 100
+    region: String
+    repository_name: String #required
+  outputs:
+    image_ids: List[ImageId]
+    next_token: String
+
+- name: Describe ECR Images
+  method: describe_images
+  inputs:
+    image_ids: List[ImageId]
+    region: String
+    repository_name: String #required
+  outputs:
+    image_details: List[EcrImageDetail]
+
+- name: Put ECR Image
+  method: put_image
+  inputs:
+    image_manifest: String #required
+    image_tag: String #required
+    region: String
+    repository_name: String #required
+  outputs:
+    image: EcrImage
+    success: Boolean
+
+- name: Batch Delete ECR Image
+  method: batch_delete_image
+  inputs:
+    image_ids: List[ImageId] #required
+    region: String
+    repository_name: String #required
+  outputs:
+    failures: List[ImageFailure]
+    image_ids: List[ImageId]
+    success: Boolean
+
+- name: Get ECR Authorization Token
+  method: get_auth_token
+  inputs:
+    region: String
+    registry_ids: List[String]
+  outputs:
+    authorization_token: String
+    expires_at: Date
+    proxy_endpoint: String
+    success: Boolean
+
+- name: Get ECR Download URL
+  method: get_download_url
+  inputs:
+    image_digest: String #required
+    region: String
+    repository_name: String #required
+  outputs:
+    download_url: String
+    success: Boolean
+
+- name: Tag ECR Image
+  method: tag_image
+  inputs:
+    image_digest: String #required
+    image_tag: String #required
+    region: String
+    repository_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Set Repository Policy
+  method: set_repository_policy
+  inputs:
+    force: Boolean = false
+    policy_text: String #required
+    region: String
+    repository_name: String #required
+  outputs:
+    policy_text: String
+    registry_id: String
+    repository_name: String
+    success: Boolean
+
+- name: Get Repository Policy
+  method: get_repository_policy
+  inputs:
+    region: String
+    repository_name: String #required
+  outputs:
+    policy_text: String
+    registry_id: String
+    repository_name: String
+
+- name: Delete Repository Policy
+  method: delete_repository_policy
+  inputs:
+    region: String
+    repository_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Start Image Scan
+  method: start_image_scan
+  inputs:
+    image_id: ImageId #required
+    region: String
+    repository_name: String #required
+  outputs:
+    image_id: ImageId
+    scan_status: String
+    success: Boolean
+
+- name: Describe Image Scan Findings
+  method: describe_scan_findings
+  inputs:
+    image_id: ImageId #required
+    max_results: Int = 100
+    region: String
+    repository_name: String #required
+  outputs:
+    findings: List[ImageScanFinding]
+    image_scan_status: ImageScanStatus
+    next_token: String
+
+- name: Put Lifecycle Policy
+  method: put_lifecycle_policy
+  inputs:
+    lifecycle_policy_text: String #required
+    region: String
+    repository_name: String #required
+  outputs:
+    lifecycle_policy_text: String
+    registry_id: String
+    repository_name: String
+    success: Boolean
+
+- name: Get Lifecycle Policy
+  method: get_lifecycle_policy
+  inputs:
+    region: String
+    repository_name: String #required
+  outputs:
+    last_evaluated_at: Date
+    lifecycle_policy_text: String
+    registry_id: String
+    repository_name: String

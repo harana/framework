@@ -1,0 +1,252 @@
+- name: Send Message
+  method: send_message
+  inputs:
+    attachments: List[SlackAttachment]
+    blocks: List[SlackBlock]
+    channel_id: String #required
+    icon_emoji: String
+    icon_url: String
+    text: String #required
+    thread_ts: String
+    username: String
+  outputs:
+    channel_id: String
+    message_ts: String
+    success: Boolean
+
+- name: Update Message
+  method: update_message
+  inputs:
+    attachments: List[SlackAttachment]
+    blocks: List[SlackBlock]
+    channel_id: String #required
+    text: String #required
+    timestamp: String #required
+  outputs:
+    message_ts: String
+    success: Boolean
+
+- name: Delete Message
+  method: delete_message
+  inputs:
+    channel_id: String #required
+    timestamp: String #required
+  outputs:
+    success: Boolean
+
+- name: Send Direct Message
+  method: send_dm
+  inputs:
+    attachments: List[SlackAttachment]
+    blocks: List[SlackBlock]
+    text: String #required
+    user_id: String #required
+  outputs:
+    channel_id: String
+    message_ts: String
+    success: Boolean
+
+- name: Create Channel
+  method: create_channel
+  inputs:
+    description: String
+    is_private: Boolean = false
+    name: String #required
+  outputs:
+    channel_id: String
+    name: String
+    success: Boolean
+
+- name: Archive Channel
+  method: archive_channel
+  inputs:
+    channel_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Unarchive Channel
+  method: unarchive_channel
+  inputs:
+    channel_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Invite Users To Channel
+  method: invite_users
+  inputs:
+    channel_id: String #required
+    user_ids: List[String] #required
+  outputs:
+    success: Boolean
+
+- name: Kick User From Channel
+  method: kick_user
+  inputs:
+    channel_id: String #required
+    user_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Get Channel Info
+  method: get_channel_info
+  inputs:
+    channel_id: String #required
+  outputs:
+    channel_id: String
+    is_archived: Boolean
+    is_private: Boolean
+    name: String
+    num_members: Int
+    purpose: String
+    topic: String
+
+- name: List Channels
+  method: list_channels
+  inputs:
+    exclude_archived: Boolean = true
+    limit: Int = 100
+    types: Public | Private | Mpim | Im
+  outputs:
+    channels: List[SlackChannel]
+
+- name: Get User Info
+  method: get_user_info
+  inputs:
+    user_id: String #required
+  outputs:
+    email: String
+    is_admin: Boolean
+    is_bot: Boolean
+    name: String
+    real_name: String
+    timezone: String
+    user_id: String
+
+- name: List Users
+  method: list_users
+  inputs:
+    limit: Int = 100
+  outputs:
+    users: List[SlackUser]
+
+- name: Add Reaction
+  method: add_reaction
+  inputs:
+    channel_id: String #required
+    emoji: String #required
+    timestamp: String #required
+  outputs:
+    success: Boolean
+
+- name: Remove Reaction
+  method: remove_reaction
+  inputs:
+    channel_id: String #required
+    emoji: String #required
+    timestamp: String #required
+  outputs:
+    success: Boolean
+
+- name: Upload File
+  method: upload_file
+  inputs:
+    channels: List[String]
+    content: String
+    file: String
+    filename: String
+    initial_comment: String
+    title: String
+  outputs:
+    file_id: String
+    success: Boolean
+
+- name: Pin Message
+  method: pin_message
+  inputs:
+    channel_id: String #required
+    timestamp: String #required
+  outputs:
+    success: Boolean
+
+- name: Unpin Message
+  method: unpin_message
+  inputs:
+    channel_id: String #required
+    timestamp: String #required
+  outputs:
+    success: Boolean
+
+- name: Set Channel Topic
+  method: set_channel_topic
+  inputs:
+    channel_id: String #required
+    topic: String #required
+  outputs:
+    success: Boolean
+
+- name: Set Channel Purpose
+  method: set_channel_purpose
+  inputs:
+    channel_id: String #required
+    purpose: String #required
+  outputs:
+    success: Boolean
+
+- name: SlackMessage
+  class:
+    message_ts: String
+    channel_id: String
+    text: String
+    user_id: String
+    thread_ts: String
+    blocks: List[SlackBlock]
+    attachments: List[SlackAttachment]
+
+- name: SlackBlock
+  class:
+    type: String
+    block_id: String
+    text: SlackTextObject
+    elements: List[any]
+
+- name: SlackTextObject
+  class:
+    type: String
+    text: String
+    emoji: Boolean
+
+- name: SlackAttachment
+  class:
+    fallback: String
+    color: String
+    pretext: String
+    title: String
+    title_link: String
+    text: String
+    fields: List[SlackAttachmentField]
+
+- name: SlackAttachmentField
+  class:
+    title: String
+    value: String
+    short: Boolean
+
+- name: SlackChannel
+  class:
+    channel_id: String
+    name: String
+    is_private: Boolean
+    is_archived: Boolean
+    num_members: Int
+    topic: String
+    purpose: String
+
+- name: SlackUser
+  class:
+    user_id: String
+    name: String
+    real_name: String
+    email: String
+    is_admin: Boolean
+    is_bot: Boolean
+    timezone: String

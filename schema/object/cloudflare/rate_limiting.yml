@@ -1,0 +1,12 @@
+- name: Cloudflare Rate Limiter
+  type: cf_rate_limiter
+  id: [account_id, limiter_name]
+  schema:
+    - account_id: String #required #max(50)
+    - binding: String #required #max(255)
+    - created_at: Date = now()
+    - limiter_name: String #required #unique #max(255)
+    - period_seconds: int = 60 #min(1)
+    - requests_per_period: int = 100 #min(1)
+    - updated_at: Date = now()
+

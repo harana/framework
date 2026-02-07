@@ -1,0 +1,137 @@
+- name: Send HTTP GET Request
+  method: get
+  inputs:
+    headers: Headers
+    query_params: QueryParams
+    timeout: Int = 30
+    url: String #required
+  outputs:
+    body: Any
+    headers: Headers
+    status_code: Int
+
+- name: Send HTTP POST Request
+  method: post
+  inputs:
+    body: Any
+    content_type: String = "application/json"
+    headers: Headers
+    query_params: QueryParams
+    timeout: Int = 30
+    url: String #required
+  outputs:
+    body: Any
+    headers: Headers
+    status_code: Int
+
+- name: Send HTTP PUT Request
+  method: put
+  inputs:
+    body: Any
+    content_type: String = "application/json"
+    headers: Headers
+    query_params: QueryParams
+    timeout: Int = 30
+    url: String #required
+  outputs:
+    body: Any
+    headers: Headers
+    status_code: Int
+
+- name: Send HTTP PATCH Request
+  method: patch
+  inputs:
+    body: Any
+    content_type: String = "application/json"
+    headers: Headers
+    query_params: QueryParams
+    timeout: Int = 30
+    url: String #required
+  outputs:
+    body: Any
+    headers: Headers
+    status_code: Int
+
+- name: Send HTTP DELETE Request
+  method: delete
+  inputs:
+    headers: Headers
+    query_params: QueryParams
+    timeout: Int = 30
+    url: String #required
+  outputs:
+    body: Any
+    headers: Headers
+    status_code: Int
+
+- name: Download File From URL
+  method: download
+  inputs:
+    headers: Headers
+    timeout: Int = 300
+    url: String #required
+  outputs:
+    content: bytes
+    content_type: String
+    size: Int
+
+- name: Upload File To URL
+  method: upload
+  inputs:
+    file: bytes #required
+    filename: String #required
+    headers: Headers
+    timeout: Int = 300
+    url: String #required
+  outputs:
+    body: Any
+    status_code: Int
+
+- name: Send GraphQL Query
+  method: graphql_query
+  inputs:
+    headers: Headers
+    query: String #required
+    timeout: Int = 30
+    url: String #required
+    variables: Variables
+  outputs:
+    data: Any
+    errors: List[GraphQLError]
+
+- name: HttpRequest
+  class:
+    url: String
+    method: String
+    headers: Headers
+    query_params: QueryParams
+    body: Any
+    timeout: Int
+
+- name: Headers
+  class:
+    content_type: String
+    authorization: String
+    accept: String
+    user_agent: String
+
+- name: QueryParams
+  class:
+    key: String
+    value: String
+
+- name: Variables
+  class:
+    key: String
+    value: Any
+
+- name: GraphQLError
+  class:
+    message: String
+    path: List[String]
+    locations: List[GraphQLErrorLocation]
+
+- name: GraphQLErrorLocation
+  class:
+    line: Int
+    column: Int

@@ -1,0 +1,116 @@
+- name: Create New Session
+  method: create
+  inputs:
+    data: SessionData
+    ttl: Int = 3600
+    user_id: String #required
+  outputs:
+    expires_at: Date
+    session_id: String
+
+- name: Get Session Data
+  method: get
+  inputs:
+    session_id: String #required
+  outputs:
+    created_at: Date
+    data: SessionData
+    expires_at: Date
+    found: Boolean
+    user_id: String
+
+- name: Update Session Data
+  method: update
+  inputs:
+    data: SessionData #required
+    merge: Boolean = true
+    session_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Destroy Session
+  method: destroy
+  inputs:
+    session_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Refresh Session Expiry
+  method: refresh
+  inputs:
+    session_id: String #required
+    ttl: Int
+  outputs:
+    expires_at: Date
+    success: Boolean
+
+- name: Get Session Value
+  method: get_value
+  inputs:
+    key: String #required
+    session_id: String #required
+  outputs:
+    found: Boolean
+    value: Any
+
+- name: Set Session Value
+  method: set_value
+  inputs:
+    key: String #required
+    session_id: String #required
+    value: Any #required
+  outputs:
+    success: Boolean
+
+- name: Delete Session Value
+  method: delete_value
+  inputs:
+    key: String #required
+    session_id: String #required
+  outputs:
+    success: Boolean
+
+- name: List User Sessions
+  method: list_users
+  inputs:
+    user_id: String #required
+  outputs:
+    sessions: List[SessionInfo]
+    total: Int
+
+- name: Destroy All User Sessions
+  method: destroy_users
+  inputs:
+    except_id: String
+    user_id: String #required
+  outputs:
+    destroyed_count: Int
+    success: Boolean
+
+- name: Check Session Valid
+  method: validate
+  inputs:
+    session_id: String #required
+  outputs:
+    expires_at: Date
+    user_id: String
+    valid: Boolean
+
+- name: Session
+  class:
+    session_id: String
+    user_id: String
+    data: SessionData
+    created_at: Date
+    expires_at: Date
+
+- name: SessionData
+  class:
+    values: Map[String, Any]
+
+- name: SessionInfo
+  class:
+    session_id: String
+    user_id: String
+    created_at: Date
+    expires_at: Date

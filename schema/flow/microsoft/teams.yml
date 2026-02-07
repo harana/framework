@@ -1,0 +1,271 @@
+- name: Send Teams Message
+  method: send_message
+  inputs:
+    attachments: List[TeamsAttachment]
+    channel_id: String #required
+    content: String #required
+    content_type: Text | Html = Text
+    importance: Normal | High | Urgent = Normal
+    mentions: List[TeamsMention]
+    team_id: String #required
+  outputs:
+    created_at: Date
+    message_id: String
+    success: Boolean
+
+- name: Reply To Teams Message
+  method: reply_to_message
+  inputs:
+    attachments: List[TeamsAttachment]
+    channel_id: String #required
+    content: String #required
+    content_type: Text | Html = Text
+    message_id: String #required
+    team_id: String #required
+  outputs:
+    reply_id: String
+    success: Boolean
+
+- name: Update Teams Message
+  method: update_message
+  inputs:
+    channel_id: String #required
+    content: String #required
+    content_type: Text | Html = Text
+    message_id: String #required
+    team_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Delete Teams Message
+  method: delete_message
+  inputs:
+    channel_id: String #required
+    message_id: String #required
+    team_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Send Teams Chat Message
+  method: send_chat_message
+  inputs:
+    attachments: List[TeamsAttachment]
+    chat_id: String #required
+    content: String #required
+    content_type: Text | Html = Text
+  outputs:
+    message_id: String
+    success: Boolean
+
+- name: Create Teams Channel
+  method: create_channel
+  inputs:
+    description: String
+    display_name: String #required
+    membership_type: Standard | Private | Shared = Standard
+    team_id: String #required
+  outputs:
+    channel_id: String
+    success: Boolean
+    web_url: String
+
+- name: Delete Teams Channel
+  method: delete_channel
+  inputs:
+    channel_id: String #required
+    team_id: String #required
+  outputs:
+    success: Boolean
+
+- name: List Team Channels
+  method: list_channels
+  inputs:
+    filter: String
+    team_id: String #required
+  outputs:
+    channels: List[TeamsChannel]
+    count: Int
+
+- name: Get Channel Messages
+  method: get_channel_messages
+  inputs:
+    channel_id: String #required
+    order_by: String
+    team_id: String #required
+    top: Int = 50
+  outputs:
+    messages: List[TeamsMessage]
+    next_link: String
+
+- name: Create Teams Meeting
+  method: create_meeting
+  inputs:
+    allow_new_time_proposals: Boolean = true
+    attendees: List[String] #required
+    body: String
+    end_time: Date #required
+    is_online_meeting: Boolean = true
+    location: String
+    start_time: Date #required
+    subject: String #required
+  outputs:
+    join_url: String
+    meeting_id: String
+    success: Boolean
+
+- name: Get Teams Meeting
+  method: get_meeting
+  inputs:
+    meeting_id: String #required
+  outputs:
+    attendees: List[TeamsAttendee]
+    end_time: Date
+    join_url: String
+    meeting_id: String
+    start_time: Date
+    subject: String
+
+- name: Cancel Teams Meeting
+  method: cancel_meeting
+  inputs:
+    comment: String
+    meeting_id: String #required
+  outputs:
+    success: Boolean
+
+- name: List Teams
+  method: list_teams
+  inputs:
+    filter: String
+    top: Int = 100
+  outputs:
+    count: Int
+    teams: List[TeamsTeam]
+
+- name: Get Team Info
+  method: get_team
+  inputs:
+    team_id: String #required
+  outputs:
+    description: String
+    display_name: String
+    team_id: String
+    visibility: String
+    web_url: String
+
+- name: List Team Members
+  method: list_team_members
+  inputs:
+    role: Owner | Member
+    team_id: String #required
+  outputs:
+    count: Int
+    members: List[TeamsMember]
+
+- name: Add Team Member
+  method: add_team_member
+  inputs:
+    roles: List[String]
+    team_id: String #required
+    user_id: String #required
+  outputs:
+    membership_id: String
+    success: Boolean
+
+- name: Remove Team Member
+  method: remove_team_member
+  inputs:
+    membership_id: String #required
+    team_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Send Adaptive Card
+  method: send_adaptive_card
+  inputs:
+    card: TeamsAdaptiveCard #required
+    channel_id: String #required
+    team_id: String #required
+  outputs:
+    message_id: String
+    success: Boolean
+
+- name: Upload File To Channel
+  method: upload_file
+  inputs:
+    channel_id: String #required
+    content: bytes #required
+    file_name: String #required
+    folder_path: String
+    team_id: String #required
+  outputs:
+    file_id: String
+    success: Boolean
+    web_url: String
+
+- name: TeamsMessage
+  class:
+    message_id: String
+    channel_id: String
+    team_id: String
+    content: String
+    content_type: String
+    created_at: Date
+    from_user: TeamsUser
+    importance: String
+
+- name: TeamsUser
+  class:
+    user_id: String
+    display_name: String
+    email: String
+
+- name: TeamsAttachment
+  class:
+    id: String
+    content_type: String
+    content_url: String
+    name: String
+
+- name: TeamsMention
+  class:
+    id: String
+    mentioned_id: String
+    mentioned_text: String
+
+- name: TeamsChannel
+  class:
+    channel_id: String
+    display_name: String
+    description: String
+    membership_type: String
+    web_url: String
+
+- name: TeamsAttendee
+  class:
+    email: String
+    display_name: String
+    response_status: String
+
+- name: TeamsTeam
+  class:
+    team_id: String
+    display_name: String
+    description: String
+    visibility: String
+    web_url: String
+
+- name: TeamsMember
+  class:
+    membership_id: String
+    user_id: String
+    display_name: String
+    email: String
+    roles: List[String]
+
+- name: TeamsAdaptiveCard
+  class:
+    type: String
+    version: String
+    body: List[any]
+    actions: List[any]

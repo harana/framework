@@ -1,0 +1,41 @@
+- name: Image
+  type: image
+  schema:
+    - blob_id: Id? -> BlobObject.id
+    - color_space: String? #max(20)
+    - content_type: String? #max(100)
+    - created_at: Date = now()
+    - created_by: Id? -> User.id
+    - format: Jpeg | Png | Webp | Avif | Tiff | Gif = Jpeg
+    - has_alpha: Boolean = false
+    - height: int #required #min(1)
+    - orientation: int = 1 #min(1) #max(8)
+    - size: int #required #min(0)
+    - updated_at: Date = now()
+    - width: int #required #min(1)
+
+- name: Image Variant
+  type: image_variant
+  id: [image_id, variant_type]
+  schema:
+    - blob_id: Id? -> BlobObject.id
+    - created_at: Date = now()
+    - format: Jpeg | Png | Webp | Avif = Webp
+    - height: int #required #min(1)
+    - image_id: Id #required -> Image.id
+    - quality: int = 80 #min(1) #max(100)
+    - size: int #required #min(0)
+    - variant_type: Thumbnail | Small | Medium | Large | Original = Original
+    - width: int #required #min(1)
+
+- name: Image Operation
+  type: image_operation
+  id: [image_id, created_at]
+  schema:
+    - completed_at: Date?
+    - created_at: Date = now()
+    - error_message: String? #max(1000)
+    - image_id: Id #required -> Image.id
+    - operation: Resize | Crop | Compress | Rotate | Flip | Blur | Sharpen | Convert | Watermark | Thumbnail = Resize
+    - parameters: String? # JSON
+    - status: Pending | Running | Completed | Failed = Pending

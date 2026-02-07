@@ -1,0 +1,213 @@
+- name: Create Feature Flag
+  method: create_flag
+  inputs:
+    default_variation: Int = 0
+    description: String
+    enabled: Boolean = false
+    key: String #required
+    name: String #required
+    tags: List[String]
+    variations: List[FlagVariation] #required
+  outputs:
+    flag_id: String
+    key: String
+    success: Boolean
+
+- name: Update Feature Flag
+  method: update_flag
+  inputs:
+    description: String
+    enabled: Boolean
+    flag_id: String #required
+    name: String
+    tags: List[String]
+    variations: List[FlagVariation]
+  outputs:
+    flag_id: String
+    success: Boolean
+
+- name: Toggle Feature Flag
+  method: toggle_flag
+  inputs:
+    enabled: Boolean #required
+    flag_id: String #required
+  outputs:
+    enabled: Boolean
+    flag_id: String
+    success: Boolean
+
+- name: Delete Feature Flag
+  method: delete_flag
+  inputs:
+    flag_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Get Feature Flag
+  method: get_flag
+  inputs:
+    flag_id: String #required
+  outputs:
+    created_at: Int
+    description: String
+    enabled: Boolean
+    flag_id: String
+    key: String
+    name: String
+    updated_at: Int
+    variations: List[FlagVariation]
+
+- name: List Feature Flags
+  method: list_flags
+  inputs:
+    enabled: Boolean
+    limit: Int = 100
+    offset: Int = 0
+    tags: List[String]
+  outputs:
+    flags: List[FeatureFlag]
+    total: Int
+
+- name: Evaluate Feature Flag
+  method: evaluate_flag
+  inputs:
+    context: FlagEvaluationContext
+    flag_id: String #required
+    user_id: String
+  outputs:
+    enabled: Boolean
+    flag_id: String
+    reason: String
+    variation: FlagVariation
+
+- name: Create Targeting Rule
+  method: create_targeting_rule
+  inputs:
+    conditions: List[FlagRuleCondition] #required
+    flag_id: String #required
+    name: String #required
+    priority: Int = 0
+    variation: Int #required
+  outputs:
+    flag_id: String
+    rule_id: String
+    success: Boolean
+
+- name: Update Targeting Rule
+  method: update_targeting_rule
+  inputs:
+    conditions: List[FlagRuleCondition]
+    name: String
+    priority: Int
+    rule_id: String #required
+    variation: Int
+  outputs:
+    rule_id: String
+    success: Boolean
+
+- name: Delete Targeting Rule
+  method: delete_targeting_rule
+  inputs:
+    rule_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Create Percentage Rollout
+  method: create_rollout
+  inputs:
+    flag_id: String #required
+    percentages: Map[string, integer] #required
+    seed: String
+  outputs:
+    flag_id: String
+    rollout_id: String
+    success: Boolean
+
+- name: Update Percentage Rollout
+  method: update_rollout
+  inputs:
+    percentages: Map[string, integer] #required
+    rollout_id: String #required
+  outputs:
+    rollout_id: String
+    success: Boolean
+
+- name: Get Flag Evaluation Count
+  method: get_evaluation_count
+  inputs:
+    end_date: Int
+    flag_id: String #required
+    start_date: Int
+  outputs:
+    flag_id: String
+    total_evaluations: Int
+    variation_counts: Map[string, integer]
+
+- name: Create Flag Environment
+  method: create_environment
+  inputs:
+    description: String
+    key: String #required
+    name: String #required
+  outputs:
+    environment_id: String
+    key: String
+    success: Boolean
+
+- name: Clone Flag To Environment
+  method: clone_flag
+  inputs:
+    flag_id: String #required
+    source_environment: String #required
+    target_environment: String #required
+  outputs:
+    flag_id: String
+    success: Boolean
+
+- name: Archive Feature Flag
+  method: archive_flag
+  inputs:
+    flag_id: String #required
+  outputs:
+    archived: Boolean
+    flag_id: String
+    success: Boolean
+
+- name: Restore Feature Flag
+  method: restore_flag
+  inputs:
+    flag_id: String #required
+  outputs:
+    archived: Boolean
+    flag_id: String
+    success: Boolean
+
+- name: FeatureFlag
+  class:
+    flag_id: String
+    key: String
+    name: String
+    description: String
+    enabled: Boolean
+    variations: List[FlagVariation]
+    default_variation: Int
+    tags: List[String]
+    created_at: Date
+    updated_at: Date
+
+- name: FlagVariation
+  class:
+    name: String
+    value: Any
+    description: String
+
+- name: FlagEvaluationContext
+  class:
+    user_id: String
+    attributes: Map[String, Any]
+
+- name: FlagRuleCondition
+  class:
+    attribute: String
+    operator: String
+    value: Any

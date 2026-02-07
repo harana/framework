@@ -1,0 +1,43 @@
+- name: Push Device
+  type: push_device
+  id: [user_id, device_token]
+  schema:
+    - created_at: Date = now()
+    - device_token: String #required #max(500)
+    - is_active: Boolean = true
+    - platform: Apns | Web | Fcm = Fcm
+    - updated_at: Date = now()
+    - user_agent: String? #max(500)
+    - user_id: Id #required -> User.id
+
+- name: Push Topic
+  type: push_topic
+  id: [name]
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - is_active: Boolean = true
+    - name: String #required #unique #max(200)
+    - platform: Apns | Web | Fcm = Fcm
+
+- name: Push Topic Subscription
+  type: push_topic_subscription
+  id: [topic_id, device_id]
+  schema:
+    - device_id: Id #required -> PushDevice.id
+    - subscribed_at: Date = now()
+    - topic_id: Id #required -> PushTopic.id
+
+- name: Push Notification Log
+  type: push_notification_log
+  id: [device_id, sent_at]
+  schema:
+    - body: String #required #max(1000)
+    - device_id: Id? -> PushDevice.id
+    - error_message: String? #max(1000)
+    - message_id: String? #max(200)
+    - platform: Apns | Web | Fcm = Fcm
+    - sent_at: Date = now()
+    - status: Pending | Sent | Delivered | Failed = Pending
+    - title: String #required #max(200)
+    - topic_id: Id? -> PushTopic.id

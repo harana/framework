@@ -1,0 +1,35 @@
+- name: Cloudflare Vectorize Index
+  type: cf_vectorize_index
+  id: [account_id, index_name]
+  schema:
+    - account_id: String #required #max(50)
+    - binding: String #required #max(255)
+    - configured_dimensions: int #required #min(1)
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - index_name: String #required #unique #max(255)
+    - metric: Cosine | Euclidean | DotProduct = Cosine
+    - updated_at: Date = now()
+    - vectors_count: int = 0 #min(0)
+
+- name: Cloudflare Vectorize Vector
+  type: cf_vectorize_vector
+  id: [index_id, vector_id]
+  schema:
+    - created_at: Date = now()
+    - index_id: Id #required -> CfVectorizeIndex.id
+    - metadata: String? # JSON
+    - namespace: String? #max(255)
+    - updated_at: Date = now()
+    - values: String? # JSON list of floats
+    - vector_id: String #required #max(255)
+
+- name: Cloudflare Vectorize Metadata Index
+  type: cf_vectorize_metadata_index
+  id: [index_id, property_name]
+  schema:
+    - created_at: Date = now()
+    - index_id: Id #required -> CfVectorizeIndex.id
+    - property_name: String #required #max(255)
+    - type: String | Number | Boolean = String
+

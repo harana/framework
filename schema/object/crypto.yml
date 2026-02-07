@@ -1,0 +1,40 @@
+- name: Encryption Key
+  type: encryption_key
+  id: [key_id]
+  schema:
+    - algorithm: Aes256Gcm | Aes256Cbc | Rsa | Ed25519 | Ecdsa = Aes256Gcm
+    - created_at: Date = now()
+    - created_by: Id? -> User.id
+    - expires_at: Date?
+    - is_active: Boolean = true
+    - key_id: String #required #unique #max(200)
+    - key_size: int #required #min(128)
+    - key_type: Symmetric | Asymmetric = Symmetric
+    - last_rotated_at: Date?
+    - updated_at: Date = now()
+    - usage: Encrypt | Sign | Both = Encrypt
+
+- name: Key Pair
+  type: key_pair
+  id: [key_id]
+  schema:
+    - algorithm: Rsa | Ed25519 | Ecdsa = Rsa
+    - created_at: Date = now()
+    - created_by: Id? -> User.id
+    - expires_at: Date?
+    - is_active: Boolean = true
+    - key_id: String #required #unique #max(200)
+    - key_size: int #required #min(256)
+    - public_key_fingerprint: String? #max(128)
+    - updated_at: Date = now()
+
+- name: Crypto Operation Log
+  type: crypto_operation_log
+  id: [key_id, created_at]
+  schema:
+    - algorithm: String #required #max(50)
+    - created_at: Date = now()
+    - key_id: String #required #max(200)
+    - operation: Hash | Hmac | Encrypt | Decrypt | Sign | Verify | GenerateKey = Encrypt
+    - status: Success | Failed = Success
+    - user_id: Id? -> User.id

@@ -1,0 +1,99 @@
+- name: AWS Auto Scaling Group
+  type: aws_autoscaling_group
+  id: [account_id, auto_scaling_group_name]
+  schema:
+    - account_id: String #required #max(20)
+    - auto_scaling_group_arn: String? #max(255)
+    - auto_scaling_group_name: String #required #unique #max(255)
+    - availability_zones: String? # JSON list
+    - capacity_rebalance: Boolean = false
+    - created_at: Date = now()
+    - default_cooldown: int = 300 #min(0)
+    - desired_capacity: int = 0 #min(0)
+    - health_check_grace_period: int = 300 #min(0)
+    - health_check_type: EC2 | ELB = EC2
+    - launch_configuration_name: String? #max(255)
+    - launch_template_id: String? #max(255)
+    - launch_template_version: String? #max(50)
+    - max_instance_lifetime: int? #min(0)
+    - max_size: int #required #min(0)
+    - min_size: int #required #min(0)
+    - new_instances_protected_from_scale_in: Boolean = false
+    - placement_group: String? #max(255)
+    - region: String? #max(50)
+    - service_linked_role_arn: String? #max(255)
+    - status: String? #max(50)
+    - tags: String? # JSON
+    - target_group_arns: String? # JSON list
+    - termination_policies: String? # JSON list
+    - updated_at: Date = now()
+    - vpc_zone_identifier: String? #max(2048)
+
+- name: AWS Auto Scaling Launch Configuration
+  type: aws_autoscaling_launch_configuration
+  id: [account_id, launch_configuration_name]
+  schema:
+    - account_id: String #required #max(20)
+    - associate_public_ip_address: Boolean = false
+    - created_at: Date = now()
+    - ebs_optimized: Boolean = false
+    - iam_instance_profile: String? #max(255)
+    - image_id: String? #max(255)
+    - instance_monitoring_enabled: Boolean = false
+    - instance_type: String? #max(50)
+    - kernel_id: String? #max(255)
+    - key_name: String? #max(255)
+    - launch_configuration_arn: String? #max(255)
+    - launch_configuration_name: String #required #unique #max(255)
+    - region: String? #max(50)
+    - security_groups: String? # JSON list
+    - spot_price: String? #max(50)
+
+- name: AWS Auto Scaling Policy
+  type: aws_autoscaling_policy
+  id: [auto_scaling_group_id, policy_name]
+  schema:
+    - adjustment_type: ChangeInCapacity | ExactCapacity | PercentChangeInCapacity = ChangeInCapacity
+    - auto_scaling_group_id: Id #required -> AwsAutoscalingGroup.id
+    - cooldown: int? #min(0)
+    - created_at: Date = now()
+    - enabled: Boolean = true
+    - estimated_instance_warmup: int? #min(0)
+    - metric_aggregation_type: String? #max(50)
+    - min_adjustment_magnitude: int? #min(0)
+    - policy_arn: String? #max(255)
+    - policy_name: String #required #max(255)
+    - policy_type: SimpleScaling | StepScaling | TargetTrackingScaling | PredictiveScaling = SimpleScaling
+    - scaling_adjustment: int?
+    - target_tracking_configuration: String? # JSON
+    - updated_at: Date = now()
+
+- name: AWS Auto Scaling Scheduled Action
+  type: aws_autoscaling_scheduled_action
+  id: [auto_scaling_group_id, scheduled_action_name]
+  schema:
+    - auto_scaling_group_id: Id #required -> AwsAutoscalingGroup.id
+    - created_at: Date = now()
+    - desired_capacity: int? #min(0)
+    - end_time: Date?
+    - max_size: int? #min(0)
+    - min_size: int? #min(0)
+    - recurrence: String? #max(255)
+    - scheduled_action_arn: String? #max(255)
+    - scheduled_action_name: String #required #max(255)
+    - start_time: Date?
+    - time_zone: String? #max(100)
+
+- name: AWS Auto Scaling Lifecycle Hook
+  type: aws_autoscaling_lifecycle_hook
+  id: [auto_scaling_group_id, lifecycle_hook_name]
+  schema:
+    - auto_scaling_group_id: Id #required -> AwsAutoscalingGroup.id
+    - created_at: Date = now()
+    - default_result: Continue | Abandon = Continue
+    - heartbeat_timeout: int = 3600 #min(30) #max(7200)
+    - lifecycle_hook_name: String #required #max(255)
+    - lifecycle_transition: autoscaling:EC2_INSTANCE_LAUNCHING | autoscaling:EC2_INSTANCE_TERMINATING #required
+    - notification_metadata: String? #max(1023)
+    - notification_target_arn: String? #max(255)
+    - role_arn: String? #max(255)

@@ -1,0 +1,193 @@
+- name: Create Node
+  method: create_node
+  inputs:
+    labels: List[String]
+    properties: NodeProperties
+  outputs:
+    node_id: String
+    success: Boolean
+
+- name: Create Relationship
+  method: create_relationship
+  inputs:
+    from_node_id: String #required
+    properties: RelationshipProperties
+    to_node_id: String #required
+    type: String #required
+  outputs:
+    relationship_id: String
+    success: Boolean
+
+- name: Find Nodes
+  method: find_nodes
+  inputs:
+    labels: List[String]
+    limit: Int
+    properties: NodeProperties
+    skip: Int = 0
+  outputs:
+    count: Int
+    nodes: List[GraphNode]
+
+- name: Find Node By ID
+  method: find_node
+  inputs:
+    node_id: String #required
+  outputs:
+    found: Boolean
+    node: GraphNode
+
+- name: Update Node
+  method: update_node
+  inputs:
+    node_id: String #required
+    properties: NodeProperties #required
+  outputs:
+    success: Boolean
+
+- name: Delete Node
+  method: delete_node
+  inputs:
+    detach: Boolean = true
+    node_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Delete Relationship
+  method: delete_relationship
+  inputs:
+    relationship_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Execute Cypher Query
+  method: execute_query
+  inputs:
+    parameters: Map[String, Any]
+    query: String #required
+  outputs:
+    records: List[map[String, Any]]
+    summary: QuerySummary
+
+- name: Find Shortest Path
+  method: shortest_path
+  inputs:
+    from_node_id: String #required
+    max_depth: Int
+    relationship_types: List[String]
+    to_node_id: String #required
+  outputs:
+    found: Boolean
+    length: Int
+    path: List[GraphPathElement]
+
+- name: Find All Paths
+  method: find_paths
+  inputs:
+    from_node_id: String #required
+    limit: Int = 100
+    max_depth: Int
+    relationship_types: List[String]
+    to_node_id: String #required
+  outputs:
+    count: Int
+    paths: List[GraphPath]
+
+- name: Get Node Neighbors
+  method: get_neighbors
+  inputs:
+    depth: Int = 1
+    direction: Incoming | Outgoing | Both = Both
+    node_id: String #required
+    relationship_types: List[String]
+  outputs:
+    neighbors: List[GraphNode]
+
+- name: Get Node Degree
+  method: get_degree
+  inputs:
+    direction: Incoming | Outgoing | Both = Both
+    node_id: String #required
+    relationship_types: List[String]
+  outputs:
+    degree: Int
+
+- name: Create Index
+  method: create_index
+  inputs:
+    label: String #required
+    property: String #required
+  outputs:
+    success: Boolean
+
+- name: Drop Index
+  method: drop_index
+  inputs:
+    label: String #required
+    property: String #required
+  outputs:
+    success: Boolean
+
+- name: Get Graph Stats
+  method: get_stats
+  inputs: {}
+  outputs:
+    node_count: Int
+    relationship_count: Int
+    stats: GraphStats
+
+- name: Run Graph Algorithm
+  method: run_algorithm
+  inputs:
+    algorithm: Pagerank | Betweenness | Closeness | DegreeCentrality #required
+    parameters: Map[String, Any]
+  outputs:
+    results: List[AlgorithmResult]
+    success: Boolean
+
+- name: Match Pattern
+  method: match_pattern
+  inputs:
+    limit: Int
+    parameters: Map[String, Any]
+    pattern: String #required
+    where_clause: String
+  outputs:
+    count: Int
+    results: List[map[String, Any]]
+
+- name: GraphNode
+  class:
+    node_id: String
+    labels: List[String]
+    properties: Map[String, Any]
+
+- name: QuerySummary
+  class:
+    nodes_created: Int
+    nodes_deleted: Int
+    relationships_created: Int
+    relationships_deleted: Int
+    properties_set: Int
+
+- name: GraphPathElement
+  class:
+    node_id: String
+    relationship_id: String
+    relationship_type: String
+
+- name: GraphPath
+  class:
+    elements: List[GraphPathElement]
+    length: Int
+
+- name: GraphStats
+  class:
+    labels: Map[string, integer]
+    relationship_types: Map[string, integer]
+    indexes: List[String]
+
+- name: AlgorithmResult
+  class:
+    node_id: String
+    score: Float

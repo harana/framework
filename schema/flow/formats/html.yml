@@ -1,0 +1,76 @@
+- name: Parse HTML To DOM
+  method: parse
+  inputs:
+    data: String #required
+    fragment: Boolean = false
+  outputs:
+    result: HtmlDom
+
+- name: Sanitize HTML Content
+  method: sanitize
+  inputs:
+    allowed_attributes: HtmlAllowedAttributes
+    allowed_tags: List[String]
+    data: String #required
+    strip_comments: Boolean = true
+  outputs:
+    html: String
+
+- name: Extract Text From HTML
+  method: extract_text
+  inputs:
+    data: String #required
+    preserve_whitespace: Boolean = false
+    separator: String = " "
+  outputs:
+    text: String
+
+- name: Query HTML With CSS Selectors
+  method: css_select
+  inputs:
+    attribute: String
+    data: String #required
+    selector: String #required
+  outputs:
+    results: List[any]
+
+- name: Minify HTML Content
+  method: minify
+  inputs:
+    collapse_whitespace: Boolean = true
+    data: String #required
+    minify_css: Boolean = true
+    minify_js: Boolean = true
+    remove_comments: Boolean = true
+  outputs:
+    html: String
+
+- name: HtmlDocument
+  class:
+    content: String
+    title: String
+    charset: String
+    head: HtmlElement
+    body: HtmlElement
+
+- name: HtmlDom
+  class:
+    document_type: String
+    root: HtmlElement
+
+- name: HtmlElement
+  class:
+    tag_name: String
+    attributes: Map[String, String]
+    children: List[HtmlNode]
+    text_content: String
+
+- name: HtmlNode
+  class:
+    node_type: String
+    value: Any
+
+- name: HtmlAllowedAttributes
+  class:
+    global: List[String]
+    per_tag: Map[string, List[String]]

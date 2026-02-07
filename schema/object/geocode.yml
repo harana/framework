@@ -1,0 +1,28 @@
+- name: Geocode Result
+  type: geocode_result
+  id: [query, provider]
+  schema:
+    - city: String? #max(200)
+    - confidence: decimal? #min(0) #max(1)
+    - country: String? #max(100)
+    - created_at: Date = now()
+    - formatted_address: String? #max(500)
+    - latitude: decimal #required
+    - longitude: decimal #required
+    - postal_code: String? #max(20)
+    - provider: String = default #max(100)
+    - query: String #required #max(500)
+    - region: String? #max(200)
+    - street: String? #max(500)
+    - type: Forward | Reverse = Forward
+
+- name: Geocode Cache
+  type: geocode_cache
+  id: [query_hash]
+  schema:
+    - created_at: Date = now()
+    - expires_at: Date?
+    - latitude: decimal #required
+    - longitude: decimal #required
+    - query_hash: String #required #unique #max(128)
+    - response: String #required

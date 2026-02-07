@@ -1,0 +1,34 @@
+- name: JSON Document
+  type: json_document
+  schema:
+    - created_at: Date = now()
+    - created_by: Id? -> User.id
+    - is_valid: Boolean = true
+    - schema_id: Id? -> JsonSchema.id
+    - size: int = 0 #min(0)
+    - source_path: String? #max(2000)
+    - updated_at: Date = now()
+
+- name: JSON Schema
+  type: json_schema
+  schema:
+    - additional_properties: Boolean = true
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - is_active: Boolean = true
+    - properties: String? # JSON
+    - required_fields: String? # JSON array
+    - schema_type: Object | Array | String | Number | Boolean = Object
+    - updated_at: Date = now()
+    - version: int = 1 #min(1)
+
+- name: JSON Validation Result
+  type: json_validation_result
+  id: [document_id, validated_at]
+  schema:
+    - document_id: Id #required -> JsonDocument.id
+    - error_count: int = 0 #min(0)
+    - errors: String? # JSON array
+    - is_valid: Boolean = false
+    - schema_id: Id #required -> JsonSchema.id
+    - validated_at: Date = now()

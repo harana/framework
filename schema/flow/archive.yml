@@ -1,0 +1,203 @@
+- name: Create Zip Archive
+  method: zip
+  inputs:
+    compression_level: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 6
+    include_hidden: Boolean = false
+    output_path: String #required
+    password: String
+    source_paths: List[String] #required
+  outputs:
+    archive_path: String
+    file_count: Int
+    size: Int
+    success: Boolean
+
+- name: Extract Zip Archive
+  method: unzip
+  inputs:
+    archive_path: String #required
+    destination_path: String #required
+    extract_files: List[String]
+    overwrite: Boolean = false
+    password: String
+  outputs:
+    extracted_path: String
+    file_count: Int
+    success: Boolean
+
+- name: Create Tar Archive
+  method: tar
+  inputs:
+    format: Tar | Tar.gz | tar.bz2 | tar.xz = tar
+    include_hidden: Boolean = false
+    output_path: String #required
+    preserve_permissions: Boolean = true
+    source_paths: List[String] #required
+  outputs:
+    archive_path: String
+    file_count: Int
+    size: Int
+    success: Boolean
+
+- name: Extract Tar Archive
+  method: untar
+  inputs:
+    archive_path: String #required
+    destination_path: String #required
+    extract_files: List[String]
+    format: Tar | Tar.gz | tar.bz2 | tar.xz = tar
+    overwrite: Boolean = false
+  outputs:
+    extracted_path: String
+    file_count: Int
+    success: Boolean
+
+- name: Compress With Gzip
+  method: gzip
+  inputs:
+    compression_level: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 6
+    keep_source: Boolean = true
+    output_path: String
+    source_path: String #required
+  outputs:
+    compressed_path: String
+    compressed_size: Int
+    compression_ratio: Float
+    original_size: Int
+    success: Boolean
+
+- name: Decompress Gzip
+  method: gunzip
+  inputs:
+    archive_path: String #required
+    keep_archive: Boolean = true
+    output_path: String
+  outputs:
+    decompressed_path: String
+    size: Int
+    success: Boolean
+
+- name: List Archive Contents
+  method: list
+  inputs:
+    archive_path: String #required
+    archive_type: Zip | Tar | Tar.gz | tar.bz2 | tar.xz | gz #required
+    password: String
+  outputs:
+    files: List[ArchiveEntry]
+    total_files: Int
+    total_size: Int
+
+- name: Add To Archive
+  method: add_to_archive
+  inputs:
+    archive_path: String #required
+    archive_type: Zip | Tar #required
+    source_paths: List[String] #required
+  outputs:
+    added_count: Int
+    archive_path: String
+    success: Boolean
+
+- name: Remove From Archive
+  method: remove_from_archive
+  inputs:
+    archive_path: String #required
+    archive_type: Zip | Tar #required
+    file_paths: List[String] #required
+  outputs:
+    archive_path: String
+    removed_count: Int
+    success: Boolean
+
+- name: Compress With Bzip2
+  method: bzip2
+  inputs:
+    compression_level: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 9
+    keep_source: Boolean = true
+    output_path: String
+    source_path: String #required
+  outputs:
+    compressed_path: String
+    compressed_size: Int
+    compression_ratio: Float
+    original_size: Int
+    success: Boolean
+
+- name: Decompress Bzip2
+  method: bunzip2
+  inputs:
+    archive_path: String #required
+    keep_archive: Boolean = true
+    output_path: String
+  outputs:
+    decompressed_path: String
+    size: Int
+    success: Boolean
+
+- name: Compress With XZ
+  method: xz
+  inputs:
+    compression_level: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 6
+    keep_source: Boolean = true
+    output_path: String
+    source_path: String #required
+  outputs:
+    compressed_path: String
+    compressed_size: Int
+    compression_ratio: Float
+    original_size: Int
+    success: Boolean
+
+- name: Decompress XZ
+  method: unxz
+  inputs:
+    archive_path: String #required
+    keep_archive: Boolean = true
+    output_path: String
+  outputs:
+    decompressed_path: String
+    size: Int
+    success: Boolean
+
+- name: Verify Archive Integrity
+  method: verify_archive
+  inputs:
+    archive_path: String #required
+    archive_type: Zip | Tar | Tar.gz | tar.bz2 | tar.xz | gz #required
+    password: String
+  outputs:
+    error: String
+    file_count: Int
+    valid: Boolean
+
+- name: Get Archive Info
+  method: get_archive_info
+  inputs:
+    archive_path: String #required
+  outputs:
+    archive_type: String
+    compressed_size: Int
+    compression_ratio: Float
+    created_at: Int
+    file_count: Int
+    is_encrypted: Boolean
+    size: Int
+
+- name: Archive
+  class:
+    path: String
+    archive_type: String
+    size: Int
+    compressed_size: Int
+    file_count: Int
+    is_encrypted: Boolean
+    created_at: Date
+
+- name: ArchiveEntry
+  class:
+    path: String
+    size: Int
+    compressed_size: Int
+    is_directory: Boolean
+    modified_at: Date

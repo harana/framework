@@ -1,0 +1,112 @@
+- name: Convert JSON To XML
+  method: json_to_xml
+  inputs:
+    data: TransformJsonObject #required
+    root_element: String = "root"
+  outputs:
+    xml: String
+
+- name: Convert XML To JSON
+  method: xml_to_json
+  inputs:
+    data: String #required
+  outputs:
+    json: TransformJsonObject
+
+- name: Convert CSV To JSON
+  method: csv_to_json
+  inputs:
+    data: String #required
+    delimiter: String = ","
+    headers: List[String]
+  outputs:
+    json: List[TransformJsonObject]
+
+- name: Convert JSON To CSV
+  method: json_to_csv
+  inputs:
+    data: List[TransformJsonObject] #required
+    delimiter: String = ","
+    headers: List[String]
+  outputs:
+    csv: String
+
+- name: Convert YAML To JSON
+  method: yaml_to_json
+  inputs:
+    data: String #required
+  outputs:
+    json: TransformJsonObject
+
+- name: Convert JSON To YAML
+  method: json_to_yaml
+  inputs:
+    data: TransformJsonObject #required
+  outputs:
+    yaml: String
+
+- name: Base64 Encode Data
+  method: base64_encode
+  inputs:
+    data: String #required
+  outputs:
+    encoded: String
+
+- name: Base64 Decode Data
+  method: base64_decode
+  inputs:
+    data: String #required
+  outputs:
+    decoded: String
+
+- name: URL Encode String
+  method: url_encode
+  inputs:
+    data: String #required
+  outputs:
+    encoded: String
+
+- name: URL Decode String
+  method: url_decode
+  inputs:
+    data: String #required
+  outputs:
+    decoded: String
+
+- name: HTML Encode String
+  method: html_encode
+  inputs:
+    data: String #required
+  outputs:
+    encoded: String
+
+- name: HTML Decode String
+  method: html_decode
+  inputs:
+    data: String #required
+  outputs:
+    decoded: String
+
+- name: Convert Markdown To HTML
+  method: markdown_to_html
+  inputs:
+    data: String #required
+    options: MarkdownOptions
+  outputs:
+    html: String
+
+- name: TransformResult
+  class:
+    input_format: String
+    output_format: String
+    data: Any
+
+- name: TransformJsonObject
+  class:
+    data: Map[String, Any]
+
+- name: MarkdownOptions
+  class:
+    gfm: Boolean
+    breaks: Boolean
+    sanitize: Boolean

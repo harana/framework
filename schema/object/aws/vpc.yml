@@ -1,0 +1,128 @@
+- name: AWS VPC
+  type: aws_vpc
+  id: [account_id, vpc_id]
+  schema:
+    - account_id: String #required #max(20)
+    - cidr_block: String #required #max(50)
+    - created_at: Date = now()
+    - enable_dns_hostnames: Boolean = true
+    - enable_dns_support: Boolean = true
+    - instance_tenancy: Default | Dedicated | Host = Default
+    - ipv6_cidr_block: String? #max(50)
+    - is_default: Boolean = false
+    - owner_id: String? #max(20)
+    - region: String? #max(50)
+    - state: Pending | Available = Pending
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - vpc_id: String #required #unique #max(30)
+
+- name: AWS VPC Subnet
+  type: aws_vpc_subnet
+  id: [vpc_id, subnet_id]
+  schema:
+    - availability_zone: String? #max(100)
+    - availability_zone_id: String? #max(100)
+    - available_ip_address_count: int? #min(0)
+    - cidr_block: String #required #max(50)
+    - created_at: Date = now()
+    - default_for_az: Boolean = false
+    - ipv6_cidr_block: String? #max(50)
+    - map_public_ip_on_launch: Boolean = false
+    - owner_id: String? #max(20)
+    - state: Pending | Available = Pending
+    - subnet_arn: String? #max(255)
+    - subnet_id: String #required #unique #max(30)
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - vpc_id: Id #required -> AwsVpc.id
+
+- name: AWS VPC Internet Gateway
+  type: aws_vpc_internet_gateway
+  id: [account_id, internet_gateway_id]
+  schema:
+    - account_id: String #required #max(20)
+    - created_at: Date = now()
+    - internet_gateway_id: String #required #unique #max(30)
+    - owner_id: String? #max(20)
+    - tags: String? # JSON
+    - updated_at: Date = now()
+
+- name: AWS VPC Internet Gateway Attachment
+  type: aws_vpc_internet_gateway_attachment
+  id: [internet_gateway_id, vpc_id]
+  schema:
+    - created_at: Date = now()
+    - internet_gateway_id: Id #required -> AwsVpcInternetGateway.id
+    - state: Attaching | Attached | Detaching | Detached = Attaching
+    - vpc_id: Id #required -> AwsVpc.id
+
+- name: AWS VPC NAT Gateway
+  type: aws_vpc_nat_gateway
+  id: [account_id, nat_gateway_id]
+  schema:
+    - account_id: String #required #max(20)
+    - allocation_id: String? #max(30)
+    - connectivity_type: Public | Private = Public
+    - created_at: Date = now()
+    - nat_gateway_id: String #required #unique #max(30)
+    - public_ip: String? #max(45)
+    - private_ip: String? #max(45)
+    - state: Pending | Failed | Available | Deleting | Deleted = Pending
+    - subnet_id: String? #max(30)
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - vpc_id: String? #max(30)
+
+- name: AWS VPC Route Table
+  type: aws_vpc_route_table
+  id: [vpc_id, route_table_id]
+  schema:
+    - created_at: Date = now()
+    - owner_id: String? #max(20)
+    - route_table_id: String #required #unique #max(30)
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - vpc_id: Id #required -> AwsVpc.id
+
+- name: AWS VPC Route
+  type: aws_vpc_route
+  id: [route_table_id, destination_cidr_block]
+  schema:
+    - created_at: Date = now()
+    - destination_cidr_block: String? #max(50)
+    - destination_ipv6_cidr_block: String? #max(50)
+    - gateway_id: String? #max(30)
+    - instance_id: String? #max(20)
+    - nat_gateway_id: String? #max(30)
+    - network_interface_id: String? #max(30)
+    - origin: CreateRouteTable | CreateRoute | EnableVgwRoutePropagation = CreateRoute
+    - route_table_id: Id #required -> AwsVpcRouteTable.id
+    - state: Active | Blackhole = Active
+    - transit_gateway_id: String? #max(30)
+    - vpc_peering_connection_id: String? #max(30)
+
+- name: AWS VPC Network ACL
+  type: aws_vpc_network_acl
+  id: [vpc_id, network_acl_id]
+  schema:
+    - created_at: Date = now()
+    - is_default: Boolean = false
+    - network_acl_id: String #required #unique #max(30)
+    - owner_id: String? #max(20)
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - vpc_id: Id #required -> AwsVpc.id
+
+- name: AWS VPC Peering Connection
+  type: aws_vpc_peering_connection
+  id: [account_id, vpc_peering_connection_id]
+  schema:
+    - accepter_vpc_id: String? #max(30)
+    - account_id: String #required #max(20)
+    - created_at: Date = now()
+    - requester_vpc_id: String? #max(30)
+    - status: InitiatingRequest | PendingAcceptance | Active | Deleted | Rejected | Failed | Expired | Provisioning | Deleting = InitiatingRequest
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - vpc_peering_connection_id: String #required #unique #max(30)

@@ -1,0 +1,44 @@
+- name: Cloudflare Worker
+  type: cf_worker
+  id: [account_id, script_name]
+  schema:
+    - account_id: String #required #max(50)
+    - compatibility_date: String? #max(20)
+    - compatibility_flags: String? # JSON list
+    - created_at: Date = now()
+    - etag: String? #max(255)
+    - script_name: String #required #unique #max(255)
+    - size: int? #min(0)
+    - updated_at: Date = now()
+
+- name: Cloudflare Worker Service Binding
+  type: cf_worker_service_binding
+  id: [worker_id, binding_name]
+  schema:
+    - binding_name: String #required #max(255)
+    - created_at: Date = now()
+    - environment: String? #max(100)
+    - target_service: String #required #max(255)
+    - updated_at: Date = now()
+    - worker_id: Id #required -> CfWorker.id
+
+- name: Cloudflare Worker Cron Trigger
+  type: cf_worker_cron_trigger
+  id: [worker_id, cron]
+  schema:
+    - created_at: Date = now()
+    - cron: String #required #max(255)
+    - updated_at: Date = now()
+    - worker_id: Id #required -> CfWorker.id
+
+- name: Cloudflare Worker Version
+  type: cf_worker_version
+  id: [worker_id, version_id]
+  schema:
+    - created_at: Date = now()
+    - message: String? #max(500)
+    - tag: String? #max(255)
+    - timestamp: Date?
+    - version_id: String #required #unique #max(255)
+    - worker_id: Id #required -> CfWorker.id
+

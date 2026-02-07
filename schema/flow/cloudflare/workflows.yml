@@ -1,0 +1,117 @@
+- name: Create Workflow Instance
+  method: create
+  inputs:
+    binding: String #required
+    id: String
+    params: Any
+  outputs:
+    id: String
+    success: Boolean
+
+- name: Create Workflow Instance Batch
+  method: create_batch
+  inputs:
+    binding: String #required
+    instances: List[WorkflowCreateOptions] #required
+  outputs:
+    instances: List[WorkflowInstanceInfo]
+    success: Boolean
+
+- name: Get Workflow Instance
+  method: get
+  inputs:
+    binding: String #required
+    id: String #required
+  outputs:
+    id: String
+    status: WorkflowInstanceStatus
+
+- name: Get Workflow Instance Status
+  method: status
+  inputs:
+    binding: String #required
+    id: String #required
+  outputs:
+    error: WorkflowError
+    output: Any
+    status: Queued | Running | Paused | Errored | Terminated | Complete | Waiting | WaitingForPause | Unknown
+
+- name: Pause Workflow Instance
+  method: pause
+  inputs:
+    binding: String #required
+    id: String #required
+  outputs:
+    success: Boolean
+
+- name: Resume Workflow Instance
+  method: resume
+  inputs:
+    binding: String #required
+    id: String #required
+  outputs:
+    success: Boolean
+
+- name: Restart Workflow Instance
+  method: restart
+  inputs:
+    binding: String #required
+    id: String #required
+  outputs:
+    success: Boolean
+
+- name: Terminate Workflow Instance
+  method: terminate
+  inputs:
+    binding: String #required
+    id: String #required
+  outputs:
+    success: Boolean
+
+- name: Send Event To Workflow Instance
+  method: send_event
+  inputs:
+    binding: String #required
+    id: String #required
+    payload: Any
+    type: String #required
+  outputs:
+    success: Boolean
+
+- name: Execute Workflow Step
+  method: step_do
+  inputs:
+    callback: Any #required
+    name: String #required
+    retries_backoff: Constant | Linear | Exponential
+    retries_delay: String
+    retries_limit: Int
+    timeout: String
+  outputs:
+    result: Any
+
+- name: Workflow Step Sleep
+  method: step_sleep
+  inputs:
+    duration: String #required
+    name: String #required
+  outputs:
+    success: Boolean
+
+- name: Workflow Step Sleep Until
+  method: step_sleep_until
+  inputs:
+    name: String #required
+    timestamp: Date #required
+  outputs:
+    success: Boolean
+
+- name: Workflow Step Wait For Event
+  method: step_wait_for_event
+  inputs:
+    name: String #required
+    timeout: String = "24 hours"
+    type: String #required
+  outputs:
+    payload: Any
+    type: String

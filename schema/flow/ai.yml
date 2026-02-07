@@ -1,0 +1,203 @@
+- name: Generate Text From Prompt
+  method: generate_text
+  inputs:
+    max_tokens: Int = 1000
+    model: String = "default"
+    prompt: String #required
+    temperature: Float = 0.7
+  outputs:
+    text: String
+    tokens_used: Int
+
+- name: Generate Chat Completion
+  method: chat_completion
+  inputs:
+    max_tokens: Int = 1000
+    messages: List[AiChatMessage] #required
+    model: String = "default"
+    system_prompt: String
+    temperature: Float = 0.7
+  outputs:
+    response: String
+    tokens_used: Int
+
+- name: Generate Embeddings From Text
+  method: generate_embeddings
+  inputs:
+    model: String = "default"
+    text: String #required
+  outputs:
+    dimensions: Int
+    embeddings: List[float]
+
+- name: Generate Image From Prompt
+  method: generate_image
+  inputs:
+    model: String = "default"
+    prompt: String #required
+    quality: Standard | Hd = Standard
+    size: String = "1024x1024"
+  outputs:
+    base64: String
+    url: String
+
+- name: Transcribe Audio To Text
+  method: transcribe_audio
+  inputs:
+    audio: bytes #required
+    language: String
+    model: String = "default"
+  outputs:
+    duration: Float
+    text: String
+
+- name: Classify Text Content
+  method: classify_text
+  inputs:
+    labels: List[String] #required
+    model: String = "default"
+    text: String #required
+  outputs:
+    confidence: Float
+    label: String
+    scores: Map[string, float]
+
+- name: Summarize Text Content
+  method: summarize_text
+  inputs:
+    max_length: Int = 500
+    model: String = "default"
+    text: String #required
+  outputs:
+    summary: String
+
+- name: Extract Entities From Text
+  method: extract_entities
+  inputs:
+    entity_types: List[String]
+    model: String = "default"
+    text: String #required
+  outputs:
+    entities: List[AiEntity]
+
+- name: Load ONNX Model
+  method: onnx_load_model
+  inputs:
+    model_path: String #required
+    optimize: Boolean = true
+  outputs:
+    input_shapes: List[AiTensorShape]
+    model_id: String
+    output_shapes: List[AiTensorShape]
+
+- name: Run ONNX Inference
+  method: onnx_inference
+  inputs:
+    input_data: Map[String, Any] #required
+    model_id: String #required
+  outputs:
+    inference_time_ms: Float
+    outputs: Map[String, Any]
+
+- name: Run ONNX Inference From Bytes
+  method: onnx_inference_bytes
+  inputs:
+    input_data: Map[String, Any] #required
+    model_bytes: bytes #required
+    optimize: Boolean = true
+  outputs:
+    inference_time_ms: Float
+    outputs: Map[String, Any]
+
+- name: Get ONNX Model Info
+  method: onnx_model_info
+  inputs:
+    model_path: String #required
+  outputs:
+    input_names: List[String]
+    input_shapes: List[AiTensorShape]
+    output_names: List[String]
+    output_shapes: List[AiTensorShape]
+
+- name: Unload ONNX Model
+  method: onnx_unload_model
+  inputs:
+    model_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Run ONNX Image Classification
+  method: onnx_classify_image
+  inputs:
+    image: bytes #required
+    labels: List[String]
+    model_id: String #required
+    top_k: Int = 5
+  outputs:
+    inference_time_ms: Float
+    predictions: List[AiClassificationPrediction]
+
+- name: Run ONNX Object Detection
+  method: onnx_detect_objects
+  inputs:
+    confidence_threshold: Float = 0.5
+    image: bytes #required
+    labels: List[String]
+    model_id: String #required
+    nms_threshold: Float = 0.4
+  outputs:
+    detections: List[AiObjectDetection]
+    inference_time_ms: Float
+
+- name: Run ONNX Text Embedding
+  method: onnx_text_embedding
+  inputs:
+    model_id: String #required
+    text: String #required
+  outputs:
+    dimensions: Int
+    embedding: List[float]
+    inference_time_ms: Float
+
+- name: AiModel
+  class:
+    model_id: String
+    name: String
+    provider: String
+    max_tokens: Int
+    temperature: Float
+    capabilities: List[String]
+
+- name: AiChatMessage
+  class:
+    role: String
+    content: String
+
+- name: AiEntity
+  class:
+    text: String
+    type: String
+    start: Int
+    end: Int
+    confidence: Float
+
+- name: AiTensorShape
+  class:
+    name: String
+    dtype: String
+    shape: List[integer]
+
+- name: AiClassificationPrediction
+  class:
+    label: String
+    confidence: Float
+    index: Int
+
+- name: AiObjectDetection
+  class:
+    label: String
+    confidence: Float
+    x: Float
+    y: Float
+    width: Float
+    height: Float

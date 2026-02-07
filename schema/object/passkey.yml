@@ -1,0 +1,40 @@
+- name: Passkey Credential
+  type: passkey_credential
+  id: [credential_id]
+  schema:
+    - aaguid: String? #max(100)
+    - backed_up: Boolean = false
+    - counter: int = 0 #min(0)
+    - created_at: Date = now()
+    - credential_id: String #required #unique #max(500)
+    - device_type: String? #max(50)
+    - friendly_name: String? #max(200)
+    - is_active: Boolean = true
+    - last_used_at: Date?
+    - public_key_fingerprint: String? #max(128)
+    - transports: String? # JSON array
+    - updated_at: Date = now()
+    - user_id: Id #required -> User.id
+
+- name: Passkey Challenge
+  type: passkey_challenge
+  id: [challenge]
+  schema:
+    - challenge: String #required #unique #max(500)
+    - created_at: Date = now()
+    - expires_at: Date #required
+    - rp_id: String #required #max(255)
+    - type: Registration | Authentication = Registration
+    - used: Boolean = false
+    - user_id: String? #max(200)
+
+- name: Passkey Authentication Log
+  type: passkey_auth_log
+  id: [credential_id, authenticated_at]
+  schema:
+    - authenticated_at: Date = now()
+    - credential_id: String #required #max(500)
+    - ip_address: String? #max(45)
+    - success: Boolean = true
+    - user_agent: String? #max(500)
+    - user_id: Id #required -> User.id

@@ -1,0 +1,109 @@
+- name: Check User Permission
+  method: check_permission
+  inputs:
+    method: String #required
+    resource: String #required
+    user_id: String #required
+  outputs:
+    allowed: Boolean
+    reason: String
+
+- name: Grant Permission To User
+  method: grant_permission
+  inputs:
+    method: String #required
+    conditions: UserPermissionConditions
+    expires_at: Date
+    resource: String #required
+    user_id: String #required
+  outputs:
+    permission_id: String
+    success: Boolean
+
+- name: Revoke User Permission
+  method: revoke_permission
+  inputs:
+    permission_id: String #required
+    user_id: String #required
+  outputs:
+    success: Boolean
+
+- name: List User Permissions
+  method: list_permissions
+  inputs:
+    resource: String
+    user_id: String #required
+  outputs:
+    permissions: List[UserPermissionInfo]
+    total: Int
+
+- name: Assign Role To User
+  method: assign_role
+  inputs:
+    role_id: String #required
+    user_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Remove Role From User
+  method: remove_role
+  inputs:
+    role_id: String #required
+    user_id: String #required
+  outputs:
+    success: Boolean
+
+- name: List User Roles
+  method: list_roles
+  inputs:
+    user_id: String #required
+  outputs:
+    roles: List[UserRoleInfo]
+    total: Int
+
+- name: Get User Effective Permissions
+  method: get_effective_permissions
+  inputs:
+    resource: String
+    user_id: String #required
+  outputs:
+    permissions: List[EffectivePermission]
+    sources: List[PermissionSource]
+
+- name: UserPermission
+  class:
+    permission_id: String
+    user_id: String
+    method: String
+    resource: String
+    conditions: UserPermissionConditions
+    expires_at: Date
+
+- name: UserPermissionConditions
+  class:
+    conditions: Map[String, Any]
+
+- name: UserPermissionInfo
+  class:
+    permission_id: String
+    method: String
+    resource: String
+    expires_at: Date
+
+- name: UserRoleInfo
+  class:
+    role_id: String
+    name: String
+    assigned_at: Date
+
+- name: EffectivePermission
+  class:
+    method: String
+    resource: String
+    allowed: Boolean
+
+- name: PermissionSource
+  class:
+    source_type: String
+    source_id: String
+    name: String

@@ -1,0 +1,100 @@
+- name: AWS Lambda Function
+  type: aws_lambda_function
+  id: [account_id, function_name]
+  schema:
+    - account_id: String #required #max(20)
+    - architectures: String? # JSON list
+    - code_sha256: String? #max(255)
+    - code_size: int? #min(0)
+    - created_at: Date = now()
+    - dead_letter_arn: String? #max(255)
+    - description: String? #max(500)
+    - function_arn: String? #max(255)
+    - function_name: String #required #unique #max(140)
+    - handler: String? #max(255)
+    - kms_key_arn: String? #max(255)
+    - last_modified: Date?
+    - memory_size: int = 128 #min(128) #max(10240)
+    - package_type: Zip | Image = Zip
+    - region: String? #max(50)
+    - role: String #required #max(255)
+    - runtime: String? #max(50)
+    - state: Pending | Active | Inactive | Failed = Pending
+    - tags: String? # JSON
+    - timeout: int = 3 #min(1) #max(900)
+    - updated_at: Date = now()
+    - version: String? #max(100)
+
+- name: AWS Lambda Function Version
+  type: aws_lambda_function_version
+  id: [function_id, version]
+  schema:
+    - code_sha256: String? #max(255)
+    - code_size: int? #min(0)
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - function_id: Id #required -> AwsLambdaFunction.id
+    - handler: String? #max(255)
+    - memory_size: int? #min(128)
+    - runtime: String? #max(50)
+    - timeout: int? #min(1)
+    - version: String #required #max(100)
+
+- name: AWS Lambda Alias
+  type: aws_lambda_alias
+  id: [function_id, alias_name]
+  schema:
+    - alias_arn: String? #max(255)
+    - alias_name: String #required #max(128)
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - function_id: Id #required -> AwsLambdaFunction.id
+    - function_version: String #required #max(100)
+    - routing_config: String? # JSON
+    - updated_at: Date = now()
+
+- name: AWS Lambda Event Source Mapping
+  type: aws_lambda_event_source_mapping
+  id: [function_id, event_source_arn]
+  schema:
+    - batch_size: int? #min(1)
+    - bisect_batch_on_error: Boolean = false
+    - created_at: Date = now()
+    - enabled: Boolean = true
+    - event_source_arn: String #required #max(255)
+    - function_id: Id #required -> AwsLambdaFunction.id
+    - last_processing_result: String? #max(500)
+    - maximum_batching_window: int? #min(0)
+    - maximum_retry_attempts: int? #min(-1)
+    - state: Creating | Enabling | Enabled | Disabling | Disabled | Updating | Deleting = Creating
+    - updated_at: Date = now()
+    - uuid: String? #unique #max(255)
+
+- name: AWS Lambda Layer
+  type: aws_lambda_layer
+  id: [account_id, layer_name]
+  schema:
+    - account_id: String #required #max(20)
+    - compatible_architectures: String? # JSON list
+    - compatible_runtimes: String? # JSON list
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - layer_arn: String? #max(255)
+    - layer_name: String #required #max(140)
+    - latest_version: int = 1 #min(1)
+    - license_info: String? #max(500)
+    - region: String? #max(50)
+
+- name: AWS Lambda Invocation Log
+  type: aws_lambda_invocation_log
+  id: [function_id, invoked_at]
+  schema:
+    - billed_duration_ms: int? #min(0)
+    - duration_ms: int? #min(0)
+    - error: String?
+    - function_id: Id #required -> AwsLambdaFunction.id
+    - invocation_type: RequestResponse | Event | DryRun = RequestResponse
+    - invoked_at: Date = now()
+    - max_memory_used_mb: int? #min(0)
+    - request_id: String? #max(255)
+    - status: Success | Error | Throttled | Timeout = Success

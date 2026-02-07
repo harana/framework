@@ -1,0 +1,75 @@
+- name: Parse URL To Components
+  method: parse
+  inputs:
+    url: String #required
+  outputs:
+    fragment: String
+    host: String
+    path: String
+    port: Int
+    protocol: String
+    query: Map[String, String]
+
+- name: Build URL From Components
+  method: build
+  inputs:
+    fragment: String
+    host: String #required
+    path: String
+    port: Int
+    protocol: String = "https"
+    query: Map[String, String]
+  outputs:
+    url: String
+
+- name: URL Encode String
+  method: encode
+  inputs:
+    component: Boolean = true
+    data: String #required
+  outputs:
+    encoded: String
+
+- name: URL Decode String
+  method: decode
+  inputs:
+    component: Boolean = true
+    data: String #required
+  outputs:
+    decoded: String
+
+- name: Create Short URL
+  method: shorten
+  inputs:
+    custom_alias: String
+    expiration: String
+    url: String #required
+  outputs:
+    short_url: String
+
+- name: Expand Short URL To Original
+  method: expand
+  inputs:
+    url: String #required
+  outputs:
+    original_url: String
+
+- name: Validate URL Format
+  method: validate
+  inputs:
+    allowed_protocols: List[String]
+    require_tld: Boolean = true
+    url: String #required
+  outputs:
+    errors: List[String]
+    valid: Boolean
+
+- name: Url
+  class:
+    url: String
+    protocol: String
+    host: String
+    port: Int
+    path: String
+    query: Map[String, String]
+    fragment: String

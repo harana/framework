@@ -1,0 +1,87 @@
+- name: Start Process
+  method: start
+  inputs:
+    command: String #required
+    args: List[String]
+    working_directory: String
+    environment: Map[String, String]
+    detach: Boolean = false
+  outputs:
+    process_id: Int
+    started: Boolean
+    error: String
+
+- name: Stop Process
+  method: stop
+  inputs:
+    process_id: Int #required
+    force: Boolean = false
+    timeout: Int = 30
+  outputs:
+    stopped: Boolean
+    exit_code: Int
+    error: String
+
+- name: Kill Process
+  method: kill
+  inputs:
+    process_id: Int #required
+    signal: String = "SIGTERM"
+  outputs:
+    killed: Boolean
+    error: String
+
+- name: Check Process Status
+  method: status
+  inputs:
+    process_id: Int #required
+  outputs:
+    status: ProcessStatus
+    error: String
+
+- name: List Running Processes
+  method: list
+  inputs:
+    filter: String
+    user: String
+  outputs:
+    processes: List[ProcessInfo]
+
+- name: Wait For Process
+  method: wait
+  inputs:
+    process_id: Int #required
+    timeout: Int = 60
+  outputs:
+    completed: Boolean
+    exit_code: Int
+    error: String
+
+- name: Get Process Output
+  method: output
+  inputs:
+    process_id: Int #required
+    stream: String = "stdout"
+  outputs:
+    output: String
+    error: String
+
+- name: ProcessStatus
+  class:
+    process_id: Int
+    running: Boolean
+    exit_code: Int
+    cpu_usage: Float
+    memory_usage: Int
+    uptime: Int
+
+- name: ProcessInfo
+  class:
+    process_id: Int
+    name: String
+    command: String
+    user: String
+    cpu_usage: Float
+    memory_usage: Int
+    status: String
+    uptime: Int

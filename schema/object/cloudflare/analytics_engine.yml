@@ -1,0 +1,21 @@
+- name: Cloudflare Analytics Engine Dataset
+  type: cf_analytics_engine_dataset
+  id: [account_id, dataset_name]
+  schema:
+    - account_id: String #required #max(50)
+    - binding: String #required #max(255)
+    - created_at: Date = now()
+    - dataset_name: String #required #unique #max(255)
+    - updated_at: Date = now()
+
+- name: Cloudflare Analytics Engine Data Point
+  type: cf_analytics_engine_data_point
+  id: [dataset_id, timestamp]
+  schema:
+    - blobs: String? # JSON list
+    - created_at: Date = now()
+    - dataset_id: Id #required -> CfAnalyticsEngineDataset.id
+    - doubles: String? # JSON list
+    - indexes: String? # JSON list
+    - timestamp: Date = now()
+

@@ -1,0 +1,33 @@
+- name: CSV Document
+  type: csv_document
+  schema:
+    - column_count: int = 0 #min(0)
+    - created_at: Date = now()
+    - created_by: Id? -> User.id
+    - delimiter: String = , #max(5)
+    - has_headers: Boolean = true
+    - row_count: int = 0 #min(0)
+    - size: int = 0 #min(0)
+    - source_path: String? #max(2000)
+    - updated_at: Date = now()
+
+- name: CSV Column Schema
+  type: csv_column_schema
+  id: [document_id, name]
+  schema:
+    - document_id: Id #required -> CsvDocument.id
+    - is_required: Boolean = false
+    - name: String #required #max(255)
+    - pattern: String? #max(500)
+    - sort_order: int = 0
+    - type: String | Int | Float | Bool | Date = String
+
+- name: CSV Validation Result
+  type: csv_validation_result
+  id: [document_id, validated_at]
+  schema:
+    - document_id: Id #required -> CsvDocument.id
+    - error_count: int = 0 #min(0)
+    - errors: String? # JSON array
+    - is_valid: Boolean = false
+    - validated_at: Date = now()

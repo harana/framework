@@ -1,0 +1,30 @@
+- name: Role
+  type: role
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - is_system: Boolean = false
+    - name: String #required #unique #max(200)
+    - updated_at: Date = now()
+
+- name: Role Permission
+  type: role_permission
+  id: [role_id, action, resource]
+  schema:
+    - action: String #required #max(100)
+    - conditions: String? # JSON
+    - granted_at: Date = now()
+    - granted_by: Id? -> User.id
+    - resource: String #required #max(200)
+    - role_id: Id #required -> Role.id
+
+- name: Role Assignment
+  type: role_assignment
+  id: [role_id, entity_id, entity_type]
+  schema:
+    - assigned_at: Date = now()
+    - assigned_by: Id? -> User.id
+    - entity_id: Id #required
+    - entity_type: User | Group = User
+    - expires_at: Date?
+    - role_id: Id #required -> Role.id

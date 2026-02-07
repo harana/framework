@@ -1,0 +1,34 @@
+- name: Policy
+  type: policy
+  schema:
+    - actions: String #required # JSON array
+    - conditions: String? # JSON conditions
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - effect: Allow | Deny = Allow
+    - is_active: Boolean = true
+    - name: String #required #unique #max(200)
+    - resources: String #required # JSON array
+    - updated_at: Date = now()
+
+- name: Policy Attachment
+  type: policy_attachment
+  id: [policy_id, entity_id, entity_type]
+  schema:
+    - attached_at: Date = now()
+    - attached_by: Id? -> User.id
+    - entity_id: Id #required
+    - entity_type: User | Role | Group = User
+    - policy_id: Id #required -> Policy.id
+
+- name: Policy Evaluation Log
+  type: policy_evaluation_log
+  id: [policy_id, evaluated_at]
+  schema:
+    - action: String #required #max(200)
+    - allowed: Boolean = false
+    - evaluated_at: Date = now()
+    - policy_id: Id #required -> Policy.id
+    - reason: String? #max(500)
+    - resource: String #required #max(200)
+    - user_id: Id? -> User.id

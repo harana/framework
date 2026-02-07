@@ -1,0 +1,254 @@
+- name: Put EventBridge Events
+  method: put_events
+  inputs:
+    entries: List[EventBridgeEntry] #required
+    endpoint_id: String
+  outputs:
+    failed_entry_count: Int
+    entries: List[PutEventsResultEntry]
+    success: Boolean
+
+- name: Create EventBridge Rule
+  method: create_rule
+  inputs:
+    name: String #required
+    event_bus_name: String = "default"
+    schedule_expression: String
+    event_pattern: String
+    state: ENABLED | DISABLED = ENABLED
+    description: String
+    role_arn: String
+    tags: EventBridgeTags
+  outputs:
+    rule_arn: String
+    success: Boolean
+
+- name: Delete EventBridge Rule
+  method: delete_rule
+  inputs:
+    name: String #required
+    event_bus_name: String = "default"
+    force: Boolean = false
+  outputs:
+    success: Boolean
+
+- name: Describe EventBridge Rule
+  method: describe_rule
+  inputs:
+    name: String #required
+    event_bus_name: String = "default"
+  outputs:
+    name: String
+    arn: String
+    event_pattern: String
+    schedule_expression: String
+    state: String
+    description: String
+    role_arn: String
+    event_bus_name: String
+    created_by: String
+
+- name: List EventBridge Rules
+  method: list_rules
+  inputs:
+    event_bus_name: String = "default"
+    name_prefix: String
+    limit: Int = 100
+    next_token: String
+  outputs:
+    rules: List[EventBridgeRule]
+    next_token: String
+
+- name: Enable EventBridge Rule
+  method: enable_rule
+  inputs:
+    name: String #required
+    event_bus_name: String = "default"
+  outputs:
+    success: Boolean
+
+- name: Disable EventBridge Rule
+  method: disable_rule
+  inputs:
+    name: String #required
+    event_bus_name: String = "default"
+  outputs:
+    success: Boolean
+
+- name: Put EventBridge Targets
+  method: put_targets
+  inputs:
+    rule: String #required
+    event_bus_name: String = "default"
+    targets: List[EventBridgeTarget] #required
+  outputs:
+    failed_entry_count: Int
+    failed_entries: List[TargetFailure]
+    success: Boolean
+
+- name: Remove EventBridge Targets
+  method: remove_targets
+  inputs:
+    rule: String #required
+    event_bus_name: String = "default"
+    ids: List[String] #required
+    force: Boolean = false
+  outputs:
+    failed_entry_count: Int
+    failed_entries: List[TargetFailure]
+    success: Boolean
+
+- name: List EventBridge Targets By Rule
+  method: list_targets_by_rule
+  inputs:
+    rule: String #required
+    event_bus_name: String = "default"
+    limit: Int = 100
+    next_token: String
+  outputs:
+    targets: List[EventBridgeTarget]
+    next_token: String
+
+- name: Create Event Bus
+  method: create_event_bus
+  inputs:
+    name: String #required
+    event_source_name: String
+    tags: EventBridgeTags
+  outputs:
+    event_bus_arn: String
+    success: Boolean
+
+- name: Delete Event Bus
+  method: delete_event_bus
+  inputs:
+    name: String #required
+  outputs:
+    success: Boolean
+
+- name: Describe Event Bus
+  method: describe_event_bus
+  inputs:
+    name: String = "default"
+  outputs:
+    name: String
+    arn: String
+    policy: String
+
+- name: List Event Buses
+  method: list_event_buses
+  inputs:
+    name_prefix: String
+    limit: Int = 100
+    next_token: String
+  outputs:
+    event_buses: List[EventBus]
+    next_token: String
+
+- name: Put Event Bus Permission
+  method: put_permission
+  inputs:
+    event_bus_name: String = "default"
+    method: String = "events:PutEvents"
+    principal: String #required
+    statement_id: String #required
+    condition: RuleCondition
+  outputs:
+    success: Boolean
+
+- name: Remove Event Bus Permission
+  method: remove_permission
+  inputs:
+    event_bus_name: String = "default"
+    statement_id: String #required
+    remove_all_permissions: Boolean = false
+  outputs:
+    success: Boolean
+
+- name: Create Archive
+  method: create_archive
+  inputs:
+    archive_name: String #required
+    event_source_arn: String #required
+    description: String
+    event_pattern: String
+    retention_days: Int
+  outputs:
+    archive_arn: String
+    state: String
+    state_reason: String
+    creation_time: Date
+    success: Boolean
+
+- name: Delete Archive
+  method: delete_archive
+  inputs:
+    archive_name: String #required
+  outputs:
+    success: Boolean
+
+- name: Describe Archive
+  method: describe_archive
+  inputs:
+    archive_name: String #required
+  outputs:
+    archive_arn: String
+    archive_name: String
+    event_source_arn: String
+    description: String
+    event_pattern: String
+    state: String
+    retention_days: Int
+    size_bytes: Int
+    event_count: Int
+    creation_time: Date
+
+- name: Start Replay
+  method: start_replay
+  inputs:
+    replay_name: String #required
+    event_source_arn: String #required
+    destination: EventDestination #required  
+    event_start_time: Date #required
+    event_end_time: Date #required
+    description: String
+  outputs:
+    replay_arn: String
+    state: String
+    state_reason: String
+    replay_start_time: Date
+    success: Boolean
+
+- name: Cancel Replay
+  method: cancel_replay
+  inputs:
+    replay_name: String #required
+  outputs:
+    state: String
+    state_reason: String
+    success: Boolean
+
+- name: Describe Replay
+  method: describe_replay 
+  inputs:
+    replay_name: String #required
+  outputs:
+    replay_name: String
+    replay_arn: String
+    description: String
+    state: String
+    state_reason: String
+    event_source_arn: String
+    destination: EventDestination
+    event_start_time: Date
+    event_end_time: Date
+    replay_start_time: Date
+    replay_end_time: Date
+
+- name: Test Event Pattern
+  method: test_event_pattern
+  inputs:
+    event_pattern: String #required
+    event: String #required
+  outputs:
+    result: Boolean

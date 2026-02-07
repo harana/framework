@@ -1,0 +1,24 @@
+- name: Cloudflare Workers AI Model
+  type: cf_workers_ai_model
+  id: [account_id, model_name]
+  schema:
+    - account_id: String #required #max(50)
+    - created_at: Date = now()
+    - model_name: String #required #unique #max(255)
+    - task_type: TextGeneration | TextEmbeddings | TextClassification | Translation | ImageClassification | ObjectDetection | TextToImage | SpeechRecognition | TextToSpeech | Summarization | ImageToText
+    - updated_at: Date = now()
+
+- name: Cloudflare Workers AI Inference
+  type: cf_workers_ai_inference
+  id: [model_id, invoked_at]
+  schema:
+    - binding: String #required #max(255)
+    - created_at: Date = now()
+    - duration_ms: int? #min(0)
+    - input_tokens: int? #min(0)
+    - invoked_at: Date = now()
+    - model_id: Id #required -> CfWorkersAiModel.id
+    - output_tokens: int? #min(0)
+    - status: Success | Error | Timeout = Success
+    - stream: Boolean = false
+

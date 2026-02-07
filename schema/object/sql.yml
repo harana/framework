@@ -1,0 +1,72 @@
+- name: SQL Connection
+  type: sql_connection
+  schema:
+    - created_at: Date = now()
+    - database: String #required #max(255)
+    - driver: Postgres | Mysql | Sqlite | Mssql = Postgres
+    - host: String #required #max(255)
+    - is_active: Boolean = true
+    - max_connections: int = 10 #min(1)
+    - password: String? #max(255) #encrypted
+    - port: int #required #min(1) #max(65535)
+    - ssl_mode: Disable | Prefer | Require | VerifyCa | VerifyFull = Prefer
+    - updated_at: Date = now()
+    - username: String? #max(255)
+
+- name: SQL Table
+  type: sql_table
+  id: [connection_id, schema_name, table_name]
+  schema:
+    - connection_id: Id #required -> SqlConnection.id
+    - row_count: int? #min(0)
+    - schema_name: String = public #max(255)
+    - table_name: String #required #max(255)
+
+- name: SQL Column
+  type: sql_column
+  id: [table_id, column_name]
+  schema:
+    - column_name: String #required #max(255)
+    - data_type: String #required #max(100)
+    - default_value: String?
+    - is_nullable: Boolean = true
+    - is_primary_key: Boolean = false
+    - max_length: int?
+    - sort_order: int = 0
+    - table_id: Id #required -> SqlTable.id
+
+- name: SQL Index
+  type: sql_index
+  id: [table_id, index_name]
+  schema:
+    - columns: String #required # JSON array
+    - created_at: Date = now()
+    - index_name: String #required #max(255)
+    - is_unique: Boolean = false
+    - table_id: Id #required -> SqlTable.id
+
+- name: SQL Query Log
+  type: sql_query_log
+  id: [connection_id, executed_at]
+  schema:
+    - affected_rows: int? #min(0)
+    - connection_id: Id #required -> SqlConnection.id
+    - duration_ms: int? #min(0)
+    - error_message: String? #max(2000)
+    - executed_at: Date = now()
+    - query_hash: String? #max(128)
+    - query_text: String? #max(10000)
+    - query_type: Select | Insert | Update | Delete | Execute | Ddl = Select
+    - status: Success | Failed | Timeout | Cancelled = Success
+    - user_id: Id? -> User.id
+
+- name: SQL Transaction
+  type: sql_transaction
+  id: [transaction_id]
+  schema:
+    - completed_at: Date?
+    - connection_id: Id #required -> SqlConnection.id
+    - created_at: Date = now()
+    - isolation_level: ReadUncommitted | ReadCommitted | RepeatableRead | Serializable = ReadCommitted
+    - status: Active | Committed | RolledBack = Active
+    - transaction_id: String #required #unique #max(200)

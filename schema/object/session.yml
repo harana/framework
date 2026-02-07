@@ -26,7 +26,7 @@
   type: session_activity
   id: [session_id, action, created_at]
   schema:
-    - action: String #required #max(100)
+    - method: String #required #max(100)
     - created_at: Date = now()
     - ip_address: String? #max(45)
     - metadata: String?

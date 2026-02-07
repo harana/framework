@@ -1,0 +1,41 @@
+- name: Feature Flag
+  type: feature_flag
+  id: [key]
+  schema:
+    - created_at: Date = now()
+    - default_variation: int = 0 #min(0)
+    - description: String? #max(500)
+    - enabled: Boolean = false
+    - key: String #required #unique #max(200)
+    - tags: String? # JSON array
+    - updated_at: Date = now()
+
+- name: Feature Flag Variation
+  type: feature_flag_variation
+  id: [flag_id, sort_order]
+  schema:
+    - description: String? #max(500)
+    - flag_id: Id #required -> FeatureFlag.id
+    - sort_order: int = 0
+    - value: String #required
+
+- name: Feature Flag Targeting Rule
+  type: feature_flag_targeting_rule
+  id: [flag_id, name]
+  schema:
+    - conditions: String #required # JSON conditions
+    - flag_id: Id #required -> FeatureFlag.id
+    - is_active: Boolean = true
+    - name: String #required #max(200)
+    - priority: int = 0
+    - variation_index: int #required #min(0)
+
+- name: Feature Flag Evaluation Log
+  type: feature_flag_evaluation_log
+  id: [flag_id, user_id, evaluated_at]
+  schema:
+    - evaluated_at: Date = now()
+    - flag_id: Id #required -> FeatureFlag.id
+    - reason: String? #max(200)
+    - user_id: String? #max(200)
+    - variation_index: int #required #min(0)

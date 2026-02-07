@@ -1,0 +1,131 @@
+- name: Run Workers AI Model
+  method: run
+  inputs:
+    binding: String #required
+    model: String #required
+    params: Any #required
+    stream: Boolean = false
+  outputs:
+    response: Any
+
+- name: Run Workers AI Text Generation
+  method: text_generation
+  inputs:
+    binding: String #required
+    frequency_penalty: Float
+    max_tokens: Int = 256
+    messages: List[WorkersAiMessage]
+    model: String #required
+    presence_penalty: Float
+    prompt: String
+    repetition_penalty: Float
+    stream: Boolean = false
+    temperature: Float = 0.6
+    top_k: Int
+    top_p: Float
+  outputs:
+    response: String
+
+- name: Run Workers AI Text Embeddings
+  method: text_embeddings
+  inputs:
+    binding: String #required
+    model: String #required
+    text: List[String] #required
+  outputs:
+    data: List[List[Float]]
+    shape: List[Int]
+
+- name: Run Workers AI Text Classification
+  method: text_classification
+  inputs:
+    binding: String #required
+    model: String #required
+    text: String #required
+  outputs:
+    labels: List[WorkersAiClassification]
+
+- name: Run Workers AI Translation
+  method: translation
+  inputs:
+    binding: String #required
+    model: String #required
+    source_lang: String #required
+    target_lang: String #required
+    text: String #required
+  outputs:
+    translated_text: String
+
+- name: Run Workers AI Image Classification
+  method: image_classification
+  inputs:
+    binding: String #required
+    image: bytes #required
+    model: String #required
+  outputs:
+    labels: List[WorkersAiClassification]
+
+- name: Run Workers AI Object Detection
+  method: object_detection
+  inputs:
+    binding: String #required
+    image: bytes #required
+    model: String #required
+  outputs:
+    detections: List[WorkersAiDetection]
+
+- name: Run Workers AI Text To Image
+  method: text_to_image
+  inputs:
+    binding: String #required
+    guidance: Float = 7.5
+    height: Int
+    model: String #required
+    num_steps: Int = 20
+    prompt: String #required
+    width: Int
+  outputs:
+    image: bytes
+
+- name: Run Workers AI Speech Recognition
+  method: speech_recognition
+  inputs:
+    audio: bytes #required
+    binding: String #required
+    model: String #required
+    source_lang: String
+  outputs:
+    text: String
+    vtt: String
+    word_count: Int
+    words: List[WorkersAiWord]
+
+- name: Run Workers AI Text To Speech
+  method: text_to_speech
+  inputs:
+    binding: String #required
+    model: String #required
+    text: String #required
+  outputs:
+    audio: bytes
+
+- name: Run Workers AI Summarization
+  method: summarization
+  inputs:
+    binding: String #required
+    input_text: String #required
+    max_length: Int = 1024
+    model: String #required
+  outputs:
+    summary: String
+
+- name: Run Workers AI Image To Text
+  method: image_to_text
+  inputs:
+    binding: String #required
+    image: bytes #required
+    max_tokens: Int = 512
+    model: String #required
+    prompt: String
+  outputs:
+    description: String

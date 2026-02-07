@@ -1,0 +1,47 @@
+- name: Slack Workspace
+  type: slack_workspace
+  schema:
+    - access_token: String? #max(500) #encrypted
+    - created_at: Date = now()
+    - is_active: Boolean = true
+    - team_id: String #required #unique #max(100)
+    - team_name: String? #max(200)
+    - updated_at: Date = now()
+
+- name: Slack Channel
+  type: slack_channel
+  id: [workspace_id, channel_id]
+  schema:
+    - channel_id: String #required #max(100)
+    - is_archived: Boolean = false
+    - is_private: Boolean = false
+    - name: String #required #max(200)
+    - num_members: int = 0 #min(0)
+    - purpose: String? #max(500)
+    - topic: String? #max(500)
+    - workspace_id: Id #required -> SlackWorkspace.id
+
+- name: Slack User
+  type: slack_user
+  id: [workspace_id, user_id]
+  schema:
+    - email: String? #email #max(255)
+    - is_admin: Boolean = false
+    - is_bot: Boolean = false
+    - name: String? #max(200)
+    - real_name: String? #max(200)
+    - timezone: String? #max(50)
+    - user_id: String #required #max(100)
+    - workspace_id: Id #required -> SlackWorkspace.id
+
+- name: Slack Message Log
+  type: slack_message_log
+  id: [channel_id, message_ts]
+  schema:
+    - channel_id: String #required #max(100)
+    - created_at: Date = now()
+    - message_ts: String #required #max(50)
+    - status: Sent | Updated | Deleted | Failed = Sent
+    - text: String? #max(5000)
+    - thread_ts: String? #max(50)
+    - user_id: String? #max(100)

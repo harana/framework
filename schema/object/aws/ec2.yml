@@ -1,0 +1,140 @@
+- name: AWS EC2 Instance
+  type: aws_ec2_instance
+  id: [account_id, instance_id]
+  schema:
+    - account_id: String #required #max(20)
+    - ami_id: String? #max(255)
+    - availability_zone: String? #max(100)
+    - created_at: Date = now()
+    - ebs_optimized: Boolean = false
+    - iam_instance_profile: String? #max(255)
+    - instance_id: String #required #unique #max(20)
+    - instance_type: String #required #max(50)
+    - key_name: String? #max(255)
+    - launch_time: Date?
+    - monitoring_enabled: Boolean = false
+    - platform: String? #max(50)
+    - private_dns_name: String? #max(255)
+    - private_ip_address: String? #max(45)
+    - public_dns_name: String? #max(255)
+    - public_ip_address: String? #max(45)
+    - region: String? #max(50)
+    - state: Pending | Running | ShuttingDown | Terminated | Stopping | Stopped = Pending
+    - subnet_id: String? #max(30)
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - vpc_id: String? #max(30)
+
+- name: AWS EC2 AMI
+  type: aws_ec2_ami
+  id: [account_id, image_id]
+  schema:
+    - account_id: String #required #max(20)
+    - architecture: String? #max(20)
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - image_id: String #required #unique #max(30)
+    - is_public: Boolean = false
+    - name: String? #max(255)
+    - owner_id: String? #max(20)
+    - platform: String? #max(50)
+    - region: String? #max(50)
+    - root_device_type: Ebs | InstanceStore = Ebs
+    - state: Available | Pending | Failed | Deregistered = Pending
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - virtualization_type: Hvm | Paravirtual = Hvm
+
+- name: AWS EC2 Security Group
+  type: aws_ec2_security_group
+  id: [account_id, group_id]
+  schema:
+    - account_id: String #required #max(20)
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - group_id: String #required #unique #max(30)
+    - group_name: String #required #max(255)
+    - region: String? #max(50)
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - vpc_id: String? #max(30)
+
+- name: AWS EC2 Security Group Rule
+  type: aws_ec2_security_group_rule
+  id: [security_group_id, direction, ip_protocol, from_port, to_port]
+  schema:
+    - cidr_ipv4: String? #max(50)
+    - cidr_ipv6: String? #max(50)
+    - created_at: Date = now()
+    - direction: Ingress | Egress #required
+    - from_port: int? #min(-1)
+    - ip_protocol: String #required #max(20)
+    - referenced_group_id: String? #max(30)
+    - security_group_id: Id #required -> AwsEc2SecurityGroup.id
+    - to_port: int? #min(-1)
+
+- name: AWS EC2 Key Pair
+  type: aws_ec2_key_pair
+  id: [account_id, key_name]
+  schema:
+    - account_id: String #required #max(20)
+    - created_at: Date = now()
+    - fingerprint: String? #max(255)
+    - key_name: String #required #unique #max(255)
+    - key_pair_id: String? #max(30)
+    - key_type: Rsa | Ed25519 = Rsa
+    - region: String? #max(50)
+    - tags: String? # JSON
+
+- name: AWS EC2 Elastic IP
+  type: aws_ec2_elastic_ip
+  id: [account_id, allocation_id]
+  schema:
+    - account_id: String #required #max(20)
+    - allocation_id: String #required #unique #max(30)
+    - association_id: String? #max(30)
+    - created_at: Date = now()
+    - domain: Vpc | Standard = Vpc
+    - instance_id: String? #max(20)
+    - network_interface_id: String? #max(30)
+    - private_ip_address: String? #max(45)
+    - public_ip: String? #max(45)
+    - region: String? #max(50)
+    - tags: String? # JSON
+
+- name: AWS EC2 Volume
+  type: aws_ec2_volume
+  id: [account_id, volume_id]
+  schema:
+    - account_id: String #required #max(20)
+    - availability_zone: String? #max(100)
+    - created_at: Date = now()
+    - encrypted: Boolean = false
+    - iops: int? #min(0)
+    - kms_key_id: String? #max(255)
+    - region: String? #max(50)
+    - size: int #required #min(1)
+    - snapshot_id: String? #max(30)
+    - state: Creating | Available | InUse | Deleting | Deleted | Error = Creating
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - volume_id: String #required #unique #max(30)
+    - volume_type: Gp2 | Gp3 | Io1 | Io2 | St1 | Sc1 | Standard = Gp3
+
+- name: AWS EC2 Snapshot
+  type: aws_ec2_snapshot
+  id: [account_id, snapshot_id]
+  schema:
+    - account_id: String #required #max(20)
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - encrypted: Boolean = false
+    - kms_key_id: String? #max(255)
+    - owner_id: String? #max(20)
+    - progress: String? #max(10)
+    - region: String? #max(50)
+    - snapshot_id: String #required #unique #max(30)
+    - state: Pending | Completed | Error | Recoverable | Recovering = Pending
+    - tags: String? # JSON
+    - volume_id: String? #max(30)
+    - volume_size: int? #min(0)

@@ -1,0 +1,6 @@
+- name: Random Seed
+  type: random_seed
+  schema:
+    - algorithm: String = default #max(50)
+    - created_at: Date = now()
+    - seed_value: int?

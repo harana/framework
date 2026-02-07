@@ -1,0 +1,40 @@
+- name: Generate UUID V4
+  method: generate_v4
+  inputs:
+    count: Int = 1
+    uppercase: Boolean = false
+  outputs:
+    uuid: String | List[String]
+
+- name: Generate UUID V7
+  method: generate_v7
+  inputs:
+    count: Int = 1
+    uppercase: Boolean = false
+  outputs:
+    uuid: String | List[String]
+
+- name: Validate UUID Format
+  method: validate
+  inputs:
+    uuid: String #required
+    version: Int
+  outputs:
+    valid: Boolean
+    version: Int
+
+- name: Parse UUID To Components
+  method: parse
+  inputs:
+    uuid: String #required
+  outputs:
+    timestamp: Int
+    variant: String
+    version: Int
+
+- name: Uuid
+  class:
+    value: String
+    version: Int
+    variant: String
+    timestamp: Int

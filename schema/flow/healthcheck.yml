@@ -1,0 +1,115 @@
+- name: Check Service Health
+  method: check_service
+  inputs:
+    service_name: String #required
+    timeout: Int = 5
+  outputs:
+    details: HealthDetails
+    healthy: Boolean
+    latency_ms: Int
+    status: String
+
+- name: Check Database Connection
+  method: check_database
+  inputs:
+    connection_name: String = "default"
+    timeout: Int = 5
+  outputs:
+    details: HealthDetails
+    healthy: Boolean
+    latency_ms: Int
+
+- name: Check Cache Connection
+  method: check_cache
+  inputs:
+    cache_name: String = "default"
+    timeout: Int = 5
+  outputs:
+    details: HealthDetails
+    healthy: Boolean
+    latency_ms: Int
+
+- name: Check External API
+  method: check_external_api
+  inputs:
+    expected_status: Int = 200
+    method: GET | HEAD = GET
+    timeout: Int = 10
+    url: String #required
+  outputs:
+    healthy: Boolean
+    latency_ms: Int
+    status_code: Int
+
+- name: Check Disk Space
+  method: check_disk_space
+  inputs:
+    path: String = "/"
+    threshold_percent: Int = 90
+  outputs:
+    free_bytes: Int
+    healthy: Boolean
+    percent_used: Float
+    total_bytes: Int
+    used_bytes: Int
+
+- name: Check Memory Usage
+  method: check_memory
+  inputs:
+    threshold_percent: Int = 90
+  outputs:
+    free_bytes: Int
+    healthy: Boolean
+    percent_used: Float
+    total_bytes: Int
+    used_bytes: Int
+
+- name: Run All Health Checks
+  method: check_all
+  inputs:
+    fail_fast: Boolean = false
+    timeout: Int = 30
+  outputs:
+    checks: List[HealthCheck]
+    failed_count: Int
+    healthy: Boolean
+    passed_count: Int
+
+- name: Get System Status
+  method: get_system_status
+  inputs:
+    include_metrics: Boolean = true
+  outputs:
+    metrics: SystemMetrics
+    status: Healthy | Degraded | Unhealthy
+    uptime_seconds: Int
+    version: String
+
+- name: HealthStatus
+  class:
+    service_name: String
+    healthy: Boolean
+    status: String
+    latency_ms: Int
+    details: HealthDetails
+    checked_at: Date
+
+- name: HealthDetails
+  class:
+    message: String
+    error: String
+    extra: Map[String, Any]
+
+- name: HealthCheck
+  class:
+    name: String
+    healthy: Boolean
+    latency_ms: Int
+    error: String
+
+- name: SystemMetrics
+  class:
+    cpu_usage: Float
+    memory_usage: Float
+    disk_usage: Float
+    active_connections: Int

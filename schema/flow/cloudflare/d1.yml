@@ -1,0 +1,88 @@
+- name: Execute D1 Query
+  method: exec
+  inputs:
+    database: String #required
+    sql: String #required
+  outputs:
+    changes: Int
+    duration: Float
+    last_row_id: Int
+    rows_read: Int
+    rows_written: Int
+    success: Boolean
+
+- name: Prepare D1 Statement
+  method: prepare
+  inputs:
+    database: String #required
+    sql: String #required
+  outputs:
+    statement: D1PreparedStatement
+    success: Boolean
+
+- name: Run D1 Prepared Statement
+  method: run
+  inputs:
+    bind_values: List[Any]
+    database: String #required
+    sql: String #required
+  outputs:
+    changes: Int
+    duration: Float
+    last_row_id: Int
+    results: List[Any]
+    rows_read: Int
+    rows_written: Int
+    success: Boolean
+
+- name: Query D1 First Row
+  method: first
+  inputs:
+    bind_values: List[Any]
+    column: String
+    database: String #required
+    sql: String #required
+  outputs:
+    result: Any
+
+- name: Query D1 All Rows
+  method: all
+  inputs:
+    bind_values: List[Any]
+    database: String #required
+    sql: String #required
+  outputs:
+    changes: Int
+    duration: Float
+    last_row_id: Int
+    results: List[Any]
+    rows_read: Int
+    rows_written: Int
+    success: Boolean
+
+- name: Query D1 Raw Rows
+  method: raw
+  inputs:
+    bind_values: List[Any]
+    database: String #required
+    sql: String #required
+  outputs:
+    columns: List[String]
+    rows: List[List[Any]]
+
+- name: Execute D1 Batch
+  method: batch
+  inputs:
+    database: String #required
+    statements: List[D1BatchStatement] #required
+  outputs:
+    results: List[D1BatchResult]
+    success: Boolean
+
+- name: Dump D1 Database
+  method: dump
+  inputs:
+    database: String #required
+  outputs:
+    data: bytes
+    success: Boolean

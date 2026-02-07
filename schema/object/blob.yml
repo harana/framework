@@ -41,7 +41,7 @@
   schema:
     - accessed_at: Date = now()
     - accessed_by: Id? -> User.id
-    - action: Upload | Download | Delete | View | Copy | Move = View
+    - method: Upload | Download | Delete | View | Copy | Move = View
     - bytes_transferred: int? #min(0)
     - ip_address: String? #max(45)
     - object_id: Id #required -> BlobObject.id

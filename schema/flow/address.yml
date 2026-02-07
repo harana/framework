@@ -1,0 +1,59 @@
+- name: Validate Postal Address
+  method: validate
+  inputs:
+    address: Address #required
+    country: String
+  outputs:
+    errors: List[AddressValidationError]
+    valid: Boolean
+
+- name: Normalize Address Format
+  method: normalize
+  inputs:
+    address: Address #required
+    country: String
+    format: String = "standard"
+  outputs:
+    address: Address
+
+- name: Parse Address String To Components
+  method: parse
+  inputs:
+    address: String #required
+    country: String
+  outputs:
+    city: String
+    country: String
+    postal_code: String
+    state: String
+    street:  string
+
+- name: Get Address Autocomplete Suggestions
+  method: autocomplete
+  inputs:
+    country: String
+    limit: Int = 5
+    query: String #required
+    types: List[String]
+  outputs:
+    suggestions: List[AddressSuggestion]
+
+- name: Address
+  class:
+    street: String
+    city: String
+    state: String
+    postal_code: String
+    country: String
+
+- name: AddressValidationError
+  class:
+    field: String
+    code: String
+    message: String
+
+- name: AddressSuggestion
+  class:
+    description: String
+    place_id: String
+    address: Address

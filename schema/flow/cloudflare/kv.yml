@@ -1,0 +1,67 @@
+- name: Get KV Value
+  method: get
+  inputs:
+    cache_ttl: Int
+    key: String #required
+    namespace: String #required
+    type: Text | Json | ArrayBuffer | Stream = Text
+  outputs:
+    found: Boolean
+    metadata: Any
+    value: Any
+
+- name: Get KV Value With Metadata
+  method: get_with_metadata
+  inputs:
+    cache_ttl: Int
+    key: String #required
+    namespace: String #required
+    type: Text | Json | ArrayBuffer | Stream = Text
+  outputs:
+    found: Boolean
+    metadata: Any
+    value: Any
+
+- name: Put KV Value
+  method: put
+  inputs:
+    expiration: Int
+    expiration_ttl: Int
+    key: String #required
+    metadata: Any
+    namespace: String #required
+    value: Any #required
+  outputs:
+    success: Boolean
+
+- name: Put KV Value With Metadata
+  method: put_with_metadata
+  inputs:
+    expiration: Int
+    expiration_ttl: Int
+    key: String #required
+    metadata: Any #required
+    namespace: String #required
+    value: Any #required
+  outputs:
+    success: Boolean
+
+- name: Delete KV Key
+  method: delete
+  inputs:
+    key: String #required
+    namespace: String #required
+  outputs:
+    success: Boolean
+
+- name: List KV Keys
+  method: list
+  inputs:
+    cursor: String
+    limit: Int = 1000
+    namespace: String #required
+    prefix: String
+  outputs:
+    cursor: String
+    keys: List[KvKey]
+    list_complete: Boolean

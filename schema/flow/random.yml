@@ -1,0 +1,50 @@
+- name: Generate Random UUID
+  method: uuid
+  inputs:
+    version: V4 | V7 = V4
+  outputs:
+    uuid: String
+
+- name: Generate Random Bytes
+  method: bytes
+  inputs:
+    length: Int #required
+  outputs:
+    bytes: bytes
+
+- name: Generate Random String
+  method: String
+  inputs:
+    charset: Alphanumeric | Alpha | Numeric | Hex = Alphanumeric
+    length: Int #required
+  outputs:
+    string: String
+
+- name: Generate Random Number
+  method: number
+  inputs:
+    integer: Boolean = true
+    max: Float
+    min: Float
+  outputs:
+    number: Float
+
+- name: Random Choice From List
+  method: choice
+  inputs:
+    items: List[any] #required
+  outputs:
+    item: Any
+
+- name: Shuffle List Items
+  method: shuffle
+  inputs:
+    items: List[any] #required
+  outputs:
+    items: List[any]
+
+- name: RandomValue
+  class:
+    seed: Int
+    value: Any
+    type: String

@@ -1,0 +1,75 @@
+- name: AWS ELB Load Balancer
+  type: aws_elb_load_balancer
+  id: [account_id, load_balancer_arn]
+  schema:
+    - account_id: String #required #max(20)
+    - availability_zones: String? # JSON
+    - canonical_hosted_zone_id: String? #max(30)
+    - created_at: Date = now()
+    - dns_name: String? #max(255)
+    - ip_address_type: Ipv4 | Dualstack = Ipv4
+    - load_balancer_arn: String #required #unique #max(255)
+    - name: String #required #max(32)
+    - region: String? #max(50)
+    - scheme: InternetFacing | Internal = InternetFacing
+    - security_groups: String? # JSON list
+    - state: Active | Provisioning | ActiveImpaired | Failed = Provisioning
+    - subnets: String? # JSON list
+    - tags: String? # JSON
+    - type: Application | Network | Gateway = Application
+    - updated_at: Date = now()
+    - vpc_id: String? #max(30)
+
+- name: AWS ELB Target Group
+  type: aws_elb_target_group
+  id: [account_id, target_group_arn]
+  schema:
+    - account_id: String #required #max(20)
+    - created_at: Date = now()
+    - health_check_enabled: Boolean = true
+    - health_check_interval_seconds: int = 30 #min(5) #max(300)
+    - health_check_path: String? #max(1024)
+    - health_check_port: String? #max(10)
+    - health_check_protocol: HTTP | HTTPS | TCP | TLS = HTTP
+    - health_check_timeout_seconds: int? #min(2) #max(120)
+    - healthy_threshold_count: int = 5 #min(2) #max(10)
+    - ip_address_type: Ipv4 | Ipv6 = Ipv4
+    - load_balancer_arns: String? # JSON list
+    - name: String #required #max(32)
+    - port: int? #min(1) #max(65535)
+    - protocol: HTTP | HTTPS | TCP | TLS | UDP | TcpUdp | Geneve = HTTP
+    - protocol_version: HTTP1 | HTTP2 | GRPC = HTTP1
+    - region: String? #max(50)
+    - tags: String? # JSON
+    - target_group_arn: String #required #unique #max(255)
+    - target_type: Instance | Ip | Lambda | Alb = Instance
+    - unhealthy_threshold_count: int = 2 #min(2) #max(10)
+    - updated_at: Date = now()
+    - vpc_id: String? #max(30)
+
+- name: AWS ELB Listener
+  type: aws_elb_listener
+  id: [load_balancer_id, listener_arn]
+  schema:
+    - certificates: String? # JSON list
+    - created_at: Date = now()
+    - default_actions: String? # JSON
+    - listener_arn: String #required #unique #max(255)
+    - load_balancer_id: Id #required -> AwsElbLoadBalancer.id
+    - port: int #required #min(1) #max(65535)
+    - protocol: HTTP | HTTPS | TCP | TLS | UDP | TcpUdp | Geneve = HTTP
+    - ssl_policy: String? #max(100)
+    - updated_at: Date = now()
+
+- name: AWS ELB Listener Rule
+  type: aws_elb_listener_rule
+  id: [listener_id, rule_arn]
+  schema:
+    - actions: String? # JSON
+    - conditions: String? # JSON
+    - created_at: Date = now()
+    - is_default: Boolean = false
+    - listener_id: Id #required -> AwsElbListener.id
+    - priority: int? #min(1)
+    - rule_arn: String #required #unique #max(255)
+    - updated_at: Date = now()

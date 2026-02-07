@@ -1,0 +1,26 @@
+- name: Color
+  type: color
+  id: [hex]
+  schema:
+    - created_at: Date = now()
+    - format: Hex | Rgb | Hsl | Hsv | Cmyk = Hex
+    - hex: String #required #unique #max(9)
+    - label: String? #max(100)
+
+- name: Color Palette
+  type: color_palette
+  schema:
+    - created_at: Date = now()
+    - created_by: Id? -> User.id
+    - description: String? #max(500)
+    - is_active: Boolean = true
+    - palette_type: Complementary | Analogous | Triadic | Tetradic | SplitComplementary | Monochromatic | Custom = Custom
+    - updated_at: Date = now()
+
+- name: Color Palette Entry
+  type: color_palette_entry
+  id: [palette_id, color_id]
+  schema:
+    - color_id: Id #required -> Color.id
+    - palette_id: Id #required -> ColorPalette.id
+    - sort_order: int = 0

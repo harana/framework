@@ -1,0 +1,106 @@
+- name: Redirect To URL
+  method: redirect
+  inputs:
+    preserve_query: Boolean = true
+    status_code: Int = 302
+    url: String #required
+  outputs:
+    success: Boolean
+
+- name: Forward Request To Backend
+  method: forward
+  inputs:
+    headers: Map[String, String]
+    preserve_host: Boolean = false
+    target_url: String #required
+    timeout: Int = 30
+  outputs:
+    body: Any
+    headers: Map[String, String]
+    status_code: Int
+
+- name: Rewrite Request Path
+  method: rewrite_path
+  inputs:
+    pattern: String #required
+    replacement: String #required
+  outputs:
+    new_path: String
+    success: Boolean
+
+- name: Add Response Headers
+  method: add_headers
+  inputs:
+    headers: Map[String, String] #required
+  outputs:
+    success: Boolean
+
+- name: Remove Response Headers
+  method: remove_headers
+  inputs:
+    headers: List[String] #required
+  outputs:
+    success: Boolean
+
+- name: Set Response Status
+  method: set_status
+  inputs:
+    message: String
+    status_code: Int #required
+  outputs:
+    success: Boolean
+
+- name: Return JSON Response
+  method: json_response
+  inputs:
+    body: Any #required
+    headers: Map[String, String]
+    status_code: Int = 200
+  outputs:
+    success: Boolean
+
+- name: Return HTML Response
+  method: html_response
+  inputs:
+    body: String #required
+    headers: Map[String, String]
+    status_code: Int = 200
+  outputs:
+    success: Boolean
+
+- name: Apply Rate Limiting
+  method: rate_limit
+  inputs:
+    key: String #required
+    limit: Int #required
+    window_seconds: Int = 60
+  outputs:
+    allowed: Boolean
+    remaining: Int
+    reset_at: Date
+
+- name: Match Route Pattern
+  method: match_route
+  inputs:
+    method: String
+    path: String #required
+    pattern: String #required
+  outputs:
+    matched: Boolean
+    params: Map[String, String]
+
+- name: Proxy WebSocket Connection
+  method: proxy_websocket
+  inputs:
+    headers: Map[String, String]
+    target_url: String #required
+  outputs:
+    success: Boolean
+
+- name: Route
+  class:
+    path: String
+    method: String
+    handler: String
+    middleware: List[String]
+    params: Map[String, String]

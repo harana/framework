@@ -1,0 +1,91 @@
+- name: AWS IAM User
+  type: aws_iam_user
+  id: [account_id, user_name]
+  schema:
+    - account_id: String #required #max(20)
+    - arn: String? #max(255)
+    - created_at: Date = now()
+    - password_last_used: Date?
+    - path: String = / #max(512)
+    - permissions_boundary_arn: String? #max(255)
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - user_id: String? #unique #max(128)
+    - user_name: String #required #unique #max(64)
+
+- name: AWS IAM Group
+  type: aws_iam_group
+  id: [account_id, group_name]
+  schema:
+    - account_id: String #required #max(20)
+    - arn: String? #max(255)
+    - created_at: Date = now()
+    - group_id: String? #unique #max(128)
+    - group_name: String #required #unique #max(128)
+    - path: String = / #max(512)
+    - updated_at: Date = now()
+
+- name: AWS IAM Group Membership
+  type: aws_iam_group_membership
+  id: [group_id, user_id]
+  schema:
+    - created_at: Date = now()
+    - group_id: Id #required -> AwsIamGroup.id
+    - user_id: Id #required -> AwsIamUser.id
+
+- name: AWS IAM Role
+  type: aws_iam_role
+  id: [account_id, role_name]
+  schema:
+    - account_id: String #required #max(20)
+    - arn: String? #max(255)
+    - assume_role_policy_document: String?
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - max_session_duration: int = 3600 #min(3600) #max(43200)
+    - path: String = / #max(512)
+    - permissions_boundary_arn: String? #max(255)
+    - role_id: String? #unique #max(128)
+    - role_name: String #required #unique #max(64)
+    - tags: String? # JSON
+    - updated_at: Date = now()
+
+- name: AWS IAM Policy
+  type: aws_iam_policy
+  id: [account_id, policy_arn]
+  schema:
+    - account_id: String #required #max(20)
+    - arn: String? #max(255)
+    - attachment_count: int = 0 #min(0)
+    - created_at: Date = now()
+    - default_version_id: String? #max(10)
+    - description: String? #max(500)
+    - is_attachable: Boolean = true
+    - path: String = / #max(512)
+    - policy_arn: String #required #unique #max(255)
+    - policy_id: String? #unique #max(128)
+    - policy_name: String #required #max(128)
+    - tags: String? # JSON
+    - updated_at: Date = now()
+
+- name: AWS IAM Policy Attachment
+  type: aws_iam_policy_attachment
+  id: [policy_id, entity_type, entity_name]
+  schema:
+    - attached_at: Date = now()
+    - entity_name: String #required #max(128)
+    - entity_type: User | Group | Role #required
+    - policy_id: Id #required -> AwsIamPolicy.id
+
+- name: AWS IAM Access Key
+  type: aws_iam_access_key
+  id: [user_id, access_key_id]
+  schema:
+    - access_key_id: String #required #unique #max(128)
+    - created_at: Date = now()
+    - last_used_at: Date?
+    - last_used_region: String? #max(50)
+    - last_used_service: String? #max(100)
+    - status: Active | Inactive = Active
+    - updated_at: Date = now()
+    - user_id: Id #required -> AwsIamUser.id

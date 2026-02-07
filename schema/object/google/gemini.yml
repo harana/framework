@@ -1,0 +1,78 @@
+- name: Google Gemini Model
+  type: google_gemini_model
+  id: [model_id]
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(1000)
+    - display_name: String? #max(255)
+    - input_token_limit: int? #min(1)
+    - model_id: String #required #unique #max(255)
+    - output_token_limit: int? #min(1)
+    - supported_generation_methods: String? # JSON list
+    - updated_at: Date = now()
+    - version: String? #max(50)
+
+- name: Google Gemini Safety Setting
+  type: google_gemini_safety_setting
+  id: [model_id, category]
+  schema:
+    - category: String #required #max(100)
+    - model_id: Id #required -> GoogleGeminiModel.id
+    - threshold: String #required #max(100)
+
+- name: Google Gemini Safety Rating
+  type: google_gemini_safety_rating
+  schema:
+    - blocked: Boolean = false
+    - category: String #required #max(100)
+    - created_at: Date = now()
+    - probability: String #required #max(100)
+
+- name: Google Gemini Chat Message
+  type: google_gemini_chat_message
+  id: [conversation_id, created_at]
+  schema:
+    - content: String #required
+    - conversation_id: Id #required -> GoogleGeminiConversation.id
+    - created_at: Date = now()
+    - role: String #required #max(50)
+
+- name: Google Gemini Conversation
+  type: google_gemini_conversation
+  id: [user_id, created_at]
+  schema:
+    - created_at: Date = now()
+    - model_id: Id #required -> GoogleGeminiModel.id
+    - status: Active | Archived | Deleted = Active
+    - title: String? #max(200)
+    - updated_at: Date = now()
+    - user_id: String #required #max(255)
+
+- name: Google Gemini Embedding
+  type: google_gemini_embedding
+  id: [model_id, content_hash]
+  schema:
+    - content_hash: String #required #max(128)
+    - created_at: Date = now()
+    - dimensions: int? #min(1)
+    - embedding: String? # JSON list of floats
+    - model_id: Id #required -> GoogleGeminiModel.id
+    - task_type: RetrievalQuery | RetrievalDocument | SemanticSimilarity | Classification | Clustering
+
+- name: Google Gemini Usage
+  type: google_gemini_usage
+  schema:
+    - candidates_token_count: int? #min(0)
+    - created_at: Date = now()
+    - model_id: Id #required -> GoogleGeminiModel.id
+    - prompt_token_count: int? #min(0)
+    - total_token_count: int? #min(0)
+
+- name: Google Gemini Parameter Range
+  type: google_gemini_parameter_range
+  id: [model_id, parameter_name]
+  schema:
+    - max_value: decimal?
+    - min_value: decimal?
+    - model_id: Id #required -> GoogleGeminiModel.id
+    - parameter_name: String #required #max(100)

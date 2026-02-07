@@ -1,0 +1,44 @@
+- name: MongoDB Connection
+  type: mongodb_connection
+  schema:
+    - connection_string: String? #max(1000)
+    - created_at: Date = now()
+    - database: String #required #max(255)
+    - host: String #required #max(255)
+    - is_active: Boolean = true
+    - port: int = 27017 #min(1) #max(65535)
+    - updated_at: Date = now()
+    - use_ssl: Boolean = false
+
+- name: MongoDB Collection
+  type: mongodb_collection
+  id: [connection_id, name]
+  schema:
+    - connection_id: Id #required -> MongodbConnection.id
+    - created_at: Date = now()
+    - document_count: int = 0 #min(0)
+    - name: String #required #max(255)
+    - size: int = 0 #min(0)
+
+- name: MongoDB Index
+  type: mongodb_index
+  id: [collection_id, name]
+  schema:
+    - collection_id: Id #required -> MongodbCollection.id
+    - created_at: Date = now()
+    - is_unique: Boolean = false
+    - keys: String #required # JSON
+    - name: String #required #max(255)
+
+- name: MongoDB Query Log
+  type: mongodb_query_log
+  id: [collection_id, executed_at]
+  schema:
+    - collection_id: Id #required -> MongodbCollection.id
+    - documents_affected: int = 0 #min(0)
+    - duration_ms: int? #min(0)
+    - error_message: String? #max(1000)
+    - executed_at: Date = now()
+    - operation: Insert | Find | Update | Delete | Aggregate | BulkWrite = Find
+    - status: Success | Failed | Timeout = Success
+    - user_id: Id? -> User.id

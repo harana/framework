@@ -1,0 +1,169 @@
+- name: Get Durable Object By Name
+  method: id_from_name
+  inputs:
+    name: String #required
+    namespace: String #required
+  outputs:
+    id: String
+
+- name: Get Durable Object By ID
+  method: id_from_string
+  inputs:
+    id: String #required
+    namespace: String #required
+  outputs:
+    id: String
+
+- name: Generate Unique Durable Object ID
+  method: new_unique_id
+  inputs:
+    jurisdiction: String
+    namespace: String #required
+  outputs:
+    id: String
+
+- name: Get Durable Object Stub
+  method: get_stub
+  inputs:
+    id: String #required
+    namespace: String #required
+  outputs:
+    stub: DurableObjectStub
+
+- name: Send Fetch To Durable Object
+  method: fetch
+  inputs:
+    body: Any
+    headers: Headers
+    id: String #required
+    method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
+    namespace: String #required
+    url: String #required
+  outputs:
+    body: Any
+    headers: Headers
+    status_code: Int
+
+- name: Get Durable Object Storage Value
+  method: storage_get
+  inputs:
+    key: String #required
+  outputs:
+    found: Boolean
+    value: Any
+
+- name: Get Durable Object Storage Values
+  method: storage_get_multiple
+  inputs:
+    keys: List[String] #required
+  outputs:
+    values: Any
+
+- name: Put Durable Object Storage Value
+  method: storage_put
+  inputs:
+    key: String #required
+    value: Any #required
+  outputs:
+    success: Boolean
+
+- name: Put Durable Object Storage Values
+  method: storage_put_multiple
+  inputs:
+    entries: Any #required
+  outputs:
+    success: Boolean
+
+- name: Delete Durable Object Storage Value
+  method: storage_delete
+  inputs:
+    key: String #required
+  outputs:
+    deleted: Boolean
+
+- name: Delete Durable Object Storage Values
+  method: storage_delete_multiple
+  inputs:
+    keys: List[String] #required
+  outputs:
+    deleted_count: Int
+
+- name: Delete All Durable Object Storage
+  method: storage_delete_all
+  outputs:
+    success: Boolean
+
+- name: List Durable Object Storage Keys
+  method: storage_list
+  inputs:
+    end: String
+    limit: Int
+    prefix: String
+    reverse: Boolean = false
+    start: String
+  outputs:
+    entries: Any
+
+- name: Execute Durable Object Storage Transaction
+  method: storage_transaction
+  inputs:
+    closure: Any #required
+  outputs:
+    result: Any
+
+- name: Execute Durable Object SQL
+  method: sql_exec
+  inputs:
+    params: List[Any]
+    sql: String #required
+  outputs:
+    changes: Int
+    results: List[Any]
+    rows_read: Int
+    rows_written: Int
+
+- name: Set Durable Object Alarm
+  method: set_alarm
+  inputs:
+    scheduled_time: Date #required
+  outputs:
+    success: Boolean
+
+- name: Get Durable Object Alarm
+  method: get_alarm
+  outputs:
+    scheduled_time: Date
+
+- name: Delete Durable Object Alarm
+  method: delete_alarm
+  outputs:
+    success: Boolean
+
+- name: Accept Durable Object WebSocket
+  method: accept_websocket
+  inputs:
+    tags: List[String]
+  outputs:
+    success: Boolean
+
+- name: Get Durable Object WebSockets
+  method: get_websockets
+  inputs:
+    tag: String
+  outputs:
+    websockets: List[WebSocket]
+
+- name: Set Durable Object WebSocket Auto Response
+  method: set_websocket_auto_response
+  inputs:
+    request: String
+    response: String #required
+  outputs:
+    success: Boolean
+
+- name: Hibernate Durable Object WebSocket
+  method: hibernate_websocket
+  inputs:
+    websocket: WebSocket #required
+  outputs:
+    success: Boolean

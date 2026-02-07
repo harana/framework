@@ -1,0 +1,75 @@
+- name: Teams Team
+  type: teams_team
+  id: [team_id]
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - display_name: String #required #max(200)
+    - is_archived: Boolean = false
+    - team_id: String #required #unique #max(200)
+    - visibility: Public | Private = Private
+    - web_url: String? #url
+
+- name: Teams Channel
+  type: teams_channel
+  id: [team_id, channel_id]
+  schema:
+    - channel_id: String #required #max(200)
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - display_name: String #required #max(200)
+    - membership_type: Standard | Private | Shared = Standard
+    - team_id: Id #required -> TeamsTeam.id
+    - web_url: String? #url
+
+- name: Teams Member
+  type: teams_member
+  id: [team_id, user_id]
+  schema:
+    - display_name: String? #max(200)
+    - email: String? #email #max(255)
+    - joined_at: Date = now()
+    - membership_id: String? #max(200)
+    - roles: String? # JSON array
+    - team_id: Id #required -> TeamsTeam.id
+    - user_id: String #required #max(200)
+
+- name: Teams Message
+  type: teams_message
+  id: [channel_id, message_id]
+  schema:
+    - channel_id: String #required #max(200)
+    - content: String? #max(10000)
+    - content_type: Text | Html = Text
+    - created_at: Date = now()
+    - importance: Normal | High | Urgent = Normal
+    - message_id: String #required #max(200)
+    - sender_id: String? #max(200)
+    - thread_id: String? #max(200)
+    - updated_at: Date = now()
+
+- name: Teams Meeting
+  type: teams_meeting
+  id: [meeting_id]
+  schema:
+    - body: String? #max(2000)
+    - created_at: Date = now()
+    - end_time: Date?
+    - is_online: Boolean = true
+    - join_url: String? #url
+    - location: String? #max(200)
+    - meeting_id: String #required #unique #max(200)
+    - organizer_id: String? #max(200)
+    - start_time: Date?
+    - subject: String #required #max(500)
+    - updated_at: Date = now()
+
+- name: Teams Adaptive Card
+  type: teams_adaptive_card
+  schema:
+    - body: String #required # JSON card body
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - is_active: Boolean = true
+    - schema_version: String = 1.4 #max(10)
+    - updated_at: Date = now()

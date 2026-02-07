@@ -1,0 +1,96 @@
+- name: Stripe Customer
+  type: stripe_customer
+  id: [customer_id]
+  schema:
+    - created_at: Date = now()
+    - customer_id: String #required #unique #max(200)
+    - description: String? #max(500)
+    - email: String? #email #max(255)
+    - metadata: String? # JSON
+    - name: String? #max(200)
+    - phone: String? #max(20)
+    - updated_at: Date = now()
+    - user_id: Id? -> User.id
+
+- name: Stripe Payment Intent
+  type: stripe_payment_intent
+  id: [payment_intent_id]
+  schema:
+    - amount: int #required #min(0)
+    - capture_method: Automatic | Manual = Automatic
+    - client_secret: String? #max(500)
+    - created_at: Date = now()
+    - currency: String #required #max(3)
+    - customer_id: String? #max(200)
+    - description: String? #max(500)
+    - metadata: String? # JSON
+    - payment_intent_id: String #required #unique #max(200)
+    - payment_method: String? #max(200)
+    - status: RequiresPaymentMethod | RequiresConfirmation | RequiresAction | Processing | Succeeded | Cancelled = RequiresPaymentMethod
+    - updated_at: Date = now()
+
+- name: Stripe Subscription
+  type: stripe_subscription
+  id: [subscription_id]
+  schema:
+    - cancel_at_period_end: Boolean = false
+    - cancelled_at: Date?
+    - created_at: Date = now()
+    - current_period_end: Date?
+    - current_period_start: Date?
+    - customer_id: String #required #max(200)
+    - metadata: String? # JSON
+    - price_id: String #required #max(200)
+    - quantity: int = 1 #min(1)
+    - status: Active | PastDue | Cancelled | Incomplete | Trialing | Unpaid = Active
+    - subscription_id: String #required #unique #max(200)
+    - trial_end: Date?
+    - updated_at: Date = now()
+
+- name: Stripe Product
+  type: stripe_product
+  id: [product_id]
+  schema:
+    - created_at: Date = now()
+    - description: String? #max(500)
+    - is_active: Boolean = true
+    - metadata: String? # JSON
+    - name: String #required #max(200)
+    - product_id: String #required #unique #max(200)
+    - updated_at: Date = now()
+
+- name: Stripe Price
+  type: stripe_price
+  id: [price_id]
+  schema:
+    - created_at: Date = now()
+    - currency: String #required #max(3)
+    - is_active: Boolean = true
+    - price_id: String #required #unique #max(200)
+    - product_id: String #required #max(200)
+    - recurring_interval: Day | Week | Month | Year?
+    - recurring_interval_count: int = 1 #min(1)
+    - unit_amount: int #required #min(0)
+
+- name: Stripe Refund
+  type: stripe_refund
+  id: [refund_id]
+  schema:
+    - amount: int #required #min(0)
+    - created_at: Date = now()
+    - metadata: String? # JSON
+    - payment_intent_id: String #required #max(200)
+    - reason: Duplicate | Fraudulent | RequestedByCustomer?
+    - refund_id: String #required #unique #max(200)
+    - status: Pending | Succeeded | Failed | Cancelled = Pending
+
+- name: Stripe Webhook Event
+  type: stripe_webhook_event
+  id: [event_id]
+  schema:
+    - created_at: Date = now()
+    - event_id: String #required #unique #max(200)
+    - event_type: String #required #max(200)
+    - payload: String #required
+    - processed_at: Date?
+    - status: Pending | Processed | Failed = Pending

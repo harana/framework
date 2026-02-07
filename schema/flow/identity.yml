@@ -1,0 +1,142 @@
+- name: Authenticate User Credentials
+  method: authenticate
+  inputs:
+    mfa_code: String
+    password: String #required
+    username: String #required
+  outputs:
+    access_token: String
+    expires_at: Date
+    refresh_token: String
+    success: Boolean
+    user_id: String
+
+- name: Verify Access Token
+  method: verify_token
+  inputs:
+    token: String #required
+  outputs:
+    claims: TokenClaims
+    expires_at: Date
+    user_id: String
+    valid: Boolean
+
+- name: Refresh Access Token
+  method: refresh_token
+  inputs:
+    refresh_token: String #required
+  outputs:
+    access_token: String
+    expires_at: Date
+    refresh_token: String
+
+- name: Revoke Access Token
+  method: revoke_token
+  inputs:
+    token: String #required
+  outputs:
+    success: Boolean
+
+- name: Get User By ID
+  method: get_user
+  inputs:
+    user_id: String #required
+  outputs:
+    created_at: Date
+    email: String
+    metadata: UserMetadata
+    roles: List[String]
+    user_id: String
+    username: String
+
+- name: Create New User
+  method: create_user
+  inputs:
+    email: String #required
+    metadata: UserMetadata
+    password: String #required
+    roles: List[String]
+    username: String #required
+  outputs:
+    success: Boolean
+    user_id: String
+
+- name: Update User Details
+  method: update_user
+  inputs:
+    email: String
+    metadata: UserMetadata
+    roles: List[String]
+    user_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Delete User Account
+  method: delete_user
+  inputs:
+    hard_delete: Boolean = false
+    user_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Change User Password
+  method: change_password
+  inputs:
+    current_password: String #required
+    new_password: String #required
+    user_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Request Password Reset
+  method: request_password_reset
+  inputs:
+    email: String #required
+  outputs:
+    reset_token: String
+    success: Boolean
+
+- name: Reset Password With Token
+  method: reset_password
+  inputs:
+    new_password: String #required
+    reset_token: String #required
+  outputs:
+    success: Boolean
+
+- name: List Users
+  method: list_users
+  inputs:
+    limit: Int = 100
+    offset: Int = 0
+    roles: List[String]
+    search: String
+  outputs:
+    total: Int
+    users: List[UserInfo]
+
+- name: User
+  class:
+    user_id: String
+    username: String
+    email: String
+    roles: List[String]
+    metadata: UserMetadata
+    created_at: Date
+    last_login: Date
+
+- name: TokenClaims
+  class:
+    claims: Map[String, Any]
+
+- name: UserMetadata
+  class:
+    values: Map[String, Any]
+
+- name: UserInfo
+  class:
+    user_id: String
+    username: String
+    email: String
+    roles: List[String]
+    created_at: Date

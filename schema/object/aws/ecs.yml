@@ -1,0 +1,82 @@
+- name: AWS ECS Cluster
+  type: aws_ecs_cluster
+  id: [account_id, cluster_name]
+  schema:
+    - account_id: String #required #max(20)
+    - active_services_count: int = 0 #min(0)
+    - capacity_providers: String? # JSON list
+    - cluster_arn: String? #max(255)
+    - cluster_name: String #required #unique #max(255)
+    - created_at: Date = now()
+    - pending_tasks_count: int = 0 #min(0)
+    - region: String? #max(50)
+    - registered_container_instances_count: int = 0 #min(0)
+    - running_tasks_count: int = 0 #min(0)
+    - settings: String? # JSON
+    - status: Active | Provisioning | Deprovisioning | Failed | Inactive = Active
+    - tags: String? # JSON
+    - updated_at: Date = now()
+
+- name: AWS ECS Service
+  type: aws_ecs_service
+  id: [cluster_id, service_name]
+  schema:
+    - cluster_id: Id #required -> AwsEcsCluster.id
+    - created_at: Date = now()
+    - desired_count: int = 1 #min(0)
+    - launch_type: EC2 | Fargate | External = Fargate
+    - load_balancers: String? # JSON
+    - network_configuration: String? # JSON
+    - pending_count: int = 0 #min(0)
+    - platform_version: String? #max(50)
+    - running_count: int = 0 #min(0)
+    - scheduling_strategy: Replica | Daemon = Replica
+    - service_arn: String? #max(255)
+    - service_name: String #required #max(255)
+    - status: Active | Draining | Inactive = Active
+    - tags: String? # JSON
+    - task_definition: String? #max(255)
+    - updated_at: Date = now()
+
+- name: AWS ECS Task Definition
+  type: aws_ecs_task_definition
+  id: [account_id, family, revision]
+  schema:
+    - account_id: String #required #max(20)
+    - container_definitions: String? # JSON
+    - cpu: String? #max(20)
+    - created_at: Date = now()
+    - execution_role_arn: String? #max(255)
+    - family: String #required #max(255)
+    - memory: String? #max(20)
+    - network_mode: None | Bridge | Awsvpc | Host = Awsvpc
+    - region: String? #max(50)
+    - requires_compatibilities: String? # JSON list
+    - revision: int #required #min(1)
+    - status: Active | Inactive = Active
+    - tags: String? # JSON
+    - task_definition_arn: String? #max(255)
+    - task_role_arn: String? #max(255)
+
+- name: AWS ECS Task
+  type: aws_ecs_task
+  id: [cluster_id, task_arn]
+  schema:
+    - cluster_id: Id #required -> AwsEcsCluster.id
+    - connectivity: Connected | Disconnected = Connected
+    - container_instance_arn: String? #max(255)
+    - cpu: String? #max(20)
+    - created_at: Date = now()
+    - desired_status: Running | Stopped = Running
+    - group: String? #max(255)
+    - last_status: Provisioning | Pending | Activating | Running | Deactivating | Stopping | Deprovisioning | Stopped = Provisioning
+    - launch_type: EC2 | Fargate | External = Fargate
+    - memory: String? #max(20)
+    - platform_version: String? #max(50)
+    - started_at: Date?
+    - stopped_at: Date?
+    - stopped_reason: String? #max(500)
+    - tags: String? # JSON
+    - task_arn: String #required #max(255)
+    - task_definition_arn: String? #max(255)
+    - updated_at: Date = now()

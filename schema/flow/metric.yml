@@ -1,0 +1,121 @@
+- name: Record Metric Value
+  method: record_metric
+  inputs:
+    name: String #required
+    tags: Map[String, String]
+    timestamp: Date
+    value: Float #required
+  outputs:
+    success: Boolean
+
+- name: Increment Counter Metric
+  method: increment_counter
+  inputs:
+    amount: Float = 1
+    name: String #required
+    tags: Map[String, String]
+  outputs:
+    value: Float
+
+- name: Set Gauge Value
+  method: set_gauge
+  inputs:
+    name: String #required
+    tags: Map[String, String]
+    value: Float #required
+  outputs:
+    success: Boolean
+
+- name: Record Histogram Value
+  method: record_histogram
+  inputs:
+    buckets: List[float]
+    name: String #required
+    tags: Map[String, String]
+    value: Float #required
+  outputs:
+    success: Boolean
+
+- name: Start Timer Measurement
+  method: start_timer
+  inputs:
+    name: String #required
+    tags: Map[String, String]
+  outputs:
+    timer_id: String
+
+- name: Stop Timer Measurement
+  method: stop_timer
+  inputs:
+    timer_id: String #required
+  outputs:
+    duration_ms: Float
+    success: Boolean
+
+- name: Query Metric Values
+  method: query_metrics
+  inputs:
+    aggregation: Sum | Avg | Min | Max | Count = Avg
+    end_time: Date
+    interval: String = "1m"
+    name: String #required
+    start_time: Date #required
+    tags: Map[String, String]
+  outputs:
+    datapoints: List[MetricDatapoint]
+    total: Int
+
+- name: Get Metric Summary
+  method: get_metric_summary
+  inputs:
+    name: String #required
+    period: String = "1h"
+    tags: Map[String, String]
+  outputs:
+    avg: Float
+    count: Int
+    max: Float
+    min: Float
+    p50: Float
+    p95: Float
+    p99: Float
+    sum: Float
+
+- name: List Available Metrics
+  method: list_metrics
+  inputs:
+    limit: Int = 100
+    prefix: String
+  outputs:
+    metrics: List[MetricInfo]
+    total: Int
+
+- name: Delete Metric Data
+  method: delete_metric
+  inputs:
+    before: Date
+    name: String #required
+    tags: Map[String, String]
+  outputs:
+    deleted_count: Int
+    success: Boolean
+
+- name: Metric
+  class:
+    name: String
+    value: Float
+    tags: Map[String, String]
+    timestamp: Date
+    type: String
+
+- name: MetricDatapoint
+  class:
+    timestamp: Date
+    value: Float
+
+- name: MetricInfo
+  class:
+    name: String
+    type: String
+    description: String
+    tags: List[String]

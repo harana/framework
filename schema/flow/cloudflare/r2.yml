@@ -1,0 +1,135 @@
+- name: Get R2 Object
+  method: get
+  inputs:
+    bucket: String #required
+    key: String #required
+    only_if: R2Conditional
+    range: R2Range
+  outputs:
+    body: bytes
+    custom_metadata: Any
+    etag: String
+    http_etag: String
+    http_metadata: R2HttpMetadata
+    key: String
+    size: Int
+    uploaded: Date
+    version: String
+
+- name: Head R2 Object
+  method: head
+  inputs:
+    bucket: String #required
+    key: String #required
+  outputs:
+    custom_metadata: Any
+    etag: String
+    http_etag: String
+    http_metadata: R2HttpMetadata
+    key: String
+    size: Int
+    uploaded: Date
+    version: String
+
+- name: Put R2 Object
+  method: put
+  inputs:
+    bucket: String #required
+    custom_metadata: Any
+    http_metadata: R2HttpMetadata
+    key: String #required
+    md5: String
+    only_if: R2Conditional
+    sha1: String
+    sha256: String
+    sha384: String
+    sha512: String
+    storage_class: Standard | InfrequentAccess = Standard
+    value: bytes #required
+  outputs:
+    etag: String
+    key: String
+    size: Int
+    success: Boolean
+    uploaded: Date
+    version: String
+
+- name: Delete R2 Object
+  method: delete
+  inputs:
+    bucket: String #required
+    key: String #required
+  outputs:
+    success: Boolean
+
+- name: Delete R2 Objects
+  method: delete_many
+  inputs:
+    bucket: String #required
+    keys: List[String] #required
+  outputs:
+    success: Boolean
+
+- name: List R2 Objects
+  method: list
+  inputs:
+    bucket: String #required
+    cursor: String
+    delimiter: String
+    include: List[HttpMetadata | CustomMetadata]
+    limit: Int = 1000
+    prefix: String
+    start_after: String
+  outputs:
+    cursor: String
+    delimited_prefixes: List[String]
+    objects: List[R2Object]
+    truncated: Boolean
+
+- name: Create R2 Multipart Upload
+  method: create_multipart_upload
+  inputs:
+    bucket: String #required
+    custom_metadata: Any
+    http_metadata: R2HttpMetadata
+    key: String #required
+    storage_class: Standard | InfrequentAccess = Standard
+  outputs:
+    key: String
+    upload_id: String
+
+- name: Upload R2 Multipart Part
+  method: upload_part
+  inputs:
+    bucket: String #required
+    key: String #required
+    part_number: Int #required
+    upload_id: String #required
+    value: bytes #required
+  outputs:
+    etag: String
+    part_number: Int
+
+- name: Complete R2 Multipart Upload
+  method: complete_multipart_upload
+  inputs:
+    bucket: String #required
+    key: String #required
+    parts: List[R2UploadedPart] #required
+    upload_id: String #required
+  outputs:
+    etag: String
+    key: String
+    size: Int
+    success: Boolean
+    uploaded: Date
+    version: String
+
+- name: Abort R2 Multipart Upload
+  method: abort_multipart_upload
+  inputs:
+    bucket: String #required
+    key: String #required
+    upload_id: String #required
+  outputs:
+    success: Boolean

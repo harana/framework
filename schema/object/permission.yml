@@ -1,7 +1,7 @@
 - name: Permission
   type: permission
   schema:
-    - action: Create | Read | Update | Delete | Execute | Manage = Read
+    - method: Create | Read | Update | Delete | Execute | Manage = Read
     - description: String? #max(500)
     - resource: String #required #max(100)
 

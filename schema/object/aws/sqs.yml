@@ -1,0 +1,49 @@
+- name: AWS SQS Queue
+  type: aws_sqs_queue
+  id: [account_id, queue_name]
+  schema:
+    - account_id: String #required #max(20)
+    - content_based_deduplication: Boolean = false
+    - created_at: Date = now()
+    - dead_letter_target_arn: String? #max(255)
+    - delay_seconds: int = 0 #min(0) #max(900)
+    - is_fifo: Boolean = false
+    - max_message_size: int = 262144 #min(1024) #max(262144)
+    - message_retention_seconds: int = 345600 #min(60) #max(1209600)
+    - queue_arn: String? #max(255)
+    - queue_name: String #required #unique #max(80)
+    - queue_url: String? #max(1000)
+    - receive_wait_time_seconds: int = 0 #min(0) #max(20)
+    - redrive_max_receive_count: int? #min(1)
+    - region: String? #max(50)
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - visibility_timeout: int = 30 #min(0) #max(43200)
+
+- name: AWS SQS Message
+  type: aws_sqs_message
+  id: [queue_id, message_id]
+  schema:
+    - body: String #required
+    - created_at: Date = now()
+    - delay_seconds: int? #min(0)
+    - message_attributes: String? # JSON
+    - message_deduplication_id: String? #max(128)
+    - message_group_id: String? #max(128)
+    - message_id: String #required #unique #max(255)
+    - queue_id: Id #required -> AwsSqsQueue.id
+    - receipt_handle: String? #max(1024)
+    - receive_count: int = 0 #min(0)
+    - sequence_number: String? #max(255)
+    - status: Pending | InFlight | Processed | DeadLetter = Pending
+    - visible_at: Date = now()
+
+- name: AWS SQS Queue Permission
+  type: aws_sqs_queue_permission
+  id: [queue_id, label]
+  schema:
+    - actions: String #required # JSON list
+    - aws_account_ids: String #required # JSON list
+    - created_at: Date = now()
+    - label: String #required #max(80)
+    - queue_id: Id #required -> AwsSqsQueue.id

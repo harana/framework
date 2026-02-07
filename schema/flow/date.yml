@@ -1,0 +1,89 @@
+- name: Get Current Timestamp
+  method: now
+  inputs:
+    timezone: String = "UTC"
+  outputs:
+    timestamp: String
+
+- name: Format Date To String
+  method: format
+  inputs:
+    date: String #required
+    format: String #required
+    timezone: String
+  outputs:
+    formatted: String
+
+- name: Parse Date From String
+  method: parse
+  inputs:
+    date: String #required
+    format: String
+    timezone: String
+  outputs:
+    timestamp: String
+
+- name: Add Duration To Date
+  method: add
+  inputs:
+    amount: Int #required
+    date: String #required
+    unit: Seconds | Minutes | Hours | Days | Weeks | Months | Years #required
+  outputs:
+    result: String
+
+- name: Subtract Duration From Date
+  method: subtract
+  inputs:
+    amount: Int #required
+    date: String #required
+    unit: Seconds | Minutes | Hours | Days | Weeks | Months | Years #required
+  outputs:
+    result: String
+
+- name: Calculate Date Difference
+  method: diff
+  inputs:
+    end: String #required
+    start: String #required
+    unit: Seconds | Minutes | Hours | Days | Weeks | Months | Years = Seconds
+  outputs:
+    difference: Float
+
+- name: Convert Date Timezone
+  method: convert_timezone
+  inputs:
+    date: String #required
+    from_timezone: String #required
+    to_timezone: String #required
+  outputs:
+    result: String
+
+- name: Get Start Of Period
+  method: start_of
+  inputs:
+    date: String #required
+    period: Second | Minute | Hour | Day | Week | Month | Year #required
+    timezone: String
+  outputs:
+    result: String
+
+- name: Get End Of Period
+  method: end_of
+  inputs:
+    date: String #required
+    period: Second | Minute | Hour | Day | Week | Month | Year #required
+    timezone: String
+  outputs:
+    result: String
+
+- name: Date
+  class:
+    timestamp: String
+    timezone: String
+    year: Int
+    month: Int
+    day: Int
+    hour: Int
+    minute: Int
+    second: Int

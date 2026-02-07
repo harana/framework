@@ -12,7 +12,7 @@
   type: workflow_step
   id: [workflow_id, name]
   schema:
-    - action: String #required #max(200)
+    - method: String #required #max(200)
     - condition: String?
     - on_failure: Continue | Stop | Retry = Stop
     - retry_count: int = 0 #min(0)

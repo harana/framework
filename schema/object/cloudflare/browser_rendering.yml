@@ -1,0 +1,23 @@
+- name: Cloudflare Browser Rendering Session
+  type: cf_browser_rendering_session
+  id: [account_id, session_id]
+  schema:
+    - account_id: String #required #max(50)
+    - binding: String #required #max(255)
+    - created_at: Date = now()
+    - session_id: String #required #unique #max(255)
+    - status: Active | Closed = Active
+    - updated_at: Date = now()
+
+- name: Cloudflare Browser Rendering Result
+  type: cf_browser_rendering_result
+  id: [session_id, rendered_at]
+  schema:
+    - content: String?
+    - content_type: Html | Pdf | Png | Jpeg = Html
+    - rendered_at: Date = now()
+    - session_id: Id #required -> CfBrowserRenderingSession.id
+    - status_code: int? #min(0)
+    - title: String? #max(500)
+    - url: String #required #url
+

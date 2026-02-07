@@ -1,0 +1,20 @@
+- name: Write Analytics Engine Data Point
+  method: write_data_point
+  inputs:
+    binding: String #required
+    blobs: List[String]
+    doubles: List[Float]
+    indexes: List[String]
+  outputs:
+    success: Boolean
+
+- name: Query Analytics Engine
+  method: query
+  inputs:
+    binding: String #required
+    query: String #required
+    time_end: Date
+    time_start: Date
+  outputs:
+    data: List[Any]
+    rows: Int

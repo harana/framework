@@ -1,0 +1,72 @@
+- name: Invoke Worker Fetch
+  method: fetch
+  inputs:
+    body: Any
+    headers: Headers
+    method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
+    service_binding: String #required
+    url: String #required
+  outputs:
+    body: Any
+    headers: Headers
+    status_code: Int
+
+- name: Get Worker Environment Variable
+  method: get_var
+  inputs:
+    name: String #required
+  outputs:
+    value: String
+
+- name: Get Worker Secret
+  method: get_secret
+  inputs:
+    name: String #required
+  outputs:
+    value: String
+
+- name: Schedule Worker Cron Trigger
+  method: scheduled
+  inputs:
+    cron: String #required
+    service_binding: String #required
+  outputs:
+    scheduled_time: Date
+    success: Boolean
+
+- name: Worker Wait Until
+  method: wait_until
+  inputs:
+    promise: Any #required
+  outputs:
+    success: Boolean
+
+- name: Worker Pass Through
+  method: pass_through
+  inputs:
+    request: Any #required
+  outputs:
+    response: Any
+
+- name: Fetch External Service Binding
+  method: service_binding_fetch
+  inputs:
+    body: Any
+    headers: Headers
+    method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
+    service: String #required
+    url: String #required
+  outputs:
+    body: Any
+    headers: Headers
+    status_code: Int
+
+- name: Get Worker Version Metadata
+  method: get_version
+  inputs:
+    binding: String #required
+  outputs:
+    id: String
+    message: String
+    tag: String
+    timestamp: Date

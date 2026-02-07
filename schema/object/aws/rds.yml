@@ -1,0 +1,110 @@
+- name: AWS RDS Instance
+  type: aws_rds_instance
+  id: [account_id, db_instance_identifier]
+  schema:
+    - account_id: String #required #max(20)
+    - allocated_storage: int? #min(0)
+    - auto_minor_version_upgrade: Boolean = true
+    - availability_zone: String? #max(100)
+    - backup_retention_period: int = 1 #min(0) #max(35)
+    - ca_certificate_identifier: String? #max(255)
+    - created_at: Date = now()
+    - db_cluster_identifier: String? #max(63)
+    - db_instance_class: String #required #max(50)
+    - db_instance_identifier: String #required #unique #max(63)
+    - db_name: String? #max(64)
+    - db_subnet_group_name: String? #max(255)
+    - deletion_protection: Boolean = false
+    - endpoint_address: String? #max(255)
+    - endpoint_port: int? #min(0)
+    - engine: String #required #max(50)
+    - engine_version: String? #max(50)
+    - iam_auth_enabled: Boolean = false
+    - iops: int? #min(0)
+    - kms_key_id: String? #max(255)
+    - master_username: String? #max(128)
+    - multi_az: Boolean = false
+    - performance_insights_enabled: Boolean = false
+    - port: int? #min(0)
+    - publicly_accessible: Boolean = false
+    - region: String? #max(50)
+    - status: Available | Backing-up | Creating | Deleting | Failed | Modifying | Rebooting | Starting | Stopped | Stopping | StorageOptimization = Creating
+    - storage_encrypted: Boolean = false
+    - storage_type: Standard | Gp2 | Gp3 | Io1 | Io2 = Gp2
+    - tags: String? # JSON
+    - updated_at: Date = now()
+
+- name: AWS RDS Cluster
+  type: aws_rds_cluster
+  id: [account_id, db_cluster_identifier]
+  schema:
+    - account_id: String #required #max(20)
+    - availability_zones: String? # JSON list
+    - backup_retention_period: int = 1 #min(0) #max(35)
+    - created_at: Date = now()
+    - database_name: String? #max(64)
+    - db_cluster_identifier: String #required #unique #max(63)
+    - deletion_protection: Boolean = false
+    - endpoint: String? #max(255)
+    - engine: String #required #max(50)
+    - engine_mode: Provisioned | Serverless = Provisioned
+    - engine_version: String? #max(50)
+    - iam_auth_enabled: Boolean = false
+    - kms_key_id: String? #max(255)
+    - master_username: String? #max(128)
+    - multi_az: Boolean = false
+    - port: int? #min(0)
+    - reader_endpoint: String? #max(255)
+    - region: String? #max(50)
+    - status: Available | Creating | Deleting | Failed | Migrating | Modifying = Creating
+    - storage_encrypted: Boolean = false
+    - tags: String? # JSON
+    - updated_at: Date = now()
+
+- name: AWS RDS Subnet Group
+  type: aws_rds_subnet_group
+  id: [account_id, db_subnet_group_name]
+  schema:
+    - account_id: String #required #max(20)
+    - created_at: Date = now()
+    - db_subnet_group_description: String? #max(500)
+    - db_subnet_group_name: String #required #unique #max(255)
+    - region: String? #max(50)
+    - status: String? #max(50)
+    - subnet_ids: String? # JSON list
+    - tags: String? # JSON
+    - updated_at: Date = now()
+    - vpc_id: String? #max(30)
+
+- name: AWS RDS Parameter Group
+  type: aws_rds_parameter_group
+  id: [account_id, db_parameter_group_name]
+  schema:
+    - account_id: String #required #max(20)
+    - created_at: Date = now()
+    - db_parameter_group_family: String? #max(50)
+    - db_parameter_group_name: String #required #unique #max(255)
+    - description: String? #max(500)
+    - region: String? #max(50)
+    - tags: String? # JSON
+    - updated_at: Date = now()
+
+- name: AWS RDS Snapshot
+  type: aws_rds_snapshot
+  id: [account_id, db_snapshot_identifier]
+  schema:
+    - account_id: String #required #max(20)
+    - allocated_storage: int? #min(0)
+    - availability_zone: String? #max(100)
+    - created_at: Date = now()
+    - db_instance_identifier: String? #max(63)
+    - db_snapshot_identifier: String #required #unique #max(255)
+    - encrypted: Boolean = false
+    - engine: String? #max(50)
+    - engine_version: String? #max(50)
+    - kms_key_id: String? #max(255)
+    - region: String? #max(50)
+    - snapshot_type: Automated | Manual | Shared | Public = Manual
+    - status: Available | Creating | Deleting | Failed = Creating
+    - storage_type: String? #max(50)
+    - tags: String? # JSON

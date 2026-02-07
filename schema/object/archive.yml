@@ -1,0 +1,26 @@
+- name: Archive
+  type: archive
+  schema:
+    - archive_type: Zip | Tar | TarGz | TarBz2 | TarXz | Gz = Zip
+    - compression_level: int = 6 #min(0) #max(9)
+    - created_at: Date = now()
+    - created_by: Id? -> User.id
+    - file_count: int = 0 #min(0)
+    - is_encrypted: Boolean = false
+    - original_size: int? #min(0)
+    - output_path: String #required #max(2000)
+    - size: int? #min(0)
+    - status: Pending | Creating | Completed | Failed = Pending
+    - updated_at: Date = now()
+
+- name: Archive Entry
+  type: archive_entry
+  id: [archive_id, path]
+  schema:
+    - archive_id: Id #required -> Archive.id
+    - compressed_size: int? #min(0)
+    - is_directory: Boolean = false
+    - modified_at: Date?
+    - original_size: int? #min(0)
+    - path: String #required #max(2000)
+    - permissions: String? #max(20)

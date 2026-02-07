@@ -1,0 +1,110 @@
+- name: Insert Vectors
+  method: insert
+  inputs:
+    index: String #required
+    vectors: List[VectorizeVector] #required
+  outputs:
+    count: Int
+    mutation_id: String
+    success: Boolean
+
+- name: Upsert Vectors
+  method: upsert
+  inputs:
+    index: String #required
+    vectors: List[VectorizeVector] #required
+  outputs:
+    count: Int
+    mutation_id: String
+    success: Boolean
+
+- name: Query Vectors
+  method: query
+  inputs:
+    filter: VectorizeFilter
+    index: String #required
+    namespace: String
+    return_metadata: None | Indexed | All = None
+    return_values: Boolean = false
+    top_k: Int = 5
+    vector: List[Float] #required
+  outputs:
+    count: Int
+    matches: List[VectorizeMatch]
+
+- name: Query Vectors By ID
+  method: query_by_id
+  inputs:
+    filter: VectorizeFilter
+    index: String #required
+    namespace: String
+    return_metadata: None | Indexed | All = None
+    return_values: Boolean = false
+    top_k: Int = 5
+    vector_id: String #required
+  outputs:
+    count: Int
+    matches: List[VectorizeMatch]
+
+- name: Get Vectors By ID
+  method: get_by_ids
+  inputs:
+    ids: List[String] #required
+    index: String #required
+  outputs:
+    vectors: List[VectorizeVector]
+
+- name: Delete Vectors By ID
+  method: delete_by_ids
+  inputs:
+    ids: List[String] #required
+    index: String #required
+  outputs:
+    count: Int
+    mutation_id: String
+    success: Boolean
+
+- name: Describe Vectorize Index
+  method: describe
+  inputs:
+    index: String #required
+  outputs:
+    configured_dimensions: Int
+    description: String
+    metric: Cosine | Euclidean | DotProduct
+    name: String
+    vectors_count: Int
+
+- name: Get Vectorize Index Info
+  method: info
+  inputs:
+    index: String #required
+  outputs:
+    dimensions: Int
+    metric: Cosine | Euclidean | DotProduct
+    name: String
+    vectors_count: Int
+
+- name: Create Metadata Index
+  method: create_metadata_index
+  inputs:
+    index: String #required
+    property_name: String #required
+    type: String | Number | Boolean = String
+  outputs:
+    success: Boolean
+
+- name: Delete Metadata Index
+  method: delete_metadata_index
+  inputs:
+    index: String #required
+    property_name: String #required
+  outputs:
+    success: Boolean
+
+- name: List Metadata Indexes
+  method: list_metadata_indexes
+  inputs:
+    index: String #required
+  outputs:
+    metadata_indexes: List[VectorizeMetadataIndex]

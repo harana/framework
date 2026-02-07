@@ -1,0 +1,762 @@
+- name: Run EC2 Instance
+  method: run_instances
+  inputs:
+    block_device_mappings: List[BlockDeviceMapping]
+    capacity_reservation_specification: CapacityReservationSpecification
+    cpu_options: CpuOptions
+    credit_specification: CreditSpecification
+    disable_api_stop: Boolean = false
+    disable_api_termination: Boolean = false
+    ebs_optimized: Boolean = false
+    elastic_gpu_specification: List[ElasticGpuSpecification]
+    elastic_inference_accelerators: List[ElasticInferenceAccelerator]
+    enclave_options: EnclaveOptions
+    hibernation_options: HibernationOptions
+    iam_instance_profile: IamInstanceProfile
+    image_id: String #required
+    instance_initiated_shutdown_behavior: Stop | Terminate = Stop
+    instance_market_options: InstanceMarketOptions
+    instance_type: String #required
+    ipv6_address_count: Int
+    ipv6_addresses: List[Ipv6Address]
+    kernel_id: String
+    key_name: String
+    launch_template: LaunchTemplateSpecification
+    license_specifications: List[LicenseSpecification]
+    maintenance_options: MaintenanceOptions
+    max_count: Int = 1
+    metadata_options: InstanceMetadataOptions
+    min_count: Int = 1
+    monitoring: Boolean = false
+    network_interfaces: List[NetworkInterfaceSpecification]
+    placement: Placement
+    private_dns_name_options: PrivateDnsNameOptions
+    private_ip_address: String
+    ramdisk_id: String
+    region: String
+    security_group_ids: List[String]
+    security_groups: List[String]
+    subnet_id: String
+    tags: Ec2Tags
+    user_data: String
+  outputs:
+    instances: List[Instance]
+    owner_id: String
+    reservation_id: String
+    success: Boolean
+
+- name: Start EC2 Instances
+  method: start_instances
+  inputs:
+    instance_ids: List[String] #required
+    region: String
+  outputs:
+    starting_instances: List[InstanceStateChange]
+    success: Boolean
+
+- name: Stop EC2 Instances
+  method: stop_instances
+  inputs:
+    force: Boolean = false
+    hibernate: Boolean = false
+    instance_ids: List[String] #required
+    region: String
+  outputs:
+    stopping_instances: List[InstanceStateChange]
+    success: Boolean
+
+- name: Reboot EC2 Instances
+  method: reboot_instances
+  inputs:
+    instance_ids: List[String] #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Terminate EC2 Instances
+  method: terminate_instances
+  inputs:
+    instance_ids: List[String] #required
+    region: String
+  outputs:
+    success: Boolean
+    terminating_instances: List[InstanceStateChange]
+
+- name: Describe EC2 Instances
+  method: describe_instances
+  inputs:
+    filters: List[Ec2Filter]
+    instance_ids: List[String]
+    region: String
+  outputs:
+    reservations: List[Reservation]
+
+- name: Describe Instance Status
+  method: describe_instance_status
+  inputs:
+    filters: List[Ec2Filter]
+    include_all_instances: Boolean = false
+    instance_ids: List[String]
+    region: String
+  outputs:
+    instance_statuses: List[InstanceStatus]
+
+- name: Modify Instance Attribute
+  method: modify_instance_attribute
+  inputs:
+    attribute: instanceType | Kernel | Ramdisk | userData | disableApiTermination | instanceInitiatedShutdownBehavior | blockDeviceMapping | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport | enaSupport | enclaveOptions | disableApiStop
+    block_device_mappings: List[BlockDeviceMapping]
+    disable_api_stop: Boolean
+    disable_api_termination: Boolean
+    ebs_optimized: Boolean
+    ena_support: Boolean
+    groups: List[String]
+    instance_id: String #required
+    instance_initiated_shutdown_behavior: Stop | Terminate
+    instance_type: String
+    kernel: String
+    ramdisk: String
+    region: String
+    source_dest_check: Boolean
+    sriov_net_support: String
+    user_data: String
+  outputs:
+    success: Boolean
+
+- name: Get Console Output
+  method: get_console_output
+  inputs:
+    instance_id: String #required
+    latest: Boolean = true
+    region: String
+  outputs:
+    instance_id: String
+    output: String
+    success: Boolean
+    timestamp: Date
+
+- name: Get Password Data
+  method: get_password_data
+  inputs:
+    instance_id: String #required
+    region: String
+  outputs:
+    instance_id: String
+    password_data: String
+    success: Boolean
+    timestamp: Date
+
+- name: Create AMI
+  method: create_image
+  inputs:
+    block_device_mappings: List[BlockDeviceMapping]
+    description: String
+    instance_id: String #required
+    name: String #required
+    no_reboot: Boolean = false
+    region: String
+    tags: Ec2Tags
+  outputs:
+    image_id: String
+    success: Boolean
+
+- name: Deregister AMI
+  method: deregister_image
+  inputs:
+    image_id: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Describe AMIs
+  method: describe_images
+  inputs:
+    executable_users: List[String]
+    filters: List[Ec2Filter]
+    image_ids: List[String]
+    include_deprecated: Boolean = false
+    owners: List[String]
+    region: String
+  outputs:
+    images: List[Image]
+
+- name: Copy AMI
+  method: copy_image
+  inputs:
+    description: String
+    destination_region: String
+    encrypted: Boolean = false
+    kms_key_id: String
+    name: String #required
+    region: String
+    source_image_id: String #required
+    source_region: String #required
+    tags: Ec2Tags
+  outputs:
+    image_id: String
+    success: Boolean
+
+- name: Modify AMI Attribute
+  method: modify_image_attribute
+  inputs:
+    attribute: Description | launchPermission
+    description: String
+    image_id: String #required
+    launch_permission: LaunchPermissionModifications
+    operation_type: Add | Remove
+    region: String
+    user_groups: List[String]
+    user_ids: List[String]
+  outputs:
+    success: Boolean
+
+- name: Create Snapshot
+  method: create_snapshot
+  inputs:
+    description: String
+    outpost_arn: String
+    region: String
+    tags: Ec2Tags
+    volume_id: String #required
+  outputs:
+    description: String
+    encrypted: Boolean
+    owner_id: String
+    progress: String
+    snapshot_id: String
+    start_time: Date
+    state: String
+    success: Boolean
+    volume_id: String
+    volume_size: Int
+
+- name: Delete Snapshot
+  method: delete_snapshot
+  inputs:
+    region: String
+    snapshot_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Describe Snapshots
+  method: describe_snapshots
+  inputs:
+    filters: List[Ec2Filter]
+    owner_ids: List[String]
+    region: String
+    restorable_by_user_ids: List[String]
+    snapshot_ids: List[String]
+  outputs:
+    snapshots: List[Snapshot]
+
+- name: Copy Snapshot
+  method: copy_snapshot
+  inputs:
+    description: String
+    destination_region: String
+    encrypted: Boolean = false
+    kms_key_id: String
+    presigned_url: String
+    region: String
+    source_region: String #required
+    source_snapshot_id: String #required
+    tags: Ec2Tags
+  outputs:
+    snapshot_id: String
+    success: Boolean
+
+- name: Create Volume
+  method: create_volume
+  inputs:
+    availability_zone: String #required
+    encrypted: Boolean = false
+    iops: Int
+    kms_key_id: String
+    multi_attach_enabled: Boolean = false
+    outpost_arn: String
+    region: String
+    size: Int
+    snapshot_id: String
+    tags: Ec2Tags
+    throughput: Int
+    volume_type: Standard | Io1 | Io2 | Gp2 | Gp3 | Sc1 | St1 = Gp3
+  outputs:
+    attachments: List[VolumeAttachment]
+    availability_zone: String
+    create_time: Date
+    encrypted: Boolean
+    iops: Int
+    kms_key_id: String
+    multi_attach_enabled: Boolean
+    size: Int
+    snapshot_id: String
+    state: String
+    success: Boolean
+    throughput: Int
+    volume_id: String
+    volume_type: String
+
+- name: Delete Volume
+  method: delete_volume
+  inputs:
+    region: String
+    volume_id: String #required
+  outputs:
+    success: Boolean
+
+- name: Describe Volumes
+  method: describe_volumes
+  inputs:
+    filters: List[Ec2Filter]
+    region: String
+    volume_ids: List[String]
+  outputs:
+    volumes: List[Volume]
+
+- name: Attach Volume
+  method: attach_volume
+  inputs:
+    device: String #required
+    instance_id: String #required
+    region: String
+    volume_id: String #required
+  outputs:
+    attach_time: Date
+    delete_on_termination: Boolean
+    device: String
+    instance_id: String
+    state: String
+    success: Boolean
+    volume_id: String
+
+- name: Detach Volume
+  method: detach_volume
+  inputs:
+    device: String
+    force: Boolean = false
+    instance_id: String
+    region: String
+    volume_id: String #required
+  outputs:
+    attach_time: Date
+    delete_on_termination: Boolean
+    device: String
+    instance_id: String
+    state: String
+    success: Boolean
+    volume_id: String
+
+- name: Modify Volume
+  method: modify_volume
+  inputs:
+    iops: Int
+    multi_attach_enabled: Boolean
+    region: String
+    size: Int
+    throughput: Int
+    volume_id: String #required
+    volume_type: Standard | Io1 | Io2 | Gp2 | Gp3 | Sc1 | St1
+  outputs:
+    modification_state: String
+    original_iops: Int
+    original_size: Int
+    original_throughput: Int
+    original_volume_type: String
+    progress: Int
+    start_time: Date
+    success: Boolean
+    target_iops: Int
+    target_size: Int
+    target_throughput: Int
+    target_volume_type: String
+    volume_id: String
+
+- name: Create Key Pair
+  method: create_key_pair
+  inputs:
+    key_format: Pem | Ppk = Pem
+    key_name: String #required
+    key_type: Rsa | Ed25519 = Rsa
+    region: String
+    tags: Ec2Tags
+  outputs:
+    key_fingerprint: String
+    key_material: String
+    key_name: String
+    key_pair_id: String
+    success: Boolean
+
+- name: Delete Key Pair
+  method: delete_key_pair
+  inputs:
+    key_name: String
+    key_pair_id: String
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Describe Key Pairs
+  method: describe_key_pairs
+  inputs:
+    filters: List[Ec2Filter]
+    include_public_key: Boolean = false
+    key_names: List[String]
+    key_pair_ids: List[String]
+    region: String
+  outputs:
+    key_pairs: List[KeyPair]
+
+- name: Import Key Pair
+  method: import_key_pair
+  inputs:
+    key_name: String #required
+    public_key_material: String #required
+    region: String
+    tags: Ec2Tags
+  outputs:
+    key_fingerprint: String
+    key_name: String
+    key_pair_id: String
+    success: Boolean
+
+- name: Create Launch Template
+  method: create_launch_template
+  inputs:
+    launch_template_data: LaunchTemplateData #required
+    launch_template_name: String #required
+    region: String
+    tags: Ec2Tags
+    version_description: String
+  outputs:
+    create_time: Date
+    created_by: String
+    default_version_number: Int
+    latest_version_number: Int
+    launch_template_id: String
+    launch_template_name: String
+    success: Boolean
+
+- name: Delete Launch Template
+  method: delete_launch_template
+  inputs:
+    launch_template_id: String
+    launch_template_name: String
+    region: String
+  outputs:
+    launch_template_id: String
+    launch_template_name: String
+    success: Boolean
+
+- name: Describe Launch Templates
+  method: describe_launch_templates
+  inputs:
+    filters: List[Ec2Filter]
+    launch_template_ids: List[String]
+    launch_template_names: List[String]
+    region: String
+  outputs:
+    launch_templates: List[LaunchTemplate]
+
+- name: Create Launch Template Version
+  method: create_launch_template_version
+  inputs:
+    launch_template_data: LaunchTemplateData #required
+    launch_template_id: String
+    launch_template_name: String
+    region: String
+    source_version: String
+    version_description: String
+  outputs:
+    launch_template_version: LaunchTemplateVersion
+    success: Boolean
+
+- name: Delete Launch Template Versions
+  method: delete_launch_template_versions
+  inputs:
+    launch_template_id: String
+    launch_template_name: String
+    region: String
+    versions: List[String] #required
+  outputs:
+    successfully_deleted_launch_template_versions: List[DeleteLaunchTemplateVersionsResponseSuccessItem]
+    unsuccessfully_deleted_launch_template_versions: List[DeleteLaunchTemplateVersionsResponseErrorItem]
+    success: Boolean
+
+- name: Modify Launch Template
+  method: modify_launch_template
+  inputs:
+    default_version: String
+    launch_template_id: String
+    launch_template_name: String
+    region: String
+  outputs:
+    launch_template: LaunchTemplate
+    success: Boolean
+
+- name: Create Network Interface
+  method: create_network_interface
+  inputs:
+    description: String
+    groups: List[String]
+    interface_type: Efa | Branch | Trunk
+    ipv4_prefix_count: Int
+    ipv4_prefixes: List[Ipv4Prefix]
+    ipv6_address_count: Int
+    ipv6_addresses: List[Ipv6Address]
+    ipv6_prefix_count: Int
+    ipv6_prefixes: List[Ipv6Prefix]
+    private_ip_address: String
+    private_ip_addresses: List[PrivateIpAddress]
+    region: String
+    secondary_private_ip_address_count: Int
+    subnet_id: String #required
+    tags: Ec2Tags
+  outputs:
+    network_interface: NetworkInterface
+    success: Boolean
+
+- name: Delete Network Interface
+  method: delete_network_interface
+  inputs:
+    network_interface_id: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Describe Network Interfaces
+  method: describe_network_interfaces
+  inputs:
+    filters: List[Ec2Filter]
+    network_interface_ids: List[String]
+    region: String
+  outputs:
+    network_interfaces: List[NetworkInterface]
+
+- name: Attach Network Interface
+  method: attach_network_interface
+  inputs:
+    device_index: Int #required
+    instance_id: String #required
+    network_card_index: Int
+    network_interface_id: String #required
+    region: String
+  outputs:
+    attachment_id: String
+    network_card_index: Int
+    success: Boolean
+
+- name: Detach Network Interface
+  method: detach_network_interface
+  inputs:
+    attachment_id: String #required
+    force: Boolean = false
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Modify Network Interface Attribute
+  method: modify_network_interface_attribute
+  inputs:
+    attachment: NetworkInterfaceAttachmentChanges
+    description: String
+    groups: List[String]
+    network_interface_id: String #required
+    region: String
+    source_dest_check: Boolean
+  outputs:
+    success: Boolean
+
+- name: Create Placement Group
+  method: create_placement_group
+  inputs:
+    group_name: String
+    partition_count: Int
+    region: String
+    spread_level: Host | Rack
+    strategy: Cluster | Spread | Partition
+    tags: Ec2Tags
+  outputs:
+    group_arn: String
+    group_id: String
+    group_name: String
+    partition_count: Int
+    state: String
+    strategy: String
+    success: Boolean
+
+- name: Delete Placement Group
+  method: delete_placement_group
+  inputs:
+    group_name: String #required
+    region: String
+  outputs:
+    success: Boolean
+
+- name: Describe Placement Groups
+  method: describe_placement_groups
+  inputs:
+    filters: List[Ec2Filter]
+    group_ids: List[String]
+    group_names: List[String]
+    region: String
+  outputs:
+    placement_groups: List[PlacementGroup]
+
+- name: Describe Instance Types
+  method: describe_instance_types
+  inputs:
+    filters: List[Ec2Filter]
+    instance_types: List[String]
+    region: String
+  outputs:
+    instance_types: List[InstanceTypeInfo]
+
+- name: Describe Availability Zones
+  method: describe_availability_zones
+  inputs:
+    all_availability_zones: Boolean = false
+    filters: List[Ec2Filter]
+    region: String
+    zone_ids: List[String]
+    zone_names: List[String]
+  outputs:
+    availability_zones: List[AvailabilityZone]
+
+- name: Describe Regions
+  method: describe_regions
+  inputs:
+    all_regions: Boolean = false
+    filters: List[Ec2Filter]
+    region_names: List[String]
+  outputs:
+    regions: List[Region]
+
+- name: Create Tags
+  method: create_tags
+  inputs:
+    region: String
+    resources: List[String] #required
+    tags: Ec2Tags #required
+  outputs:
+    success: Boolean
+
+- name: Delete Tags
+  method: delete_tags
+  inputs:
+    region: String
+    resources: List[String] #required
+    tags: Ec2Tags
+  outputs:
+    success: Boolean
+
+- name: Describe Tags
+  method: describe_tags
+  inputs:
+    filters: List[Ec2Filter]
+    region: String
+  outputs:
+    tags: List[TagDescription]
+
+- name: Request Spot Instances
+  method: request_spot_instances
+  inputs:
+    availability_zone_group: String
+    block_duration_minutes: Int
+    instance_count: Int = 1
+    instance_interruption_behavior: Hibernate | Stop | Terminate = Terminate
+    launch_group: String
+    launch_specification: LaunchSpecification
+    region: String
+    spot_price: String
+    tags: Ec2Tags
+    type: one-time | persistent = one-time
+    valid_from: Date
+    valid_until: Date
+  outputs:
+    spot_instance_requests: List[SpotInstanceRequest]
+    success: Boolean
+
+- name: Cancel Spot Instance Requests
+  method: cancel_spot_instance_requests
+  inputs:
+    region: String
+    spot_instance_request_ids: List[String] #required
+  outputs:
+    cancelled_spot_instance_requests: List[CancelledSpotInstanceRequest]
+    success: Boolean
+
+- name: Describe Spot Instance Requests
+  method: describe_spot_instance_requests
+  inputs:
+    filters: List[Ec2Filter]
+    region: String
+    spot_instance_request_ids: List[String]
+  outputs:
+    spot_instance_requests: List[SpotInstanceRequest]
+
+- name: Describe Spot Price History
+  method: describe_spot_price_history
+  inputs:
+    availability_zone: String
+    end_time: Date
+    filters: List[Ec2Filter]
+    instance_types: List[String]
+    product_descriptions: List[String]
+    region: String
+    start_time: Date
+  outputs:
+    spot_price_history: List[SpotPrice]
+
+- name: Create Fleet
+  method: create_fleet
+  inputs:
+    context: String
+    excess_capacity_termination_policy: no-termination | termination = termination
+    launch_template_configs: List[FleetLaunchTemplateConfigRequest] #required
+    on_demand_options: OnDemandOptions
+    region: String
+    replace_unhealthy_instances: Boolean = false
+    spot_options: SpotOptions
+    tags: Ec2Tags
+    target_capacity_specification: TargetCapacitySpecification #required
+    terminate_instances_with_expiration: Boolean = false
+    type: Request | Maintain | Instant = Maintain
+    valid_from: Date
+    valid_until: Date
+  outputs:
+    errors: List[CreateFleetError]
+    fleet_id: String
+    instances: List[CreateFleetInstance]
+    success: Boolean
+
+- name: Delete Fleets
+  method: delete_fleets
+  inputs:
+    fleet_ids: List[String] #required
+    region: String
+    terminate_instances: Boolean #required
+  outputs:
+    successful_fleet_deletions: List[DeleteFleetSuccessItem]
+    unsuccessful_fleet_deletions: List[DeleteFleetErrorItem]
+    success: Boolean
+
+- name: Describe Fleets
+  method: describe_fleets
+  inputs:
+    filters: List[Ec2Filter]
+    fleet_ids: List[String]
+    region: String
+  outputs:
+    fleets: List[FleetData]
+
+- name: Modify Fleet
+  method: modify_fleet
+  inputs:
+    context: String
+    excess_capacity_termination_policy: no-termination | termination
+    fleet_id: String #required
+    launch_template_configs: List[FleetLaunchTemplateConfigRequest]
+    region: String
+    target_capacity_specification: TargetCapacitySpecification
+  outputs:
+    success: Boolean

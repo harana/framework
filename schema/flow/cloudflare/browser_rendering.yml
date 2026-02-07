@@ -1,0 +1,41 @@
+- name: Render Page In Browser
+  method: render
+  inputs:
+    binding: String #required
+    url: String #required
+  outputs:
+    content: String
+    status_code: Int
+
+- name: Take Browser Screenshot
+  method: screenshot
+  inputs:
+    binding: String #required
+    full_page: Boolean = false
+    height: Int = 768
+    type: Png | Jpeg = Png
+    url: String #required
+    width: Int = 1024
+  outputs:
+    image: bytes
+
+- name: Extract Browser Page Content
+  method: extract_content
+  inputs:
+    binding: String #required
+    selector: String
+    url: String #required
+  outputs:
+    content: String
+    title: String
+
+- name: Generate Browser Page PDF
+  method: pdf
+  inputs:
+    binding: String #required
+    format: Letter | Legal | Tabloid | Ledger | A0 | A1 | A2 | A3 | A4 | A5 | A6 = Letter
+    landscape: Boolean = false
+    print_background: Boolean = false
+    url: String #required
+  outputs:
+    pdf: bytes

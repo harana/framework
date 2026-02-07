@@ -1,0 +1,86 @@
+- name: Zoom Meeting
+  type: zoom_meeting
+  id: [meeting_id]
+  schema:
+    - agenda: String? #max(2000)
+    - created_at: Date = now()
+    - duration: int = 60 #min(1)
+    - host_id: String? #max(200)
+    - join_url: String? #url
+    - meeting_id: String #required #unique #max(200)
+    - password: String? #max(100)
+    - start_time: Date?
+    - start_url: String? #url
+    - status: Waiting | Started | Finished = Waiting
+    - timezone: String? #max(50)
+    - topic: String #required #max(500)
+    - type: Instant | Scheduled | RecurringFixed | RecurringUnfixed = Scheduled
+    - updated_at: Date = now()
+
+- name: Zoom Meeting Registrant
+  type: zoom_meeting_registrant
+  id: [meeting_id, registrant_id]
+  schema:
+    - email: String #required #email #max(255)
+    - first_name: String #required #max(100)
+    - join_url: String? #url
+    - last_name: String? #max(100)
+    - meeting_id: Id #required -> ZoomMeeting.id
+    - phone: String? #max(20)
+    - registered_at: Date = now()
+    - registrant_id: String #required #max(200)
+    - status: Pending | Approved | Denied | Cancelled = Approved
+
+- name: Zoom Meeting Participant
+  type: zoom_meeting_participant
+  id: [meeting_id, user_id, join_time]
+  schema:
+    - duration_seconds: int? #min(0)
+    - email: String? #email #max(255)
+    - join_time: Date = now()
+    - leave_time: Date?
+    - meeting_id: Id #required -> ZoomMeeting.id
+    - name: String? #max(200)
+    - user_id: String? #max(200)
+
+- name: Zoom Webinar
+  type: zoom_webinar
+  id: [webinar_id]
+  schema:
+    - agenda: String? #max(2000)
+    - created_at: Date = now()
+    - duration: int = 60 #min(1)
+    - host_id: String? #max(200)
+    - join_url: String? #url
+    - start_time: Date?
+    - timezone: String? #max(50)
+    - topic: String #required #max(500)
+    - type: Webinar | RecurringWebinarFixed | RecurringWebinarUnfixed = Webinar
+    - updated_at: Date = now()
+    - webinar_id: String #required #unique #max(200)
+
+- name: Zoom User
+  type: zoom_user
+  id: [user_id]
+  schema:
+    - created_at: Date = now()
+    - email: String #required #email #max(255)
+    - first_name: String? #max(100)
+    - last_name: String? #max(100)
+    - status: Active | Inactive | Pending = Active
+    - timezone: String? #max(50)
+    - type: int = 1 #min(1) #max(3)
+    - user_id: String #required #unique #max(200)
+
+- name: Zoom Recording
+  type: zoom_recording
+  id: [meeting_id, recording_id]
+  schema:
+    - download_url: String? #url
+    - duration_seconds: int? #min(0)
+    - file_size: int? #min(0)
+    - file_type: Mp4 | M4a | Transcript | Chat | Cc = Mp4
+    - meeting_id: Id #required -> ZoomMeeting.id
+    - recording_id: String #required #max(200)
+    - share_url: String? #url
+    - status: Completed | Processing | Failed = Completed

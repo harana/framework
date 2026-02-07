@@ -1,0 +1,78 @@
+- name: AWS CloudFront Distribution
+  type: aws_cloudfront_distribution
+  id: [account_id, distribution_id]
+  schema:
+    - account_id: String #required #max(20)
+    - aliases: String? # JSON list
+    - arn: String? #max(255)
+    - certificate_arn: String? #max(255)
+    - comment: String? #max(500)
+    - created_at: Date = now()
+    - default_root_object: String? #max(255)
+    - distribution_id: String #required #unique #max(30)
+    - domain_name: String? #max(255)
+    - enabled: Boolean = true
+    - http_version: http1.1 | http2 | http3 | http2and3 = http2
+    - last_modified_time: Date?
+    - origin_domain_name: String #required #max(255)
+    - origin_id: String #required #max(128)
+    - price_class: PriceClassAll | PriceClass200 | PriceClass100 = PriceClassAll
+    - region: String? #max(50)
+    - ssl_support_method: SniOnly | Vip | StaticIp = SniOnly
+    - status: Deployed | InProgress = InProgress
+    - tags: String? # JSON
+    - updated_at: Date = now()
+
+- name: AWS CloudFront Invalidation
+  type: aws_cloudfront_invalidation
+  id: [distribution_id, invalidation_id]
+  schema:
+    - create_time: Date = now()
+    - distribution_id: Id #required -> AwsCloudfrontDistribution.id
+    - invalidation_id: String #required #unique #max(30)
+    - paths: String #required # JSON list
+    - status: InProgress | Completed = InProgress
+
+- name: AWS CloudFront Cache Policy
+  type: aws_cloudfront_cache_policy
+  id: [account_id, cache_policy_id]
+  schema:
+    - account_id: String #required #max(20)
+    - cache_policy_id: String #required #unique #max(30)
+    - comment: String? #max(500)
+    - created_at: Date = now()
+    - default_ttl: int = 86400 #min(0)
+    - etag: String? #max(255)
+    - max_ttl: int = 31536000 #min(0)
+    - min_ttl: int = 0 #min(0)
+    - name: String #required #max(128)
+    - parameters_in_cache_key: String? # JSON
+    - updated_at: Date = now()
+
+- name: AWS CloudFront Origin Request Policy
+  type: aws_cloudfront_origin_request_policy
+  id: [account_id, origin_request_policy_id]
+  schema:
+    - account_id: String #required #max(20)
+    - comment: String? #max(500)
+    - cookies_config: String? # JSON
+    - created_at: Date = now()
+    - etag: String? #max(255)
+    - headers_config: String? # JSON
+    - name: String #required #max(128)
+    - origin_request_policy_id: String #required #unique #max(30)
+    - query_strings_config: String? # JSON
+    - updated_at: Date = now()
+
+- name: AWS CloudFront Function
+  type: aws_cloudfront_function
+  id: [account_id, function_name]
+  schema:
+    - account_id: String #required #max(20)
+    - created_at: Date = now()
+    - etag: String? #max(255)
+    - function_arn: String? #max(255)
+    - function_name: String #required #unique #max(64)
+    - runtime: CloudfrontJs10 | CloudfrontJs20 = CloudfrontJs20
+    - status: Unpublished | Unassociated | Deployed = Unpublished
+    - updated_at: Date = now()
