@@ -10,7 +10,6 @@ use std::collections::HashMap;
 // Task Priority
 // ============================================================================
 
-/// Priority level for task execution
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "snake_case")]
 pub enum TaskPriority {
@@ -49,27 +48,17 @@ impl TaskPriority {
 // Task Status
 // ============================================================================
 
-/// Status of a task
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum TaskStatus {
-    /// Task is queued and waiting for execution
     Pending,
-    /// Task is scheduled for future execution
     Scheduled,
-    /// Task is currently running
     Running,
-    /// Task completed successfully
     Completed,
-    /// Task failed
     Failed,
-    /// Task was cancelled
     Cancelled,
-    /// Task timed out
     TimedOut,
-    /// Task is being retried
     Retrying,
-    /// Task is paused
     Paused,
 }
 
@@ -107,15 +96,11 @@ impl TaskStatus {
 // Retry Configuration
 // ============================================================================
 
-/// Backoff strategy for retries
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum BackoffStrategy {
-    /// Fixed delay between retries
     Fixed,
-    /// Linear increase: delay * attempt
     Linear,
-    /// Exponential increase: delay * 2^attempt
     Exponential,
 }
 
@@ -125,7 +110,6 @@ impl Default for BackoffStrategy {
     }
 }
 
-/// Configuration for task retries
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RetryConfig {
         pub max_retries: u32,
@@ -197,7 +181,6 @@ impl RetryConfig {
 // Task Entity
 // ============================================================================
 
-/// A durable task that can be queued, executed, and tracked
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Task {
         pub id: String,
@@ -532,7 +515,6 @@ impl Entity for Task {
 // Task Execution History
 // ============================================================================
 
-/// Historical record of a task execution
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TaskExecutionHistory {
         pub id: String,

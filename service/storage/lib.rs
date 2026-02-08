@@ -6,6 +6,9 @@ mod error;
 mod filter;
 mod repository;
 
+#[cfg(feature = "d1")]
+pub mod d1;
+
 #[cfg(feature = "mongodb")]
 pub mod mongodb;
 
@@ -51,3 +54,10 @@ pub use mongodb::{
     ChangeOperation as MongoChangeOperation, CollectionChangeEvent, UpdateDescription as MongoUpdateDescription,
     WatchOptions as MongoWatchOptions,
 };
+
+// ============================================================================
+// Cloudflare D1 Types (available with d1 feature)
+// ============================================================================
+
+#[cfg(feature = "d1")]
+pub use d1::{D1BindValue, D1Entity, D1Store};

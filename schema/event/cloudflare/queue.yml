@@ -1,0 +1,70 @@
+- name: Cloudflare Queue Message Sent
+  type: cloudflare_queue_message_sent
+  schema:
+    queue: String #required
+    message_id: String?
+    content_type: Json | Text | Bytes | V8 = Json
+    delay_seconds: Int?
+    sent_at: Date = now()
+
+- name: Cloudflare Queue Message Batch Sent
+  type: cloudflare_queue_message_batch_sent
+  schema:
+    queue: String #required
+    message_count: int #required #min(1)
+    failed_count: int? #min(0)
+    sent_at: Date = now()
+
+- name: Cloudflare Queue Message Arrived
+  type: cloudflare_queue_message_arrived
+  schema:
+    queue: String #required
+    message_id: String #required
+    body: Any?
+    timestamp: Date?
+    arrived_at: Date = now()
+
+- name: Cloudflare Queue Message Batch Arrived
+  type: cloudflare_queue_message_batch_arrived
+  schema:
+    queue: String #required
+    message_count: int #required #min(1)
+    max_batch_size: Int?
+    arrived_at: Date = now()
+
+- name: Cloudflare Queue Message Acknowledged
+  type: cloudflare_queue_message_acknowledged
+  schema:
+    queue: String #required
+    message_id: String #required
+    acknowledged_at: Date = now()
+
+- name: Cloudflare Queue All Messages Acknowledged
+  type: cloudflare_queue_all_messages_acknowledged
+  schema:
+    queue: String #required
+    acknowledged_at: Date = now()
+
+- name: Cloudflare Queue Message Retried
+  type: cloudflare_queue_message_retried
+  schema:
+    queue: String #required
+    message_id: String #required
+    delay_seconds: Int?
+    retried_at: Date = now()
+
+- name: Cloudflare Queue All Messages Retried
+  type: cloudflare_queue_all_messages_retried
+  schema:
+    queue: String #required
+    delay_seconds: Int?
+    retried_at: Date = now()
+
+- name: Cloudflare Queue Message Processing Failed
+  type: cloudflare_queue_message_processing_failed
+  schema:
+    queue: String #required
+    message_id: String?
+    error_message: String?
+    retry_count: int? #min(0)
+    failed_at: Date = now()

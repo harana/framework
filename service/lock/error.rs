@@ -2,7 +2,6 @@
 
 use thiserror::Error;
 
-/// Lock-specific errors
 #[derive(Debug, Error)]
 pub enum LockError {
     #[error("Failed to acquire lock on resource: {resource}")]

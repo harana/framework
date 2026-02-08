@@ -15,7 +15,6 @@ use crate::{
 // Query Types
 // ============================================================================
 
-/// Query options for listing tasks
 #[derive(Debug, Clone, Default)]
 pub struct TaskQuery {
     pub queue: Option<String>,
@@ -127,7 +126,6 @@ impl TaskQuery {
 // Task Statistics
 // ============================================================================
 
-/// Statistics for a task queue
 #[derive(Debug, Clone, Default)]
 pub struct QueueStats {
     pub pending: u64,

@@ -13,14 +13,10 @@ use crate::{Webhook, WebhookDelivery};
 use async_trait::async_trait;
 use std::sync::Arc;
 
-/// Storage type enum for selecting the backend
 #[derive(Debug, Clone)]
 pub enum StorageType {
-    /// In-memory storage using DashMap (for testing/development)
     InMemory,
-    /// Redis storage with connection URL
     Redis { url: String },
-    /// MongoDB storage with connection URL and database name
     MongoDB { url: String, database: String },
 }
 

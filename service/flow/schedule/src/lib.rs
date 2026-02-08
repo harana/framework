@@ -18,7 +18,6 @@ use parking_lot::RwLock;
 use std::str::FromStr;
 use uuid::Uuid;
 
-/// In-memory schedule storage
 #[derive(Debug, Clone)]
 struct ScheduleData {
     schedule_id: String,
@@ -38,7 +37,6 @@ struct ScheduleData {
     action_config: HashMap<String, Value>,
 }
 
-/// Schedule execution record
 #[derive(Debug, Clone)]
 struct ScheduleExecution {
     execution_id: String,

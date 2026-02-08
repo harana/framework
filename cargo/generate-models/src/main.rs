@@ -22,25 +22,19 @@ struct GenerateModels {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// Generate models from schema files
     Generate {
-        /// Path to the schema directory
         #[arg(short, long, default_value = "core/schema/data")]
         schema_dir: PathBuf,
 
-        /// Output directory for Rust code
         #[arg(short, long, default_value = "generated/rust")]
         rust_output: PathBuf,
 
-        /// Output directory for Python code
         #[arg(short, long, default_value = "generated/python")]
         python_output: PathBuf,
 
-        /// Generate only Rust code
         #[arg(long)]
         rust_only: bool,
 
-        /// Generate only Python code
         #[arg(long)]
         python_only: bool,
     },

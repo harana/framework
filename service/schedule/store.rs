@@ -16,7 +16,6 @@ use crate::{
 // Query Types
 // ============================================================================
 
-/// Query options for listing schedules
 #[derive(Debug, Clone, Default)]
 pub struct ScheduleQuery {
     pub status: Option<ScheduleStatus>,
@@ -85,7 +84,6 @@ impl ScheduleQuery {
     }
 }
 
-/// Query options for listing jobs
 #[derive(Debug, Clone, Default)]
 pub struct JobQuery {
     pub schedule_id: Option<String>,
@@ -235,7 +233,6 @@ pub trait ScheduleStore: Send + Sync {
     async fn get_schedule_stats(&self, schedule_id: &str) -> ScheduleResult<ScheduleStats>;
 }
 
-/// Statistics for a schedule
 #[derive(Debug, Clone, Default)]
 pub struct ScheduleStats {
     pub total_executions: u64,
@@ -250,7 +247,6 @@ pub struct ScheduleStats {
 // In-Memory Store Implementation
 // ============================================================================
 
-/// In-memory schedule store (for testing or single-node deployments)
 pub struct InMemoryScheduleStore {
     schedules: DashMap<String, Schedule>,
     jobs: DashMap<String, Job>,
@@ -652,15 +648,6 @@ use std::marker::PhantomData;
 
 use harana_components_lock::{DistributedLock, DistributedLockManager, LockConfig, LockManager, job_lock_resource};
 
-/// Persistent schedule store that uses the storage component.
-/// This store delegates all persistence operations to an underlying `Store` implementation
-/// from harana-components-storage, supporting SQL (Postgres, MySQL, SQLite) and MongoDB backends.
-///
-/// Includes integrated distributed locking with deadlock prevention:
-/// - Lock timeouts (TTL) prevent indefinite holding
-/// - Lock ordering prevents circular waits  
-/// - Wait timeouts prevent indefinite waiting
-/// - Fencing tokens prevent stale lock holders from making changes
 pub struct PersistentScheduleStore<S>
 where
     S: Store<Schedule> + Store<Job> + Store<ExecutionHistory> + Store<DistributedLock>,

@@ -7,7 +7,6 @@ use std::collections::HashSet;
 
 use crate::{Event, EventPriority};
 
-/// Filter for subscriptions to select specific events
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct SubscriptionFilter {
     #[serde(default)]
@@ -167,7 +166,6 @@ impl SubscriptionFilter {
     }
 }
 
-/// Handler configuration for subscription callbacks
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SubscriptionHandler {
     pub handler_id: String,
@@ -179,17 +177,12 @@ pub struct SubscriptionHandler {
     pub max_concurrency: usize,
 }
 
-/// Types of event handlers
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum HandlerType {
-    /// In-process callback function
     Callback,
-    /// HTTP webhook
     Webhook,
-    /// Message queue
     Queue,
-    /// Custom handler
     Custom(String),
 }
 
@@ -247,7 +240,6 @@ impl SubscriptionHandler {
     }
 }
 
-/// Subscription information
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Subscription {
     pub id: String,

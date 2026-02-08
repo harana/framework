@@ -2,7 +2,6 @@
 
 use thiserror::Error;
 
-/// Task-specific errors
 #[derive(Debug, Error)]
 pub enum TaskError {
     #[error("Task not found: {task_id}")]

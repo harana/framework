@@ -12,7 +12,6 @@ use crate::{
     Subscription,
 };
 
-/// Query options for listing events
 #[derive(Debug, Clone, Default)]
 pub struct EventQuery {
     pub channel: Option<String>,
@@ -141,7 +140,6 @@ pub trait EventStore: Send + Sync {
     async fn get_pending_events(&self, subscription_id: &str, limit: Option<usize>) -> EventResult<Vec<Event>>;
 }
 
-/// In-memory event store implementation (suitable for client-side or testing)
 pub struct InMemoryEventStore {
     events: DashMap<String, Event>,
     channels: DashMap<String, Channel>,
@@ -514,7 +512,6 @@ mod persistent {
     use harana_components_storage::{Entity, FilterCondition, QueryOptions, Store, StorageResult};
     use std::marker::PhantomData;
 
-    /// Persistent event store that uses the storage component
     pub struct PersistentEventStore<S>
     where
         S: Store<Event> + Store<Channel> + Store<Subscription>,

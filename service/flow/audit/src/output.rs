@@ -6,7 +6,6 @@ use serde_json::Value;
 use std::collections::HashMap;
 use chrono::{DateTime, Utc};
 
-/// Represents an audit event.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AuditEvent {
     pub audit_id: String,
@@ -23,7 +22,6 @@ pub struct AuditEvent {
     pub user_agent: Option<String>,
 }
 
-/// Represents actor activity summary.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AuditActivity {
     pub action: String,
@@ -33,7 +31,6 @@ pub struct AuditActivity {
     pub outcome: String,
 }
 
-/// Filter criteria for audit queries.
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct AuditFilter {
     pub action: Option<String>,
@@ -44,7 +41,6 @@ pub struct AuditFilter {
     pub outcome: Option<String>,
 }
 
-/// Represents an audit alert.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AuditAlert {
     pub alert_id: String,
@@ -56,14 +52,12 @@ pub struct AuditAlert {
     pub created_at: DateTime<Utc>,
 }
 
-/// Represents audit statistics.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AuditStatistic {
     pub key: String,
     pub count: i32,
 }
 
-/// Represents retention policy.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RetentionPolicy {
     pub policy_id: String,

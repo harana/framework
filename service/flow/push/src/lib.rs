@@ -48,7 +48,6 @@ use web_push_native::jwt_simple::algorithms::ES256KeyPair;
 use web_push_native::p256::PublicKey;
 use web_push_native::{Auth, WebPushBuilder};
 
-/// Configuration for APNS authentication
 #[derive(Debug, Clone)]
 pub struct ApnsConfig {
         pub key_path: String,
@@ -57,27 +56,23 @@ pub struct ApnsConfig {
         pub sandbox: bool,
 }
 
-/// Configuration for FCM authentication
 #[derive(Debug, Clone)]
 pub struct FcmConfig {
         pub credential_file: String,
 }
 
-/// Configuration for Web Push (VAPID)
 #[derive(Debug, Clone)]
 pub struct WebPushConfig {
         pub vapid_private_key: String,
         pub contact_email: String,
 }
 
-/// Web Push subscription information from browser
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PushSubscription {
         pub endpoint: String,
         pub keys: PushSubscriptionKeys,
 }
 
-/// Keys from the browser push subscription
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PushSubscriptionKeys {
         pub p256dh: String,

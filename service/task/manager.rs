@@ -30,7 +30,6 @@ use crate::{
 // Task Manager Configuration
 // ============================================================================
 
-/// Configuration for the task manager
 #[derive(Debug, Clone)]
 pub struct TaskManagerConfig {
         pub worker_config: WorkerConfig,
@@ -87,26 +86,16 @@ impl TaskManagerConfig {
 // Task Manager Events
 // ============================================================================
 
-/// Events from the task manager
 #[derive(Debug, Clone)]
 pub enum TaskManagerEvent {
-    /// Task created
     TaskCreated { task_id: String, queue: String },
-    /// Task started
     TaskStarted { task_id: String, queue: String },
-    /// Task completed
     TaskCompleted { task_id: String, queue: String, duration_ms: i64 },
-    /// Task failed
     TaskFailed { task_id: String, queue: String, error: String },
-    /// Task cancelled
     TaskCancelled { task_id: String, queue: String },
-    /// Schedule created
     ScheduleCreated { schedule_id: String },
-    /// Schedule triggered
     ScheduleTriggered { schedule_id: String, task_id: String },
-    /// Manager started
     Started,
-    /// Manager stopped
     Stopped,
 }
 
@@ -114,7 +103,6 @@ pub enum TaskManagerEvent {
 // Task Manager
 // ============================================================================
 
-/// Unified task management interface
 pub struct TaskManager<TS, THS, SS, LS>
 where
     TS: Store<Task> + 'static,
@@ -606,7 +594,6 @@ where
 // Task Submit Builder
 // ============================================================================
 
-/// Builder for submitting tasks with a fluent API
 pub struct TaskSubmitBuilder<'a, TS, THS, SS, LS>
 where
     TS: Store<Task> + Clone + 'static,

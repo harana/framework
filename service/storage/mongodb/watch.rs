@@ -10,7 +10,6 @@ use mongodb::{
 use crate::{StorageError, StorageResult};
 use super::utils::bson_doc_to_json;
 
-/// Represents a change operation type from MongoDB change streams.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ChangeOperation {
     Insert,
@@ -155,12 +154,9 @@ impl CollectionChangeEvent {
     }
 }
 
-/// Options for configuring the change stream watch behavior.
 #[derive(Debug, Clone, Default)]
 pub struct WatchOptions {
-    /// Include the full document in the change event for insert/update/replace operations.
         pub full_document: Option<FullDocumentType>,
-    /// Include the full document before the change for update/replace/delete operations.
         pub full_document_before_change: Option<FullDocumentBeforeChangeType>,
         pub pipeline: Option<Vec<Document>>,
         pub max_await_time_ms: Option<u64>,

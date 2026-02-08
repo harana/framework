@@ -5,71 +5,58 @@
 pub mod output;
 
 use output::*;
+use worker::Env;
+
+fn to_err(e: worker::Error) -> String {
+    format!("Queue error: {e}")
+}
 
 /// Send Queue Message
 pub async fn send(
+    env: &Env,
     queue: &str,
     message: serde_json::Value,
-    content_type: Option<&str>,
+    _content_type: Option<&str>,
     delay_seconds: Option<i32>,
 ) -> Result<SendOutput, String> {
-    unimplemented!("send")
+    let q = env.queue(queue).map_err(to_err)?;
+
+    if let Some(delay) = delay_seconds {
+        let msg = worker::MessageBuilder::new(message).delay_seconds(delay as u32).build();
+        q.send(msg).await.map_err(to_err)?;
+    } else {
+        q.send(message).await.map_err(to_err)?;
+    }
+
+    Ok(SendOutput { success: true })
 }
 
 /// Send Queue Message Batch
-pub async fn send_batch(
-    queue: &str,
-    messages: Vec<QueueBatchMessage>,
-) -> Result<SendBatchOutput, String> {
-    unimplemented!("send_batch")
-}
+pub async fn send_batch(env: &Env, queue: &str, messages: Vec<QueueBatchMessage>) -> Result<SendBatchOutput, String> {
+    let q = env.queue(queue).map_err(to_err)?;
 
-/// Acknowledge Queue Message
-pub async fn ack(
-    queue: &str,
-    message_id: &str,
-) -> Result<AckOutput, String> {
-    unimplemented!("ack")
-}
+    let send_messages: Vec<worker::SendMessage<serde_json::Value>> = messages
+        .into_iter()
+        .map(|m| {
+            let mut builder = worker::MessageBuilder::new(m.body);
+            if let Some(delay) = m.delay_seconds {
+                builder = builder.delay_seconds(delay as u32);
+            }
+            builder.build()
+        })
+        .collect();
 
-/// Acknowledge All Queue Messages
-pub async fn ack_all(
-    queue: &str,
-) -> Result<AckAllOutput, String> {
-    unimplemented!("ack_all")
-}
-
-/// Retry Queue Message
-pub async fn retry(
-    queue: &str,
-    message_id: &str,
-    delay_seconds: Option<i32>,
-) -> Result<RetryOutput, String> {
-    unimplemented!("retry")
-}
-
-/// Retry All Queue Messages
-pub async fn retry_all(
-    queue: &str,
-    delay_seconds: Option<i32>,
-) -> Result<RetryAllOutput, String> {
-    unimplemented!("retry_all")
-}
-
-/// Get Queue Message
-pub async fn get_message(
-    queue: &str,
-    message_id: &str,
-) -> Result<GetMessageOutput, String> {
-    unimplemented!("get_message")
-}
-
-/// Process Queue Message Batch
-pub async fn process_batch(
-    queue: &str,
-    max_batch_size: Option<i32>,
-    max_batch_timeout: Option<i32>,
-    max_retries: Option<i32>,
-) -> Result<ProcessBatchOutput, String> {
-    unimplemented!("process_batch")
+    match q.send_batch(send_messages).await {
+        Ok(()) => Ok(SendBatchOutput {
+            success: true,
+            failed_messages: vec![],
+        }),
+        Err(e) => Ok(SendBatchOutput {
+            success: false,
+            failed_messages: vec![QueueFailedMessage {
+                body: serde_json::Value::Null,
+                error: format!("Batch send failed: {e}"),
+            }],
+        }),
+    }
 }

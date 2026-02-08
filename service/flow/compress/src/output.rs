@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-/// Optimization strategy for auto compression
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 pub enum OptimizeFor {
     Speed,

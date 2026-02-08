@@ -36,7 +36,6 @@ impl TaskExecutor for LoggingExecutor {
     }
 }
 
-/// An executor that runs a closure for each task
 pub struct FnExecutor<F>
 where
     F: Fn(&Task) -> Result<Option<Value>, String> + Send + Sync,
@@ -79,7 +78,6 @@ where
     }
 }
 
-/// An async executor that runs an async closure for each task
 pub struct AsyncFnExecutor<F, Fut>
 where
     F: Fn(Task) -> Fut + Send + Sync,
@@ -125,7 +123,6 @@ where
     }
 }
 
-/// A composite executor that delegates to other executors
 pub struct CompositeExecutor {
     executors: Vec<Box<dyn TaskExecutor>>,
 }

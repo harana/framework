@@ -12,7 +12,6 @@ use crate::{
     SubscriptionFilter, SubscriptionHandler,
 };
 
-/// Configuration for the event bus
 #[derive(Debug, Clone)]
 pub struct EventBusConfig {
     pub default_channel_config: ChannelConfig,
@@ -89,21 +88,18 @@ pub type EventCallback = Arc<dyn Fn(Event) + Send + Sync>;
 /// Async callback type for event handlers
 pub type AsyncEventCallback = Arc<dyn Fn(Event) -> Pin<Box<dyn std::future::Future<Output = EventResult<()>> + Send>> + Send + Sync>;
 
-/// Callback entry with filter
 struct CallbackEntry {
     subscription_id: String,
     filter: SubscriptionFilter,
     callback: EventCallback,
 }
 
-/// Async callback entry with filter
 struct AsyncCallbackEntry {
     subscription_id: String,
     filter: SubscriptionFilter,
     callback: AsyncEventCallback,
 }
 
-/// Internal broadcast channel for a channel
 struct ChannelBroadcaster {
     sender: broadcast::Sender<Event>,
     _receiver: broadcast::Receiver<Event>,
@@ -116,7 +112,6 @@ impl ChannelBroadcaster {
     }
 }
 
-/// The main event bus for publishing and subscribing to events
 pub struct EventBus<S: EventStore = InMemoryEventStore> {
     store: Arc<S>,
     config: EventBusConfig,

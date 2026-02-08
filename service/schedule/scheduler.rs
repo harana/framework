@@ -23,7 +23,6 @@ use crate::{
 // Scheduler Configuration
 // ============================================================================
 
-/// Configuration for the durable scheduler
 #[derive(Debug, Clone)]
 pub struct SchedulerConfig {
         pub worker_id: String,
@@ -93,7 +92,6 @@ pub trait JobExecutor: Send + Sync {
     fn can_handle(&self, action_type: &str) -> bool;
 }
 
-/// A simple executor that just logs job execution (for testing)
 pub struct LoggingExecutor;
 
 #[async_trait]
@@ -117,30 +115,18 @@ impl JobExecutor for LoggingExecutor {
 // Scheduler Events
 // ============================================================================
 
-/// Events emitted by the scheduler
 #[derive(Debug, Clone)]
 pub enum SchedulerEvent {
-    /// Scheduler started
     Started { worker_id: String },
-    /// Scheduler stopped
     Stopped { worker_id: String },
-    /// Schedule created
     ScheduleCreated { schedule_id: String },
-    /// Schedule updated
     ScheduleUpdated { schedule_id: String },
-    /// Schedule deleted
     ScheduleDeleted { schedule_id: String },
-    /// Job created
     JobCreated { job_id: String, schedule_id: String },
-    /// Job started
     JobStarted { job_id: String, schedule_id: String },
-    /// Job completed
     JobCompleted { job_id: String, schedule_id: String, duration_ms: i64 },
-    /// Job failed
     JobFailed { job_id: String, schedule_id: String, error: String },
-    /// Job retrying
     JobRetrying { job_id: String, schedule_id: String, attempt: u32 },
-    /// Stale job recovered
     StaleJobRecovered { job_id: String },
 }
 
@@ -148,13 +134,11 @@ pub enum SchedulerEvent {
 // Durable Scheduler
 // ============================================================================
 
-/// Internal scheduler state
 struct SchedulerState {
     running: bool,
     active_jobs: usize,
 }
 
-/// Durable scheduler with persistent storage
 pub struct DurableScheduler<S: ScheduleStore> {
     store: Arc<S>,
     config: SchedulerConfig,
@@ -648,7 +632,6 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
     }
 }
 
-/// Handle for background scheduler tasks
 struct SchedulerTaskHandle<S: ScheduleStore> {
     store: Arc<S>,
     config: SchedulerConfig,

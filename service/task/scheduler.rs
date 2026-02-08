@@ -22,7 +22,6 @@ use crate::{Task, TaskError, TaskExecutionHistory, TaskPriority, TaskResult, sto
 // Scheduled Task Configuration
 // ============================================================================
 
-/// Configuration for creating a scheduled task
 #[derive(Debug, Clone)]
 pub struct ScheduledTaskConfig {
         pub name: String,
@@ -95,7 +94,6 @@ impl ScheduledTaskConfig {
 // Task Scheduler Bridge
 // ============================================================================
 
-/// Executor that creates tasks when a schedule triggers
 pub struct TaskCreatingExecutor<S: Store<Task>> {
     task_store: Arc<S>,
     task_configs: RwLock<HashMap<String, ScheduledTaskConfig>>,
@@ -187,26 +185,20 @@ impl<S: Store<Task> + 'static> ScheduleJobExecutor for TaskCreatingExecutor<S> {
 // Task Scheduler Manager
 // ============================================================================
 
-/// Events from the task scheduler
 #[derive(Debug, Clone)]
 pub enum TaskSchedulerEvent {
-    /// A scheduled task was created
     ScheduledTaskCreated {
         schedule_id: String,
         task_id: String,
     },
-    /// A schedule was triggered
     ScheduleTriggered {
         schedule_id: String,
         job_id: String,
     },
-    /// A schedule was enabled
     ScheduleEnabled { schedule_id: String },
-    /// A schedule was disabled
     ScheduleDisabled { schedule_id: String },
 }
 
-/// Manager that integrates task and schedule components
 pub struct TaskSchedulerManager<TS, THS, SS>
 where
     TS: Store<Task> + 'static,

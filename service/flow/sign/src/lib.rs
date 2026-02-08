@@ -16,7 +16,6 @@ use sha2::{Digest, Sha256};
 
 
 
-/// Supported signing algorithms
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Algorithm {
     RsaSha256,

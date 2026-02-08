@@ -7,7 +7,6 @@ use serde_json::Value;
 use std::collections::HashMap;
 use chrono::{DateTime, Utc};
 
-/// Output for create_load_balancer
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateLoadBalancerOutput {
     pub load_balancers: Vec<LoadBalancer>,

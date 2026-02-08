@@ -7,7 +7,6 @@ use async_trait::async_trait;
 use dashmap::DashMap;
 use std::sync::Arc;
 
-/// In-memory storage backend using DashMap
 pub struct InMemoryStorage {
     webhooks: Arc<DashMap<String, Webhook>>,
     deliveries: Arc<DashMap<String, WebhookDelivery>>,

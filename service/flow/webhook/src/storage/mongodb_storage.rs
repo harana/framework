@@ -14,7 +14,6 @@ use futures::TryStreamExt;
 const WEBHOOKS_COLLECTION: &str = "webhooks";
 const DELIVERIES_COLLECTION: &str = "webhook_deliveries";
 
-/// MongoDB storage backend
 pub struct MongoDbStorage {
     database: Database,
 }

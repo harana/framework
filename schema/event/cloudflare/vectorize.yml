@@ -1,0 +1,47 @@
+- name: Cloudflare Vectors Inserted
+  type: cloudflare_vectors_inserted
+  schema:
+    index: String #required
+    count: int #required #min(1)
+    mutation_id: String?
+    inserted_at: Date = now()
+
+- name: Cloudflare Vectors Upserted
+  type: cloudflare_vectors_upserted
+  schema:
+    index: String #required
+    count: int #required #min(1)
+    mutation_id: String?
+    upserted_at: Date = now()
+
+- name: Cloudflare Vectors Queried
+  type: cloudflare_vectors_queried
+  schema:
+    index: String #required
+    top_k: Int = 5
+    match_count: Int?
+    namespace: String?
+    queried_at: Date = now()
+
+- name: Cloudflare Vectors Deleted
+  type: cloudflare_vectors_deleted
+  schema:
+    index: String #required
+    count: Int?
+    mutation_id: String?
+    deleted_at: Date = now()
+
+- name: Cloudflare Vectorize Metadata Index Created
+  type: cloudflare_vectorize_metadata_index_created
+  schema:
+    index: String #required
+    property_name: String #required
+    type: String | Number | Boolean = String
+    created_at: Date = now()
+
+- name: Cloudflare Vectorize Metadata Index Deleted
+  type: cloudflare_vectorize_metadata_index_deleted
+  schema:
+    index: String #required
+    property_name: String #required
+    deleted_at: Date = now()

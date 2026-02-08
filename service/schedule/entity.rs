@@ -10,15 +10,11 @@ use std::collections::HashMap;
 // Schedule Entity
 // ============================================================================
 
-/// Type of schedule trigger
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum ScheduleType {
-    /// Cron-based schedule
     Cron,
-    /// Fixed interval schedule
     Interval,
-    /// One-time execution
     OneTime,
 }
 
@@ -28,19 +24,13 @@ impl Default for ScheduleType {
     }
 }
 
-/// Status of a schedule
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum ScheduleStatus {
-    /// Schedule is active and will trigger
     Active,
-    /// Schedule is paused (won't trigger until resumed)
     Paused,
-    /// Schedule is disabled
     Disabled,
-    /// Schedule completed (for one-time schedules)
     Completed,
-    /// Schedule expired
     Expired,
 }
 
@@ -62,7 +52,6 @@ impl ScheduleStatus {
     }
 }
 
-/// A durable schedule definition
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Schedule {
         pub id: String,
@@ -261,23 +250,15 @@ impl Entity for Schedule {
 // Job Entity (an instance of a scheduled execution)
 // ============================================================================
 
-/// Status of a scheduled job
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum JobStatus {
-    /// Job is pending execution
     Pending,
-    /// Job is currently running
     Running,
-    /// Job completed successfully
     Completed,
-    /// Job failed
     Failed,
-    /// Job was cancelled
     Cancelled,
-    /// Job timed out
     TimedOut,
-    /// Job is being retried
     Retrying,
 }
 
@@ -305,7 +286,6 @@ impl JobStatus {
     }
 }
 
-/// A scheduled job instance
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Job {
         pub id: String,
@@ -430,15 +410,11 @@ impl Entity for Job {
 // Retry Configuration
 // ============================================================================
 
-/// Retry backoff strategy
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum BackoffStrategy {
-    /// Fixed delay between retries
     Fixed,
-    /// Linear increase in delay
     Linear,
-    /// Exponential increase in delay
     Exponential,
 }
 
@@ -448,7 +424,6 @@ impl Default for BackoffStrategy {
     }
 }
 
-/// Retry configuration
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RetryConfig {
         pub max_retries: u32,
@@ -520,7 +495,6 @@ fn rand_simple() -> f64 {
 // Execution History Entry
 // ============================================================================
 
-/// A historical record of a job execution
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExecutionHistory {
         pub id: String,

@@ -6,7 +6,6 @@
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
 
-/// Credentials returned from STS operations
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Credentials {
     pub access_key_id: String,
@@ -15,14 +14,12 @@ pub struct Credentials {
     pub expiration: Option<DateTime<Utc>>,
 }
 
-/// Assumed role user information
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AssumedRoleUser {
     pub assumed_role_id: String,
     pub arn: String,
 }
 
-/// Federated user information
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FederatedUser {
     pub federated_user_id: String,

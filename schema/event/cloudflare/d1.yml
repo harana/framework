@@ -1,0 +1,35 @@
+- name: Cloudflare D1 Query Executed
+  type: cloudflare_d1_query_executed
+  schema:
+    database: String #required
+    operation: Select | Insert | Update | Delete | Create | Drop | Alter | Other = Other
+    rows_read: Int?
+    rows_written: Int?
+    changes: Int?
+    duration_ms: Float?
+    executed_at: Date = now()
+
+- name: Cloudflare D1 Query Failed
+  type: cloudflare_d1_query_failed
+  schema:
+    database: String #required
+    error_message: String #required
+    operation: Select | Insert | Update | Delete | Create | Drop | Alter | Other = Other
+    failed_at: Date = now()
+
+- name: Cloudflare D1 Batch Executed
+  type: cloudflare_d1_batch_executed
+  schema:
+    database: String #required
+    statement_count: int #required #min(1)
+    total_rows_read: Int?
+    total_rows_written: Int?
+    duration_ms: Float?
+    executed_at: Date = now()
+
+- name: Cloudflare D1 Database Dumped
+  type: cloudflare_d1_database_dumped
+  schema:
+    database: String #required
+    size_bytes: Int?
+    dumped_at: Date = now()

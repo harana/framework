@@ -1,0 +1,33 @@
+- name: Cloudflare KV Value Read
+  type: cloudflare_kv_value_read
+  schema:
+    namespace: String #required
+    key: String #required
+    found: Boolean #required
+    type: Text | Json | ArrayBuffer | Stream = Text
+    read_at: Date = now()
+
+- name: Cloudflare KV Value Written
+  type: cloudflare_kv_value_written
+  schema:
+    namespace: String #required
+    key: String #required
+    expiration_ttl: Int?
+    has_metadata: Boolean = false
+    written_at: Date = now()
+
+- name: Cloudflare KV Key Deleted
+  type: cloudflare_kv_key_deleted
+  schema:
+    namespace: String #required
+    key: String #required
+    deleted_at: Date = now()
+
+- name: Cloudflare KV Keys Listed
+  type: cloudflare_kv_keys_listed
+  schema:
+    namespace: String #required
+    prefix: String?
+    key_count: Int?
+    list_complete: Boolean?
+    listed_at: Date = now()

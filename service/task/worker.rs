@@ -24,7 +24,6 @@ use crate::{
 // Worker Configuration
 // ============================================================================
 
-/// Configuration for the task worker
 #[derive(Debug, Clone)]
 pub struct WorkerConfig {
         pub worker_id: String,
@@ -98,28 +97,17 @@ impl WorkerConfig {
 // Worker Events
 // ============================================================================
 
-/// Events emitted by the worker
 #[derive(Debug, Clone)]
 pub enum WorkerEvent {
-    /// Worker started
     Started { worker_id: String },
-    /// Worker stopped
     Stopped { worker_id: String },
-    /// Task picked up for execution
     TaskPickedUp { task_id: String, queue: String },
-    /// Task execution started
     TaskStarted { task_id: String, queue: String },
-    /// Task completed successfully
     TaskCompleted { task_id: String, queue: String, duration_ms: i64 },
-    /// Task failed
     TaskFailed { task_id: String, queue: String, error: String },
-    /// Task being retried
     TaskRetrying { task_id: String, queue: String, attempt: u32 },
-    /// Task timed out
     TaskTimedOut { task_id: String, queue: String },
-    /// Stale task recovered
     StaleTaskRecovered { task_id: String },
-    /// Lock extended
     LockExtended { task_id: String },
 }
 
@@ -127,13 +115,11 @@ pub enum WorkerEvent {
 // Task Worker
 // ============================================================================
 
-/// Internal worker state
 struct WorkerState {
     running: bool,
     active_tasks: usize,
 }
 
-/// Task worker that processes tasks from queues
 pub struct TaskWorker<S, H, L>
 where
     S: Store<Task> + 'static,
@@ -328,7 +314,6 @@ where
     }
 }
 
-/// Handle for background worker tasks
 struct WorkerTaskHandle<S: Store<Task>, H: Store<TaskExecutionHistory>, L: Store<DistributedLock>> {
     store: Arc<S>,
     history_store: Arc<H>,

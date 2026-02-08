@@ -12,6 +12,7 @@ postgres = []
 mysql = []
 sqlite = []
 mongodb = []
+d1 = ["sqlx-d1", "worker", "wasm-bindgen"]
 full = ["postgres", "mysql", "sqlite", "mongodb"]
 
 [dependencies]
@@ -24,8 +25,11 @@ regex.workspace = true
 serde_json.workspace = true
 serde.workspace = true
 sqlx.workspace = true
+sqlx-d1 = { version = "0.3", features = ["derive", "chrono"], optional = true }
 thiserror.workspace = true
 ulid.workspace = true
+wasm-bindgen = { version = "0.2", optional = true }
+worker = { version = "0.7", features = ["d1"], optional = true }
 
 [dev-dependencies]
 tokio.workspace = true

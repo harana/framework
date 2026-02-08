@@ -3,7 +3,6 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
-/// Channel configuration
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChannelConfig {
     pub max_events: Option<usize>,
@@ -88,7 +87,6 @@ impl ChannelConfig {
     }
 }
 
-/// Channel information and statistics
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Channel {
     pub name: String,

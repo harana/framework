@@ -23,29 +23,22 @@ struct SyncActions {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// Sync actions from schema files to Rust crates
     Sync {
-        /// Path to the schema directory
         #[arg(short, long, default_value = "core/schema/actions")]
         schema_dir: PathBuf,
 
-        /// Path to the actions crates directory
         #[arg(short = 'a', long, default_value = "crates/actions")]
         actions_dir: PathBuf,
 
-        /// Dry run - show what would be changed without making changes
         #[arg(short, long)]
         dry_run: bool,
 
-        /// Only process specific action module (e.g., aws_iam)
         #[arg(short = 'm', long)]
         module: Option<String>,
 
-        /// Force mode - remove actions that exist in code but not in YAML
         #[arg(short, long)]
         force: bool,
 
-        /// Replace mode - completely regenerate lib.rs and output.rs from YAML
         #[arg(short, long)]
         replace: bool,
     },

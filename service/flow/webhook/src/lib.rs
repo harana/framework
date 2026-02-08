@@ -19,7 +19,6 @@ use uuid::Uuid;
 type HmacSha256 = Hmac<Sha256>;
 type HmacSha512 = Hmac<Sha512>;
 
-/// Webhook entity stored in the backend
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Webhook {
     pub webhook_id: String,
@@ -31,7 +30,6 @@ pub struct Webhook {
     pub created_at: DateTime<Utc>,
 }
 
-/// Webhook delivery record
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WebhookDelivery {
     pub delivery_id: String,
@@ -45,7 +43,6 @@ pub struct WebhookDelivery {
     pub created_at: DateTime<Utc>,
 }
 
-/// Webhook service with configurable storage backend
 pub struct WebhookService {
     storage: Arc<dyn StorageBackend>,
     http_client: reqwest::Client,

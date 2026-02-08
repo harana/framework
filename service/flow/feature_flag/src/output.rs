@@ -4,14 +4,12 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-/// Represents a flag variation.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FlagVariation {
     pub name: String,
     pub value: serde_json::Value,
 }
 
-/// Represents a feature flag.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FeatureFlag {
     pub flag_id: String,
@@ -27,7 +25,6 @@ pub struct FeatureFlag {
     pub updated_at: i64,
 }
 
-/// Represents a targeting rule condition.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RuleCondition {
     pub attribute: String,
@@ -35,7 +32,6 @@ pub struct RuleCondition {
     pub value: serde_json::Value,
 }
 
-/// Represents a targeting rule.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TargetingRule {
     pub rule_id: String,
@@ -46,7 +42,6 @@ pub struct TargetingRule {
     pub conditions: Vec<RuleCondition>,
 }
 
-/// Represents a percentage rollout.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Rollout {
     pub rollout_id: String,
@@ -55,7 +50,6 @@ pub struct Rollout {
     pub seed: Option<String>,
 }
 
-/// Represents an environment.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Environment {
     pub environment_id: String,

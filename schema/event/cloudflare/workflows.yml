@@ -1,0 +1,87 @@
+- name: Cloudflare Workflow Instance Created
+  type: cloudflare_workflow_instance_created
+  schema:
+    binding: String #required
+    instance_id: String #required
+    created_at: Date = now()
+
+- name: Cloudflare Workflow Instance Batch Created
+  type: cloudflare_workflow_instance_batch_created
+  schema:
+    binding: String #required
+    instance_count: int #required #min(1)
+    created_at: Date = now()
+
+- name: Cloudflare Workflow Instance Status Changed
+  type: cloudflare_workflow_instance_status_changed
+  schema:
+    binding: String #required
+    instance_id: String #required
+    status: Queued | Running | Paused | Errored | Terminated | Complete | Waiting | WaitingForPause | Unknown
+    changed_at: Date = now()
+
+- name: Cloudflare Workflow Instance Paused
+  type: cloudflare_workflow_instance_paused
+  schema:
+    binding: String #required
+    instance_id: String #required
+    paused_at: Date = now()
+
+- name: Cloudflare Workflow Instance Resumed
+  type: cloudflare_workflow_instance_resumed
+  schema:
+    binding: String #required
+    instance_id: String #required
+    resumed_at: Date = now()
+
+- name: Cloudflare Workflow Instance Restarted
+  type: cloudflare_workflow_instance_restarted
+  schema:
+    binding: String #required
+    instance_id: String #required
+    restarted_at: Date = now()
+
+- name: Cloudflare Workflow Instance Terminated
+  type: cloudflare_workflow_instance_terminated
+  schema:
+    binding: String #required
+    instance_id: String #required
+    terminated_at: Date = now()
+
+- name: Cloudflare Workflow Instance Completed
+  type: cloudflare_workflow_instance_completed
+  schema:
+    binding: String #required
+    instance_id: String #required
+    completed_at: Date = now()
+
+- name: Cloudflare Workflow Instance Errored
+  type: cloudflare_workflow_instance_errored
+  schema:
+    binding: String #required
+    instance_id: String #required
+    error_message: String?
+    errored_at: Date = now()
+
+- name: Cloudflare Workflow Event Sent
+  type: cloudflare_workflow_event_sent
+  schema:
+    binding: String #required
+    instance_id: String #required
+    event_type: String #required
+    sent_at: Date = now()
+
+- name: Cloudflare Workflow Step Executed
+  type: cloudflare_workflow_step_executed
+  schema:
+    step_name: String #required
+    retries_limit: Int?
+    executed_at: Date = now()
+
+- name: Cloudflare Workflow Step Failed
+  type: cloudflare_workflow_step_failed
+  schema:
+    step_name: String #required
+    error_message: String?
+    retry_count: Int?
+    failed_at: Date = now()

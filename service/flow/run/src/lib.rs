@@ -13,7 +13,6 @@ use tokio::process::{Child, Command};
 use tokio::sync::Mutex;
 use tokio::time::{timeout, Duration};
 
-/// Process tracking data
 struct TrackedProcess {
     child: Arc<Mutex<Child>>,
     command: String,

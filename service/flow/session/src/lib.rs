@@ -16,7 +16,6 @@ use uuid::Uuid;
 /// Default session TTL in seconds (1 hour).
 const DEFAULT_TTL_SECONDS: i64 = 3600;
 
-/// Internal session storage structure.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct Session {
     session_id: String,

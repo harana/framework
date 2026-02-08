@@ -1,0 +1,89 @@
+[package]
+name = "harana-components-http-server"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+# Build as cdylib for Cloudflare Workers WASM target, rlib for standalone.
+# worker-build automatically handles the wasm32-unknown-unknown target.
+# For standalone builds, rlib is the default and cdylib is harmless.
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["standalone"]
+standalone = [
+    "dep:tokio",
+    "dep:tracing-subscriber",
+    "dep:sysinfo",
+    "dep:tower-http",
+    "dep:reqwest",
+    "dep:asynk-strim",
+    "dep:datastar",
+    "dep:harana-components-events",
+    "dep:harana-actions-passkey",
+    "dep:harana-actions-session",
+]
+cloudflare = [
+    "dep:worker",
+    "dep:worker-macros",
+    "dep:tower-service",
+    "dep:wasm-bindgen",
+    "dep:wasm-bindgen-futures",
+    "harana-components-cache/kv",
+]
+
+[[bin]]
+name = "harana-server"
+path = "src/bin/server.rs"
+required-features = ["standalone"]
+
+[dependencies]
+anyhow.workspace = true
+askama.workspace = true
+async-trait.workspace = true
+axum = { workspace = true, features = ["macros"] }
+base64.workspace = true
+bytes.workspace = true
+chrono.workspace = true
+dashmap.workspace = true
+harana-components-cache = { path = "../cache" }
+http.workspace = true
+jsonwebtoken.workspace = true
+once_cell.workspace = true
+openidconnect = { workspace = true }
+parking_lot.workspace = true
+rand.workspace = true
+serde_json.workspace = true
+serde.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
+tower.workspace = true
+tracing.workspace = true
+url.workspace = true
+urlencoding.workspace = true
+uuid.workspace = true
+futures.workspace = true
+
+# Standalone-only dependencies
+tokio = { workspace = true, optional = true }
+tracing-subscriber = { workspace = true, optional = true }
+sysinfo = { workspace = true, optional = true }
+tower-http = { workspace = true, optional = true }
+reqwest = { workspace = true, optional = true }
+asynk-strim = { workspace = true, optional = true }
+datastar = { workspace = true, features = ["axum"], optional = true }
+harana-actions-passkey = { path = "../flow/passkey", optional = true }
+harana-actions-session = { path = "../flow/session", optional = true }
+harana-components-events = { path = "../event", optional = true }
+
+# Cloudflare Workers dependencies
+worker = { version = "0.7", features = ["http", "axum"], optional = true }
+worker-macros = { version = "0.7", features = ["http"], optional = true }
+tower-service = { version = "0.3.3", optional = true }
+wasm-bindgen = { version = "0.2", optional = true }
+wasm-bindgen-futures = { version = "0.4", optional = true }
+
+[dev-dependencies]
+http-body-util.workspace = true
+tokio = { workspace = true, features = ["test-util"] }
+tower = { workspace = true, features = ["util"] }

@@ -2,7 +2,6 @@
 
 use thiserror::Error;
 
-/// Schedule-specific errors
 #[derive(Debug, Error)]
 pub enum ScheduleError {
     #[error("Schedule not found: {schedule_id}")]

@@ -147,7 +147,6 @@ pub async fn transform(
     Ok(TransformOutput { csv: result.csv })
 }
 
-/// Represents a CSV transformation operation.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct CsvTransformOperation {
     pub operation: String,
@@ -345,14 +344,12 @@ pub async fn validate(
     Ok(ValidateOutput { errors, valid })
 }
 
-/// Schema for CSV validation.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct CsvSchema {
     pub columns: Vec<CsvColumnSchema>,
     pub allow_extra_columns: Option<bool>,
 }
 
-/// Schema for a CSV column.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct CsvColumnSchema {
     pub name: String,

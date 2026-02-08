@@ -1,0 +1,75 @@
+- name: Cloudflare Durable Object Created
+  type: cloudflare_durable_object_created
+  schema:
+    namespace: String #required
+    object_id: String #required
+    name: String?
+    created_at: Date = now()
+
+- name: Cloudflare Durable Object Fetch Received
+  type: cloudflare_durable_object_fetch_received
+  schema:
+    namespace: String #required
+    object_id: String #required
+    url: String #required
+    method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
+    status_code: Int?
+    received_at: Date = now()
+
+- name: Cloudflare Durable Object Storage Updated
+  type: cloudflare_durable_object_storage_updated
+  schema:
+    operation: Get | Put | Delete | DeleteAll | List | Transaction = Put
+    key: String?
+    key_count: Int?
+    updated_at: Date = now()
+
+- name: Cloudflare Durable Object Alarm Triggered
+  type: cloudflare_durable_object_alarm_triggered
+  schema:
+    scheduled_time: Date #required
+    triggered_at: Date = now()
+
+- name: Cloudflare Durable Object Alarm Set
+  type: cloudflare_durable_object_alarm_set
+  schema:
+    scheduled_time: Date #required
+    set_at: Date = now()
+
+- name: Cloudflare Durable Object Alarm Deleted
+  type: cloudflare_durable_object_alarm_deleted
+  schema:
+    deleted_at: Date = now()
+
+- name: Cloudflare Durable Object WebSocket Accepted
+  type: cloudflare_durable_object_websocket_accepted
+  schema:
+    tag_count: Int?
+    accepted_at: Date = now()
+
+- name: Cloudflare Durable Object WebSocket Message Received
+  type: cloudflare_durable_object_websocket_message_received
+  schema:
+    tag: String?
+    received_at: Date = now()
+
+- name: Cloudflare Durable Object WebSocket Closed
+  type: cloudflare_durable_object_websocket_closed
+  schema:
+    code: Int?
+    reason: String?
+    closed_at: Date = now()
+
+- name: Cloudflare Durable Object WebSocket Error
+  type: cloudflare_durable_object_websocket_error
+  schema:
+    error_message: String?
+    occurred_at: Date = now()
+
+- name: Cloudflare Durable Object SQL Executed
+  type: cloudflare_durable_object_sql_executed
+  schema:
+    rows_read: Int?
+    rows_written: Int?
+    changes: Int?
+    executed_at: Date = now()

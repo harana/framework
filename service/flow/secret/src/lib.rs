@@ -13,7 +13,6 @@ use output::*;
 use rand::Rng;
 use uuid::Uuid;
 
-/// Internal storage for secrets
 #[derive(Debug, Clone)]
 struct StoredSecret {
     name: String,

@@ -28,7 +28,6 @@ static GAUGE_VECS: Lazy<DashMap<String, GaugeVec>> = Lazy::new(DashMap::new);
 static HISTOGRAMS: Lazy<DashMap<String, Histogram>> = Lazy::new(DashMap::new);
 static HISTOGRAM_VECS: Lazy<DashMap<String, HistogramVec>> = Lazy::new(DashMap::new);
 
-/// Storage for active timers
 #[derive(Debug)]
 struct TimerValue {
     name: String,
@@ -48,7 +47,6 @@ struct MetricMetadata {
     label_names: Vec<String>,
 }
 
-/// Storage for raw metric values (for query_metrics and get_metric_summary)
 #[derive(Debug, Clone)]
 struct MetricDataValue {
     timestamp: i64,

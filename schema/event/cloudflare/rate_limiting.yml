@@ -1,0 +1,14 @@
+- name: Cloudflare Rate Limit Checked
+  type: cloudflare_rate_limit_checked
+  schema:
+    rate_limiter: String #required
+    key: String #required
+    allowed: Boolean #required
+    checked_at: Date = now()
+
+- name: Cloudflare Rate Limit Exceeded
+  type: cloudflare_rate_limit_exceeded
+  schema:
+    rate_limiter: String #required
+    key: String #required
+    exceeded_at: Date = now()

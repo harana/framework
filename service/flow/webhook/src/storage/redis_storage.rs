@@ -11,7 +11,6 @@ const WEBHOOK_INDEX: &str = "webhooks:index";
 const DELIVERY_PREFIX: &str = "delivery:";
 const WEBHOOK_DELIVERIES_PREFIX: &str = "webhook:deliveries:";
 
-/// Redis storage backend
 pub struct RedisStorage {
     connection: ConnectionManager,
 }

@@ -2,7 +2,6 @@
 
 use std::fmt;
 
-/// Storage operation errors.
 #[derive(Debug, Clone)]
 pub enum StorageError {
     NotFound { entity_type: String, id: String },

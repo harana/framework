@@ -23,7 +23,6 @@ use crate::{LockError, LockResult};
 // Lock Entity
 // ============================================================================
 
-/// A distributed lock record stored in the database
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DistributedLock {
         pub id: String,
@@ -91,7 +90,6 @@ impl DistributedLock {
 // Lock Handle (RAII guard)
 // ============================================================================
 
-/// A handle to an acquired lock that automatically releases on drop
 pub struct LockHandle<S>
 where
     S: Store<DistributedLock> + 'static,
@@ -176,7 +174,6 @@ where
 // Lock Configuration
 // ============================================================================
 
-/// Configuration for the distributed lock manager
 #[derive(Debug, Clone)]
 pub struct LockConfig {
         pub default_ttl_seconds: u64,
@@ -285,7 +282,6 @@ pub trait LockManager: Send + Sync {
 // Distributed Lock Manager Implementation
 // ============================================================================
 
-/// Distributed lock manager using storage backend
 pub struct DistributedLockManager<S>
 where
     S: Store<DistributedLock>,
@@ -679,7 +675,6 @@ where
 // Multi-Lock Guard (for acquiring multiple locks safely)
 // ============================================================================
 
-/// A guard that holds multiple locks and releases them all on drop
 pub struct MultiLockGuard<S>
 where
     S: Store<DistributedLock> + 'static,

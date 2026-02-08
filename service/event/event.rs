@@ -30,7 +30,6 @@ impl EventPriority {
     }
 }
 
-/// Event status for tracking lifecycle
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum EventStatus {
@@ -64,7 +63,6 @@ impl EventStatus {
     }
 }
 
-/// Event metadata for additional context
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct EventMetadata {
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -131,7 +129,6 @@ impl EventMetadata {
     }
 }
 
-/// Core event structure
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Event {
     pub id: String,

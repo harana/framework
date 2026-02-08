@@ -1,0 +1,17 @@
+- name: Cloudflare Analytics Data Point Written
+  type: cloudflare_analytics_data_point_written
+  schema:
+    binding: String #required
+    index_count: Int?
+    double_count: Int?
+    blob_count: Int?
+    written_at: Date = now()
+
+- name: Cloudflare Analytics Queried
+  type: cloudflare_analytics_queried
+  schema:
+    binding: String #required
+    row_count: Int?
+    time_start: Date?
+    time_end: Date?
+    queried_at: Date = now()

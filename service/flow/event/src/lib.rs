@@ -12,7 +12,6 @@ use uuid::Uuid;
 use chrono::{DateTime, Utc};
 use tokio::sync::broadcast;
 
-/// Event record structure
 #[derive(Debug, Clone)]
 struct EventRecord {
     event_id: String,
@@ -23,7 +22,6 @@ struct EventRecord {
     created_at: DateTime<Utc>,
 }
 
-/// Subscription record
 #[derive(Debug, Clone)]
 struct Subscription {
     subscription_id: String,

@@ -213,7 +213,6 @@ pub struct SlackUser {
     pub timezone: Option<String>,
 }
 
-/// Channel type for filtering list_channels
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum ChannelType {
     Public,

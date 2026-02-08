@@ -12,7 +12,6 @@ use serde_json::Value;
 use std::collections::HashMap;
 use std::sync::Arc;
 
-/// Internal cache entry storing value and metadata.
 #[derive(Clone, Debug)]
 struct CacheEntry {
     value: Value,

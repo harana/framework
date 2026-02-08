@@ -7,7 +7,6 @@ use serde::{Deserialize, Serialize};
 
 // ==================== Hosted Zone Output Types ====================
 
-/// Output for create_hosted_zone
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateHostedZoneOutput {
         pub change_info: ChangeInfo,
@@ -18,14 +17,12 @@ pub struct CreateHostedZoneOutput {
         pub vpc: Option<VPC>,
 }
 
-/// Output for delete_hosted_zone
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteHostedZoneOutput {
         pub change_info: ChangeInfo,
         pub success: bool,
 }
 
-/// Output for get_hosted_zone
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetHostedZoneOutput {
         pub delegation_set: Option<DelegationSet>,
@@ -33,7 +30,6 @@ pub struct GetHostedZoneOutput {
         pub vpcs: Option<Vec<VPC>>,
 }
 
-/// Output for list_hosted_zones
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListHostedZonesOutput {
         pub hosted_zones: Vec<HostedZone>,
@@ -43,7 +39,6 @@ pub struct ListHostedZonesOutput {
         pub next_marker: Option<String>,
 }
 
-/// Output for list_hosted_zones_by_name
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListHostedZonesByNameOutput {
         pub dns_name: Option<String>,
@@ -55,7 +50,6 @@ pub struct ListHostedZonesByNameOutput {
         pub next_hosted_zone_id: Option<String>,
 }
 
-/// Output for list_hosted_zones_by_vpc
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListHostedZonesByVpcOutput {
         pub hosted_zone_summaries: Vec<HostedZoneSummary>,
@@ -63,14 +57,12 @@ pub struct ListHostedZonesByVpcOutput {
         pub next_token: Option<String>,
 }
 
-/// Output for update_hosted_zone_comment
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UpdateHostedZoneCommentOutput {
         pub hosted_zone: HostedZone,
         pub success: bool,
 }
 
-/// Output for get_hosted_zone_count
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetHostedZoneCountOutput {
         pub hosted_zone_count: i64,
@@ -78,14 +70,12 @@ pub struct GetHostedZoneCountOutput {
 
 // ==================== Resource Record Set Output Types ====================
 
-/// Output for change_resource_record_sets
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChangeResourceRecordSetsOutput {
         pub change_info: ChangeInfo,
         pub success: bool,
 }
 
-/// Output for list_resource_record_sets
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListResourceRecordSetsOutput {
         pub is_truncated: bool,
@@ -96,7 +86,6 @@ pub struct ListResourceRecordSetsOutput {
         pub resource_record_sets: Vec<ResourceRecordSet>,
 }
 
-/// Output for get_change
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetChangeOutput {
         pub change_info: ChangeInfo,
@@ -104,7 +93,6 @@ pub struct GetChangeOutput {
 
 // ==================== Health Check Output Types ====================
 
-/// Output for create_health_check
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateHealthCheckOutput {
         pub health_check: HealthCheck,
@@ -112,19 +100,16 @@ pub struct CreateHealthCheckOutput {
         pub success: bool,
 }
 
-/// Output for delete_health_check
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteHealthCheckOutput {
         pub success: bool,
 }
 
-/// Output for get_health_check
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetHealthCheckOutput {
         pub health_check: HealthCheck,
 }
 
-/// Output for list_health_checks
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ListHealthChecksOutput {
         pub health_checks: Vec<HealthCheck>,
@@ -134,26 +119,22 @@ pub struct ListHealthChecksOutput {
         pub next_marker: Option<String>,
 }
 
-/// Output for update_health_check
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UpdateHealthCheckOutput {
         pub health_check: HealthCheck,
         pub success: bool,
 }
 
-/// Output for get_health_check_status
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetHealthCheckStatusOutput {
         pub health_check_observations: Vec<HealthCheckObservation>,
 }
 
-/// Output for get_health_check_last_failure_reason
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetHealthCheckLastFailureReasonOutput {
         pub health_check_observations: Vec<HealthCheckObservation>,
 }
 
-/// Output for get_health_check_count
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetHealthCheckCountOutput {
         pub health_check_count: i64,
@@ -161,7 +142,6 @@ pub struct GetHealthCheckCountOutput {
 
 // ==================== Helper Structs ====================
 
-/// Represents a Route53 hosted zone
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HostedZone {
         pub id: String,
@@ -172,14 +152,12 @@ pub struct HostedZone {
         pub linked_service: Option<LinkedService>,
 }
 
-/// Configuration for a hosted zone
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HostedZoneConfig {
         pub comment: Option<String>,
         pub private_zone: bool,
 }
 
-/// Summary of a hosted zone
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HostedZoneSummary {
         pub hosted_zone_id: String,
@@ -187,21 +165,18 @@ pub struct HostedZoneSummary {
         pub owner: Option<HostedZoneOwner>,
 }
 
-/// Owner information for a hosted zone
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HostedZoneOwner {
         pub owning_account: Option<String>,
         pub owning_service: Option<String>,
 }
 
-/// Information about a linked service
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct LinkedService {
         pub service_principal: Option<String>,
         pub description: Option<String>,
 }
 
-/// Delegation set for a hosted zone
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DelegationSet {
         pub id: Option<String>,
@@ -209,14 +184,12 @@ pub struct DelegationSet {
         pub name_servers: Vec<String>,
 }
 
-/// VPC configuration
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VPC {
         pub vpc_region: Option<String>,
         pub vpc_id: Option<String>,
 }
 
-/// Information about a change request
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChangeInfo {
         pub id: String,
@@ -225,21 +198,18 @@ pub struct ChangeInfo {
         pub comment: Option<String>,
 }
 
-/// Batch of changes to apply
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChangeBatch {
         pub comment: Option<String>,
         pub changes: Vec<Change>,
 }
 
-/// A single change to apply
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Change {
         pub action: String,
         pub resource_record_set: ResourceRecordSet,
 }
 
-/// A resource record set
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ResourceRecordSet {
         pub name: String,
@@ -258,13 +228,11 @@ pub struct ResourceRecordSet {
         pub cidr_routing_config: Option<CidrRoutingConfig>,
 }
 
-/// A single resource record value
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ResourceRecord {
         pub value: String,
 }
 
-/// Alias target for alias record sets
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AliasTarget {
         pub hosted_zone_id: String,
@@ -272,7 +240,6 @@ pub struct AliasTarget {
         pub evaluate_target_health: bool,
 }
 
-/// Geolocation configuration
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GeoLocation {
         pub continent_code: Option<String>,
@@ -280,14 +247,12 @@ pub struct GeoLocation {
         pub subdivision_code: Option<String>,
 }
 
-/// CIDR routing configuration
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CidrRoutingConfig {
         pub collection_id: String,
         pub location_name: String,
 }
 
-/// A health check
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HealthCheck {
         pub id: String,
@@ -298,7 +263,6 @@ pub struct HealthCheck {
         pub cloud_watch_alarm_configuration: Option<CloudWatchAlarmConfiguration>,
 }
 
-/// Configuration for a health check
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HealthCheckConfig {
         pub ip_address: Option<String>,
@@ -321,14 +285,12 @@ pub struct HealthCheckConfig {
         pub routing_control_arn: Option<String>,
 }
 
-/// CloudWatch alarm identifier
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AlarmIdentifier {
         pub region: String,
         pub name: String,
 }
 
-/// CloudWatch alarm configuration
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CloudWatchAlarmConfiguration {
         pub evaluation_periods: i32,
@@ -341,14 +303,12 @@ pub struct CloudWatchAlarmConfiguration {
         pub dimensions: Option<Vec<Dimension>>,
 }
 
-/// CloudWatch dimension
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Dimension {
         pub name: String,
         pub value: String,
 }
 
-/// Health check observation from a specific region
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HealthCheckObservation {
         pub region: Option<String>,
@@ -356,7 +316,6 @@ pub struct HealthCheckObservation {
         pub status_report: Option<StatusReport>,
 }
 
-/// Status report for a health check observation
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StatusReport {
         pub status: Option<String>,
