@@ -2,44 +2,44 @@
   action: create_request
   inputs:
     approvers: List[String] #required
-    description: String
+    description: string
     due_date: datetime
     metadata: Map[string, any]
     priority: low | normal | high | urgent = normal
-    request_type: String #required
-    resource_id: String #required
-    resource_type: String #required
-    title: String #required
+    request_type: string #required
+    resource_id: string #required
+    resource_type: string #required
+    title: string #required
   outputs:
-    request_id: String
-    status: String
+    request_id: string
+    status: string
     success: boolean
 
 - name: Get Approval Request
   action: get_request
   inputs:
-    request_id: String #required
+    request_id: string #required
   outputs:
     approvers: List[ApproverInfo]
     created_at: datetime
-    description: String
+    description: string
     due_date: datetime
-    request_id: String
-    requester_id: String
-    resource_id: String
-    resource_type: String
+    request_id: string
+    requester_id: string
+    resource_id: string
+    resource_type: string
     status: pending | approved | rejected | cancelled | expired
-    title: String
+    title: string
     updated_at: datetime
 
 - name: List Approval Requests
   action: List_requests
   inputs:
-    approver_id: String
+    approver_id: string
     limit: integer = 100
     offset: integer = 0
-    requester_id: String
-    resource_type: String
+    requester_id: string
+    resource_type: string
     status: pending | approved | rejected | cancelled | expired
   outputs:
     requests: List[ApprovalRequestInfo]
@@ -48,42 +48,42 @@
 - name: Approve Request
   action: approve
   inputs:
-    approver_id: String #required
-    comment: String
-    request_id: String #required
+    approver_id: string #required
+    comment: string
+    request_id: string #required
   outputs:
     approved_at: datetime
-    request_id: String
-    status: String
+    request_id: string
+    status: string
     success: boolean
 
 - name: Reject Request
   action: reject
   inputs:
-    approver_id: String #required
-    reason: String #required
-    request_id: String #required
+    approver_id: string #required
+    reason: string #required
+    request_id: string #required
   outputs:
     rejected_at: datetime
-    request_id: String
-    status: String
+    request_id: string
+    status: string
     success: boolean
 
 - name: Cancel Approval Request
   action: cancel
   inputs:
-    reason: String
-    request_id: String #required
+    reason: string
+    request_id: string #required
   outputs:
     cancelled_at: datetime
-    request_id: String
+    request_id: string
     success: boolean
 
 - name: Add Approver To Request
   action: add_approver
   inputs:
-    approver_id: String #required
-    request_id: String #required
+    approver_id: string #required
+    request_id: string #required
     required: boolean = true
   outputs:
     success: boolean
@@ -91,8 +91,8 @@
 - name: Remove Approver From Request
   action: remove_approver
   inputs:
-    approver_id: String #required
-    request_id: String #required
+    approver_id: string #required
+    request_id: string #required
   outputs:
     success: boolean
 
@@ -100,7 +100,7 @@
   action: get_history
   inputs:
     limit: integer = 100
-    request_id: String #required
+    request_id: string #required
   outputs:
     events: List[ApprovalEvent]
     total: integer
@@ -109,8 +109,8 @@
   action: escalate
   inputs:
     escalate_to: List[String] #required
-    reason: String
-    request_id: String #required
+    reason: string
+    request_id: string #required
   outputs:
     escalated_at: datetime
     success: boolean
@@ -118,48 +118,48 @@
 - name: Delegate Approval
   action: delegate
   inputs:
-    approver_id: String #required
-    delegate_to: String #required
-    request_id: String #required
+    approver_id: string #required
+    delegate_to: string #required
+    request_id: string #required
   outputs:
     delegated_at: datetime
     success: boolean
 
 - name: ApprovalRequest
   class:
-    request_id: String
-    title: String
-    description: String
-    requester_id: String
+    request_id: string
+    title: string
+    description: string
+    requester_id: string
     approvers: List[ApproverInfo]
-    status: String
-    resource_type: String
-    resource_id: String
+    status: string
+    resource_type: string
+    resource_id: string
     due_date: datetime
     created_at: datetime
     updated_at: datetime
 
 - name: ApproverInfo
   class:
-    approver_id: String
-    status: String
+    approver_id: string
+    status: string
     responded_at: datetime
-    comment: String
+    comment: string
     required: boolean
 
 - name: ApprovalRequestInfo
   class:
-    request_id: String
-    title: String
-    status: String
-    requester_id: String
+    request_id: string
+    title: string
+    status: string
+    requester_id: string
     created_at: datetime
     due_date: datetime
 
 - name: ApprovalEvent
   class:
-    event_id: String
-    event_type: String
-    actor_id: String
+    event_id: string
+    event_type: string
+    actor_id: string
     timestamp: datetime
     details: Map[string, any]

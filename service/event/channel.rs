@@ -1,5 +1,3 @@
-// Harana Components - Events Channel Types
-
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
@@ -80,8 +78,6 @@ impl ChannelConfig {
         self.durable = durable;
         self
     }
-
-    /// Check if an event type is allowed in this channel
     pub fn is_event_type_allowed(&self, event_type: &str) -> bool {
         self.allowed_event_types.is_empty() || self.allowed_event_types.contains(event_type)
     }

@@ -1,121 +1,111 @@
-- name: Record Metric Value
-  method: record_metric
+- name: record_metric
   inputs:
-    name: String #required
-    tags: Map[String, String]
-    timestamp: Date
-    value: Float #required
+    name: string #required
+    tags: map[string, string]
+    timestamp: date
+    value: float #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Increment Counter Metric
-  method: increment_counter
+- name: increment_counter
   inputs:
-    amount: Float = 1
-    name: String #required
-    tags: Map[String, String]
+    amount: float = 1
+    name: string #required
+    tags: map[string, string]
   outputs:
-    value: Float
+    value: float
 
-- name: Set Gauge Value
-  method: set_gauge
+- name: set_gauge
   inputs:
-    name: String #required
-    tags: Map[String, String]
-    value: Float #required
+    name: string #required
+    tags: map[string, string]
+    value: float #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Record Histogram Value
-  method: record_histogram
+- name: record_histogram
   inputs:
-    buckets: List[float]
-    name: String #required
-    tags: Map[String, String]
-    value: Float #required
+    buckets: list[float]
+    name: string #required
+    tags: map[string, string]
+    value: float #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Start Timer Measurement
-  method: start_timer
+- name: start_timer
   inputs:
-    name: String #required
-    tags: Map[String, String]
+    name: string #required
+    tags: map[string, string]
   outputs:
-    timer_id: String
+    timer_id: string
 
-- name: Stop Timer Measurement
-  method: stop_timer
+- name: stop_timer
   inputs:
-    timer_id: String #required
+    timer_id: string #required
   outputs:
-    duration_ms: Float
-    success: Boolean
+    duration_ms: float
+    success: boolean
 
-- name: Query Metric Values
-  method: query_metrics
+- name: query_metrics
   inputs:
-    aggregation: Sum | Avg | Min | Max | Count = Avg
-    end_time: Date
-    interval: String = "1m"
-    name: String #required
-    start_time: Date #required
-    tags: Map[String, String]
+    aggregation: sum | avg | min | max | count = avg
+    end_time: date
+    interval: string = "1m"
+    name: string #required
+    start_time: date #required
+    tags: map[string, string]
   outputs:
-    datapoints: List[MetricDatapoint]
-    total: Int
+    datapoints: list[metric_datapoint]
+    total: int
 
-- name: Get Metric Summary
-  method: get_metric_summary
+- name: get_metric_summary
   inputs:
-    name: String #required
-    period: String = "1h"
-    tags: Map[String, String]
+    name: string #required
+    period: string = "1h"
+    tags: map[string, string]
   outputs:
-    avg: Float
-    count: Int
-    max: Float
-    min: Float
-    p50: Float
-    p95: Float
-    p99: Float
-    sum: Float
+    avg: float
+    count: int
+    max: float
+    min: float
+    p50: float
+    p95: float
+    p99: float
+    sum: float
 
-- name: List Available Metrics
-  method: list_metrics
+- name: list_metrics
   inputs:
-    limit: Int = 100
-    prefix: String
+    limit: int = 100
+    prefix: string
   outputs:
-    metrics: List[MetricInfo]
-    total: Int
+    metrics: list[metric_info]
+    total: int
 
-- name: Delete Metric Data
-  method: delete_metric
+- name: delete_metric
   inputs:
-    before: Date
-    name: String #required
-    tags: Map[String, String]
+    before: date
+    name: string #required
+    tags: map[string, string]
   outputs:
-    deleted_count: Int
-    success: Boolean
+    deleted_count: int
+    success: boolean
 
-- name: Metric
+- name: metric
   class:
-    name: String
-    value: Float
-    tags: Map[String, String]
-    timestamp: Date
-    type: String
+    name: string
+    value: float
+    tags: map[string, string]
+    timestamp: date
+    type: string
 
-- name: MetricDatapoint
+- name: metric_datapoint
   class:
-    timestamp: Date
-    value: Float
+    timestamp: date
+    value: float
 
-- name: MetricInfo
+- name: metric_info
   class:
-    name: String
-    type: String
-    description: String
-    tags: List[String]
+    name: string
+    type: string
+    description: string
+    tags: list[string]

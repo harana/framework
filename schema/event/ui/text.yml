@@ -1,37 +1,32 @@
-- name: Text Clicked
-  type: text_clicked
+- name: text_clicked
   schema:
-    text_id: Id #required
-    text_content: String?
-    clicked_at: Date = now()
+    text_id: id #required
+    text_content: string?
+    clicked_at: date = now()
 
-- name: Text Link Clicked
-  type: text_link_clicked
+- name: text_link_clicked
   schema:
-    link_id: Id #required
-    link_label: String?
-    link_href: String?
-    clicked_at: Date = now()
+    link_id: id #required
+    link_label: string?
+    link_href: string?
+    clicked_at: date = now()
 
-- name: Text Selected
-  type: text_selected
+- name: text_selected
   schema:
-    text_id: Id #required
-    selected_text: String?
+    text_id: id #required
+    selected_text: string?
     selection_start: int? #min(0)
     selection_end: int? #min(0)
-    selected_at: Date = now()
+    selected_at: date = now()
 
-- name: Text Copied
-  type: text_copied
+- name: text_copied
   schema:
-    text_id: Id #required
-    copied_text: String?
-    copied_at: Date = now()
+    text_id: id #required
+    copied_text: string?
+    copied_at: date = now()
 
-- name: Code Copied
-  type: code_copied
+- name: code_copied
   schema:
-    code_id: Id #required
-    code_content: String?
-    copied_at: Date = now()
+    code_id: id #required
+    code_content: string?
+    copied_at: date = now()

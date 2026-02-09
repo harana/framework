@@ -1,6 +1,3 @@
-// Harana Actions - Address Module
-// This module provides address actions and functionality.
-
 pub mod output;
 
 use std::collections::HashMap;

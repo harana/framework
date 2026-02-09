@@ -1,5 +1,3 @@
-// Harana Components - Storage Filter Conditions
-
 use serde::Serialize;
 use serde_json::Value;
 

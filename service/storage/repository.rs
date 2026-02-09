@@ -1,7 +1,5 @@
-// Harana Components - Storage Backend Traits
-
 use async_trait::async_trait;
-use serde::{de::DeserializeOwned, Serialize};
+use serde::{Serialize, de::DeserializeOwned};
 use serde_json::{Map, Value};
 
 use crate::{Entity, FilterCondition, QueryOptions, StorageError, StorageResult};
@@ -51,12 +49,7 @@ pub trait Store<T: Entity>: Send + Sync {
         self.find_by_id(id).await.map(|opt| opt.is_some())
     }
 
-    async fn text_search(
-        &self,
-        text: &str,
-        limit: Option<i64>,
-        offset: Option<u64>,
-    ) -> StorageResult<Vec<T>>;
+    async fn text_search(&self, text: &str, limit: Option<i64>, offset: Option<u64>) -> StorageResult<Vec<T>>;
 
     async fn text_search_with_filter(
         &self,
@@ -81,11 +74,7 @@ pub trait Store<T: Entity>: Send + Sync {
         visibility_secs: i64,
     ) -> StorageResult<Option<QueueMessage<Q>>>;
 
-    async fn queue_ack<Q: DeserializeOwned + Send>(
-        &self,
-        queue_name: &str,
-        ack_id: &str,
-    ) -> StorageResult<Option<Q>>;
+    async fn queue_ack<Q: DeserializeOwned + Send>(&self, queue_name: &str, ack_id: &str) -> StorageResult<Option<Q>>;
 
     async fn queue_ping<Q: DeserializeOwned + Send>(
         &self,
@@ -114,10 +103,7 @@ pub trait Store<T: Entity>: Send + Sync {
     }
 
     async fn queue_purge(&self, queue_name: &str) -> StorageResult<u64>;
-}
 
-#[async_trait]
-pub trait StoreExt<T: Entity>: Store<T> {
     async fn find_by_id_or_error(&self, id: &str) -> StorageResult<T> {
         self.find_by_id(id).await?.ok_or_else(|| StorageError::NotFound {
             entity_type: T::entity_type().to_string(),
@@ -131,9 +117,7 @@ pub trait StoreExt<T: Entity>: Store<T> {
         page: u32,
         page_size: u32,
     ) -> StorageResult<(Vec<T>, u64)> {
-        let options = QueryOptions::new()
-            .with_limit(page_size)
-            .with_offset(page * page_size);
+        let options = QueryOptions::new().with_limit(page_size).with_offset(page * page_size);
 
         let entities = self.find_many(filter.clone(), options).await?;
         let total = self.count(filter).await?;
@@ -141,5 +125,3 @@ pub trait StoreExt<T: Entity>: Store<T> {
         Ok((entities, total))
     }
 }
-
-impl<T: Entity, S: Store<T>> StoreExt<T> for S {}

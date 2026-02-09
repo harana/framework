@@ -1,42 +1,37 @@
-- name: Search Initiated
-  type: search_initiated
+- name: search_initiated
   schema:
-    search_id: Id #required
-    search_query: String #required
-    search_type: Global | Local | Filter = Global
-    search_context: String?
-    initiated_at: Date = now()
+    search_id: id #required
+    search_query: string #required
+    search_type: global | local | filter = global
+    search_context: string?
+    initiated_at: date = now()
 
-- name: Search Cleared
-  type: search_cleared
+- name: search_cleared
   schema:
-    search_id: Id #required
-    previous_query: String?
-    cleared_at: Date = now()
+    search_id: id #required
+    previous_query: string?
+    cleared_at: date = now()
 
-- name: Search Results Shown
-  type: search_results_shown
+- name: search_results_shown
   schema:
-    search_id: Id #required
-    search_query: String #required
+    search_id: id #required
+    search_query: string #required
     results_count: int #required #min(0)
     search_duration_ms: int? #min(0)
-    shown_at: Date = now()
+    shown_at: date = now()
 
-- name: Search Result Selected
-  type: search_result_selected
+- name: search_result_selected
   schema:
-    search_id: Id #required
-    result_id: Id #required
+    search_id: id #required
+    result_id: id #required
     result_index: int? #min(0)
-    result_type: String?
-    search_query: String?
-    selected_at: Date = now()
+    result_type: string?
+    search_query: string?
+    selected_at: date = now()
 
-- name: Search Empty State
-  type: search_empty_state
+- name: search_empty_state
   schema:
-    search_id: Id #required
-    search_query: String #required
-    suggestions_shown: Boolean = false
-    shown_at: Date = now()
+    search_id: id #required
+    search_query: string #required
+    suggestions_shown: boolean = false
+    shown_at: date = now()

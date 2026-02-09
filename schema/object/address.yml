@@ -1,28 +1,26 @@
-- name: Address
-  type: address
+- name: address
   id: [entity_id, entity_type, type]
   schema:
-    - city: String? #max(200)
-    - country: String? #max(100)
-    - created_at: Date = now()
-    - entity_id: Id #required
-    - entity_type: String #required #max(100)
-    - is_primary: Boolean = false
-    - is_verified: Boolean = false
-    - label: String? #max(100)
-    - postal_code: String? #max(20)
-    - state: String? #max(200)
-    - street: String? #max(500)
-    - type: Home | Work | Shipping | Billing | Other = Home
-    - updated_at: Date = now()
-    - verified_at: Date?
+    - city: string? #max(200)
+    - country: string? #max(100)
+    - created_at: date = now()
+    - entity_id: id #required
+    - entity_type: string #required #max(100)
+    - is_primary: boolean = false
+    - is_verified: boolean = false
+    - label: string? #max(100)
+    - postal_code: string? #max(20)
+    - state: string? #max(200)
+    - street: string? #max(500)
+    - type: home | work | shipping | billing | other = home
+    - updated_at: date = now()
+    - verified_at: date?
 
-- name: Address Validation Log
-  type: address_validation_log
+- name: address_validation_log
   id: [address_id, validated_at]
   schema:
-    - address_id: Id #required -> Address.id
-    - errors: String? # JSON array of errors
-    - is_valid: Boolean = false
-    - provider: String? #max(100)
-    - validated_at: Date = now()
+    - address_id: id #required -> address.id
+    - errors: string? # json array of errors
+    - is_valid: boolean = false
+    - provider: string? #max(100)
+    - validated_at: date = now()

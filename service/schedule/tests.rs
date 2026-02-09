@@ -1,5 +1,3 @@
-// Harana Components - Schedule Tests
-
 #[cfg(test)]
 mod tests {
     use super::*;

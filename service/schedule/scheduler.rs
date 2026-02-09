@@ -1,12 +1,7 @@
-// Harana Components - Durable Scheduler
-
-use async_trait::async_trait;
 use chrono::{DateTime, TimeZone, Utc};
 use chrono_tz::Tz;
 use cron::Schedule as CronSchedule;
 use parking_lot::RwLock;
-use serde_json::Value;
-use std::collections::HashMap;
 use std::str::FromStr;
 use std::sync::Arc;
 use std::time::Duration;
@@ -15,120 +10,9 @@ use tokio::task::JoinHandle;
 use tracing::{debug, error, info, warn};
 
 use crate::{
-    ExecutionHistory, Job, JobStatus, Schedule, ScheduleError, ScheduleQuery,
-    ScheduleResult, ScheduleStats, ScheduleStatus, ScheduleStore, ScheduleType,
+    ExecutionHistory, Job, JobExecutor, JobStatus, Schedule, ScheduleError, ScheduleQuery, ScheduleResult,
+    ScheduleStats, ScheduleStatus, ScheduleStore, ScheduleType, SchedulerConfig, SchedulerEvent,
 };
-
-// ============================================================================
-// Scheduler Configuration
-// ============================================================================
-
-#[derive(Debug, Clone)]
-pub struct SchedulerConfig {
-        pub worker_id: String,
-        pub poll_interval_secs: u64,
-        pub batch_size: usize,
-        pub lock_duration_secs: u64,
-        pub stale_check_interval_secs: u64,
-        pub stale_threshold_secs: u64,
-        pub cleanup_interval_secs: u64,
-        pub history_retention_days: u32,
-        pub max_concurrent_jobs: usize,
-        pub auto_create_jobs: bool,
-}
-
-impl Default for SchedulerConfig {
-    fn default() -> Self {
-        Self {
-            worker_id: uuid::Uuid::new_v4().to_string(),
-            poll_interval_secs: 10,
-            batch_size: 100,
-            lock_duration_secs: 300,
-            stale_check_interval_secs: 60,
-            stale_threshold_secs: 600,
-            cleanup_interval_secs: 3600,
-            history_retention_days: 30,
-            max_concurrent_jobs: 10,
-            auto_create_jobs: true,
-        }
-    }
-}
-
-impl SchedulerConfig {
-    pub fn new(worker_id: impl Into<String>) -> Self {
-        Self {
-            worker_id: worker_id.into(),
-            ..Default::default()
-        }
-    }
-
-    pub fn with_poll_interval(mut self, secs: u64) -> Self {
-        self.poll_interval_secs = secs;
-        self
-    }
-
-    pub fn with_batch_size(mut self, size: usize) -> Self {
-        self.batch_size = size;
-        self
-    }
-
-    pub fn with_max_concurrent_jobs(mut self, max: usize) -> Self {
-        self.max_concurrent_jobs = max;
-        self
-    }
-}
-
-// ============================================================================
-// Job Executor Trait
-// ============================================================================
-
-/// Trait for executing scheduled jobs
-#[async_trait]
-pub trait JobExecutor: Send + Sync {
-    /// Execute a job and return the result
-    async fn execute(&self, job: &Job) -> Result<Option<Value>, String>;
-
-    /// Check if this executor can handle a given action type
-    fn can_handle(&self, action_type: &str) -> bool;
-}
-
-pub struct LoggingExecutor;
-
-#[async_trait]
-impl JobExecutor for LoggingExecutor {
-    async fn execute(&self, job: &Job) -> Result<Option<Value>, String> {
-        info!(
-            job_id = %job.id,
-            schedule_id = %job.schedule_id,
-            action_type = %job.action_type,
-            "Executing job"
-        );
-        Ok(Some(serde_json::json!({ "status": "logged" })))
-    }
-
-    fn can_handle(&self, _action_type: &str) -> bool {
-        true
-    }
-}
-
-// ============================================================================
-// Scheduler Events
-// ============================================================================
-
-#[derive(Debug, Clone)]
-pub enum SchedulerEvent {
-    Started { worker_id: String },
-    Stopped { worker_id: String },
-    ScheduleCreated { schedule_id: String },
-    ScheduleUpdated { schedule_id: String },
-    ScheduleDeleted { schedule_id: String },
-    JobCreated { job_id: String, schedule_id: String },
-    JobStarted { job_id: String, schedule_id: String },
-    JobCompleted { job_id: String, schedule_id: String, duration_ms: i64 },
-    JobFailed { job_id: String, schedule_id: String, error: String },
-    JobRetrying { job_id: String, schedule_id: String, attempt: u32 },
-    StaleJobRecovered { job_id: String },
-}
 
 // ============================================================================
 // Durable Scheduler
@@ -150,7 +34,6 @@ pub struct DurableScheduler<S: ScheduleStore> {
 }
 
 impl<S: ScheduleStore + 'static> DurableScheduler<S> {
-    /// Create a new durable scheduler
     pub fn new(store: S, config: SchedulerConfig) -> Self {
         let (event_sender, _) = broadcast::channel(1000);
 
@@ -167,28 +50,18 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
             tasks: RwLock::new(Vec::new()),
         }
     }
-
-    /// Register a job executor
     pub fn register_executor(&self, executor: Arc<dyn JobExecutor>) {
         self.executors.write().push(executor);
     }
-
-    /// Subscribe to scheduler events
     pub fn subscribe(&self) -> broadcast::Receiver<SchedulerEvent> {
         self.event_sender.subscribe()
     }
-
-    /// Get the underlying store
     pub fn store(&self) -> &S {
         &self.store
     }
-
-    /// Check if scheduler is running
     pub fn is_running(&self) -> bool {
         self.state.read().running
     }
-
-    /// Emit a scheduler event
     fn emit(&self, event: SchedulerEvent) {
         let _ = self.event_sender.send(event);
     }
@@ -196,8 +69,6 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
     // ========================================================================
     // Schedule Management
     // ========================================================================
-
-    /// Create a new schedule
     pub async fn create_schedule(&self, mut schedule: Schedule) -> ScheduleResult<Schedule> {
         // Validate and calculate next run time
         self.calculate_next_run(&mut schedule)?;
@@ -213,13 +84,9 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
 
         Ok(schedule)
     }
-
-    /// Get a schedule by ID
     pub async fn get_schedule(&self, schedule_id: &str) -> ScheduleResult<Option<Schedule>> {
         self.store.get_schedule(schedule_id).await
     }
-
-    /// Update a schedule
     pub async fn update_schedule(&self, mut schedule: Schedule) -> ScheduleResult<Schedule> {
         // Recalculate next run time
         self.calculate_next_run(&mut schedule)?;
@@ -236,8 +103,6 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
 
         Ok(schedule)
     }
-
-    /// Delete a schedule
     pub async fn delete_schedule(&self, schedule_id: &str) -> ScheduleResult<bool> {
         let deleted = self.store.delete_schedule(schedule_id).await?;
 
@@ -250,48 +115,49 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
 
         Ok(deleted)
     }
-
-    /// List schedules
     pub async fn list_schedules(&self, query: ScheduleQuery) -> ScheduleResult<Vec<Schedule>> {
         self.store.query_schedules(query).await
     }
-
-    /// Enable a schedule
     pub async fn enable_schedule(&self, schedule_id: &str) -> ScheduleResult<Schedule> {
-        let mut schedule = self.store.get_schedule(schedule_id).await?
-            .ok_or_else(|| ScheduleError::ScheduleNotFound {
-                schedule_id: schedule_id.to_string(),
-            })?;
+        let mut schedule =
+            self.store
+                .get_schedule(schedule_id)
+                .await?
+                .ok_or_else(|| ScheduleError::ScheduleNotFound {
+                    schedule_id: schedule_id.to_string(),
+                })?;
 
         schedule.status = ScheduleStatus::Active;
         self.calculate_next_run(&mut schedule)?;
 
         self.update_schedule(schedule).await
     }
-
-    /// Disable a schedule
     pub async fn disable_schedule(&self, schedule_id: &str) -> ScheduleResult<Schedule> {
-        let mut schedule = self.store.get_schedule(schedule_id).await?
-            .ok_or_else(|| ScheduleError::ScheduleNotFound {
-                schedule_id: schedule_id.to_string(),
-            })?;
+        let mut schedule =
+            self.store
+                .get_schedule(schedule_id)
+                .await?
+                .ok_or_else(|| ScheduleError::ScheduleNotFound {
+                    schedule_id: schedule_id.to_string(),
+                })?;
 
         schedule.status = ScheduleStatus::Disabled;
         schedule.next_run_at = None;
 
         self.update_schedule(schedule).await
     }
-
-    /// Pause a schedule
     pub async fn pause_schedule(
         &self,
         schedule_id: &str,
         resume_at: Option<DateTime<Utc>>,
     ) -> ScheduleResult<Schedule> {
-        let mut schedule = self.store.get_schedule(schedule_id).await?
-            .ok_or_else(|| ScheduleError::ScheduleNotFound {
-                schedule_id: schedule_id.to_string(),
-            })?;
+        let mut schedule =
+            self.store
+                .get_schedule(schedule_id)
+                .await?
+                .ok_or_else(|| ScheduleError::ScheduleNotFound {
+                    schedule_id: schedule_id.to_string(),
+                })?;
 
         schedule.status = ScheduleStatus::Paused;
         schedule.resume_at = resume_at;
@@ -299,18 +165,17 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
 
         self.update_schedule(schedule).await
     }
-
-    /// Resume a paused schedule
     pub async fn resume_schedule(&self, schedule_id: &str) -> ScheduleResult<Schedule> {
-        let mut schedule = self.store.get_schedule(schedule_id).await?
-            .ok_or_else(|| ScheduleError::ScheduleNotFound {
-                schedule_id: schedule_id.to_string(),
-            })?;
+        let mut schedule =
+            self.store
+                .get_schedule(schedule_id)
+                .await?
+                .ok_or_else(|| ScheduleError::ScheduleNotFound {
+                    schedule_id: schedule_id.to_string(),
+                })?;
 
         if schedule.status != ScheduleStatus::Paused {
-            return Err(ScheduleError::Internal(
-                "Schedule is not paused".to_string(),
-            ));
+            return Err(ScheduleError::Internal("Schedule is not paused".to_string()));
         }
 
         schedule.status = ScheduleStatus::Active;
@@ -319,10 +184,11 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
 
         self.update_schedule(schedule).await
     }
-
-    /// Trigger a schedule immediately (creates a job for now)
     pub async fn trigger_now(&self, schedule_id: &str) -> ScheduleResult<Job> {
-        let schedule = self.store.get_schedule(schedule_id).await?
+        let schedule = self
+            .store
+            .get_schedule(schedule_id)
+            .await?
             .ok_or_else(|| ScheduleError::ScheduleNotFound {
                 schedule_id: schedule_id.to_string(),
             })?;
@@ -343,8 +209,6 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
 
         Ok(job)
     }
-
-    /// Get schedule statistics
     pub async fn get_stats(&self, schedule_id: &str) -> ScheduleResult<ScheduleStats> {
         self.store.get_schedule_stats(schedule_id).await
     }
@@ -352,15 +216,14 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
     // ========================================================================
     // Job Management
     // ========================================================================
-
-    /// Get a job by ID
     pub async fn get_job(&self, job_id: &str) -> ScheduleResult<Option<Job>> {
         self.store.get_job(job_id).await
     }
-
-    /// Cancel a pending job
     pub async fn cancel_job(&self, job_id: &str) -> ScheduleResult<Job> {
-        let mut job = self.store.get_job(job_id).await?
+        let mut job = self
+            .store
+            .get_job(job_id)
+            .await?
             .ok_or_else(|| ScheduleError::JobNotFound {
                 job_id: job_id.to_string(),
             })?;
@@ -382,21 +245,13 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
 
         Ok(job)
     }
-
-    /// Get execution history for a schedule
-    pub async fn get_history(
-        &self,
-        schedule_id: &str,
-        limit: Option<usize>,
-    ) -> ScheduleResult<Vec<ExecutionHistory>> {
+    pub async fn get_history(&self, schedule_id: &str, limit: Option<usize>) -> ScheduleResult<Vec<ExecutionHistory>> {
         self.store.get_execution_history(schedule_id, limit).await
     }
 
     // ========================================================================
     // Schedule Calculation
     // ========================================================================
-
-    /// Calculate and set the next run time for a schedule
     fn calculate_next_run(&self, schedule: &mut Schedule) -> ScheduleResult<()> {
         if schedule.status != ScheduleStatus::Active {
             schedule.next_run_at = None;
@@ -425,16 +280,20 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
 
         let next_run = match schedule.schedule_type {
             ScheduleType::Cron => {
-                let cron_expr = schedule.cron_expression.as_ref()
-                    .ok_or_else(|| ScheduleError::InvalidCronExpression {
-                        expression: "".to_string(),
-                        reason: "No cron expression specified".to_string(),
-                    })?;
+                let cron_expr =
+                    schedule
+                        .cron_expression
+                        .as_ref()
+                        .ok_or_else(|| ScheduleError::InvalidCronExpression {
+                            expression: "".to_string(),
+                            reason: "No cron expression specified".to_string(),
+                        })?;
 
                 self.calculate_next_cron_run(cron_expr, &schedule.timezone)?
             }
             ScheduleType::Interval => {
-                let interval = schedule.interval_seconds
+                let interval = schedule
+                    .interval_seconds
                     .ok_or_else(|| ScheduleError::InvalidInterval {
                         reason: "No interval specified".to_string(),
                     })?;
@@ -442,20 +301,14 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
                 let base = schedule.last_run_at.unwrap_or(now);
                 base + chrono::Duration::seconds(interval)
             }
-            ScheduleType::OneTime => {
-                schedule.run_at.ok_or_else(|| ScheduleError::Internal(
-                    "No run_at time specified for one-time schedule".to_string(),
-                ))?
-            }
+            ScheduleType::OneTime => schedule
+                .run_at
+                .ok_or_else(|| ScheduleError::Internal("No run_at time specified for one-time schedule".to_string()))?,
         };
 
         // Ensure next run is after start_at
         let next_run = if let Some(start) = schedule.start_at {
-            if next_run < start {
-                start
-            } else {
-                next_run
-            }
+            if next_run < start { start } else { next_run }
         } else {
             next_run
         };
@@ -463,23 +316,15 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
         schedule.next_run_at = Some(next_run);
         Ok(())
     }
+    fn calculate_next_cron_run(&self, cron_expr: &str, timezone: &str) -> ScheduleResult<DateTime<Utc>> {
+        let cron_schedule = CronSchedule::from_str(cron_expr).map_err(|e| ScheduleError::InvalidCronExpression {
+            expression: cron_expr.to_string(),
+            reason: e.to_string(),
+        })?;
 
-    /// Calculate next run time for a cron expression
-    fn calculate_next_cron_run(
-        &self,
-        cron_expr: &str,
-        timezone: &str,
-    ) -> ScheduleResult<DateTime<Utc>> {
-        let cron_schedule = CronSchedule::from_str(cron_expr)
-            .map_err(|e| ScheduleError::InvalidCronExpression {
-                expression: cron_expr.to_string(),
-                reason: e.to_string(),
-            })?;
-
-        let tz: Tz = timezone.parse()
-            .map_err(|_| ScheduleError::InvalidTimezone {
-                timezone: timezone.to_string(),
-            })?;
+        let tz: Tz = timezone.parse().map_err(|_| ScheduleError::InvalidTimezone {
+            timezone: timezone.to_string(),
+        })?;
 
         let now_tz = Utc::now().with_timezone(&tz);
 
@@ -492,31 +337,27 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
                 reason: "Could not calculate next run time".to_string(),
             })
     }
-
-    /// Get next N run times for a schedule
-    pub fn get_next_runs(
-        &self,
-        schedule: &Schedule,
-        count: usize,
-    ) -> ScheduleResult<Vec<DateTime<Utc>>> {
+    pub fn get_next_runs(&self, schedule: &Schedule, count: usize) -> ScheduleResult<Vec<DateTime<Utc>>> {
         match schedule.schedule_type {
             ScheduleType::Cron => {
-                let cron_expr = schedule.cron_expression.as_ref()
-                    .ok_or_else(|| ScheduleError::InvalidCronExpression {
-                        expression: "".to_string(),
-                        reason: "No cron expression specified".to_string(),
-                    })?;
+                let cron_expr =
+                    schedule
+                        .cron_expression
+                        .as_ref()
+                        .ok_or_else(|| ScheduleError::InvalidCronExpression {
+                            expression: "".to_string(),
+                            reason: "No cron expression specified".to_string(),
+                        })?;
 
-                let cron_schedule = CronSchedule::from_str(cron_expr)
-                    .map_err(|e| ScheduleError::InvalidCronExpression {
+                let cron_schedule =
+                    CronSchedule::from_str(cron_expr).map_err(|e| ScheduleError::InvalidCronExpression {
                         expression: cron_expr.to_string(),
                         reason: e.to_string(),
                     })?;
 
-                let tz: Tz = schedule.timezone.parse()
-                    .map_err(|_| ScheduleError::InvalidTimezone {
-                        timezone: schedule.timezone.clone(),
-                    })?;
+                let tz: Tz = schedule.timezone.parse().map_err(|_| ScheduleError::InvalidTimezone {
+                    timezone: schedule.timezone.clone(),
+                })?;
 
                 Ok(cron_schedule
                     .upcoming(tz)
@@ -525,7 +366,8 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
                     .collect())
             }
             ScheduleType::Interval => {
-                let interval = schedule.interval_seconds
+                let interval = schedule
+                    .interval_seconds
                     .ok_or_else(|| ScheduleError::InvalidInterval {
                         reason: "No interval specified".to_string(),
                     })?;
@@ -540,17 +382,13 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
 
                 Ok(runs)
             }
-            ScheduleType::OneTime => {
-                Ok(schedule.run_at.map(|t| vec![t]).unwrap_or_default())
-            }
+            ScheduleType::OneTime => Ok(schedule.run_at.map(|t| vec![t]).unwrap_or_default()),
         }
     }
 
     // ========================================================================
     // Scheduler Loop
     // ========================================================================
-
-    /// Start the scheduler
     pub async fn start(&mut self) -> ScheduleResult<()> {
         {
             let mut state = self.state.write();
@@ -598,8 +436,6 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
 
         Ok(())
     }
-
-    /// Stop the scheduler
     pub async fn stop(&self) -> ScheduleResult<()> {
         {
             let mut state = self.state.write();
@@ -610,7 +446,7 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
         }
 
         // Signal shutdown (shutdown_sender will be dropped)
-        
+
         self.emit(SchedulerEvent::Stopped {
             worker_id: self.config.worker_id.clone(),
         });
@@ -619,8 +455,6 @@ impl<S: ScheduleStore + 'static> DurableScheduler<S> {
 
         Ok(())
     }
-
-    /// Clone scheduler references for background tasks
     fn clone_for_task(&self) -> SchedulerTaskHandle<S> {
         SchedulerTaskHandle {
             store: Arc::clone(&self.store),
@@ -649,7 +483,6 @@ impl<S: ScheduleStore + 'static> SchedulerTaskHandle<S> {
         *self.state.read()
     }
 
-    /// Main scheduler loop
     async fn scheduler_loop(&self, mut shutdown: mpsc::Receiver<()>) {
         let poll_interval = Duration::from_secs(self.config.poll_interval_secs);
 
@@ -672,7 +505,6 @@ impl<S: ScheduleStore + 'static> SchedulerTaskHandle<S> {
         }
     }
 
-    /// Process schedules that are due
     async fn process_due_schedules(&self) -> ScheduleResult<()> {
         if !self.config.auto_create_jobs {
             return Ok(());
@@ -693,7 +525,6 @@ impl<S: ScheduleStore + 'static> SchedulerTaskHandle<S> {
         Ok(())
     }
 
-    /// Create a job for a due schedule
     async fn create_job_for_schedule(&self, schedule: &Schedule) -> ScheduleResult<()> {
         let scheduled_at = schedule.next_run_at.unwrap_or_else(Utc::now);
         let job = Job::new(schedule, scheduled_at);
@@ -709,28 +540,22 @@ impl<S: ScheduleStore + 'static> SchedulerTaskHandle<S> {
         match schedule.schedule_type {
             ScheduleType::Cron => {
                 if let Some(cron_expr) = &schedule.cron_expression {
-                    let cron_schedule = CronSchedule::from_str(cron_expr)
-                        .map_err(|e| ScheduleError::InvalidCronExpression {
+                    let cron_schedule =
+                        CronSchedule::from_str(cron_expr).map_err(|e| ScheduleError::InvalidCronExpression {
                             expression: cron_expr.to_string(),
                             reason: e.to_string(),
                         })?;
 
-                    let tz: Tz = schedule.timezone.parse()
-                        .map_err(|_| ScheduleError::InvalidTimezone {
-                            timezone: schedule.timezone.clone(),
-                        })?;
+                    let tz: Tz = schedule.timezone.parse().map_err(|_| ScheduleError::InvalidTimezone {
+                        timezone: schedule.timezone.clone(),
+                    })?;
 
-                    updated_schedule.next_run_at = cron_schedule
-                        .upcoming(tz)
-                        .next()
-                        .map(|dt| dt.with_timezone(&Utc));
+                    updated_schedule.next_run_at = cron_schedule.upcoming(tz).next().map(|dt| dt.with_timezone(&Utc));
                 }
             }
             ScheduleType::Interval => {
                 if let Some(interval) = schedule.interval_seconds {
-                    updated_schedule.next_run_at = Some(
-                        scheduled_at + chrono::Duration::seconds(interval)
-                    );
+                    updated_schedule.next_run_at = Some(scheduled_at + chrono::Duration::seconds(interval));
                 }
             }
             ScheduleType::OneTime => {
@@ -756,23 +581,21 @@ impl<S: ScheduleStore + 'static> SchedulerTaskHandle<S> {
         Ok(())
     }
 
-    /// Process runnable jobs
     async fn process_runnable_jobs(&self) -> ScheduleResult<()> {
         let runnable_jobs = self.store.get_runnable_jobs(self.config.batch_size).await?;
 
         for job in runnable_jobs {
             // Try to acquire lock
-            let lock_token = self.store.try_lock_job(
-                &job.id,
-                &self.config.worker_id,
-                self.config.lock_duration_secs,
-            ).await?;
+            let lock_token = self
+                .store
+                .try_lock_job(&job.id, &self.config.worker_id, self.config.lock_duration_secs)
+                .await?;
 
             if let Some(token) = lock_token {
                 // Execute job in background
                 let job_id = job.id.clone();
                 let schedule_id = job.schedule_id.clone();
-                
+
                 if let Err(e) = self.execute_job(job, token).await {
                     error!(
                         job_id = %job_id,
@@ -787,12 +610,8 @@ impl<S: ScheduleStore + 'static> SchedulerTaskHandle<S> {
         Ok(())
     }
 
-    /// Execute a single job
     async fn execute_job(&self, mut job: Job, lock_token: String) -> ScheduleResult<()> {
-        // Find executor
-        let executor = self.executors.iter()
-            .find(|e| e.can_handle(&job.action_type))
-            .cloned();
+        let executor = self.executors.iter().find(|e| e.can_handle(&job.action_type)).cloned();
 
         let executor = match executor {
             Some(e) => e,
@@ -802,10 +621,7 @@ impl<S: ScheduleStore + 'static> SchedulerTaskHandle<S> {
                     action_type = %job.action_type,
                     "No executor found for action type"
                 );
-                job.fail(
-                    format!("No executor for action type: {}", job.action_type),
-                    None,
-                );
+                job.fail(format!("No executor for action type: {}", job.action_type), None);
                 self.store.update_job(&job).await?;
                 self.store.release_job_lock(&job.id, &lock_token).await?;
                 return Ok(());
@@ -886,7 +702,6 @@ impl<S: ScheduleStore + 'static> SchedulerTaskHandle<S> {
         Ok(())
     }
 
-    /// Stale job recovery loop
     async fn stale_recovery_loop(&self, mut shutdown: mpsc::Receiver<()>) {
         let interval = Duration::from_secs(self.config.stale_check_interval_secs);
 
@@ -905,7 +720,6 @@ impl<S: ScheduleStore + 'static> SchedulerTaskHandle<S> {
         }
     }
 
-    /// Recover stale jobs
     async fn recover_stale_jobs(&self) -> ScheduleResult<()> {
         let threshold = Utc::now() - chrono::Duration::seconds(self.config.stale_threshold_secs as i64);
         let stale_jobs = self.store.get_stale_jobs(threshold).await?;
@@ -920,9 +734,7 @@ impl<S: ScheduleStore + 'static> SchedulerTaskHandle<S> {
                 job.lock_expires_at = None;
                 self.store.update_job(&job).await?;
 
-                self.emit(SchedulerEvent::StaleJobRecovered {
-                    job_id: job.id.clone(),
-                });
+                self.emit(SchedulerEvent::StaleJobRecovered { job_id: job.id.clone() });
             } else {
                 job.fail("Job timed out".to_string(), None);
                 self.store.update_job(&job).await?;
@@ -938,7 +750,6 @@ impl<S: ScheduleStore + 'static> SchedulerTaskHandle<S> {
         Ok(())
     }
 
-    /// History cleanup loop
     async fn cleanup_loop(&self, mut shutdown: mpsc::Receiver<()>) {
         let interval = Duration::from_secs(self.config.cleanup_interval_secs);
 
@@ -957,7 +768,6 @@ impl<S: ScheduleStore + 'static> SchedulerTaskHandle<S> {
         }
     }
 
-    /// Clean up old execution history
     async fn cleanup_old_history(&self) -> ScheduleResult<()> {
         let cutoff = Utc::now() - chrono::Duration::days(self.config.history_retention_days as i64);
         let deleted = self.store.cleanup_history(cutoff).await?;
@@ -973,31 +783,22 @@ impl<S: ScheduleStore + 'static> SchedulerTaskHandle<S> {
 // ============================================================================
 // Helper Functions
 // ============================================================================
-
-/// Validate a cron expression
 pub fn validate_cron(expression: &str) -> Result<(), String> {
     CronSchedule::from_str(expression)
         .map(|_| ())
         .map_err(|e| e.to_string())
 }
-
-/// Validate a timezone string
 pub fn validate_timezone(timezone: &str) -> Result<(), String> {
-    timezone.parse::<Tz>()
+    timezone
+        .parse::<Tz>()
         .map(|_| ())
         .map_err(|_| format!("Invalid timezone: {}", timezone))
 }
+pub fn get_next_cron_runs(expression: &str, timezone: &str, count: usize) -> Result<Vec<DateTime<Utc>>, String> {
+    let schedule = CronSchedule::from_str(expression).map_err(|e| e.to_string())?;
 
-/// Get next run times for a cron expression
-pub fn get_next_cron_runs(
-    expression: &str,
-    timezone: &str,
-    count: usize,
-) -> Result<Vec<DateTime<Utc>>, String> {
-    let schedule = CronSchedule::from_str(expression)
-        .map_err(|e| e.to_string())?;
-
-    let tz: Tz = timezone.parse()
+    let tz: Tz = timezone
+        .parse()
         .map_err(|_| format!("Invalid timezone: {}", timezone))?;
 
     Ok(schedule

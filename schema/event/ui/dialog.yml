@@ -1,37 +1,32 @@
-- name: Dialog Opened
-  type: dialog_opened
+- name: dialog_opened
   schema:
-    dialog_id: Id #required
-    dialog_name: String?
-    dialog_title: String?
-    opened_at: Date = now()
+    dialog_id: id #required
+    dialog_name: string?
+    dialog_title: string?
+    opened_at: date = now()
 
-- name: Dialog Closed
-  type: dialog_closed
+- name: dialog_closed
   schema:
-    dialog_id: Id #required
-    dialog_name: String?
-    close_reason: Button | Escape | ClickOutside | Action = Button
-    closed_at: Date = now()
+    dialog_id: id #required
+    dialog_name: string?
+    close_reason: button | escape | click_outside | action = button
+    closed_at: date = now()
 
-- name: Dialog Action Clicked
-  type: dialog_action_clicked
+- name: dialog_action_clicked
   schema:
-    dialog_id: Id #required
-    action_id: Id #required
-    action_label: String?
-    clicked_at: Date = now()
+    dialog_id: id #required
+    action_id: id #required
+    action_label: string?
+    clicked_at: date = now()
 
-- name: Dialog Submitted
-  type: dialog_submitted
+- name: dialog_submitted
   schema:
-    dialog_id: Id #required
-    dialog_name: String?
-    submitted_at: Date = now()
+    dialog_id: id #required
+    dialog_name: string?
+    submitted_at: date = now()
 
-- name: Dialog Cancelled
-  type: dialog_cancelled
+- name: dialog_cancelled
   schema:
-    dialog_id: Id #required
-    dialog_name: String?
-    cancelled_at: Date = now()
+    dialog_id: id #required
+    dialog_name: string?
+    cancelled_at: date = now()

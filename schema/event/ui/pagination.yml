@@ -1,42 +1,36 @@
-- name: Page Changed
-  type: page_changed
+- name: page_changed
   schema:
-    pagination_id: Id #required
+    pagination_id: id #required
     from_page: int? #min(1)
     to_page: int #required #min(1)
     total_pages: int? #min(1)
-    changed_at: Date = now()
+    changed_at: date = now()
 
-- name: Previous Page Clicked
-  type: previous_page_clicked
+- name: previous_page_clicked
   schema:
-    pagination_id: Id #required
+    pagination_id: id #required
     current_page: int #required #min(1)
-    clicked_at: Date = now()
+    clicked_at: date = now()
 
-- name: Next Page Clicked
-  type: next_page_clicked
+- name: next_page_clicked
   schema:
-    pagination_id: Id #required
+    pagination_id: id #required
     current_page: int #required #min(1)
-    clicked_at: Date = now()
+    clicked_at: date = now()
 
-- name: Page Number Clicked
-  type: page_number_clicked
+- name: page_number_clicked
   schema:
-    pagination_id: Id #required
+    pagination_id: id #required
     page_number: int #required #min(1)
-    clicked_at: Date = now()
+    clicked_at: date = now()
 
-- name: First Page Reached
-  type: first_page_reached
+- name: first_page_reached
   schema:
-    pagination_id: Id #required
-    reached_at: Date = now()
+    pagination_id: id #required
+    reached_at: date = now()
 
-- name: Last Page Reached
-  type: last_page_reached
+- name: last_page_reached
   schema:
-    pagination_id: Id #required
+    pagination_id: id #required
     total_pages: int #required #min(1)
-    reached_at: Date = now()
+    reached_at: date = now()

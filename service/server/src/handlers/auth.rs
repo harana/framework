@@ -1,5 +1,3 @@
-//! Authentication route handlers
-
 use axum::{
     Json,
     extract::{Query, State},

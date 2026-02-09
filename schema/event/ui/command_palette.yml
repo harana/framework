@@ -1,32 +1,28 @@
-- name: Command Palette Opened
-  type: command_palette_opened
+- name: command_palette_opened
   schema:
-    palette_id: Id #required
-    trigger_method: Keyboard | Button | Menu = Keyboard
-    opened_at: Date = now()
+    palette_id: id #required
+    trigger_method: keyboard | button | menu = keyboard
+    opened_at: date = now()
 
-- name: Command Palette Closed
-  type: command_palette_closed
+- name: command_palette_closed
   schema:
-    palette_id: Id #required
-    close_reason: Selection | Escape | Blur = Escape
+    palette_id: id #required
+    close_reason: selection | escape | blur = escape
     time_open_ms: int? #min(0)
-    closed_at: Date = now()
+    closed_at: date = now()
 
-- name: Command Selected
-  type: command_selected
+- name: command_selected
   schema:
-    palette_id: Id #required
-    command_id: Id #required
-    command_name: String?
-    command_category: String?
+    palette_id: id #required
+    command_id: id #required
+    command_name: string?
+    command_category: string?
     selection_index: int? #min(0)
-    selected_at: Date = now()
+    selected_at: date = now()
 
-- name: Command Searched
-  type: command_searched
+- name: command_searched
   schema:
-    palette_id: Id #required
-    search_query: String #required
+    palette_id: id #required
+    search_query: string #required
     results_count: int? #min(0)
-    searched_at: Date = now()
+    searched_at: date = now()

@@ -1,105 +1,93 @@
-- name: Row Selected
-  type: row_selected
+- name: row_selected
   schema:
-    table_id: Id #required
-    row_id: Id #required
+    table_id: id #required
+    row_id: id #required
     row_index: int? #min(0)
-    row_data_key: String?
-    selection_type: Single | Multi = Single
-    selected_at: Date = now()
+    row_data_key: string?
+    selection_type: single | multi = single
+    selected_at: date = now()
 
-- name: Row Deselected
-  type: row_deselected
+- name: row_deselected
   schema:
-    table_id: Id #required
-    row_id: Id #required
+    table_id: id #required
+    row_id: id #required
     row_index: int? #min(0)
-    deselected_at: Date = now()
+    deselected_at: date = now()
 
-- name: Row Expanded
-  type: row_expanded
+- name: row_expanded
   schema:
-    table_id: Id #required
-    row_id: Id #required
+    table_id: id #required
+    row_id: id #required
     row_index: int? #min(0)
-    expanded_at: Date = now()
+    expanded_at: date = now()
 
-- name: Row Collapsed
-  type: row_collapsed
+- name: row_collapsed
   schema:
-    table_id: Id #required
-    row_id: Id #required
+    table_id: id #required
+    row_id: id #required
     row_index: int? #min(0)
-    collapsed_at: Date = now()
+    collapsed_at: date = now()
 
-- name: Column Sorted
-  type: column_sorted
+- name: column_sorted
   schema:
-    table_id: Id #required
-    column_id: Id #required
-    column_name: String?
-    sort_direction: Asc | Desc | None = Asc
-    sorted_at: Date = now()
+    table_id: id #required
+    column_id: id #required
+    column_name: string?
+    sort_direction: asc | desc | none = asc
+    sorted_at: date = now()
 
-- name: Column Resized
-  type: column_resized
+- name: column_resized
   schema:
-    table_id: Id #required
-    column_id: Id #required
-    column_name: String?
+    table_id: id #required
+    column_id: id #required
+    column_name: string?
     old_width: int? #min(0)
     new_width: int? #min(0)
-    resized_at: Date = now()
+    resized_at: date = now()
 
-- name: Bulk Selection Toggled
-  type: bulk_selection_toggled
+- name: bulk_selection_toggled
   schema:
-    table_id: Id #required
-    new_state: Selected | Deselected #required
+    table_id: id #required
+    new_state: selected | deselected #required
     rows_affected: int? #min(0)
-    toggled_at: Date = now()
+    toggled_at: date = now()
 
-- name: Select All Clicked
-  type: select_all_clicked
+- name: select_all_clicked
   schema:
-    table_id: Id #required
+    table_id: id #required
     total_rows: int? #min(0)
     selected_rows: int? #min(0)
-    clicked_at: Date = now()
+    clicked_at: date = now()
 
-- name: Pagination Changed
-  type: pagination_changed
+- name: pagination_changed
   schema:
-    table_id: Id #required
+    table_id: id #required
     from_page: int? #min(1)
     to_page: int #required #min(1)
     total_pages: int? #min(1)
-    changed_at: Date = now()
+    changed_at: date = now()
 
-- name: Page Size Changed
-  type: page_size_changed
+- name: page_size_changed
   schema:
-    table_id: Id #required
+    table_id: id #required
     old_page_size: int? #min(1)
     new_page_size: int #required #min(1)
-    changed_at: Date = now()
+    changed_at: date = now()
 
-- name: Row Clicked
-  type: row_clicked
+- name: row_clicked
   schema:
-    table_id: Id #required
-    row_id: Id #required
+    table_id: id #required
+    row_id: id #required
     row_index: int? #min(0)
-    row_data_key: String?
-    clicked_at: Date = now()
+    row_data_key: string?
+    clicked_at: date = now()
 
-- name: Cell Edited
-  type: cell_edited
+- name: cell_edited
   schema:
-    table_id: Id #required
-    row_id: Id #required
-    column_id: Id #required
-    column_name: String?
-    old_value: String?
-    new_value: String?
-    edited_at: Date = now()
+    table_id: id #required
+    row_id: id #required
+    column_id: id #required
+    column_name: string?
+    old_value: string?
+    new_value: string?
+    edited_at: date = now()

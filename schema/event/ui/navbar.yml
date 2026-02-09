@@ -1,39 +1,34 @@
-- name: Navbar Item Clicked
-  type: navbar_item_clicked
+- name: navbar_item_clicked
   schema:
-    navbar_id: Id #required
-    item_id: Id #required
-    item_label: String?
-    item_href: String?
-    clicked_at: Date = now()
+    navbar_id: id #required
+    item_id: id #required
+    item_label: string?
+    item_href: string?
+    clicked_at: date = now()
 
-- name: Navbar Item Hovered
-  type: navbar_item_hovered
+- name: navbar_item_hovered
   schema:
-    navbar_id: Id #required
-    item_id: Id #required
-    item_label: String?
-    hovered_at: Date = now()
+    navbar_id: id #required
+    item_id: id #required
+    item_label: string?
+    hovered_at: date = now()
 
-- name: Navbar Section Expanded
-  type: navbar_section_expanded
+- name: navbar_section_expanded
   schema:
-    navbar_id: Id #required
-    section_id: Id #required
-    expanded_at: Date = now()
+    navbar_id: id #required
+    section_id: id #required
+    expanded_at: date = now()
 
-- name: Navbar Section Collapsed
-  type: navbar_section_collapsed
+- name: navbar_section_collapsed
   schema:
-    navbar_id: Id #required
-    section_id: Id #required
-    collapsed_at: Date = now()
+    navbar_id: id #required
+    section_id: id #required
+    collapsed_at: date = now()
 
-- name: Navbar Current Item Changed
-  type: navbar_current_item_changed
+- name: navbar_current_item_changed
   schema:
-    navbar_id: Id #required
-    old_item_id: Id?
-    new_item_id: Id #required
-    new_item_label: String?
-    changed_at: Date = now()
+    navbar_id: id #required
+    old_item_id: id?
+    new_item_id: id #required
+    new_item_label: string?
+    changed_at: date = now()

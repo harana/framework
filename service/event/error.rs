@@ -1,5 +1,3 @@
-// Harana Components - Events Error Types
-
 use std::fmt;
 
 #[derive(Debug, Clone)]

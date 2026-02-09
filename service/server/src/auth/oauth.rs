@@ -1,12 +1,3 @@
-//! OpenID Connect / OAuth 2.0 support
-//!
-//! Uses the `openidconnect` crate for spec-compliant OIDC flows and supports
-//! Cloudflare Access (Zero Trust) as a first-class provider.
-//!
-//! CSRF state and nonce values are persisted via the generic [`CacheStore`]
-//! backend so they survive across requests in both standalone and Cloudflare
-//! Workers deployments (e.g. KV, memory, etc.).
-
 use crate::config::{OAuthConfig, OAuthProvider, OAuthProviderKind};
 use crate::error::ServerError;
 use harana_components_cache::{CacheStore, PutOptions};
@@ -130,7 +121,6 @@ pub struct OAuthManager {
 }
 
 impl OAuthManager {
-    /// Create a new `OAuthManager`.
     pub fn new(config: OAuthConfig, cache: Arc<dyn CacheStore>) -> Self {
         let providers: HashMap<String, OAuthProvider> =
             config.providers.iter().map(|p| (p.name.clone(), p.clone())).collect();

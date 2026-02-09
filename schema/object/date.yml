@@ -1,17 +1,15 @@
-- name: Date Format
-  type: date_format
+- name: date_format
   schema:
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - format_string: String #required #max(200)
-    - is_active: Boolean = true
-    - locale: String? #max(20)
+    - created_at: date = now()
+    - description: string? #max(500)
+    - format_string: string #required #max(200)
+    - is_active: boolean = true
+    - locale: string? #max(20)
 
-- name: Timezone
-  type: timezone
+- name: timezone
   id: [name]
   schema:
-    - abbreviation: String? #max(10)
+    - abbreviation: string? #max(10)
     - dst_offset: int = 0
-    - name: String #required #unique #max(100)
+    - name: string #required #unique #max(100)
     - utc_offset: int = 0

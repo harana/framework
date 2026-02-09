@@ -1,6 +1,3 @@
-// Harana Actions - Event Module
-// This module provides event actions and functionality.
-
 pub mod output;
 
 use std::collections::HashMap;

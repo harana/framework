@@ -1,33 +1,30 @@
-- name: CSV Document
-  type: csv_document
+- name: csv_document
   schema:
     - column_count: int = 0 #min(0)
-    - created_at: Date = now()
-    - created_by: Id? -> User.id
-    - delimiter: String = , #max(5)
-    - has_headers: Boolean = true
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - delimiter: string = , #max(5)
+    - has_headers: boolean = true
     - row_count: int = 0 #min(0)
     - size: int = 0 #min(0)
-    - source_path: String? #max(2000)
-    - updated_at: Date = now()
+    - source_path: string? #max(2000)
+    - updated_at: date = now()
 
-- name: CSV Column Schema
-  type: csv_column_schema
+- name: csv_column_schema
   id: [document_id, name]
   schema:
-    - document_id: Id #required -> CsvDocument.id
-    - is_required: Boolean = false
-    - name: String #required #max(255)
-    - pattern: String? #max(500)
+    - document_id: id #required -> csv_document.id
+    - is_required: boolean = false
+    - name: string #required #max(255)
+    - pattern: string? #max(500)
     - sort_order: int = 0
-    - type: String | Int | Float | Bool | Date = String
+    - type: string | int | float | bool | date = string
 
-- name: CSV Validation Result
-  type: csv_validation_result
+- name: csv_validation_result
   id: [document_id, validated_at]
   schema:
-    - document_id: Id #required -> CsvDocument.id
+    - document_id: id #required -> csv_document.id
     - error_count: int = 0 #min(0)
-    - errors: String? # JSON array
-    - is_valid: Boolean = false
-    - validated_at: Date = now()
+    - errors: string? # json array
+    - is_valid: boolean = false
+    - validated_at: date = now()

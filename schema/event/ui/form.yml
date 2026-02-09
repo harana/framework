@@ -1,26 +1,23 @@
-- name: Form Submitted
-  type: form_submitted
+- name: form_submitted
   schema:
-    form_id: Id #required
-    form_name: String?
+    form_id: id #required
+    form_name: string?
     fields_count: int? #min(0)
     submission_time_ms: int? #min(0)
-    submitted_at: Date = now()
+    submitted_at: date = now()
 
-- name: Form Validation Failed
-  type: form_validation_failed
+- name: form_validation_failed
   schema:
-    form_id: Id #required
-    form_name: String?
-    field_name: String?
-    error_message: String?
+    form_id: id #required
+    form_name: string?
+    field_name: string?
+    error_message: string?
     error_count: int? #min(0)
-    failed_at: Date = now()
+    failed_at: date = now()
 
-- name: Form Reset
-  type: form_reset
+- name: form_reset
   schema:
-    form_id: Id #required
-    form_name: String?
+    form_id: id #required
+    form_name: string?
     fields_cleared: int? #min(0)
-    reset_at: Date = now()
+    reset_at: date = now()

@@ -1,49 +1,43 @@
-- name: Modal Opened
-  type: modal_opened
+- name: modal_opened
   schema:
-    modal_id: Id #required
-    modal_name: String?
-    modal_type: Dialog | Alert | Confirm | Drawer | Fullscreen = Dialog
-    trigger_source: String?
-    opened_at: Date = now()
+    modal_id: id #required
+    modal_name: string?
+    modal_type: dialog | alert | confirm | drawer | fullscreen = dialog
+    trigger_source: string?
+    opened_at: date = now()
 
-- name: Modal Closed
-  type: modal_closed
+- name: modal_closed
   schema:
-    modal_id: Id #required
-    modal_name: String?
-    close_reason: Button | Escape | Backdrop | Action = Button
+    modal_id: id #required
+    modal_name: string?
+    close_reason: button | escape | backdrop | action = button
     time_open_ms: int? #min(0)
-    closed_at: Date = now()
+    closed_at: date = now()
 
-- name: Modal Dismissed
-  type: modal_dismissed
+- name: modal_dismissed
   schema:
-    modal_id: Id #required
-    modal_name: String?
-    dismiss_method: Escape | Backdrop | Swipe | Timeout = Escape
-    dismissed_at: Date = now()
+    modal_id: id #required
+    modal_name: string?
+    dismiss_method: escape | backdrop | swipe | timeout = escape
+    dismissed_at: date = now()
 
-- name: Confirmation Accepted
-  type: confirmation_accepted
+- name: confirmation_accepted
   schema:
-    modal_id: Id #required
-    modal_name: String?
-    confirmation_type: Delete | Submit | Save | Discard | Proceed = Proceed
-    accepted_at: Date = now()
+    modal_id: id #required
+    modal_name: string?
+    confirmation_type: delete | submit | save | discard | proceed = proceed
+    accepted_at: date = now()
 
-- name: Confirmation Rejected
-  type: confirmation_rejected
+- name: confirmation_rejected
   schema:
-    modal_id: Id #required
-    modal_name: String?
-    confirmation_type: Delete | Submit | Save | Discard | Proceed = Proceed
-    rejected_at: Date = now()
+    modal_id: id #required
+    modal_name: string?
+    confirmation_type: delete | submit | save | discard | proceed = proceed
+    rejected_at: date = now()
 
-- name: Modal Backdrop Clicked
-  type: modal_backdrop_clicked
+- name: modal_backdrop_clicked
   schema:
-    modal_id: Id #required
-    modal_name: String?
-    closes_modal: Boolean = true
-    clicked_at: Date = now()
+    modal_id: id #required
+    modal_name: string?
+    closes_modal: boolean = true
+    clicked_at: date = now()

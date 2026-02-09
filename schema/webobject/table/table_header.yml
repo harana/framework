@@ -1,11 +1,10 @@
-- name: Table Header Component
-  type: table_header
+- name: table_header
   id: [table_id, name]
   attributes:
-    - alignment: Left | Center | Right = Left
-    - label: String #required #max(200)
+    - alignment: left | center | right = left
+    - label: string #required #max(200)
     - order: int = 0 #min(0)
-    - table_id: Id #required -> UITable.id
+    - table_id: id #required -> ui_table.id
   events:
     - resize
     - sort

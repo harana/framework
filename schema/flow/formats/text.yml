@@ -1,89 +1,80 @@
-- name: Render Template String
-  method: template
+- name: template
   inputs:
-    data: TemplateData #required
-    engine: Handlebars | Mustache | Tera = Handlebars
-    template: String #required
+    data: template_data #required
+    engine: handlebars | mustache | tera = handlebars
+    template: string #required
   outputs:
-    result: String
+    result: string
 
-- name: Match Regex Pattern
-  method: regex_match
+- name: regex_match
   inputs:
-    flags: String
-    pattern: String #required
-    text: String #required
+    flags: string
+    pattern: string #required
+    text: string #required
   outputs:
-    matches: List[String]
+    matches: list[string]
 
-- name: Replace With Regex Pattern
-  method: regex_replace
+- name: regex_replace
   inputs:
-    flags: String
-    pattern: String #required
-    replacement: String #required
-    text: String #required
+    flags: string
+    pattern: string #required
+    replacement: string #required
+    text: string #required
   outputs:
-    result: String
+    result: string
 
-- name: Split String By Delimiter
-  method: split
+- name: split
   inputs:
-    delimiter: String #required
-    limit: Int
-    text: String #required
+    delimiter: string #required
+    limit: int
+    text: string #required
   outputs:
-    parts: List[String]
+    parts: list[string]
 
-- name: Join Strings Together
-  method: join
+- name: join
   inputs:
-    items: List[String] #required
-    separator: String = ""
+    items: list[string] #required
+    separator: string = ""
   outputs:
-    result: String
+    result: string
 
-- name: Trim Whitespace From String
-  method: trim
+- name: trim
   inputs:
-    characters: String
-    mode: Both | Start | End = Both
-    text: String #required
+    characters: string
+    mode: both | start | end = both
+    text: string #required
   outputs:
-    result: String
+    result: string
 
-- name: Convert String Case
-  method: case_convert
+- name: case_convert
   inputs:
-    format: Upper | Lower | Camel | Pascal | Snake | Kebab #required
-    text: String #required
+    format: upper | lower | camel | pascal | snake | kebab #required
+    text: string #required
   outputs:
-    result: String
+    result: string
 
-- name: Truncate String Length
-  method: truncate
+- name: truncate
   inputs:
-    length: Int #required
-    suffix: String = "..."
-    text: String #required
+    length: int #required
+    suffix: string = "..."
+    text: string #required
   outputs:
-    result: String
+    result: string
 
-- name: Convert Text To URL Slug
-  method: slugify
+- name: slugify
   inputs:
-    lowercase: Boolean = true
-    separator: String = "-"
-    text: String #required
+    lowercase: boolean = true
+    separator: string = "-"
+    text: string #required
   outputs:
-    slug: String
+    slug: string
 
-- name: TextString
+- name: text_string
   class:
-    content: String
-    length: Int
-    encoding: String
+    content: string
+    length: int
+    encoding: string
 
-- name: TemplateData
+- name: template_data
   class:
-    values: Map[String, Any]
+    values: map[string, any]

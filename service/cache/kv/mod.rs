@@ -1,17 +1,3 @@
-// Harana Components - Cloudflare KV Cache Implementation
-//
-// A `CacheStore` implementation backed by Cloudflare Workers KV via `worker::KvStore`.
-//
-// Usage:
-//   ```ignore
-//   use worker::Env;
-//   use harana_components_cache::{KvCacheStore, CacheStore, PutOptions};
-//
-//   let store = KvCacheStore::from_env(&env, "MY_KV")?;
-//   store.put("key", "value", PutOptions::new().with_ttl(300)).await?;
-//   let val = store.get_text("key").await?;
-//   ```
-
 use async_trait::async_trait;
 use serde::Serialize;
 use serde::de::DeserializeOwned;
@@ -37,12 +23,6 @@ impl KvCacheStore {
     }
 
     /// Create from a `worker::Env` by KV binding name.
-    ///
-    /// # Example
-    ///
-    /// ```ignore
-    /// let cache = KvCacheStore::from_env(&env, "MY_KV")?;
-    /// ```
     pub fn from_env(env: &worker::Env, binding: &str) -> CacheResult<Self> {
         let kv = env
             .kv(binding)

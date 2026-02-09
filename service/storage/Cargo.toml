@@ -13,6 +13,7 @@ mysql = []
 sqlite = []
 mongodb = []
 d1 = ["sqlx-d1", "worker", "wasm-bindgen"]
+durable_object = ["worker", "wasm-bindgen"]
 full = ["postgres", "mysql", "sqlite", "mongodb"]
 
 [dependencies]

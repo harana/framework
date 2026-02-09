@@ -1,203 +1,187 @@
-- name: Generate Text From Prompt
-  method: generate_text
+- name: generate_text
   inputs:
-    max_tokens: Int = 1000
-    model: String = "default"
-    prompt: String #required
-    temperature: Float = 0.7
+    max_tokens: int = 1000
+    model: string = "default"
+    prompt: string #required
+    temperature: float = 0.7
   outputs:
-    text: String
-    tokens_used: Int
+    text: string
+    tokens_used: int
 
-- name: Generate Chat Completion
-  method: chat_completion
+- name: chat_completion
   inputs:
-    max_tokens: Int = 1000
-    messages: List[AiChatMessage] #required
-    model: String = "default"
-    system_prompt: String
-    temperature: Float = 0.7
+    max_tokens: int = 1000
+    messages: list[ai_chat_message] #required
+    model: string = "default"
+    system_prompt: string
+    temperature: float = 0.7
   outputs:
-    response: String
-    tokens_used: Int
+    response: string
+    tokens_used: int
 
-- name: Generate Embeddings From Text
-  method: generate_embeddings
+- name: generate_embeddings
   inputs:
-    model: String = "default"
-    text: String #required
+    model: string = "default"
+    text: string #required
   outputs:
-    dimensions: Int
-    embeddings: List[float]
+    dimensions: int
+    embeddings: list[float]
 
-- name: Generate Image From Prompt
-  method: generate_image
+- name: generate_image
   inputs:
-    model: String = "default"
-    prompt: String #required
-    quality: Standard | Hd = Standard
-    size: String = "1024x1024"
+    model: string = "default"
+    prompt: string #required
+    quality: standard | hd = standard
+    size: string = "1024x1024"
   outputs:
-    base64: String
-    url: String
+    base64: string
+    url: string
 
-- name: Transcribe Audio To Text
-  method: transcribe_audio
+- name: transcribe_audio
   inputs:
     audio: bytes #required
-    language: String
-    model: String = "default"
+    language: string
+    model: string = "default"
   outputs:
-    duration: Float
-    text: String
+    duration: float
+    text: string
 
-- name: Classify Text Content
-  method: classify_text
+- name: classify_text
   inputs:
-    labels: List[String] #required
-    model: String = "default"
-    text: String #required
+    labels: list[string] #required
+    model: string = "default"
+    text: string #required
   outputs:
-    confidence: Float
-    label: String
-    scores: Map[string, float]
+    confidence: float
+    label: string
+    scores: map[string, float]
 
-- name: Summarize Text Content
-  method: summarize_text
+- name: summarize_text
   inputs:
-    max_length: Int = 500
-    model: String = "default"
-    text: String #required
+    max_length: int = 500
+    model: string = "default"
+    text: string #required
   outputs:
-    summary: String
+    summary: string
 
-- name: Extract Entities From Text
-  method: extract_entities
+- name: extract_entities
   inputs:
-    entity_types: List[String]
-    model: String = "default"
-    text: String #required
+    entity_types: list[string]
+    model: string = "default"
+    text: string #required
   outputs:
-    entities: List[AiEntity]
+    entities: list[ai_entity]
 
-- name: Load ONNX Model
-  method: onnx_load_model
+- name: onnx_load_model
   inputs:
-    model_path: String #required
-    optimize: Boolean = true
+    model_path: string #required
+    optimize: boolean = true
   outputs:
-    input_shapes: List[AiTensorShape]
-    model_id: String
-    output_shapes: List[AiTensorShape]
+    input_shapes: list[ai_tensor_shape]
+    model_id: string
+    output_shapes: list[ai_tensor_shape]
 
-- name: Run ONNX Inference
-  method: onnx_inference
+- name: onnx_inference
   inputs:
-    input_data: Map[String, Any] #required
-    model_id: String #required
+    input_data: map[string, any] #required
+    model_id: string #required
   outputs:
-    inference_time_ms: Float
-    outputs: Map[String, Any]
+    inference_time_ms: float
+    outputs: map[string, any]
 
-- name: Run ONNX Inference From Bytes
-  method: onnx_inference_bytes
+- name: onnx_inference_bytes
   inputs:
-    input_data: Map[String, Any] #required
+    input_data: map[string, any] #required
     model_bytes: bytes #required
-    optimize: Boolean = true
+    optimize: boolean = true
   outputs:
-    inference_time_ms: Float
-    outputs: Map[String, Any]
+    inference_time_ms: float
+    outputs: map[string, any]
 
-- name: Get ONNX Model Info
-  method: onnx_model_info
+- name: onnx_model_info
   inputs:
-    model_path: String #required
+    model_path: string #required
   outputs:
-    input_names: List[String]
-    input_shapes: List[AiTensorShape]
-    output_names: List[String]
-    output_shapes: List[AiTensorShape]
+    input_names: list[string]
+    input_shapes: list[ai_tensor_shape]
+    output_names: list[string]
+    output_shapes: list[ai_tensor_shape]
 
-- name: Unload ONNX Model
-  method: onnx_unload_model
+- name: onnx_unload_model
   inputs:
-    model_id: String #required
+    model_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Run ONNX Image Classification
-  method: onnx_classify_image
+- name: onnx_classify_image
   inputs:
     image: bytes #required
-    labels: List[String]
-    model_id: String #required
-    top_k: Int = 5
+    labels: list[string]
+    model_id: string #required
+    top_k: int = 5
   outputs:
-    inference_time_ms: Float
-    predictions: List[AiClassificationPrediction]
+    inference_time_ms: float
+    predictions: list[ai_classification_prediction]
 
-- name: Run ONNX Object Detection
-  method: onnx_detect_objects
+- name: onnx_detect_objects
   inputs:
-    confidence_threshold: Float = 0.5
+    confidence_threshold: float = 0.5
     image: bytes #required
-    labels: List[String]
-    model_id: String #required
-    nms_threshold: Float = 0.4
+    labels: list[string]
+    model_id: string #required
+    nms_threshold: float = 0.4
   outputs:
-    detections: List[AiObjectDetection]
-    inference_time_ms: Float
+    detections: list[ai_object_detection]
+    inference_time_ms: float
 
-- name: Run ONNX Text Embedding
-  method: onnx_text_embedding
+- name: onnx_text_embedding
   inputs:
-    model_id: String #required
-    text: String #required
+    model_id: string #required
+    text: string #required
   outputs:
-    dimensions: Int
-    embedding: List[float]
-    inference_time_ms: Float
+    dimensions: int
+    embedding: list[float]
+    inference_time_ms: float
 
-- name: AiModel
+- name: ai_model
   class:
-    model_id: String
-    name: String
-    provider: String
-    max_tokens: Int
-    temperature: Float
-    capabilities: List[String]
+    model_id: string
+    name: string
+    provider: string
+    max_tokens: int
+    temperature: float
+    capabilities: list[string]
 
-- name: AiChatMessage
+- name: ai_chat_message
   class:
-    role: String
-    content: String
+    role: string
+    content: string
 
-- name: AiEntity
+- name: ai_entity
   class:
-    text: String
-    type: String
-    start: Int
-    end: Int
-    confidence: Float
+    text: string
+    type: string
+    start: int
+    end: int
+    confidence: float
 
-- name: AiTensorShape
+- name: ai_tensor_shape
   class:
-    name: String
-    dtype: String
-    shape: List[integer]
+    name: string
+    dtype: string
+    shape: list[integer]
 
-- name: AiClassificationPrediction
+- name: ai_classification_prediction
   class:
-    label: String
-    confidence: Float
-    index: Int
+    label: string
+    confidence: float
+    index: int
 
-- name: AiObjectDetection
+- name: ai_object_detection
   class:
-    label: String
-    confidence: Float
-    x: Float
-    y: Float
-    width: Float
-    height: Float
+    label: string
+    confidence: float
+    x: float
+    y: float
+    width: float
+    height: float

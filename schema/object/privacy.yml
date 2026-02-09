@@ -1,72 +1,66 @@
-- name: Privacy Consent
-  type: privacy_consent
+- name: privacy_consent
   id: [user_id, consent_type]
   schema:
-    - consent_type: Marketing | Analytics | Functional | Necessary = Necessary
-    - granted: Boolean = false
-    - granted_at: Date?
-    - ip_address: String? #max(45)
-    - revoked_at: Date?
-    - updated_at: Date = now()
-    - user_agent: String? #max(500)
-    - user_id: Id #required -> User.id
-    - version: String #required #max(50)
+    - consent_type: marketing | analytics | functional | necessary = necessary
+    - granted: boolean = false
+    - granted_at: date?
+    - ip_address: string? #max(45)
+    - revoked_at: date?
+    - updated_at: date = now()
+    - user_agent: string? #max(500)
+    - user_id: id #required -> user.id
+    - version: string #required #max(50)
 
-- name: Privacy Consent History
-  type: privacy_consent_history
+- name: privacy_consent_history
   id: [user_id, consent_type, created_at]
   schema:
-    - action: Granted | Revoked | Updated = Granted
-    - consent_type: Marketing | Analytics | Functional | Necessary = Necessary
-    - created_at: Date = now()
-    - ip_address: String? #max(45)
-    - user_id: Id #required -> User.id
-    - version: String? #max(50)
+    - action: granted | revoked | updated = granted
+    - consent_type: marketing | analytics | functional | necessary = necessary
+    - created_at: date = now()
+    - ip_address: string? #max(45)
+    - user_id: id #required -> user.id
+    - version: string? #max(50)
 
-- name: Privacy Data Export
-  type: privacy_data_export
+- name: privacy_data_export
   id: [user_id, created_at]
   schema:
-    - completed_at: Date?
-    - created_at: Date = now()
-    - download_url: String? #url
-    - expires_at: Date?
-    - format: Json | Csv | Xml = Json
-    - status: Pending | Processing | Completed | Failed = Pending
-    - user_id: Id #required -> User.id
+    - completed_at: date?
+    - created_at: date = now()
+    - download_url: string? #url
+    - expires_at: date?
+    - format: json | csv | xml = json
+    - status: pending | processing | completed | failed = pending
+    - user_id: id #required -> user.id
 
-- name: Privacy Data Deletion
-  type: privacy_data_deletion
+- name: privacy_data_deletion
   id: [user_id, created_at]
   schema:
-    - cancelled_at: Date?
-    - completed_at: Date?
-    - created_at: Date = now()
-    - delete_type: Soft | Hard = Soft
-    - reason: String #required #max(500)
-    - scheduled_at: Date?
-    - status: Pending | Processing | Completed | Failed | Cancelled = Pending
-    - user_id: Id #required -> User.id
+    - cancelled_at: date?
+    - completed_at: date?
+    - created_at: date = now()
+    - delete_type: soft | hard = soft
+    - reason: string #required #max(500)
+    - scheduled_at: date?
+    - status: pending | processing | completed | failed | cancelled = pending
+    - user_id: id #required -> user.id
 
-- name: Privacy Data Access Log
-  type: privacy_data_access_log
+- name: privacy_data_access_log
   id: [user_id, accessed_at]
   schema:
-    - access_type: Read | Write | Delete = Read
-    - accessed_at: Date = now()
-    - accessor_id: String #required #max(200)
-    - purpose: String? #max(500)
-    - resource: String #required #max(200)
-    - user_id: Id #required -> User.id
+    - access_type: read | write | delete = read
+    - accessed_at: date = now()
+    - accessor_id: string #required #max(200)
+    - purpose: string? #max(500)
+    - resource: string #required #max(200)
+    - user_id: id #required -> user.id
 
-- name: Privacy Policy Version
-  type: privacy_policy_version
+- name: privacy_policy_version
   id: [version]
   schema:
-    - content: String #required
-    - created_at: Date = now()
-    - effective_date: Date #required
-    - is_active: Boolean = false
-    - policy_type: Privacy | Terms | Cookie = Privacy
-    - title: String #required #max(500)
-    - version: String #required #unique #max(50)
+    - content: string #required
+    - created_at: date = now()
+    - effective_date: date #required
+    - is_active: boolean = false
+    - policy_type: privacy | terms | cookie = privacy
+    - title: string #required #max(500)
+    - version: string #required #unique #max(50)

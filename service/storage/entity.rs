@@ -1,5 +1,3 @@
-// Harana Components - Storage Entity Trait
-
 use serde::{de::DeserializeOwned, Serialize};
 use std::fmt::Debug;
 

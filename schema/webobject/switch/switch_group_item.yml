@@ -1,7 +1,6 @@
-- name: Switch Group Item Component
-  type: switch_group_item
+- name: switch_group_item
   id: [group_id, switch_id]
   attributes:
-    - group_id: Id #required -> UISwitchGroup.id
+    - group_id: id #required -> ui_switch_group.id
     - order: int = 0 #min(0)
-    - switch_id: Id #required -> UISwitch.id
+    - switch_id: id #required -> ui_switch.id

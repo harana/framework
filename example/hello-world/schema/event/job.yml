@@ -2,7 +2,7 @@
   type: job_new #push
   schema:
     - user_id: Id
-    - email: String #email
-    - ip_address: String? #ip
-    - user_agent: String?
-    - logged_in_at: Date = now()
+    - email: string #email
+    - ip_address: string? #ip
+    - user_agent: string?
+    - logged_in_at: date = now()

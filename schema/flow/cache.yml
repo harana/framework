@@ -1,102 +1,92 @@
-- name: Get Value From Cache
-  method: get
+- name: get
   inputs:
-    key: String #required
-    namespace: String = "default"
+    key: string #required
+    namespace: string = "default"
   outputs:
-    found: Boolean
-    value: Any
+    found: boolean
+    value: any
 
-- name: Set Value In Cache
-  method: set
+- name: set
   inputs:
-    key: String #required
-    namespace: String = "default"
-    ttl: Int
-    value: Any #required
+    key: string #required
+    namespace: string = "default"
+    ttl: int
+    value: any #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Value From Cache
-  method: delete
+- name: delete
   inputs:
-    key: String #required
-    namespace: String = "default"
+    key: string #required
+    namespace: string = "default"
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Check If Key Exists
-  method: exists
+- name: exists
   inputs:
-    key: String #required
-    namespace: String = "default"
+    key: string #required
+    namespace: string = "default"
   outputs:
-    exists: Boolean
+    exists: boolean
 
-- name: Clear Cache Namespace
-  method: clear
+- name: clear
   inputs:
-    namespace: String = "default"
-    pattern: String
+    namespace: string = "default"
+    pattern: string
   outputs:
-    keys_deleted: Int
+    keys_deleted: int
 
-- name: Get Multiple Values
-  method: get_many
+- name: get_many
   inputs:
-    keys: List[String] #required
-    namespace: String = "default"
+    keys: list[string] #required
+    namespace: string = "default"
   outputs:
-    values: CacheValues
+    values: cache_values
 
-- name: Set Multiple Values
-  method: set_many
+- name: set_many
   inputs:
-    entries: CacheEntries #required
-    namespace: String = "default"
-    ttl: Int
+    entries: cache_entries #required
+    namespace: string = "default"
+    ttl: int
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Increment Numeric Value
-  method: increment
+- name: increment
   inputs:
-    amount: Int = 1
-    key: String #required
-    namespace: String = "default"
+    amount: int = 1
+    key: string #required
+    namespace: string = "default"
   outputs:
-    value: Int
+    value: int
 
-- name: Decrement Numeric Value
-  method: decrement
+- name: decrement
   inputs:
-    amount: Int = 1
-    key: String #required
-    namespace: String = "default"
+    amount: int = 1
+    key: string #required
+    namespace: string = "default"
   outputs:
-    value: Int
+    value: int
 
-- name: Get Time To Live
-  method: ttl
+- name: ttl
   inputs:
-    key: String #required
-    namespace: String = "default"
+    key: string #required
+    namespace: string = "default"
   outputs:
-    expires_at: Date
-    ttl: Int
+    expires_at: date
+    ttl: int
 
-- name: CacheEntry
+- name: cache_entry
   class:
-    key: String
-    value: Any
-    namespace: String
-    ttl: Int
-    expires_at: Date
+    key: string
+    value: any
+    namespace: string
+    ttl: int
+    expires_at: date
 
-- name: CacheValues
+- name: cache_values
   class:
-    values: Map[String, Any]
+    values: map[string, any]
 
-- name: CacheEntries
+- name: cache_entries
   class:
-    entries: Map[String, Any]
+    entries: map[string, any]

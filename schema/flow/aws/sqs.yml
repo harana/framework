@@ -1,204 +1,184 @@
-- name: Create SQS Queue
-  method: create_queue
+- name: create_queue
   inputs:
-    attributes: QueueAttributes
-    queue_name: String #required
-    region: String
-    tags: SqsTags
+    attributes: queue_attributes
+    queue_name: string #required
+    region: string
+    tags: sqs_tags
   outputs:
-    queue_url: String
-    success: Boolean
+    queue_url: string
+    success: boolean
 
-- name: Delete SQS Queue
-  method: delete_queue
+- name: delete_queue
   inputs:
-    queue_url: String #required
-    region: String
+    queue_url: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get SQS Queue URL
-  method: get_queue_url
+- name: get_queue_url
   inputs:
-    queue_name: String #required
-    queue_owner_aws_account_id: String
-    region: String
+    queue_name: string #required
+    queue_owner_aws_account_id: string
+    region: string
   outputs:
-    queue_url: String
+    queue_url: string
 
-- name: List SQS Queues
-  method: list_queues
+- name: list_queues
   inputs:
-    max_results: Int = 1000
-    next_token: String
-    queue_name_prefix: String
-    region: String
+    max_results: int = 1000
+    next_token: string
+    queue_name_prefix: string
+    region: string
   outputs:
-    next_token: String
-    queue_urls: List[String]
+    next_token: string
+    queue_urls: list[string]
 
-- name: Send SQS Message
-  method: send_message
+- name: send_message
   inputs:
-    delay_seconds: Int
-    message_attributes: MessageAttributes
-    message_body: String #required
-    message_deduplication_id: String
-    message_group_id: String
-    queue_url: String #required
-    region: String
+    delay_seconds: int
+    message_attributes: message_attributes
+    message_body: string #required
+    message_deduplication_id: string
+    message_group_id: string
+    queue_url: string #required
+    region: string
   outputs:
-    md5_of_message_attributes: String
-    md5_of_message_body: String
-    message_id: String
-    sequence_number: String
-    success: Boolean
+    md5_of_message_attributes: string
+    md5_of_message_body: string
+    message_id: string
+    sequence_number: string
+    success: boolean
 
-- name: Send SQS Message Batch
-  method: send_message_batch
+- name: send_message_batch
   inputs:
-    entries: List[SendMessageBatchEntry] #required
-    queue_url: String #required
-    region: String
+    entries: list[send_message_batch_entry] #required
+    queue_url: string #required
+    region: string
   outputs:
-    failed: List[BatchResultErrorEntry]
-    successful: List[SendMessageBatchResult]
-    success: Boolean
+    failed: list[batch_result_error_entry]
+    successful: list[send_message_batch_result]
+    success: boolean
 
-- name: Receive SQS Messages
-  method: receive_message
+- name: receive_message
   inputs:
-    attribute_names: List[String]
-    max_number_of_messages: Int = 1
-    message_attribute_names: List[String]
-    queue_url: String #required
-    receive_request_attempt_id: String
-    region: String
-    visibility_timeout: Int
-    wait_time_seconds: Int = 0
+    attribute_names: list[string]
+    max_number_of_messages: int = 1
+    message_attribute_names: list[string]
+    queue_url: string #required
+    receive_request_attempt_id: string
+    region: string
+    visibility_timeout: int
+    wait_time_seconds: int = 0
   outputs:
-    messages: List[SqsMessage]
+    messages: list[sqs_message]
 
-- name: Delete SQS Message
-  method: delete_message
+- name: delete_message
   inputs:
-    queue_url: String #required
-    receipt_handle: String #required
-    region: String
+    queue_url: string #required
+    receipt_handle: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete SQS Message Batch
-  method: delete_message_batch
+- name: delete_message_batch
   inputs:
-    entries: List[DeleteMessageBatchEntry] #required
-    queue_url: String #required
-    region: String
+    entries: list[delete_message_batch_entry] #required
+    queue_url: string #required
+    region: string
   outputs:
-    failed: List[BatchResultErrorEntry]
-    successful: List[DeleteMessageBatchResult]
-    success: Boolean
+    failed: list[batch_result_error_entry]
+    successful: list[delete_message_batch_result]
+    success: boolean
 
-- name: Change Message Visibility
-  method: change_message_visibility
+- name: change_message_visibility
   inputs:
-    queue_url: String #required
-    receipt_handle: String #required
-    region: String
-    visibility_timeout: Int #required
+    queue_url: string #required
+    receipt_handle: string #required
+    region: string
+    visibility_timeout: int #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Change Message Visibility Batch
-  method: change_message_visibility_batch
+- name: change_message_visibility_batch
   inputs:
-    entries: List[ChangeMessageVisibilityBatchEntry] #required
-    queue_url: String #required
-    region: String
+    entries: list[change_message_visibility_batch_entry] #required
+    queue_url: string #required
+    region: string
   outputs:
-    failed: List[BatchResultErrorEntry]
-    successful: List[ChangeMessageVisibilityBatchResult]
-    success: Boolean
+    failed: list[batch_result_error_entry]
+    successful: list[change_message_visibility_batch_result]
+    success: boolean
 
-- name: Get SQS Queue Attributes
-  method: get_queue_attributes
+- name: get_queue_attributes
   inputs:
-    attribute_names: List[String] = ["All"]
-    queue_url: String #required
-    region: String
+    attribute_names: list[string] = ["all"]
+    queue_url: string #required
+    region: string
   outputs:
-    attributes: QueueAttributes
+    attributes: queue_attributes
 
-- name: Set SQS Queue Attributes
-  method: set_queue_attributes
+- name: set_queue_attributes
   inputs:
-    attributes: QueueAttributes #required
-    queue_url: String #required
-    region: String
+    attributes: queue_attributes #required
+    queue_url: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Purge SQS Queue
-  method: purge_queue
+- name: purge_queue
   inputs:
-    queue_url: String #required
-    region: String
+    queue_url: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Add SQS Permission
-  method: add_permission
+- name: add_permission
   inputs:
-    aws_account_ids: List[String] #required
-    actions: List[String] #required
-    label: String #required
-    queue_url: String #required
-    region: String
+    aws_account_ids: list[string] #required
+    actions: list[string] #required
+    label: string #required
+    queue_url: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Remove SQS Permission
-  method: remove_permission
+- name: remove_permission
   inputs:
-    label: String #required
-    queue_url: String #required
-    region: String
+    label: string #required
+    queue_url: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Tag SQS Queue
-  method: tag_queue
+- name: tag_queue
   inputs:
-    queue_url: String #required
-    region: String
-    tags: SqsTags #required
+    queue_url: string #required
+    region: string
+    tags: sqs_tags #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Untag SQS Queue
-  method: untag_queue
+- name: untag_queue
   inputs:
-    queue_url: String #required
-    region: String
-    tag_keys: List[String] #required
+    queue_url: string #required
+    region: string
+    tag_keys: list[string] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List SQS Queue Tags
-  method: list_queue_tags
+- name: list_queue_tags
   inputs:
-    queue_url: String #required
-    region: String
+    queue_url: string #required
+    region: string
   outputs:
-    tags: SqsTags
+    tags: sqs_tags
 
-- name: List SQS Dead Letter Source Queues
-  method: list_dead_letter_source_queues
+- name: list_dead_letter_source_queues
   inputs:
-    max_results: Int = 1000
-    next_token: String
-    queue_url: String #required
-    region: String
+    max_results: int = 1000
+    next_token: string
+    queue_url: string #required
+    region: string
   outputs:
-    next_token: String
-    queue_urls: List[String]
+    next_token: string
+    queue_urls: list[string]

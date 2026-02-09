@@ -1,193 +1,176 @@
-- name: Create Node
-  method: create_node
+- name: create_node
   inputs:
-    labels: List[String]
-    properties: NodeProperties
+    labels: list[string]
+    properties: node_properties
   outputs:
-    node_id: String
-    success: Boolean
+    node_id: string
+    success: boolean
 
-- name: Create Relationship
-  method: create_relationship
+- name: create_relationship
   inputs:
-    from_node_id: String #required
-    properties: RelationshipProperties
-    to_node_id: String #required
-    type: String #required
+    from_node_id: string #required
+    properties: relationship_properties
+    to_node_id: string #required
+    type: string #required
   outputs:
-    relationship_id: String
-    success: Boolean
+    relationship_id: string
+    success: boolean
 
-- name: Find Nodes
-  method: find_nodes
+- name: find_nodes
   inputs:
-    labels: List[String]
-    limit: Int
-    properties: NodeProperties
-    skip: Int = 0
+    labels: list[string]
+    limit: int
+    properties: node_properties
+    skip: int = 0
   outputs:
-    count: Int
-    nodes: List[GraphNode]
+    count: int
+    nodes: list[graph_node]
 
-- name: Find Node By ID
-  method: find_node
+- name: find_node
   inputs:
-    node_id: String #required
+    node_id: string #required
   outputs:
-    found: Boolean
-    node: GraphNode
+    found: boolean
+    node: graph_node
 
-- name: Update Node
-  method: update_node
+- name: update_node
   inputs:
-    node_id: String #required
-    properties: NodeProperties #required
+    node_id: string #required
+    properties: node_properties #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Node
-  method: delete_node
+- name: delete_node
   inputs:
-    detach: Boolean = true
-    node_id: String #required
+    detach: boolean = true
+    node_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Relationship
-  method: delete_relationship
+- name: delete_relationship
   inputs:
-    relationship_id: String #required
+    relationship_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Execute Cypher Query
-  method: execute_query
+- name: execute_query
   inputs:
-    parameters: Map[String, Any]
-    query: String #required
+    parameters: map[string, any]
+    query: string #required
   outputs:
-    records: List[map[String, Any]]
-    summary: QuerySummary
+    records: list[map[string, any]]
+    summary: query_summary
 
-- name: Find Shortest Path
-  method: shortest_path
+- name: shortest_path
   inputs:
-    from_node_id: String #required
-    max_depth: Int
-    relationship_types: List[String]
-    to_node_id: String #required
+    from_node_id: string #required
+    max_depth: int
+    relationship_types: list[string]
+    to_node_id: string #required
   outputs:
-    found: Boolean
-    length: Int
-    path: List[GraphPathElement]
+    found: boolean
+    length: int
+    path: list[graph_path_element]
 
-- name: Find All Paths
-  method: find_paths
+- name: find_paths
   inputs:
-    from_node_id: String #required
-    limit: Int = 100
-    max_depth: Int
-    relationship_types: List[String]
-    to_node_id: String #required
+    from_node_id: string #required
+    limit: int = 100
+    max_depth: int
+    relationship_types: list[string]
+    to_node_id: string #required
   outputs:
-    count: Int
-    paths: List[GraphPath]
+    count: int
+    paths: list[graph_path]
 
-- name: Get Node Neighbors
-  method: get_neighbors
+- name: get_neighbors
   inputs:
-    depth: Int = 1
-    direction: Incoming | Outgoing | Both = Both
-    node_id: String #required
-    relationship_types: List[String]
+    depth: int = 1
+    direction: incoming | outgoing | both = both
+    node_id: string #required
+    relationship_types: list[string]
   outputs:
-    neighbors: List[GraphNode]
+    neighbors: list[graph_node]
 
-- name: Get Node Degree
-  method: get_degree
+- name: get_degree
   inputs:
-    direction: Incoming | Outgoing | Both = Both
-    node_id: String #required
-    relationship_types: List[String]
+    direction: incoming | outgoing | both = both
+    node_id: string #required
+    relationship_types: list[string]
   outputs:
-    degree: Int
+    degree: int
 
-- name: Create Index
-  method: create_index
+- name: create_index
   inputs:
-    label: String #required
-    property: String #required
+    label: string #required
+    property: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Drop Index
-  method: drop_index
+- name: drop_index
   inputs:
-    label: String #required
-    property: String #required
+    label: string #required
+    property: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Graph Stats
-  method: get_stats
+- name: get_stats
   inputs: {}
   outputs:
-    node_count: Int
-    relationship_count: Int
-    stats: GraphStats
+    node_count: int
+    relationship_count: int
+    stats: graph_stats
 
-- name: Run Graph Algorithm
-  method: run_algorithm
+- name: run_algorithm
   inputs:
-    algorithm: Pagerank | Betweenness | Closeness | DegreeCentrality #required
-    parameters: Map[String, Any]
+    algorithm: pagerank | betweenness | closeness | degree_centrality #required
+    parameters: map[string, any]
   outputs:
-    results: List[AlgorithmResult]
-    success: Boolean
+    results: list[algorithm_result]
+    success: boolean
 
-- name: Match Pattern
-  method: match_pattern
+- name: match_pattern
   inputs:
-    limit: Int
-    parameters: Map[String, Any]
-    pattern: String #required
-    where_clause: String
+    limit: int
+    parameters: map[string, any]
+    pattern: string #required
+    where_clause: string
   outputs:
-    count: Int
-    results: List[map[String, Any]]
+    count: int
+    results: list[map[string, any]]
 
-- name: GraphNode
+- name: graph_node
   class:
-    node_id: String
-    labels: List[String]
-    properties: Map[String, Any]
+    node_id: string
+    labels: list[string]
+    properties: map[string, any]
 
-- name: QuerySummary
+- name: query_summary
   class:
-    nodes_created: Int
-    nodes_deleted: Int
-    relationships_created: Int
-    relationships_deleted: Int
-    properties_set: Int
+    nodes_created: int
+    nodes_deleted: int
+    relationships_created: int
+    relationships_deleted: int
+    properties_set: int
 
-- name: GraphPathElement
+- name: graph_path_element
   class:
-    node_id: String
-    relationship_id: String
-    relationship_type: String
+    node_id: string
+    relationship_id: string
+    relationship_type: string
 
-- name: GraphPath
+- name: graph_path
   class:
-    elements: List[GraphPathElement]
-    length: Int
+    elements: list[graph_path_element]
+    length: int
 
-- name: GraphStats
+- name: graph_stats
   class:
-    labels: Map[string, integer]
-    relationship_types: Map[string, integer]
-    indexes: List[String]
+    labels: map[string, integer]
+    relationship_types: map[string, integer]
+    indexes: list[string]
 
-- name: AlgorithmResult
+- name: algorithm_result
   class:
-    node_id: String
-    score: Float
+    node_id: string
+    score: float

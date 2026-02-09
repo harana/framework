@@ -1,5 +1,3 @@
-// Harana Components - Events Store Trait and Implementations
-
 use async_trait::async_trait;
 use chrono::{DateTime, Utc};
 use dashmap::DashMap;
@@ -7,138 +5,7 @@ use parking_lot::RwLock;
 use std::collections::VecDeque;
 use std::sync::Arc;
 
-use crate::{
-    Channel, Event, EventError, EventResult, EventStatus,
-    Subscription,
-};
-
-#[derive(Debug, Clone, Default)]
-pub struct EventQuery {
-    pub channel: Option<String>,
-    pub event_types: Option<Vec<String>>,
-    pub status: Option<EventStatus>,
-    pub start_time: Option<DateTime<Utc>>,
-    pub end_time: Option<DateTime<Utc>>,
-    pub limit: Option<usize>,
-    pub offset: Option<usize>,
-    pub ascending: bool,
-}
-
-impl EventQuery {
-    pub fn new() -> Self {
-        Self::default()
-    }
-
-    pub fn for_channel(channel: impl Into<String>) -> Self {
-        Self {
-            channel: Some(channel.into()),
-            ..Default::default()
-        }
-    }
-
-    pub fn with_types(mut self, types: Vec<String>) -> Self {
-        self.event_types = Some(types);
-        self
-    }
-
-    pub fn with_status(mut self, status: EventStatus) -> Self {
-        self.status = Some(status);
-        self
-    }
-
-    pub fn with_time_range(mut self, start: Option<DateTime<Utc>>, end: Option<DateTime<Utc>>) -> Self {
-        self.start_time = start;
-        self.end_time = end;
-        self
-    }
-
-    pub fn with_limit(mut self, limit: usize) -> Self {
-        self.limit = Some(limit);
-        self
-    }
-
-    pub fn with_offset(mut self, offset: usize) -> Self {
-        self.offset = Some(offset);
-        self
-    }
-
-    pub fn ascending(mut self) -> Self {
-        self.ascending = true;
-        self
-    }
-
-    pub fn descending(mut self) -> Self {
-        self.ascending = false;
-        self
-    }
-}
-
-/// Event store trait for persisting and querying events
-#[async_trait]
-pub trait EventStore: Send + Sync {
-    // ========== Event Operations ==========
-
-    /// Store a new event
-    async fn store_event(&self, event: &Event) -> EventResult<()>;
-
-    /// Store multiple events
-    async fn store_events(&self, events: &[Event]) -> EventResult<usize>;
-
-    /// Get an event by ID
-    async fn get_event(&self, event_id: &str) -> EventResult<Option<Event>>;
-
-    /// Query events
-    async fn query_events(&self, query: EventQuery) -> EventResult<Vec<Event>>;
-
-    /// Count events matching a query
-    async fn count_events(&self, query: EventQuery) -> EventResult<u64>;
-
-    /// Update event status
-    async fn update_event_status(&self, event_id: &str, status: EventStatus) -> EventResult<()>;
-
-    /// Delete an event
-    async fn delete_event(&self, event_id: &str) -> EventResult<bool>;
-
-    /// Delete events older than a given time
-    async fn delete_events_before(&self, before: DateTime<Utc>) -> EventResult<u64>;
-
-    /// Delete expired events
-    async fn delete_expired_events(&self) -> EventResult<u64>;
-
-    // ========== Channel Operations ==========
-
-    /// Create or update a channel
-    async fn upsert_channel(&self, channel: &Channel) -> EventResult<()>;
-
-    /// Get a channel by name
-    async fn get_channel(&self, name: &str) -> EventResult<Option<Channel>>;
-
-    /// List all channels
-    async fn list_channels(&self) -> EventResult<Vec<Channel>>;
-
-    /// Delete a channel and all its events
-    async fn delete_channel(&self, name: &str) -> EventResult<bool>;
-
-    // ========== Subscription Operations ==========
-
-    /// Create or update a subscription
-    async fn upsert_subscription(&self, subscription: &Subscription) -> EventResult<()>;
-
-    /// Get a subscription by ID
-    async fn get_subscription(&self, subscription_id: &str) -> EventResult<Option<Subscription>>;
-
-    /// List subscriptions for a channel
-    async fn list_subscriptions(&self, channel: Option<&str>) -> EventResult<Vec<Subscription>>;
-
-    /// Delete a subscription
-    async fn delete_subscription(&self, subscription_id: &str) -> EventResult<bool>;
-
-    /// Acknowledge an event for a subscription
-    async fn acknowledge_event(&self, subscription_id: &str, event_id: &str) -> EventResult<()>;
-
-    /// Get unacknowledged events for a subscription
-    async fn get_pending_events(&self, subscription_id: &str, limit: Option<usize>) -> EventResult<Vec<Event>>;
-}
+use crate::{Channel, Event, EventError, EventQuery, EventResult, EventStatus, EventStore, Subscription};
 
 pub struct InMemoryEventStore {
     events: DashMap<String, Event>,
@@ -207,7 +74,9 @@ impl EventStore for InMemoryEventStore {
     async fn store_event(&self, event: &Event) -> EventResult<()> {
         // Check for duplicate
         if self.events.contains_key(&event.id) {
-            return Err(EventError::DuplicateEvent { event_id: event.id.clone() });
+            return Err(EventError::DuplicateEvent {
+                event_id: event.id.clone(),
+            });
         }
 
         // Store the event
@@ -247,7 +116,8 @@ impl EventStore for InMemoryEventStore {
     }
 
     async fn query_events(&self, query: EventQuery) -> EventResult<Vec<Event>> {
-        let mut events: Vec<Event> = self.events
+        let mut events: Vec<Event> = self
+            .events
             .iter()
             .map(|e| e.clone())
             .filter(|e| {
@@ -298,24 +168,26 @@ impl EventStore for InMemoryEventStore {
         // Apply offset and limit
         let offset = query.offset.unwrap_or(0);
         let limit = query.limit.unwrap_or(usize::MAX);
-        
+
         Ok(events.into_iter().skip(offset).take(limit).collect())
     }
 
     async fn count_events(&self, query: EventQuery) -> EventResult<u64> {
-        let events = self.query_events(EventQuery {
-            limit: None,
-            offset: None,
-            ..query
-        }).await?;
+        let events = self
+            .query_events(EventQuery {
+                limit: None,
+                offset: None,
+                ..query
+            })
+            .await?;
         Ok(events.len() as u64)
     }
 
     async fn update_event_status(&self, event_id: &str, status: EventStatus) -> EventResult<()> {
-        let mut event = self.events
-            .get_mut(event_id)
-            .ok_or_else(|| EventError::NotFound { event_id: event_id.to_string() })?;
-        
+        let mut event = self.events.get_mut(event_id).ok_or_else(|| EventError::NotFound {
+            event_id: event_id.to_string(),
+        })?;
+
         event.status = status;
         event.updated_at = Utc::now();
         Ok(())
@@ -328,12 +200,12 @@ impl EventStore for InMemoryEventStore {
                 let mut events = channel_events.write();
                 events.retain(|id| id != event_id);
             }
-            
+
             // Update channel stats
             if let Some(mut channel) = self.channels.get_mut(&event.channel) {
                 channel.pending_events = channel.pending_events.saturating_sub(1);
             }
-            
+
             Ok(true)
         } else {
             Ok(false)
@@ -341,7 +213,8 @@ impl EventStore for InMemoryEventStore {
     }
 
     async fn delete_events_before(&self, before: DateTime<Utc>) -> EventResult<u64> {
-        let to_delete: Vec<String> = self.events
+        let to_delete: Vec<String> = self
+            .events
             .iter()
             .filter(|e| e.created_at < before)
             .map(|e| e.id.clone())
@@ -356,7 +229,8 @@ impl EventStore for InMemoryEventStore {
 
     async fn delete_expired_events(&self) -> EventResult<u64> {
         let now = Utc::now();
-        let to_delete: Vec<String> = self.events
+        let to_delete: Vec<String> = self
+            .events
             .iter()
             .filter(|e| e.expires_at.map(|exp| exp < now).unwrap_or(false))
             .map(|e| e.id.clone())
@@ -392,12 +266,13 @@ impl EventStore for InMemoryEventStore {
         }
 
         // Delete subscriptions for this channel
-        let sub_ids: Vec<String> = self.subscriptions
+        let sub_ids: Vec<String> = self
+            .subscriptions
             .iter()
             .filter(|s| s.channel == name)
             .map(|s| s.id.clone())
             .collect();
-        
+
         for sub_id in sub_ids {
             self.subscriptions.remove(&sub_id);
             self.subscription_acks.remove(&sub_id);
@@ -417,7 +292,8 @@ impl EventStore for InMemoryEventStore {
     }
 
     async fn list_subscriptions(&self, channel: Option<&str>) -> EventResult<Vec<Subscription>> {
-        let subs: Vec<Subscription> = self.subscriptions
+        let subs: Vec<Subscription> = self
+            .subscriptions
             .iter()
             .filter(|s| channel.map(|c| s.channel == c).unwrap_or(true))
             .map(|s| s.clone())
@@ -433,12 +309,16 @@ impl EventStore for InMemoryEventStore {
     async fn acknowledge_event(&self, subscription_id: &str, event_id: &str) -> EventResult<()> {
         // Verify subscription exists
         if !self.subscriptions.contains_key(subscription_id) {
-            return Err(EventError::SubscriptionNotFound { subscription_id: subscription_id.to_string() });
+            return Err(EventError::SubscriptionNotFound {
+                subscription_id: subscription_id.to_string(),
+            });
         }
 
         // Verify event exists
         if !self.events.contains_key(event_id) {
-            return Err(EventError::NotFound { event_id: event_id.to_string() });
+            return Err(EventError::NotFound {
+                event_id: event_id.to_string(),
+            });
         }
 
         // Add to acknowledged events
@@ -446,7 +326,9 @@ impl EventStore for InMemoryEventStore {
         {
             let mut acks = acks.write();
             if acks.contains(event_id) {
-                return Err(EventError::AlreadyAcknowledged { event_id: event_id.to_string() });
+                return Err(EventError::AlreadyAcknowledged {
+                    event_id: event_id.to_string(),
+                });
             }
             acks.insert(event_id.to_string());
         }
@@ -463,19 +345,20 @@ impl EventStore for InMemoryEventStore {
     }
 
     async fn get_pending_events(&self, subscription_id: &str, limit: Option<usize>) -> EventResult<Vec<Event>> {
-        let subscription = self.subscriptions
+        let subscription = self
+            .subscriptions
             .get(subscription_id)
-            .ok_or_else(|| EventError::SubscriptionNotFound { subscription_id: subscription_id.to_string() })?;
+            .ok_or_else(|| EventError::SubscriptionNotFound {
+                subscription_id: subscription_id.to_string(),
+            })?;
 
         let acks = self.get_or_create_subscription_acks(subscription_id);
         let acks = acks.read();
 
-        let channel_events = self.channel_events
-            .get(&subscription.channel)
-            .map(|e| e.clone());
+        let channel_events = self.channel_events.get(&subscription.channel).map(|e| e.clone());
 
         let mut events = Vec::new();
-        
+
         if let Some(channel_events) = channel_events {
             let event_ids = channel_events.read();
             for event_id in event_ids.iter() {
@@ -509,7 +392,7 @@ impl EventStore for InMemoryEventStore {
 #[cfg(any(feature = "postgres", feature = "mysql", feature = "sqlite", feature = "mongodb"))]
 mod persistent {
     use super::*;
-    use harana_components_storage::{Entity, FilterCondition, QueryOptions, Store, StorageResult};
+    use harana_components_storage::{Entity, FilterCondition, QueryOptions, StorageResult, Store};
     use std::marker::PhantomData;
 
     pub struct PersistentEventStore<S>
@@ -539,22 +422,31 @@ mod persistent {
     {
         async fn store_event(&self, event: &Event) -> EventResult<()> {
             let store: &dyn Store<Event, Filter = <S as Store<Event>>::Filter> = &self.store;
-            store.create(event).await.map_err(|e| EventError::StorageError(e.to_string()))
+            store
+                .create(event)
+                .await
+                .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn store_events(&self, events: &[Event]) -> EventResult<usize> {
             let store: &dyn Store<Event, Filter = <S as Store<Event>>::Filter> = &self.store;
-            store.create_many(events).await.map_err(|e| EventError::StorageError(e.to_string()))
+            store
+                .create_many(events)
+                .await
+                .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn get_event(&self, event_id: &str) -> EventResult<Option<Event>> {
             let store: &dyn Store<Event, Filter = <S as Store<Event>>::Filter> = &self.store;
-            store.find_by_id(event_id).await.map_err(|e| EventError::StorageError(e.to_string()))
+            store
+                .find_by_id(event_id)
+                .await
+                .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn query_events(&self, query: EventQuery) -> EventResult<Vec<Event>> {
             let store: &dyn Store<Event, Filter = <S as Store<Event>>::Filter> = &self.store;
-            
+
             let mut conditions = Vec::new();
 
             if let Some(channel) = query.channel {
@@ -577,8 +469,7 @@ mod persistent {
                 Some(FilterCondition::And(conditions))
             };
 
-            let mut options = QueryOptions::new()
-                .with_sort("created_at", !query.ascending);
+            let mut options = QueryOptions::new().with_sort("created_at", !query.ascending);
 
             if let Some(limit) = query.limit {
                 options = options.with_limit(limit as u32);
@@ -587,14 +478,15 @@ mod persistent {
                 options = options.with_offset(offset as u32);
             }
 
-            store.find_many(filter, options)
+            store
+                .find_many(filter, options)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn count_events(&self, query: EventQuery) -> EventResult<u64> {
             let store: &dyn Store<Event, Filter = <S as Store<Event>>::Filter> = &self.store;
-            
+
             let mut conditions = Vec::new();
 
             if let Some(channel) = query.channel {
@@ -613,37 +505,44 @@ mod persistent {
                 Some(FilterCondition::And(conditions))
             };
 
-            store.count(filter)
+            store
+                .count(filter)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn update_event_status(&self, event_id: &str, status: EventStatus) -> EventResult<()> {
             let store: &dyn Store<Event, Filter = <S as Store<Event>>::Filter> = &self.store;
-            
-            let mut event = store.find_by_id(event_id)
+
+            let mut event = store
+                .find_by_id(event_id)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))?
-                .ok_or_else(|| EventError::NotFound { event_id: event_id.to_string() })?;
+                .ok_or_else(|| EventError::NotFound {
+                    event_id: event_id.to_string(),
+                })?;
 
             event.status = status;
             event.updated_at = Utc::now();
 
-            store.update(&event)
+            store
+                .update(&event)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn delete_event(&self, event_id: &str) -> EventResult<bool> {
             let store: &dyn Store<Event, Filter = <S as Store<Event>>::Filter> = &self.store;
-            store.delete(event_id)
+            store
+                .delete(event_id)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn delete_events_before(&self, before: DateTime<Utc>) -> EventResult<u64> {
             let store: &dyn Store<Event, Filter = <S as Store<Event>>::Filter> = &self.store;
-            store.delete_many(FilterCondition::lt("created_at", before.to_rfc3339()))
+            store
+                .delete_many(FilterCondition::lt("created_at", before.to_rfc3339()))
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
@@ -651,31 +550,35 @@ mod persistent {
         async fn delete_expired_events(&self) -> EventResult<u64> {
             let store: &dyn Store<Event, Filter = <S as Store<Event>>::Filter> = &self.store;
             let now = Utc::now().to_rfc3339();
-            store.delete_many(FilterCondition::And(vec![
-                FilterCondition::IsNotNull("expires_at".to_string()),
-                FilterCondition::lt("expires_at", now),
-            ]))
-            .await
-            .map_err(|e| EventError::StorageError(e.to_string()))
+            store
+                .delete_many(FilterCondition::And(vec![
+                    FilterCondition::IsNotNull("expires_at".to_string()),
+                    FilterCondition::lt("expires_at", now),
+                ]))
+                .await
+                .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn upsert_channel(&self, channel: &Channel) -> EventResult<()> {
             let store: &dyn Store<Channel, Filter = <S as Store<Channel>>::Filter> = &self.store;
-            store.upsert(channel)
+            store
+                .upsert(channel)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn get_channel(&self, name: &str) -> EventResult<Option<Channel>> {
             let store: &dyn Store<Channel, Filter = <S as Store<Channel>>::Filter> = &self.store;
-            store.find_by_id(name)
+            store
+                .find_by_id(name)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn list_channels(&self) -> EventResult<Vec<Channel>> {
             let store: &dyn Store<Channel, Filter = <S as Store<Channel>>::Filter> = &self.store;
-            store.find_all(QueryOptions::new())
+            store
+                .find_all(QueryOptions::new())
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
@@ -683,64 +586,76 @@ mod persistent {
         async fn delete_channel(&self, name: &str) -> EventResult<bool> {
             // First delete all events for this channel
             let event_store: &dyn Store<Event, Filter = <S as Store<Event>>::Filter> = &self.store;
-            event_store.delete_many(FilterCondition::eq("channel", name))
+            event_store
+                .delete_many(FilterCondition::eq("channel", name))
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))?;
 
             // Delete all subscriptions for this channel
             let sub_store: &dyn Store<Subscription, Filter = <S as Store<Subscription>>::Filter> = &self.store;
-            sub_store.delete_many(FilterCondition::eq("channel", name))
+            sub_store
+                .delete_many(FilterCondition::eq("channel", name))
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))?;
 
             // Delete the channel
             let channel_store: &dyn Store<Channel, Filter = <S as Store<Channel>>::Filter> = &self.store;
-            channel_store.delete(name)
+            channel_store
+                .delete(name)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn upsert_subscription(&self, subscription: &Subscription) -> EventResult<()> {
             let store: &dyn Store<Subscription, Filter = <S as Store<Subscription>>::Filter> = &self.store;
-            store.upsert(subscription)
+            store
+                .upsert(subscription)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn get_subscription(&self, subscription_id: &str) -> EventResult<Option<Subscription>> {
             let store: &dyn Store<Subscription, Filter = <S as Store<Subscription>>::Filter> = &self.store;
-            store.find_by_id(subscription_id)
+            store
+                .find_by_id(subscription_id)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn list_subscriptions(&self, channel: Option<&str>) -> EventResult<Vec<Subscription>> {
             let store: &dyn Store<Subscription, Filter = <S as Store<Subscription>>::Filter> = &self.store;
-            
+
             let filter = channel.map(|c| FilterCondition::eq("channel", c));
-            
-            store.find_many(filter, QueryOptions::new())
+
+            store
+                .find_many(filter, QueryOptions::new())
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn delete_subscription(&self, subscription_id: &str) -> EventResult<bool> {
             let store: &dyn Store<Subscription, Filter = <S as Store<Subscription>>::Filter> = &self.store;
-            store.delete(subscription_id)
+            store
+                .delete(subscription_id)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn acknowledge_event(&self, subscription_id: &str, event_id: &str) -> EventResult<()> {
             let store: &dyn Store<Subscription, Filter = <S as Store<Subscription>>::Filter> = &self.store;
-            
-            let mut subscription = store.find_by_id(subscription_id)
+
+            let mut subscription = store
+                .find_by_id(subscription_id)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))?
-                .ok_or_else(|| EventError::SubscriptionNotFound { subscription_id: subscription_id.to_string() })?;
+                .ok_or_else(|| EventError::SubscriptionNotFound {
+                    subscription_id: subscription_id.to_string(),
+                })?;
 
             if subscription.acknowledged_events.contains(event_id) {
-                return Err(EventError::AlreadyAcknowledged { event_id: event_id.to_string() });
+                return Err(EventError::AlreadyAcknowledged {
+                    event_id: event_id.to_string(),
+                });
             }
 
             subscription.acknowledged_events.insert(event_id.to_string());
@@ -748,40 +663,42 @@ mod persistent {
             subscription.last_event_time = Some(Utc::now());
             subscription.last_active_at = Utc::now();
 
-            store.update(&subscription)
+            store
+                .update(&subscription)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))
         }
 
         async fn get_pending_events(&self, subscription_id: &str, limit: Option<usize>) -> EventResult<Vec<Event>> {
             let sub_store: &dyn Store<Subscription, Filter = <S as Store<Subscription>>::Filter> = &self.store;
-            let subscription = sub_store.find_by_id(subscription_id)
+            let subscription = sub_store
+                .find_by_id(subscription_id)
                 .await
                 .map_err(|e| EventError::StorageError(e.to_string()))?
-                .ok_or_else(|| EventError::SubscriptionNotFound { subscription_id: subscription_id.to_string() })?;
+                .ok_or_else(|| EventError::SubscriptionNotFound {
+                    subscription_id: subscription_id.to_string(),
+                })?;
 
             let event_store: &dyn Store<Event, Filter = <S as Store<Event>>::Filter> = &self.store;
-            
-            let mut options = QueryOptions::new()
-                .with_sort("created_at", false);
-            
+
+            let mut options = QueryOptions::new().with_sort("created_at", false);
+
             if let Some(limit) = limit {
                 options = options.with_limit(limit as u32);
             }
 
-            let events = event_store.find_many(
-                Some(FilterCondition::eq("channel", subscription.channel.clone())),
-                options,
-            )
-            .await
-            .map_err(|e| EventError::StorageError(e.to_string()))?;
+            let events = event_store
+                .find_many(
+                    Some(FilterCondition::eq("channel", subscription.channel.clone())),
+                    options,
+                )
+                .await
+                .map_err(|e| EventError::StorageError(e.to_string()))?;
 
             // Filter out acknowledged events and apply subscription filter
             let pending: Vec<Event> = events
                 .into_iter()
-                .filter(|e| {
-                    !subscription.acknowledged_events.contains(&e.id) && subscription.filter.matches(e)
-                })
+                .filter(|e| !subscription.acknowledged_events.contains(&e.id) && subscription.filter.matches(e))
                 .collect();
 
             Ok(pending)
@@ -805,8 +722,7 @@ mod tests {
         store.upsert_channel(&channel).await.unwrap();
 
         // Store an event
-        let event = Event::new("test.event", "test-channel")
-            .with_payload(serde_json::json!({"key": "value"}));
+        let event = Event::new("test.event", "test-channel").with_payload(serde_json::json!({"key": "value"}));
         store.store_event(&event).await.unwrap();
 
         // Retrieve the event
@@ -815,7 +731,10 @@ mod tests {
         assert_eq!(retrieved.unwrap().event_type, "test.event");
 
         // Query events
-        let events = store.query_events(EventQuery::for_channel("test-channel")).await.unwrap();
+        let events = store
+            .query_events(EventQuery::for_channel("test-channel"))
+            .await
+            .unwrap();
         assert_eq!(events.len(), 1);
 
         // Delete the event
@@ -867,7 +786,10 @@ mod tests {
         }
 
         // Should only have 3 events (oldest ones removed)
-        let events = store.query_events(EventQuery::for_channel("test-channel")).await.unwrap();
+        let events = store
+            .query_events(EventQuery::for_channel("test-channel"))
+            .await
+            .unwrap();
         assert_eq!(events.len(), 3);
     }
 }

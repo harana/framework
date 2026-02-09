@@ -1,20 +1,19 @@
-- name: Day Calendar Component
-  type: day_calendar
+- name: day_calendar
   attributes:
-    - add_event_label: String = "Add event" #max(50)
-    - current_day_datetime: String #required #max(20)
-    - current_day_display_long: String #required #max(50)
-    - current_day_display_short: String #required #max(20)
-    - events: [CalendarEvent]
-    - mini_calendar_days: [CalendarDay]
-    - mini_calendar_month_display: String #required #max(50)
-    - selected_view: String = "day" #max(20)
-    - time_slots: [TimeSlot]
-    - today_label: String = "Today" #max(20)
-    - view_options: [CalendarViewOption]
-    - week_days: [CalendarDay]
-    - weekday_labels: [String]
-    - weekday_name: String #required #max(20)
+    - add_event_label: string = "add event" #max(50)
+    - current_day_datetime: string #required #max(20)
+    - current_day_display_long: string #required #max(50)
+    - current_day_display_short: string #required #max(20)
+    - events: [calendar_event]
+    - mini_calendar_days: [calendar_day]
+    - mini_calendar_month_display: string #required #max(50)
+    - selected_view: string = "day" #max(20)
+    - time_slots: [time_slot]
+    - today_label: string = "today" #max(20)
+    - view_options: [calendar_view_option]
+    - week_days: [calendar_day]
+    - weekday_labels: [string]
+    - weekday_name: string #required #max(20)
   events:
     - previous_day
     - next_day

@@ -1,67 +1,63 @@
-- name: Blob Storage
-  type: blob_storage
+- name: blob_storage
   schema:
-    - access_key_id: String? #max(255)
-    - allowed_mime_types: String? # comma-separated
-    - base_path: String? #max(1000)
-    - bucket: String? #max(255)
-    - created_at: Date = now()
-    - endpoint: String? #url
-    - is_active: Boolean = true
+    - access_key_id: string? #max(255)
+    - allowed_mime_types: string? # comma-separated
+    - base_path: string? #max(1000)
+    - bucket: string? #max(255)
+    - created_at: date = now()
+    - endpoint: string? #url
+    - is_active: boolean = true
     - max_file_size: int = 104857600 #min(1) # 100MB default
-    - provider: S3 | Azure | Gcs | Local | Minio = Local
-    - region: String? #max(100)
-    - secret_access_key: String? #max(255)
-    - updated_at: Date = now()
+    - provider: s3 | azure | gcs | local | minio = local
+    - region: string? #max(100)
+    - secret_access_key: string? #max(255)
+    - updated_at: date = now()
 
-- name: Blob Object
-  type: blob_object
+- name: blob_object
   id: [storage_id, key]
   schema:
-    - cdn_url: String? #url
-    - content_hash: String? #max(128) # MD5, SHA256, etc.
-    - created_at: Date = now()
-    - expires_at: Date?
-    - file_name: String #required #max(255)
+    - cdn_url: string? #url
+    - content_hash: string? #max(128) # md5, sha256, etc.
+    - created_at: date = now()
+    - expires_at: date?
+    - file_name: string #required #max(255)
     - file_size: int #required #min(1)
-    - is_encrypted: Boolean = false
-    - is_public: Boolean = false
-    - key: String #required #max(1000)
-    - metadata: String? # JSON metadata
-    - mime_type: String #required #max(100)
-    - storage_id: Id #required -> BlobStorage.id
-    - updated_at: Date = now()
-    - uploaded_by: Id? -> User.id
-    - url: String? #url
-    - version: String? #max(100)
+    - is_encrypted: boolean = false
+    - is_public: boolean = false
+    - key: string #required #max(1000)
+    - metadata: string? # json metadata
+    - mime_type: string #required #max(100)
+    - storage_id: id #required -> blob_storage.id
+    - updated_at: date = now()
+    - uploaded_by: id? -> user.id
+    - url: string? #url
+    - version: string? #max(100)
 
-- name: Blob Access Log
-  type: blob_access_log
+- name: blob_access_log
   id: [object_id, accessed_at, accessed_by]
   schema:
-    - accessed_at: Date = now()
-    - accessed_by: Id? -> User.id
-    - method: Upload | Download | Delete | View | Copy | Move = View
+    - accessed_at: date = now()
+    - accessed_by: id? -> user.id
+    - method: upload | download | delete | view | copy | move = view
     - bytes_transferred: int? #min(0)
-    - ip_address: String? #max(45)
-    - object_id: Id #required -> BlobObject.id
-    - status: Success | Failed | Unauthorized = Success
-    - user_agent: String? #max(500)
+    - ip_address: string? #max(45)
+    - object_id: id #required -> blob_object.id
+    - status: success | failed | unauthorized = success
+    - user_agent: string? #max(500)
 
-- name: Blob Multipart Upload
-  type: blob_multipart_upload
+- name: blob_multipart_upload
   id: [upload_id]
   schema:
-    - completed_at: Date?
+    - completed_at: date?
     - completed_parts: int = 0 #min(0)
-    - created_at: Date = now()
-    - expires_at: Date?
-    - file_name: String #required #max(255)
-    - key: String #required #max(1000)
-    - status: Initiated | InProgress | Completed | Aborted | Failed = Initiated
-    - storage_id: Id #required -> BlobStorage.id
+    - created_at: date = now()
+    - expires_at: date?
+    - file_name: string #required #max(255)
+    - key: string #required #max(1000)
+    - status: initiated | in_progress | completed | aborted | failed = initiated
+    - storage_id: id #required -> blob_storage.id
     - total_parts: int #required #min(1)
     - total_size: int? #min(0)
-    - updated_at: Date = now()
-    - upload_id: String #required #unique #max(255)
-    - uploaded_by: Id? -> User.id
+    - updated_at: date = now()
+    - upload_id: string #required #unique #max(255)
+    - uploaded_by: id? -> user.id

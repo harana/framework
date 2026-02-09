@@ -1,24 +1,22 @@
-- name: Cloudflare Workers AI Model
-  type: cf_workers_ai_model
+- name: cf_workers_ai_model
   id: [account_id, model_name]
   schema:
-    - account_id: String #required #max(50)
-    - created_at: Date = now()
-    - model_name: String #required #unique #max(255)
-    - task_type: TextGeneration | TextEmbeddings | TextClassification | Translation | ImageClassification | ObjectDetection | TextToImage | SpeechRecognition | TextToSpeech | Summarization | ImageToText
-    - updated_at: Date = now()
+    - account_id: string #required #max(50)
+    - created_at: date = now()
+    - model_name: string #required #unique #max(255)
+    - task_type: text_generation | text_embeddings | text_classification | translation | image_classification | object_detection | text_to_image | speech_recognition | text_to_speech | summarization | image_to_text
+    - updated_at: date = now()
 
-- name: Cloudflare Workers AI Inference
-  type: cf_workers_ai_inference
+- name: cf_workers_ai_inference
   id: [model_id, invoked_at]
   schema:
-    - binding: String #required #max(255)
-    - created_at: Date = now()
+    - binding: string #required #max(255)
+    - created_at: date = now()
     - duration_ms: int? #min(0)
     - input_tokens: int? #min(0)
-    - invoked_at: Date = now()
-    - model_id: Id #required -> CfWorkersAiModel.id
+    - invoked_at: date = now()
+    - model_id: id #required -> cf_workers_ai_model.id
     - output_tokens: int? #min(0)
-    - status: Success | Error | Timeout = Success
-    - stream: Boolean = false
+    - status: success | error | timeout = success
+    - stream: boolean = false
 

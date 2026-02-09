@@ -1,14 +1,13 @@
-- name: Radio Component
-  type: radio
+- name: radio
   id: [group_id, value]
   attributes:
-    - color: DarkZinc | DarkWhite | Dark | Zinc | White | Red | Orange | Amber | Yellow | Lime | Green | Emerald | Teal | Cyan | Sky | Blue | Indigo | Violet | Purple | Fuchsia | Pink | Rose = DarkZinc
-    - description: String? #max(500)
-    - group_id: Id #required -> UIRadioGroup.id
-    - is_disabled: Boolean = false
-    - label: String #required #max(200)
+    - color: dark_zinc | dark_white | dark | zinc | white | red | orange | amber | yellow | lime | green | emerald | teal | cyan | sky | blue | indigo | violet | purple | fuchsia | pink | rose = dark_zinc
+    - description: string? #max(500)
+    - group_id: id #required -> ui_radio_group.id
+    - is_disabled: boolean = false
+    - label: string #required #max(200)
     - order: int = 0 #min(0)
-    - value: String #required #max(200)
+    - value: string #required #max(200)
   events:
     - blur
     - focus

@@ -1,0 +1,14 @@
+- name: markdown_document
+  schema:
+    - content: string #required
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - frontmatter: string? # j_s_o_n
+    - is_published: boolean = false
+    - slug: string? #unique #lowercase #max(500)
+    - title: string? #max(500)
+    - updated_at: date = now()
+
+- name: markdown_frontmatter
+  schema:
+    - data: map[string, any]

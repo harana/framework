@@ -1,29 +1,26 @@
-- name: Field Focused
-  type: field_focused
+- name: field_focused
   schema:
-    field_id: Id #required
-    field_name: String?
-    field_type: Text | Email | Password | Number | Tel | Url | Search | Date | Time | Datetime | Textarea | Select | Checkbox | Radio = Text
-    form_id: Id?
-    focused_at: Date = now()
+    field_id: id #required
+    field_name: string?
+    field_type: text | email | password | number | tel | url | search | date | time | datetime | textarea | select | checkbox | radio = text
+    form_id: id?
+    focused_at: date = now()
 
-- name: Field Blurred
-  type: field_blurred
+- name: field_blurred
   schema:
-    field_id: Id #required
-    field_name: String?
-    field_type: Text | Email | Password | Number | Tel | Url | Search | Date | Time | Datetime | Textarea | Select | Checkbox | Radio = Text
-    form_id: Id?
-    had_value: Boolean = false
-    blurred_at: Date = now()
+    field_id: id #required
+    field_name: string?
+    field_type: text | email | password | number | tel | url | search | date | time | datetime | textarea | select | checkbox | radio = text
+    form_id: id?
+    had_value: boolean = false
+    blurred_at: date = now()
 
-- name: Field Changed
-  type: field_changed
+- name: field_changed
   schema:
-    field_id: Id #required
-    field_name: String?
-    field_type: Text | Email | Password | Number | Tel | Url | Search | Date | Time | Datetime | Textarea | Select | Checkbox | Radio = Text
-    form_id: Id?
-    old_value: String?
-    new_value: String?
-    changed_at: Date = now()
+    field_id: id #required
+    field_name: string?
+    field_type: text | email | password | number | tel | url | search | date | time | datetime | textarea | select | checkbox | radio = text
+    form_id: id?
+    old_value: string?
+    new_value: string?
+    changed_at: date = now()

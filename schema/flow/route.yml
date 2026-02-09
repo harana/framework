@@ -1,106 +1,95 @@
-- name: Redirect To URL
-  method: redirect
+- name: redirect
   inputs:
-    preserve_query: Boolean = true
-    status_code: Int = 302
-    url: String #required
+    preserve_query: boolean = true
+    status_code: int = 302
+    url: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Forward Request To Backend
-  method: forward
+- name: forward
   inputs:
-    headers: Map[String, String]
-    preserve_host: Boolean = false
-    target_url: String #required
-    timeout: Int = 30
+    headers: map[string, string]
+    preserve_host: boolean = false
+    target_url: string #required
+    timeout: int = 30
   outputs:
-    body: Any
-    headers: Map[String, String]
-    status_code: Int
+    body: any
+    headers: map[string, string]
+    status_code: int
 
-- name: Rewrite Request Path
-  method: rewrite_path
+- name: rewrite_path
   inputs:
-    pattern: String #required
-    replacement: String #required
+    pattern: string #required
+    replacement: string #required
   outputs:
-    new_path: String
-    success: Boolean
+    new_path: string
+    success: boolean
 
-- name: Add Response Headers
-  method: add_headers
+- name: add_headers
   inputs:
-    headers: Map[String, String] #required
+    headers: map[string, string] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Remove Response Headers
-  method: remove_headers
+- name: remove_headers
   inputs:
-    headers: List[String] #required
+    headers: list[string] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Set Response Status
-  method: set_status
+- name: set_status
   inputs:
-    message: String
-    status_code: Int #required
+    message: string
+    status_code: int #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Return JSON Response
-  method: json_response
+- name: json_response
   inputs:
-    body: Any #required
-    headers: Map[String, String]
-    status_code: Int = 200
+    body: any #required
+    headers: map[string, string]
+    status_code: int = 200
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Return HTML Response
-  method: html_response
+- name: html_response
   inputs:
-    body: String #required
-    headers: Map[String, String]
-    status_code: Int = 200
+    body: string #required
+    headers: map[string, string]
+    status_code: int = 200
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Apply Rate Limiting
-  method: rate_limit
+- name: rate_limit
   inputs:
-    key: String #required
-    limit: Int #required
-    window_seconds: Int = 60
+    key: string #required
+    limit: int #required
+    window_seconds: int = 60
   outputs:
-    allowed: Boolean
-    remaining: Int
-    reset_at: Date
+    allowed: boolean
+    remaining: int
+    reset_at: date
 
-- name: Match Route Pattern
-  method: match_route
+- name: match_route
   inputs:
-    method: String
-    path: String #required
-    pattern: String #required
+    method: string
+    path: string #required
+    pattern: string #required
   outputs:
-    matched: Boolean
-    params: Map[String, String]
+    matched: boolean
+    params: map[string, string]
 
-- name: Proxy WebSocket Connection
-  method: proxy_websocket
+- name: proxy_websocket
   inputs:
-    headers: Map[String, String]
-    target_url: String #required
+    headers: map[string, string]
+    target_url: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Route
+- name: route
   class:
-    path: String
-    method: String
-    handler: String
-    middleware: List[String]
-    params: Map[String, String]
+    path: string
+    method: string
+    handler: string
+    middleware: list[string]
+    params: map[string, string]

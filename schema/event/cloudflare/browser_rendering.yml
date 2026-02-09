@@ -1,35 +1,31 @@
-- name: Cloudflare Browser Page Rendered
-  type: cloudflare_browser_page_rendered
+- name: cloudflare_browser_page_rendered
   schema:
-    binding: String #required
-    url: String #required
-    status_code: Int?
-    rendered_at: Date = now()
+    binding: string #required
+    url: string #required
+    status_code: int?
+    rendered_at: date = now()
 
-- name: Cloudflare Browser Screenshot Taken
-  type: cloudflare_browser_screenshot_taken
+- name: cloudflare_browser_screenshot_taken
   schema:
-    binding: String #required
-    url: String #required
-    type: Png | Jpeg = Png
-    width: Int?
-    height: Int?
-    full_page: Boolean = false
-    taken_at: Date = now()
+    binding: string #required
+    url: string #required
+    type: png | jpeg = png
+    width: int?
+    height: int?
+    full_page: boolean = false
+    taken_at: date = now()
 
-- name: Cloudflare Browser Content Extracted
-  type: cloudflare_browser_content_extracted
+- name: cloudflare_browser_content_extracted
   schema:
-    binding: String #required
-    url: String #required
-    selector: String?
-    extracted_at: Date = now()
+    binding: string #required
+    url: string #required
+    selector: string?
+    extracted_at: date = now()
 
-- name: Cloudflare Browser PDF Generated
-  type: cloudflare_browser_pdf_generated
+- name: cloudflare_browser_pdf_generated
   schema:
-    binding: String #required
-    url: String #required
-    format: Letter | Legal | Tabloid | Ledger | A0 | A1 | A2 | A3 | A4 | A5 | A6 = Letter
-    landscape: Boolean = false
-    generated_at: Date = now()
+    binding: string #required
+    url: string #required
+    format: letter | legal | tabloid | ledger | a0 | a1 | a2 | a3 | a4 | a5 | a6 = letter
+    landscape: boolean = false
+    generated_at: date = now()

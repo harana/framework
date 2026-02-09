@@ -1,106 +1,98 @@
-- name: Upload Blob To Storage
-  method: upload_blob
+- name: upload_blob
   inputs:
-    bucket: String #required
+    bucket: string #required
     content: bytes #required
-    content_type: String
-    key: String #required
-    metadata: BlobMetadata
+    content_type: string
+    key: string #required
+    metadata: blob_metadata
   outputs:
-    etag: String
-    url: String
+    etag: string
+    url: string
 
-- name: Download Blob From Storage
-  method: download_blob
+- name: download_blob
   inputs:
-    bucket: String #required
-    key: String #required
+    bucket: string #required
+    key: string #required
   outputs:
     content: bytes
-    content_type: String
-    metadata: BlobMetadata
-    size: Int
+    content_type: string
+    metadata: blob_metadata
+    size: int
 
-- name: Delete Blob From Storage
-  method: delete_blob
+- name: delete_blob
   inputs:
-    bucket: String #required
-    key: String #required
+    bucket: string #required
+    key: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Blobs In Bucket
-  method: list_blobs
+- name: list_blobs
   inputs:
-    bucket: String #required
-    continuation_token: String
-    max_results: Int = 1000
-    prefix: String
+    bucket: string #required
+    continuation_token: string
+    max_results: int = 1000
+    prefix: string
   outputs:
-    blobs: List[BlobInfo]
-    next_token: String
+    blobs: list[blob_info]
+    next_token: string
 
-- name: Check If Blob Exists
-  method: exists
+- name: exists
   inputs:
-    bucket: String #required
-    key: String #required
+    bucket: string #required
+    key: string #required
   outputs:
-    exists: Boolean
+    exists: boolean
 
-- name: Get Blob Metadata Info
-  method: get_blob_metadata
+- name: get_blob_metadata
   inputs:
-    bucket: String #required
-    key: String #required
+    bucket: string #required
+    key: string #required
   outputs:
-    content_type: String
-    created: Date
-    etag: String
-    metadata: BlobMetadata
-    modified: Date
-    size: Int
+    content_type: string
+    created: date
+    etag: string
+    metadata: blob_metadata
+    modified: date
+    size: int
 
-- name: Copy Blob To Destination
-  method: copy_blob
+- name: copy_blob
   inputs:
-    dest_bucket: String #required
-    dest_key: String #required
-    source_bucket: String #required
-    source_key: String #required
+    dest_bucket: string #required
+    dest_key: string #required
+    source_bucket: string #required
+    source_key: string #required
   outputs:
-    etag: String
-    success: Boolean
+    etag: string
+    success: boolean
 
-- name: Generate Presigned URL
-  method: generate_presigned_url
+- name: generate_presigned_url
   inputs:
-    bucket: String #required
-    expires_in: Int = 3600
-    key: String #required
-    operation: Get | Put = Get
+    bucket: string #required
+    expires_in: int = 3600
+    key: string #required
+    operation: get | put = get
   outputs:
-    expires_at: Date
-    url: String
+    expires_at: date
+    url: string
 
-- name: Blob
+- name: blob
   class:
-    bucket: String
-    key: String
-    etag: String
-    url: String
-    content_type: String
-    size: Int
-    metadata: BlobMetadata
+    bucket: string
+    key: string
+    etag: string
+    url: string
+    content_type: string
+    size: int
+    metadata: blob_metadata
 
-- name: BlobMetadata
+- name: blob_metadata
   class:
-    values: Map[String, String]
+    values: map[string, string]
 
-- name: BlobInfo
+- name: blob_info
   class:
-    key: String
-    size: Int
-    etag: String
-    last_modified: Date
-    content_type: String
+    key: string
+    size: int
+    etag: string
+    last_modified: date
+    content_type: string

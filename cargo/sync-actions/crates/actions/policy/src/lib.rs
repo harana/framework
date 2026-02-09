@@ -1,6 +1,3 @@
-// Harana Actions - Policy Module
-// This module provides policy actions and functionality.
-
 pub mod output;
 
 use std::collections::HashMap;

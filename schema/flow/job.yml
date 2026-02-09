@@ -1,119 +1,109 @@
-- name: Schedule Job For Execution
-  method: schedule
+- name: schedule
   inputs:
-    cron: String
-    handler: String #required
-    name: String #required
-    payload: Any
-    priority: Low | Normal | High = Normal
-    run_at: Date
+    cron: string
+    handler: string #required
+    name: string #required
+    payload: any
+    priority: low | normal | high = normal
+    run_at: date
   outputs:
-    job_id: String
-    scheduled_at: Date
+    job_id: string
+    scheduled_at: date
 
-- name: Cancel Scheduled Job
-  method: cancel
+- name: cancel
   inputs:
-    job_id: String #required
+    job_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Job Status
-  method: get_status
+- name: get_status
   inputs:
-    job_id: String #required
+    job_id: string #required
   outputs:
-    completed_at: Date
-    error: String
-    progress: Float
-    result: Any
-    started_at: Date
-    status: Pending | Running | Completed | Failed | Cancelled
+    completed_at: date
+    error: string
+    progress: float
+    result: any
+    started_at: date
+    status: pending | running | completed | failed | cancelled
 
-- name: Retry Failed Job
-  method: retry
+- name: retry
   inputs:
-    delay_seconds: Int = 0
-    job_id: String #required
+    delay_seconds: int = 0
+    job_id: string #required
   outputs:
-    new_id: String
-    success: Boolean
+    new_id: string
+    success: boolean
 
-- name: List Jobs By Status
-  method: lists
+- name: lists
   inputs:
-    end_date: Date
-    handler: String
-    limit: Int = 100
-    offset: Int = 0
-    start_date: Date
-    status: String
+    end_date: date
+    handler: string
+    limit: int = 100
+    offset: int = 0
+    start_date: date
+    status: string
   outputs:
-    jobs: List[JobInfo]
-    total: Int
+    jobs: list[job_info]
+    total: int
 
-- name: Pause Job Execution
-  method: pause
+- name: pause
   inputs:
-    job_id: String #required
+    job_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Resume Paused Job
-  method: resume
+- name: resume
   inputs:
-    job_id: String #required
+    job_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Job Result
-  method: get_result
+- name: get_result
   inputs:
-    job_id: String #required
-    timeout: Int = 0
+    job_id: string #required
+    timeout: int = 0
   outputs:
-    completed: Boolean
-    error: String
-    result: Any
+    completed: boolean
+    error: string
+    result: any
 
-- name: Update Job Progress
-  method: update_progress
+- name: update_progress
   inputs:
-    job_id: String #required
-    message: String
-    progress: Float #required
+    job_id: string #required
+    message: string
+    progress: float #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Job Record
-  method: delete
+- name: delete
   inputs:
-    job_id: String #required
+    job_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Job
+- name: job
   class:
-    job_id: String
-    name: String
-    handler: String
-    payload: Any
-    status: String
-    priority: String
-    scheduled_at: Date
-    started_at: Date
-    completed_at: Date
-    progress: Float
-    result: Any
-    error: String
+    job_id: string
+    name: string
+    handler: string
+    payload: any
+    status: string
+    priority: string
+    scheduled_at: date
+    started_at: date
+    completed_at: date
+    progress: float
+    result: any
+    error: string
 
-- name: JobInfo
+- name: job_info
   class:
-    job_id: String
-    name: String
-    handler: String
-    status: String
-    priority: String
-    scheduled_at: Date
-    started_at: Date
-    completed_at: Date
+    job_id: string
+    name: string
+    handler: string
+    status: string
+    priority: string
+    scheduled_at: date
+    started_at: date
+    completed_at: date

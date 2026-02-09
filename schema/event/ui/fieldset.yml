@@ -1,44 +1,38 @@
-- name: Fieldset Enabled
-  type: fieldset_enabled
+- name: fieldset_enabled
   schema:
-    fieldset_id: Id #required
-    fieldset_name: String?
-    enabled_at: Date = now()
+    fieldset_id: id #required
+    fieldset_name: string?
+    enabled_at: date = now()
 
-- name: Fieldset Disabled
-  type: fieldset_disabled
+- name: fieldset_disabled
   schema:
-    fieldset_id: Id #required
-    fieldset_name: String?
-    disabled_at: Date = now()
+    fieldset_id: id #required
+    fieldset_name: string?
+    disabled_at: date = now()
 
-- name: Field Focused
-  type: field_focused
+- name: field_focused
   schema:
-    field_id: Id #required
-    field_name: String?
-    fieldset_id: Id?
-    focused_at: Date = now()
+    field_id: id #required
+    field_name: string?
+    fieldset_id: id?
+    focused_at: date = now()
 
-- name: Field Blurred
-  type: field_blurred
+- name: field_blurred
   schema:
-    field_id: Id #required
-    field_name: String?
-    fieldset_id: Id?
-    blurred_at: Date = now()
+    field_id: id #required
+    field_name: string?
+    fieldset_id: id?
+    blurred_at: date = now()
 
-- name: Field Error Shown
-  type: field_error_shown
+- name: field_error_shown
   schema:
-    field_id: Id #required
-    field_name: String?
-    error_message: String?
-    shown_at: Date = now()
+    field_id: id #required
+    field_name: string?
+    error_message: string?
+    shown_at: date = now()
 
-- name: Field Error Cleared
-  type: field_error_cleared
+- name: field_error_cleared
   schema:
-    field_id: Id #required
-    field_name: String?
-    cleared_at: Date = now()
+    field_id: id #required
+    field_name: string?
+    cleared_at: date = now()

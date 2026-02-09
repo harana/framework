@@ -1,28 +1,26 @@
-- name: Cloudflare D1 Database
-  type: cf_d1_database
+- name: cf_d1_database
   id: [account_id, database_name]
   schema:
-    - account_id: String #required #max(50)
-    - created_at: Date = now()
-    - database_id: String? #unique #max(255)
-    - database_name: String #required #unique #max(255)
+    - account_id: string #required #max(50)
+    - created_at: date = now()
+    - database_id: string? #unique #max(255)
+    - database_name: string #required #unique #max(255)
     - file_size: int = 0 #min(0)
     - num_tables: int = 0 #min(0)
-    - region: String? #max(50)
-    - updated_at: Date = now()
-    - version: String? #max(50)
+    - region: string? #max(50)
+    - updated_at: date = now()
+    - version: string? #max(50)
 
-- name: Cloudflare D1 Query Log
-  type: cf_d1_query_log
+- name: cf_d1_query_log
   id: [database_id, executed_at]
   schema:
     - changes: int = 0 #min(0)
-    - database_id: Id #required -> CfD1Database.id
-    - duration_ms: Float? #min(0)
-    - executed_at: Date = now()
+    - database_id: id #required -> cf_d1_database.id
+    - duration_ms: float? #min(0)
+    - executed_at: date = now()
     - last_row_id: int?
     - rows_read: int = 0 #min(0)
     - rows_written: int = 0 #min(0)
-    - sql: String #required
-    - status: Success | Error = Success
+    - sql: string #required
+    - status: success | error = success
 

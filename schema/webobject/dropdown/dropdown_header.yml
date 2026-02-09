@@ -1,7 +1,6 @@
-- name: Dropdown Header Component
-  type: dropdown_header
+- name: dropdown_header
   id: [dropdown_id, name]
   attributes:
-    - content: String #required #max(500)
-    - dropdown_id: Id #required -> UIDropdown.id
+    - content: string #required #max(500)
+    - dropdown_id: id #required -> ui_dropdown.id
     - order: int = 0 #min(0)

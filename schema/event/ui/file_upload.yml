@@ -1,69 +1,61 @@
-- name: File Selected
-  type: file_selected
+- name: file_selected
   schema:
-    upload_id: Id #required
-    file_name: String #required
+    upload_id: id #required
+    file_name: string #required
     file_size: int? #min(0)
-    file_type: String?
-    mime_type: String?
-    selected_at: Date = now()
+    file_type: string?
+    mime_type: string?
+    selected_at: date = now()
 
-- name: File Removed
-  type: file_removed
+- name: file_removed
   schema:
-    upload_id: Id #required
-    file_name: String #required
-    file_id: Id?
-    removed_at: Date = now()
+    upload_id: id #required
+    file_name: string #required
+    file_id: id?
+    removed_at: date = now()
 
-- name: File Upload Started
-  type: file_upload_started
+- name: file_upload_started
   schema:
-    upload_id: Id #required
-    file_name: String #required
+    upload_id: id #required
+    file_name: string #required
     file_size: int? #min(0)
-    file_type: String?
-    started_at: Date = now()
+    file_type: string?
+    started_at: date = now()
 
-- name: File Upload Completed
-  type: file_upload_completed
+- name: file_upload_completed
   schema:
-    upload_id: Id #required
-    file_name: String #required
+    upload_id: id #required
+    file_name: string #required
     file_size: int? #min(0)
-    file_id: Id?
+    file_id: id?
     upload_duration_ms: int? #min(0)
-    completed_at: Date = now()
+    completed_at: date = now()
 
-- name: File Upload Failed
-  type: file_upload_failed
+- name: file_upload_failed
   schema:
-    upload_id: Id #required
-    file_name: String #required
-    error_code: String?
-    error_message: String?
-    failed_at: Date = now()
+    upload_id: id #required
+    file_name: string #required
+    error_code: string?
+    error_message: string?
+    failed_at: date = now()
 
-- name: Drag Entered
-  type: drag_entered
+- name: drag_entered
   schema:
-    dropzone_id: Id #required
-    dropzone_name: String?
+    dropzone_id: id #required
+    dropzone_name: string?
     file_count: int? #min(0)
-    entered_at: Date = now()
+    entered_at: date = now()
 
-- name: Drag Left
-  type: drag_left
+- name: drag_left
   schema:
-    dropzone_id: Id #required
-    dropzone_name: String?
-    left_at: Date = now()
+    dropzone_id: id #required
+    dropzone_name: string?
+    left_at: date = now()
 
-- name: File Dropped
-  type: file_dropped
+- name: file_dropped
   schema:
-    dropzone_id: Id #required
-    dropzone_name: String?
+    dropzone_id: id #required
+    dropzone_name: string?
     file_count: int #required #min(1)
     total_size: int? #min(0)
-    dropped_at: Date = now()
+    dropped_at: date = now()

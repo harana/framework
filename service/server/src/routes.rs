@@ -1,5 +1,3 @@
-//! Route definitions
-
 use axum::{
     Router,
     routing::{get, post},
@@ -77,5 +75,25 @@ pub fn event_routes() -> Router<AppState> {
 /// No-op event routes for Cloudflare Workers (SSE not supported in workers the same way)
 #[cfg(not(feature = "standalone"))]
 pub fn event_routes() -> Router<AppState> {
+    Router::new()
+}
+
+/// Blob (file upload / download) routes (standalone only)
+#[cfg(feature = "standalone")]
+pub fn blob_routes() -> Router<AppState> {
+    use axum::routing::delete;
+
+    Router::new()
+        .route("/api/blob/upload", post(handlers::blob::upload))
+        .route("/api/blob/upload/*path", post(handlers::blob::upload))
+        .route("/api/blob/download/*path", get(handlers::blob::download))
+        .route("/api/blob/download/*path", axum::routing::head(handlers::blob::head))
+        .route("/api/blob/delete/*path", delete(handlers::blob::delete))
+        .route("/api/blob/list", get(handlers::blob::list))
+}
+
+/// No-op blob routes for Cloudflare Workers
+#[cfg(not(feature = "standalone"))]
+pub fn blob_routes() -> Router<AppState> {
     Router::new()
 }

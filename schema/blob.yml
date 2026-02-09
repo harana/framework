@@ -1,0 +1,85 @@
+- name: blob_storage
+  schema:
+    - access_key_id: string? #max(255)
+    - allowed_mime_types: string? # comma-separated
+    - base_path: string? #max(1000)
+    - bucket: string? #max(255)
+    - created_at: date = now()
+    - endpoint: string? #url
+    - is_active: boolean = true
+    - max_file_size: int = 104857600 #min(1) # 100MB default
+    - provider: s3 | azure | gcs | local | minio = local
+    - region: string? #max(100)
+    - secret_access_key: string? #max(255)
+    - updated_at: date = now()
+
+- name: blob_object
+  id: [storage_id, key]
+  schema:
+    - cdn_url: string? #url
+    - content_hash: string? #max(128) # md5, sha256, etc.
+    - created_at: date = now()
+    - expires_at: date?
+    - file_name: string #required #max(255)
+    - file_size: int #required #min(1)
+    - is_encrypted: boolean = false
+    - is_public: boolean = false
+    - key: string #required #max(1000)
+    - metadata: string? # j_s_o_n metadata
+    - mime_type: string #required #max(100)
+    - storage_id: id #required -> blob_storage.id
+    - updated_at: date = now()
+    - uploaded_by: id? -> user.id
+    - url: string? #url
+    - version: string? #max(100)
+
+- name: blob_access_log
+  id: [object_id, accessed_at, accessed_by]
+  schema:
+    - accessed_at: date = now()
+    - accessed_by: id? -> user.id
+    - method: upload | download | delete | view | copy | move = view
+    - bytes_transferred: int? #min(0)
+    - ip_address: string? #max(45)
+    - object_id: id #required -> blob_object.id
+    - status: success | failed | unauthorized = success
+    - user_agent: string? #max(500)
+
+- name: blob_multipart_upload
+  id: [upload_id]
+  schema:
+    - completed_at: date?
+    - completed_parts: int = 0 #min(0)
+    - created_at: date = now()
+    - expires_at: date?
+    - file_name: string #required #max(255)
+    - key: string #required #max(1000)
+    - status: initiated | in_progress | completed | aborted | failed = initiated
+    - storage_id: id #required -> blob_storage.id
+    - total_parts: int #required #min(1)
+    - total_size: int? #min(0)
+    - updated_at: date = now()
+    - upload_id: string #required #unique #max(255)
+    - uploaded_by: id? -> user.id
+
+- name: blob
+  schema:
+    - bucket: string
+    - key: string
+    - etag: string
+    - url: string
+    - content_type: string
+    - size: int
+    - metadata: blob_metadata
+
+- name: blob_metadata
+  schema:
+    - values: map[string, string]
+
+- name: blob_info
+  schema:
+    - key: string
+    - size: int
+    - etag: string
+    - last_modified: date
+    - content_type: string

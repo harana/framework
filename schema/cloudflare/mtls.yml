@@ -1,0 +1,14 @@
+- name: cloudflare_mtls_certificate
+  id: [account_id, certificate_name]
+  schema:
+    - account_id: string #required #max(50)
+    - binding: string #required #max(255)
+    - certificate_name: string #required #unique #max(255)
+    - created_at: date = now()
+    - expires_at: date?
+    - issuer: string? #max(500)
+    - serial_number: string? #max(255)
+    - status: active | expired | revoked = active
+    - subject: string? #max(500)
+    - updated_at: date = now()
+

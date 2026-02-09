@@ -1,152 +1,144 @@
-- name: Send APNS Push Notification
-  method: send_apns
+- name: send_apns
   inputs:
-    alert: String #required
-    badge: Int
-    body: String
-    category: String
-    collapse_id: String
-    custom_data: Map[String, Any]
-    device_token: String #required
-    expiration: Int
+    alert: string #required
+    badge: int
+    body: string
+    category: string
+    collapse_id: string
+    custom_data: map[string, any]
+    device_token: string #required
+    expiration: int
     priority: 5 | 10 = 10
-    sound: String
-    subtitle: String
-    thread_id: String
-    title: String
-    topic: String #required
+    sound: string
+    subtitle: string
+    thread_id: string
+    title: string
+    topic: string #required
   outputs:
-    apns_id: String
-    error: String
-    success: Boolean
+    apns_id: string
+    error: string
+    success: boolean
 
-- name: Send Web Push Notification
-  method: send_web_push
+- name: send_web_push
   inputs:
-    actions: List[PushAction]
-    badge: String
-    body: String #required
-    data: Map[String, Any]
-    dir: Auto | Ltr | Rtl = Auto
-    icon: String
-    image: String
-    lang: String
-    renotify: Boolean = false
-    require_intermethod: Boolean = false
-    silent: Boolean = false
-    subscription: PushSubscription #required
-    tag: String
-    timestamp: Int
-    title: String #required
-    vibrate: List[integer]
+    actions: list[push_action]
+    badge: string
+    body: string #required
+    data: map[string, any]
+    dir: auto | ltr | rtl = auto
+    icon: string
+    image: string
+    lang: string
+    renotify: boolean = false
+    require_intermethod: boolean = false
+    silent: boolean = false
+    subscription: push_subscription #required
+    tag: string
+    timestamp: int
+    title: string #required
+    vibrate: list[integer]
   outputs:
-    error: String
-    success: Boolean
+    error: string
+    success: boolean
 
-- name: Send Android FCM Notification
-  method: send_fcm
+- name: send_fcm
   inputs:
-    body: String #required
-    channel_id: String
-    click_method: String
-    collapse_key: String
-    color: String
-    data: Map[String, Any]
-    icon: String
-    image: String
-    priority: Min | Low | Default | High | Max = Default
-    registration_token: String #required
-    sound: String
-    tag: String
-    time_to_live: Int
-    title: String #required
+    body: string #required
+    channel_id: string
+    click_method: string
+    collapse_key: string
+    color: string
+    data: map[string, any]
+    icon: string
+    image: string
+    priority: min | low | default | high | max = default
+    registration_token: string #required
+    sound: string
+    tag: string
+    time_to_live: int
+    title: string #required
   outputs:
-    error: String
-    message_id: String
-    success: Boolean
+    error: string
+    message_id: string
+    success: boolean
 
-- name: Send Multicast Push
-  method: send_multicast_push
+- name: send_multicast_push
   inputs:
-    body: String #required
-    data: Map[String, Any]
-    platform: Apns | Web | Fcm #required
-    title: String #required
-    tokens: List[String] #required
+    body: string #required
+    data: map[string, any]
+    platform: apns | web | fcm #required
+    title: string #required
+    tokens: list[string] #required
   outputs:
-    failed: Int
-    failures: List[PushFailure]
-    successful: Int
-    total: Int
+    failed: int
+    failures: list[push_failure]
+    successful: int
+    total: int
 
-- name: Send Topic Push
-  method: send_topic_push
+- name: send_topic_push
   inputs:
-    body: String #required
-    data: Map[String, Any]
-    platform: Apns | Web | Fcm #required
-    title: String #required
-    topic: String #required
+    body: string #required
+    data: map[string, any]
+    platform: apns | web | fcm #required
+    title: string #required
+    topic: string #required
   outputs:
-    message_id: String
-    success: Boolean
+    message_id: string
+    success: boolean
 
-- name: Subscribe To Topic
-  method: subscribe_to_topic
+- name: subscribe_to_topic
   inputs:
-    platform: Apns | Web | Fcm #required
-    tokens: List[String] #required
-    topic: String #required
+    platform: apns | web | fcm #required
+    tokens: list[string] #required
+    topic: string #required
   outputs:
-    failed_tokens: List[String]
-    success: Boolean
+    failed_tokens: list[string]
+    success: boolean
 
-- name: Unsubscribe From Topic
-  method: unsubscribe_from_topic
+- name: unsubscribe_from_topic
   inputs:
-    platform: Apns | Web | Fcm #required
-    tokens: List[String] #required
-    topic: String #required
+    platform: apns | web | fcm #required
+    tokens: list[string] #required
+    topic: string #required
   outputs:
-    failed_tokens: List[String]
-    success: Boolean
+    failed_tokens: list[string]
+    success: boolean
 
-- name: Validate Push Token
-  method: validate_push_token
+- name: validate_push_token
   inputs:
-    platform: Apns | Web | Fcm #required
-    token: String #required
+    platform: apns | web | fcm #required
+    token: string #required
   outputs:
-    error: String
-    valid: Boolean
+    error: string
+    valid: boolean
 
-- name: PushNotification
+- name: push_notification
   class:
-    title: String
-    body: String
-    platform: String
-    token: String
-    data: Map[String, Any]
-    badge: Int
-    sound: String
+    title: string
+    body: string
+    platform: string
+    token: string
+    data: map[string, any]
+    badge: int
+    sound: string
 
-- name: PushAction
+- name: push_action
   class:
-    method: String
-    title: String
-    icon: String
+    method: string
+    title: string
+    icon: string
 
-- name: PushSubscription
+- name: push_subscription
   class:
-    endpoint: String
-    keys: PushSubscriptionKeys
+    endpoint: string
+    keys: push_subscription_keys
 
-- name: PushSubscriptionKeys
+- name: push_subscription_keys
   class:
-    p256dh: String
-    auth: String
+    p256dh: string
+    auth: string
 
-- name: PushFailure
+- name: push_failure
   class:
-    token: String
-    error: String
+    token: string
+    error: string

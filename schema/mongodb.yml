@@ -1,0 +1,82 @@
+- name: mongodb_connection
+  schema:
+    - connection_string: string? #max(1000)
+    - created_at: date = now()
+    - database: string #required #max(255)
+    - host: string #required #max(255)
+    - is_active: boolean = true
+    - port: int = 27017 #min(1) #max(65535)
+    - updated_at: date = now()
+    - use_ssl: boolean = false
+
+- name: mongodb_collection
+  id: [connection_id, name]
+  schema:
+    - connection_id: id #required -> mongodb_connection.id
+    - created_at: date = now()
+    - document_count: int = 0 #min(0)
+    - name: string #required #max(255)
+    - size: int = 0 #min(0)
+
+- name: mongodb_index
+  id: [collection_id, name]
+  schema:
+    - collection_id: id #required -> mongodb_collection.id
+    - created_at: date = now()
+    - is_unique: boolean = false
+    - keys: string #required # j_s_o_n
+    - name: string #required #max(255)
+
+- name: mongodb_query_log
+  id: [collection_id, executed_at]
+  schema:
+    - collection_id: id #required -> mongodb_collection.id
+    - documents_affected: int = 0 #min(0)
+    - duration_ms: int? #min(0)
+    - error_message: string? #max(1000)
+    - executed_at: date = now()
+    - operation: insert | find | update | delete | aggregate | bulk_write = find
+    - status: success | failed | timeout = success
+    - user_id: id? -> user.id
+
+- name: mongo_document
+  schema:
+    - _id: string
+    - collection: string
+    - database: string
+    - document: mongo_document_data
+
+- name: mongo_document_data
+  schema:
+    - data: map[string, any]
+
+- name: mongo_filter
+  schema:
+    - conditions: map[string, any]
+
+- name: mongo_projection
+  schema:
+    - fields: map[string, integer]
+
+- name: mongo_sort
+  schema:
+    - fields: map[string, integer]
+
+- name: mongo_update
+  schema:
+    - operators: map[string, any]
+
+- name: mongo_pipeline_stage
+  schema:
+    - stage: map[string, any]
+
+- name: mongo_index_keys
+  schema:
+    - fields: map[string, integer]
+
+- name: mongo_bulk_operation
+  schema:
+    - operation_type: string
+    - filter: mongo_filter
+    - document: mongo_document_data
+    - update: mongo_update

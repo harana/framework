@@ -1,32 +1,29 @@
-- name: XML Document
-  type: xml_document
+- name: xml_document
   schema:
-    - charset: String = UTF-8 #max(20)
-    - created_at: Date = now()
-    - created_by: Id? -> User.id
-    - root_element: String? #max(255)
+    - charset: string = utf-8 #max(20)
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - root_element: string? #max(255)
     - size: int = 0 #min(0)
-    - source_path: String? #max(2000)
-    - updated_at: Date = now()
+    - source_path: string? #max(2000)
+    - updated_at: date = now()
 
-- name: XML Schema
-  type: xml_schema
+- name: xml_schema
   schema:
-    - content: String #required
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - is_active: Boolean = true
-    - schema_type: Xsd | Dtd | RelaxNg = Xsd
-    - updated_at: Date = now()
+    - content: string #required
+    - created_at: date = now()
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - schema_type: xsd | dtd | relax_ng = xsd
+    - updated_at: date = now()
     - version: int = 1 #min(1)
 
-- name: XML Validation Result
-  type: xml_validation_result
+- name: xml_validation_result
   id: [document_id, validated_at]
   schema:
-    - document_id: Id #required -> XmlDocument.id
+    - document_id: id #required -> xml_document.id
     - error_count: int = 0 #min(0)
-    - errors: String? # JSON array
-    - is_valid: Boolean = false
-    - schema_id: Id #required -> XmlSchema.id
-    - validated_at: Date = now()
+    - errors: string? # json array
+    - is_valid: boolean = false
+    - schema_id: id #required -> xml_schema.id
+    - validated_at: date = now()

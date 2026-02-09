@@ -1,32 +1,28 @@
-- name: Button Clicked
-  type: button_clicked
+- name: button_clicked
   schema:
-    button_id: Id #required
-    button_name: String?
-    button_type: Submit | Button | Reset = Button
-    button_variant: Primary | Secondary | Tertiary | Danger | Ghost = Primary
-    clicked_at: Date = now()
+    button_id: id #required
+    button_name: string?
+    button_type: submit | button | reset = button
+    button_variant: primary | secondary | tertiary | danger | ghost = primary
+    clicked_at: date = now()
 
-- name: Button Double Clicked
-  type: button_double_clicked
+- name: button_double_clicked
   schema:
-    button_id: Id #required
-    button_name: String?
-    button_type: Submit | Button | Reset = Button
-    double_clicked_at: Date = now()
+    button_id: id #required
+    button_name: string?
+    button_type: submit | button | reset = button
+    double_clicked_at: date = now()
 
-- name: Button Long Pressed
-  type: button_long_pressed
+- name: button_long_pressed
   schema:
-    button_id: Id #required
-    button_name: String?
+    button_id: id #required
+    button_name: string?
     press_duration_ms: int? #min(0)
-    long_pressed_at: Date = now()
+    long_pressed_at: date = now()
 
-- name: Button Disabled Clicked
-  type: button_disabled_clicked
+- name: button_disabled_clicked
   schema:
-    button_id: Id #required
-    button_name: String?
-    disabled_reason: String?
-    clicked_at: Date = now()
+    button_id: id #required
+    button_name: string?
+    disabled_reason: string?
+    clicked_at: date = now()

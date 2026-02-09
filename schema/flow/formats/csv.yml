@@ -1,74 +1,70 @@
-- name: Parse CSV To Data
-  method: parse
+- name: parse
   inputs:
-    data: String #required
-    delimiter: String = ","
-    has_headers: Boolean = true
-    headers: List[String]
-    skip_empty_lines: Boolean = true
+    data: string #required
+    delimiter: string = ","
+    has_headers: boolean = true
+    headers: list[string]
+    skip_empty_lines: boolean = true
   outputs:
-    rows: List[CsvRow]
+    rows: list[csv_row]
 
-- name: Generate CSV From Data
-  method: generate
+- name: generate
   inputs:
-    data: List[CsvRow] #required
-    delimiter: String = ","
-    headers: List[String]
-    include_headers: Boolean = true
+    data: list[csv_row] #required
+    delimiter: string = ","
+    headers: list[string]
+    include_headers: boolean = true
   outputs:
-    csv: String
+    csv: string
 
-- name: Transform CSV Columns And Rows
-  method: transform
+- name: transform
   inputs:
-    data: String #required
-    delimiter: String = ","
-    operations: List[CsvTransformOperation] #required
+    data: string #required
+    delimiter: string = ","
+    operations: list[csv_transform_operation] #required
   outputs:
-    csv: String
+    csv: string
 
-- name: Validate CSV Against Schema
-  method: validate
+- name: validate
   inputs:
-    data: String #required
-    delimiter: String = ","
-    schema: CsvSchema #required
+    data: string #required
+    delimiter: string = ","
+    schema: csv_schema #required
   outputs:
-    errors: List[CsvValidationError]
-    valid: Boolean
+    errors: list[csv_validation_error]
+    valid: boolean
 
-- name: CsvDocument
+- name: csv_document
   class:
-    headers: List[String]
-    rows: List[CsvRow]
-    delimiter: String
-    row_count: Int
+    headers: list[string]
+    rows: list[csv_row]
+    delimiter: string
+    row_count: int
 
-- name: CsvRow
+- name: csv_row
   class:
-    values: Map[String, String]
+    values: map[string, string]
 
-- name: CsvTransformOperation
+- name: csv_transform_operation
   class:
-    operation: String
-    column: String
-    parameters: Map[String, Any]
+    operation: string
+    column: string
+    parameters: map[string, any]
 
-- name: CsvSchema
+- name: csv_schema
   class:
-    columns: List[CsvColumnSchema]
-    allow_extra_columns: Boolean
+    columns: list[csv_column_schema]
+    allow_extra_columns: boolean
 
-- name: CsvColumnSchema
+- name: csv_column_schema
   class:
-    name: String
-    type: String
-    required: Boolean
-    pattern: String
+    name: string
+    type: string
+    required: boolean
+    pattern: string
 
-- name: CsvValidationError
+- name: csv_validation_error
   class:
-    row: Int
-    column: String
-    message: String
+    row: int
+    column: string
+    message: string

@@ -1,0 +1,73 @@
+
+- name: web_driver_capabilities
+  schema:
+    - accept_insecure_certs: boolean
+    - browser_name: string
+    - browser_version: string
+    - extra: map[string, any]
+    - headless: boolean
+    - page_load_strategy: string
+    - platform_name: string
+    - proxy: web_driver_proxy
+    - window_height: int
+    - window_width: int
+
+- name: web_driver_proxy
+  schema:
+    - auto_detect: boolean
+    - ftp_proxy: string
+    - http_proxy: string
+    - no_proxy: list[string]
+    - proxy_type: string
+    - ssl_proxy: string
+
+- name: web_driver_element
+  schema:
+    - class_name: string
+    - element_id: string
+    - id: string
+    - tag_name: string
+    - text: string
+    - value: string
+
+- name: web_driver_cookie
+  schema:
+    - domain: string
+    - expiry: int
+    - http_only: boolean
+    - name: string
+    - path: string
+    - same_site: strict | lax | none
+    - secure: boolean
+    - value: string
+
+- name: web_driver_action
+  schema:
+    - action_type: key_down | key_up | click | double_click | right_click | mouse_down | mouse_up | move_to | move_by | pause
+    - duration_ms: int
+    - element_id: string
+    - key: string
+    - x: int
+    - y: int
+
+- name: x_path_query_result
+  schema:
+    - elements: list[web_driver_element]
+    - error: string
+    - found: boolean
+    - total: int
+    - xpath: string
+
+- name: element_rect
+  schema:
+    - height: float
+    - width: float
+    - x: float
+    - y: float
+
+- name: window_rect
+  schema:
+    - height: int
+    - width: int
+    - x: int
+    - y: int

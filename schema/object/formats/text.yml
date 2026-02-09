@@ -1,10 +1,9 @@
-- name: Text Template
-  type: text_template
+- name: text_template
   schema:
-    - content: String #required
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - engine: Handlebars | Mustache | Tera = Handlebars
-    - is_active: Boolean = true
-    - updated_at: Date = now()
-    - variables: String? # JSON array
+    - content: string #required
+    - created_at: date = now()
+    - description: string? #max(500)
+    - engine: handlebars | mustache | tera = handlebars
+    - is_active: boolean = true
+    - updated_at: date = now()
+    - variables: string? # json array

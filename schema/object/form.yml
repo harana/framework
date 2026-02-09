@@ -1,34 +1,31 @@
-- name: Form
-  type: form
+- name: form
   id: [slug]
   schema:
-    - created_at: Date = now()
-    - description: String? #max(1000)
-    - is_active: Boolean = true
-    - slug: String #required #unique #lowercase
-    - updated_at: Date = now()
+    - created_at: date = now()
+    - description: string? #max(1000)
+    - is_active: boolean = true
+    - slug: string #required #unique #lowercase
+    - updated_at: date = now()
 
-- name: Form Field
-  type: form_field
+- name: form_field
   id: [form_id, name]
   schema:
-    - default_value: String?
-    - form_id: Id #required -> Form.id
-    - is_required: Boolean = false
-    - label: String #required #max(200)
-    - options: String?
-    - placeholder: String? #max(200)
+    - default_value: string?
+    - form_id: id #required -> form.id
+    - is_required: boolean = false
+    - label: string #required #max(200)
+    - options: string?
+    - placeholder: string? #max(200)
     - sort_order: int = 0
-    - type: Text | Email | Number | Date | Select | Checkbox | Radio | Textarea | File = Text
-    - validation_rules: String?
+    - type: text | email | number | date | select | checkbox | radio | textarea | file = text
+    - validation_rules: string?
 
-- name: Form Submission
-  type: form_submission
+- name: form_submission
   id: [form_id, created_at, submitted_by]
   schema:
-    - created_at: Date = now()
-    - data: String #required
-    - ip_address: String? #max(45)
-    - status: Pending | Reviewed | Approved | Rejected = Pending
-    - submitted_by: Id? -> User.id
-    - user_agent: String? #max(500)
+    - created_at: date = now()
+    - data: string #required
+    - ip_address: string? #max(45)
+    - status: pending | reviewed | approved | rejected = pending
+    - submitted_by: id? -> user.id
+    - user_agent: string? #max(500)

@@ -1,33 +1,33 @@
 - name: User Account
   type: user
   schema:
-    - avatar_url: String? #url
-    - created_at: Date = now()
-    - email: String #required #email #unique
-    - first_name: String? #max(100)
+    - avatar_url: string? #url
+    - created_at: date = now()
+    - email: string #required #email #unique
+    - first_name: string? #max(100)
     - id: Id
     - is_active: Boolean = true
-    - last_name: String? #max(100)
-    - password: String #required #min(8) #has_uppercase #has_lowercase #has_digit
-    - updated_at: Date = now()
-    - username: String #required #min(3) #max(50) #alphanumeric
+    - last_name: string? #max(100)
+    - password: string #required #min(8) #has_uppercase #has_lowercase #has_digit
+    - updated_at: date = now()
+    - username: string #required #min(3) #max(50) #alphanumeric
 
 - name: User Group
   type: group
   schema:
-    - created_at: Date = now()
-    - description: String? #max(500)
+    - created_at: date = now()
+    - description: string? #max(500)
     - id: Id
     - is_public: Boolean = false
-    - max_members: int? #min(1) #max(10000)
-    - name: String #required #min(2) #max(100) #unique
-    - updated_at: Date = now()
+    - max_members: Int? #min(1) #max(10000)
+    - name: string #required #min(2) #max(100) #unique
+    - updated_at: date = now()
 
 - name: User Group Membership
   type: user_group
   schema:
     - group_id: Id #required -> Group.id
     - id: Id
-    - joined_at: Date = now()
+    - joined_at: date = now()
     - role: Member | Admin | Owner = Member
-    - user_id: Id #required -> User.id
+    - user_id: Id #required -> user.id

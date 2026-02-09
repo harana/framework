@@ -1,84 +1,76 @@
-- name: Hash Data With Algorithm
-  method: hash
+- name: hash
   inputs:
-    algorithm: Sha256 | Sha512 | Md5 | Sha1 = Sha256
-    data: String #required
-    encoding: Hex | Base64 = Hex
+    algorithm: sha256 | sha512 | md5 | sha1 = sha256
+    data: string #required
+    encoding: hex | base64 = hex
   outputs:
-    digest: String
+    digest: string
 
-- name: Generate HMAC Digest
-  method: hmac
+- name: hmac
   inputs:
-    algorithm: Sha256 | Sha512 = Sha256
-    data: String #required
-    encoding: Hex | Base64 = Hex
-    key: String #required
+    algorithm: sha256 | sha512 = sha256
+    data: string #required
+    encoding: hex | base64 = hex
+    key: string #required
   outputs:
-    digest: String
+    digest: string
 
-- name: Encrypt Data With AES
-  method: encrypt
+- name: encrypt
   inputs:
-    algorithm: Aes-256-gcm | Aes-256-cbc = Aes-256-gcm
-    data: String #required
-    iv: String
-    key: String #required
+    algorithm: aes-256-gcm | aes-256-cbc = aes-256-gcm
+    data: string #required
+    iv: string
+    key: string #required
   outputs:
-    auth_tag: String
-    ciphertext: String
-    iv: String
+    auth_tag: string
+    ciphertext: string
+    iv: string
 
-- name: Decrypt Data
-  method: decrypt
+- name: decrypt
   inputs:
-    algorithm: Aes-256-gcm | Aes-256-cbc = Aes-256-gcm
-    auth_tag: String
-    ciphertext: String #required
-    iv: String #required
-    key: String #required
+    algorithm: aes-256-gcm | aes-256-cbc = aes-256-gcm
+    auth_tag: string
+    ciphertext: string #required
+    iv: string #required
+    key: string #required
   outputs:
-    plaintext: String
+    plaintext: string
 
-- name: Generate Encryption Key
-  method: generate_key
+- name: generate_key
   inputs:
-    encoding: Hex | Base64 = Hex
-    length: Int = 32
+    encoding: hex | base64 = hex
+    length: int = 32
   outputs:
-    key: String
+    key: string
 
-- name: Sign Data With Private Key
-  method: sign
+- name: sign
   inputs:
-    algorithm: RSA-SHA256 | RSA-SHA512 | Ed25519 = RSA-SHA256
-    data: String #required
-    private_key: String #required
+    algorithm: rsa-sha256 | rsa-sha512 | ed25519 = rsa-sha256
+    data: string #required
+    private_key: string #required
   outputs:
-    signature: String
+    signature: string
 
-- name: Verify Signature With Public Key
-  method: verify
+- name: verify
   inputs:
-    algorithm: RSA-SHA256 | RSA-SHA512 | Ed25519 = RSA-SHA256
-    data: String #required
-    public_key: String #required
-    signature: String #required
+    algorithm: rsa-sha256 | rsa-sha512 | ed25519 = rsa-sha256
+    data: string #required
+    public_key: string #required
+    signature: string #required
   outputs:
-    valid: Boolean
+    valid: boolean
 
-- name: Generate Key Pair
-  method: generate_keypair
+- name: generate_keypair
   inputs:
-    algorithm: Rsa | Ed25519 | Ecdsa = Rsa
-    key_size: Int = 2048
+    algorithm: rsa | ed25519 | ecdsa = rsa
+    key_size: int = 2048
   outputs:
-    private_key: String
-    public_key: String
+    private_key: string
+    public_key: string
 
-- name: KeyPair
+- name: key_pair
   class:
-    algorithm: String
-    private_key: String
-    public_key: String
-    key_size: Int
+    algorithm: string
+    private_key: string
+    public_key: string
+    key_size: int

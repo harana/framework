@@ -1,11 +1,9 @@
-// Harana Components - Events System
-// A unified event system suitable for both client and server-side applications.
-// Supports in-memory storage for clients and persistent storage via the storage component.
-
 mod bus;
 mod channel;
 mod error;
 mod event;
+mod event_query;
+mod event_store_trait;
 mod store;
 mod subscription;
 
@@ -17,7 +15,9 @@ pub use bus::{EventBus, EventBusConfig};
 pub use channel::{Channel, ChannelConfig};
 pub use error::{EventError, EventResult};
 pub use event::{Event, EventMetadata, EventPriority, EventStatus};
-pub use store::{EventStore, InMemoryEventStore};
+pub use event_query::EventQuery;
+pub use event_store_trait::EventStore;
+pub use store::InMemoryEventStore;
 pub use subscription::{Subscription, SubscriptionFilter, SubscriptionHandler};
 
 // Re-export locking types from the lock component

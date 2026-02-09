@@ -1,58 +1,54 @@
-- name: AWS S3 Bucket
-  type: aws_s3_bucket
+- name: aws_s3_bucket
   id: [account_id, bucket_name]
   schema:
-    - account_id: String #required #max(20)
-    - acl: Private | PublicRead | PublicReadWrite | AuthenticatedRead = Private
-    - bucket_name: String #required #unique #max(63)
-    - cors_enabled: Boolean = false
-    - created_at: Date = now()
-    - encryption_algorithm: None | AES256 | AwsKms = None
-    - is_versioned: Boolean = false
-    - kms_key_id: String? #max(255)
+    - account_id: string #required #max(20)
+    - acl: private | public_read | public_read_write | authenticated_read = private
+    - bucket_name: string #required #unique #max(63)
+    - cors_enabled: boolean = false
+    - created_at: date = now()
+    - encryption_algorithm: none | aes256 | aws_kms = none
+    - is_versioned: boolean = false
+    - kms_key_id: string? #max(255)
     - lifecycle_rules_count: int = 0 #min(0)
-    - location: String? #max(100)
-    - region: String? #max(50)
-    - tags: String? # JSON
-    - updated_at: Date = now()
+    - location: string? #max(100)
+    - region: string? #max(50)
+    - tags: string? # json
+    - updated_at: date = now()
 
-- name: AWS S3 Object
-  type: aws_s3_object
+- name: aws_s3_object
   id: [bucket_id, key]
   schema:
-    - bucket_id: Id #required -> AwsS3Bucket.id
-    - content_type: String? #max(255)
-    - created_at: Date = now()
-    - etag: String? #max(255)
-    - is_delete_marker: Boolean = false
-    - key: String #required #max(1024)
-    - last_modified: Date?
-    - metadata: String? # JSON
+    - bucket_id: id #required -> aws_s3_bucket.id
+    - content_type: string? #max(255)
+    - created_at: date = now()
+    - etag: string? #max(255)
+    - is_delete_marker: boolean = false
+    - key: string #required #max(1024)
+    - last_modified: date?
+    - metadata: string? # json
     - size: int? #min(0)
-    - storage_class: Standard | ReducedRedundancy | StandardIa | OnezoneIa | IntelligentTiering | Glacier | DeepArchive = Standard
-    - tags: String? # JSON
-    - updated_at: Date = now()
-    - version_id: String? #max(255)
+    - storage_class: standard | reduced_redundancy | standard_ia | onezone_ia | intelligent_tiering | glacier | deep_archive = standard
+    - tags: string? # json
+    - updated_at: date = now()
+    - version_id: string? #max(255)
 
-- name: AWS S3 Bucket Policy
-  type: aws_s3_bucket_policy
+- name: aws_s3_bucket_policy
   id: [bucket_id]
   schema:
-    - bucket_id: Id #required -> AwsS3Bucket.id
-    - created_at: Date = now()
-    - policy_document: String #required
-    - updated_at: Date = now()
+    - bucket_id: id #required -> aws_s3_bucket.id
+    - created_at: date = now()
+    - policy_document: string #required
+    - updated_at: date = now()
 
-- name: AWS S3 Multipart Upload
-  type: aws_s3_multipart_upload
+- name: aws_s3_multipart_upload
   id: [bucket_id, key, upload_id]
   schema:
-    - bucket_id: Id #required -> AwsS3Bucket.id
-    - completed_at: Date?
-    - content_type: String? #max(255)
-    - created_at: Date = now()
-    - key: String #required #max(1024)
-    - metadata: String? # JSON
-    - status: Initiated | InProgress | Completed | Aborted = Initiated
-    - storage_class: String? #max(50)
-    - upload_id: String #required #unique #max(255)
+    - bucket_id: id #required -> aws_s3_bucket.id
+    - completed_at: date?
+    - content_type: string? #max(255)
+    - created_at: date = now()
+    - key: string #required #max(1024)
+    - metadata: string? # json
+    - status: initiated | in_progress | completed | aborted = initiated
+    - storage_class: string? #max(50)
+    - upload_id: string #required #unique #max(255)

@@ -1,685 +1,627 @@
-- name: Create VPC
-  method: create_vpc
+- name: create_vpc
   inputs:
-    cidr_block: String #required
-    enable_dns_hostnames: Boolean = true
-    enable_dns_support: Boolean = true
-    instance_tenancy: Default | Dedicated | Host = Default
-    ipv6_cidr_block: String
-    region: String
-    tags: VpcTags
+    cidr_block: string #required
+    enable_dns_hostnames: boolean = true
+    enable_dns_support: boolean = true
+    instance_tenancy: default | dedicated | host = default
+    ipv6_cidr_block: string
+    region: string
+    tags: vpc_tags
   outputs:
-    cidr_block: String
-    dhcp_options_id: String
-    instance_tenancy: String
-    ipv6_cidr_block: String
-    is_default: Boolean
-    owner_id: String
-    state: String
-    success: Boolean
-    vpc_id: String
+    cidr_block: string
+    dhcp_options_id: string
+    instance_tenancy: string
+    ipv6_cidr_block: string
+    is_default: boolean
+    owner_id: string
+    state: string
+    success: boolean
+    vpc_id: string
 
-- name: Delete VPC
-  method: delete_vpc
+- name: delete_vpc
   inputs:
-    region: String
-    vpc_id: String #required
+    region: string
+    vpc_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe VPCs
-  method: describe_vpcs
+- name: describe_vpcs
   inputs:
-    filters: List[VpcFilter]
-    region: String
-    vpc_ids: List[String]
+    filters: list[vpc_filter]
+    region: string
+    vpc_ids: list[string]
   outputs:
-    vpcs: List[Vpc]
+    vpcs: list[vpc]
 
-- name: Modify VPC Attribute
-  method: modify_vpc_attribute
+- name: modify_vpc_attribute
   inputs:
-    enable_dns_hostnames: Boolean
-    enable_dns_support: Boolean
-    region: String
-    vpc_id: String #required
+    enable_dns_hostnames: boolean
+    enable_dns_support: boolean
+    region: string
+    vpc_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Create Subnet
-  method: create_subnet
+- name: create_subnet
   inputs:
-    availability_zone: String
-    availability_zone_id: String
-    cidr_block: String #required
-    ipv6_cidr_block: String
-    map_public_ip_on_launch: Boolean = false
-    region: String
-    tags: VpcTags
-    vpc_id: String #required
+    availability_zone: string
+    availability_zone_id: string
+    cidr_block: string #required
+    ipv6_cidr_block: string
+    map_public_ip_on_launch: boolean = false
+    region: string
+    tags: vpc_tags
+    vpc_id: string #required
   outputs:
-    availability_zone: String
-    availability_zone_id: String
-    available_ip_address_count: Int
-    cidr_block: String
-    default_for_az: Boolean
-    map_public_ip_on_launch: Boolean
-    owner_id: String
-    state: String
-    subnet_arn: String
-    subnet_id: String
-    success: Boolean
-    vpc_id: String
+    availability_zone: string
+    availability_zone_id: string
+    available_ip_address_count: int
+    cidr_block: string
+    default_for_az: boolean
+    map_public_ip_on_launch: boolean
+    owner_id: string
+    state: string
+    subnet_arn: string
+    subnet_id: string
+    success: boolean
+    vpc_id: string
 
-- name: Delete Subnet
-  method: delete_subnet
+- name: delete_subnet
   inputs:
-    region: String
-    subnet_id: String #required
+    region: string
+    subnet_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Subnets
-  method: describe_subnets
+- name: describe_subnets
   inputs:
-    filters: List[VpcFilter]
-    region: String
-    subnet_ids: List[String]
+    filters: list[vpc_filter]
+    region: string
+    subnet_ids: list[string]
   outputs:
-    subnets: List[Subnet]
+    subnets: list[subnet]
 
-- name: Modify Subnet Attribute
-  method: modify_subnet_attribute
+- name: modify_subnet_attribute
   inputs:
-    assign_ipv6_address_on_creation: Boolean
-    map_public_ip_on_launch: Boolean
-    region: String
-    subnet_id: String #required
+    assign_ipv6_address_on_creation: boolean
+    map_public_ip_on_launch: boolean
+    region: string
+    subnet_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Create Internet Gateway
-  method: create_internet_gateway
+- name: create_internet_gateway
   inputs:
-    region: String
-    tags: VpcTags
+    region: string
+    tags: vpc_tags
   outputs:
-    attachments: List[InternetGatewayAttachment]
-    internet_gateway_id: String
-    owner_id: String
-    success: Boolean
+    attachments: list[internet_gateway_attachment]
+    internet_gateway_id: string
+    owner_id: string
+    success: boolean
 
-- name: Delete Internet Gateway
-  method: delete_internet_gateway
+- name: delete_internet_gateway
   inputs:
-    internet_gateway_id: String #required
-    region: String
+    internet_gateway_id: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Attach Internet Gateway
-  method: attach_internet_gateway
+- name: attach_internet_gateway
   inputs:
-    internet_gateway_id: String #required
-    region: String
-    vpc_id: String #required
+    internet_gateway_id: string #required
+    region: string
+    vpc_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Detach Internet Gateway
-  method: detach_internet_gateway
+- name: detach_internet_gateway
   inputs:
-    internet_gateway_id: String #required
-    region: String
-    vpc_id: String #required
+    internet_gateway_id: string #required
+    region: string
+    vpc_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Internet Gateways
-  method: describe_internet_gateways
+- name: describe_internet_gateways
   inputs:
-    filters: List[VpcFilter]
-    internet_gateway_ids: List[String]
-    region: String
+    filters: list[vpc_filter]
+    internet_gateway_ids: list[string]
+    region: string
   outputs:
-    internet_gateways: List[InternetGateway]
+    internet_gateways: list[internet_gateway]
 
-- name: Create NAT Gateway
-  method: create_nat_gateway
+- name: create_nat_gateway
   inputs:
-    allocation_id: String
-    connectivity_type: Public | Private = Public
-    region: String
-    subnet_id: String #required
-    tags: VpcTags
+    allocation_id: string
+    connectivity_type: public | private = public
+    region: string
+    subnet_id: string #required
+    tags: vpc_tags
   outputs:
-    connectivity_type: String
-    create_time: Date
-    nat_gateway_addresses: List[NatGatewayAddress]
-    nat_gateway_id: String
-    state: String
-    subnet_id: String
-    success: Boolean
-    vpc_id: String
+    connectivity_type: string
+    create_time: date
+    nat_gateway_addresses: list[nat_gateway_address]
+    nat_gateway_id: string
+    state: string
+    subnet_id: string
+    success: boolean
+    vpc_id: string
 
-- name: Delete NAT Gateway
-  method: delete_nat_gateway
+- name: delete_nat_gateway
   inputs:
-    nat_gateway_id: String #required
-    region: String
+    nat_gateway_id: string #required
+    region: string
   outputs:
-    nat_gateway_id: String
-    success: Boolean
+    nat_gateway_id: string
+    success: boolean
 
-- name: Describe NAT Gateways
-  method: describe_nat_gateways
+- name: describe_nat_gateways
   inputs:
-    filters: List[VpcFilter]
-    nat_gateway_ids: List[String]
-    region: String
+    filters: list[vpc_filter]
+    nat_gateway_ids: list[string]
+    region: string
   outputs:
-    nat_gateways: List[NatGateway]
+    nat_gateways: list[nat_gateway]
 
-- name: Create Route Table
-  method: create_route_table
+- name: create_route_table
   inputs:
-    region: String
-    tags: VpcTags
-    vpc_id: String #required
+    region: string
+    tags: vpc_tags
+    vpc_id: string #required
   outputs:
-    associations: List[RouteTableAssociation]
-    owner_id: String
-    propagating_vgws: List[PropagatingVgw]
-    route_table_id: String
-    routes: List[Route]
-    success: Boolean
-    vpc_id: String
+    associations: list[route_table_association]
+    owner_id: string
+    propagating_vgws: list[propagating_vgw]
+    route_table_id: string
+    routes: list[route]
+    success: boolean
+    vpc_id: string
 
-- name: Delete Route Table
-  method: delete_route_table
+- name: delete_route_table
   inputs:
-    region: String
-    route_table_id: String #required
+    region: string
+    route_table_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Route Tables
-  method: describe_route_tables
+- name: describe_route_tables
   inputs:
-    filters: List[VpcFilter]
-    region: String
-    route_table_ids: List[String]
+    filters: list[vpc_filter]
+    region: string
+    route_table_ids: list[string]
   outputs:
-    route_tables: List[RouteTable]
+    route_tables: list[route_table]
 
-- name: Create Route
-  method: create_route
+- name: create_route
   inputs:
-    carrier_gateway_id: String
-    destination_cidr_block: String
-    destination_ipv6_cidr_block: String
-    egress_only_internet_gateway_id: String
-    gateway_id: String
-    instance_id: String
-    nat_gateway_id: String
-    network_interface_id: String
-    region: String
-    route_table_id: String #required
-    transit_gateway_id: String
-    vpc_endpoint_id: String
-    vpc_peering_connection_id: String
+    carrier_gateway_id: string
+    destination_cidr_block: string
+    destination_ipv6_cidr_block: string
+    egress_only_internet_gateway_id: string
+    gateway_id: string
+    instance_id: string
+    nat_gateway_id: string
+    network_interface_id: string
+    region: string
+    route_table_id: string #required
+    transit_gateway_id: string
+    vpc_endpoint_id: string
+    vpc_peering_connection_id: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Route
-  method: delete_route
+- name: delete_route
   inputs:
-    destination_cidr_block: String
-    destination_ipv6_cidr_block: String
-    region: String
-    route_table_id: String #required
+    destination_cidr_block: string
+    destination_ipv6_cidr_block: string
+    region: string
+    route_table_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Replace Route
-  method: replace_route
+- name: replace_route
   inputs:
-    carrier_gateway_id: String
-    destination_cidr_block: String
-    destination_ipv6_cidr_block: String
-    gateway_id: String
-    instance_id: String
-    nat_gateway_id: String
-    network_interface_id: String
-    region: String
-    route_table_id: String #required
-    transit_gateway_id: String
-    vpc_endpoint_id: String
-    vpc_peering_connection_id: String
+    carrier_gateway_id: string
+    destination_cidr_block: string
+    destination_ipv6_cidr_block: string
+    gateway_id: string
+    instance_id: string
+    nat_gateway_id: string
+    network_interface_id: string
+    region: string
+    route_table_id: string #required
+    transit_gateway_id: string
+    vpc_endpoint_id: string
+    vpc_peering_connection_id: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Associate Route Table
-  method: associate_route_table
+- name: associate_route_table
   inputs:
-    gateway_id: String
-    region: String
-    route_table_id: String #required
-    subnet_id: String
+    gateway_id: string
+    region: string
+    route_table_id: string #required
+    subnet_id: string
   outputs:
-    association_id: String
-    association_state: String
-    success: Boolean
+    association_id: string
+    association_state: string
+    success: boolean
 
-- name: Disassociate Route Table
-  method: disassociate_route_table
+- name: disassociate_route_table
   inputs:
-    association_id: String #required
-    region: String
+    association_id: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Create Security Group
-  method: create_security_group
+- name: create_security_group
   inputs:
-    description: String #required
-    group_name: String #required
-    region: String
-    tags: VpcTags
-    vpc_id: String
+    description: string #required
+    group_name: string #required
+    region: string
+    tags: vpc_tags
+    vpc_id: string
   outputs:
-    group_id: String
-    success: Boolean
+    group_id: string
+    success: boolean
 
-- name: Delete Security Group
-  method: delete_security_group
+- name: delete_security_group
   inputs:
-    group_id: String
-    group_name: String
-    region: String
+    group_id: string
+    group_name: string
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Security Groups
-  method: describe_security_groups
+- name: describe_security_groups
   inputs:
-    filters: List[VpcFilter]
-    group_ids: List[String]
-    group_names: List[String]
-    region: String
+    filters: list[vpc_filter]
+    group_ids: list[string]
+    group_names: list[string]
+    region: string
   outputs:
-    security_groups: List[SecurityGroup]
+    security_groups: list[security_group]
 
-- name: Authorize Security Group Ingress
-  method: authorize_security_group_ingress
+- name: authorize_security_group_ingress
   inputs:
-    cidr_ip: String
-    from_port: Int
-    group_id: String #required
-    ip_permissions: List[IpPermission]
-    ip_protocol: String
-    region: String
-    source_security_group_name: String
-    source_security_group_owner_id: String
-    to_port: Int
+    cidr_ip: string
+    from_port: int
+    group_id: string #required
+    ip_permissions: list[ip_permission]
+    ip_protocol: string
+    region: string
+    source_security_group_name: string
+    source_security_group_owner_id: string
+    to_port: int
   outputs:
-    security_group_rules: List[SecurityGroupRule]
-    success: Boolean
+    security_group_rules: list[security_group_rule]
+    success: boolean
 
-- name: Authorize Security Group Egress
-  method: authorize_security_group_egress
+- name: authorize_security_group_egress
   inputs:
-    cidr_ip: String
-    from_port: Int
-    group_id: String #required
-    ip_permissions: List[IpPermission]
-    ip_protocol: String
-    region: String
-    to_port: Int
+    cidr_ip: string
+    from_port: int
+    group_id: string #required
+    ip_permissions: list[ip_permission]
+    ip_protocol: string
+    region: string
+    to_port: int
   outputs:
-    security_group_rules: List[SecurityGroupRule]
-    success: Boolean
+    security_group_rules: list[security_group_rule]
+    success: boolean
 
-- name: Revoke Security Group Ingress
-  method: revoke_security_group_ingress
+- name: revoke_security_group_ingress
   inputs:
-    cidr_ip: String
-    from_port: Int
-    group_id: String #required
-    ip_permissions: List[IpPermission]
-    ip_protocol: String
-    region: String
-    security_group_rule_ids: List[String]
-    source_security_group_name: String
-    source_security_group_owner_id: String
-    to_port: Int
+    cidr_ip: string
+    from_port: int
+    group_id: string #required
+    ip_permissions: list[ip_permission]
+    ip_protocol: string
+    region: string
+    security_group_rule_ids: list[string]
+    source_security_group_name: string
+    source_security_group_owner_id: string
+    to_port: int
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Revoke Security Group Egress
-  method: revoke_security_group_egress
+- name: revoke_security_group_egress
   inputs:
-    cidr_ip: String
-    from_port: Int
-    group_id: String #required
-    ip_permissions: List[IpPermission]
-    ip_protocol: String
-    region: String
-    security_group_rule_ids: List[String]
-    to_port: Int
+    cidr_ip: string
+    from_port: int
+    group_id: string #required
+    ip_permissions: list[ip_permission]
+    ip_protocol: string
+    region: string
+    security_group_rule_ids: list[string]
+    to_port: int
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Create Network ACL
-  method: create_network_acl
+- name: create_network_acl
   inputs:
-    region: String
-    tags: VpcTags
-    vpc_id: String #required
+    region: string
+    tags: vpc_tags
+    vpc_id: string #required
   outputs:
-    associations: List[NetworkAclAssociation]
-    entries: List[NetworkAclEntry]
-    is_default: Boolean
-    network_acl_id: String
-    owner_id: String
-    success: Boolean
-    vpc_id: String
+    associations: list[network_acl_association]
+    entries: list[network_acl_entry]
+    is_default: boolean
+    network_acl_id: string
+    owner_id: string
+    success: boolean
+    vpc_id: string
 
-- name: Delete Network ACL
-  method: delete_network_acl
+- name: delete_network_acl
   inputs:
-    network_acl_id: String #required
-    region: String
+    network_acl_id: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Network ACLs
-  method: describe_network_acls
+- name: describe_network_acls
   inputs:
-    filters: List[VpcFilter]
-    network_acl_ids: List[String]
-    region: String
+    filters: list[vpc_filter]
+    network_acl_ids: list[string]
+    region: string
   outputs:
-    network_acls: List[NetworkAcl]
+    network_acls: list[network_acl]
 
-- name: Create Network ACL Entry
-  method: create_network_acl_entry
+- name: create_network_acl_entry
   inputs:
-    cidr_block: String
-    egress: Boolean #required
-    icmp_code: Int
-    icmp_type: Int
-    ipv6_cidr_block: String
-    network_acl_id: String #required
-    port_range_from: Int
-    port_range_to: Int
-    protocol: String #required
-    region: String
-    rule_method: Allow | Deny #required
-    rule_number: Int #required
+    cidr_block: string
+    egress: boolean #required
+    icmp_code: int
+    icmp_type: int
+    ipv6_cidr_block: string
+    network_acl_id: string #required
+    port_range_from: int
+    port_range_to: int
+    protocol: string #required
+    region: string
+    rule_method: allow | deny #required
+    rule_number: int #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Network ACL Entry
-  method: delete_network_acl_entry
+- name: delete_network_acl_entry
   inputs:
-    egress: Boolean #required
-    network_acl_id: String #required
-    region: String
-    rule_number: Int #required
+    egress: boolean #required
+    network_acl_id: string #required
+    region: string
+    rule_number: int #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Replace Network ACL Association
-  method: replace_network_acl_association
+- name: replace_network_acl_association
   inputs:
-    association_id: String #required
-    network_acl_id: String #required
-    region: String
+    association_id: string #required
+    network_acl_id: string #required
+    region: string
   outputs:
-    new_association_id: String
-    success: Boolean
+    new_association_id: string
+    success: boolean
 
-- name: Allocate Elastic IP
-  method: allocate_address
+- name: allocate_address
   inputs:
-    domain: Vpc | Standard = Vpc
-    network_border_group: String
-    public_ipv4_pool: String
-    region: String
-    tags: VpcTags
+    domain: vpc | standard = vpc
+    network_border_group: string
+    public_ipv4_pool: string
+    region: string
+    tags: vpc_tags
   outputs:
-    allocation_id: String
-    domain: String
-    network_border_group: String
-    public_ip: String
-    public_ipv4_pool: String
-    success: Boolean
+    allocation_id: string
+    domain: string
+    network_border_group: string
+    public_ip: string
+    public_ipv4_pool: string
+    success: boolean
 
-- name: Release Elastic IP
-  method: release_address
+- name: release_address
   inputs:
-    allocation_id: String
-    public_ip: String
-    region: String
+    allocation_id: string
+    public_ip: string
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Associate Elastic IP
-  method: associate_address
+- name: associate_address
   inputs:
-    allocation_id: String
-    allow_reassociation: Boolean = false
-    instance_id: String
-    network_interface_id: String
-    private_ip_address: String
-    public_ip: String
-    region: String
+    allocation_id: string
+    allow_reassociation: boolean = false
+    instance_id: string
+    network_interface_id: string
+    private_ip_address: string
+    public_ip: string
+    region: string
   outputs:
-    association_id: String
-    success: Boolean
+    association_id: string
+    success: boolean
 
-- name: Disassociate Elastic IP
-  method: disassociate_address
+- name: disassociate_address
   inputs:
-    association_id: String
-    public_ip: String
-    region: String
+    association_id: string
+    public_ip: string
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Elastic IPs
-  method: describe_addresses
+- name: describe_addresses
   inputs:
-    allocation_ids: List[String]
-    filters: List[VpcFilter]
-    public_ips: List[String]
-    region: String
+    allocation_ids: list[string]
+    filters: list[vpc_filter]
+    public_ips: list[string]
+    region: string
   outputs:
-    addresses: List[ElasticIp]
+    addresses: list[elastic_ip]
 
-- name: Create VPC Peering Connection
-  method: create_vpc_peering_connection
+- name: create_vpc_peering_connection
   inputs:
-    peer_owner_id: String
-    peer_region: String
-    peer_vpc_id: String #required
-    region: String
-    tags: VpcTags
-    vpc_id: String #required
+    peer_owner_id: string
+    peer_region: string
+    peer_vpc_id: string #required
+    region: string
+    tags: vpc_tags
+    vpc_id: string #required
   outputs:
-    accepter_vpc_info: VpcInfo
-    expiration_time: Date
-    requester_vpc_info: VpcInfo
-    status: PeeringConnectionStatus
-    success: Boolean
-    vpc_peering_connection_id: String
+    accepter_vpc_info: vpc_info
+    expiration_time: date
+    requester_vpc_info: vpc_info
+    status: peering_connection_status
+    success: boolean
+    vpc_peering_connection_id: string
 
-- name: Accept VPC Peering Connection
-  method: accept_vpc_peering_connection
+- name: accept_vpc_peering_connection
   inputs:
-    region: String
-    vpc_peering_connection_id: String #required
+    region: string
+    vpc_peering_connection_id: string #required
   outputs:
-    accepter_vpc_info: VpcInfo
-    requester_vpc_info: VpcInfo
-    status: PeeringConnectionStatus
-    success: Boolean
-    vpc_peering_connection_id: String
+    accepter_vpc_info: vpc_info
+    requester_vpc_info: vpc_info
+    status: peering_connection_status
+    success: boolean
+    vpc_peering_connection_id: string
 
-- name: Delete VPC Peering Connection
-  method: delete_vpc_peering_connection
+- name: delete_vpc_peering_connection
   inputs:
-    region: String
-    vpc_peering_connection_id: String #required
+    region: string
+    vpc_peering_connection_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Reject VPC Peering Connection
-  method: reject_vpc_peering_connection
+- name: reject_vpc_peering_connection
   inputs:
-    region: String
-    vpc_peering_connection_id: String #required
+    region: string
+    vpc_peering_connection_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe VPC Peering Connections
-  method: describe_vpc_peering_connections
+- name: describe_vpc_peering_connections
   inputs:
-    filters: List[VpcFilter]
-    region: String
-    vpc_peering_connection_ids: List[String]
+    filters: list[vpc_filter]
+    region: string
+    vpc_peering_connection_ids: list[string]
   outputs:
-    vpc_peering_connections: List[VpcPeeringConnection]
+    vpc_peering_connections: list[vpc_peering_connection]
 
-- name: Create VPC Endpoint
-  method: create_vpc_endpoint
+- name: create_vpc_endpoint
   inputs:
-    policy_document: String
-    private_dns_enabled: Boolean = true
-    region: String
-    route_table_ids: List[String]
-    security_group_ids: List[String]
-    service_name: String #required
-    subnet_ids: List[String]
-    tags: VpcTags
-    vpc_endpoint_type: Interface | Gateway | GatewayLoadBalancer = Gateway
-    vpc_id: String #required
+    policy_document: string
+    private_dns_enabled: boolean = true
+    region: string
+    route_table_ids: list[string]
+    security_group_ids: list[string]
+    service_name: string #required
+    subnet_ids: list[string]
+    tags: vpc_tags
+    vpc_endpoint_type: interface | gateway | gateway_load_balancer = gateway
+    vpc_id: string #required
   outputs:
-    creation_timestamp: Date
-    dns_entries: List[DnsEntry]
-    groups: List[SecurityGroupIdentifier]
-    network_interface_ids: List[String]
-    owner_id: String
-    policy_document: String
-    private_dns_enabled: Boolean
-    requester_managed: Boolean
-    route_table_ids: List[String]
-    service_name: String
-    state: String
-    subnet_ids: List[String]
-    success: Boolean
-    vpc_endpoint_id: String
-    vpc_endpoint_type: String
-    vpc_id: String
+    creation_timestamp: date
+    dns_entries: list[dns_entry]
+    groups: list[security_group_identifier]
+    network_interface_ids: list[string]
+    owner_id: string
+    policy_document: string
+    private_dns_enabled: boolean
+    requester_managed: boolean
+    route_table_ids: list[string]
+    service_name: string
+    state: string
+    subnet_ids: list[string]
+    success: boolean
+    vpc_endpoint_id: string
+    vpc_endpoint_type: string
+    vpc_id: string
 
-- name: Delete VPC Endpoints
-  method: delete_vpc_endpoints
+- name: delete_vpc_endpoints
   inputs:
-    region: String
-    vpc_endpoint_ids: List[String] #required
+    region: string
+    vpc_endpoint_ids: list[string] #required
   outputs:
-    unsuccessful: List[UnsuccessfulItem]
-    success: Boolean
+    unsuccessful: list[unsuccessful_item]
+    success: boolean
 
-- name: Describe VPC Endpoints
-  method: describe_vpc_endpoints
+- name: describe_vpc_endpoints
   inputs:
-    filters: List[VpcFilter]
-    region: String
-    vpc_endpoint_ids: List[String]
+    filters: list[vpc_filter]
+    region: string
+    vpc_endpoint_ids: list[string]
   outputs:
-    vpc_endpoints: List[VpcEndpoint]
+    vpc_endpoints: list[vpc_endpoint]
 
-- name: Modify VPC Endpoint
-  method: modify_vpc_endpoint
+- name: modify_vpc_endpoint
   inputs:
-    add_route_table_ids: List[String]
-    add_security_group_ids: List[String]
-    add_subnet_ids: List[String]
-    policy_document: String
-    private_dns_enabled: Boolean
-    region: String
-    remove_route_table_ids: List[String]
-    remove_security_group_ids: List[String]
-    remove_subnet_ids: List[String]
-    reset_policy: Boolean = false
-    vpc_endpoint_id: String #required
+    add_route_table_ids: list[string]
+    add_security_group_ids: list[string]
+    add_subnet_ids: list[string]
+    policy_document: string
+    private_dns_enabled: boolean
+    region: string
+    remove_route_table_ids: list[string]
+    remove_security_group_ids: list[string]
+    remove_subnet_ids: list[string]
+    reset_policy: boolean = false
+    vpc_endpoint_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Create DHCP Options
-  method: create_dhcp_options
+- name: create_dhcp_options
   inputs:
-    dhcp_configurations: List[DhcpConfiguration] #required
-    region: String
-    tags: VpcTags
+    dhcp_configurations: list[dhcp_configuration] #required
+    region: string
+    tags: vpc_tags
   outputs:
-    dhcp_configurations: List[DhcpConfiguration]
-    dhcp_options_id: String
-    owner_id: String
-    success: Boolean
+    dhcp_configurations: list[dhcp_configuration]
+    dhcp_options_id: string
+    owner_id: string
+    success: boolean
 
-- name: Delete DHCP Options
-  method: delete_dhcp_options
+- name: delete_dhcp_options
   inputs:
-    dhcp_options_id: String #required
-    region: String
+    dhcp_options_id: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe DHCP Options
-  method: describe_dhcp_options
+- name: describe_dhcp_options
   inputs:
-    dhcp_options_ids: List[String]
-    filters: List[VpcFilter]
-    region: String
+    dhcp_options_ids: list[string]
+    filters: list[vpc_filter]
+    region: string
   outputs:
-    dhcp_options: List[DhcpOptions]
+    dhcp_options: list[dhcp_options]
 
-- name: Associate DHCP Options
-  method: associate_dhcp_options
+- name: associate_dhcp_options
   inputs:
-    dhcp_options_id: String #required
-    region: String
-    vpc_id: String #required
+    dhcp_options_id: string #required
+    region: string
+    vpc_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Create Egress Only Internet Gateway
-  method: create_egress_only_internet_gateway
+- name: create_egress_only_internet_gateway
   inputs:
-    region: String
-    tags: VpcTags
-    vpc_id: String #required
+    region: string
+    tags: vpc_tags
+    vpc_id: string #required
   outputs:
-    attachments: List[InternetGatewayAttachment]
-    egress_only_internet_gateway_id: String
-    success: Boolean
+    attachments: list[internet_gateway_attachment]
+    egress_only_internet_gateway_id: string
+    success: boolean
 
-- name: Delete Egress Only Internet Gateway
-  method: delete_egress_only_internet_gateway
+- name: delete_egress_only_internet_gateway
   inputs:
-    egress_only_internet_gateway_id: String #required
-    region: String
+    egress_only_internet_gateway_id: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Egress Only Internet Gateways
-  method: describe_egress_only_internet_gateways
+- name: describe_egress_only_internet_gateways
   inputs:
-    egress_only_internet_gateway_ids: List[String]
-    filters: List[VpcFilter]
-    region: String
+    egress_only_internet_gateway_ids: list[string]
+    filters: list[vpc_filter]
+    region: string
   outputs:
-    egress_only_internet_gateways: List[EgressOnlyInternetGateway]
+    egress_only_internet_gateways: list[egress_only_internet_gateway]

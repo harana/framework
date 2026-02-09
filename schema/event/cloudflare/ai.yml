@@ -1,106 +1,93 @@
-- name: Cloudflare AI Model Run
-  type: cloudflare_ai_model_run
+- name: cloudflare_ai_model_run
   schema:
-    binding: String #required
-    model: String #required
-    stream: Boolean = false
-    run_at: Date = now()
+    binding: string #required
+    model: string #required
+    stream: boolean = false
+    run_at: date = now()
 
-- name: Cloudflare AI Text Generated
-  type: cloudflare_ai_text_generated
+- name: cloudflare_ai_text_generated
   schema:
-    binding: String #required
-    model: String #required
-    max_tokens: Int?
-    temperature: Float?
-    stream: Boolean = false
-    generated_at: Date = now()
+    binding: string #required
+    model: string #required
+    max_tokens: int?
+    temperature: float?
+    stream: boolean = false
+    generated_at: date = now()
 
-- name: Cloudflare AI Text Embedded
-  type: cloudflare_ai_text_embedded
+- name: cloudflare_ai_text_embedded
   schema:
-    binding: String #required
-    model: String #required
+    binding: string #required
+    model: string #required
     text_count: int #required #min(1)
-    embedded_at: Date = now()
+    embedded_at: date = now()
 
-- name: Cloudflare AI Text Classified
-  type: cloudflare_ai_text_classified
+- name: cloudflare_ai_text_classified
   schema:
-    binding: String #required
-    model: String #required
-    label_count: Int?
-    classified_at: Date = now()
+    binding: string #required
+    model: string #required
+    label_count: int?
+    classified_at: date = now()
 
-- name: Cloudflare AI Translation Run
-  type: cloudflare_ai_translation_run
+- name: cloudflare_ai_translation_run
   schema:
-    binding: String #required
-    model: String #required
-    source_lang: String #required
-    target_lang: String #required
-    translated_at: Date = now()
+    binding: string #required
+    model: string #required
+    source_lang: string #required
+    target_lang: string #required
+    translated_at: date = now()
 
-- name: Cloudflare AI Image Classified
-  type: cloudflare_ai_image_classified
+- name: cloudflare_ai_image_classified
   schema:
-    binding: String #required
-    model: String #required
-    label_count: Int?
-    classified_at: Date = now()
+    binding: string #required
+    model: string #required
+    label_count: int?
+    classified_at: date = now()
 
-- name: Cloudflare AI Object Detected
-  type: cloudflare_ai_object_detected
+- name: cloudflare_ai_object_detected
   schema:
-    binding: String #required
-    model: String #required
-    detection_count: Int?
-    detected_at: Date = now()
+    binding: string #required
+    model: string #required
+    detection_count: int?
+    detected_at: date = now()
 
-- name: Cloudflare AI Image Generated
-  type: cloudflare_ai_image_generated
+- name: cloudflare_ai_image_generated
   schema:
-    binding: String #required
-    model: String #required
-    width: Int?
-    height: Int?
-    generated_at: Date = now()
+    binding: string #required
+    model: string #required
+    width: int?
+    height: int?
+    generated_at: date = now()
 
-- name: Cloudflare AI Speech Recognized
-  type: cloudflare_ai_speech_recognized
+- name: cloudflare_ai_speech_recognized
   schema:
-    binding: String #required
-    model: String #required
-    word_count: Int?
-    source_lang: String?
-    recognized_at: Date = now()
+    binding: string #required
+    model: string #required
+    word_count: int?
+    source_lang: string?
+    recognized_at: date = now()
 
-- name: Cloudflare AI Speech Synthesized
-  type: cloudflare_ai_speech_synthesized
+- name: cloudflare_ai_speech_synthesized
   schema:
-    binding: String #required
-    model: String #required
-    synthesized_at: Date = now()
+    binding: string #required
+    model: string #required
+    synthesized_at: date = now()
 
-- name: Cloudflare AI Text Summarized
-  type: cloudflare_ai_text_summarized
+- name: cloudflare_ai_text_summarized
   schema:
-    binding: String #required
-    model: String #required
-    max_length: Int?
-    summarized_at: Date = now()
+    binding: string #required
+    model: string #required
+    max_length: int?
+    summarized_at: date = now()
 
-- name: Cloudflare AI Image Described
-  type: cloudflare_ai_image_described
+- name: cloudflare_ai_image_described
   schema:
-    binding: String #required
-    model: String #required
-    described_at: Date = now()
+    binding: string #required
+    model: string #required
+    described_at: date = now()
 
-- name: Cloudflare AI Model Error
-  type: cloudflare_ai_model_error
+- name: cloudflare_ai_model_error
   schema:
-    binding: String #required
-    model: String #required
-    error_message: String #required
-    occurred_at: Date = now()
+    binding: string #required
+    model: string #required
+    error_message: string #required
+    occurred_at: date = now()

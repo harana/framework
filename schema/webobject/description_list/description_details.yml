@@ -1,7 +1,7 @@
-name: DescriptionDetails
-type: UIComponent
+name: description_details
+type: ui_component
 id:
   - identifier
 
-  list_id: id #required -> DescriptionList.id
-  text: String #required
+  list_id: id #required -> description_list.id
+  text: string #required

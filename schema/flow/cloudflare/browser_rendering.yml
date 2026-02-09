@@ -1,41 +1,37 @@
-- name: Render Page In Browser
-  method: render
+- name: render
   inputs:
-    binding: String #required
-    url: String #required
+    binding: string #required
+    url: string #required
   outputs:
-    content: String
-    status_code: Int
+    content: string
+    status_code: int
 
-- name: Take Browser Screenshot
-  method: screenshot
+- name: screenshot
   inputs:
-    binding: String #required
-    full_page: Boolean = false
-    height: Int = 768
-    type: Png | Jpeg = Png
-    url: String #required
-    width: Int = 1024
+    binding: string #required
+    full_page: boolean = false
+    height: int = 768
+    type: png | jpeg = png
+    url: string #required
+    width: int = 1024
   outputs:
     image: bytes
 
-- name: Extract Browser Page Content
-  method: extract_content
+- name: extract_content
   inputs:
-    binding: String #required
-    selector: String
-    url: String #required
+    binding: string #required
+    selector: string
+    url: string #required
   outputs:
-    content: String
-    title: String
+    content: string
+    title: string
 
-- name: Generate Browser Page PDF
-  method: pdf
+- name: pdf
   inputs:
-    binding: String #required
-    format: Letter | Legal | Tabloid | Ledger | A0 | A1 | A2 | A3 | A4 | A5 | A6 = Letter
-    landscape: Boolean = false
-    print_background: Boolean = false
-    url: String #required
+    binding: string #required
+    format: letter | legal | tabloid | ledger | a0 | a1 | a2 | a3 | a4 | a5 | a6 = letter
+    landscape: boolean = false
+    print_background: boolean = false
+    url: string #required
   outputs:
     pdf: bytes

@@ -1,115 +1,107 @@
-- name: Check Service Health
-  method: check_service
+- name: check_service
   inputs:
-    service_name: String #required
-    timeout: Int = 5
+    service_name: string #required
+    timeout: int = 5
   outputs:
-    details: HealthDetails
-    healthy: Boolean
-    latency_ms: Int
-    status: String
+    details: health_details
+    healthy: boolean
+    latency_ms: int
+    status: string
 
-- name: Check Database Connection
-  method: check_database
+- name: check_database
   inputs:
-    connection_name: String = "default"
-    timeout: Int = 5
+    connection_name: string = "default"
+    timeout: int = 5
   outputs:
-    details: HealthDetails
-    healthy: Boolean
-    latency_ms: Int
+    details: health_details
+    healthy: boolean
+    latency_ms: int
 
-- name: Check Cache Connection
-  method: check_cache
+- name: check_cache
   inputs:
-    cache_name: String = "default"
-    timeout: Int = 5
+    cache_name: string = "default"
+    timeout: int = 5
   outputs:
-    details: HealthDetails
-    healthy: Boolean
-    latency_ms: Int
+    details: health_details
+    healthy: boolean
+    latency_ms: int
 
-- name: Check External API
-  method: check_external_api
+- name: check_external_api
   inputs:
-    expected_status: Int = 200
-    method: GET | HEAD = GET
-    timeout: Int = 10
-    url: String #required
+    expected_status: int = 200
+    method: get | head = get
+    timeout: int = 10
+    url: string #required
   outputs:
-    healthy: Boolean
-    latency_ms: Int
-    status_code: Int
+    healthy: boolean
+    latency_ms: int
+    status_code: int
 
-- name: Check Disk Space
-  method: check_disk_space
+- name: check_disk_space
   inputs:
-    path: String = "/"
-    threshold_percent: Int = 90
+    path: string = "/"
+    threshold_percent: int = 90
   outputs:
-    free_bytes: Int
-    healthy: Boolean
-    percent_used: Float
-    total_bytes: Int
-    used_bytes: Int
+    free_bytes: int
+    healthy: boolean
+    percent_used: float
+    total_bytes: int
+    used_bytes: int
 
-- name: Check Memory Usage
-  method: check_memory
+- name: check_memory
   inputs:
-    threshold_percent: Int = 90
+    threshold_percent: int = 90
   outputs:
-    free_bytes: Int
-    healthy: Boolean
-    percent_used: Float
-    total_bytes: Int
-    used_bytes: Int
+    free_bytes: int
+    healthy: boolean
+    percent_used: float
+    total_bytes: int
+    used_bytes: int
 
-- name: Run All Health Checks
-  method: check_all
+- name: check_all
   inputs:
-    fail_fast: Boolean = false
-    timeout: Int = 30
+    fail_fast: boolean = false
+    timeout: int = 30
   outputs:
-    checks: List[HealthCheck]
-    failed_count: Int
-    healthy: Boolean
-    passed_count: Int
+    checks: list[health_check]
+    failed_count: int
+    healthy: boolean
+    passed_count: int
 
-- name: Get System Status
-  method: get_system_status
+- name: get_system_status
   inputs:
-    include_metrics: Boolean = true
+    include_metrics: boolean = true
   outputs:
-    metrics: SystemMetrics
-    status: Healthy | Degraded | Unhealthy
-    uptime_seconds: Int
-    version: String
+    metrics: system_metrics
+    status: healthy | degraded | unhealthy
+    uptime_seconds: int
+    version: string
 
-- name: HealthStatus
+- name: health_status
   class:
-    service_name: String
-    healthy: Boolean
-    status: String
-    latency_ms: Int
-    details: HealthDetails
-    checked_at: Date
+    service_name: string
+    healthy: boolean
+    status: string
+    latency_ms: int
+    details: health_details
+    checked_at: date
 
-- name: HealthDetails
+- name: health_details
   class:
-    message: String
-    error: String
-    extra: Map[String, Any]
+    message: string
+    error: string
+    extra: map[string, any]
 
-- name: HealthCheck
+- name: health_check
   class:
-    name: String
-    healthy: Boolean
-    latency_ms: Int
-    error: String
+    name: string
+    healthy: boolean
+    latency_ms: int
+    error: string
 
-- name: SystemMetrics
+- name: system_metrics
   class:
-    cpu_usage: Float
-    memory_usage: Float
-    disk_usage: Float
-    active_connections: Int
+    cpu_usage: float
+    memory_usage: float
+    disk_usage: float
+    active_connections: int

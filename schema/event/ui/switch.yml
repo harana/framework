@@ -1,33 +1,29 @@
-- name: Switch Toggled On
-  type: switch_toggled_on
+- name: switch_toggled_on
   schema:
-    switch_id: Id #required
-    switch_name: String?
-    switch_value: String?
-    toggled_at: Date = now()
+    switch_id: id #required
+    switch_name: string?
+    switch_value: string?
+    toggled_at: date = now()
 
-- name: Switch Toggled Off
-  type: switch_toggled_off
+- name: switch_toggled_off
   schema:
-    switch_id: Id #required
-    switch_name: String?
-    switch_value: String?
-    toggled_at: Date = now()
+    switch_id: id #required
+    switch_name: string?
+    switch_value: string?
+    toggled_at: date = now()
 
-- name: Switch Changed
-  type: switch_changed
+- name: switch_changed
   schema:
-    switch_id: Id #required
-    switch_name: String?
-    switch_value: String?
-    is_checked: Boolean #required
-    changed_at: Date = now()
+    switch_id: id #required
+    switch_name: string?
+    switch_value: string?
+    is_checked: boolean #required
+    changed_at: date = now()
 
-- name: Switch Group Changed
-  type: switch_group_changed
+- name: switch_group_changed
   schema:
-    group_id: Id #required
-    group_name: String?
-    active_switches: String?
+    group_id: id #required
+    group_name: string?
+    active_switches: string?
     active_count: int? #min(0)
-    changed_at: Date = now()
+    changed_at: date = now()

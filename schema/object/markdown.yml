@@ -1,11 +1,10 @@
-- name: Markdown Document
-  type: markdown_document
+- name: markdown_document
   schema:
-    - content: String #required
-    - created_at: Date = now()
-    - created_by: Id? -> User.id
-    - frontmatter: String? # JSON
-    - is_published: Boolean = false
-    - slug: String? #unique #lowercase #max(500)
-    - title: String? #max(500)
-    - updated_at: Date = now()
+    - content: string #required
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - frontmatter: string? # json
+    - is_published: boolean = false
+    - slug: string? #unique #lowercase #max(500)
+    - title: string? #max(500)
+    - updated_at: date = now()

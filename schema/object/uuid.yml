@@ -1,10 +1,9 @@
-- name: UUID Registry
-  type: uuid_registry
+- name: uuid_registry
   id: [value]
   schema:
-    - created_at: Date = now()
-    - entity_id: String? #max(200)
-    - entity_type: String? #max(100)
-    - value: String #required #unique #max(36)
-    - variant: String? #max(20)
+    - created_at: date = now()
+    - entity_id: string? #max(200)
+    - entity_type: string? #max(100)
+    - value: string #required #unique #max(36)
+    - variant: string? #max(20)
     - version: int? #min(1) #max(7)

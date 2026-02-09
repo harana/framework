@@ -1,7 +1,6 @@
-- name: Checkbox Group Item Component
-  type: checkbox_group_item
+- name: checkbox_group_item
   id: [group_id, checkbox_id]
   attributes:
-    - checkbox_id: Id #required -> UICheckbox.id
-    - group_id: Id #required -> UICheckboxGroup.id
+    - checkbox_id: id #required -> ui_checkbox.id
+    - group_id: id #required -> ui_checkbox_group.id
     - order: int = 0 #min(0)

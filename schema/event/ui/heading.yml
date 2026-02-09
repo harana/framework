@@ -1,15 +1,13 @@
-- name: Heading Clicked
-  type: heading_clicked
+- name: heading_clicked
   schema:
-    heading_id: Id #required
-    heading_content: String?
+    heading_id: id #required
+    heading_content: string?
     heading_level: int? #min(1) #max(6)
-    clicked_at: Date = now()
+    clicked_at: date = now()
 
-- name: Subheading Clicked
-  type: subheading_clicked
+- name: subheading_clicked
   schema:
-    subheading_id: Id #required
-    subheading_content: String?
+    subheading_id: id #required
+    subheading_content: string?
     subheading_level: int? #min(1) #max(6)
-    clicked_at: Date = now()
+    clicked_at: date = now()

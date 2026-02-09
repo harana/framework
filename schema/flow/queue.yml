@@ -1,117 +1,106 @@
-- name: Enqueue Message To Queue
-  method: enqueue
+- name: enqueue
   inputs:
-    deduplication_id: String
-    delay_seconds: Int = 0
-    message: Any #required
-    priority: Int = 0
-    queue_name: String #required
+    deduplication_id: string
+    delay_seconds: int = 0
+    message: any #required
+    priority: int = 0
+    queue_name: string #required
   outputs:
-    message_id: String
-    success: Boolean
+    message_id: string
+    success: boolean
 
-- name: Dequeue Message From Queue
-  method: dequeue
+- name: dequeue
   inputs:
-    queue_name: String #required
-    visibility_timeout: Int = 30
-    wait_time_seconds: Int = 0
+    queue_name: string #required
+    visibility_timeout: int = 30
+    wait_time_seconds: int = 0
   outputs:
-    found: Boolean
-    message: Any
-    message_id: String
-    receipt_handle: String
+    found: boolean
+    message: any
+    message_id: string
+    receipt_handle: string
 
-- name: Peek Message Without Removing
-  method: peek
+- name: peek
   inputs:
-    count: Int = 1
-    queue_name: String #required
+    count: int = 1
+    queue_name: string #required
   outputs:
-    messages: List[QueuePeekMessage]
+    messages: list[queue_peek_message]
 
-- name: Acknowledge Message Processing
-  method: acknowledge
+- name: acknowledge
   inputs:
-    queue_name: String #required
-    receipt_handle: String #required
+    queue_name: string #required
+    receipt_handle: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Return Message To Queue
-  method: nack
+- name: nack
   inputs:
-    delay_seconds: Int = 0
-    queue_name: String #required
-    receipt_handle: String #required
+    delay_seconds: int = 0
+    queue_name: string #required
+    receipt_handle: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Queue Statistics
-  method: get_queue_stats
+- name: get_queue_stats
   inputs:
-    queue_name: String #required
+    queue_name: string #required
   outputs:
-    delayed_count: Int
-    in_flight_count: Int
-    message_count: Int
-    oldest_message_age: Int
+    delayed_count: int
+    in_flight_count: int
+    message_count: int
+    oldest_message_age: int
 
-- name: Purge All Queue Messages
-  method: purge_queue
+- name: purge_queue
   inputs:
-    queue_name: String #required
+    queue_name: string #required
   outputs:
-    messages_deleted: Int
-    success: Boolean
+    messages_deleted: int
+    success: boolean
 
-- name: Create New Queue
-  method: create_queue
+- name: create_queue
   inputs:
-    max_message_size: Int = 262144
-    message_retention: Int = 345600
-    queue_name: String #required
-    visibility_timeout: Int = 30
+    max_message_size: int = 262144
+    message_retention: int = 345600
+    queue_name: string #required
+    visibility_timeout: int = 30
   outputs:
-    queue_url: String
-    success: Boolean
+    queue_url: string
+    success: boolean
 
-- name: Delete Existing Queue
-  method: delete_queue
+- name: delete_queue
   inputs:
-    queue_name: String #required
+    queue_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Available Queues
-  method: list_queues
+- name: list_queues
   inputs:
-    prefix: String
+    prefix: string
   outputs:
-    queues: List[String]
-    total: Int
+    queues: list[string]
+    total: int
 
-- name: Move Message To Dead Letter
-  method: move_to_dlq
+- name: move_to_dlq
   inputs:
-    queue_name: String #required
-    reason: String
-    receipt_handle: String #required
+    queue_name: string #required
+    reason: string
+    receipt_handle: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: QueueMessage
+- name: queue_message
   class:
-    message_id: String
-    queue_name: String
-    message: Any
-    priority: Int
-    delay_seconds: Int
-    receipt_handle: String
-    visible_at: Date
+    message_id: string
+    queue_name: string
+    message: any
+    priority: int
+    delay_seconds: int
+    receipt_handle: string
+    visible_at: date
 
-- name: QueuePeekMessage
+- name: queue_peek_message
   class:
-    message_id: String
-    message: Any
-    enqueued_at: Date
+    message_id: string
+    message: any
+    enqueued_at: date

@@ -1,260 +1,241 @@
-- name: Create Schedule
-  method: create_schedule
+- name: create_schedule
   inputs:
-    cron_expression: String #required
-    description: String
-    enabled: Boolean = true
-    metadata: ScheduleMetadata
-    name: String #required
-    timezone: String = UTC
+    cron_expression: string #required
+    description: string
+    enabled: boolean = true
+    metadata: schedule_metadata
+    name: string #required
+    timezone: string = utc
   outputs:
-    name: String
-    next_run: Int
-    schedule_id: String
-    success: Boolean
+    name: string
+    next_run: int
+    schedule_id: string
+    success: boolean
 
-- name: Update Schedule
-  method: update_schedule
+- name: update_schedule
   inputs:
-    cron_expression: String
-    description: String
-    enabled: Boolean
-    metadata: ScheduleMetadata
-    name: String
-    schedule_id: String #required
-    timezone: String
+    cron_expression: string
+    description: string
+    enabled: boolean
+    metadata: schedule_metadata
+    name: string
+    schedule_id: string #required
+    timezone: string
   outputs:
-    next_run: Int
-    schedule_id: String
-    success: Boolean
+    next_run: int
+    schedule_id: string
+    success: boolean
 
-- name: Delete Schedule
-  method: delete_schedule
+- name: delete_schedule
   inputs:
-    schedule_id: String #required
+    schedule_id: string #required
   outputs:
-    schedule_id: String
-    success: Boolean
+    schedule_id: string
+    success: boolean
 
-- name: Enable Schedule
-  method: enable_schedule
+- name: enable_schedule
   inputs:
-    schedule_id: String #required
+    schedule_id: string #required
   outputs:
-    enabled: Boolean
-    next_run: Int
-    schedule_id: String
-    success: Boolean
+    enabled: boolean
+    next_run: int
+    schedule_id: string
+    success: boolean
 
-- name: Disable Schedule
-  method: disable_schedule
+- name: disable_schedule
   inputs:
-    schedule_id: String #required
+    schedule_id: string #required
   outputs:
-    enabled: Boolean
-    schedule_id: String
-    success: Boolean
+    enabled: boolean
+    schedule_id: string
+    success: boolean
 
-- name: Get Schedule
-  method: get_schedule
+- name: get_schedule
   inputs:
-    schedule_id: String #required
+    schedule_id: string #required
   outputs:
-    created_at: Int
-    cron_expression: String
-    enabled: Boolean
-    last_run: Int
-    metadata: ScheduleMetadata
-    name: String
-    next_run: Int
-    schedule_id: String
-    timezone: String
+    created_at: int
+    cron_expression: string
+    enabled: boolean
+    last_run: int
+    metadata: schedule_metadata
+    name: string
+    next_run: int
+    schedule_id: string
+    timezone: string
 
-- name: List Schedules
-  method: list_schedules
+- name: list_schedules
   inputs:
-    enabled: Boolean
-    limit: Int = 100
-    offset: Int = 0
-    search: String
+    enabled: boolean
+    limit: int = 100
+    offset: int = 0
+    search: string
   outputs:
-    schedules: List[ScheduleInfo]
-    total: Int
+    schedules: list[schedule_info]
+    total: int
 
-- name: Trigger Schedule Immediately
-  method: trigger_schedule
+- name: trigger_schedule
   inputs:
-    schedule_id: String #required
+    schedule_id: string #required
   outputs:
-    execution_id: String
-    schedule_id: String
-    success: Boolean
-    triggered_at: Int
+    execution_id: string
+    schedule_id: string
+    success: boolean
+    triggered_at: int
 
-- name: Get Next Run Time
-  method: get_next_run
+- name: get_next_run
   inputs:
-    count: Int = 1
-    schedule_id: String #required
+    count: int = 1
+    schedule_id: string #required
   outputs:
-    next_runs: List[integer]
-    schedule_id: String
+    next_runs: list[integer]
+    schedule_id: string
 
-- name: Validate Cron Expression
-  method: validate_cron
+- name: validate_cron
   inputs:
-    cron_expression: String #required
-    timezone: String = UTC
+    cron_expression: string #required
+    timezone: string = utc
   outputs:
-    error: String
-    next_run: Int
-    valid: Boolean
+    error: string
+    next_run: int
+    valid: boolean
 
-- name: Create One-Time Schedule
-  method: create_one_time
+- name: create_one_time
   inputs:
-    description: String
-    metadata: ScheduleMetadata
-    name: String #required
-    run_at: Int #required
-    timezone: String = UTC
+    description: string
+    metadata: schedule_metadata
+    name: string #required
+    run_at: int #required
+    timezone: string = utc
   outputs:
-    run_at: Int
-    schedule_id: String
-    success: Boolean
+    run_at: int
+    schedule_id: string
+    success: boolean
 
-- name: Pause Schedule
-  method: pause_schedule
+- name: pause_schedule
   inputs:
-    resume_at: Int
-    schedule_id: String #required
+    resume_at: int
+    schedule_id: string #required
   outputs:
-    paused: Boolean
-    resume_at: Int
-    schedule_id: String
-    success: Boolean
+    paused: boolean
+    resume_at: int
+    schedule_id: string
+    success: boolean
 
-- name: Resume Schedule
-  method: resume_schedule
+- name: resume_schedule
   inputs:
-    schedule_id: String #required
+    schedule_id: string #required
   outputs:
-    next_run: Int
-    paused: Boolean
-    schedule_id: String
-    success: Boolean
+    next_run: int
+    paused: boolean
+    schedule_id: string
+    success: boolean
 
-- name: Get Schedule History
-  method: get_schedule_history
+- name: get_schedule_history
   inputs:
-    end_date: Int
-    limit: Int = 100
-    schedule_id: String #required
-    start_date: Int
+    end_date: int
+    limit: int = 100
+    schedule_id: string #required
+    start_date: int
   outputs:
-    executions: List[ScheduleExecution]
-    schedule_id: String
-    total: Int
+    executions: list[schedule_execution]
+    schedule_id: string
+    total: int
 
-- name: Get Schedule Stats
-  method: get_schedule_stats
+- name: get_schedule_stats
   inputs:
-    end_date: Int
-    schedule_id: String #required
-    start_date: Int
+    end_date: int
+    schedule_id: string #required
+    start_date: int
   outputs:
-    average_duration: Float
-    failed_executions: Int
-    last_execution: ScheduleExecution
-    schedule_id: String
-    successful_executions: Int
-    total_executions: Int
+    average_duration: float
+    failed_executions: int
+    last_execution: schedule_execution
+    schedule_id: string
+    successful_executions: int
+    total_executions: int
 
-- name: Bulk Enable Schedules
-  method: bulk_enable
+- name: bulk_enable
   inputs:
-    schedule_ids: List[String] #required
+    schedule_ids: list[string] #required
   outputs:
-    failed: Int
-    results: List[ScheduleBulkResult]
-    successful: Int
+    failed: int
+    results: list[schedule_bulk_result]
+    successful: int
 
-- name: Bulk Disable Schedules
-  method: bulk_disable
+- name: bulk_disable
   inputs:
-    schedule_ids: List[String] #required
+    schedule_ids: list[string] #required
   outputs:
-    failed: Int
-    results: List[ScheduleBulkResult]
-    successful: Int
+    failed: int
+    results: list[schedule_bulk_result]
+    successful: int
 
-- name: Create Interval Schedule
-  method: create_interval
+- name: create_interval
   inputs:
-    description: String
-    enabled: Boolean = true
-    end_time: Int
-    interval_seconds: Int #required
-    name: String #required
-    start_time: Int
+    description: string
+    enabled: boolean = true
+    end_time: int
+    interval_seconds: int #required
+    name: string #required
+    start_time: int
   outputs:
-    next_run: Int
-    schedule_id: String
-    success: Boolean
+    next_run: int
+    schedule_id: string
+    success: boolean
 
-- name: Update Schedule Action
-  method: update_action
+- name: update_action
   inputs:
-    action_config: ScheduleActionConfig #required
-    action_type: Webhook | Function | Job #required
-    schedule_id: String #required
+    action_config: schedule_action_config #required
+    action_type: webhook | function | job #required
+    schedule_id: string #required
   outputs:
-    schedule_id: String
-    success: Boolean
+    schedule_id: string
+    success: boolean
 
-- name: Schedule
+- name: schedule
   class:
-    schedule_id: String
-    name: String
-    cron_expression: String
-    timezone: String
-    enabled: Boolean
-    next_run: Date
-    last_run: Date
-    metadata: ScheduleMetadata
+    schedule_id: string
+    name: string
+    cron_expression: string
+    timezone: string
+    enabled: boolean
+    next_run: date
+    last_run: date
+    metadata: schedule_metadata
 
-- name: ScheduleMetadata
+- name: schedule_metadata
   class:
-    values: Map[String, Any]
+    values: map[string, any]
 
-- name: ScheduleInfo
+- name: schedule_info
   class:
-    schedule_id: String
-    name: String
-    cron_expression: String
-    enabled: Boolean
-    next_run: Int
-    last_run: Int
+    schedule_id: string
+    name: string
+    cron_expression: string
+    enabled: boolean
+    next_run: int
+    last_run: int
 
-- name: ScheduleExecution
+- name: schedule_execution
   class:
-    execution_id: String
-    schedule_id: String
-    started_at: Int
-    completed_at: Int
-    status: String
-    duration_ms: Int
-    error: String
+    execution_id: string
+    schedule_id: string
+    started_at: int
+    completed_at: int
+    status: string
+    duration_ms: int
+    error: string
 
-- name: ScheduleBulkResult
+- name: schedule_bulk_result
   class:
-    schedule_id: String
-    success: Boolean
-    error: String
+    schedule_id: string
+    success: boolean
+    error: string
 
-- name: ScheduleActionConfig
+- name: schedule_action_config
   class:
-    url: String
-    method: String
-    headers: Map[String, String]
-    body: Any
+    url: string
+    method: string
+    headers: map[string, string]
+    body: any

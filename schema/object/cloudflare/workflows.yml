@@ -1,51 +1,47 @@
-- name: Cloudflare Workflow
-  type: cf_workflow
+- name: cf_workflow
   id: [account_id, workflow_name]
   schema:
-    - account_id: String #required #max(50)
-    - binding: String #required #max(255)
-    - class_name: String? #max(255)
-    - created_at: Date = now()
-    - script_name: String? #max(255)
-    - updated_at: Date = now()
-    - workflow_name: String #required #unique #max(255)
+    - account_id: string #required #max(50)
+    - binding: string #required #max(255)
+    - class_name: string? #max(255)
+    - created_at: date = now()
+    - script_name: string? #max(255)
+    - updated_at: date = now()
+    - workflow_name: string #required #unique #max(255)
 
-- name: Cloudflare Workflow Instance
-  type: cf_workflow_instance
+- name: cf_workflow_instance
   id: [workflow_id, instance_id]
   schema:
-    - created_at: Date = now()
-    - error: String?
-    - instance_id: String #required #unique #max(255)
-    - output: String? # JSON
-    - params: String? # JSON
-    - status: Queued | Running | Paused | Errored | Terminated | Complete | Waiting | WaitingForPause | Unknown = Queued
-    - updated_at: Date = now()
-    - workflow_id: Id #required -> CfWorkflow.id
+    - created_at: date = now()
+    - error: string?
+    - instance_id: string #required #unique #max(255)
+    - output: string? # json
+    - params: string? # json
+    - status: queued | running | paused | errored | terminated | complete | waiting | waiting_for_pause | unknown = queued
+    - updated_at: date = now()
+    - workflow_id: id #required -> cf_workflow.id
 
-- name: Cloudflare Workflow Step
-  type: cf_workflow_step
+- name: cf_workflow_step
   id: [instance_id, step_name]
   schema:
-    - completed_at: Date?
-    - created_at: Date = now()
-    - instance_id: Id #required -> CfWorkflowInstance.id
-    - result: String? # JSON
-    - retries_backoff: Constant | Linear | Exponential = Constant
-    - retries_delay: String? #max(50)
+    - completed_at: date?
+    - created_at: date = now()
+    - instance_id: id #required -> cf_workflow_instance.id
+    - result: string? # json
+    - retries_backoff: constant | linear | exponential = constant
+    - retries_delay: string? #max(50)
     - retries_limit: int? #min(0)
-    - started_at: Date?
-    - status: Pending | Running | Completed | Failed | Sleeping | WaitingForEvent = Pending
-    - step_name: String #required #max(255)
-    - step_type: Do | Sleep | SleepUntil | WaitForEvent = Do
-    - timeout: String? #max(50)
+    - started_at: date?
+    - status: pending | running | completed | failed | sleeping | waiting_for_event = pending
+    - step_name: string #required #max(255)
+    - step_type: do | sleep | sleep_until | wait_for_event = do
+    - timeout: string? #max(50)
 
-- name: Cloudflare Workflow Event
-  type: cf_workflow_event
+- name: cf_workflow_event
   id: [instance_id, event_type, sent_at]
   schema:
-    - event_type: String #required #max(255)
-    - instance_id: Id #required -> CfWorkflowInstance.id
-    - payload: String? # JSON
-    - sent_at: Date = now()
+    - event_type: string #required #max(255)
+    - instance_id: id #required -> cf_workflow_instance.id
+    - payload: string? # json
+    - sent_at: date = now()
 

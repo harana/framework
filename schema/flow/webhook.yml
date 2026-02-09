@@ -1,132 +1,121 @@
-- name: Register Webhook Endpoint
-  method: register
+- name: register
   inputs:
-    active: Boolean = true
-    description: String
-    events: List[String] #required
-    secret: String
-    url: String #required
+    active: boolean = true
+    description: string
+    events: list[string] #required
+    secret: string
+    url: string #required
   outputs:
-    secret: String
-    success: Boolean
-    webhook_id: String
+    secret: string
+    success: boolean
+    webhook_id: string
 
-- name: Update Webhook Configuration
-  method: update
+- name: update
   inputs:
-    active: Boolean
-    description: String
-    events: List[String]
-    secret: String
-    url: String
-    webhook_id: String #required
+    active: boolean
+    description: string
+    events: list[string]
+    secret: string
+    url: string
+    webhook_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Unregister Webhook Endpoint
-  method: unregister
+- name: unregister
   inputs:
-    webhook_id: String #required
+    webhook_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Trigger Webhook Event
-  method: trigger
+- name: trigger
   inputs:
-    event: String #required
-    payload: Any #required
-    webhook_ids: List[String]
+    event: string #required
+    payload: any #required
+    webhook_ids: list[string]
   outputs:
-    success: Boolean
-    triggered_count: Int
+    success: boolean
+    triggered_count: int
 
-- name: Get Webhook Details
-  method: get
+- name: get
   inputs:
-    webhook_id: String #required
+    webhook_id: string #required
   outputs:
-    active: Boolean
-    created_at: Date
-    description: String
-    events: List[String]
-    url: String
+    active: boolean
+    created_at: date
+    description: string
+    events: list[string]
+    url: string
 
-- name: List Registered Webhooks
-  method: lists
+- name: lists
   inputs:
-    active_only: Boolean = false
-    event: String
-    limit: Int = 100
-    offset: Int = 0
+    active_only: boolean = false
+    event: string
+    limit: int = 100
+    offset: int = 0
   outputs:
-    total: Int
-    webhooks: List[Webhook]
+    total: int
+    webhooks: list[webhook]
 
-- name: Test Webhook Endpoint
-  method: test
+- name: test
   inputs:
-    payload: Any
-    webhook_id: String #required
+    payload: any
+    webhook_id: string #required
   outputs:
-    error: String
-    response_time_ms: Int
-    status_code: Int
-    success: Boolean
+    error: string
+    response_time_ms: int
+    status_code: int
+    success: boolean
 
-- name: Get Webhook Delivery Log
-  method: get_deliveries
+- name: get_deliveries
   inputs:
-    limit: Int = 50
-    offset: Int = 0
-    status: Success | Failed | Pending
-    webhook_id: String #required
+    limit: int = 50
+    offset: int = 0
+    status: success | failed | pending
+    webhook_id: string #required
   outputs:
-    deliveries: List[WebhookDelivery]
-    total: Int
+    deliveries: list[webhook_delivery]
+    total: int
 
-- name: Retry Failed Delivery
-  method: retry_delivery
+- name: retry_delivery
   inputs:
-    delivery_id: String #required
+    delivery_id: string #required
   outputs:
-    status_code: Int
-    success: Boolean
+    status_code: int
+    success: boolean
 
-- name: Verify Webhook Signature
-  method: verify_signature
+- name: verify_signature
   inputs:
-    algorithm: Sha256 | Sha512 = Sha256
-    payload: String #required
-    secret: String #required
-    signature: String #required
+    algorithm: sha256 | sha512 = sha256
+    payload: string #required
+    secret: string #required
+    signature: string #required
   outputs:
-    valid: Boolean
+    valid: boolean
 
-- name: Rotate Webhook Secret
-  method: rotate_secret
+- name: rotate_secret
   inputs:
-    webhook_id: String #required
+    webhook_id: string #required
   outputs:
-    new_secret: String
-    success: Boolean
+    new_secret: string
+    success: boolean
 
-- name: Webhook
+- name: webhook
   class:
-    webhook_id: String
-    url: String
-    events: List[String]
-    secret: String
-    active: Boolean
-    description: String
-    created_at: Date
+    webhook_id: string
+    url: string
+    events: list[string]
+    secret: string
+    active: boolean
+    description: string
+    created_at: date
 
-- name: WebhookDelivery
+- name: webhook_delivery
   class:
-    delivery_id: String
-    webhook_id: String
-    event: String
-    status: String
-    status_code: Int
-    response_time_ms: Int
-    error: String
-    created_at: Date
+    delivery_id: string
+    webhook_id: string
+    event: string
+    status: string
+    status_code: int
+    response_time_ms: int
+    error: string
+    created_at: date

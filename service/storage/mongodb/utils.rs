@@ -1,5 +1,3 @@
-// Harana Components - MongoDB Common Utilities
-
 use mongodb::{
     bson::{doc, Bson, Document},
     options::FindOptions,

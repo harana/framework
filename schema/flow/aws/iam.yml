@@ -1,344 +1,309 @@
-- name: Create IAM User
-  method: create_user
+- name: create_user
   inputs:
-    path: String = /
-    permissions_boundary: String
-    tags: IamTags
-    user_name: String #required
+    path: string = /
+    permissions_boundary: string
+    tags: iam_tags
+    user_name: string #required
   outputs:
-    arn: String
-    create_date: Date
-    success: Boolean
-    user_id: String
-    user_name: String
+    arn: string
+    create_date: date
+    success: boolean
+    user_id: string
+    user_name: string
 
-- name: Delete IAM User
-  method: delete_user
+- name: delete_user
   inputs:
-    user_name: String #required
+    user_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get IAM User
-  method: get_user
+- name: get_user
   inputs:
-    user_name: String
+    user_name: string
   outputs:
-    arn: String
-    create_date: Date
-    password_last_used: Date
-    path: String
-    permissions_boundary: PermissionsBoundary
-    tags: List[IamTag]
-    user_id: String
-    user_name: String
+    arn: string
+    create_date: date
+    password_last_used: date
+    path: string
+    permissions_boundary: permissions_boundary
+    tags: list[iam_tag]
+    user_id: string
+    user_name: string
 
-- name: List IAM Users
-  method: list_users
+- name: list_users
   inputs:
-    max_items: Int = 100
-    path_prefix: String = /
+    max_items: int = 100
+    path_prefix: string = /
   outputs:
-    is_truncated: Boolean
-    marker: String
-    users: List[IamUser]
+    is_truncated: boolean
+    marker: string
+    users: list[iam_user]
 
-- name: Update IAM User
-  method: update_user
+- name: update_user
   inputs:
-    new_path: String
-    new_user_name: String
-    user_name: String #required
+    new_path: string
+    new_user_name: string
+    user_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Create IAM Group
-  method: create_group
+- name: create_group
   inputs:
-    group_name: String #required
-    path: String = /
+    group_name: string #required
+    path: string = /
   outputs:
-    arn: String
-    create_date: Date
-    group_id: String
-    group_name: String
-    success: Boolean
+    arn: string
+    create_date: date
+    group_id: string
+    group_name: string
+    success: boolean
 
-- name: Delete IAM Group
-  method: delete_group
+- name: delete_group
   inputs:
-    group_name: String #required
+    group_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List IAM Groups
-  method: list_groups
+- name: list_groups
   inputs:
-    max_items: Int = 100
-    path_prefix: String = /
+    max_items: int = 100
+    path_prefix: string = /
   outputs:
-    groups: List[IamGroup]
-    is_truncated: Boolean
-    marker: String
+    groups: list[iam_group]
+    is_truncated: boolean
+    marker: string
 
-- name: Add User To Group
-  method: add_user_to_group
+- name: add_user_to_group
   inputs:
-    group_name: String #required
-    user_name: String #required
+    group_name: string #required
+    user_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Remove User From Group
-  method: remove_user_from_group
+- name: remove_user_from_group
   inputs:
-    group_name: String #required
-    user_name: String #required
+    group_name: string #required
+    user_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Groups For User
-  method: list_groups_for_user
+- name: list_groups_for_user
   inputs:
-    max_items: Int = 100
-    user_name: String #required
+    max_items: int = 100
+    user_name: string #required
   outputs:
-    groups: List[IamGroup]
-    is_truncated: Boolean
-    marker: String
+    groups: list[iam_group]
+    is_truncated: boolean
+    marker: string
 
-- name: Create IAM Role
-  method: create_role
+- name: create_role
   inputs:
-    assume_role_policy_document: String #required
-    description: String
-    max_session_duration: Int = 3600
-    path: String = /
-    permissions_boundary: String
-    role_name: String #required
-    tags: IamTags
+    assume_role_policy_document: string #required
+    description: string
+    max_session_duration: int = 3600
+    path: string = /
+    permissions_boundary: string
+    role_name: string #required
+    tags: iam_tags
   outputs:
-    arn: String
-    create_date: Date
-    role_id: String
-    role_name: String
-    success: Boolean
+    arn: string
+    create_date: date
+    role_id: string
+    role_name: string
+    success: boolean
 
-- name: Delete IAM Role
-  method: delete_role
+- name: delete_role
   inputs:
-    role_name: String #required
+    role_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get IAM Role
-  method: get_role
+- name: get_role
   inputs:
-    role_name: String #required
+    role_name: string #required
   outputs:
-    arn: String
-    assume_role_policy_document: String
-    create_date: Date
-    description: String
-    max_session_duration: Int
-    path: String
-    permissions_boundary: PermissionsBoundary
-    role_id: String
-    role_name: String
-    tags: List[IamTag]
+    arn: string
+    assume_role_policy_document: string
+    create_date: date
+    description: string
+    max_session_duration: int
+    path: string
+    permissions_boundary: permissions_boundary
+    role_id: string
+    role_name: string
+    tags: list[iam_tag]
 
-- name: List IAM Roles
-  method: list_roles
+- name: list_roles
   inputs:
-    max_items: Int = 100
-    path_prefix: String = /
+    max_items: int = 100
+    path_prefix: string = /
   outputs:
-    is_truncated: Boolean
-    marker: String
-    roles: List[IamRole]
+    is_truncated: boolean
+    marker: string
+    roles: list[iam_role]
 
-- name: Create IAM Policy
-  method: create_policy
+- name: create_policy
   inputs:
-    description: String
-    path: String = /
-    policy_document: String #required
-    policy_name: String #required
-    tags: IamTags
+    description: string
+    path: string = /
+    policy_document: string #required
+    policy_name: string #required
+    tags: iam_tags
   outputs:
-    arn: String
-    create_date: Date
-    policy_id: String
-    policy_name: String
-    success: Boolean
+    arn: string
+    create_date: date
+    policy_id: string
+    policy_name: string
+    success: boolean
 
-- name: Delete IAM Policy
-  method: delete_policy
+- name: delete_policy
   inputs:
-    policy_arn: String #required
+    policy_arn: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get IAM Policy
-  method: get_policy
+- name: get_policy
   inputs:
-    policy_arn: String #required
+    policy_arn: string #required
   outputs:
-    arn: String
-    attachment_count: Int
-    create_date: Date
-    default_version_id: String
-    description: String
-    is_attachable: Boolean
-    path: String
-    permissions_boundary_usage_count: Int
-    policy_id: String
-    policy_name: String
-    tags: List[IamTag]
-    update_date: Date
+    arn: string
+    attachment_count: int
+    create_date: date
+    default_version_id: string
+    description: string
+    is_attachable: boolean
+    path: string
+    permissions_boundary_usage_count: int
+    policy_id: string
+    policy_name: string
+    tags: list[iam_tag]
+    update_date: date
 
-- name: List IAM Policies
-  method: list_policies
+- name: list_policies
   inputs:
-    max_items: Int = 100
-    only_attached: Boolean = false
-    path_prefix: String = /
-    scope: All | AWS | Local = All
+    max_items: int = 100
+    only_attached: boolean = false
+    path_prefix: string = /
+    scope: all | aws | local = all
   outputs:
-    is_truncated: Boolean
-    marker: String
-    policies: List[IamPolicy]
+    is_truncated: boolean
+    marker: string
+    policies: list[iam_policy]
 
-- name: Attach User Policy
-  method: attach_user_policy
+- name: attach_user_policy
   inputs:
-    policy_arn: String #required
-    user_name: String #required
+    policy_arn: string #required
+    user_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Detach User Policy
-  method: detach_user_policy
+- name: detach_user_policy
   inputs:
-    policy_arn: String #required
-    user_name: String #required
+    policy_arn: string #required
+    user_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Attach Group Policy
-  method: attach_group_policy
+- name: attach_group_policy
   inputs:
-    group_name: String #required
-    policy_arn: String #required
+    group_name: string #required
+    policy_arn: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Detach Group Policy
-  method: detach_group_policy
+- name: detach_group_policy
   inputs:
-    group_name: String #required
-    policy_arn: String #required
+    group_name: string #required
+    policy_arn: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Attach Role Policy
-  method: attach_role_policy
+- name: attach_role_policy
   inputs:
-    policy_arn: String #required
-    role_name: String #required
+    policy_arn: string #required
+    role_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Detach Role Policy
-  method: detach_role_policy
+- name: detach_role_policy
   inputs:
-    policy_arn: String #required
-    role_name: String #required
+    policy_arn: string #required
+    role_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Put User Policy
-  method: put_user_policy
+- name: put_user_policy
   inputs:
-    policy_document: String #required
-    policy_name: String #required
-    user_name: String #required
+    policy_document: string #required
+    policy_name: string #required
+    user_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Put Group Policy
-  method: put_group_policy
+- name: put_group_policy
   inputs:
-    group_name: String #required
-    policy_document: String #required
-    policy_name: String #required
+    group_name: string #required
+    policy_document: string #required
+    policy_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Put Role Policy
-  method: put_role_policy
+- name: put_role_policy
   inputs:
-    policy_document: String #required
-    policy_name: String #required
-    role_name: String #required
+    policy_document: string #required
+    policy_name: string #required
+    role_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Create Access Key
-  method: create_access_key
+- name: create_access_key
   inputs:
-    user_name: String
+    user_name: string
   outputs:
-    access_key_id: String
-    create_date: Date
-    secret_access_key: String
-    status: String
-    success: Boolean
+    access_key_id: string
+    create_date: date
+    secret_access_key: string
+    status: string
+    success: boolean
 
-- name: Delete Access Key
-  method: delete_access_key
+- name: delete_access_key
   inputs:
-    access_key_id: String #required
-    user_name: String
+    access_key_id: string #required
+    user_name: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Access Keys
-  method: list_access_keys
+- name: list_access_keys
   inputs:
-    max_items: Int = 100
-    user_name: String
+    max_items: int = 100
+    user_name: string
   outputs:
-    access_key_metadata: List[AccessKeyMetadata]
-    is_truncated: Boolean
-    marker: String
+    access_key_metadata: list[access_key_metadata]
+    is_truncated: boolean
+    marker: string
 
-- name: Update Access Key
-  method: update_access_key
+- name: update_access_key
   inputs:
-    access_key_id: String #required
-    status: Active | Inactive #required
-    user_name: String
+    access_key_id: string #required
+    status: active | inactive #required
+    user_name: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Account Summary
-  method: get_account_summary
+- name: get_account_summary
   inputs: {}
   outputs:
-    summary_map: AccountSummary
+    summary_map: account_summary
 
-- name: Generate Credential Report
-  method: generate_credential_report
+- name: generate_credential_report
   inputs: {}
   outputs:
-    state: String
-    success: Boolean
+    state: string
+    success: boolean
 
-- name: Get Credential Report
-  method: get_credential_report
+- name: get_credential_report
   inputs: {}
   outputs:
-    content: String
-    generated_time: Date
-    report_format: String
+    content: string
+    generated_time: date
+    report_format: string

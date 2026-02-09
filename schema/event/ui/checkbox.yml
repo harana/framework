@@ -1,32 +1,28 @@
-- name: Checkbox Checked
-  type: checkbox_checked
+- name: checkbox_checked
   schema:
-    checkbox_id: Id #required
-    checkbox_name: String?
-    checkbox_value: String?
-    checked_at: Date = now()
+    checkbox_id: id #required
+    checkbox_name: string?
+    checkbox_value: string?
+    checked_at: date = now()
 
-- name: Checkbox Unchecked
-  type: checkbox_unchecked
+- name: checkbox_unchecked
   schema:
-    checkbox_id: Id #required
-    checkbox_name: String?
-    checkbox_value: String?
-    unchecked_at: Date = now()
+    checkbox_id: id #required
+    checkbox_name: string?
+    checkbox_value: string?
+    unchecked_at: date = now()
 
-- name: Checkbox Indeterminate Changed
-  type: checkbox_indeterminate_changed
+- name: checkbox_indeterminate_changed
   schema:
-    checkbox_id: Id #required
-    checkbox_name: String?
-    is_indeterminate: Boolean #required
-    changed_at: Date = now()
+    checkbox_id: id #required
+    checkbox_name: string?
+    is_indeterminate: boolean #required
+    changed_at: date = now()
 
-- name: Checkbox Group Changed
-  type: checkbox_group_changed
+- name: checkbox_group_changed
   schema:
-    group_id: Id #required
-    group_name: String?
-    selected_values: String?
+    group_id: id #required
+    group_name: string?
+    selected_values: string?
     selected_count: int? #min(0)
-    changed_at: Date = now()
+    changed_at: date = now()

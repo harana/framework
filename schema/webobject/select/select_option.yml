@@ -1,9 +1,8 @@
-- name: Select Option Component
-  type: select_option
+- name: select_option
   id: [select_id, value]
   attributes:
-    - is_disabled: Boolean = false
-    - label: String #required #max(200)
+    - is_disabled: boolean = false
+    - label: string #required #max(200)
     - order: int = 0 #min(0)
-    - select_id: Id #required -> UISelect.id
-    - value: String #required #max(200)
+    - select_id: id #required -> ui_select.id
+    - value: string #required #max(200)

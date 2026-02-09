@@ -1,15 +1,14 @@
-- name: Notification Component
-  type: notification
+- name: notification
   attributes:
-    - avatar_url: String? #max(2000)
-    - description: String? #max(500)
-    - icon: Success | Info | Warning | Error | Inbox | None = None
-    - is_open: Boolean = false
-    - primary_action_label: String? #max(100)
-    - secondary_action_label: String? #max(100)
-    - show_close_button: Boolean = true
-    - title: String #required #max(200)
-    - variant: Simple | Avatar | ButtonsBelow | Condensed | Actions = Simple
+    - avatar_url: string? #max(2000)
+    - description: string? #max(500)
+    - icon: success | info | warning | error | inbox | none = none
+    - is_open: boolean = false
+    - primary_action_label: string? #max(100)
+    - secondary_action_label: string? #max(100)
+    - show_close_button: boolean = true
+    - title: string #required #max(200)
+    - variant: simple | avatar | buttons_below | condensed | actions = simple
   events:
     - close
     - dismiss

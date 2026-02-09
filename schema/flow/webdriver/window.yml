@@ -1,0 +1,70 @@
+- name: window
+  inputs:
+    session_id: string #required  outputs:
+    handle: string
+
+- name: windows
+  inputs:
+    session_id: string #required  outputs:
+    handles: list[string]
+    total: int
+
+- name: switch_to_window
+  inputs:
+    handle: string #required    session_id: string #required  outputs:
+    success: boolean
+
+- name: switch_to_named_window
+  inputs:
+    name: string #required
+    session_id: string #required  outputs:
+    success: boolean
+
+- name: set_window_name
+  inputs:
+    name: string #required
+    session_id: string #required  outputs:
+    success: boolean
+
+- name: new_tab
+  inputs:
+    session_id: string #required  outputs:
+    handle: string
+
+- name: new_window
+  inputs:
+    session_id: string #required  outputs:
+    handle: string
+
+- name: close_window
+  inputs:
+    session_id: string #required  outputs:
+    success: boolean
+
+- name: maximize_window
+  inputs:
+    session_id: string #required  outputs:
+    success: boolean
+
+- name: minimize_window
+  inputs:
+    session_id: string #required  outputs:
+    success: boolean
+
+- name: fullscreen_window
+  inputs:
+    session_id: string #required  outputs:
+    success: boolean
+
+- name: get_window_rect
+  inputs:
+    session_id: string #required  outputs:
+    height: int
+    width: int
+    x: int
+    y: int
+
+- name: set_window_rect
+  inputs:
+    height: int #required    session_id: string #required    width: int #required    x: int #required    y: int #required  outputs:
+    success: boolean

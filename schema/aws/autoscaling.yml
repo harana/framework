@@ -1,0 +1,94 @@
+- name: aws_autoscaling_group
+  id: [account_id, auto_scaling_group_name]
+  schema:
+    - account_id: string #required #max(20)
+    - auto_scaling_group_arn: string? #max(255)
+    - auto_scaling_group_name: string #required #unique #max(255)
+    - availability_zones: string? # json list
+    - capacity_rebalance: boolean = false
+    - created_at: date = now()
+    - default_cooldown: int = 300 #min(0)
+    - desired_capacity: int = 0 #min(0)
+    - health_check_grace_period: int = 300 #min(0)
+    - health_check_type: ec2 | elb = ec2
+    - launch_configuration_name: string? #max(255)
+    - launch_template_id: string? #max(255)
+    - launch_template_version: string? #max(50)
+    - max_instance_lifetime: int? #min(0)
+    - max_size: int #required #min(0)
+    - min_size: int #required #min(0)
+    - new_instances_protected_from_scale_in: boolean = false
+    - placement_group: string? #max(255)
+    - region: string? #max(50)
+    - service_linked_role_arn: string? #max(255)
+    - status: string? #max(50)
+    - tags: string? # json
+    - target_group_arns: string? # json list
+    - termination_policies: string? # json list
+    - updated_at: date = now()
+    - vpc_zone_identifier: string? #max(2048)
+
+- name: aws_autoscaling_launch_configuration
+  id: [account_id, launch_configuration_name]
+  schema:
+    - account_id: string #required #max(20)
+    - associate_public_ip_address: boolean = false
+    - created_at: date = now()
+    - ebs_optimized: boolean = false
+    - iam_instance_profile: string? #max(255)
+    - image_id: string? #max(255)
+    - instance_monitoring_enabled: boolean = false
+    - instance_type: string? #max(50)
+    - kernel_id: string? #max(255)
+    - key_name: string? #max(255)
+    - launch_configuration_arn: string? #max(255)
+    - launch_configuration_name: string #required #unique #max(255)
+    - region: string? #max(50)
+    - security_groups: string? # json list
+    - spot_price: string? #max(50)
+
+- name: aws_autoscaling_policy
+  id: [auto_scaling_group_id, policy_name]
+  schema:
+    - adjustment_type: change_in_capacity | exact_capacity | percent_change_in_capacity = change_in_capacity
+    - auto_scaling_group_id: id #required -> aws_autoscaling_group.id
+    - cooldown: int? #min(0)
+    - created_at: date = now()
+    - enabled: boolean = true
+    - estimated_instance_warmup: int? #min(0)
+    - metric_aggregation_type: string? #max(50)
+    - min_adjustment_magnitude: int? #min(0)
+    - policy_arn: string? #max(255)
+    - policy_name: string #required #max(255)
+    - policy_type: simple_scaling | step_scaling | target_tracking_scaling | predictive_scaling = simple_scaling
+    - scaling_adjustment: int?
+    - target_tracking_configuration: string? # json
+    - updated_at: date = now()
+
+- name: aws_autoscaling_scheduled_action
+  id: [auto_scaling_group_id, scheduled_action_name]
+  schema:
+    - auto_scaling_group_id: id #required -> aws_autoscaling_group.id
+    - created_at: date = now()
+    - desired_capacity: int? #min(0)
+    - end_time: date?
+    - max_size: int? #min(0)
+    - min_size: int? #min(0)
+    - recurrence: string? #max(255)
+    - scheduled_action_arn: string? #max(255)
+    - scheduled_action_name: string #required #max(255)
+    - start_time: date?
+    - time_zone: string? #max(100)
+
+- name: aws_autoscaling_lifecycle_hook
+  id: [auto_scaling_group_id, lifecycle_hook_name]
+  schema:
+    - auto_scaling_group_id: id #required -> aws_autoscaling_group.id
+    - created_at: date = now()
+    - default_result: continue | abandon = continue
+    - heartbeat_timeout: int = 3600 #min(30) #max(7200)
+    - lifecycle_hook_name: string #required #max(255)
+    - lifecycle_transition: autoscaling:EC2_INSTANCE_LAUNCHING | autoscaling:EC2_INSTANCE_TERMINATING #required
+    - notification_metadata: string? #max(1023)
+    - notification_target_arn: string? #max(255)
+    - role_arn: string? #max(255)

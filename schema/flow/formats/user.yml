@@ -1,109 +1,101 @@
-- name: Check User Permission
-  method: check_permission
+- name: check_permission
   inputs:
-    method: String #required
-    resource: String #required
-    user_id: String #required
+    method: string #required
+    resource: string #required
+    user_id: string #required
   outputs:
-    allowed: Boolean
-    reason: String
+    allowed: boolean
+    reason: string
 
-- name: Grant Permission To User
-  method: grant_permission
+- name: grant_permission
   inputs:
-    method: String #required
-    conditions: UserPermissionConditions
-    expires_at: Date
-    resource: String #required
-    user_id: String #required
+    method: string #required
+    conditions: user_permission_conditions
+    expires_at: date
+    resource: string #required
+    user_id: string #required
   outputs:
-    permission_id: String
-    success: Boolean
+    permission_id: string
+    success: boolean
 
-- name: Revoke User Permission
-  method: revoke_permission
+- name: revoke_permission
   inputs:
-    permission_id: String #required
-    user_id: String #required
+    permission_id: string #required
+    user_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List User Permissions
-  method: list_permissions
+- name: list_permissions
   inputs:
-    resource: String
-    user_id: String #required
+    resource: string
+    user_id: string #required
   outputs:
-    permissions: List[UserPermissionInfo]
-    total: Int
+    permissions: list[user_permission_info]
+    total: int
 
-- name: Assign Role To User
-  method: assign_role
+- name: assign_role
   inputs:
-    role_id: String #required
-    user_id: String #required
+    role_id: string #required
+    user_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Remove Role From User
-  method: remove_role
+- name: remove_role
   inputs:
-    role_id: String #required
-    user_id: String #required
+    role_id: string #required
+    user_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List User Roles
-  method: list_roles
+- name: list_roles
   inputs:
-    user_id: String #required
+    user_id: string #required
   outputs:
-    roles: List[UserRoleInfo]
-    total: Int
+    roles: list[user_role_info]
+    total: int
 
-- name: Get User Effective Permissions
-  method: get_effective_permissions
+- name: get_effective_permissions
   inputs:
-    resource: String
-    user_id: String #required
+    resource: string
+    user_id: string #required
   outputs:
-    permissions: List[EffectivePermission]
-    sources: List[PermissionSource]
+    permissions: list[effective_permission]
+    sources: list[permission_source]
 
-- name: UserPermission
+- name: user_permission
   class:
-    permission_id: String
-    user_id: String
-    method: String
-    resource: String
-    conditions: UserPermissionConditions
-    expires_at: Date
+    permission_id: string
+    user_id: string
+    method: string
+    resource: string
+    conditions: user_permission_conditions
+    expires_at: date
 
-- name: UserPermissionConditions
+- name: user_permission_conditions
   class:
-    conditions: Map[String, Any]
+    conditions: map[string, any]
 
-- name: UserPermissionInfo
+- name: user_permission_info
   class:
-    permission_id: String
-    method: String
-    resource: String
-    expires_at: Date
+    permission_id: string
+    method: string
+    resource: string
+    expires_at: date
 
-- name: UserRoleInfo
+- name: user_role_info
   class:
-    role_id: String
-    name: String
-    assigned_at: Date
+    role_id: string
+    name: string
+    assigned_at: date
 
-- name: EffectivePermission
+- name: effective_permission
   class:
-    method: String
-    resource: String
-    allowed: Boolean
+    method: string
+    resource: string
+    allowed: boolean
 
-- name: PermissionSource
+- name: permission_source
   class:
-    source_type: String
-    source_id: String
-    name: String
+    source_type: string
+    source_id: string
+    name: string

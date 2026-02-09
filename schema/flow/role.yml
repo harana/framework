@@ -1,108 +1,99 @@
-- name: Create Role Definition
-  method: create
+- name: create
   inputs:
-    description: String
-    name: String #required
-    permissions: List[RolePermission] #required
+    description: string
+    name: string #required
+    permissions: list[role_permission] #required
   outputs:
-    role_id: String
-    success: Boolean
+    role_id: string
+    success: boolean
 
-- name: Update Role Definition
-  method: update
+- name: update
   inputs:
-    description: String
-    name: String
-    permissions: List[RolePermission]
-    role_id: String #required
+    description: string
+    name: string
+    permissions: list[role_permission]
+    role_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Role Definition
-  method: delete
+- name: delete
   inputs:
-    role_id: String #required
+    role_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Available Roles
-  method: list
+- name: list
   inputs:
-    limit: Int = 100
-    offset: Int = 0
+    limit: int = 100
+    offset: int = 0
   outputs:
-    roles: List[RoleInfo]
-    total: Int
+    roles: list[role_info]
+    total: int
 
-- name: Get Role Details
-  method: get
+- name: get
   inputs:
-    role_id: String #required
+    role_id: string #required
   outputs:
-    description: String
-    name: String
-    permissions: List[RolePermission]
-    user_count: Int
+    description: string
+    name: string
+    permissions: list[role_permission]
+    user_count: int
 
-- name: Check Role Permission
-  method: check_permission
+- name: check_permission
   inputs:
-    method: String #required
-    resource: String #required
-    role_id: String #required
+    method: string #required
+    resource: string #required
+    role_id: string #required
   outputs:
-    allowed: Boolean
+    allowed: boolean
 
-- name: Add Permission To Role
-  method: add_permission
+- name: add_permission
   inputs:
-    method: String #required
-    conditions: RolePermissionConditions
-    resource: String #required
-    role_id: String #required
+    method: string #required
+    conditions: role_permission_conditions
+    resource: string #required
+    role_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Remove Permission From Role
-  method: remove_permission
+- name: remove_permission
   inputs:
-    method: String #required
-    resource: String #required
-    role_id: String #required
+    method: string #required
+    resource: string #required
+    role_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Clone Role
-  method: clone
+- name: clone
   inputs:
-    new_name: String #required
-    source_id: String #required
+    new_name: string #required
+    source_id: string #required
   outputs:
-    role_id: String
-    success: Boolean
+    role_id: string
+    success: boolean
 
-- name: Role
+- name: role
   class:
-    role_id: String
-    name: String
-    description: String
-    permissions: List[RolePermission]
-    user_count: Int
-    created_at: Date
+    role_id: string
+    name: string
+    description: string
+    permissions: list[role_permission]
+    user_count: int
+    created_at: date
 
-- name: RolePermission
+- name: role_permission
   class:
-    method: String
-    resource: String
-    conditions: RolePermissionConditions
+    method: string
+    resource: string
+    conditions: role_permission_conditions
 
-- name: RoleInfo
+- name: role_info
   class:
-    role_id: String
-    name: String
-    description: String
-    user_count: Int
+    role_id: string
+    name: string
+    description: string
+    user_count: int
 
-- name: RolePermissionConditions
+- name: role_permission_conditions
   class:
-    conditions: Map[String, Any]
+    conditions: map[string, any]

@@ -1,0 +1,32 @@
+- name: html_document
+  schema:
+    - charset: string = utf-8 #max(20)
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - is_sanitized: boolean = false
+    - size: int = 0 #min(0)
+    - source_path: string? #max(2000)
+    - title: string? #max(500)
+    - updated_at: date = now()
+
+- name: html_dom
+  schema:
+    - document_type: string
+    - root: html_element
+
+- name: html_element
+  schema:
+    - tag_name: string
+    - attributes: map[string, string]
+    - children: list[html_node]
+    - text_content: string
+
+- name: html_node
+  schema:
+    - node_type: string
+    - value: any
+
+- name: html_allowed_attributes
+  schema:
+    - global: list[string]
+    - per_tag: map[string, list[string]]

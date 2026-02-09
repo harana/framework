@@ -1,14 +1,13 @@
-- name: Button Component
-  type: button
+- name: button
   attributes:
-    - color: DarkZinc | Light | DarkWhite | Dark | Zinc | White | Red | Orange | Amber | Yellow | Lime | Green | Emerald | Teal | Cyan | Sky | Blue | Indigo | Violet | Purple | Fuchsia | Pink | Rose = DarkZinc
-    - href: String? #max(500)
-    - icon: String? #max(100)
-    - is_disabled: Boolean = false
-    - is_outline: Boolean = false
-    - is_plain: Boolean = false
-    - label: String #required #max(100)
-    - type: Button | Submit | Reset = Button
+    - color: dark_zinc | light | dark_white | dark | zinc | white | red | orange | amber | yellow | lime | green | emerald | teal | cyan | sky | blue | indigo | violet | purple | fuchsia | pink | rose = dark_zinc
+    - href: string? #max(500)
+    - icon: string? #max(100)
+    - is_disabled: boolean = false
+    - is_outline: boolean = false
+    - is_plain: boolean = false
+    - label: string #required #max(100)
+    - type: button | submit | reset = button
   events:
     - click
     - double_click

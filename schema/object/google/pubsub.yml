@@ -1,75 +1,69 @@
-- name: Google PubSub Topic
-  type: google_pubsub_topic
+- name: google_pubsub_topic
   id: [project_id, topic_id]
   schema:
-    - created_at: Date = now()
-    - labels: String? # JSON
-    - message_retention_duration: String? #max(100)
-    - project_id: String #required #max(255)
-    - schema_encoding: String? #max(50)
-    - schema_name: String? #max(255)
-    - topic_id: String #required #unique #max(255)
-    - updated_at: Date = now()
+    - created_at: date = now()
+    - labels: string? # json
+    - message_retention_duration: string? #max(100)
+    - project_id: string #required #max(255)
+    - schema_encoding: string? #max(50)
+    - schema_name: string? #max(255)
+    - topic_id: string #required #unique #max(255)
+    - updated_at: date = now()
 
-- name: Google PubSub Subscription
-  type: google_pubsub_subscription
+- name: google_pubsub_subscription
   id: [project_id, subscription_id]
   schema:
     - ack_deadline_seconds: int = 10 #min(1)
-    - created_at: Date = now()
+    - created_at: date = now()
     - dead_letter_max_delivery_attempts: int? #min(1)
-    - dead_letter_topic: String? #max(255)
-    - enable_message_ordering: Boolean = false
-    - filter: String? #max(1000)
-    - labels: String? # JSON
-    - message_retention_duration: String? #max(100)
-    - project_id: String #required #max(255)
-    - push_endpoint: String? #url
-    - retain_acked_messages: Boolean = false
-    - retry_max_backoff: String? #max(50)
-    - retry_min_backoff: String? #max(50)
-    - subscription_id: String #required #unique #max(255)
-    - topic_id: Id #required -> GooglePubsubTopic.id
-    - updated_at: Date = now()
+    - dead_letter_topic: string? #max(255)
+    - enable_message_ordering: boolean = false
+    - filter: string? #max(1000)
+    - labels: string? # json
+    - message_retention_duration: string? #max(100)
+    - project_id: string #required #max(255)
+    - push_endpoint: string? #url
+    - retain_acked_messages: boolean = false
+    - retry_max_backoff: string? #max(50)
+    - retry_min_backoff: string? #max(50)
+    - subscription_id: string #required #unique #max(255)
+    - topic_id: id #required -> google_pubsub_topic.id
+    - updated_at: date = now()
 
-- name: Google PubSub Message
-  type: google_pubsub_message
+- name: google_pubsub_message
   id: [topic_id, message_id]
   schema:
-    - attributes: String? # JSON
-    - data: String #required
-    - message_id: String #required #unique #max(255)
-    - ordering_key: String? #max(255)
-    - publish_time: Date?
-    - topic_id: Id #required -> GooglePubsubTopic.id
+    - attributes: string? # json
+    - data: string #required
+    - message_id: string #required #unique #max(255)
+    - ordering_key: string? #max(255)
+    - publish_time: date?
+    - topic_id: id #required -> google_pubsub_topic.id
 
-- name: Google PubSub Received Message
-  type: google_pubsub_received_message
+- name: google_pubsub_received_message
   id: [subscription_id, ack_id]
   schema:
-    - ack_id: String #required #max(255)
+    - ack_id: string #required #max(255)
     - delivery_attempt: int? #min(0)
-    - message_id: Id #required -> GooglePubsubMessage.id
-    - received_at: Date = now()
-    - subscription_id: Id #required -> GooglePubsubSubscription.id
+    - message_id: id #required -> google_pubsub_message.id
+    - received_at: date = now()
+    - subscription_id: id #required -> google_pubsub_subscription.id
 
-- name: Google PubSub Snapshot
-  type: google_pubsub_snapshot
+- name: google_pubsub_snapshot
   id: [project_id, snapshot_id]
   schema:
-    - created_at: Date = now()
-    - expire_time: Date?
-    - labels: String? # JSON
-    - project_id: String #required #max(255)
-    - snapshot_id: String #required #unique #max(255)
-    - subscription_id: Id #required -> GooglePubsubSubscription.id
-    - topic: String? #max(255)
+    - created_at: date = now()
+    - expire_time: date?
+    - labels: string? # json
+    - project_id: string #required #max(255)
+    - snapshot_id: string #required #unique #max(255)
+    - subscription_id: id #required -> google_pubsub_subscription.id
+    - topic: string? #max(255)
 
-- name: Google PubSub Label
-  type: google_pubsub_label
+- name: google_pubsub_label
   id: [resource_id, key]
   schema:
-    - key: String #required #max(255)
-    - resource_id: String #required #max(255)
-    - resource_type: Topic | Subscription | Snapshot #required
-    - value: String? #max(255)
+    - key: string #required #max(255)
+    - resource_id: string #required #max(255)
+    - resource_type: topic | subscription | snapshot #required
+    - value: string? #max(255)

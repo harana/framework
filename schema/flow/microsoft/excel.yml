@@ -1,49 +1,45 @@
-- name: Read Excel File To Data
-  method: read
+- name: read
   inputs:
-    file: String #required
-    has_headers: Boolean = true
-    range: String
-    sheet: String
+    file: string #required
+    has_headers: boolean = true
+    range: string
+    sheet: string
   outputs:
-    rows: List[ExcelRow]
+    rows: list[excel_row]
 
-- name: Write Data To Excel File
-  method: write
+- name: write
   inputs:
-    data: List[ExcelRow] #required
-    file: String #required
-    headers: List[String]
-    include_headers: Boolean = true
-    sheet: String = "Sheet1"
+    data: list[excel_row] #required
+    file: string #required
+    headers: list[string]
+    include_headers: boolean = true
+    sheet: string = "sheet1"
   outputs:
-    path: String
+    path: string
 
-- name: List Sheets In Workbook
-  method: get_sheets
+- name: get_sheets
   inputs:
-    file: String #required
+    file: string #required
   outputs:
-    sheets: List[String]
+    sheets: list[string]
 
-- name: Read Specific Sheet
-  method: read_sheet
+- name: read_sheet
   inputs:
-    file: String #required
-    has_headers: Boolean = true
-    range: String
-    sheet: String #required
+    file: string #required
+    has_headers: boolean = true
+    range: string
+    sheet: string #required
   outputs:
-    rows: List[ExcelRow]
+    rows: list[excel_row]
 
-- name: ExcelWorkbook
+- name: excel_workbook
   class:
-    path: String
-    sheets: List[String]
-    active_sheet: String
-    row_count: Int
-    column_count: Int
+    path: string
+    sheets: list[string]
+    active_sheet: string
+    row_count: int
+    column_count: int
 
-- name: ExcelRow
+- name: excel_row
   class:
-    values: Map[String, Any]
+    values: map[string, any]

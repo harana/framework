@@ -82,9 +82,11 @@ members = [
     "service/flow/zoom",
     
     # Core modules in service
+    "service/blob",
     "service/cache",
     "service/event",
     "service/lock",
+    "service/queue",
     "service/schedule",
     "service/server",
     "service/storage",

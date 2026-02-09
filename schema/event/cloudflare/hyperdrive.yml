@@ -1,14 +1,12 @@
-- name: Cloudflare Hyperdrive Connected
-  type: cloudflare_hyperdrive_connected
+- name: cloudflare_hyperdrive_connected
   schema:
-    binding: String #required
-    host: String?
-    port: Int?
-    connected_at: Date = now()
+    binding: string #required
+    host: string?
+    port: int?
+    connected_at: date = now()
 
-- name: Cloudflare Hyperdrive Connection Failed
-  type: cloudflare_hyperdrive_connection_failed
+- name: cloudflare_hyperdrive_connection_failed
   schema:
-    binding: String #required
-    error_message: String?
-    failed_at: Date = now()
+    binding: string #required
+    error_message: string?
+    failed_at: date = now()

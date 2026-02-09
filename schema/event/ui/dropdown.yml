@@ -1,52 +1,46 @@
-- name: Dropdown Opened
-  type: dropdown_opened
+- name: dropdown_opened
   schema:
-    dropdown_id: Id #required
-    dropdown_name: String?
+    dropdown_id: id #required
+    dropdown_name: string?
     options_count: int? #min(0)
-    opened_at: Date = now()
+    opened_at: date = now()
 
-- name: Dropdown Closed
-  type: dropdown_closed
+- name: dropdown_closed
   schema:
-    dropdown_id: Id #required
-    dropdown_name: String?
-    close_reason: Selection | Blur | Escape | ClickOutside = Blur
-    closed_at: Date = now()
+    dropdown_id: id #required
+    dropdown_name: string?
+    close_reason: selection | blur | escape | click_outside = blur
+    closed_at: date = now()
 
-- name: Option Selected
-  type: option_selected
+- name: option_selected
   schema:
-    dropdown_id: Id #required
-    dropdown_name: String?
-    option_value: String #required
-    option_label: String?
+    dropdown_id: id #required
+    dropdown_name: string?
+    option_value: string #required
+    option_label: string?
     option_index: int? #min(0)
-    selected_at: Date = now()
+    selected_at: date = now()
 
-- name: Option Deselected
-  type: option_deselected
+- name: option_deselected
   schema:
-    dropdown_id: Id #required
-    dropdown_name: String?
-    option_value: String #required
-    option_label: String?
-    deselected_at: Date = now()
+    dropdown_id: id #required
+    dropdown_name: string?
+    option_value: string #required
+    option_label: string?
+    deselected_at: date = now()
 
-- name: Search Filtered
-  type: search_filtered
+- name: search_filtered
   schema:
-    dropdown_id: Id #required
-    dropdown_name: String?
-    search_query: String?
+    dropdown_id: id #required
+    dropdown_name: string?
+    search_query: string?
     results_count: int? #min(0)
-    filtered_at: Date = now()
+    filtered_at: date = now()
 
-- name: Combobox Typed
-  type: combobox_typed
+- name: combobox_typed
   schema:
-    combobox_id: Id #required
-    combobox_name: String?
-    typed_value: String?
+    combobox_id: id #required
+    combobox_name: string?
+    typed_value: string?
     suggestions_shown: int? #min(0)
-    typed_at: Date = now()
+    typed_at: date = now()

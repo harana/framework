@@ -1,0 +1,59 @@
+- name: workflow
+  schema:
+    - created_at: date = now()
+    - description: string? #max(1000)
+    - is_active: boolean = true
+    - trigger_type: manual | scheduled | event | webhook = manual
+    - updated_at: date = now()
+    - version: int = 1 #min(1)
+
+- name: workflow_step
+  id: [workflow_id, name]
+  schema:
+    - method: string #required #max(200)
+    - condition: string?
+    - on_failure: continue | stop | retry = stop
+    - retry_count: int = 0 #min(0)
+    - sort_order: int = 0
+    - timeout_seconds: int = 300 #min(1)
+    - workflow_id: id #required -> workflow.id
+- name: workflow_execution
+  id: [workflow_id, created_at]
+  schema:
+    - completed_at: date?
+    - created_at: date = now()
+    - input: string?
+    - output: string?
+    - started_at: date?
+    - status: pending | running | completed | failed | cancelled = pending
+    - triggered_by: id? -> user.id
+    - workflow_id: id #required -> workflow.id
+- name: workflow_step_execution
+  id: [execution_id, step_id]
+  schema:
+    - completed_at: date?
+    - error_message: string? #max(2000)
+    - input: string?
+    - output: string?
+    - started_at: date?
+    - status: pending | running | completed | failed | skipped = pending
+    - step_id: id #required -> workflow_step.id
+- name: workflow_context
+  schema:
+    - values: map[string, any]
+
+- name: workflow_execution_info
+  schema:
+    - execution_id: string
+    - workflow_id: string
+    - status: string
+    - started_at: date
+    - completed_at: date
+
+- name: workflow_history_event
+  schema:
+    - event_id: string
+    - event_type: string
+    - step_id: string
+    - timestamp: date
+    - data: any

@@ -1,48 +1,44 @@
-- name: Cloudflare R2 Bucket
-  type: cf_r2_bucket
+- name: cf_r2_bucket
   id: [account_id, bucket_name]
   schema:
-    - account_id: String #required #max(50)
-    - bucket_name: String #required #unique #max(63)
-    - created_at: Date = now()
-    - location: String? #max(50)
-    - storage_class: Standard | InfrequentAccess = Standard
-    - updated_at: Date = now()
+    - account_id: string #required #max(50)
+    - bucket_name: string #required #unique #max(63)
+    - created_at: date = now()
+    - location: string? #max(50)
+    - storage_class: standard | infrequent_access = standard
+    - updated_at: date = now()
 
-- name: Cloudflare R2 Object
-  type: cf_r2_object
+- name: cf_r2_object
   id: [bucket_id, key]
   schema:
-    - bucket_id: Id #required -> CfR2Bucket.id
-    - custom_metadata: String? # JSON
-    - etag: String? #max(255)
-    - http_etag: String? #max(255)
-    - key: String #required #max(1024)
+    - bucket_id: id #required -> cf_r2_bucket.id
+    - custom_metadata: string? # json
+    - etag: string? #max(255)
+    - http_etag: string? #max(255)
+    - key: string #required #max(1024)
     - size: int? #min(0)
-    - storage_class: Standard | InfrequentAccess = Standard
-    - uploaded: Date?
-    - version: String? #max(255)
+    - storage_class: standard | infrequent_access = standard
+    - uploaded: date?
+    - version: string? #max(255)
 
-- name: Cloudflare R2 Multipart Upload
-  type: cf_r2_multipart_upload
+- name: cf_r2_multipart_upload
   id: [bucket_id, key, upload_id]
   schema:
-    - bucket_id: Id #required -> CfR2Bucket.id
-    - completed_at: Date?
-    - created_at: Date = now()
-    - custom_metadata: String? # JSON
-    - key: String #required #max(1024)
-    - status: Initiated | InProgress | Completed | Aborted = Initiated
-    - storage_class: Standard | InfrequentAccess = Standard
-    - upload_id: String #required #unique #max(255)
+    - bucket_id: id #required -> cf_r2_bucket.id
+    - completed_at: date?
+    - created_at: date = now()
+    - custom_metadata: string? # json
+    - key: string #required #max(1024)
+    - status: initiated | in_progress | completed | aborted = initiated
+    - storage_class: standard | infrequent_access = standard
+    - upload_id: string #required #unique #max(255)
 
-- name: Cloudflare R2 Multipart Part
-  type: cf_r2_multipart_part
+- name: cf_r2_multipart_part
   id: [upload_id, part_number]
   schema:
-    - created_at: Date = now()
-    - etag: String? #max(255)
+    - created_at: date = now()
+    - etag: string? #max(255)
     - part_number: int #required #min(1)
     - size: int? #min(0)
-    - upload_id: Id #required -> CfR2MultipartUpload.id
+    - upload_id: id #required -> cf_r2_multipart_upload.id
 

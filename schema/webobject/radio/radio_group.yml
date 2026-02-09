@@ -1,8 +1,7 @@
-- name: Radio Group Component
-  type: radio_group
+- name: radio_group
   attributes:
-    - aria_label: String? #max(200)
-    - default_value: String? #max(200)
-    - is_disabled: Boolean = false
+    - aria_label: string? #max(200)
+    - default_value: string? #max(200)
+    - is_disabled: boolean = false
   events:
     - change

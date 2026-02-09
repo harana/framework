@@ -1,18 +1,16 @@
-- name: Send Queue Message
-  method: send
+- name: send
   inputs:
-    content_type: Json | Text | Bytes | V8 = Json
-    delay_seconds: Int
-    message: Any #required
-    queue: String #required
+    content_type: json | text | bytes | v8 = json
+    delay_seconds: int
+    message: any #required
+    queue: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Send Queue Message Batch
-  method: send_batch
+- name: send_batch
   inputs:
-    messages: List[QueueBatchMessage] #required
-    queue: String #required
+    messages: list[queue_batch_message] #required
+    queue: string #required
   outputs:
-    failed_messages: List[QueueFailedMessage]
-    success: Boolean
+    failed_messages: list[queue_failed_message]
+    success: boolean

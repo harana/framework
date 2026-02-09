@@ -1,66 +1,61 @@
-- name: Log Debug Message
-  method: debug
+- name: debug
   inputs:
-    context: LogContext
-    message: String #required
+    context: log_context
+    message: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Log Info Message
-  method: info
+- name: info
   inputs:
-    context: LogContext
-    message: String #required
+    context: log_context
+    message: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Log Warning Message
-  method: warn
+- name: warn
   inputs:
-    context: LogContext
-    message: String #required
+    context: log_context
+    message: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Log Error Message
-  method: error
+- name: error
   inputs:
-    context: LogContext
-    error: LogError
-    message: String #required
+    context: log_context
+    error: log_error
+    message: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Log Structured Data
-  method: structured
+- name: structured
   inputs:
-    data: LogData #required
-    level: Debug | Info | Warn | Error #required
+    data: log_data #required
+    level: debug | info | warn | error #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: LogEntry
+- name: log_entry
   class:
-    level: String
-    message: String
-    timestamp: Date
-    context: LogContext
-    error: LogError
+    level: string
+    message: string
+    timestamp: date
+    context: log_context
+    error: log_error
 
-- name: LogContext
+- name: log_context
   class:
-    request_id: String
-    user_id: String
-    trace_id: String
-    span_id: String
+    request_id: string
+    user_id: string
+    trace_id: string
+    span_id: string
 
-- name: LogError
+- name: log_error
   class:
-    message: String
-    stack_trace: String
-    code: String
+    message: string
+    stack_trace: string
+    code: string
 
-- name: LogData
+- name: log_data
   class:
-    key: String
-    value: Any
+    key: string
+    value: any

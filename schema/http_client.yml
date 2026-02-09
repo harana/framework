@@ -1,0 +1,62 @@
+- name: http_client
+  schema:
+    - base_url: string? #url
+    - created_at: date = now()
+    - default_headers: string? # j_s_o_n map
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - max_retries: int = 3 #min(0)
+    - timeout_seconds: int = 30 #min(1)
+    - updated_at: date = now()
+
+- name: http_request_log
+  id: [client_id, created_at]
+  schema:
+    - client_id: id? -> http_client.id
+    - created_at: date = now()
+    - duration_ms: int? #min(0)
+    - error_message: string? #max(1000)
+    - method: get | post | put | patch | delete | head | options = get
+    - request_body: string?
+    - request_headers: string?
+    - response_body: string?
+    - response_headers: string?
+    - status_code: int?
+    - url: string #required #max(2000)
+
+- name: http_request
+  schema:
+    - url: string
+    - method: string
+    - headers: headers
+    - query_params: query_params
+    - body: any
+    - timeout: int
+
+- name: headers
+  schema:
+    - content_type: string
+    - authorization: string
+    - accept: string
+    - user_agent: string
+
+- name: query_params
+  schema:
+    - key: string
+    - value: string
+
+- name: variables
+  schema:
+    - key: string
+    - value: any
+
+- name: graph_ql_error
+  schema:
+    - message: string
+    - path: list[string]
+    - locations: list[graph_q_l_error_location]
+
+- name: graph_ql_error_location
+  schema:
+    - line: int
+    - column: int

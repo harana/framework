@@ -1,730 +1,665 @@
-- name: Create Auto Scaling Group
-  method: create_auto_scaling_group
+- name: create_auto_scaling_group
   inputs:
-    auto_scaling_group_name: String #required
-    availability_zones: List[String]
-    capacity_rebalance: Boolean = false
-    context: String
-    default_cooldown: Int = 300
-    default_instance_warmup: Int
-    desired_capacity: Int
-    desired_capacity_type: Units | Vcpu | Memory-mib
-    health_check_grace_period: Int = 300
-    health_check_type: EC2 | ELB = EC2
-    instance_id: String
-    instance_maintenance_policy: InstanceMaintenancePolicy
-    launch_configuration_name: String
-    launch_template: LaunchTemplateSpecification
-    lifecycle_hook_specification_list: List[LifecycleHookSpecification]
-    load_balancer_names: List[String]
-    max_instance_lifetime: Int
-    max_size: Int #required
-    min_size: Int #required
-    mixed_instances_policy: MixedInstancesPolicy
-    new_instances_protected_from_scale_in: Boolean = false
-    placement_group: String
-    region: String
-    service_linked_role_arn: String
-    tags: List[AutoScalingTag]
-    target_group_arns: List[String]
-    termination_policies: List[String]
-    traffic_sources: List[TrafficSourceIdentifier]
-    vpc_zone_identifier: String
+    auto_scaling_group_name: string #required
+    availability_zones: list[string]
+    capacity_rebalance: boolean = false
+    context: string
+    default_cooldown: int = 300
+    default_instance_warmup: int
+    desired_capacity: int
+    desired_capacity_type: units | vcpu | memory-mib
+    health_check_grace_period: int = 300
+    health_check_type: ec2 | elb = ec2
+    instance_id: string
+    instance_maintenance_policy: instance_maintenance_policy
+    launch_configuration_name: string
+    launch_template: launch_template_specification
+    lifecycle_hook_specification_list: list[lifecycle_hook_specification]
+    load_balancer_names: list[string]
+    max_instance_lifetime: int
+    max_size: int #required
+    min_size: int #required
+    mixed_instances_policy: mixed_instances_policy
+    new_instances_protected_from_scale_in: boolean = false
+    placement_group: string
+    region: string
+    service_linked_role_arn: string
+    tags: list[auto_scaling_tag]
+    target_group_arns: list[string]
+    termination_policies: list[string]
+    traffic_sources: list[traffic_source_identifier]
+    vpc_zone_identifier: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Auto Scaling Group
-  method: delete_auto_scaling_group
+- name: delete_auto_scaling_group
   inputs:
-    auto_scaling_group_name: String #required
-    force_delete: Boolean = false
-    region: String
+    auto_scaling_group_name: string #required
+    force_delete: boolean = false
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Auto Scaling Groups
-  method: describe_auto_scaling_groups
+- name: describe_auto_scaling_groups
   inputs:
-    auto_scaling_group_names: List[String]
-    filters: List[AutoScalingFilter]
-    max_records: Int = 100
-    next_token: String
-    region: String
+    auto_scaling_group_names: list[string]
+    filters: list[auto_scaling_filter]
+    max_records: int = 100
+    next_token: string
+    region: string
   outputs:
-    auto_scaling_groups: List[AutoScalingGroup]
-    next_token: String
+    auto_scaling_groups: list[auto_scaling_group]
+    next_token: string
 
-- name: Update Auto Scaling Group
-  method: update_auto_scaling_group
+- name: update_auto_scaling_group
   inputs:
-    auto_scaling_group_name: String #required
-    availability_zones: List[String]
-    capacity_rebalance: Boolean
-    context: String
-    default_cooldown: Int
-    default_instance_warmup: Int
-    desired_capacity: Int
-    desired_capacity_type: Units | Vcpu | Memory-mib
-    health_check_grace_period: Int
-    health_check_type: EC2 | ELB
-    instance_maintenance_policy: InstanceMaintenancePolicy
-    launch_configuration_name: String
-    launch_template: LaunchTemplateSpecification
-    max_instance_lifetime: Int
-    max_size: Int
-    min_size: Int
-    mixed_instances_policy: MixedInstancesPolicy
-    new_instances_protected_from_scale_in: Boolean
-    placement_group: String
-    region: String
-    service_linked_role_arn: String
-    termination_policies: List[String]
-    vpc_zone_identifier: String
+    auto_scaling_group_name: string #required
+    availability_zones: list[string]
+    capacity_rebalance: boolean
+    context: string
+    default_cooldown: int
+    default_instance_warmup: int
+    desired_capacity: int
+    desired_capacity_type: units | vcpu | memory-mib
+    health_check_grace_period: int
+    health_check_type: ec2 | elb
+    instance_maintenance_policy: instance_maintenance_policy
+    launch_configuration_name: string
+    launch_template: launch_template_specification
+    max_instance_lifetime: int
+    max_size: int
+    min_size: int
+    mixed_instances_policy: mixed_instances_policy
+    new_instances_protected_from_scale_in: boolean
+    placement_group: string
+    region: string
+    service_linked_role_arn: string
+    termination_policies: list[string]
+    vpc_zone_identifier: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Set Desired Capacity
-  method: set_desired_capacity
+- name: set_desired_capacity
   inputs:
-    auto_scaling_group_name: String #required
-    desired_capacity: Int #required
-    honor_cooldown: Boolean = false
-    region: String
+    auto_scaling_group_name: string #required
+    desired_capacity: int #required
+    honor_cooldown: boolean = false
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Attach Instances
-  method: attach_instances
+- name: attach_instances
   inputs:
-    auto_scaling_group_name: String #required
-    instance_ids: List[String] #required
-    region: String
+    auto_scaling_group_name: string #required
+    instance_ids: list[string] #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Detach Instances
-  method: detach_instances
+- name: detach_instances
   inputs:
-    auto_scaling_group_name: String #required
-    instance_ids: List[String] #required
-    region: String
-    should_decrement_desired_capacity: Boolean #required
+    auto_scaling_group_name: string #required
+    instance_ids: list[string] #required
+    region: string
+    should_decrement_desired_capacity: boolean #required
   outputs:
-    activities: List[Activity]
-    success: Boolean
+    activities: list[activity]
+    success: boolean
 
-- name: Enter Standby
-  method: enter_standby
+- name: enter_standby
   inputs:
-    auto_scaling_group_name: String #required
-    instance_ids: List[String]
-    region: String
-    should_decrement_desired_capacity: Boolean #required
+    auto_scaling_group_name: string #required
+    instance_ids: list[string]
+    region: string
+    should_decrement_desired_capacity: boolean #required
   outputs:
-    activities: List[Activity]
-    success: Boolean
+    activities: list[activity]
+    success: boolean
 
-- name: Exit Standby
-  method: exit_standby
+- name: exit_standby
   inputs:
-    auto_scaling_group_name: String #required
-    instance_ids: List[String]
-    region: String
+    auto_scaling_group_name: string #required
+    instance_ids: list[string]
+    region: string
   outputs:
-    activities: List[Activity]
-    success: Boolean
+    activities: list[activity]
+    success: boolean
 
-- name: Set Instance Health
-  method: set_instance_health
+- name: set_instance_health
   inputs:
-    health_status: Healthy | Unhealthy #required
-    instance_id: String #required
-    region: String
-    should_respect_grace_period: Boolean = false
+    health_status: healthy | unhealthy #required
+    instance_id: string #required
+    region: string
+    should_respect_grace_period: boolean = false
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Set Instance Protection
-  method: set_instance_protection
+- name: set_instance_protection
   inputs:
-    auto_scaling_group_name: String #required
-    instance_ids: List[String] #required
-    protected_from_scale_in: Boolean #required
-    region: String
+    auto_scaling_group_name: string #required
+    instance_ids: list[string] #required
+    protected_from_scale_in: boolean #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Terminate Instance In Auto Scaling Group
-  method: terminate_instance_in_auto_scaling_group
+- name: terminate_instance_in_auto_scaling_group
   inputs:
-    instance_id: String #required
-    region: String
-    should_decrement_desired_capacity: Boolean #required
+    instance_id: string #required
+    region: string
+    should_decrement_desired_capacity: boolean #required
   outputs:
-    activity: Activity
-    success: Boolean
+    activity: activity
+    success: boolean
 
-- name: Describe Auto Scaling Instances
-  method: describe_auto_scaling_instances
+- name: describe_auto_scaling_instances
   inputs:
-    instance_ids: List[String]
-    max_records: Int = 50
-    next_token: String
-    region: String
+    instance_ids: list[string]
+    max_records: int = 50
+    next_token: string
+    region: string
   outputs:
-    auto_scaling_instances: List[AutoScalingInstanceDetails]
-    next_token: String
+    auto_scaling_instances: list[auto_scaling_instance_details]
+    next_token: string
 
-- name: Create Launch Configuration
-  method: create_launch_configuration
+- name: create_launch_configuration
   inputs:
-    associate_public_ip_address: Boolean
-    block_device_mappings: List[BlockDeviceMapping]
-    classic_link_vpc_id: String
-    classic_link_vpc_security_groups: List[String]
-    ebs_optimized: Boolean = false
-    iam_instance_profile: String
-    image_id: String
-    instance_id: String
-    instance_monitoring: InstanceMonitoring
-    instance_type: String
-    kernel_id: String
-    key_name: String
-    launch_configuration_name: String #required
-    metadata_options: InstanceMetadataOptions
-    placement_tenancy: String
-    ramdisk_id: String
-    region: String
-    security_groups: List[String]
-    spot_price: String
-    user_data: String
+    associate_public_ip_address: boolean
+    block_device_mappings: list[block_device_mapping]
+    classic_link_vpc_id: string
+    classic_link_vpc_security_groups: list[string]
+    ebs_optimized: boolean = false
+    iam_instance_profile: string
+    image_id: string
+    instance_id: string
+    instance_monitoring: instance_monitoring
+    instance_type: string
+    kernel_id: string
+    key_name: string
+    launch_configuration_name: string #required
+    metadata_options: instance_metadata_options
+    placement_tenancy: string
+    ramdisk_id: string
+    region: string
+    security_groups: list[string]
+    spot_price: string
+    user_data: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Launch Configuration
-  method: delete_launch_configuration
+- name: delete_launch_configuration
   inputs:
-    launch_configuration_name: String #required
-    region: String
+    launch_configuration_name: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Launch Configurations
-  method: describe_launch_configurations
+- name: describe_launch_configurations
   inputs:
-    launch_configuration_names: List[String]
-    max_records: Int = 100
-    next_token: String
-    region: String
+    launch_configuration_names: list[string]
+    max_records: int = 100
+    next_token: string
+    region: string
   outputs:
-    launch_configurations: List[LaunchConfiguration]
-    next_token: String
+    launch_configurations: list[launch_configuration]
+    next_token: string
 
-- name: Put Scaling Policy
-  method: put_scaling_policy
+- name: put_scaling_policy
   inputs:
-    adjustment_type: ChangeInCapacity | ExactCapacity | PercentChangeInCapacity
-    auto_scaling_group_name: String #required
-    cooldown: Int
-    enabled: Boolean = true
-    estimated_instance_warmup: Int
-    metric_aggregation_type: Minimum | Maximum | Average
-    min_adjustment_magnitude: Int
-    min_adjustment_step: Int
-    policy_name: String #required
-    policy_type: SimpleScaling | StepScaling | TargetTrackingScaling | PredictiveScaling = SimpleScaling
-    predictive_scaling_configuration: PredictiveScalingConfiguration
-    region: String
-    scaling_adjustment: Int
-    step_adjustments: List[StepAdjustment]
-    target_tracking_configuration: TargetTrackingConfiguration
+    adjustment_type: change_in_capacity | exact_capacity | percent_change_in_capacity
+    auto_scaling_group_name: string #required
+    cooldown: int
+    enabled: boolean = true
+    estimated_instance_warmup: int
+    metric_aggregation_type: minimum | maximum | average
+    min_adjustment_magnitude: int
+    min_adjustment_step: int
+    policy_name: string #required
+    policy_type: simple_scaling | step_scaling | target_tracking_scaling | predictive_scaling = simple_scaling
+    predictive_scaling_configuration: predictive_scaling_configuration
+    region: string
+    scaling_adjustment: int
+    step_adjustments: list[step_adjustment]
+    target_tracking_configuration: target_tracking_configuration
   outputs:
-    alarms: List[Alarm]
-    policy_arn: String
-    success: Boolean
+    alarms: list[alarm]
+    policy_arn: string
+    success: boolean
 
-- name: Delete Policy
-  method: delete_policy
+- name: delete_policy
   inputs:
-    auto_scaling_group_name: String
-    policy_name: String #required
-    region: String
+    auto_scaling_group_name: string
+    policy_name: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Policies
-  method: describe_policies
+- name: describe_policies
   inputs:
-    auto_scaling_group_name: String
-    max_records: Int = 100
-    next_token: String
-    policy_names: List[String]
-    policy_types: List[String]
-    region: String
+    auto_scaling_group_name: string
+    max_records: int = 100
+    next_token: string
+    policy_names: list[string]
+    policy_types: list[string]
+    region: string
   outputs:
-    next_token: String
-    scaling_policies: List[ScalingPolicy]
+    next_token: string
+    scaling_policies: list[scaling_policy]
 
-- name: Execute Policy
-  method: execute_policy
+- name: execute_policy
   inputs:
-    auto_scaling_group_name: String
+    auto_scaling_group_name: string
     breach_threshold: number
-    honor_cooldown: Boolean = false
+    honor_cooldown: boolean = false
     metric_value: number
-    policy_name: String #required
-    region: String
+    policy_name: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Put Scheduled Update Group Action
-  method: put_scheduled_update_group_action
+- name: put_scheduled_update_group_action
   inputs:
-    auto_scaling_group_name: String #required
-    desired_capacity: Int
-    end_time: Date
-    max_size: Int
-    min_size: Int
-    recurrence: String
-    region: String
-    scheduled_action_name: String #required
-    start_time: Date
-    time: Date
-    time_zone: String
+    auto_scaling_group_name: string #required
+    desired_capacity: int
+    end_time: date
+    max_size: int
+    min_size: int
+    recurrence: string
+    region: string
+    scheduled_action_name: string #required
+    start_time: date
+    time: date
+    time_zone: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Scheduled Action
-  method: delete_scheduled_action
+- name: delete_scheduled_action
   inputs:
-    auto_scaling_group_name: String #required
-    region: String
-    scheduled_action_name: String #required
+    auto_scaling_group_name: string #required
+    region: string
+    scheduled_action_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Scheduled Actions
-  method: describe_scheduled_actions
+- name: describe_scheduled_actions
   inputs:
-    auto_scaling_group_name: String
-    end_time: Date
-    max_records: Int = 100
-    next_token: String
-    region: String
-    scheduled_action_names: List[String]
-    start_time: Date
+    auto_scaling_group_name: string
+    end_time: date
+    max_records: int = 100
+    next_token: string
+    region: string
+    scheduled_action_names: list[string]
+    start_time: date
   outputs:
-    next_token: String
-    scheduled_update_group_actions: List[ScheduledUpdateGroupAction]
+    next_token: string
+    scheduled_update_group_actions: list[scheduled_update_group_action]
 
-- name: Batch Delete Scheduled Action
-  method: batch_delete_scheduled_action
+- name: batch_delete_scheduled_action
   inputs:
-    auto_scaling_group_name: String #required
-    region: String
-    scheduled_action_names: List[String] #required
+    auto_scaling_group_name: string #required
+    region: string
+    scheduled_action_names: list[string] #required
   outputs:
-    failed_scheduled_actions: List[FailedScheduledUpdateGroupActionRequest]
-    success: Boolean
+    failed_scheduled_actions: list[failed_scheduled_update_group_action_request]
+    success: boolean
 
-- name: Batch Put Scheduled Update Group Action
-  method: batch_put_scheduled_update_group_action
+- name: batch_put_scheduled_update_group_action
   inputs:
-    auto_scaling_group_name: String #required
-    region: String
-    scheduled_update_group_actions: List[ScheduledUpdateGroupActionRequest] #required
+    auto_scaling_group_name: string #required
+    region: string
+    scheduled_update_group_actions: list[scheduled_update_group_action_request] #required
   outputs:
-    failed_scheduled_update_group_actions: List[FailedScheduledUpdateGroupActionRequest]
-    success: Boolean
+    failed_scheduled_update_group_actions: list[failed_scheduled_update_group_action_request]
+    success: boolean
 
-- name: Put Lifecycle Hook
-  method: put_lifecycle_hook
+- name: put_lifecycle_hook
   inputs:
-    auto_scaling_group_name: String #required
-    default_result: CONTINUE | ABANDON = ABANDON
-    heartbeat_timeout: Int = 3600
-    lifecycle_hook_name: String #required
+    auto_scaling_group_name: string #required
+    default_result: continue | abandon = abandon
+    heartbeat_timeout: int = 3600
+    lifecycle_hook_name: string #required
     lifecycle_transition: autoscaling:EC2_INSTANCE_LAUNCHING | autoscaling:EC2_INSTANCE_TERMINATING
-    notification_metadata: String
-    notification_target_arn: String
-    region: String
-    role_arn: String
+    notification_metadata: string
+    notification_target_arn: string
+    region: string
+    role_arn: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Lifecycle Hook
-  method: delete_lifecycle_hook
+- name: delete_lifecycle_hook
   inputs:
-    auto_scaling_group_name: String #required
-    lifecycle_hook_name: String #required
-    region: String
+    auto_scaling_group_name: string #required
+    lifecycle_hook_name: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Lifecycle Hooks
-  method: describe_lifecycle_hooks
+- name: describe_lifecycle_hooks
   inputs:
-    auto_scaling_group_name: String #required
-    lifecycle_hook_names: List[String]
-    region: String
+    auto_scaling_group_name: string #required
+    lifecycle_hook_names: list[string]
+    region: string
   outputs:
-    lifecycle_hooks: List[LifecycleHook]
+    lifecycle_hooks: list[lifecycle_hook]
 
-- name: Describe Lifecycle Hook Types
-  method: describe_lifecycle_hook_types
+- name: describe_lifecycle_hook_types
   inputs:
-    region: String
+    region: string
   outputs:
-    lifecycle_hook_types: List[String]
+    lifecycle_hook_types: list[string]
 
-- name: Complete Lifecycle Action
-  method: complete_lifecycle_action
+- name: complete_lifecycle_action
   inputs:
-    auto_scaling_group_name: String #required
-    instance_id: String
-    lifecycle_action_result: CONTINUE | ABANDON #required
-    lifecycle_action_token: String
-    lifecycle_hook_name: String #required
-    region: String
+    auto_scaling_group_name: string #required
+    instance_id: string
+    lifecycle_action_result: continue | abandon #required
+    lifecycle_action_token: string
+    lifecycle_hook_name: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Record Lifecycle Action Heartbeat
-  method: record_lifecycle_action_heartbeat
+- name: record_lifecycle_action_heartbeat
   inputs:
-    auto_scaling_group_name: String #required
-    instance_id: String
-    lifecycle_action_token: String
-    lifecycle_hook_name: String #required
-    region: String
+    auto_scaling_group_name: string #required
+    instance_id: string
+    lifecycle_action_token: string
+    lifecycle_hook_name: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Put Notification Configuration
-  method: put_notification_configuration
+- name: put_notification_configuration
   inputs:
-    auto_scaling_group_name: String #required
-    notification_types: List[String] #required
-    region: String
-    topic_arn: String #required
+    auto_scaling_group_name: string #required
+    notification_types: list[string] #required
+    region: string
+    topic_arn: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Notification Configuration
-  method: delete_notification_configuration
+- name: delete_notification_configuration
   inputs:
-    auto_scaling_group_name: String #required
-    region: String
-    topic_arn: String #required
+    auto_scaling_group_name: string #required
+    region: string
+    topic_arn: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Notification Configurations
-  method: describe_notification_configurations
+- name: describe_notification_configurations
   inputs:
-    auto_scaling_group_names: List[String]
-    max_records: Int = 100
-    next_token: String
-    region: String
+    auto_scaling_group_names: list[string]
+    max_records: int = 100
+    next_token: string
+    region: string
   outputs:
-    next_token: String
-    notification_configurations: List[NotificationConfiguration]
+    next_token: string
+    notification_configurations: list[notification_configuration]
 
-- name: Describe Auto Scaling Notification Types
-  method: describe_auto_scaling_notification_types
+- name: describe_auto_scaling_notification_types
   inputs:
-    region: String
+    region: string
   outputs:
-    auto_scaling_notification_types: List[String]
+    auto_scaling_notification_types: list[string]
 
-- name: Attach Load Balancers
-  method: attach_load_balancers
+- name: attach_load_balancers
   inputs:
-    auto_scaling_group_name: String #required
-    load_balancer_names: List[String] #required
-    region: String
+    auto_scaling_group_name: string #required
+    load_balancer_names: list[string] #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Detach Load Balancers
-  method: detach_load_balancers
+- name: detach_load_balancers
   inputs:
-    auto_scaling_group_name: String #required
-    load_balancer_names: List[String] #required
-    region: String
+    auto_scaling_group_name: string #required
+    load_balancer_names: list[string] #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Load Balancers
-  method: describe_load_balancers
+- name: describe_load_balancers
   inputs:
-    auto_scaling_group_name: String #required
-    max_records: Int = 100
-    next_token: String
-    region: String
+    auto_scaling_group_name: string #required
+    max_records: int = 100
+    next_token: string
+    region: string
   outputs:
-    load_balancers: List[LoadBalancerState]
-    next_token: String
+    load_balancers: list[load_balancer_state]
+    next_token: string
 
-- name: Attach Load Balancer Target Groups
-  method: attach_load_balancer_target_groups
+- name: attach_load_balancer_target_groups
   inputs:
-    auto_scaling_group_name: String #required
-    region: String
-    target_group_arns: List[String] #required
+    auto_scaling_group_name: string #required
+    region: string
+    target_group_arns: list[string] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Detach Load Balancer Target Groups
-  method: detach_load_balancer_target_groups
+- name: detach_load_balancer_target_groups
   inputs:
-    auto_scaling_group_name: String #required
-    region: String
-    target_group_arns: List[String] #required
+    auto_scaling_group_name: string #required
+    region: string
+    target_group_arns: list[string] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Load Balancer Target Groups
-  method: describe_load_balancer_target_groups
+- name: describe_load_balancer_target_groups
   inputs:
-    auto_scaling_group_name: String #required
-    max_records: Int = 100
-    next_token: String
-    region: String
+    auto_scaling_group_name: string #required
+    max_records: int = 100
+    next_token: string
+    region: string
   outputs:
-    load_balancer_target_groups: List[LoadBalancerTargetGroupState]
-    next_token: String
+    load_balancer_target_groups: list[load_balancer_target_group_state]
+    next_token: string
 
-- name: Attach Traffic Sources
-  method: attach_traffic_sources
+- name: attach_traffic_sources
   inputs:
-    auto_scaling_group_name: String #required
-    region: String
-    traffic_sources: List[TrafficSourceIdentifier] #required
+    auto_scaling_group_name: string #required
+    region: string
+    traffic_sources: list[traffic_source_identifier] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Detach Traffic Sources
-  method: detach_traffic_sources
+- name: detach_traffic_sources
   inputs:
-    auto_scaling_group_name: String #required
-    region: String
-    traffic_sources: List[TrafficSourceIdentifier] #required
+    auto_scaling_group_name: string #required
+    region: string
+    traffic_sources: list[traffic_source_identifier] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Traffic Sources
-  method: describe_traffic_sources
+- name: describe_traffic_sources
   inputs:
-    auto_scaling_group_name: String #required
-    max_records: Int = 100
-    next_token: String
-    region: String
-    traffic_source_type: String
+    auto_scaling_group_name: string #required
+    max_records: int = 100
+    next_token: string
+    region: string
+    traffic_source_type: string
   outputs:
-    next_token: String
-    traffic_sources: List[TrafficSourceState]
+    next_token: string
+    traffic_sources: list[traffic_source_state]
 
-- name: Describe Scaling Activities
-  method: describe_scaling_activities
+- name: describe_scaling_activities
   inputs:
-    activity_ids: List[String]
-    auto_scaling_group_name: String
-    include_deleted_groups: Boolean = false
-    max_records: Int = 100
-    next_token: String
-    region: String
+    activity_ids: list[string]
+    auto_scaling_group_name: string
+    include_deleted_groups: boolean = false
+    max_records: int = 100
+    next_token: string
+    region: string
   outputs:
-    activities: List[Activity]
-    next_token: String
+    activities: list[activity]
+    next_token: string
 
-- name: Describe Scaling Process Types
-  method: describe_scaling_process_types
+- name: describe_scaling_process_types
   inputs:
-    region: String
+    region: string
   outputs:
-    processes: List[ProcessType]
+    processes: list[process_type]
 
-- name: Suspend Processes
-  method: suspend_processes
+- name: suspend_processes
   inputs:
-    auto_scaling_group_name: String #required
-    region: String
-    scaling_processes: List[String]
+    auto_scaling_group_name: string #required
+    region: string
+    scaling_processes: list[string]
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Resume Processes
-  method: resume_processes
+- name: resume_processes
   inputs:
-    auto_scaling_group_name: String #required
-    region: String
-    scaling_processes: List[String]
+    auto_scaling_group_name: string #required
+    region: string
+    scaling_processes: list[string]
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Start Instance Refresh
-  method: start_instance_refresh
+- name: start_instance_refresh
   inputs:
-    auto_scaling_group_name: String #required
-    desired_configuration: DesiredConfiguration
-    preferences: RefreshPreferences
-    region: String
-    strategy: Rolling | BlueGreen = Rolling
+    auto_scaling_group_name: string #required
+    desired_configuration: desired_configuration
+    preferences: refresh_preferences
+    region: string
+    strategy: rolling | blue_green = rolling
   outputs:
-    instance_refresh_id: String
-    success: Boolean
+    instance_refresh_id: string
+    success: boolean
 
-- name: Cancel Instance Refresh
-  method: cancel_instance_refresh
+- name: cancel_instance_refresh
   inputs:
-    auto_scaling_group_name: String #required
-    region: String
+    auto_scaling_group_name: string #required
+    region: string
   outputs:
-    instance_refresh_id: String
-    success: Boolean
+    instance_refresh_id: string
+    success: boolean
 
-- name: Describe Instance Refreshes
-  method: describe_instance_refreshes
+- name: describe_instance_refreshes
   inputs:
-    auto_scaling_group_name: String #required
-    instance_refresh_ids: List[String]
-    max_records: Int = 100
-    next_token: String
-    region: String
+    auto_scaling_group_name: string #required
+    instance_refresh_ids: list[string]
+    max_records: int = 100
+    next_token: string
+    region: string
   outputs:
-    instance_refreshes: List[InstanceRefresh]
-    next_token: String
+    instance_refreshes: list[instance_refresh]
+    next_token: string
 
-- name: Rollback Instance Refresh
-  method: rollback_instance_refresh
+- name: rollback_instance_refresh
   inputs:
-    auto_scaling_group_name: String #required
-    region: String
+    auto_scaling_group_name: string #required
+    region: string
   outputs:
-    instance_refresh_id: String
-    success: Boolean
+    instance_refresh_id: string
+    success: boolean
 
-- name: Put Warm Pool
-  method: put_warm_pool
+- name: put_warm_pool
   inputs:
-    auto_scaling_group_name: String #required
-    instance_reuse_policy: InstanceReusePolicy
-    max_group_prepared_capacity: Int
-    min_size: Int = 0
-    pool_state: Stopped | Running | Hibernated = Stopped
-    region: String
+    auto_scaling_group_name: string #required
+    instance_reuse_policy: instance_reuse_policy
+    max_group_prepared_capacity: int
+    min_size: int = 0
+    pool_state: stopped | running | hibernated = stopped
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Warm Pool
-  method: delete_warm_pool
+- name: delete_warm_pool
   inputs:
-    auto_scaling_group_name: String #required
-    force_delete: Boolean = false
-    region: String
+    auto_scaling_group_name: string #required
+    force_delete: boolean = false
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Warm Pool
-  method: describe_warm_pool
+- name: describe_warm_pool
   inputs:
-    auto_scaling_group_name: String #required
-    max_records: Int = 100
-    next_token: String
-    region: String
+    auto_scaling_group_name: string #required
+    max_records: int = 100
+    next_token: string
+    region: string
   outputs:
-    instances: List[Instance]
-    next_token: String
-    warm_pool_configuration: WarmPoolConfiguration
+    instances: list[instance]
+    next_token: string
+    warm_pool_configuration: warm_pool_configuration
 
-- name: Describe Account Limits
-  method: describe_account_limits
+- name: describe_account_limits
   inputs:
-    region: String
+    region: string
   outputs:
-    max_number_of_auto_scaling_groups: Int
-    max_number_of_launch_configurations: Int
-    number_of_auto_scaling_groups: Int
-    number_of_launch_configurations: Int
+    max_number_of_auto_scaling_groups: int
+    max_number_of_launch_configurations: int
+    number_of_auto_scaling_groups: int
+    number_of_launch_configurations: int
 
-- name: Describe Adjustment Types
-  method: describe_adjustment_types
+- name: describe_adjustment_types
   inputs:
-    region: String
+    region: string
   outputs:
-    adjustment_types: List[AdjustmentType]
+    adjustment_types: list[adjustment_type]
 
-- name: Describe Termination Policy Types
-  method: describe_termination_policy_types
+- name: describe_termination_policy_types
   inputs:
-    region: String
+    region: string
   outputs:
-    termination_policy_types: List[String]
+    termination_policy_types: list[string]
 
-- name: Describe Metric Collection Types
-  method: describe_metric_collection_types
+- name: describe_metric_collection_types
   inputs:
-    region: String
+    region: string
   outputs:
-    granularities: List[MetricGranularityType]
-    metrics: List[MetricCollectionType]
+    granularities: list[metric_granularity_type]
+    metrics: list[metric_collection_type]
 
-- name: Enable Metrics Collection
-  method: enable_metrics_collection
+- name: enable_metrics_collection
   inputs:
-    auto_scaling_group_name: String #required
-    granularity: String #required
-    metrics: List[String]
-    region: String
+    auto_scaling_group_name: string #required
+    granularity: string #required
+    metrics: list[string]
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Disable Metrics Collection
-  method: disable_metrics_collection
+- name: disable_metrics_collection
   inputs:
-    auto_scaling_group_name: String #required
-    metrics: List[String]
-    region: String
+    auto_scaling_group_name: string #required
+    metrics: list[string]
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Predictive Scaling Forecast
-  method: get_predictive_scaling_forecast
+- name: get_predictive_scaling_forecast
   inputs:
-    auto_scaling_group_name: String #required
-    end_time: Date #required
-    policy_name: String #required
-    region: String
-    start_time: Date #required
+    auto_scaling_group_name: string #required
+    end_time: date #required
+    policy_name: string #required
+    region: string
+    start_time: date #required
   outputs:
-    capacity_forecast: CapacityForecast
-    load_forecast: List[LoadForecast]
-    update_time: Date
+    capacity_forecast: capacity_forecast
+    load_forecast: list[load_forecast]
+    update_time: date
 
-- name: Create Or Update Tags
-  method: create_or_update_tags
+- name: create_or_update_tags
   inputs:
-    region: String
-    tags: List[AutoScalingTag] #required
+    region: string
+    tags: list[auto_scaling_tag] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Tags
-  method: delete_tags
+- name: delete_tags
   inputs:
-    region: String
-    tags: List[AutoScalingTag] #required
+    region: string
+    tags: list[auto_scaling_tag] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Tags
-  method: describe_tags
+- name: describe_tags
   inputs:
-    filters: List[AutoScalingFilter]
-    max_records: Int = 100
-    next_token: String
-    region: String
+    filters: list[auto_scaling_filter]
+    max_records: int = 100
+    next_token: string
+    region: string
   outputs:
-    next_token: String
-    tags: List[TagDescription]
+    next_token: string
+    tags: list[tag_description]

@@ -1,116 +1,105 @@
-- name: Create New Session
-  method: create
+- name: create
   inputs:
-    data: SessionData
-    ttl: Int = 3600
-    user_id: String #required
+    data: session_data
+    ttl: int = 3600
+    user_id: string #required
   outputs:
-    expires_at: Date
-    session_id: String
+    expires_at: date
+    session_id: string
 
-- name: Get Session Data
-  method: get
+- name: get
   inputs:
-    session_id: String #required
+    session_id: string #required
   outputs:
-    created_at: Date
-    data: SessionData
-    expires_at: Date
-    found: Boolean
-    user_id: String
+    created_at: date
+    data: session_data
+    expires_at: date
+    found: boolean
+    user_id: string
 
-- name: Update Session Data
-  method: update
+- name: update
   inputs:
-    data: SessionData #required
-    merge: Boolean = true
-    session_id: String #required
+    data: session_data #required
+    merge: boolean = true
+    session_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Destroy Session
-  method: destroy
+- name: destroy
   inputs:
-    session_id: String #required
+    session_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Refresh Session Expiry
-  method: refresh
+- name: refresh
   inputs:
-    session_id: String #required
-    ttl: Int
+    session_id: string #required
+    ttl: int
   outputs:
-    expires_at: Date
-    success: Boolean
+    expires_at: date
+    success: boolean
 
-- name: Get Session Value
-  method: get_value
+- name: get_value
   inputs:
-    key: String #required
-    session_id: String #required
+    key: string #required
+    session_id: string #required
   outputs:
-    found: Boolean
-    value: Any
+    found: boolean
+    value: any
 
-- name: Set Session Value
-  method: set_value
+- name: set_value
   inputs:
-    key: String #required
-    session_id: String #required
-    value: Any #required
+    key: string #required
+    session_id: string #required
+    value: any #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Session Value
-  method: delete_value
+- name: delete_value
   inputs:
-    key: String #required
-    session_id: String #required
+    key: string #required
+    session_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List User Sessions
-  method: list_users
+- name: list_users
   inputs:
-    user_id: String #required
+    user_id: string #required
   outputs:
-    sessions: List[SessionInfo]
-    total: Int
+    sessions: list[session_info]
+    total: int
 
-- name: Destroy All User Sessions
-  method: destroy_users
+- name: destroy_users
   inputs:
-    except_id: String
-    user_id: String #required
+    except_id: string
+    user_id: string #required
   outputs:
-    destroyed_count: Int
-    success: Boolean
+    destroyed_count: int
+    success: boolean
 
-- name: Check Session Valid
-  method: validate
+- name: validate
   inputs:
-    session_id: String #required
+    session_id: string #required
   outputs:
-    expires_at: Date
-    user_id: String
-    valid: Boolean
+    expires_at: date
+    user_id: string
+    valid: boolean
 
-- name: Session
+- name: session
   class:
-    session_id: String
-    user_id: String
-    data: SessionData
-    created_at: Date
-    expires_at: Date
+    session_id: string
+    user_id: string
+    data: session_data
+    created_at: date
+    expires_at: date
 
-- name: SessionData
+- name: session_data
   class:
-    values: Map[String, Any]
+    values: map[string, any]
 
-- name: SessionInfo
+- name: session_info
   class:
-    session_id: String
-    user_id: String
-    created_at: Date
-    expires_at: Date
+    session_id: string
+    user_id: string
+    created_at: date
+    expires_at: date

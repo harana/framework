@@ -1,11 +1,10 @@
-- name: Pagination Component
-  type: pagination
+- name: pagination
   attributes:
-    - aria_label: String = Page navigation #max(200)
-    - next_href: String? #max(500)
-    - next_label: String = Next #max(50)
-    - previous_href: String? #max(500)
-    - previous_label: String = Previous #max(50)
+    - aria_label: string = page navigation #max(200)
+    - next_href: string? #max(500)
+    - next_label: string = next #max(50)
+    - previous_href: string? #max(500)
+    - previous_label: string = previous #max(50)
   events:
     - first_page_reach
     - last_page_reach

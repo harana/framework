@@ -1,8 +1,3 @@
-// Harana Components - Task Store Functions
-//
-// Functions for working with Task and TaskExecutionHistory entities
-// using the generic storage module.
-
 use chrono::{DateTime, Utc};
 
 use harana_components_storage::{FilterCondition, QueryOptions, Store};
@@ -218,8 +213,6 @@ impl TaskQuery {
 // ============================================================================
 // Task Store Operations
 // ============================================================================
-
-/// Create a new task in the store
 pub async fn create_task<S>(store: &S, task: &Task) -> TaskResult<()>
 where
     S: Store<Task>,
@@ -232,16 +225,12 @@ where
     }
     store.create(task).await.map_err(map_storage_error)
 }
-
-/// Get a task by ID
 pub async fn get_task<S>(store: &S, task_id: &str) -> TaskResult<Option<Task>>
 where
     S: Store<Task>,
 {
     store.find_by_id(task_id).await.map_err(map_storage_error)
 }
-
-/// Update a task in the store
 pub async fn update_task<S>(store: &S, task: &Task) -> TaskResult<()>
 where
     S: Store<Task>,
@@ -254,16 +243,12 @@ where
     }
     store.update(task).await.map_err(map_storage_error)
 }
-
-/// Delete a task from the store
 pub async fn delete_task<S>(store: &S, task_id: &str) -> TaskResult<bool>
 where
     S: Store<Task>,
 {
     store.delete(task_id).await.map_err(map_storage_error)
 }
-
-/// Query tasks with filtering and pagination
 pub async fn query_tasks<S>(store: &S, query: TaskQuery) -> TaskResult<Vec<Task>>
 where
     S: Store<Task>,
@@ -289,7 +274,6 @@ where
 
     Ok(tasks)
 }
-
 /// Count tasks matching query
 pub async fn count_tasks<S>(store: &S, query: TaskQuery) -> TaskResult<u64>
 where
@@ -298,8 +282,6 @@ where
     let filter = query.to_filter();
     store.count(filter).await.map_err(map_storage_error)
 }
-
-/// Get runnable tasks (pending/retrying and due to run)
 pub async fn get_runnable_tasks<S>(store: &S, queue: &str, limit: usize) -> TaskResult<Vec<Task>>
 where
     S: Store<Task>,
@@ -331,7 +313,6 @@ where
 
     Ok(runnable)
 }
-
 /// Try to acquire a lock on a task for execution
 pub async fn try_lock_task<S>(
     store: &S,
@@ -369,8 +350,6 @@ where
 
     Ok(Some(lock_token))
 }
-
-/// Release a task lock
 pub async fn release_task_lock<S>(
     store: &S,
     task_id: &str,
@@ -400,7 +379,6 @@ where
 
     Ok(true)
 }
-
 /// Extend a task lock
 pub async fn extend_task_lock<S>(
     store: &S,
@@ -427,8 +405,6 @@ where
 
     Ok(true)
 }
-
-/// Get tasks with expired locks (for recovery)
 pub async fn get_stale_tasks<S>(store: &S, stale_threshold: DateTime<Utc>) -> TaskResult<Vec<Task>>
 where
     S: Store<Task>,
@@ -447,7 +423,6 @@ where
 // ============================================================================
 // History Operations
 // ============================================================================
-
 /// Record execution history
 pub async fn record_history<S>(store: &S, history: &TaskExecutionHistory) -> TaskResult<()>
 where
@@ -455,8 +430,6 @@ where
 {
     store.create(history).await.map_err(map_storage_error)
 }
-
-/// Get execution history for a task
 pub async fn get_task_history<S>(
     store: &S,
     task_id: &str,
@@ -475,8 +448,6 @@ where
         .await
         .map_err(map_storage_error)
 }
-
-/// Get execution history for a queue
 pub async fn get_queue_history<S>(
     store: &S,
     queue: &str,
@@ -508,8 +479,6 @@ where
 // ============================================================================
 // Statistics Operations
 // ============================================================================
-
-/// Get queue statistics
 pub async fn get_queue_stats<S>(store: &S, queue: &str) -> TaskResult<QueueStats>
 where
     S: Store<Task>,
@@ -621,8 +590,6 @@ where
         average_wait_time_ms: None,
     })
 }
-
-/// Get all unique queue names
 pub async fn get_queues<S>(store: &S) -> TaskResult<Vec<String>>
 where
     S: Store<Task>,

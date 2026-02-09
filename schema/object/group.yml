@@ -1,28 +1,25 @@
-- name: Group
-  type: group
+- name: group
   schema:
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - is_active: Boolean = true
-    - name: String #required #unique #max(200)
-    - parent_id: Id? -> Group.id
-    - updated_at: Date = now()
+    - created_at: date = now()
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - name: string #required #unique #max(200)
+    - parent_id: id? -> group.id
+    - updated_at: date = now()
 
-- name: Group Member
-  type: group_member
+- name: group_member
   id: [group_id, user_id]
   schema:
-    - added_at: Date = now()
-    - added_by: Id? -> User.id
-    - group_id: Id #required -> Group.id
-    - is_admin: Boolean = false
-    - user_id: Id #required -> User.id
+    - added_at: date = now()
+    - added_by: id? -> user.id
+    - group_id: id #required -> group.id
+    - is_admin: boolean = false
+    - user_id: id #required -> user.id
 
-- name: Group Role
-  type: group_role
+- name: group_role
   id: [group_id, role_id]
   schema:
-    - assigned_at: Date = now()
-    - assigned_by: Id? -> User.id
-    - group_id: Id #required -> Group.id
-    - role_id: Id #required -> Role.id
+    - assigned_at: date = now()
+    - assigned_by: id? -> user.id
+    - group_id: id #required -> group.id
+    - role_id: id #required -> role.id

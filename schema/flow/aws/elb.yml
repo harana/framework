@@ -1,378 +1,344 @@
-- name: Create Load Balancer
-  method: create_load_balancer
+- name: create_load_balancer
   inputs:
-    customer_owned_ipv4_pool: String
-    ip_address_type: Ipv4 | Dualstack
-    name: String #required
-    region: String
+    customer_owned_ipv4_pool: string
+    ip_address_type: ipv4 | dualstack
+    name: string #required
+    region: string
     scheme: internet-facing | internal = internet-facing
-    security_groups: List[String]
-    subnet_mappings: List[SubnetMapping]
-    subnets: List[String]
-    tags: ElbTags
-    type: Application | Network | Gateway = Application
+    security_groups: list[string]
+    subnet_mappings: list[subnet_mapping]
+    subnets: list[string]
+    tags: elb_tags
+    type: application | network | gateway = application
   outputs:
-    load_balancers: List[LoadBalancer]
-    success: Boolean
+    load_balancers: list[load_balancer]
+    success: boolean
 
-- name: Delete Load Balancer
-  method: delete_load_balancer
+- name: delete_load_balancer
   inputs:
-    load_balancer_arn: String #required
-    region: String
+    load_balancer_arn: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Load Balancers
-  method: describe_load_balancers
+- name: describe_load_balancers
   inputs:
-    load_balancer_arns: List[String]
-    marker: String
-    names: List[String]
-    page_size: Int = 400
-    region: String
+    load_balancer_arns: list[string]
+    marker: string
+    names: list[string]
+    page_size: int = 400
+    region: string
   outputs:
-    load_balancers: List[LoadBalancer]
-    next_marker: String
+    load_balancers: list[load_balancer]
+    next_marker: string
 
-- name: Modify Load Balancer Attributes
-  method: modify_load_balancer_attributes
+- name: modify_load_balancer_attributes
   inputs:
-    attributes: List[LoadBalancerAttribute] #required
-    load_balancer_arn: String #required
-    region: String
+    attributes: list[load_balancer_attribute] #required
+    load_balancer_arn: string #required
+    region: string
   outputs:
-    attributes: List[LoadBalancerAttribute]
-    success: Boolean
+    attributes: list[load_balancer_attribute]
+    success: boolean
 
-- name: Describe Load Balancer Attributes
-  method: describe_load_balancer_attributes
+- name: describe_load_balancer_attributes
   inputs:
-    load_balancer_arn: String #required
-    region: String
+    load_balancer_arn: string #required
+    region: string
   outputs:
-    attributes: List[LoadBalancerAttribute]
+    attributes: list[load_balancer_attribute]
 
-- name: Set Security Groups
-  method: set_security_groups
+- name: set_security_groups
   inputs:
-    load_balancer_arn: String #required
-    region: String
-    security_groups: List[String] #required
+    load_balancer_arn: string #required
+    region: string
+    security_groups: list[string] #required
   outputs:
-    security_group_ids: List[String]
-    success: Boolean
+    security_group_ids: list[string]
+    success: boolean
 
-- name: Set Subnets
-  method: set_subnets
+- name: set_subnets
   inputs:
-    ip_address_type: Ipv4 | Dualstack
-    load_balancer_arn: String #required
-    region: String
-    subnet_mappings: List[SubnetMapping]
-    subnets: List[String]
+    ip_address_type: ipv4 | dualstack
+    load_balancer_arn: string #required
+    region: string
+    subnet_mappings: list[subnet_mapping]
+    subnets: list[string]
   outputs:
-    availability_zones: List[AvailabilityZone]
-    ip_address_type: String
-    success: Boolean
+    availability_zones: list[availability_zone]
+    ip_address_type: string
+    success: boolean
 
-- name: Set IP Address Type
-  method: set_ip_address_type
+- name: set_ip_address_type
   inputs:
-    ip_address_type: Ipv4 | Dualstack #required
-    load_balancer_arn: String #required
-    region: String
+    ip_address_type: ipv4 | dualstack #required
+    load_balancer_arn: string #required
+    region: string
   outputs:
-    ip_address_type: String
-    success: Boolean
+    ip_address_type: string
+    success: boolean
 
-- name: Create Target Group
-  method: create_target_group
+- name: create_target_group
   inputs:
-    health_check_enabled: Boolean = true
-    health_check_interval_seconds: Int = 30
-    health_check_path: String
-    health_check_port: String = traffic-port
-    health_check_protocol: HTTP | HTTPS | TCP | TLS | UDP | TCP_UDP
-    health_check_timeout_seconds: Int
-    healthy_threshold_count: Int = 5
-    ip_address_type: Ipv4 | Ipv6
-    matcher: Matcher
-    name: String #required
-    port: Int
-    protocol: HTTP | HTTPS | TCP | TLS | UDP | TCP_UDP | GENEVE
-    protocol_version: HTTP1 | HTTP2 | GRPC
-    region: String
-    tags: ElbTags
-    target_type: Instance | Ip | Lambda | Alb = Instance
-    unhealthy_threshold_count: Int = 2
-    vpc_id: String
+    health_check_enabled: boolean = true
+    health_check_interval_seconds: int = 30
+    health_check_path: string
+    health_check_port: string = traffic-port
+    health_check_protocol: http | https | tcp | tls | udp | TCP_UDP
+    health_check_timeout_seconds: int
+    healthy_threshold_count: int = 5
+    ip_address_type: ipv4 | ipv6
+    matcher: matcher
+    name: string #required
+    port: int
+    protocol: http | https | tcp | tls | udp | TCP_UDP | geneve
+    protocol_version: http1 | http2 | grpc
+    region: string
+    tags: elb_tags
+    target_type: instance | ip | lambda | alb = instance
+    unhealthy_threshold_count: int = 2
+    vpc_id: string
   outputs:
-    target_groups: List[TargetGroup]
-    success: Boolean
+    target_groups: list[target_group]
+    success: boolean
 
-- name: Delete Target Group
-  method: delete_target_group
+- name: delete_target_group
   inputs:
-    region: String
-    target_group_arn: String #required
+    region: string
+    target_group_arn: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Target Groups
-  method: describe_target_groups
+- name: describe_target_groups
   inputs:
-    load_balancer_arn: String
-    marker: String
-    names: List[String]
-    page_size: Int = 400
-    region: String
-    target_group_arns: List[String]
+    load_balancer_arn: string
+    marker: string
+    names: list[string]
+    page_size: int = 400
+    region: string
+    target_group_arns: list[string]
   outputs:
-    next_marker: String
-    target_groups: List[TargetGroup]
+    next_marker: string
+    target_groups: list[target_group]
 
-- name: Modify Target Group
-  method: modify_target_group
+- name: modify_target_group
   inputs:
-    health_check_enabled: Boolean
-    health_check_interval_seconds: Int
-    health_check_path: String
-    health_check_port: String
-    health_check_protocol: HTTP | HTTPS | TCP | TLS | UDP | TCP_UDP
-    health_check_timeout_seconds: Int
-    healthy_threshold_count: Int
-    matcher: Matcher
-    region: String
-    target_group_arn: String #required
-    unhealthy_threshold_count: Int
+    health_check_enabled: boolean
+    health_check_interval_seconds: int
+    health_check_path: string
+    health_check_port: string
+    health_check_protocol: http | https | tcp | tls | udp | TCP_UDP
+    health_check_timeout_seconds: int
+    healthy_threshold_count: int
+    matcher: matcher
+    region: string
+    target_group_arn: string #required
+    unhealthy_threshold_count: int
   outputs:
-    target_groups: List[TargetGroup]
-    success: Boolean
+    target_groups: list[target_group]
+    success: boolean
 
-- name: Modify Target Group Attributes
-  method: modify_target_group_attributes
+- name: modify_target_group_attributes
   inputs:
-    attributes: List[TargetGroupAttribute] #required
-    region: String
-    target_group_arn: String #required
+    attributes: list[target_group_attribute] #required
+    region: string
+    target_group_arn: string #required
   outputs:
-    attributes: List[TargetGroupAttribute]
-    success: Boolean
+    attributes: list[target_group_attribute]
+    success: boolean
 
-- name: Describe Target Group Attributes
-  method: describe_target_group_attributes
+- name: describe_target_group_attributes
   inputs:
-    region: String
-    target_group_arn: String #required
+    region: string
+    target_group_arn: string #required
   outputs:
-    attributes: List[TargetGroupAttribute]
+    attributes: list[target_group_attribute]
 
-- name: Register Targets
-  method: register_targets
+- name: register_targets
   inputs:
-    region: String
-    target_group_arn: String #required
-    targets: List[TargetDescription] #required
+    region: string
+    target_group_arn: string #required
+    targets: list[target_description] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Deregister Targets
-  method: deregister_targets
+- name: deregister_targets
   inputs:
-    region: String
-    target_group_arn: String #required
-    targets: List[TargetDescription] #required
+    region: string
+    target_group_arn: string #required
+    targets: list[target_description] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Target Health
-  method: describe_target_health
+- name: describe_target_health
   inputs:
-    region: String
-    target_group_arn: String #required
-    targets: List[TargetDescription]
+    region: string
+    target_group_arn: string #required
+    targets: list[target_description]
   outputs:
-    target_health_descriptions: List[TargetHealthDescription]
+    target_health_descriptions: list[target_health_description]
 
-- name: Create Listener
-  method: create_listener
+- name: create_listener
   inputs:
-    alpn_policy: List[String]
-    certificates: List[Certificate]
-    default_actions: List[Action] #required
-    load_balancer_arn: String #required
-    port: Int
-    protocol: HTTP | HTTPS | TCP | TLS | UDP | TCP_UDP | GENEVE
-    region: String
-    ssl_policy: String
-    tags: ElbTags
+    alpn_policy: list[string]
+    certificates: list[certificate]
+    default_actions: list[action] #required
+    load_balancer_arn: string #required
+    port: int
+    protocol: http | https | tcp | tls | udp | TCP_UDP | geneve
+    region: string
+    ssl_policy: string
+    tags: elb_tags
   outputs:
-    listeners: List[Listener]
-    success: Boolean
+    listeners: list[listener]
+    success: boolean
 
-- name: Delete Listener
-  method: delete_listener
+- name: delete_listener
   inputs:
-    listener_arn: String #required
-    region: String
+    listener_arn: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Listeners
-  method: describe_listeners
+- name: describe_listeners
   inputs:
-    listener_arns: List[String]
-    load_balancer_arn: String
-    marker: String
-    page_size: Int = 400
-    region: String
+    listener_arns: list[string]
+    load_balancer_arn: string
+    marker: string
+    page_size: int = 400
+    region: string
   outputs:
-    listeners: List[Listener]
-    next_marker: String
+    listeners: list[listener]
+    next_marker: string
 
-- name: Modify Listener
-  method: modify_listener
+- name: modify_listener
   inputs:
-    alpn_policy: List[String]
-    certificates: List[Certificate]
-    default_actions: List[Action]
-    listener_arn: String #required
-    port: Int
-    protocol: HTTP | HTTPS | TCP | TLS | UDP | TCP_UDP | GENEVE
-    region: String
-    ssl_policy: String
+    alpn_policy: list[string]
+    certificates: list[certificate]
+    default_actions: list[action]
+    listener_arn: string #required
+    port: int
+    protocol: http | https | tcp | tls | udp | TCP_UDP | geneve
+    region: string
+    ssl_policy: string
   outputs:
-    listeners: List[Listener]
-    success: Boolean
+    listeners: list[listener]
+    success: boolean
 
-- name: Create Rule
-  method: create_rule
+- name: create_rule
   inputs:
-    actions: List[Action] #required
-    conditions: List[RuleCondition] #required
-    listener_arn: String #required
-    priority: Int #required
-    region: String
-    tags: ElbTags
+    actions: list[action] #required
+    conditions: list[rule_condition] #required
+    listener_arn: string #required
+    priority: int #required
+    region: string
+    tags: elb_tags
   outputs:
-    rules: List[Rule]
-    success: Boolean
+    rules: list[rule]
+    success: boolean
 
-- name: Delete Rule
-  method: delete_rule
+- name: delete_rule
   inputs:
-    region: String
-    rule_arn: String #required
+    region: string
+    rule_arn: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Rules
-  method: describe_rules
+- name: describe_rules
   inputs:
-    listener_arn: String
-    marker: String
-    page_size: Int = 400
-    region: String
-    rule_arns: List[String]
+    listener_arn: string
+    marker: string
+    page_size: int = 400
+    region: string
+    rule_arns: list[string]
   outputs:
-    next_marker: String
-    rules: List[Rule]
+    next_marker: string
+    rules: list[rule]
 
-- name: Modify Rule
-  method: modify_rule
+- name: modify_rule
   inputs:
-    actions: List[Action]
-    conditions: List[RuleCondition]
-    region: String
-    rule_arn: String #required
+    actions: list[action]
+    conditions: list[rule_condition]
+    region: string
+    rule_arn: string #required
   outputs:
-    rules: List[Rule]
-    success: Boolean
+    rules: list[rule]
+    success: boolean
 
-- name: Set Rule Priorities
-  method: set_rule_priorities
+- name: set_rule_priorities
   inputs:
-    region: String
-    rule_priorities: List[RulePriorityPair] #required
+    region: string
+    rule_priorities: list[rule_priority_pair] #required
   outputs:
-    rules: List[Rule]
-    success: Boolean
+    rules: list[rule]
+    success: boolean
 
-- name: Add Listener Certificates
-  method: add_listener_certificates
+- name: add_listener_certificates
   inputs:
-    certificates: List[Certificate] #required
-    listener_arn: String #required
-    region: String
+    certificates: list[certificate] #required
+    listener_arn: string #required
+    region: string
   outputs:
-    certificates: List[Certificate]
-    success: Boolean
+    certificates: list[certificate]
+    success: boolean
 
-- name: Remove Listener Certificates
-  method: remove_listener_certificates
+- name: remove_listener_certificates
   inputs:
-    certificates: List[Certificate] #required
-    listener_arn: String #required
-    region: String
+    certificates: list[certificate] #required
+    listener_arn: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Listener Certificates
-  method: describe_listener_certificates
+- name: describe_listener_certificates
   inputs:
-    listener_arn: String #required
-    marker: String
-    page_size: Int = 400
-    region: String
+    listener_arn: string #required
+    marker: string
+    page_size: int = 400
+    region: string
   outputs:
-    certificates: List[Certificate]
-    next_marker: String
+    certificates: list[certificate]
+    next_marker: string
 
-- name: Describe SSL Policies
-  method: describe_ssl_policies
+- name: describe_ssl_policies
   inputs:
-    load_balancer_type: Application | Network | Gateway
-    marker: String
-    names: List[String]
-    page_size: Int = 400
-    region: String
+    load_balancer_type: application | network | gateway
+    marker: string
+    names: list[string]
+    page_size: int = 400
+    region: string
   outputs:
-    next_marker: String
-    ssl_policies: List[SslPolicy]
+    next_marker: string
+    ssl_policies: list[ssl_policy]
 
-- name: Describe Account Limits
-  method: describe_account_limits
+- name: describe_account_limits
   inputs:
-    marker: String
-    page_size: Int = 400
-    region: String
+    marker: string
+    page_size: int = 400
+    region: string
   outputs:
-    limits: List[Limit]
-    next_marker: String
+    limits: list[limit]
+    next_marker: string
 
-- name: Add Tags
-  method: add_tags
+- name: add_tags
   inputs:
-    region: String
-    resource_arns: List[String] #required
-    tags: ElbTags #required
+    region: string
+    resource_arns: list[string] #required
+    tags: elb_tags #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Remove Tags
-  method: remove_tags
+- name: remove_tags
   inputs:
-    region: String
-    resource_arns: List[String] #required
-    tag_keys: List[String] #required
+    region: string
+    resource_arns: list[string] #required
+    tag_keys: list[string] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Tags
-  method: describe_tags
+- name: describe_tags
   inputs:
-    region: String
-    resource_arns: List[String] #required
+    region: string
+    resource_arns: list[string] #required
   outputs:
-    tag_descriptions: List[TagDescription]
+    tag_descriptions: list[tag_description]

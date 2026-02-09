@@ -1,351 +1,332 @@
-- name: Create Zoom Meeting
-  method: create_meeting
+- name: create_meeting
   inputs:
-    agenda: String
-    duration: Int = 60
-    password: String
-    recurrence: ZoomRecurrence
-    settings: ZoomMeetingSettings
-    start_time: Date
-    timezone: String
-    topic: String #required
-    type: Instant | Scheduled | RecurringFixed | RecurringUnfixed = Scheduled
+    agenda: string
+    duration: int = 60
+    password: string
+    recurrence: zoom_recurrence
+    settings: zoom_meeting_settings
+    start_time: date
+    timezone: string
+    topic: string #required
+    type: instant | scheduled | recurring_fixed | recurring_unfixed = scheduled
   outputs:
-    join_url: String
-    meeting_id: String
-    password: String
-    start_url: String
-    success: Boolean
+    join_url: string
+    meeting_id: string
+    password: string
+    start_url: string
+    success: boolean
 
-- name: Get Zoom Meeting
-  method: get_meeting
+- name: get_meeting
   inputs:
-    meeting_id: String #required
+    meeting_id: string #required
   outputs:
-    agenda: String
-    duration: Int
-    host_id: String
-    join_url: String
-    meeting_id: String
-    password: String
-    start_time: Date
-    status: String
-    timezone: String
-    topic: String
-    type: Int
+    agenda: string
+    duration: int
+    host_id: string
+    join_url: string
+    meeting_id: string
+    password: string
+    start_time: date
+    status: string
+    timezone: string
+    topic: string
+    type: int
 
-- name: Update Zoom Meeting
-  method: update_meeting
+- name: update_meeting
   inputs:
-    agenda: String
-    duration: Int
-    meeting_id: String #required
-    password: String
-    settings: ZoomMeetingSettings
-    start_time: Date
-    timezone: String
-    topic: String
-    type: Instant | Scheduled | RecurringFixed | RecurringUnfixed
+    agenda: string
+    duration: int
+    meeting_id: string #required
+    password: string
+    settings: zoom_meeting_settings
+    start_time: date
+    timezone: string
+    topic: string
+    type: instant | scheduled | recurring_fixed | recurring_unfixed
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Zoom Meeting
-  method: delete_meeting
+- name: delete_meeting
   inputs:
-    meeting_id: String #required
-    occurrence_id: String
-    schedule_for_reminder: Boolean = false
+    meeting_id: string #required
+    occurrence_id: string
+    schedule_for_reminder: boolean = false
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Zoom Meetings
-  method: list_meetings
+- name: list_meetings
   inputs:
-    next_page_token: String
-    page_size: Int = 30
-    type: Scheduled | Live | Upcoming | UpcomingMeetings | PreviousMeetings = Scheduled
-    user_id: String = "me"
+    next_page_token: string
+    page_size: int = 30
+    type: scheduled | live | upcoming | upcoming_meetings | previous_meetings = scheduled
+    user_id: string = "me"
   outputs:
-    meetings: List[ZoomMeeting]
-    next_page_token: String
-    total_records: Int
+    meetings: list[zoom_meeting]
+    next_page_token: string
+    total_records: int
 
-- name: Add Meeting Registrant
-  method: add_registrant
+- name: add_registrant
   inputs:
-    custom_questions: List[ZoomCustomQuestion]
-    email: String #required
-    first_name: String #required
-    last_name: String
-    meeting_id: String #required
-    phone: String
+    custom_questions: list[zoom_custom_question]
+    email: string #required
+    first_name: string #required
+    last_name: string
+    meeting_id: string #required
+    phone: string
   outputs:
-    join_url: String
-    registrant_id: String
-    success: Boolean
+    join_url: string
+    registrant_id: string
+    success: boolean
 
-- name: List Meeting Registrants
-  method: list_registrants
+- name: list_registrants
   inputs:
-    meeting_id: String #required
-    next_page_token: String
-    page_size: Int = 30
-    status: Pending | Approved | Denied = Approved
+    meeting_id: string #required
+    next_page_token: string
+    page_size: int = 30
+    status: pending | approved | denied = approved
   outputs:
-    next_page_token: String
-    registrants: List[ZoomRegistrant]
-    total_records: Int
+    next_page_token: string
+    registrants: list[zoom_registrant]
+    total_records: int
 
-- name: Update Registrant Status
-  method: update_registrant_status
+- name: update_registrant_status
   inputs:
-    method: Approve | Deny | Cancel #required
-    meeting_id: String #required
-    registrants: List[ZoomRegistrantId] #required
+    method: approve | deny | cancel #required
+    meeting_id: string #required
+    registrants: list[zoom_registrant_id] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Meeting Participants
-  method: get_participants
+- name: get_participants
   inputs:
-    meeting_id: String #required
-    next_page_token: String
-    page_size: Int = 30
-    type: Past | pastOne | Live = Live
+    meeting_id: string #required
+    next_page_token: string
+    page_size: int = 30
+    type: past | past_one | live = live
   outputs:
-    next_page_token: String
-    participants: List[ZoomParticipant]
-    total_records: Int
+    next_page_token: string
+    participants: list[zoom_participant]
+    total_records: int
 
-- name: Create Zoom Webinar
-  method: create_webinar
+- name: create_webinar
   inputs:
-    agenda: String
-    duration: Int = 60
-    password: String
-    settings: ZoomWebinarSettings
-    start_time: Date
-    timezone: String
-    topic: String #required
-    type: Webinar | RecurringWebinarFixed | RecurringWebinarUnfixed = Webinar
+    agenda: string
+    duration: int = 60
+    password: string
+    settings: zoom_webinar_settings
+    start_time: date
+    timezone: string
+    topic: string #required
+    type: webinar | recurring_webinar_fixed | recurring_webinar_unfixed = webinar
   outputs:
-    join_url: String
-    password: String
-    start_url: String
-    success: Boolean
-    webinar_id: String
+    join_url: string
+    password: string
+    start_url: string
+    success: boolean
+    webinar_id: string
 
-- name: Get Zoom Webinar
-  method: get_webinar
+- name: get_webinar
   inputs:
-    webinar_id: String #required
+    webinar_id: string #required
   outputs:
-    agenda: String
-    duration: Int
-    host_id: String
-    join_url: String
-    start_time: Date
-    timezone: String
-    topic: String
-    type: Int
-    webinar_id: String
+    agenda: string
+    duration: int
+    host_id: string
+    join_url: string
+    start_time: date
+    timezone: string
+    topic: string
+    type: int
+    webinar_id: string
 
-- name: Delete Zoom Webinar
-  method: delete_webinar
+- name: delete_webinar
   inputs:
-    occurrence_id: String
-    webinar_id: String #required
+    occurrence_id: string
+    webinar_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Zoom User
-  method: get_user
+- name: get_user
   inputs:
-    user_id: String = "me"
+    user_id: string = "me"
   outputs:
-    created_at: Date
-    email: String
-    first_name: String
-    last_name: String
-    status: String
-    timezone: String
-    type: Int
-    user_id: String
+    created_at: date
+    email: string
+    first_name: string
+    last_name: string
+    status: string
+    timezone: string
+    type: int
+    user_id: string
 
-- name: List Zoom Users
-  method: list_users
+- name: list_users
   inputs:
-    next_page_token: String
-    page_size: Int = 30
-    role_id: String
-    status: Active | Inactive | Pending = Active
+    next_page_token: string
+    page_size: int = 30
+    role_id: string
+    status: active | inactive | pending = active
   outputs:
-    next_page_token: String
-    total_records: Int
-    users: List[ZoomUser]
+    next_page_token: string
+    total_records: int
+    users: list[zoom_user]
 
-- name: Get Meeting Recording
-  method: get_recording
+- name: get_recording
   inputs:
-    meeting_id: String #required
+    meeting_id: string #required
   outputs:
-    download_url: String
-    duration: Int
-    recording_files: List[ZoomRecordingFile]
-    share_url: String
+    download_url: string
+    duration: int
+    recording_files: list[zoom_recording_file]
+    share_url: string
 
-- name: Delete Meeting Recording
-  method: delete_recording
+- name: delete_recording
   inputs:
-    method: Trash | Delete = Trash
-    meeting_id: String #required
+    method: trash | delete = trash
+    meeting_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Cloud Recordings
-  method: list_recordings
+- name: list_recordings
   inputs:
-    from_date: Date
-    next_page_token: String
-    page_size: Int = 30
-    to_date: Date
-    user_id: String = "me"
+    from_date: date
+    next_page_token: string
+    page_size: int = 30
+    to_date: date
+    user_id: string = "me"
   outputs:
-    next_page_token: String
-    recordings: List[ZoomRecording]
-    total_records: Int
+    next_page_token: string
+    recordings: list[zoom_recording]
+    total_records: int
 
-- name: End Zoom Meeting
-  method: end_meeting
+- name: end_meeting
   inputs:
-    meeting_id: String #required
+    meeting_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Send Meeting Invitation
-  method: send_invitation
+- name: send_invitation
   inputs:
-    emails: List[String] #required
-    meeting_id: String #required
+    emails: list[string] #required
+    meeting_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: ZoomMeeting
+- name: zoom_meeting
   class:
-    meeting_id: String
-    topic: String
-    type: Int
-    start_time: Date
-    duration: Int
-    timezone: String
-    password: String
-    join_url: String
-    start_url: String
-    host_id: String
-    status: String
+    meeting_id: string
+    topic: string
+    type: int
+    start_time: date
+    duration: int
+    timezone: string
+    password: string
+    join_url: string
+    start_url: string
+    host_id: string
+    status: string
 
-- name: ZoomRecurrence
+- name: zoom_recurrence
   class:
-    type: Daily | Weekly | Monthly
-    repeat_interval: Int
-    weekly_days: String
-    monthly_day: Int
-    monthly_week: Int
-    monthly_week_day: Int
-    end_times: Int
-    end_date_time: Date
+    type: daily | weekly | monthly
+    repeat_interval: int
+    weekly_days: string
+    monthly_day: int
+    monthly_week: int
+    monthly_week_day: int
+    end_times: int
+    end_date_time: date
 
-- name: ZoomMeetingSettings
+- name: zoom_meeting_settings
   class:
-    host_video: Boolean
-    participant_video: Boolean
-    join_before_host: Boolean
-    mute_upon_entry: Boolean
-    watermark: Boolean
-    use_pmi: Boolean
-    approval_type: Int
-    registration_type: Int
-    audio: String
-    auto_recording: String
-    waiting_room: Boolean
+    host_video: boolean
+    participant_video: boolean
+    join_before_host: boolean
+    mute_upon_entry: boolean
+    watermark: boolean
+    use_pmi: boolean
+    approval_type: int
+    registration_type: int
+    audio: string
+    auto_recording: string
+    waiting_room: boolean
 
-- name: ZoomWebinarSettings
+- name: zoom_webinar_settings
   class:
-    host_video: Boolean
-    panelists_video: Boolean
-    practice_session: Boolean
-    hd_video: Boolean
-    approval_type: Int
-    registration_type: Int
-    audio: String
-    auto_recording: String
-    close_registration: Boolean
-    show_share_button: Boolean
-    allow_multiple_devices: Boolean
+    host_video: boolean
+    panelists_video: boolean
+    practice_session: boolean
+    hd_video: boolean
+    approval_type: int
+    registration_type: int
+    audio: string
+    auto_recording: string
+    close_registration: boolean
+    show_share_button: boolean
+    allow_multiple_devices: boolean
 
-- name: ZoomCustomQuestion
+- name: zoom_custom_question
   class:
-    title: String
-    value: String
+    title: string
+    value: string
 
-- name: ZoomRegistrant
+- name: zoom_registrant
   class:
-    id: String
-    email: String
-    first_name: String
-    last_name: String
-    status: String
-    create_time: Date
-    join_url: String
+    id: string
+    email: string
+    first_name: string
+    last_name: string
+    status: string
+    create_time: date
+    join_url: string
 
-- name: ZoomRegistrantId
+- name: zoom_registrant_id
   class:
-    id: String
-    email: String
+    id: string
+    email: string
 
-- name: ZoomParticipant
+- name: zoom_participant
   class:
-    id: String
-    user_id: String
-    name: String
-    email: String
-    join_time: Date
-    leave_time: Date
-    duration: Int
-    attentiveness_score: String
-    status: String
+    id: string
+    user_id: string
+    name: string
+    email: string
+    join_time: date
+    leave_time: date
+    duration: int
+    attentiveness_score: string
+    status: string
 
-- name: ZoomUser
+- name: zoom_user
   class:
-    id: String
-    email: String
-    first_name: String
-    last_name: String
-    type: Int
-    status: String
-    created_at: Date
-    timezone: String
+    id: string
+    email: string
+    first_name: string
+    last_name: string
+    type: int
+    status: string
+    created_at: date
+    timezone: string
 
-- name: ZoomRecordingFile
+- name: zoom_recording_file
   class:
-    id: String
-    meeting_id: String
-    recording_start: Date
-    recording_end: Date
-    file_type: String
-    file_size: Int
-    download_url: String
-    play_url: String
-    status: String
+    id: string
+    meeting_id: string
+    recording_start: date
+    recording_end: date
+    file_type: string
+    file_size: int
+    download_url: string
+    play_url: string
+    status: string
 
-- name: ZoomRecording
+- name: zoom_recording
   class:
-    id: String
-    meeting_id: String
-    topic: String
-    type: Int
-    start_time: Date
-    duration: Int
-    total_size: Int
-    recording_count: Int
-    recording_files: List[ZoomRecordingFile]
+    id: string
+    meeting_id: string
+    topic: string
+    type: int
+    start_time: date
+    duration: int
+    total_size: int
+    recording_count: int
+    recording_files: list[zoom_recording_file]

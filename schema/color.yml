@@ -1,0 +1,55 @@
+- name: color
+  id: [hex]
+  schema:
+    - created_at: date = now()
+    - format: hex | rgb | hsl | hsv | cmyk = hex
+    - hex: string #required #unique #max(9)
+    - label: string? #max(100)
+
+- name: color_palette
+  schema:
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - palette_type: complementary | analogous | triadic | tetradic | split_complementary | monochromatic | custom = custom
+    - updated_at: date = now()
+
+- name: color_palette_entry
+  id: [palette_id, color_id]
+  schema:
+    - color_id: id #required -> color.id
+    - palette_id: id #required -> color_palette.id
+    - sort_order: int = 0
+
+- name: rgb_color
+  schema:
+    - r: int
+    - g: int
+    - b: int
+
+- name: hsl_color
+  schema:
+    - h: int
+    - s: float
+    - l: float
+
+- name: hsv_color
+  schema:
+    - h: int
+    - s: float
+    - v: float
+
+- name: cmyk_color
+  schema:
+    - c: float
+    - m: float
+    - y: float
+    - k: float
+
+- name: color_components
+  schema:
+    - red: int
+    - green: int
+    - blue: int
+    - alpha: float

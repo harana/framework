@@ -1,14 +1,9 @@
-// Harana Components - Task Worker
-// 
-// A background worker that pulls tasks from queues and executes them.
-// Integrates with the lock component for distributed execution coordination.
-
 use chrono::Utc;
 use parking_lot::RwLock;
 use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
-use tokio::sync::{broadcast, mpsc, Semaphore};
+use tokio::sync::{Semaphore, broadcast, mpsc};
 use tokio::task::JoinHandle;
 use tracing::{debug, error, info, warn};
 
@@ -16,100 +11,9 @@ use harana_components_lock::{DistributedLock, DistributedLockManager, LockConfig
 use harana_components_storage::Store;
 
 use crate::{
-    Task, TaskExecutionHistory, TaskExecutor, TaskResult, task_lock_resource,
-    store as task_store,
+    Task, TaskExecutionHistory, TaskExecutor, TaskResult, WorkerConfig, WorkerEvent, store as task_store,
+    task_lock_resource,
 };
-
-// ============================================================================
-// Worker Configuration
-// ============================================================================
-
-#[derive(Debug, Clone)]
-pub struct WorkerConfig {
-        pub worker_id: String,
-        pub queues: Vec<String>,
-        pub poll_interval_ms: u64,
-        pub batch_size: usize,
-        pub max_concurrent_tasks: usize,
-        pub lock_duration_secs: u64,
-        pub stale_check_interval_secs: u64,
-        pub stale_threshold_secs: u64,
-        pub cleanup_interval_secs: u64,
-        pub history_retention_days: u32,
-        pub auto_retry: bool,
-        pub process_scheduled: bool,
-}
-
-impl Default for WorkerConfig {
-    fn default() -> Self {
-        Self {
-            worker_id: uuid::Uuid::new_v4().to_string(),
-            queues: vec![],
-            poll_interval_ms: 1000,
-            batch_size: 10,
-            max_concurrent_tasks: 10,
-            lock_duration_secs: 300,
-            stale_check_interval_secs: 60,
-            stale_threshold_secs: 600,
-            cleanup_interval_secs: 3600,
-            history_retention_days: 30,
-            auto_retry: true,
-            process_scheduled: true,
-        }
-    }
-}
-
-impl WorkerConfig {
-    pub fn new(worker_id: impl Into<String>) -> Self {
-        Self {
-            worker_id: worker_id.into(),
-            ..Default::default()
-        }
-    }
-
-    pub fn with_queues(mut self, queues: Vec<String>) -> Self {
-        self.queues = queues;
-        self
-    }
-
-    pub fn with_poll_interval(mut self, ms: u64) -> Self {
-        self.poll_interval_ms = ms;
-        self
-    }
-
-    pub fn with_batch_size(mut self, size: usize) -> Self {
-        self.batch_size = size;
-        self
-    }
-
-    pub fn with_max_concurrent_tasks(mut self, max: usize) -> Self {
-        self.max_concurrent_tasks = max;
-        self
-    }
-
-    pub fn with_lock_duration(mut self, secs: u64) -> Self {
-        self.lock_duration_secs = secs;
-        self
-    }
-}
-
-// ============================================================================
-// Worker Events
-// ============================================================================
-
-#[derive(Debug, Clone)]
-pub enum WorkerEvent {
-    Started { worker_id: String },
-    Stopped { worker_id: String },
-    TaskPickedUp { task_id: String, queue: String },
-    TaskStarted { task_id: String, queue: String },
-    TaskCompleted { task_id: String, queue: String, duration_ms: i64 },
-    TaskFailed { task_id: String, queue: String, error: String },
-    TaskRetrying { task_id: String, queue: String, attempt: u32 },
-    TaskTimedOut { task_id: String, queue: String },
-    StaleTaskRecovered { task_id: String },
-    LockExtended { task_id: String },
-}
 
 // ============================================================================
 // Task Worker
@@ -145,17 +49,10 @@ where
     H: Store<TaskExecutionHistory> + 'static,
     L: Store<DistributedLock> + Send + Sync + 'static,
 {
-    /// Create a new task worker
-    pub fn new(
-        store: S,
-        history_store: H,
-        lock_store: L,
-        config: WorkerConfig,
-    ) -> Self {
+    pub fn new(store: S, history_store: H, lock_store: L, config: WorkerConfig) -> Self {
         let (event_sender, _) = broadcast::channel(1000);
         let semaphore = Arc::new(Semaphore::new(config.max_concurrent_tasks));
-        let lock_config = LockConfig::new()
-            .with_ttl(config.lock_duration_secs);
+        let lock_config = LockConfig::new().with_ttl(config.lock_duration_secs);
 
         Self {
             store: Arc::new(store),
@@ -174,20 +71,15 @@ where
             semaphore,
         }
     }
-
-    /// Register an executor for specific task types
     pub fn register_executor(&self, task_types: Vec<String>, executor: Arc<dyn TaskExecutor>) {
         let mut executors = self.executors.write();
         for task_type in task_types {
             executors.insert(task_type, Arc::clone(&executor));
         }
     }
-
-    /// Register a default executor for unhandled task types
     pub fn register_default_executor(&self, executor: Arc<dyn TaskExecutor>) {
         *self.default_executor.write() = Some(executor);
     }
-
     /// Get an executor for a task type
     fn get_executor(&self, task_type: &str) -> Option<Arc<dyn TaskExecutor>> {
         self.executors
@@ -196,13 +88,9 @@ where
             .cloned()
             .or_else(|| self.default_executor.read().clone())
     }
-
-    /// Subscribe to worker events
     pub fn subscribe(&self) -> broadcast::Receiver<WorkerEvent> {
         self.event_sender.subscribe()
     }
-
-    /// Get the underlying store
     pub fn store(&self) -> &S {
         &self.store
     }
@@ -211,8 +99,6 @@ where
     pub fn lock_manager(&self) -> &DistributedLockManager<L> {
         &self.lock_manager
     }
-
-    /// Check if worker is running
     pub fn is_running(&self) -> bool {
         self.state.read().running
     }
@@ -221,13 +107,9 @@ where
     pub fn active_task_count(&self) -> usize {
         self.state.read().active_tasks
     }
-
-    /// Emit a worker event
     fn emit(&self, event: WorkerEvent) {
         let _ = self.event_sender.send(event);
     }
-
-    /// Start the worker
     pub async fn start(&mut self) -> TaskResult<()> {
         {
             let mut state = self.state.write();
@@ -278,8 +160,6 @@ where
 
         Ok(())
     }
-
-    /// Stop the worker
     pub async fn stop(&self) -> TaskResult<()> {
         {
             let mut state = self.state.write();
@@ -297,8 +177,6 @@ where
 
         Ok(())
     }
-
-    /// Clone worker references for background tasks
     fn clone_for_task(&self) -> WorkerTaskHandle<S, H, L> {
         WorkerTaskHandle {
             store: Arc::clone(&self.store),
@@ -326,7 +204,12 @@ struct WorkerTaskHandle<S: Store<Task>, H: Store<TaskExecutionHistory>, L: Store
     semaphore: Arc<Semaphore>,
 }
 
-impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Store<DistributedLock> + Send + Sync + 'static> WorkerTaskHandle<S, H, L> {
+impl<
+    S: Store<Task> + 'static,
+    H: Store<TaskExecutionHistory> + 'static,
+    L: Store<DistributedLock> + Send + Sync + 'static,
+> WorkerTaskHandle<S, H, L>
+{
     fn emit(&self, event: WorkerEvent) {
         let _ = self.event_sender.send(event);
     }
@@ -342,7 +225,6 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
             .or_else(|| self.default_executor.clone())
     }
 
-    /// Main worker loop
     async fn worker_loop(&self, mut shutdown: mpsc::Receiver<()>) {
         let poll_interval = Duration::from_millis(self.config.poll_interval_ms);
 
@@ -356,7 +238,7 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
                     if !self.is_running() {
                         break;
                     }
-                    
+
                     if let Err(e) = self.process_tasks().await {
                         error!(error = %e, "Error processing tasks");
                     }
@@ -365,7 +247,6 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
         }
     }
 
-    /// Process available tasks
     async fn process_tasks(&self) -> TaskResult<()> {
         // Get the queues to process
         let queues = if self.config.queues.is_empty() {
@@ -376,11 +257,7 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
 
         for queue in queues {
             // Get runnable tasks for this queue
-            let tasks = task_store::get_runnable_tasks(
-                self.store.as_ref(),
-                &queue,
-                self.config.batch_size,
-            ).await?;
+            let tasks = task_store::get_runnable_tasks(self.store.as_ref(), &queue, self.config.batch_size).await?;
 
             for task in tasks {
                 // Try to acquire a semaphore permit
@@ -403,7 +280,7 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
 
                 tokio::spawn(async move {
                     let _permit = permit; // Hold permit until task completes
-                    
+
                     if let Err(e) = Self::execute_task(
                         store,
                         history_store,
@@ -412,7 +289,9 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
                         task,
                         &config,
                         &event_sender,
-                    ).await {
+                    )
+                    .await
+                    {
                         error!(error = %e, "Error executing task");
                     }
                 });
@@ -422,7 +301,6 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
         Ok(())
     }
 
-    /// Execute a single task
     async fn execute_task(
         store: Arc<S>,
         history_store: Arc<H>,
@@ -455,19 +333,17 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
         });
 
         // Try to lock in store as well
-        let lock_token = match task_store::try_lock_task(
-            store.as_ref(),
-            &task_id,
-            &config.worker_id,
-            config.lock_duration_secs,
-        ).await? {
-            Some(token) => token,
-            None => {
-                // Release distributed lock
-                let _ = lock_manager.release_lock(&lock_resource, &config.worker_id).await;
-                return Ok(());
-            }
-        };
+        let lock_token =
+            match task_store::try_lock_task(store.as_ref(), &task_id, &config.worker_id, config.lock_duration_secs)
+                .await?
+            {
+                Some(token) => token,
+                None => {
+                    // Release distributed lock
+                    let _ = lock_manager.release_lock(&lock_resource, &config.worker_id).await;
+                    return Ok(());
+                }
+            };
 
         let _ = event_sender.send(WorkerEvent::TaskStarted {
             task_id: task_id.clone(),
@@ -479,12 +355,9 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
             Some(e) => e,
             None => {
                 // No executor found, fail the task
-                task.fail(
-                    format!("No executor found for task type: {}", task_type),
-                    None,
-                );
+                task.fail(format!("No executor found for task type: {}", task_type), None);
                 task_store::update_task(store.as_ref(), &task).await?;
-                
+
                 let history = TaskExecutionHistory::from_task(&task);
                 task_store::record_history(history_store.as_ref(), &history).await?;
 
@@ -502,7 +375,7 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
         // Execute the task with timeout
         let start_time = Utc::now();
         let timeout = Duration::from_secs(task.timeout_secs);
-        
+
         let result = tokio::time::timeout(timeout, executor.execute(&task)).await;
 
         let duration_ms = (Utc::now() - start_time).num_milliseconds();
@@ -610,7 +483,6 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
         Ok(())
     }
 
-    /// Stale task recovery loop
     async fn stale_recovery_loop(&self, mut shutdown: mpsc::Receiver<()>) {
         let interval = Duration::from_secs(self.config.stale_check_interval_secs);
 
@@ -633,7 +505,6 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
         }
     }
 
-    /// Recover tasks with expired locks
     async fn recover_stale_tasks(&self) -> TaskResult<()> {
         let threshold = Utc::now() - chrono::Duration::seconds(self.config.stale_threshold_secs as i64);
         let stale_tasks = task_store::get_stale_tasks(self.store.as_ref(), threshold).await?;
@@ -672,7 +543,6 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
         Ok(())
     }
 
-    /// Cleanup loop for old history
     async fn cleanup_loop(&self, mut shutdown: mpsc::Receiver<()>) {
         let interval = Duration::from_secs(self.config.cleanup_interval_secs);
 
@@ -695,7 +565,6 @@ impl<S: Store<Task> + 'static, H: Store<TaskExecutionHistory> + 'static, L: Stor
         }
     }
 
-    /// Clean up old execution history
     async fn cleanup_old_history(&self) -> TaskResult<()> {
         let cutoff = Utc::now() - chrono::Duration::days(self.config.history_retention_days as i64);
         let deleted = task_store::cleanup_history(self.history_store.as_ref(), cutoff).await?;

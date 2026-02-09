@@ -1,0 +1,43 @@
+- name: run_process
+  id: [process_id]
+  schema:
+    - args: string? # j_s_o_n array
+    - command: string #required #max(2000)
+    - cpu_usage: decimal? #min(0)
+    - environment: string? # j_s_o_n map
+    - exit_code: int?
+    - is_detached: boolean = false
+    - memory_usage: int? #min(0)
+    - process_id: int? #min(0)
+    - started_at: date = now()
+    - status: pending | running | completed | failed | killed = pending
+    - stopped_at: date?
+    - working_directory: string? #max(2000)
+
+- name: run_process_log
+  id: [process_id, created_at]
+  schema:
+    - content: string #required #max(10000)
+    - created_at: date = now()
+    - process_id: id #required -> run_process.id
+    - stream: stdout | stderr = stdout
+
+- name: process_status
+  schema:
+    - process_id: int
+    - running: boolean
+    - exit_code: int
+    - cpu_usage: float
+    - memory_usage: int
+    - uptime: int
+
+- name: process_info
+  schema:
+    - process_id: int
+    - name: string
+    - command: string
+    - user: string
+    - cpu_usage: float
+    - memory_usage: int
+    - status: string
+    - uptime: int

@@ -1,5 +1,3 @@
-//! Standalone binary to run the HTTP server (requires "standalone" feature)
-
 use harana_components_cache::MemoryCacheStore;
 use harana_components_http_server::{HttpServer, ServerConfig};
 use std::sync::Arc;

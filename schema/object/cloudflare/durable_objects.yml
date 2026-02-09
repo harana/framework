@@ -1,57 +1,52 @@
-- name: Cloudflare Durable Object Namespace
-  type: cf_durable_object_namespace
+- name: cf_durable_object_namespace
   id: [account_id, namespace_name]
   schema:
-    - account_id: String #required #max(50)
-    - class_name: String #required #max(255)
-    - created_at: Date = now()
-    - namespace_id: String? #unique #max(255)
-    - namespace_name: String #required #unique #max(255)
-    - script_name: String? #max(255)
-    - updated_at: Date = now()
+    - account_id: string #required #max(50)
+    - class_name: string #required #max(255)
+    - created_at: date = now()
+    - namespace_id: string? #unique #max(255)
+    - namespace_name: string #required #unique #max(255)
+    - script_name: string? #max(255)
+    - updated_at: date = now()
 
-- name: Cloudflare Durable Object Instance
-  type: cf_durable_object_instance
+- name: cf_durable_object_instance
   id: [namespace_id, object_id]
   schema:
-    - created_at: Date = now()
-    - has_storage: Boolean = false
-    - jurisdiction: String? #max(50)
-    - namespace_id: Id #required -> CfDurableObjectNamespace.id
-    - object_id: String #required #unique #max(255)
-    - object_name: String? #max(255)
-    - updated_at: Date = now()
+    - created_at: date = now()
+    - has_storage: boolean = false
+    - jurisdiction: string? #max(50)
+    - namespace_id: id #required -> cf_durable_object_namespace.id
+    - object_id: string #required #unique #max(255)
+    - object_name: string? #max(255)
+    - updated_at: date = now()
 
-- name: Cloudflare Durable Object Storage Entry
-  type: cf_durable_object_storage_entry
+- name: cf_durable_object_storage_entry
   id: [instance_id, key]
   schema:
-    - created_at: Date = now()
-    - instance_id: Id #required -> CfDurableObjectInstance.id
-    - key: String #required #max(2048)
-    - updated_at: Date = now()
-    - value: String? # JSON
+    - created_at: date = now()
+    - instance_id: id #required -> cf_durable_object_instance.id
+    - key: string #required #max(2048)
+    - updated_at: date = now()
+    - value: string? # json
 
-- name: Cloudflare Durable Object Alarm
-  type: cf_durable_object_alarm
+- name: cf_durable_object_alarm
   id: [instance_id]
   schema:
-    - created_at: Date = now()
-    - instance_id: Id #required -> CfDurableObjectInstance.id
-    - scheduled_time: Date #required
-    - status: Scheduled | Triggered | Cancelled = Scheduled
-    - updated_at: Date = now()
+    - created_at: date = now()
+    - instance_id: id #required -> cf_durable_object_instance.id
+    - scheduled_time: date #required
+    - status: scheduled | triggered | cancelled = scheduled
+    - updated_at: date = now()
 
-- name: Cloudflare Durable Object WebSocket
-  type: cf_durable_object_websocket
+- name: cf_durable_object_websocket
   id: [instance_id, websocket_id]
   schema:
-    - accepted_at: Date = now()
-    - auto_response_request: String? #max(500)
-    - auto_response_value: String? #max(500)
-    - instance_id: Id #required -> CfDurableObjectInstance.id
-    - is_hibernated: Boolean = false
-    - status: Open | Closed = Open
-    - tags: String? # JSON list
-    - websocket_id: String #required #unique #max(255)
+    - accepted_at: date = now()
+    - auto_response_request: string? #max(500)
+    - auto_response_value: string? #max(500)
+    - instance_id: id #required -> cf_durable_object_instance.id
+    - is_hibernated: boolean = false
+    - status: open | closed = open
+    - tags: string? # json list
+    - websocket_id: string #required #unique #max(255)
 

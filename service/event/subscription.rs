@@ -1,5 +1,3 @@
-// Harana Components - Events Subscription Types
-
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -151,8 +149,6 @@ impl SubscriptionFilter {
 
         true
     }
-
-    /// Check if this filter accepts all events (no restrictions)
     pub fn is_empty(&self) -> bool {
         self.event_types.is_empty()
             && self.event_type_prefix.is_none()
@@ -314,8 +310,6 @@ impl Subscription {
         self.durable = true;
         self
     }
-
-    /// Check if an event should be delivered to this subscription
     pub fn should_receive(&self, event: &Event) -> bool {
         if !self.active {
             return false;

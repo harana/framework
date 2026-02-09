@@ -1,30 +1,28 @@
-- name: AWS STS Assumed Role Session
-  type: aws_sts_assumed_role_session
+- name: aws_sts_assumed_role_session
   id: [account_id, role_arn, role_session_name]
   schema:
-    - access_key_id: String? #max(128)
-    - account_id: String #required #max(20)
-    - assumed_role_arn: String? #max(255)
-    - assumed_role_id: String? #max(255)
-    - created_at: Date = now()
-    - expiration: Date #required
-    - method: AssumeRole | AssumeRoleWithSaml | AssumeRoleWithWebIdentity = AssumeRole
+    - access_key_id: string? #max(128)
+    - account_id: string #required #max(20)
+    - assumed_role_arn: string? #max(255)
+    - assumed_role_id: string? #max(255)
+    - created_at: date = now()
+    - expiration: date #required
+    - method: assume_role | assume_role_with_saml | assume_role_with_web_identity = assume_role
     - packed_policy_size: int? #min(0) #max(100)
-    - region: String? #max(50)
-    - role_arn: String #required #max(255)
-    - role_session_name: String #required #max(64)
-    - source_identity: String? #max(64)
+    - region: string? #max(50)
+    - role_arn: string #required #max(255)
+    - role_session_name: string #required #max(64)
+    - source_identity: string? #max(64)
 
-- name: AWS STS Federation Token
-  type: aws_sts_federation_token
+- name: aws_sts_federation_token
   id: [account_id, federated_user_arn]
   schema:
-    - access_key_id: String? #max(128)
-    - account_id: String #required #max(20)
-    - created_at: Date = now()
-    - expiration: Date #required
-    - federated_user_arn: String #required #max(255)
-    - federated_user_id: String? #max(255)
-    - name: String #required #max(32)
+    - access_key_id: string? #max(128)
+    - account_id: string #required #max(20)
+    - created_at: date = now()
+    - expiration: date #required
+    - federated_user_arn: string #required #max(255)
+    - federated_user_id: string? #max(255)
+    - name: string #required #max(32)
     - packed_policy_size: int? #min(0) #max(100)
-    - region: String? #max(50)
+    - region: string? #max(50)

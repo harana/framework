@@ -1,157 +1,147 @@
-- name: Sign Artifact With Private Key
-  method: sign_artifact
+- name: sign_artifact
   inputs:
-    algorithm: RSA-SHA256 | RSA-SHA512 | ECDSA-SHA256 | Ed25519 = RSA-SHA256
+    algorithm: rsa-sha256 | rsa-sha512 | ecdsa-sha256 | ed25519 = rsa-sha256
     artifact: bytes #required
-    artifact_path: String
-    format: Pkcs7 | Jws | Raw = Pkcs7
-    private_key: String #required
-    metadata: SignatureMetadata
+    artifact_path: string
+    format: pkcs7 | jws | raw = pkcs7
+    private_key: string #required
+    metadata: signature_metadata
   outputs:
-    signature: String
-    signature_format: String
-    algorithm: String
-    timestamp: Date
-    success: Boolean
+    signature: string
+    signature_format: string
+    algorithm: string
+    timestamp: date
+    success: boolean
 
-- name: Verify Artifact Signature
-  method: verify_artifact
+- name: verify_artifact
   inputs:
-    algorithm: RSA-SHA256 | RSA-SHA512 | ECDSA-SHA256 | Ed25519
+    algorithm: rsa-sha256 | rsa-sha512 | ecdsa-sha256 | ed25519
     artifact: bytes #required
-    artifact_path: String
-    format: Pkcs7 | Jws | Raw = Pkcs7
-    public_key: String #required
-    signature: String #required
+    artifact_path: string
+    format: pkcs7 | jws | raw = pkcs7
+    public_key: string #required
+    signature: string #required
   outputs:
-    valid: Boolean
-    signer: String
-    timestamp: Date
-    algorithm: String
-    error: String
+    valid: boolean
+    signer: string
+    timestamp: date
+    algorithm: string
+    error: string
 
-- name: Sign Code With Certificate
-  method: sign_code
+- name: sign_code
   inputs:
     artifact: bytes #required
-    artifact_path: String
-    certificate: String #required
-    certificate_chain: List[String]
-    description: String
-    format: Authenticode | Codesign | Jar = Authenticode
-    private_key: String #required
-    timestamp_authority: String
+    artifact_path: string
+    certificate: string #required
+    certificate_chain: list[string]
+    description: string
+    format: authenticode | codesign | jar = authenticode
+    private_key: string #required
+    timestamp_authority: string
   outputs:
     signed_artifact: bytes
-    signature: String
-    success: Boolean
-    timestamp: Date
+    signature: string
+    success: boolean
+    timestamp: date
 
-- name: Create Detached Signature
-  method: create_detached
+- name: create_detached
   inputs:
-    algorithm: RSA-SHA256 | RSA-SHA512 | ECDSA-SHA256 | Ed25519 = RSA-SHA256
+    algorithm: rsa-sha256 | rsa-sha512 | ecdsa-sha256 | ed25519 = rsa-sha256
     artifact: bytes #required
-    format: Pgp | Smime | Cms = Pgp
-    private_key: String #required
-    armor: Boolean = true
+    format: pgp | smime | cms = pgp
+    private_key: string #required
+    armor: boolean = true
   outputs:
-    signature: String
-    success: Boolean
+    signature: string
+    success: boolean
 
-- name: Verify Detached Signature
-  method: verify_detached
+- name: verify_detached
   inputs:
-    algorithm: RSA-SHA256 | RSA-SHA512 | ECDSA-SHA256 | Ed25519
+    algorithm: rsa-sha256 | rsa-sha512 | ecdsa-sha256 | ed25519
     artifact: bytes #required
-    format: Pgp | Smime | Cms = Pgp
-    public_key: String #required
-    signature: String #required
+    format: pgp | smime | cms = pgp
+    public_key: string #required
+    signature: string #required
   outputs:
-    valid: Boolean
-    signer: String
-    error: String
+    valid: boolean
+    signer: string
+    error: string
 
-- name: Sign Container Image
-  method: sign_container
+- name: sign_container
   inputs:
-    digest: String
-    format: Cosign | Notary = Cosign
-    image: String #required
-    private_key: String #required
-    registry: String
-    tag: String
+    digest: string
+    format: cosign | notary = cosign
+    image: string #required
+    private_key: string #required
+    registry: string
+    tag: string
   outputs:
-    signature: String
-    signature_digest: String
-    success: Boolean
+    signature: string
+    signature_digest: string
+    success: boolean
 
-- name: Verify Container Image Signature
-  method: verify_container
+- name: verify_container
   inputs:
-    format: Cosign | Notary = Cosign
-    image: String #required
-    public_key: String #required
-    registry: String
-    signature: String
-    tag: String
+    format: cosign | notary = cosign
+    image: string #required
+    public_key: string #required
+    registry: string
+    signature: string
+    tag: string
   outputs:
-    valid: Boolean
-    signer: String
-    timestamp: Date
-    error: String
+    valid: boolean
+    signer: string
+    timestamp: date
+    error: string
 
-- name: Sign JAR Archive
-  method: sign_jar
+- name: sign_jar
   inputs:
-    alias: String #required
-    jar_path: String #required
-    keystore: String #required
-    keystore_password: String #required
-    private_key_password: String
-    signature_algorithm: SHA256withRSA | SHA512withRSA = SHA256withRSA
-    timestamp_authority: String
+    alias: string #required
+    jar_path: string #required
+    keystore: string #required
+    keystore_password: string #required
+    private_key_password: string
+    signature_algorithm: sha256with_rsa | sha512with_rsa = sha256with_rsa
+    timestamp_authority: string
   outputs:
-    signed_jar_path: String
-    success: Boolean
+    signed_jar_path: string
+    success: boolean
 
-- name: Verify JAR Signature
-  method: verify_jar
+- name: verify_jar
   inputs:
-    jar_path: String #required
-    certificate: String
+    jar_path: string #required
+    certificate: string
   outputs:
-    valid: Boolean
-    signers: List[String]
-    timestamp: Date
-    error: String
+    valid: boolean
+    signers: list[string]
+    timestamp: date
+    error: string
 
-- name: Create Timestamp
-  method: timestamp
+- name: timestamp
   inputs:
-    authority_url: String #required
-    digest: String #required
-    hash_algorithm: Sha256 | Sha512 = Sha256
+    authority_url: string #required
+    digest: string #required
+    hash_algorithm: sha256 | sha512 = sha256
   outputs:
-    timestamp: Date
-    timestamp_token: String
-    success: Boolean
+    timestamp: date
+    timestamp_token: string
+    success: boolean
 
-- name: SignatureMetadata
+- name: signature_metadata
   class:
-    signer: String
-    organization: String
-    email: String
-    description: String
-    url: String
-    custom_attributes: Map[String, String]
+    signer: string
+    organization: string
+    email: string
+    description: string
+    url: string
+    custom_attributes: map[string, string]
 
-- name: SignedArtifact
+- name: signed_artifact
   class:
     artifact: bytes
-    signature: String
-    algorithm: String
-    format: String
-    timestamp: Date
-    signer: String
-    certificate_chain: List[String]
+    signature: string
+    algorithm: string
+    format: string
+    timestamp: date
+    signer: string
+    certificate_chain: list[string]

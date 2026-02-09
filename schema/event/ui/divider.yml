@@ -1,6 +1,5 @@
-- name: Divider Clicked
-  type: divider_clicked
+- name: divider_clicked
   schema:
-    divider_id: Id #required
-    divider_name: String?
-    clicked_at: Date = now()
+    divider_id: id #required
+    divider_name: string?
+    clicked_at: date = now()

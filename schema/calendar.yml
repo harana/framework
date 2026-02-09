@@ -1,0 +1,85 @@
+# Calendar event - used for displaying events on day/week/month views
+- name: calendar_event
+  schema:
+    - id: string #required
+    - name: string #required #max(200)
+    - datetime: string #required
+    - time_display: string #required #max(20)
+    - href: string? #max(500)
+    - location: string? #max(200)
+    - color: string = "blue" #max(20)
+    - grid_row_start: integer?
+    - grid_row_span: integer?
+    - day_column: integer?
+
+# Calendar meeting - used for meetings list with attendee images
+- name: calendar_meeting
+  schema:
+    - id: string #required
+    - name: string #required #max(200)
+    - image_url: string? #max(500)
+    - datetime: string #required
+    - datetime_display: string #required #max(100)
+    - location: string? #max(200)
+# Calendar day - used for day cells in month/week/day views
+- name: calendar_day
+  schema:
+    - date: string #required
+    - day_number: integer #required
+    - weekday_short: string? #max(3)
+    - weekday_long: string? #max(10)
+    - is_current_month: boolean = false
+    - is_today: boolean = false
+    - is_selected: boolean = false
+    - events: [calendar_event]
+
+# Calendar view option - dropdown menu items for view selection
+- name: calendar_view_option
+  schema:
+    - id: string #required
+    - label: string #required #max(50)
+    - href: string? #max(500)
+    - is_active: boolean = false
+
+# Calendar month - used for year view with month sections
+- name: calendar_month
+  schema:
+    - name: string #required #max(20)
+    - days: [calendar_day] #required
+# Time slot - hour markers on the time axis
+- name: time_slot
+  schema:
+    - label: string #required #max(10)
+    - hour: integer #required
+- name: calendar
+  schema:
+    - calendar_id: string
+    - name: string
+    - description: string
+    - color: string
+    - timezone: string
+    - primary: boolean
+
+- name: calendar_attendee
+  schema:
+    - email: string
+    - name: string
+    - response_status: string
+    - optional: boolean
+
+- name: calendar_reminder
+  schema:
+    - method: string
+    - minutes: int
+
+- name: calendar_time_period
+  schema:
+    - start_time: date
+    - end_time: date
+    - calendar_id: string
+
+- name: calendar_time_slot
+  schema:
+    - start_time: date
+    - end_time: date
+    - duration_minutes: int

@@ -1,228 +1,217 @@
-- name: Generate Registration Options
-  method: generate_registration_options
+- name: generate_registration_options
   inputs:
-    attestation: None | Indirect | Direct | Enterprise = None
-    authenticator_selection: PasskeyAuthenticatorSelection
-    exclude_credentials: List[PasskeyCredentialDescriptor]
-    relying_party_id: String #required
-    relying_party_name: String #required
-    timeout: Int = 60000
-    user_display_name: String #required
-    user_id: String #required
-    user_name: String #required
+    attestation: none | indirect | direct | enterprise = none
+    authenticator_selection: passkey_authenticator_selection
+    exclude_credentials: list[passkey_credential_descriptor]
+    relying_party_id: string #required
+    relying_party_name: string #required
+    timeout: int = 60000
+    user_display_name: string #required
+    user_id: string #required
+    user_name: string #required
   outputs:
-    challenge: String
-    options: PasskeyRegistrationOptions
+    challenge: string
+    options: passkey_registration_options
 
-- name: Verify Registration Response
-  method: verify_registration
+- name: verify_registration
   inputs:
-    expected_challenge: String #required
-    expected_origin: String #required
-    expected_rp_id: String #required
-    require_user_verification: Boolean = true
-    response: PasskeyRegistrationResponse #required
+    expected_challenge: string #required
+    expected_origin: string #required
+    expected_rp_id: string #required
+    require_user_verification: boolean = true
+    response: passkey_registration_response #required
   outputs:
-    aaguid: String
+    aaguid: string
     attestation_object: bytes
-    counter: Int
-    credential_backed_up: Boolean
-    credential_device_type: String
-    credential_id: String
+    counter: int
+    credential_backed_up: boolean
+    credential_device_type: string
+    credential_id: string
     credential_public_key: bytes
-    verified: Boolean
+    verified: boolean
 
-- name: Generate Authentication Options
-  method: generate_authentication_options
+- name: generate_authentication_options
   inputs:
-    allow_credentials: List[PasskeyCredentialDescriptor]
-    relying_party_id: String #required
-    timeout: Int = 60000
-    user_verification: Required | Preferred | Discouraged = Preferred
+    allow_credentials: list[passkey_credential_descriptor]
+    relying_party_id: string #required
+    timeout: int = 60000
+    user_verification: required | preferred | discouraged = preferred
   outputs:
-    challenge: String
-    options: PasskeyAuthenticationOptions
+    challenge: string
+    options: passkey_authentication_options
 
-- name: Verify Authentication Response
-  method: verify_authentication
+- name: verify_authentication
   inputs:
-    credential_current_counter: Int #required
+    credential_current_counter: int #required
     credential_public_key: bytes #required
-    expected_challenge: String #required
-    expected_origin: String #required
-    expected_rp_id: String #required
-    require_user_verification: Boolean = true
-    response: PasskeyAuthenticationResponse #required
+    expected_challenge: string #required
+    expected_origin: string #required
+    expected_rp_id: string #required
+    require_user_verification: boolean = true
+    response: passkey_authentication_response #required
   outputs:
-    credential_backed_up: Boolean
-    credential_device_type: String
-    new_counter: Int
-    verified: Boolean
+    credential_backed_up: boolean
+    credential_device_type: string
+    new_counter: int
+    verified: boolean
 
-- name: Store Passkey Credential
-  method: store_credential
+- name: store_credential
   inputs:
-    aaguid: String
-    backed_up: Boolean
-    counter: Int #required
-    credential_id: String #required
+    aaguid: string
+    backed_up: boolean
+    counter: int #required
+    credential_id: string #required
     credential_public_key: bytes #required
-    device_type: String
-    friendly_name: String
-    transports: List[String]
-    user_id: String #required
+    device_type: string
+    friendly_name: string
+    transports: list[string]
+    user_id: string #required
   outputs:
-    passkey_id: String
-    success: Boolean
+    passkey_id: string
+    success: boolean
 
-- name: Get User Passkeys
-  method: get_user_passkeys
+- name: get_user_passkeys
   inputs:
-    user_id: String #required
+    user_id: string #required
   outputs:
-    count: Int
-    passkeys: List[PasskeyInfo]
+    count: int
+    passkeys: list[passkey_info]
 
-- name: Get Passkey By Credential ID
-  method: get_passkey
+- name: get_passkey
   inputs:
-    credential_id: String #required
+    credential_id: string #required
   outputs:
-    backed_up: Boolean
-    counter: Int
-    created_at: Date
-    credential_id: String
+    backed_up: boolean
+    counter: int
+    created_at: date
+    credential_id: string
     credential_public_key: bytes
-    device_type: String
-    friendly_name: String
-    last_used_at: Date
-    passkey_id: String
-    transports: List[String]
-    user_id: String
+    device_type: string
+    friendly_name: string
+    last_used_at: date
+    passkey_id: string
+    transports: list[string]
+    user_id: string
 
-- name: Update Passkey Counter
-  method: update_counter
+- name: update_counter
   inputs:
-    credential_id: String #required
-    new_counter: Int #required
+    credential_id: string #required
+    new_counter: int #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Passkey
-  method: delete_passkey
+- name: delete_passkey
   inputs:
-    passkey_id: String #required
-    user_id: String #required
+    passkey_id: string #required
+    user_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Update Passkey Name
-  method: update_passkey_name
+- name: update_passkey_name
   inputs:
-    friendly_name: String #required
-    passkey_id: String #required
+    friendly_name: string #required
+    passkey_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Check Passkey Support
-  method: check_support
+- name: check_support
   inputs:
-    user_agent: String #required
+    user_agent: string #required
   outputs:
-    conditional_mediation: Boolean
-    platform_authenticator: Boolean
-    user_verifying_platform_authenticator: Boolean
+    conditional_mediation: boolean
+    platform_authenticator: boolean
+    user_verifying_platform_authenticator: boolean
 
-- name: Passkey
+- name: passkey
   class:
-    passkey_id: String
-    credential_id: String
-    user_id: String
+    passkey_id: string
+    credential_id: string
+    user_id: string
     credential_public_key: bytes
-    counter: Int
-    device_type: String
-    backed_up: Boolean
-    friendly_name: String
-    created_at: Date
-    last_used_at: Date
+    counter: int
+    device_type: string
+    backed_up: boolean
+    friendly_name: string
+    created_at: date
+    last_used_at: date
 
-- name: PasskeyAuthenticatorSelection
+- name: passkey_authenticator_selection
   class:
-    authenticator_attachment: String
-    resident_key: String
-    require_resident_key: Boolean
-    user_verification: String
+    authenticator_attachment: string
+    resident_key: string
+    require_resident_key: boolean
+    user_verification: string
 
-- name: PasskeyCredentialDescriptor
+- name: passkey_credential_descriptor
   class:
-    id: String
-    type: String
-    transports: List[String]
+    id: string
+    type: string
+    transports: list[string]
 
-- name: PasskeyRegistrationOptions
+- name: passkey_registration_options
   class:
-    rp: PasskeyRelyingParty
-    user: PasskeyUser
-    challenge: String
-    pub_key_cred_params: List[PasskeyCredParam]
-    timeout: Int
-    attestation: String
+    rp: passkey_relying_party
+    user: passkey_user
+    challenge: string
+    pub_key_cred_params: list[passkey_cred_param]
+    timeout: int
+    attestation: string
 
-- name: PasskeyRelyingParty
+- name: passkey_relying_party
   class:
-    id: String
-    name: String
+    id: string
+    name: string
 
-- name: PasskeyUser
+- name: passkey_user
   class:
-    id: String
-    name: String
-    display_name: String
+    id: string
+    name: string
+    display_name: string
 
-- name: PasskeyCredParam
+- name: passkey_cred_param
   class:
-    type: String
-    alg: Int
+    type: string
+    alg: int
 
-- name: PasskeyRegistrationResponse
+- name: passkey_registration_response
   class:
-    id: String
-    raw_id: String
-    response: PasskeyAuthenticatorAttestationResponse
-    type: String
+    id: string
+    raw_id: string
+    response: passkey_authenticator_attestation_response
+    type: string
 
-- name: PasskeyAuthenticatorAttestationResponse
+- name: passkey_authenticator_attestation_response
   class:
-    client_data_json: String
-    attestation_object: String
+    client_data_json: string
+    attestation_object: string
 
-- name: PasskeyAuthenticationOptions
+- name: passkey_authentication_options
   class:
-    challenge: String
-    timeout: Int
-    rp_id: String
-    allow_credentials: List[PasskeyCredentialDescriptor]
-    user_verification: String
+    challenge: string
+    timeout: int
+    rp_id: string
+    allow_credentials: list[passkey_credential_descriptor]
+    user_verification: string
 
-- name: PasskeyAuthenticationResponse
+- name: passkey_authentication_response
   class:
-    id: String
-    raw_id: String
-    response: PasskeyAuthenticatorAssertionResponse
-    type: String
+    id: string
+    raw_id: string
+    response: passkey_authenticator_assertion_response
+    type: string
 
-- name: PasskeyAuthenticatorAssertionResponse
+- name: passkey_authenticator_assertion_response
   class:
-    client_data_json: String
-    authenticator_data: String
-    signature: String
-    user_handle: String
+    client_data_json: string
+    authenticator_data: string
+    signature: string
+    user_handle: string
 
-- name: PasskeyInfo
+- name: passkey_info
   class:
-    passkey_id: String
-    credential_id: String
-    friendly_name: String
-    device_type: String
-    created_at: Date
-    last_used_at: Date
+    passkey_id: string
+    credential_id: string
+    friendly_name: string
+    device_type: string
+    created_at: date
+    last_used_at: date

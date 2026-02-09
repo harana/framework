@@ -1,63 +1,59 @@
-- name: Parse XML To Object
-  method: parse
+- name: parse
   inputs:
-    data: String #required
-    preserve_attributes: Boolean = true
-    preserve_namespaces: Boolean = false
+    data: string #required
+    preserve_attributes: boolean = true
+    preserve_namespaces: boolean = false
   outputs:
-    result: XmlObject
+    result: xml_object
 
-- name: Generate XML From Object
-  method: generate
+- name: generate
   inputs:
-    data: XmlObject #required
-    declaration: Boolean = true
-    indent: Boolean = true
-    root_element: String = "root"
+    data: xml_object #required
+    declaration: boolean = true
+    indent: boolean = true
+    root_element: string = "root"
   outputs:
-    xml: String
+    xml: string
 
-- name: Validate XML Against XSD Schema
-  method: validate
+- name: validate
   inputs:
-    data: String #required
-    schema: String #required
+    data: string #required
+    schema: string #required
   outputs:
-    errors: List[XmlValidationError]
-    valid: Boolean
+    errors: list[xml_validation_error]
+    valid: boolean
 
-- name: Query XML With XPath
-  method: xpath_query
+- name: xpath_query
   inputs:
-    data: String #required
-    namespaces: XmlNamespaces
-    query: String #required
+    data: string #required
+    namespaces: xml_namespaces
+    query: string #required
   outputs:
-    results: List[any]
+    results: list[any]
 
-- name: XmlDocument
+- name: xml_document
   class:
-    content: String
-    root_element: String
-    namespaces: XmlNamespaces
-    encoding: String
+    content: string
+    root_element: string
+    namespaces: xml_namespaces
+    encoding: string
 
-- name: XmlObject
+- name: xml_object
   class:
-    elements: Map[String, Any]
-    attributes: Map[String, String]
+    elements: map[string, any]
+    attributes: map[string, string]
 
-- name: XmlValidationError
+- name: xml_validation_error
   class:
-    line: Int
-    column: Int
-    message: String
+    line: int
+    column: int
+    message: string
 
-- name: XmlNamespaces
+- name: xml_namespaces
   class:
-    namespaces: List[XmlNamespace]
+    namespaces: list[xml_namespace]
 
-- name: XmlNamespace
+- name: xml_namespace
   class:
-    prefix: String
-    uri: String
+    prefix: string
+    uri: string

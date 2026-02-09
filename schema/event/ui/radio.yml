@@ -1,31 +1,27 @@
-- name: Radio Selected
-  type: radio_selected
+- name: radio_selected
   schema:
-    group_id: Id #required
-    radio_value: String #required
-    radio_label: String?
-    selected_at: Date = now()
+    group_id: id #required
+    radio_value: string #required
+    radio_label: string?
+    selected_at: date = now()
 
-- name: Radio Group Changed
-  type: radio_group_changed
+- name: radio_group_changed
   schema:
-    group_id: Id #required
-    group_name: String?
-    old_value: String?
-    new_value: String #required
-    new_label: String?
-    changed_at: Date = now()
+    group_id: id #required
+    group_name: string?
+    old_value: string?
+    new_value: string #required
+    new_label: string?
+    changed_at: date = now()
 
-- name: Radio Focused
-  type: radio_focused
+- name: radio_focused
   schema:
-    group_id: Id #required
-    radio_value: String?
-    focused_at: Date = now()
+    group_id: id #required
+    radio_value: string?
+    focused_at: date = now()
 
-- name: Radio Blurred
-  type: radio_blurred
+- name: radio_blurred
   schema:
-    group_id: Id #required
-    radio_value: String?
-    blurred_at: Date = now()
+    group_id: id #required
+    radio_value: string?
+    blurred_at: date = now()

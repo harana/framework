@@ -1,28 +1,25 @@
-- name: Metric
-  type: metric
+- name: metric
   schema:
-    - description: String? #max(500)
-    - labels: String?
-    - type: Counter | Gauge | Histogram | Summary = Gauge
-    - unit: String? #max(50)
+    - description: string? #max(500)
+    - labels: string?
+    - type: counter | gauge | histogram | summary = gauge
+    - unit: string? #max(50)
 
-- name: Metric Value
-  type: metric_value
+- name: metric_value
   id: [metric_id, timestamp, labels]
   schema:
-    - labels: String?
-    - metric_id: Id #required -> Metric.id
-    - timestamp: Date = now()
+    - labels: string?
+    - metric_id: id #required -> metric.id
+    - timestamp: date = now()
     - value: decimal #required
 
-- name: Metric Alert
-  type: metric_alert
+- name: metric_alert
   schema:
-    - comparison: Gt | Gte | Lt | Lte | Eq | Neq = Gt
-    - created_at: Date = now()
-    - is_active: Boolean = true
-    - last_triggered_at: Date?
-    - metric_id: Id #required -> Metric.id
-    - notification_channel: String? #max(100)
+    - comparison: gt | gte | lt | lte | eq | neq = gt
+    - created_at: date = now()
+    - is_active: boolean = true
+    - last_triggered_at: date?
+    - metric_id: id #required -> metric.id
+    - notification_channel: string? #max(100)
     - threshold: decimal #required
-    - updated_at: Date = now()
+    - updated_at: date = now()

@@ -1,800 +1,754 @@
-- name: Create Lambda Function
-  method: create_function
+- name: create_function
   inputs:
-    architectures: List[x86_64 | arm64]
-    code: FunctionCode #required
-    code_signing_config_arn: String
-    dead_letter_config: DeadLetterConfig
-    description: String
-    environment: Environment
-    ephemeral_storage: EphemeralStorage
-    file_system_configs: List[FileSystemConfig]
-    function_name: String #required
-    handler: String
-    image_config: ImageConfig
-    kms_key_arn: String
-    layers: List[String]
-    logging_config: LoggingConfig
-    memory_size: Int = 128
-    package_type: Zip | Image = Zip
-    publish: Boolean = false
-    region: String
-    role: String #required
-    runtime: String
-    snap_start: SnapStart
-    tags: LambdaTags
-    timeout: Int = 3
-    tracing_config: TracingConfig
-    vpc_config: VpcConfig
+    architectures: list[x86_64 | arm64]
+    code: function_code #required
+    code_signing_config_arn: string
+    dead_letter_config: dead_letter_config
+    description: string
+    environment: environment
+    ephemeral_storage: ephemeral_storage
+    file_system_configs: list[file_system_config]
+    function_name: string #required
+    handler: string
+    image_config: image_config
+    kms_key_arn: string
+    layers: list[string]
+    logging_config: logging_config
+    memory_size: int = 128
+    package_type: zip | image = zip
+    publish: boolean = false
+    region: string
+    role: string #required
+    runtime: string
+    snap_start: snap_start
+    tags: lambda_tags
+    timeout: int = 3
+    tracing_config: tracing_config
+    vpc_config: vpc_config
   outputs:
-    architectures: List[String]
-    code_sha256: String
-    code_size: Int
-    dead_letter_config: DeadLetterConfig
-    description: String
-    environment: Environment
-    ephemeral_storage: EphemeralStorage
-    file_system_configs: List[FileSystemConfig]
-    function_arn: String
-    function_name: String
-    handler: String
-    image_config_response: ImageConfigResponse
-    kms_key_arn: String
-    last_modified: String
-    last_update_status: String
-    layers: List[Layer]
-    logging_config: LoggingConfig
-    master_arn: String
-    memory_size: Int
-    package_type: String
-    revision_id: String
-    role: String
-    runtime: String
-    signing_job_arn: String
-    signing_profile_version_arn: String
-    snap_start: SnapStartResponse
-    state: String
-    state_reason: String
-    state_reason_code: String
-    success: Boolean
-    timeout: Int
-    tracing_config: TracingConfigResponse
-    version: String
-    vpc_config: VpcConfigResponse
+    architectures: list[string]
+    code_sha256: string
+    code_size: int
+    dead_letter_config: dead_letter_config
+    description: string
+    environment: environment
+    ephemeral_storage: ephemeral_storage
+    file_system_configs: list[file_system_config]
+    function_arn: string
+    function_name: string
+    handler: string
+    image_config_response: image_config_response
+    kms_key_arn: string
+    last_modified: string
+    last_update_status: string
+    layers: list[layer]
+    logging_config: logging_config
+    master_arn: string
+    memory_size: int
+    package_type: string
+    revision_id: string
+    role: string
+    runtime: string
+    signing_job_arn: string
+    signing_profile_version_arn: string
+    snap_start: snap_start_response
+    state: string
+    state_reason: string
+    state_reason_code: string
+    success: boolean
+    timeout: int
+    tracing_config: tracing_config_response
+    version: string
+    vpc_config: vpc_config_response
 
-- name: Delete Lambda Function
-  method: delete_function
+- name: delete_function
   inputs:
-    function_name: String #required
-    qualifier: String
-    region: String
+    function_name: string #required
+    qualifier: string
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Lambda Function
-  method: get_function
+- name: get_function
   inputs:
-    function_name: String #required
-    qualifier: String
-    region: String
+    function_name: string #required
+    qualifier: string
+    region: string
   outputs:
-    code: FunctionCodeLocation
-    concurrency: Concurrency
-    configuration: FunctionConfiguration
-    tags: LambdaTags
+    code: function_code_location
+    concurrency: concurrency
+    configuration: function_configuration
+    tags: lambda_tags
 
-- name: List Lambda Functions
-  method: list_functions
+- name: list_functions
   inputs:
-    function_version: ALL
-    marker: String
-    master_region: String
-    max_items: Int = 50
-    region: String
+    function_version: all
+    marker: string
+    master_region: string
+    max_items: int = 50
+    region: string
   outputs:
-    functions: List[FunctionConfiguration]
-    next_marker: String
+    functions: list[function_configuration]
+    next_marker: string
 
-- name: Update Lambda Function Code
-  method: update_function_code
+- name: update_function_code
   inputs:
-    architectures: List[x86_64 | arm64]
-    dry_run: Boolean = false
-    function_name: String #required
-    image_uri: String
-    publish: Boolean = false
-    region: String
-    revision_id: String
-    s3_bucket: String
-    s3_key: String
-    s3_object_version: String
+    architectures: list[x86_64 | arm64]
+    dry_run: boolean = false
+    function_name: string #required
+    image_uri: string
+    publish: boolean = false
+    region: string
+    revision_id: string
+    s3_bucket: string
+    s3_key: string
+    s3_object_version: string
     zip_file: bytes
   outputs:
-    architectures: List[String]
-    code_sha256: String
-    code_size: Int
-    function_arn: String
-    function_name: String
-    handler: String
-    last_modified: String
-    last_update_status: String
-    last_update_status_reason: String
-    last_update_status_reason_code: String
-    revision_id: String
-    runtime: String
-    state: String
-    state_reason: String
-    state_reason_code: String
-    success: Boolean
-    version: String
+    architectures: list[string]
+    code_sha256: string
+    code_size: int
+    function_arn: string
+    function_name: string
+    handler: string
+    last_modified: string
+    last_update_status: string
+    last_update_status_reason: string
+    last_update_status_reason_code: string
+    revision_id: string
+    runtime: string
+    state: string
+    state_reason: string
+    state_reason_code: string
+    success: boolean
+    version: string
 
-- name: Update Lambda Function Configuration
-  method: update_function_configuration
+- name: update_function_configuration
   inputs:
-    dead_letter_config: DeadLetterConfig
-    description: String
-    environment: Environment
-    ephemeral_storage: EphemeralStorage
-    file_system_configs: List[FileSystemConfig]
-    function_name: String #required
-    handler: String
-    image_config: ImageConfig
-    kms_key_arn: String
-    layers: List[String]
-    logging_config: LoggingConfig
-    memory_size: Int
-    region: String
-    revision_id: String
-    role: String
-    runtime: String
-    snap_start: SnapStart
-    timeout: Int
-    tracing_config: TracingConfig
-    vpc_config: VpcConfig
+    dead_letter_config: dead_letter_config
+    description: string
+    environment: environment
+    ephemeral_storage: ephemeral_storage
+    file_system_configs: list[file_system_config]
+    function_name: string #required
+    handler: string
+    image_config: image_config
+    kms_key_arn: string
+    layers: list[string]
+    logging_config: logging_config
+    memory_size: int
+    region: string
+    revision_id: string
+    role: string
+    runtime: string
+    snap_start: snap_start
+    timeout: int
+    tracing_config: tracing_config
+    vpc_config: vpc_config
   outputs:
-    architectures: List[String]
-    code_sha256: String
-    code_size: Int
-    dead_letter_config: DeadLetterConfig
-    description: String
-    environment: Environment
-    ephemeral_storage: EphemeralStorage
-    file_system_configs: List[FileSystemConfig]
-    function_arn: String
-    function_name: String
-    handler: String
-    image_config_response: ImageConfigResponse
-    kms_key_arn: String
-    last_modified: String
-    last_update_status: String
-    layers: List[Layer]
-    logging_config: LoggingConfig
-    memory_size: Int
-    package_type: String
-    revision_id: String
-    role: String
-    runtime: String
-    snap_start: SnapStartResponse
-    state: String
-    state_reason: String
-    state_reason_code: String
-    success: Boolean
-    timeout: Int
-    tracing_config: TracingConfigResponse
-    version: String
-    vpc_config: VpcConfigResponse
+    architectures: list[string]
+    code_sha256: string
+    code_size: int
+    dead_letter_config: dead_letter_config
+    description: string
+    environment: environment
+    ephemeral_storage: ephemeral_storage
+    file_system_configs: list[file_system_config]
+    function_arn: string
+    function_name: string
+    handler: string
+    image_config_response: image_config_response
+    kms_key_arn: string
+    last_modified: string
+    last_update_status: string
+    layers: list[layer]
+    logging_config: logging_config
+    memory_size: int
+    package_type: string
+    revision_id: string
+    role: string
+    runtime: string
+    snap_start: snap_start_response
+    state: string
+    state_reason: string
+    state_reason_code: string
+    success: boolean
+    timeout: int
+    tracing_config: tracing_config_response
+    version: string
+    vpc_config: vpc_config_response
 
-- name: Invoke Lambda Function
-  method: invoke
+- name: invoke
   inputs:
-    client_context: String
-    function_name: String #required
-    invocation_type: RequestResponse | Event | DryRun = RequestResponse
-    log_type: None | Tail = None
+    client_context: string
+    function_name: string #required
+    invocation_type: request_response | event | dry_run = request_response
+    log_type: none | tail = none
     payload: bytes
-    qualifier: String
-    region: String
+    qualifier: string
+    region: string
   outputs:
-    executed_version: String
-    function_error: String
-    log_result: String
+    executed_version: string
+    function_error: string
+    log_result: string
     payload: bytes
-    status_code: Int
-    success: Boolean
+    status_code: int
+    success: boolean
 
-- name: Invoke Lambda Function Async
-  method: invoke_async
+- name: invoke_async
   inputs:
-    function_name: String #required
+    function_name: string #required
     invoke_args: bytes #required
-    region: String
+    region: string
   outputs:
-    status: Int
-    success: Boolean
+    status: int
+    success: boolean
 
-- name: Publish Lambda Version
-  method: publish_version
+- name: publish_version
   inputs:
-    code_sha256: String
-    description: String
-    function_name: String #required
-    region: String
-    revision_id: String
+    code_sha256: string
+    description: string
+    function_name: string #required
+    region: string
+    revision_id: string
   outputs:
-    architectures: List[String]
-    code_sha256: String
-    code_size: Int
-    description: String
-    function_arn: String
-    function_name: String
-    handler: String
-    last_modified: String
-    memory_size: Int
-    package_type: String
-    revision_id: String
-    role: String
-    runtime: String
-    state: String
-    state_reason: String
-    state_reason_code: String
-    success: Boolean
-    timeout: Int
-    version: String
+    architectures: list[string]
+    code_sha256: string
+    code_size: int
+    description: string
+    function_arn: string
+    function_name: string
+    handler: string
+    last_modified: string
+    memory_size: int
+    package_type: string
+    revision_id: string
+    role: string
+    runtime: string
+    state: string
+    state_reason: string
+    state_reason_code: string
+    success: boolean
+    timeout: int
+    version: string
 
-- name: List Lambda Versions
-  method: list_versions_by_function
+- name: list_versions_by_function
   inputs:
-    function_name: String #required
-    marker: String
-    max_items: Int = 50
-    region: String
+    function_name: string #required
+    marker: string
+    max_items: int = 50
+    region: string
   outputs:
-    next_marker: String
-    versions: List[FunctionConfiguration]
+    next_marker: string
+    versions: list[function_configuration]
 
-- name: Create Lambda Alias
-  method: create_alias
+- name: create_alias
   inputs:
-    description: String
-    function_name: String #required
-    function_version: String #required
-    name: String #required
-    region: String
-    routing_config: AliasRoutingConfiguration
+    description: string
+    function_name: string #required
+    function_version: string #required
+    name: string #required
+    region: string
+    routing_config: alias_routing_configuration
   outputs:
-    alias_arn: String
-    description: String
-    function_version: String
-    name: String
-    revision_id: String
-    routing_config: AliasRoutingConfiguration
-    success: Boolean
+    alias_arn: string
+    description: string
+    function_version: string
+    name: string
+    revision_id: string
+    routing_config: alias_routing_configuration
+    success: boolean
 
-- name: Delete Lambda Alias
-  method: delete_alias
+- name: delete_alias
   inputs:
-    function_name: String #required
-    name: String #required
-    region: String
+    function_name: string #required
+    name: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Lambda Alias
-  method: get_alias
+- name: get_alias
   inputs:
-    function_name: String #required
-    name: String #required
-    region: String
+    function_name: string #required
+    name: string #required
+    region: string
   outputs:
-    alias_arn: String
-    description: String
-    function_version: String
-    name: String
-    revision_id: String
-    routing_config: AliasRoutingConfiguration
+    alias_arn: string
+    description: string
+    function_version: string
+    name: string
+    revision_id: string
+    routing_config: alias_routing_configuration
 
-- name: List Lambda Aliases
-  method: list_aliases
+- name: list_aliases
   inputs:
-    function_name: String #required
-    function_version: String
-    marker: String
-    max_items: Int = 50
-    region: String
+    function_name: string #required
+    function_version: string
+    marker: string
+    max_items: int = 50
+    region: string
   outputs:
-    aliases: List[AliasConfiguration]
-    next_marker: String
+    aliases: list[alias_configuration]
+    next_marker: string
 
-- name: Update Lambda Alias
-  method: update_alias
+- name: update_alias
   inputs:
-    description: String
-    function_name: String #required
-    function_version: String
-    name: String #required
-    region: String
-    revision_id: String
-    routing_config: AliasRoutingConfiguration
+    description: string
+    function_name: string #required
+    function_version: string
+    name: string #required
+    region: string
+    revision_id: string
+    routing_config: alias_routing_configuration
   outputs:
-    alias_arn: String
-    description: String
-    function_version: String
-    name: String
-    revision_id: String
-    routing_config: AliasRoutingConfiguration
-    success: Boolean
+    alias_arn: string
+    description: string
+    function_version: string
+    name: string
+    revision_id: string
+    routing_config: alias_routing_configuration
+    success: boolean
 
-- name: Create Event Source Mapping
-  method: create_event_source_mapping
+- name: create_event_source_mapping
   inputs:
-    amazon_managed_kafka_event_source_config: AmazonManagedKafkaEventSourceConfig
-    batch_size: Int
-    bisect_batch_on_function_error: Boolean
-    destination_config: DestinationConfig
-    document_db_event_source_config: DocumentDBEventSourceConfig
-    enabled: Boolean = true
-    event_source_arn: String
-    filter_criteria: FilterCriteria
-    function_name: String #required
-    function_response_types: List[ReportBatchItemFailures]
-    maximum_batching_window_in_seconds: Int
-    maximum_record_age_in_seconds: Int
-    maximum_retry_attempts: Int
-    parallelization_factor: Int
-    queues: List[String]
-    region: String
-    scaling_config: ScalingConfig
-    self_managed_event_source: SelfManagedEventSource
-    self_managed_kafka_event_source_config: SelfManagedKafkaEventSourceConfig
-    source_access_configurations: List[SourceAccessConfiguration]
-    starting_position: TRIM_HORIZON | LATEST | AT_TIMESTAMP
-    starting_position_timestamp: Date
-    topics: List[String]
-    tumbling_window_in_seconds: Int
+    amazon_managed_kafka_event_source_config: amazon_managed_kafka_event_source_config
+    batch_size: int
+    bisect_batch_on_function_error: boolean
+    destination_config: destination_config
+    document_db_event_source_config: document_db_event_source_config
+    enabled: boolean = true
+    event_source_arn: string
+    filter_criteria: filter_criteria
+    function_name: string #required
+    function_response_types: list[report_batch_item_failures]
+    maximum_batching_window_in_seconds: int
+    maximum_record_age_in_seconds: int
+    maximum_retry_attempts: int
+    parallelization_factor: int
+    queues: list[string]
+    region: string
+    scaling_config: scaling_config
+    self_managed_event_source: self_managed_event_source
+    self_managed_kafka_event_source_config: self_managed_kafka_event_source_config
+    source_access_configurations: list[source_access_configuration]
+    starting_position: TRIM_HORIZON | latest | AT_TIMESTAMP
+    starting_position_timestamp: date
+    topics: list[string]
+    tumbling_window_in_seconds: int
   outputs:
-    amazon_managed_kafka_event_source_config: AmazonManagedKafkaEventSourceConfig
-    batch_size: Int
-    bisect_batch_on_function_error: Boolean
-    destination_config: DestinationConfig
-    document_db_event_source_config: DocumentDBEventSourceConfig
-    event_source_arn: String
-    filter_criteria: FilterCriteria
-    function_arn: String
-    function_response_types: List[String]
-    last_modified: Date
-    last_processing_result: String
-    maximum_batching_window_in_seconds: Int
-    maximum_record_age_in_seconds: Int
-    maximum_retry_attempts: Int
-    parallelization_factor: Int
-    queues: List[String]
-    scaling_config: ScalingConfig
-    self_managed_event_source: SelfManagedEventSource
-    self_managed_kafka_event_source_config: SelfManagedKafkaEventSourceConfig
-    source_access_configurations: List[SourceAccessConfiguration]
-    starting_position: String
-    starting_position_timestamp: Date
-    state: String
-    state_transition_reason: String
-    success: Boolean
-    topics: List[String]
-    tumbling_window_in_seconds: Int
-    uuid: String
+    amazon_managed_kafka_event_source_config: amazon_managed_kafka_event_source_config
+    batch_size: int
+    bisect_batch_on_function_error: boolean
+    destination_config: destination_config
+    document_db_event_source_config: document_db_event_source_config
+    event_source_arn: string
+    filter_criteria: filter_criteria
+    function_arn: string
+    function_response_types: list[string]
+    last_modified: date
+    last_processing_result: string
+    maximum_batching_window_in_seconds: int
+    maximum_record_age_in_seconds: int
+    maximum_retry_attempts: int
+    parallelization_factor: int
+    queues: list[string]
+    scaling_config: scaling_config
+    self_managed_event_source: self_managed_event_source
+    self_managed_kafka_event_source_config: self_managed_kafka_event_source_config
+    source_access_configurations: list[source_access_configuration]
+    starting_position: string
+    starting_position_timestamp: date
+    state: string
+    state_transition_reason: string
+    success: boolean
+    topics: list[string]
+    tumbling_window_in_seconds: int
+    uuid: string
 
-- name: Delete Event Source Mapping
-  method: delete_event_source_mapping
+- name: delete_event_source_mapping
   inputs:
-    region: String
-    uuid: String #required
+    region: string
+    uuid: string #required
   outputs:
-    event_source_arn: String
-    function_arn: String
-    state: String
-    success: Boolean
-    uuid: String
+    event_source_arn: string
+    function_arn: string
+    state: string
+    success: boolean
+    uuid: string
 
-- name: Get Event Source Mapping
-  method: get_event_source_mapping
+- name: get_event_source_mapping
   inputs:
-    region: String
-    uuid: String #required
+    region: string
+    uuid: string #required
   outputs:
-    amazon_managed_kafka_event_source_config: AmazonManagedKafkaEventSourceConfig
-    batch_size: Int
-    bisect_batch_on_function_error: Boolean
-    destination_config: DestinationConfig
-    event_source_arn: String
-    filter_criteria: FilterCriteria
-    function_arn: String
-    last_modified: Date
-    last_processing_result: String
-    maximum_batching_window_in_seconds: Int
-    maximum_record_age_in_seconds: Int
-    maximum_retry_attempts: Int
-    parallelization_factor: Int
-    queues: List[String]
-    scaling_config: ScalingConfig
-    self_managed_event_source: SelfManagedEventSource
-    source_access_configurations: List[SourceAccessConfiguration]
-    starting_position: String
-    state: String
-    state_transition_reason: String
-    topics: List[String]
-    tumbling_window_in_seconds: Int
-    uuid: String
+    amazon_managed_kafka_event_source_config: amazon_managed_kafka_event_source_config
+    batch_size: int
+    bisect_batch_on_function_error: boolean
+    destination_config: destination_config
+    event_source_arn: string
+    filter_criteria: filter_criteria
+    function_arn: string
+    last_modified: date
+    last_processing_result: string
+    maximum_batching_window_in_seconds: int
+    maximum_record_age_in_seconds: int
+    maximum_retry_attempts: int
+    parallelization_factor: int
+    queues: list[string]
+    scaling_config: scaling_config
+    self_managed_event_source: self_managed_event_source
+    source_access_configurations: list[source_access_configuration]
+    starting_position: string
+    state: string
+    state_transition_reason: string
+    topics: list[string]
+    tumbling_window_in_seconds: int
+    uuid: string
 
-- name: List Event Source Mappings
-  method: list_event_source_mappings
+- name: list_event_source_mappings
   inputs:
-    event_source_arn: String
-    function_name: String
-    marker: String
-    max_items: Int = 100
-    region: String
+    event_source_arn: string
+    function_name: string
+    marker: string
+    max_items: int = 100
+    region: string
   outputs:
-    event_source_mappings: List[EventSourceMappingConfiguration]
-    next_marker: String
+    event_source_mappings: list[event_source_mapping_configuration]
+    next_marker: string
 
-- name: Update Event Source Mapping
-  method: update_event_source_mapping
+- name: update_event_source_mapping
   inputs:
-    batch_size: Int
-    bisect_batch_on_function_error: Boolean
-    destination_config: DestinationConfig
-    document_db_event_source_config: DocumentDBEventSourceConfig
-    enabled: Boolean
-    filter_criteria: FilterCriteria
-    function_name: String
-    function_response_types: List[ReportBatchItemFailures]
-    maximum_batching_window_in_seconds: Int
-    maximum_record_age_in_seconds: Int
-    maximum_retry_attempts: Int
-    parallelization_factor: Int
-    region: String
-    scaling_config: ScalingConfig
-    source_access_configurations: List[SourceAccessConfiguration]
-    tumbling_window_in_seconds: Int
-    uuid: String #required
+    batch_size: int
+    bisect_batch_on_function_error: boolean
+    destination_config: destination_config
+    document_db_event_source_config: document_db_event_source_config
+    enabled: boolean
+    filter_criteria: filter_criteria
+    function_name: string
+    function_response_types: list[report_batch_item_failures]
+    maximum_batching_window_in_seconds: int
+    maximum_record_age_in_seconds: int
+    maximum_retry_attempts: int
+    parallelization_factor: int
+    region: string
+    scaling_config: scaling_config
+    source_access_configurations: list[source_access_configuration]
+    tumbling_window_in_seconds: int
+    uuid: string #required
   outputs:
-    batch_size: Int
-    bisect_batch_on_function_error: Boolean
-    destination_config: DestinationConfig
-    event_source_arn: String
-    filter_criteria: FilterCriteria
-    function_arn: String
-    last_modified: Date
-    maximum_batching_window_in_seconds: Int
-    maximum_record_age_in_seconds: Int
-    maximum_retry_attempts: Int
-    parallelization_factor: Int
-    scaling_config: ScalingConfig
-    source_access_configurations: List[SourceAccessConfiguration]
-    state: String
-    state_transition_reason: String
-    success: Boolean
-    tumbling_window_in_seconds: Int
-    uuid: String
+    batch_size: int
+    bisect_batch_on_function_error: boolean
+    destination_config: destination_config
+    event_source_arn: string
+    filter_criteria: filter_criteria
+    function_arn: string
+    last_modified: date
+    maximum_batching_window_in_seconds: int
+    maximum_record_age_in_seconds: int
+    maximum_retry_attempts: int
+    parallelization_factor: int
+    scaling_config: scaling_config
+    source_access_configurations: list[source_access_configuration]
+    state: string
+    state_transition_reason: string
+    success: boolean
+    tumbling_window_in_seconds: int
+    uuid: string
 
-- name: Add Lambda Permission
-  method: add_permission
+- name: add_permission
   inputs:
-    method: String #required
-    event_source_token: String
-    function_name: String #required
-    function_url_auth_type: NONE | AWS_IAM
-    principal: String #required
-    principal_org_id: String
-    qualifier: String
-    region: String
-    revision_id: String
-    source_account: String
-    source_arn: String
-    statement_id: String #required
+    method: string #required
+    event_source_token: string
+    function_name: string #required
+    function_url_auth_type: none | AWS_IAM
+    principal: string #required
+    principal_org_id: string
+    qualifier: string
+    region: string
+    revision_id: string
+    source_account: string
+    source_arn: string
+    statement_id: string #required
   outputs:
-    statement: String
-    success: Boolean
+    statement: string
+    success: boolean
 
-- name: Remove Lambda Permission
-  method: remove_permission
+- name: remove_permission
   inputs:
-    function_name: String #required
-    qualifier: String
-    region: String
-    revision_id: String
-    statement_id: String #required
+    function_name: string #required
+    qualifier: string
+    region: string
+    revision_id: string
+    statement_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Lambda Policy
-  method: get_policy
+- name: get_policy
   inputs:
-    function_name: String #required
-    qualifier: String
-    region: String
+    function_name: string #required
+    qualifier: string
+    region: string
   outputs:
-    policy: String
-    revision_id: String
+    policy: string
+    revision_id: string
 
-- name: Create Function URL Config
-  method: create_function_url_config
+- name: create_function_url_config
   inputs:
-    auth_type: NONE | AWS_IAM #required
-    cors: Cors
-    function_name: String #required
-    invoke_mode: BUFFERED | RESPONSE_STREAM = BUFFERED
-    qualifier: String
-    region: String
+    auth_type: none | AWS_IAM #required
+    cors: cors
+    function_name: string #required
+    invoke_mode: buffered | RESPONSE_STREAM = buffered
+    qualifier: string
+    region: string
   outputs:
-    auth_type: String
-    cors: Cors
-    creation_time: String
-    function_arn: String
-    function_url: String
-    invoke_mode: String
-    success: Boolean
+    auth_type: string
+    cors: cors
+    creation_time: string
+    function_arn: string
+    function_url: string
+    invoke_mode: string
+    success: boolean
 
-- name: Delete Function URL Config
-  method: delete_function_url_config
+- name: delete_function_url_config
   inputs:
-    function_name: String #required
-    qualifier: String
-    region: String
+    function_name: string #required
+    qualifier: string
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Function URL Config
-  method: get_function_url_config
+- name: get_function_url_config
   inputs:
-    function_name: String #required
-    qualifier: String
-    region: String
+    function_name: string #required
+    qualifier: string
+    region: string
   outputs:
-    auth_type: String
-    cors: Cors
-    creation_time: String
-    function_arn: String
-    function_url: String
-    invoke_mode: String
-    last_modified_time: String
+    auth_type: string
+    cors: cors
+    creation_time: string
+    function_arn: string
+    function_url: string
+    invoke_mode: string
+    last_modified_time: string
 
-- name: Update Function URL Config
-  method: update_function_url_config
+- name: update_function_url_config
   inputs:
-    auth_type: NONE | AWS_IAM
-    cors: Cors
-    function_name: String #required
-    invoke_mode: BUFFERED | RESPONSE_STREAM
-    qualifier: String
-    region: String
+    auth_type: none | AWS_IAM
+    cors: cors
+    function_name: string #required
+    invoke_mode: buffered | RESPONSE_STREAM
+    qualifier: string
+    region: string
   outputs:
-    auth_type: String
-    cors: Cors
-    creation_time: String
-    function_arn: String
-    function_url: String
-    invoke_mode: String
-    last_modified_time: String
-    success: Boolean
+    auth_type: string
+    cors: cors
+    creation_time: string
+    function_arn: string
+    function_url: string
+    invoke_mode: string
+    last_modified_time: string
+    success: boolean
 
-- name: List Function URL Configs
-  method: list_function_url_configs
+- name: list_function_url_configs
   inputs:
-    function_name: String #required
-    marker: String
-    max_items: Int = 50
-    region: String
+    function_name: string #required
+    marker: string
+    max_items: int = 50
+    region: string
   outputs:
-    function_url_configs: List[FunctionUrlConfig]
-    next_marker: String
+    function_url_configs: list[function_url_config]
+    next_marker: string
 
-- name: Put Function Concurrency
-  method: put_function_concurrency
+- name: put_function_concurrency
   inputs:
-    function_name: String #required
-    region: String
-    reserved_concurrent_executions: Int #required
+    function_name: string #required
+    region: string
+    reserved_concurrent_executions: int #required
   outputs:
-    reserved_concurrent_executions: Int
-    success: Boolean
+    reserved_concurrent_executions: int
+    success: boolean
 
-- name: Delete Function Concurrency
-  method: delete_function_concurrency
+- name: delete_function_concurrency
   inputs:
-    function_name: String #required
-    region: String
+    function_name: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Function Concurrency
-  method: get_function_concurrency
+- name: get_function_concurrency
   inputs:
-    function_name: String #required
-    region: String
+    function_name: string #required
+    region: string
   outputs:
-    reserved_concurrent_executions: Int
+    reserved_concurrent_executions: int
 
-- name: Put Provisioned Concurrency Config
-  method: put_provisioned_concurrency_config
+- name: put_provisioned_concurrency_config
   inputs:
-    function_name: String #required
-    provisioned_concurrent_executions: Int #required
-    qualifier: String #required
-    region: String
+    function_name: string #required
+    provisioned_concurrent_executions: int #required
+    qualifier: string #required
+    region: string
   outputs:
-    allocated_provisioned_concurrent_executions: Int
-    available_provisioned_concurrent_executions: Int
-    last_modified: String
-    requested_provisioned_concurrent_executions: Int
-    status: String
-    status_reason: String
-    success: Boolean
+    allocated_provisioned_concurrent_executions: int
+    available_provisioned_concurrent_executions: int
+    last_modified: string
+    requested_provisioned_concurrent_executions: int
+    status: string
+    status_reason: string
+    success: boolean
 
-- name: Delete Provisioned Concurrency Config
-  method: delete_provisioned_concurrency_config
+- name: delete_provisioned_concurrency_config
   inputs:
-    function_name: String #required
-    qualifier: String #required
-    region: String
+    function_name: string #required
+    qualifier: string #required
+    region: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Provisioned Concurrency Config
-  method: get_provisioned_concurrency_config
+- name: get_provisioned_concurrency_config
   inputs:
-    function_name: String #required
-    qualifier: String #required
-    region: String
+    function_name: string #required
+    qualifier: string #required
+    region: string
   outputs:
-    allocated_provisioned_concurrent_executions: Int
-    available_provisioned_concurrent_executions: Int
-    last_modified: String
-    requested_provisioned_concurrent_executions: Int
-    status: String
-    status_reason: String
+    allocated_provisioned_concurrent_executions: int
+    available_provisioned_concurrent_executions: int
+    last_modified: string
+    requested_provisioned_concurrent_executions: int
+    status: string
+    status_reason: string
 
-- name: List Provisioned Concurrency Configs
-  method: list_provisioned_concurrency_configs
+- name: list_provisioned_concurrency_configs
   inputs:
-    function_name: String #required
-    marker: String
-    max_items: Int = 50
-    region: String
+    function_name: string #required
+    marker: string
+    max_items: int = 50
+    region: string
   outputs:
-    next_marker: String
-    provisioned_concurrency_configs: List[ProvisionedConcurrencyConfigListItem]
+    next_marker: string
+    provisioned_concurrency_configs: list[provisioned_concurrency_config_list_item]
 
-- name: Publish Lambda Layer Version
-  method: publish_layer_version
+- name: publish_layer_version
   inputs:
-    compatible_architectures: List[x86_64 | arm64]
-    compatible_runtimes: List[String]
-    content: LayerVersionContentInput #required
-    description: String
-    layer_name: String #required
-    license_info: String
-    region: String
+    compatible_architectures: list[x86_64 | arm64]
+    compatible_runtimes: list[string]
+    content: layer_version_content_input #required
+    description: string
+    layer_name: string #required
+    license_info: string
+    region: string
   outputs:
-    compatible_architectures: List[String]
-    compatible_runtimes: List[String]
-    content: LayerVersionContentOutput
-    created_date: String
-    description: String
-    layer_arn: String
-    layer_version_arn: String
-    license_info: String
-    success: Boolean
-    version: Int
+    compatible_architectures: list[string]
+    compatible_runtimes: list[string]
+    content: layer_version_content_output
+    created_date: string
+    description: string
+    layer_arn: string
+    layer_version_arn: string
+    license_info: string
+    success: boolean
+    version: int
 
-- name: Delete Lambda Layer Version
-  method: delete_layer_version
+- name: delete_layer_version
   inputs:
-    layer_name: String #required
-    region: String
-    version_number: Int #required
+    layer_name: string #required
+    region: string
+    version_number: int #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Lambda Layer Version
-  method: get_layer_version
+- name: get_layer_version
   inputs:
-    layer_name: String #required
-    region: String
-    version_number: Int #required
+    layer_name: string #required
+    region: string
+    version_number: int #required
   outputs:
-    compatible_architectures: List[String]
-    compatible_runtimes: List[String]
-    content: LayerVersionContentOutput
-    created_date: String
-    description: String
-    layer_arn: String
-    layer_version_arn: String
-    license_info: String
-    version: Int
+    compatible_architectures: list[string]
+    compatible_runtimes: list[string]
+    content: layer_version_content_output
+    created_date: string
+    description: string
+    layer_arn: string
+    layer_version_arn: string
+    license_info: string
+    version: int
 
-- name: List Lambda Layers
-  method: list_layers
+- name: list_layers
   inputs:
-    compatible_architecture: X8664 | Arm64
-    compatible_runtime: String
-    marker: String
-    max_items: Int = 50
-    region: String
+    compatible_architecture: x8664 | arm64
+    compatible_runtime: string
+    marker: string
+    max_items: int = 50
+    region: string
   outputs:
-    layers: List[LayersListItem]
-    next_marker: String
+    layers: list[layers_list_item]
+    next_marker: string
 
-- name: List Lambda Layer Versions
-  method: list_layer_versions
+- name: list_layer_versions
   inputs:
-    compatible_architecture: X8664 | Arm64
-    compatible_runtime: String
-    layer_name: String #required
-    marker: String
-    max_items: Int = 50
-    region: String
+    compatible_architecture: x8664 | arm64
+    compatible_runtime: string
+    layer_name: string #required
+    marker: string
+    max_items: int = 50
+    region: string
   outputs:
-    layer_versions: List[LayerVersionsListItem]
-    next_marker: String
+    layer_versions: list[layer_versions_list_item]
+    next_marker: string
 
-- name: Add Layer Version Permission
-  method: add_layer_version_permission
+- name: add_layer_version_permission
   inputs:
-    method: String #required
-    layer_name: String #required
-    organization_id: String
-    principal: String #required
-    region: String
-    revision_id: String
-    statement_id: String #required
-    version_number: Int #required
+    method: string #required
+    layer_name: string #required
+    organization_id: string
+    principal: string #required
+    region: string
+    revision_id: string
+    statement_id: string #required
+    version_number: int #required
   outputs:
-    revision_id: String
-    statement: String
-    success: Boolean
+    revision_id: string
+    statement: string
+    success: boolean
 
-- name: Remove Layer Version Permission
-  method: remove_layer_version_permission
+- name: remove_layer_version_permission
   inputs:
-    layer_name: String #required
-    region: String
-    revision_id: String
-    statement_id: String #required
-    version_number: Int #required
+    layer_name: string #required
+    region: string
+    revision_id: string
+    statement_id: string #required
+    version_number: int #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Layer Version Policy
-  method: get_layer_version_policy
+- name: get_layer_version_policy
   inputs:
-    layer_name: String #required
-    region: String
-    version_number: Int #required
+    layer_name: string #required
+    region: string
+    version_number: int #required
   outputs:
-    policy: String
-    revision_id: String
+    policy: string
+    revision_id: string
 
-- name: Tag Lambda Resource
-  method: tag_resource
+- name: tag_resource
   inputs:
-    region: String
-    resource: String #required
-    tags: LambdaTags #required
+    region: string
+    resource: string #required
+    tags: lambda_tags #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Untag Lambda Resource
-  method: untag_resource
+- name: untag_resource
   inputs:
-    region: String
-    resource: String #required
-    tag_keys: List[String] #required
+    region: string
+    resource: string #required
+    tag_keys: list[string] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Lambda Tags
-  method: list_tags
+- name: list_tags
   inputs:
-    region: String
-    resource: String #required
+    region: string
+    resource: string #required
   outputs:
-    tags: LambdaTags
+    tags: lambda_tags

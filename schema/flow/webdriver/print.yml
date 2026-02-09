@@ -1,0 +1,14 @@
+- name: print_page
+  inputs:
+    background: boolean = false
+    margin_bottom: float = 1.0
+    margin_left: float = 1.0
+    margin_right: float = 1.0
+    margin_top: float = 1.0
+    orientation: portrait | landscape = portrait
+    page_height: float = 27.94
+    page_width: float = 21.59
+    scale: float = 1.0
+    session_id: string #required    shrink_to_fit: boolean = true
+  outputs:
+    data: bytes

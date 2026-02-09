@@ -22,6 +22,7 @@ standalone = [
     "dep:harana-components-events",
     "dep:harana-actions-passkey",
     "dep:harana-actions-session",
+    "dep:harana-components-blob",
 ]
 cloudflare = [
     "dep:worker",
@@ -41,7 +42,7 @@ required-features = ["standalone"]
 anyhow.workspace = true
 askama.workspace = true
 async-trait.workspace = true
-axum = { workspace = true, features = ["macros"] }
+axum = { workspace = true, features = ["macros", "multipart"] }
 base64.workspace = true
 bytes.workspace = true
 chrono.workspace = true
@@ -75,6 +76,7 @@ datastar = { workspace = true, features = ["axum"], optional = true }
 harana-actions-passkey = { path = "../flow/passkey", optional = true }
 harana-actions-session = { path = "../flow/session", optional = true }
 harana-components-events = { path = "../event", optional = true }
+harana-components-blob = { path = "../blob", optional = true }
 
 # Cloudflare Workers dependencies
 worker = { version = "0.7", features = ["http", "axum"], optional = true }

@@ -9,28 +9,28 @@
   type: user_logged_in
   schema:
     - user_id: Id
-    - email: String #email
-    - ip_address: String? #ip
-    - user_agent: String?
-    - logged_in_at: Date = now()
+    - email: string #email
+    - ip_address: string? #ip
+    - user_agent: string?
+    - logged_in_at: date = now()
 
 - name: User Logged Out
   parent: Event
   type: user_logged_out
   schema:
     - user_id: Id
-    - session_duration: int? #min(0)
-    - logged_out_at: Date = now()
+    - session_duration: Int? #min(0)
+    - logged_out_at: date = now()
 
 - name: User Registered
   parent: Event
   type: user_registered
   schema:
     - user_id: Id
-    - email: String #email
-    - username: String
+    - email: string #email
+    - username: string
     - registration_source: Web | Mobile | Api = Web
-    - registered_at: Date = now()
+    - registered_at: date = now()
 
 - name: User Password Changed
   parent: Event
@@ -38,15 +38,15 @@
   schema:
     - user_id: Id
     - changed_via: Self | Admin | Reset = Self
-    - changed_at: Date = now()
+    - changed_at: date = now()
 
 - name: User Profile Updated
   parent: Event
   type: user_profile_updated
   schema:
     - user_id: Id
-    - fields_changed: String[]
-    - updated_at: Date = now()
+    - fields_changed: string[]
+    - updated_at: date = now()
 
 - name: User Joined Group
   parent: Event
@@ -55,7 +55,7 @@
     - user_id: Id
     - group_id: Id
     - role: Member | Admin | Owner = Member
-    - joined_at: Date = now()
+    - joined_at: date = now()
 
 - name: User Left Group
   parent: Event
@@ -64,7 +64,7 @@
     - user_id: Id
     - group_id: Id
     - reason: Voluntary | Removed | Banned?
-    - left_at: Date = now()
+    - left_at: date = now()
 
 - name: System Alert Triggered
   parent: Event
@@ -72,5 +72,5 @@
   schema:
     - user_id: Id
     - group_id: Id
-    - reason: String
-    - alert_at: Date = now()
+    - reason: string
+    - alert_at: date = now()

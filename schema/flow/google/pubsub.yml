@@ -1,284 +1,265 @@
-- name: Create Topic
-  method: create_topic
+- name: create_topic
   inputs:
-    labels: PubSubLabels
-    message_retention_duration: String
-    project_id: String #required
-    schema_settings: PubSubSchemaSettings
-    topic_id: String #required
+    labels: pub_sub_labels
+    message_retention_duration: string
+    project_id: string #required
+    schema_settings: pub_sub_schema_settings
+    topic_id: string #required
   outputs:
-    success: Boolean
-    topic_name: String
+    success: boolean
+    topic_name: string
 
-- name: Delete Topic
-  method: delete_topic
+- name: delete_topic
   inputs:
-    project_id: String #required
-    topic_id: String #required
+    project_id: string #required
+    topic_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Topic
-  method: get_topic
+- name: get_topic
   inputs:
-    project_id: String #required
-    topic_id: String #required
+    project_id: string #required
+    topic_id: string #required
   outputs:
-    labels: PubSubLabels
-    message_retention_duration: String
-    schema_settings: PubSubSchemaSettings
-    topic_name: String
+    labels: pub_sub_labels
+    message_retention_duration: string
+    schema_settings: pub_sub_schema_settings
+    topic_name: string
 
-- name: List Topics
-  method: list_topics
+- name: list_topics
   inputs:
-    page_size: Int = 100
-    page_token: String
-    project_id: String #required
+    page_size: int = 100
+    page_token: string
+    project_id: string #required
   outputs:
-    next_page_token: String
-    topics: List[PubSubTopic]
+    next_page_token: string
+    topics: list[pub_sub_topic]
 
-- name: Publish Message
-  method: publish
+- name: publish
   inputs:
-    attributes: PubSubMessageAttributes
-    data: String #required
-    ordering_key: String
-    project_id: String #required
-    topic_id: String #required
+    attributes: pub_sub_message_attributes
+    data: string #required
+    ordering_key: string
+    project_id: string #required
+    topic_id: string #required
   outputs:
-    message_id: String
-    success: Boolean
+    message_id: string
+    success: boolean
 
-- name: Publish Batch Messages
-  method: publish_batch
+- name: publish_batch
   inputs:
-    messages: List[PubSubPublishMessage] #required
-    project_id: String #required
-    topic_id: String #required
+    messages: list[pub_sub_publish_message] #required
+    project_id: string #required
+    topic_id: string #required
   outputs:
-    failure_count: Int
-    message_ids: List[String]
-    success_count: Int
+    failure_count: int
+    message_ids: list[string]
+    success_count: int
 
-- name: Create Subscription
-  method: create_subscription
+- name: create_subscription
   inputs:
-    ack_deadline_seconds: Int = 10
-    dead_letter_policy: DeadLetterPolicy
-    enable_message_ordering: Boolean = false
-    filter: String
-    message_retention_duration: String
-    project_id: String #required
-    push_config: PushConfig
-    retain_acked_messages: Boolean = false
-    retry_policy: RetryPolicy
-    subscription_id: String #required
-    topic_id: String #required
+    ack_deadline_seconds: int = 10
+    dead_letter_policy: dead_letter_policy
+    enable_message_ordering: boolean = false
+    filter: string
+    message_retention_duration: string
+    project_id: string #required
+    push_config: push_config
+    retain_acked_messages: boolean = false
+    retry_policy: retry_policy
+    subscription_id: string #required
+    topic_id: string #required
   outputs:
-    subscription_name: String
-    success: Boolean
+    subscription_name: string
+    success: boolean
 
-- name: Delete Subscription
-  method: delete_subscription
+- name: delete_subscription
   inputs:
-    project_id: String #required
-    subscription_id: String #required
+    project_id: string #required
+    subscription_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Subscription
-  method: get_subscription
+- name: get_subscription
   inputs:
-    project_id: String #required
-    subscription_id: String #required
+    project_id: string #required
+    subscription_id: string #required
   outputs:
-    ack_deadline_seconds: Int
-    labels: PubSubLabels
-    message_retention_duration: String
-    push_config: PushConfig
-    subscription_name: String
-    topic: String
+    ack_deadline_seconds: int
+    labels: pub_sub_labels
+    message_retention_duration: string
+    push_config: push_config
+    subscription_name: string
+    topic: string
 
-- name: List Subscriptions
-  method: list_subscriptions
+- name: list_subscriptions
   inputs:
-    page_size: Int = 100
-    page_token: String
-    project_id: String #required
+    page_size: int = 100
+    page_token: string
+    project_id: string #required
   outputs:
-    next_page_token: String
-    subscriptions: List[PubSubSubscription]
+    next_page_token: string
+    subscriptions: list[pub_sub_subscription]
 
-- name: Pull Messages
-  method: pull
+- name: pull
   inputs:
-    max_messages: Int = 10
-    project_id: String #required
-    return_immediately: Boolean = false
-    subscription_id: String #required
+    max_messages: int = 10
+    project_id: string #required
+    return_immediately: boolean = false
+    subscription_id: string #required
   outputs:
-    count: Int
-    messages: List[PubSubReceivedMessage]
+    count: int
+    messages: list[pub_sub_received_message]
 
-- name: Acknowledge Messages
-  method: acknowledge
+- name: acknowledge
   inputs:
-    ack_ids: List[String] #required
-    project_id: String #required
-    subscription_id: String #required
+    ack_ids: list[string] #required
+    project_id: string #required
+    subscription_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Modify Ack Deadline
-  method: modify_ack_deadline
+- name: modify_ack_deadline
   inputs:
-    ack_deadline_seconds: Int #required
-    ack_ids: List[String] #required
-    project_id: String #required
-    subscription_id: String #required
+    ack_deadline_seconds: int #required
+    ack_ids: list[string] #required
+    project_id: string #required
+    subscription_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Seek Subscription
-  method: seek
+- name: seek
   inputs:
-    project_id: String #required
-    snapshot: String
-    subscription_id: String #required
-    time: Date
+    project_id: string #required
+    snapshot: string
+    subscription_id: string #required
+    time: date
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Create Snapshot
-  method: create_snapshot
+- name: create_snapshot
   inputs:
-    labels: PubSubLabels
-    project_id: String #required
-    snapshot_id: String #required
-    subscription_id: String #required
+    labels: pub_sub_labels
+    project_id: string #required
+    snapshot_id: string #required
+    subscription_id: string #required
   outputs:
-    expire_time: Date
-    snapshot_name: String
-    success: Boolean
-    topic: String
+    expire_time: date
+    snapshot_name: string
+    success: boolean
+    topic: string
 
-- name: Delete Snapshot
-  method: delete_snapshot
+- name: delete_snapshot
   inputs:
-    project_id: String #required
-    snapshot_id: String #required
+    project_id: string #required
+    snapshot_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Topic Subscriptions
-  method: list_topic_subscriptions
+- name: list_topic_subscriptions
   inputs:
-    page_size: Int = 100
-    page_token: String
-    project_id: String #required
-    topic_id: String #required
+    page_size: int = 100
+    page_token: string
+    project_id: string #required
+    topic_id: string #required
   outputs:
-    next_page_token: String
-    subscriptions: List[String]
+    next_page_token: string
+    subscriptions: list[string]
 
-- name: Update Topic
-  method: update_topic
+- name: update_topic
   inputs:
-    labels: PubSubLabels
-    message_retention_duration: String
-    project_id: String #required
-    topic_id: String #required
+    labels: pub_sub_labels
+    message_retention_duration: string
+    project_id: string #required
+    topic_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Update Subscription
-  method: update_subscription
+- name: update_subscription
   inputs:
-    ack_deadline_seconds: Int
-    labels: PubSubLabels
-    message_retention_duration: String
-    project_id: String #required
-    push_config: PushConfig
-    subscription_id: String #required
+    ack_deadline_seconds: int
+    labels: pub_sub_labels
+    message_retention_duration: string
+    project_id: string #required
+    push_config: push_config
+    subscription_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: PubSubMessage
+- name: pub_sub_message
   class:
-    message_id: String
-    data: String
-    attributes: PubSubMessageAttributes
-    publish_time: Date
-    ordering_key: String
+    message_id: string
+    data: string
+    attributes: pub_sub_message_attributes
+    publish_time: date
+    ordering_key: string
 
-- name: PubSubLabels
+- name: pub_sub_labels
   class:
-    labels: List[PubSubLabel]
+    labels: list[pub_sub_label]
 
-- name: PubSubLabel
+- name: pub_sub_label
   class:
-    key: String
-    value: String
+    key: string
+    value: string
 
-- name: PubSubSchemaSettings
+- name: pub_sub_schema_settings
   class:
-    schema: String
-    encoding: String
+    schema: string
+    encoding: string
 
-- name: PubSubTopic
+- name: pub_sub_topic
   class:
-    name: String
-    labels: PubSubLabels
-    message_retention_duration: String
+    name: string
+    labels: pub_sub_labels
+    message_retention_duration: string
 
-- name: PubSubMessageAttributes
+- name: pub_sub_message_attributes
   class:
-    attributes: List[PubSubMessageAttribute]
+    attributes: list[pub_sub_message_attribute]
 
-- name: PubSubMessageAttribute
+- name: pub_sub_message_attribute
   class:
-    key: String
-    value: String
+    key: string
+    value: string
 
-- name: PubSubPublishMessage
+- name: pub_sub_publish_message
   class:
-    data: String
-    attributes: PubSubMessageAttributes
-    ordering_key: String
+    data: string
+    attributes: pub_sub_message_attributes
+    ordering_key: string
 
-- name: DeadLetterPolicy
+- name: dead_letter_policy
   class:
-    dead_letter_topic: String
-    max_delivery_attempts: Int
+    dead_letter_topic: string
+    max_delivery_attempts: int
 
-- name: PushConfig
+- name: push_config
   class:
-    push_endpoint: String
-    attributes: PubSubMessageAttributes
-    oidc_token: OidcToken
+    push_endpoint: string
+    attributes: pub_sub_message_attributes
+    oidc_token: oidc_token
 
-- name: OidcToken
+- name: oidc_token
   class:
-    service_account_email: String
-    audience: String
+    service_account_email: string
+    audience: string
 
-- name: RetryPolicy
+- name: retry_policy
   class:
-    minimum_backoff: String
-    maximum_backoff: String
+    minimum_backoff: string
+    maximum_backoff: string
 
-- name: PubSubSubscription
+- name: pub_sub_subscription
   class:
-    name: String
-    topic: String
-    ack_deadline_seconds: Int
-    message_retention_duration: String
-    labels: PubSubLabels
+    name: string
+    topic: string
+    ack_deadline_seconds: int
+    message_retention_duration: string
+    labels: pub_sub_labels
 
-- name: PubSubReceivedMessage
+- name: pub_sub_received_message
   class:
-    ack_id: String
-    message: PubSubMessage
-    delivery_attempt: Int
+    ack_id: string
+    message: pub_sub_message
+    delivery_attempt: int

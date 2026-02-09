@@ -1,118 +1,106 @@
-- name: Create Group
-  method: create
+- name: create
   inputs:
-    description: String
-    name: String #required
+    description: string
+    name: string #required
   outputs:
-    group_id: String
-    success: Boolean
+    group_id: string
+    success: boolean
 
-- name: Update Group
-  method: update
+- name: update
   inputs:
-    description: String
-    group_id: String #required
-    name: String
+    description: string
+    group_id: string #required
+    name: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Group
-  method: delete
+- name: delete
   inputs:
-    group_id: String #required
+    group_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Group Details
-  method: get
+- name: get
   inputs:
-    group_id: String #required
+    group_id: string #required
   outputs:
-    description: String
-    member_count: Int
-    name: String
-    roles: List[GroupRoleInfo]
+    description: string
+    member_count: int
+    name: string
+    roles: list[group_role_info]
 
-- name: List Groups
-  method: lists
+- name: lists
   inputs:
-    limit: Int = 100
-    offset: Int = 0
+    limit: int = 100
+    offset: int = 0
   outputs:
-    groups: List[GroupInfo]
-    total: Int
+    groups: list[group_info]
+    total: int
 
-- name: Add User To Group
-  method: add_user_to
+- name: add_user_to
   inputs:
-    group_id: String #required
-    user_id: String #required
+    group_id: string #required
+    user_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Remove User From Group
-  method: remove_user_from
+- name: remove_user_from
   inputs:
-    group_id: String #required
-    user_id: String #required
+    group_id: string #required
+    user_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Group Members
-  method: list_members
+- name: list_members
   inputs:
-    group_id: String #required
-    limit: Int = 100
-    offset: Int = 0
+    group_id: string #required
+    limit: int = 100
+    offset: int = 0
   outputs:
-    members: List[GroupMember]
-    total: Int
+    members: list[group_member]
+    total: int
 
-- name: Assign Role To Group
-  method: assign_role_to
+- name: assign_role_to
   inputs:
-    group_id: String #required
-    role_id: String #required
+    group_id: string #required
+    role_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Remove Role From Group
-  method: remove_role_from
+- name: remove_role_from
   inputs:
-    group_id: String #required
-    role_id: String #required
+    group_id: string #required
+    role_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Group Roles
-  method: list_roles
+- name: list_roles
   inputs:
-    group_id: String #required
+    group_id: string #required
   outputs:
-    roles: List[GroupRoleInfo]
-    total: Int
+    roles: list[group_role_info]
+    total: int
 
-- name: Check Group Permission
-  method: check_permission
+- name: check_permission
   inputs:
-    method: String #required
-    group_id: String #required
-    resource: String #required
+    method: string #required
+    group_id: string #required
+    resource: string #required
   outputs:
-    allowed: Boolean
-    reason: String
+    allowed: boolean
+    reason: string
 
-- name: Group
+- name: group
   class:
-    group_id: String
-    name: String
-    description: String
-    member_count: Int
-    roles: List[GroupRole]
-    created_at: Date
+    group_id: string
+    name: string
+    description: string
+    member_count: int
+    roles: list[group_role]
+    created_at: date
 
-- name: GroupRole
+- name: group_role
   class:
-    role_id: String
-    name: String
-    permissions: List[String]
+    role_id: string
+    name: string
+    permissions: list[string]

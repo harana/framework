@@ -1,321 +1,301 @@
-- name: Get Employee
-  method: get_employee
+- name: get_employee
   inputs:
-    expand: List[String]
-    select: List[String]
-    user_id: String #required
+    expand: list[string]
+    select: list[string]
+    user_id: string #required
   outputs:
-    custom_fields: Map[String, Any]
-    department: String
-    email: String
-    first_name: String
-    hire_date: Date
-    job_title: String
-    last_name: String
-    manager_id: String
-    status: String
-    user_id: String
+    custom_fields: map[string, any]
+    department: string
+    email: string
+    first_name: string
+    hire_date: date
+    job_title: string
+    last_name: string
+    manager_id: string
+    status: string
+    user_id: string
 
-- name: List Employees
-  method: list_employees
+- name: list_employees
   inputs:
-    expand: List[String]
-    filter: String
-    order_by: String
-    select: List[String]
-    skip: Int = 0
-    top: Int = 100
+    expand: list[string]
+    filter: string
+    order_by: string
+    select: list[string]
+    skip: int = 0
+    top: int = 100
   outputs:
-    count: Int
-    employees: List[SfEmployee]
-    next_link: String
+    count: int
+    employees: list[sf_employee]
+    next_link: string
 
-- name: Create Employee
-  method: create_employee
+- name: create_employee
   inputs:
-    custom_fields: Map[String, Any]
-    department: String
-    email: String #required
-    first_name: String #required
-    hire_date: Date #required
-    job_title: String
-    last_name: String #required
-    manager_id: String
-    user_id: String #required
+    custom_fields: map[string, any]
+    department: string
+    email: string #required
+    first_name: string #required
+    hire_date: date #required
+    job_title: string
+    last_name: string #required
+    manager_id: string
+    user_id: string #required
   outputs:
-    success: Boolean
-    user_id: String
+    success: boolean
+    user_id: string
 
-- name: Update Employee
-  method: update_employee
+- name: update_employee
   inputs:
-    custom_fields: Map[String, Any]
-    department: String
-    email: String
-    first_name: String
-    job_title: String
-    last_name: String
-    manager_id: String
-    user_id: String #required
+    custom_fields: map[string, any]
+    department: string
+    email: string
+    first_name: string
+    job_title: string
+    last_name: string
+    manager_id: string
+    user_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Terminate Employee
-  method: terminate_employee
+- name: terminate_employee
   inputs:
-    last_day_worked: Date
-    notes: String
-    termination_date: Date #required
-    termination_reason: String #required
-    user_id: String #required
+    last_day_worked: date
+    notes: string
+    termination_date: date #required
+    termination_reason: string #required
+    user_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Job Information
-  method: get_job_info
+- name: get_job_info
   inputs:
-    effective_date: Date
-    user_id: String #required
+    effective_date: date
+    user_id: string #required
   outputs:
-    cost_center: String
-    department: String
-    division: String
-    effective_start_date: Date
-    employment_type: String
-    job_code: String
-    job_title: String
-    location: String
-    manager_id: String
+    cost_center: string
+    department: string
+    division: string
+    effective_start_date: date
+    employment_type: string
+    job_code: string
+    job_title: string
+    location: string
+    manager_id: string
 
-- name: List Job History
-  method: list_job_history
+- name: list_job_history
   inputs:
-    end_date: Date
-    start_date: Date
-    user_id: String #required
+    end_date: date
+    start_date: date
+    user_id: string #required
   outputs:
-    count: Int
-    job_history: List[SfJobHistoryEntry]
+    count: int
+    job_history: list[sf_job_history_entry]
 
-- name: Get Compensation Information
-  method: get_compensation
+- name: get_compensation
   inputs:
-    effective_date: Date
-    user_id: String #required
+    effective_date: date
+    user_id: string #required
   outputs:
-    bonus_target: Float
-    currency: String
-    effective_start_date: Date
-    frequency: String
-    pay_grade: String
-    pay_type: String
-    salary: Float
+    bonus_target: float
+    currency: string
+    effective_start_date: date
+    frequency: string
+    pay_grade: string
+    pay_type: string
+    salary: float
 
-- name: List Compensation History
-  method: list_compensation_history
+- name: list_compensation_history
   inputs:
-    end_date: Date
-    start_date: Date
-    user_id: String #required
+    end_date: date
+    start_date: date
+    user_id: string #required
   outputs:
-    compensation_history: List[SfCompensationEntry]
-    count: Int
+    compensation_history: list[sf_compensation_entry]
+    count: int
 
-- name: Get Time Off Balance
-  method: get_time_off_balance
+- name: get_time_off_balance
   inputs:
-    as_of_date: Date
-    time_type: String
-    user_id: String #required
+    as_of_date: date
+    time_type: string
+    user_id: string #required
   outputs:
-    balances: List[SfTimeOffBalance]
-    total_balance: Float
+    balances: list[sf_time_off_balance]
+    total_balance: float
 
-- name: Request Time Off
-  method: request_time_off
+- name: request_time_off
   inputs:
-    comment: String
-    duration_hours: Float
-    duration_type: FullDay | HalfDay | Hours = FullDay
-    end_date: Date #required
-    start_date: Date #required
-    time_type: String #required
-    user_id: String #required
+    comment: string
+    duration_hours: float
+    duration_type: full_day | half_day | hours = full_day
+    end_date: date #required
+    start_date: date #required
+    time_type: string #required
+    user_id: string #required
   outputs:
-    request_id: String
-    status: String
-    success: Boolean
+    request_id: string
+    status: string
+    success: boolean
 
-- name: List Time Off Requests
-  method: list_time_off_requests
+- name: list_time_off_requests
   inputs:
-    end_date: Date
-    start_date: Date
-    status: Pending | Approved | Rejected | Cancelled
-    top: Int = 100
-    user_id: String
+    end_date: date
+    start_date: date
+    status: pending | approved | rejected | cancelled
+    top: int = 100
+    user_id: string
   outputs:
-    count: Int
-    requests: List[SfTimeOffRequest]
+    count: int
+    requests: list[sf_time_off_request]
 
-- name: Approve Time Off Request
-  method: approve_time_off
+- name: approve_time_off
   inputs:
-    comment: String
-    request_id: String #required
+    comment: string
+    request_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Reject Time Off Request
-  method: reject_time_off
+- name: reject_time_off
   inputs:
-    reason: String #required
-    request_id: String #required
+    reason: string #required
+    request_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Org Chart
-  method: get_org_chart
+- name: get_org_chart
   inputs:
-    depth: Int = 3
-    direction: Up | Down | Both = Both
-    user_id: String #required
+    depth: int = 3
+    direction: up | down | both = both
+    user_id: string #required
   outputs:
-    levels: Int
-    org_chart: SfOrgChartNode
+    levels: int
+    org_chart: sf_org_chart_node
 
-- name: Get Direct Reports
-  method: get_direct_reports
+- name: get_direct_reports
   inputs:
-    include_indirect: Boolean = false
-    manager_id: String #required
+    include_indirect: boolean = false
+    manager_id: string #required
   outputs:
-    count: Int
-    direct_reports: List[SfEmployee]
+    count: int
+    direct_reports: list[sf_employee]
 
-- name: List Departments
-  method: list_departments
+- name: list_departments
   inputs:
-    filter: String
-    top: Int = 100
+    filter: string
+    top: int = 100
   outputs:
-    count: Int
-    departments: List[SfDepartment]
+    count: int
+    departments: list[sf_department]
 
-- name: Get Department
-  method: get_department
+- name: get_department
   inputs:
-    department_id: String #required
+    department_id: string #required
   outputs:
-    cost_center: String
-    department_id: String
-    description: String
-    head_of_department: String
-    name: String
-    parent_department_id: String
+    cost_center: string
+    department_id: string
+    description: string
+    head_of_department: string
+    name: string
+    parent_department_id: string
 
-- name: List Positions
-  method: list_positions
+- name: list_positions
   inputs:
-    department_id: String
-    status: Active | Inactive
-    top: Int = 100
+    department_id: string
+    status: active | inactive
+    top: int = 100
   outputs:
-    count: Int
-    positions: List[SfPosition]
+    count: int
+    positions: list[sf_position]
 
-- name: Get Position
-  method: get_position
+- name: get_position
   inputs:
-    position_id: String #required
+    position_id: string #required
   outputs:
-    department_id: String
-    incumbent_user_id: String
-    job_code: String
-    pay_grade: String
-    position_id: String
-    status: String
-    title: String
+    department_id: string
+    incumbent_user_id: string
+    job_code: string
+    pay_grade: string
+    position_id: string
+    status: string
+    title: string
 
-- name: Employee
+- name: employee
   class:
-    user_id: String
-    first_name: String
-    last_name: String
-    email: String
-    department: String
-    job_title: String
-    manager_id: String
-    hire_date: Date
-    status: String
-    custom_fields: Map[String, Any]
+    user_id: string
+    first_name: string
+    last_name: string
+    email: string
+    department: string
+    job_title: string
+    manager_id: string
+    hire_date: date
+    status: string
+    custom_fields: map[string, any]
 
-- name: SfEmployee
+- name: sf_employee
   class:
-    user_id: String
-    first_name: String
-    last_name: String
-    email: String
-    department: String
-    job_title: String
-    manager_id: String
-    hire_date: Date
-    status: String
+    user_id: string
+    first_name: string
+    last_name: string
+    email: string
+    department: string
+    job_title: string
+    manager_id: string
+    hire_date: date
+    status: string
 
-- name: SfJobHistoryEntry
+- name: sf_job_history_entry
   class:
-    effective_date: Date
-    job_title: String
-    department: String
-    job_code: String
-    employment_type: String
+    effective_date: date
+    job_title: string
+    department: string
+    job_code: string
+    employment_type: string
 
-- name: SfCompensationEntry
+- name: sf_compensation_entry
   class:
-    effective_date: Date
-    salary: Float
-    currency: String
-    pay_grade: String
-    frequency: String
+    effective_date: date
+    salary: float
+    currency: string
+    pay_grade: string
+    frequency: string
 
-- name: SfTimeOffBalance
+- name: sf_time_off_balance
   class:
-    time_type: String
-    balance: Float
-    used: Float
-    pending: Float
+    time_type: string
+    balance: float
+    used: float
+    pending: float
 
-- name: SfTimeOffRequest
+- name: sf_time_off_request
   class:
-    request_id: String
-    user_id: String
-    time_type: String
-    start_date: Date
-    end_date: Date
-    duration_hours: Float
-    status: String
-    comment: String
+    request_id: string
+    user_id: string
+    time_type: string
+    start_date: date
+    end_date: date
+    duration_hours: float
+    status: string
+    comment: string
 
-- name: SfOrgChartNode
+- name: sf_org_chart_node
   class:
-    user_id: String
-    name: String
-    job_title: String
-    reports: List[SfOrgChartNode]
+    user_id: string
+    name: string
+    job_title: string
+    reports: list[sf_org_chart_node]
 
-- name: SfDepartment
+- name: sf_department
   class:
-    department_id: String
-    name: String
-    description: String
-    parent_department_id: String
-    head_of_department: String
+    department_id: string
+    name: string
+    description: string
+    parent_department_id: string
+    head_of_department: string
 
-- name: SfPosition
+- name: sf_position
   class:
-    position_id: String
-    title: String
-    department_id: String
-    job_code: String
-    status: String
-    incumbent_user_id: String
+    position_id: string
+    title: string
+    department_id: string
+    job_code: string
+    status: string
+    incumbent_user_id: string

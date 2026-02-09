@@ -1,45 +1,40 @@
-- name: Date Selected
-  type: date_selected
+- name: date_selected
   schema:
-    picker_id: Id #required
-    picker_name: String?
+    picker_id: id #required
+    picker_name: string?
     selected_date: date #required
     previous_date: date?
-    selected_at: Date = now()
+    selected_at: date = now()
 
-- name: Date Range Selected
-  type: date_range_selected
+- name: date_range_selected
   schema:
-    picker_id: Id #required
-    picker_name: String?
+    picker_id: id #required
+    picker_name: string?
     start_date: date #required
     end_date: date #required
     previous_start: date?
     previous_end: date?
-    selected_at: Date = now()
+    selected_at: date = now()
 
-- name: Time Selected
-  type: time_selected
+- name: time_selected
   schema:
-    picker_id: Id #required
-    picker_name: String?
+    picker_id: id #required
+    picker_name: string?
     selected_time: time #required
     previous_time: time?
-    selected_at: Date = now()
+    selected_at: date = now()
 
-- name: Calendar Month Changed
-  type: calendar_month_changed
+- name: calendar_month_changed
   schema:
-    calendar_id: Id #required
+    calendar_id: id #required
     from_month: int? #min(1) #max(12)
     to_month: int #required #min(1) #max(12)
     year: int #required
-    changed_at: Date = now()
+    changed_at: date = now()
 
-- name: Calendar Year Changed
-  type: calendar_year_changed
+- name: calendar_year_changed
   schema:
-    calendar_id: Id #required
+    calendar_id: id #required
     from_year: int?
     to_year: int #required
-    changed_at: Date = now()
+    changed_at: date = now()

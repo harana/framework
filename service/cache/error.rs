@@ -1,5 +1,3 @@
-// Harana Components - Cache Error Types
-
 use std::fmt;
 
 #[derive(Debug, Clone)]

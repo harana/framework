@@ -1,5 +1,3 @@
-//! Authentication middleware
-
 use axum::{
     body::Body,
     http::Request,

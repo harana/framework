@@ -1,5 +1,3 @@
-// Harana Components - MongoDB Tests
-
 use mongodb::bson::doc;
 use crate::{Entity, FilterCondition};
 use super::filter_to_document;

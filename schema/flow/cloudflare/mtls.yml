@@ -1,12 +1,11 @@
-- name: Fetch With mTLS Client Certificate
-  method: fetch
+- name: fetch
   inputs:
-    body: Any
-    certificate_binding: String #required
-    headers: Headers
-    method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
-    url: String #required
+    body: any
+    certificate_binding: string #required
+    headers: headers
+    method: get | post | put | patch | delete | head | options = get
+    url: string #required
   outputs:
-    body: Any
-    headers: Headers
-    status_code: Int
+    body: any
+    headers: headers
+    status_code: int

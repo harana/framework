@@ -1,60 +1,56 @@
-- name: Lookup IP Address Location
-  method: lookup
+- name: lookup
   inputs:
-    ip: String #required
+    ip: string #required
   outputs:
-    city: String
-    country: String
-    latitude: Float
-    longitude: Float
-    region: String
-    timezone: String
+    city: string
+    country: string
+    latitude: float
+    longitude: float
+    region: string
+    timezone: string
 
-- name: Calculate Distance Between Coordinates
-  method: distance
+- name: distance
   inputs:
-    from_lat: Float #required
-    from_lon: Float #required
-    to_lat: Float #required
-    to_lon: Float #required
-    unit: Km | Mi | M = Km
+    from_lat: float #required
+    from_lon: float #required
+    to_lat: float #required
+    to_lon: float #required
+    unit: km | mi | M = km
   outputs:
-    distance: Float
+    distance: float
 
-- name: Geocode Address To Coordinates
-  method: geocode
+- name: geocode
   inputs:
-    address: String #required
+    address: string #required
   outputs:
-    city: String
-    country: String
-    latitude: Float
-    longitude: Float
-    region: String
+    city: string
+    country: string
+    latitude: float
+    longitude: float
+    region: string
 
-- name: Reverse Geocode Coordinates To Address
-  method: reverse_geocode
+- name: reverse_geocode
   inputs:
-    latitude: Float #required
-    longitude: Float #required
+    latitude: float #required
+    longitude: float #required
   outputs:
-    address: GeoAddress
-    formatted_address: String
+    address: geo_address
+    formatted_address: string
 
-- name: GeoLocation
+- name: geo_location
   class:
-    ip: String
-    latitude: Float
-    longitude: Float
-    city: String
-    region: String
-    country: String
-    timezone: String
+    ip: string
+    latitude: float
+    longitude: float
+    city: string
+    region: string
+    country: string
+    timezone: string
 
-- name: GeoAddress
+- name: geo_address
   class:
-    street: String
-    city: String
-    region: String
-    postal_code: String
-    country: String
+    street: string
+    city: string
+    region: string
+    postal_code: string
+    country: string

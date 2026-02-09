@@ -1,173 +1,158 @@
-- name: Convert Color Format
-  method: convert
+- name: convert
   inputs:
-    color: String #required
-    from_format: Hex | Rgb | Hsl | Hsv | Cmyk = Hex
-    to_format: Hex | Rgb | Hsl | Hsv | Cmyk #required
+    color: string #required
+    from_format: hex | rgb | hsl | hsv | cmyk = hex
+    to_format: hex | rgb | hsl | hsv | cmyk #required
   outputs:
-    color: String
-    components: ColorComponents
+    color: string
+    components: color_components
 
-- name: Parse Color String
-  method: parse
+- name: parse
   inputs:
-    color: String #required
+    color: string #required
   outputs:
-    format: String
-    hex: String
-    hsl: HslColor
-    rgb: RgbColor
-    valid: Boolean
+    format: string
+    hex: string
+    hsl: hsl_color
+    rgb: rgb_color
+    valid: boolean
 
-- name: Generate Color Palette
-  method: generate_palette
+- name: generate_palette
   inputs:
-    base_color: String #required
-    count: Int = 5
-    palette_type: Complementary | Analogous | Triadic | Tetradic | SplitComplementary | Monochromatic #required
+    base_color: string #required
+    count: int = 5
+    palette_type: complementary | analogous | triadic | tetradic | split_complementary | monochromatic #required
   outputs:
-    colors: List[String]
-    palette_type: String
+    colors: list[string]
+    palette_type: string
 
-- name: Lighten Color
-  method: lighten
+- name: lighten
   inputs:
-    amount: Float #required
-    color: String #required
+    amount: float #required
+    color: string #required
   outputs:
-    color: String
+    color: string
 
-- name: Darken Color
-  method: darken
+- name: darken
   inputs:
-    amount: Float #required
-    color: String #required
+    amount: float #required
+    color: string #required
   outputs:
-    color: String
+    color: string
 
-- name: Saturate Color
-  method: saturate
+- name: saturate
   inputs:
-    amount: Float #required
-    color: String #required
+    amount: float #required
+    color: string #required
   outputs:
-    color: String
+    color: string
 
-- name: Desaturate Color
-  method: desaturate
+- name: desaturate
   inputs:
-    amount: Float #required
-    color: String #required
+    amount: float #required
+    color: string #required
   outputs:
-    color: String
+    color: string
 
-- name: Mix Two Colors
-  method: mix
+- name: mix
   inputs:
-    color1: String #required
-    color2: String #required
-    weight: Float = 0.5
+    color1: string #required
+    color2: string #required
+    weight: float = 0.5
   outputs:
-    color: String
+    color: string
 
-- name: Get Color Contrast Ratio
-  method: contrast_ratio
+- name: contrast_ratio
   inputs:
-    color1: String #required
-    color2: String #required
+    color1: string #required
+    color2: string #required
   outputs:
-    ratio: Float
-    wcag_aa: Boolean
-    wcag_aaa: Boolean
+    ratio: float
+    wcag_aa: boolean
+    wcag_aaa: boolean
 
-- name: Get Accessible Text Color
-  method: accessible_text_color
+- name: accessible_text_color
   inputs:
-    background_color: String #required
-    prefer_white: Boolean = true
+    background_color: string #required
+    prefer_white: boolean = true
   outputs:
-    contrast_ratio: Float
-    text_color: String
+    contrast_ratio: float
+    text_color: string
 
-- name: Invert Color
-  method: invert
+- name: invert
   inputs:
-    color: String #required
+    color: string #required
   outputs:
-    color: String
+    color: string
 
-- name: Generate Gradient Colors
-  method: gradient
+- name: gradient
   inputs:
-    end_color: String #required
-    start_color: String #required
-    steps: Int = 5
+    end_color: string #required
+    start_color: string #required
+    steps: int = 5
   outputs:
-    colors: List[String]
+    colors: list[string]
 
-- name: Get Color Luminance
-  method: luminance
+- name: luminance
   inputs:
-    color: String #required
+    color: string #required
   outputs:
-    is_dark: Boolean
-    is_light: Boolean
-    luminance: Float
+    is_dark: boolean
+    is_light: boolean
+    luminance: float
 
-- name: Validate Color Format
-  method: validate
+- name: validate
   inputs:
-    color: String #required
-    format: Hex | Rgb | Hsl | Hsv | Cmyk
+    color: string #required
+    format: hex | rgb | hsl | hsv | cmyk
   outputs:
-    detected_format: String
-    valid: Boolean
+    detected_format: string
+    valid: boolean
 
-- name: Generate Random Color
-  method: random
+- name: random
   inputs:
-    format: Hex | Rgb | Hsl = Hex
-    hue: Red | Orange | Yellow | Green | Blue | Purple | Pink | Monochrome
-    luminosity: Bright | Light | Dark | Random = Random
+    format: hex | rgb | hsl = hex
+    hue: red | orange | yellow | green | blue | purple | pink | monochrome
+    luminosity: bright | light | dark | random = random
   outputs:
-    color: String
+    color: string
 
-- name: Color
+- name: color
   class:
-    hex: String
-    rgb: RgbColor
-    hsl: HslColor
-    hsv: HsvColor
-    cmyk: CmykColor
+    hex: string
+    rgb: rgb_color
+    hsl: hsl_color
+    hsv: hsv_color
+    cmyk: cmyk_color
 
-- name: RgbColor
+- name: rgb_color
   class:
-    r: Int
-    g: Int
-    b: Int
+    r: int
+    g: int
+    b: int
 
-- name: HslColor
+- name: hsl_color
   class:
-    h: Int
-    s: Float
-    l: Float
+    h: int
+    s: float
+    l: float
 
-- name: HsvColor
+- name: hsv_color
   class:
-    h: Int
-    s: Float
-    v: Float
+    h: int
+    s: float
+    v: float
 
-- name: CmykColor
+- name: cmyk_color
   class:
-    c: Float
-    m: Float
-    y: Float
-    k: Float
+    c: float
+    m: float
+    y: float
+    k: float
 
-- name: ColorComponents
+- name: color_components
   class:
-    red: Int
-    green: Int
-    blue: Int
-    alpha: Float
+    red: int
+    green: int
+    blue: int
+    alpha: float

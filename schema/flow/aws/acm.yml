@@ -1,130 +1,115 @@
-- name: Request Certificate
-  method: request_certificate
+- name: request_certificate
   inputs:
-    domain_name: String #required
-    subject_alternative_names: List[String]
-    validation_method: DNS | EMAIL = DNS
-    certificate_authority_arn: String
-    domain_validation_options: List[DomainValidationOption]
-    tags: AcmTags
+    domain_name: string #required
+    subject_alternative_names: list[string]
+    validation_method: dns | email = dns
+    certificate_authority_arn: string
+    domain_validation_options: list[domain_validation_option]
+    tags: acm_tags
   outputs:
-    certificate_arn: String
-    domain_validation_options: List[DomainValidationOption]
-    success: Boolean
+    certificate_arn: string
+    domain_validation_options: list[domain_validation_option]
+    success: boolean
 
-- name: Import Certificate
-  method: import_certificate
+- name: import_certificate
   inputs:
-    certificate: String #required
-    certificate_chain: String
-    private_key: String #required
-    certificate_arn: String
-    tags: AcmTags
+    certificate: string #required
+    certificate_chain: string
+    private_key: string #required
+    certificate_arn: string
+    tags: acm_tags
   outputs:
-    certificate_arn: String
-    success: Boolean
+    certificate_arn: string
+    success: boolean
 
-- name: Delete Certificate
-  method: delete_certificate
+- name: delete_certificate
   inputs:
-    certificate_arn: String #required
+    certificate_arn: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe Certificate
-  method: describe_certificate
+- name: describe_certificate
   inputs:
-    certificate_arn: String #required
+    certificate_arn: string #required
   outputs:
-    certificate: Certificate
+    certificate: certificate
 
-- name: List Certificates
-  method: list_certificates
+- name: list_certificates
   inputs:
-    certificate_statuses: List[String]
-    includes: CertificateFilters
-    max_items: Int = 100
-    next_token: String
+    certificate_statuses: list[string]
+    includes: certificate_filters
+    max_items: int = 100
+    next_token: string
   outputs:
-    certificates: List[CertificateSummary]
-    next_token: String
+    certificates: list[certificate_summary]
+    next_token: string
 
-- name: Get Certificate
-  method: get_certificate
+- name: get_certificate
   inputs:
-    certificate_arn: String #required
+    certificate_arn: string #required
   outputs:
-    certificate: String
-    certificate_chain: String
+    certificate: string
+    certificate_chain: string
 
-- name: Add Tags To Certificate
-  method: add_tags
+- name: add_tags
   inputs:
-    certificate_arn: String #required
-    tags: AcmTags #required
+    certificate_arn: string #required
+    tags: acm_tags #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Remove Tags From Certificate
-  method: remove_tags
+- name: remove_tags
   inputs:
-    certificate_arn: String #required
-    tag_keys: List[String] #required
+    certificate_arn: string #required
+    tag_keys: list[string] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Tags For Certificate
-  method: list_tags
+- name: list_tags
   inputs:
-    certificate_arn: String #required
+    certificate_arn: string #required
   outputs:
-    tags: AcmTags
+    tags: acm_tags
 
-- name: Renew Certificate
-  method: renew_certificate
+- name: renew_certificate
   inputs:
-    certificate_arn: String #required
+    certificate_arn: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Export Certificate
-  method: export_certificate
+- name: export_certificate
   inputs:
-    certificate_arn: String #required
+    certificate_arn: string #required
     passphrase: bytes #required
   outputs:
-    certificate: String
-    certificate_chain: String
-    private_key: String
+    certificate: string
+    certificate_chain: string
+    private_key: string
 
-- name: Resend Validation Email
-  method: resend_validation_email
+- name: resend_validation_email
   inputs:
-    certificate_arn: String #required
-    domain: String #required
-    validation_domain: String #required
+    certificate_arn: string #required
+    domain: string #required
+    validation_domain: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Update Certificate Options
-  method: update_certificate_options
+- name: update_certificate_options
   inputs:
-    certificate_arn: String #required
-    options: CertificateOptions #required
+    certificate_arn: string #required
+    options: certificate_options #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Account Configuration
-  method: get_account_configuration
+- name: get_account_configuration
   inputs:
-    expiry_events: ExpiryEventsConfiguration
+    expiry_events: expiry_events_configuration
   outputs:
-    configuration: AccountConfiguration
+    configuration: account_configuration
 
-- name: Put Account Configuration
-  method: put_account_configuration
+- name: put_account_configuration
   inputs:
-    expiry_events: ExpiryEventsConfiguration #required
-    idempotency_token: String
+    expiry_events: expiry_events_configuration #required
+    idempotency_token: string
   outputs:
-    success: Boolean
+    success: boolean

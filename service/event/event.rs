@@ -1,5 +1,3 @@
-// Harana Components - Events Core Event Types
-
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -228,8 +226,6 @@ impl Event {
         self.scheduled_at = Some(Utc::now() + chrono::Duration::seconds(delay_seconds as i64));
         self
     }
-
-    /// Check if the event has expired
     pub fn is_expired(&self) -> bool {
         if let Some(expires_at) = self.expires_at {
             Utc::now() > expires_at
@@ -237,8 +233,6 @@ impl Event {
             false
         }
     }
-
-    /// Check if the event is ready for delivery
     pub fn is_ready(&self) -> bool {
         if self.is_expired() {
             return false;

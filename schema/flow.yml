@@ -1,0 +1,20 @@
+- name: flow
+  id: [slug]
+  schema:
+    - name: date = now()
+    - description: string? #max(500)
+    - steps: list[flow_step]
+
+- name: flow_step
+  id: [feed_id, created_at]
+  schema:
+    - actor_id: id? -> user.id
+    - content: string? #max(2000)
+    - created_at: date = now()
+    - feed_id: id #required -> feed.id
+    - is_complete: boolean = false
+    - target_id: id?
+    - target_name: string? #max(200)
+    - target_type: string? #max(100)
+    - type: comment | assignment | tag | action | status = action
+    - updated_at: date = now()

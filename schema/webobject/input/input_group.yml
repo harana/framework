@@ -1,5 +1,4 @@
-- name: Input Group Component
-  type: input_group
+- name: input_group
   attributes:
-    - icon: String? #max(100)
-    - input_id: Id #required -> UIInput.id
+    - icon: string? #max(100)
+    - input_id: id #required -> ui_input.id

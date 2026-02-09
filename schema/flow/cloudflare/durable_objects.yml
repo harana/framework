@@ -1,169 +1,147 @@
-- name: Get Durable Object By Name
-  method: id_from_name
+- name: id_from_name
   inputs:
-    name: String #required
-    namespace: String #required
+    name: string #required
+    namespace: string #required
   outputs:
-    id: String
+    id: string
 
-- name: Get Durable Object By ID
-  method: id_from_string
+- name: id_from_string
   inputs:
-    id: String #required
-    namespace: String #required
+    id: string #required
+    namespace: string #required
   outputs:
-    id: String
+    id: string
 
-- name: Generate Unique Durable Object ID
-  method: new_unique_id
+- name: new_unique_id
   inputs:
-    jurisdiction: String
-    namespace: String #required
+    jurisdiction: string
+    namespace: string #required
   outputs:
-    id: String
+    id: string
 
-- name: Get Durable Object Stub
-  method: get_stub
+- name: get_stub
   inputs:
-    id: String #required
-    namespace: String #required
+    id: string #required
+    namespace: string #required
   outputs:
-    stub: DurableObjectStub
+    stub: durable_object_stub
 
-- name: Send Fetch To Durable Object
-  method: fetch
+- name: fetch
   inputs:
-    body: Any
-    headers: Headers
-    id: String #required
-    method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
-    namespace: String #required
-    url: String #required
+    body: any
+    headers: headers
+    id: string #required
+    method: get | post | put | patch | delete | head | options = get
+    namespace: string #required
+    url: string #required
   outputs:
-    body: Any
-    headers: Headers
-    status_code: Int
+    body: any
+    headers: headers
+    status_code: int
 
-- name: Get Durable Object Storage Value
-  method: storage_get
+- name: storage_get
   inputs:
-    key: String #required
+    key: string #required
   outputs:
-    found: Boolean
-    value: Any
+    found: boolean
+    value: any
 
-- name: Get Durable Object Storage Values
-  method: storage_get_multiple
+- name: storage_get_multiple
   inputs:
-    keys: List[String] #required
+    keys: list[string] #required
   outputs:
-    values: Any
+    values: any
 
-- name: Put Durable Object Storage Value
-  method: storage_put
+- name: storage_put
   inputs:
-    key: String #required
-    value: Any #required
+    key: string #required
+    value: any #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Put Durable Object Storage Values
-  method: storage_put_multiple
+- name: storage_put_multiple
   inputs:
-    entries: Any #required
+    entries: any #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Durable Object Storage Value
-  method: storage_delete
+- name: storage_delete
   inputs:
-    key: String #required
+    key: string #required
   outputs:
-    deleted: Boolean
+    deleted: boolean
 
-- name: Delete Durable Object Storage Values
-  method: storage_delete_multiple
+- name: storage_delete_multiple
   inputs:
-    keys: List[String] #required
+    keys: list[string] #required
   outputs:
-    deleted_count: Int
+    deleted_count: int
 
-- name: Delete All Durable Object Storage
-  method: storage_delete_all
+- name: storage_delete_all
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Durable Object Storage Keys
-  method: storage_list
+- name: storage_list
   inputs:
-    end: String
-    limit: Int
-    prefix: String
-    reverse: Boolean = false
-    start: String
+    end: string
+    limit: int
+    prefix: string
+    reverse: boolean = false
+    start: string
   outputs:
-    entries: Any
+    entries: any
 
-- name: Execute Durable Object Storage Transaction
-  method: storage_transaction
+- name: storage_transaction
   inputs:
-    closure: Any #required
+    closure: any #required
   outputs:
-    result: Any
+    result: any
 
-- name: Execute Durable Object SQL
-  method: sql_exec
+- name: sql_exec
   inputs:
-    params: List[Any]
-    sql: String #required
+    params: list[any]
+    sql: string #required
   outputs:
-    changes: Int
-    results: List[Any]
-    rows_read: Int
-    rows_written: Int
+    changes: int
+    results: list[any]
+    rows_read: int
+    rows_written: int
 
-- name: Set Durable Object Alarm
-  method: set_alarm
+- name: set_alarm
   inputs:
-    scheduled_time: Date #required
+    scheduled_time: date #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Durable Object Alarm
-  method: get_alarm
+- name: get_alarm
   outputs:
-    scheduled_time: Date
+    scheduled_time: date
 
-- name: Delete Durable Object Alarm
-  method: delete_alarm
+- name: delete_alarm
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Accept Durable Object WebSocket
-  method: accept_websocket
+- name: accept_websocket
   inputs:
-    tags: List[String]
+    tags: list[string]
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Durable Object WebSockets
-  method: get_websockets
+- name: get_websockets
   inputs:
-    tag: String
+    tag: string
   outputs:
-    websockets: List[WebSocket]
+    websockets: list[web_socket]
 
-- name: Set Durable Object WebSocket Auto Response
-  method: set_websocket_auto_response
+- name: set_websocket_auto_response
   inputs:
-    request: String
-    response: String #required
+    request: string
+    response: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Hibernate Durable Object WebSocket
-  method: hibernate_websocket
+- name: hibernate_websocket
   inputs:
-    websocket: WebSocket #required
+    websocket: web_socket #required
   outputs:
-    success: Boolean
+    success: boolean

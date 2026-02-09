@@ -1,7 +1,6 @@
-- name: Dropdown Section Component
-  type: dropdown_section
+- name: dropdown_section
   id: [dropdown_id, name]
   attributes:
-    - dropdown_id: Id #required -> UIDropdown.id
-    - heading: String? #max(100)
+    - dropdown_id: id #required -> ui_dropdown.id
+    - heading: string? #max(100)
     - order: int = 0 #min(0)

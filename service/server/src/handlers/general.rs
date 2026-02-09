@@ -1,5 +1,3 @@
-//! General route handlers
-
 use axum::{
     http::StatusCode,
     response::{Html, IntoResponse},

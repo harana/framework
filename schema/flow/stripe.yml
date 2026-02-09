@@ -1,260 +1,242 @@
-- name: Create Payment Intent
-  method: create_payment_intent
+- name: create_payment_intent
   inputs:
-    amount: Int #required
-    capture_method: Automatic | Manual = Automatic
-    confirm: Boolean = false
-    currency: String #required
-    customer_id: String
-    description: String
-    metadata: Map[String, String]
-    payment_method: String
+    amount: int #required
+    capture_method: automatic | manual = automatic
+    confirm: boolean = false
+    currency: string #required
+    customer_id: string
+    description: string
+    metadata: map[string, string]
+    payment_method: string
   outputs:
-    amount: Int
-    client_secret: String
-    payment_intent_id: String
-    status: String
+    amount: int
+    client_secret: string
+    payment_intent_id: string
+    status: string
 
-- name: Confirm Payment Intent
-  method: confirm_payment_intent
+- name: confirm_payment_intent
   inputs:
-    payment_intent_id: String #required
-    payment_method: String
+    payment_intent_id: string #required
+    payment_method: string
   outputs:
-    payment_intent_id: String
-    status: String
-    success: Boolean
+    payment_intent_id: string
+    status: string
+    success: boolean
 
-- name: Capture Payment Intent
-  method: capture_payment_intent
+- name: capture_payment_intent
   inputs:
-    amount_to_capture: Int
-    payment_intent_id: String #required
+    amount_to_capture: int
+    payment_intent_id: string #required
   outputs:
-    amount_captured: Int
-    payment_intent_id: String
-    status: String
+    amount_captured: int
+    payment_intent_id: string
+    status: string
 
-- name: Cancel Payment Intent
-  method: cancel_payment_intent
+- name: cancel_payment_intent
   inputs:
-    cancellation_reason: Duplicate | Fraudulent | RequestedByCustomer | Abandoned
-    payment_intent_id: String #required
+    cancellation_reason: duplicate | fraudulent | requested_by_customer | abandoned
+    payment_intent_id: string #required
   outputs:
-    payment_intent_id: String
-    status: String
-    success: Boolean
+    payment_intent_id: string
+    status: string
+    success: boolean
 
-- name: Create Customer
-  method: create_customer
+- name: create_customer
   inputs:
-    description: String
-    email: String
-    metadata: Map[String, String]
-    name: String
-    payment_method: String
-    phone: String
+    description: string
+    email: string
+    metadata: map[string, string]
+    name: string
+    payment_method: string
+    phone: string
   outputs:
-    created: Int
-    customer_id: String
-    email: String
+    created: int
+    customer_id: string
+    email: string
 
-- name: Update Customer
-  method: update_customer
+- name: update_customer
   inputs:
-    customer_id: String #required
-    description: String
-    email: String
-    metadata: Map[String, String]
-    name: String
-    phone: String
+    customer_id: string #required
+    description: string
+    email: string
+    metadata: map[string, string]
+    name: string
+    phone: string
   outputs:
-    customer_id: String
-    success: Boolean
+    customer_id: string
+    success: boolean
 
-- name: Delete Customer
-  method: delete_customer
+- name: delete_customer
   inputs:
-    customer_id: String #required
+    customer_id: string #required
   outputs:
-    customer_id: String
-    deleted: Boolean
+    customer_id: string
+    deleted: boolean
 
-- name: Get Customer
-  method: get_customer
+- name: get_customer
   inputs:
-    customer_id: String #required
+    customer_id: string #required
   outputs:
-    created: Int
-    customer_id: String
-    email: String
-    metadata: Map[String, String]
-    name: String
-    phone: String
+    created: int
+    customer_id: string
+    email: string
+    metadata: map[string, string]
+    name: string
+    phone: string
 
-- name: Create Subscription
-  method: create_subscription
+- name: create_subscription
   inputs:
-    customer_id: String #required
-    metadata: Map[String, String]
-    price_id: String #required
-    quantity: Int = 1
-    trial_period_days: Int
+    customer_id: string #required
+    metadata: map[string, string]
+    price_id: string #required
+    quantity: int = 1
+    trial_period_days: int
   outputs:
-    current_period_end: Int
-    status: String
-    subscription_id: String
+    current_period_end: int
+    status: string
+    subscription_id: string
 
-- name: Cancel Subscription
-  method: cancel_subscription
+- name: cancel_subscription
   inputs:
-    cancel_at_period_end: Boolean = false
-    subscription_id: String #required
+    cancel_at_period_end: boolean = false
+    subscription_id: string #required
   outputs:
-    canceled_at: Int
-    status: String
-    subscription_id: String
+    canceled_at: int
+    status: string
+    subscription_id: string
 
-- name: Create Refund
-  method: create_refund
+- name: create_refund
   inputs:
-    amount: Int
-    metadata: Map[String, String]
-    payment_intent_id: String #required
-    reason: Duplicate | Fraudulent | RequestedByCustomer
+    amount: int
+    metadata: map[string, string]
+    payment_intent_id: string #required
+    reason: duplicate | fraudulent | requested_by_customer
   outputs:
-    amount: Int
-    refund_id: String
-    status: String
+    amount: int
+    refund_id: string
+    status: string
 
-- name: Create Price
-  method: create_price
+- name: create_price
   inputs:
-    currency: String #required
-    metadata: Map[String, String]
-    product_id: String #required
-    recurring_interval: Day | Week | Month | Year
-    recurring_interval_count: Int = 1
-    unit_amount: Int #required
+    currency: string #required
+    metadata: map[string, string]
+    product_id: string #required
+    recurring_interval: day | week | month | year
+    recurring_interval_count: int = 1
+    unit_amount: int #required
   outputs:
-    currency: String
-    price_id: String
-    unit_amount: Int
+    currency: string
+    price_id: string
+    unit_amount: int
 
-- name: Create Product
-  method: create_product
+- name: create_product
   inputs:
-    active: Boolean = true
-    description: String
-    images: List[String]
-    metadata: Map[String, String]
-    name: String #required
+    active: boolean = true
+    description: string
+    images: list[string]
+    metadata: map[string, string]
+    name: string #required
   outputs:
-    created: Int
-    name: String
-    product_id: String
+    created: int
+    name: string
+    product_id: string
 
-- name: Create Checkout Session
-  method: create_checkout_session
+- name: create_checkout_session
   inputs:
-    cancel_url: String #required
-    customer_email: String
-    customer_id: String
-    line_items: List[StripeLineItem] #required
-    metadata: Map[String, String]
-    mode: Payment | Subscription | Setup #required
-    success_url: String #required
+    cancel_url: string #required
+    customer_email: string
+    customer_id: string
+    line_items: list[stripe_line_item] #required
+    metadata: map[string, string]
+    mode: payment | subscription | setup #required
+    success_url: string #required
   outputs:
-    session_id: String
-    url: String
+    session_id: string
+    url: string
 
-- name: Retrieve Payment Intent
-  method: retrieve_payment_intent
+- name: retrieve_payment_intent
   inputs:
-    payment_intent_id: String #required
+    payment_intent_id: string #required
   outputs:
-    amount: Int
-    currency: String
-    customer_id: String
-    metadata: Map[String, String]
-    payment_intent_id: String
-    status: String
+    amount: int
+    currency: string
+    customer_id: string
+    metadata: map[string, string]
+    payment_intent_id: string
+    status: string
 
-- name: List Customers
-  method: list_customers
+- name: list_customers
   inputs:
-    ending_before: String
-    limit: Int = 10
-    starting_after: String
+    ending_before: string
+    limit: int = 10
+    starting_after: string
   outputs:
-    customers: List[StripeCustomer]
-    has_more: Boolean
+    customers: list[stripe_customer]
+    has_more: boolean
 
-- name: Create Payment Method
-  method: create_payment_method
+- name: create_payment_method
   inputs:
-    billing_details: StripeBillingDetails
-    card: StripeCard
-    type: Card | BankAccount | UsBankAccount #required
+    billing_details: stripe_billing_details
+    card: stripe_card
+    type: card | bank_account | us_bank_account #required
   outputs:
-    created: Int
-    payment_method_id: String
-    type: String
+    created: int
+    payment_method_id: string
+    type: string
 
-- name: Attach Payment Method
-  method: attach_payment_method
+- name: attach_payment_method
   inputs:
-    customer_id: String #required
-    payment_method_id: String #required
+    customer_id: string #required
+    payment_method_id: string #required
   outputs:
-    customer_id: String
-    payment_method_id: String
-    success: Boolean
+    customer_id: string
+    payment_method_id: string
+    success: boolean
 
-- name: StripePaymentIntent
+- name: stripe_payment_intent
   class:
-    payment_intent_id: String
-    amount: Int
-    currency: String
-    status: String
-    customer_id: String
-    payment_method: String
-    client_secret: String
-    created: Date
+    payment_intent_id: string
+    amount: int
+    currency: string
+    status: string
+    customer_id: string
+    payment_method: string
+    client_secret: string
+    created: date
 
-- name: StripeLineItem
+- name: stripe_line_item
   class:
-    price_id: String
-    quantity: Int
+    price_id: string
+    quantity: int
 
-- name: StripeCustomer
+- name: stripe_customer
   class:
-    customer_id: String
-    email: String
-    name: String
-    phone: String
-    created: Date
-    metadata: Map[String, String]
+    customer_id: string
+    email: string
+    name: string
+    phone: string
+    created: date
+    metadata: map[string, string]
 
-- name: StripeBillingDetails
+- name: stripe_billing_details
   class:
-    name: String
-    email: String
-    phone: String
-    address: StripeAddress
+    name: string
+    email: string
+    phone: string
+    address: stripe_address
 
-- name: StripeAddress
+- name: stripe_address
   class:
-    line1: String
-    line2: String
-    city: String
-    state: String
-    postal_code: String
-    country: String
+    line1: string
+    line2: string
+    city: string
+    state: string
+    postal_code: string
+    country: string
 
-- name: StripeCard
+- name: stripe_card
   class:
-    number: String
-    exp_month: Int
-    exp_year: Int
-    cvc: String
+    number: string
+    exp_month: int
+    exp_year: int
+    cvc: string

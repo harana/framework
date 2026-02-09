@@ -1,61 +1,56 @@
-- name: AWS ECR Repository
-  type: aws_ecr_repository
+- name: aws_ecr_repository
   id: [account_id, repository_name]
   schema:
-    - account_id: String #required #max(20)
-    - created_at: Date = now()
-    - encryption_type: AES256 | KMS = AES256
-    - image_tag_mutability: Mutable | Immutable = Mutable
-    - kms_key: String? #max(255)
-    - region: String? #max(50)
-    - registry_id: String? #max(20)
-    - repository_arn: String? #max(255)
-    - repository_name: String #required #unique #max(255)
-    - repository_uri: String? #max(500)
-    - scan_on_push: Boolean = false
-    - tags: String? # JSON
-    - updated_at: Date = now()
+    - account_id: string #required #max(20)
+    - created_at: date = now()
+    - encryption_type: aes256 | kms = aes256
+    - image_tag_mutability: mutable | immutable = mutable
+    - kms_key: string? #max(255)
+    - region: string? #max(50)
+    - registry_id: string? #max(20)
+    - repository_arn: string? #max(255)
+    - repository_name: string #required #unique #max(255)
+    - repository_uri: string? #max(500)
+    - scan_on_push: boolean = false
+    - tags: string? # json
+    - updated_at: date = now()
 
-- name: AWS ECR Image
-  type: aws_ecr_image
+- name: aws_ecr_image
   id: [repository_id, image_digest]
   schema:
-    - created_at: Date = now()
-    - image_digest: String #required #max(255)
-    - image_manifest_media_type: String? #max(100)
-    - image_pushed_at: Date?
+    - created_at: date = now()
+    - image_digest: string #required #max(255)
+    - image_manifest_media_type: string? #max(100)
+    - image_pushed_at: date?
     - image_size_bytes: int? #min(0)
-    - image_tags: String? # JSON list
-    - last_scan_at: Date?
-    - repository_id: Id #required -> AwsEcrRepository.id
-    - scan_status: InProgress | Complete | Failed | Unsupported = InProgress
+    - image_tags: string? # json list
+    - last_scan_at: date?
+    - repository_id: id #required -> aws_ecr_repository.id
+    - scan_status: in_progress | complete | failed | unsupported = in_progress
     - vulnerability_count: int = 0 #min(0)
 
-- name: AWS ECR Repository Policy
-  type: aws_ecr_repository_policy
+- name: aws_ecr_repository_policy
   id: [repository_id]
   schema:
-    - created_at: Date = now()
-    - policy_text: String #required
-    - repository_id: Id #required -> AwsEcrRepository.id
-    - updated_at: Date = now()
+    - created_at: date = now()
+    - policy_text: string #required
+    - repository_id: id #required -> aws_ecr_repository.id
+    - updated_at: date = now()
 
-- name: AWS ECR Lifecycle Policy
-  type: aws_ecr_lifecycle_policy
+- name: aws_ecr_lifecycle_policy
   id: [repository_id]
   schema:
-    - created_at: Date = now()
-    - last_evaluated_at: Date?
-    - lifecycle_policy_text: String #required
-    - repository_id: Id #required -> AwsEcrRepository.id
-    - updated_at: Date = now()
+    - created_at: date = now()
+    - last_evaluated_at: date?
+    - lifecycle_policy_text: string #required
+    - repository_id: id #required -> aws_ecr_repository.id
+    - updated_at: date = now()
 
-- name: AWS ECR Image Scan Finding
-  type: aws_ecr_image_scan_finding
+- name: aws_ecr_image_scan_finding
   id: [image_id, name, uri]
   schema:
-    - description: String? #max(1000)
-    - image_id: Id #required -> AwsEcrImage.id
-    - name: String #required #max(255)
-    - severity: Informational | Low | Medium | High | Critical | Undefined = Undefined
-    - uri: String? #url
+    - description: string? #max(1000)
+    - image_id: id #required -> aws_ecr_image.id
+    - name: string #required #max(255)
+    - severity: informational | low | medium | high | critical | undefined = undefined
+    - uri: string? #url

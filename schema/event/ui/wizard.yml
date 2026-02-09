@@ -1,48 +1,43 @@
-- name: Step Completed
-  type: step_completed
+- name: step_completed
   schema:
-    wizard_id: Id #required
-    step_id: Id #required
+    wizard_id: id #required
+    step_id: id #required
     step_number: int #required #min(1)
-    step_name: String?
+    step_name: string?
     total_steps: int? #min(1)
-    completed_at: Date = now()
+    completed_at: date = now()
 
-- name: Step Skipped
-  type: step_skipped
+- name: step_skipped
   schema:
-    wizard_id: Id #required
-    step_id: Id #required
+    wizard_id: id #required
+    step_id: id #required
     step_number: int #required #min(1)
-    step_name: String?
-    skip_reason: String?
-    skipped_at: Date = now()
+    step_name: string?
+    skip_reason: string?
+    skipped_at: date = now()
 
-- name: Step Navigated
-  type: step_navigated
+- name: step_navigated
   schema:
-    wizard_id: Id #required
+    wizard_id: id #required
     from_step: int #required #min(1)
     to_step: int #required #min(1)
-    navigation_type: Next | Previous | Jump = Next
-    navigated_at: Date = now()
+    navigation_type: next | previous | jump = next
+    navigated_at: date = now()
 
-- name: Wizard Completed
-  type: wizard_completed
+- name: wizard_completed
   schema:
-    wizard_id: Id #required
-    wizard_name: String?
+    wizard_id: id #required
+    wizard_name: string?
     total_steps: int? #min(1)
     steps_skipped: int? #min(0)
     completion_time_ms: int? #min(0)
-    completed_at: Date = now()
+    completed_at: date = now()
 
-- name: Wizard Cancelled
-  type: wizard_cancelled
+- name: wizard_cancelled
   schema:
-    wizard_id: Id #required
-    wizard_name: String?
+    wizard_id: id #required
+    wizard_name: string?
     cancelled_at_step: int? #min(1)
     total_steps: int? #min(1)
-    cancel_reason: String?
-    cancelled_at: Date = now()
+    cancel_reason: string?
+    cancelled_at: date = now()

@@ -1,0 +1,50 @@
+- name: job
+  schema:
+    - action_config: map[string, any]
+    - action_type: string
+    - completed_at: date?
+    - created_at: date = now()
+    - duration_ms: int? #min(0)
+    - error: string?
+    - error_details: string?f
+    - lock_expires_at: date?
+    - lock_token: string?
+    - max_retries: int = 3 #min(0)
+    - metadata: map[string, any]
+    - result: any?
+    - retry_attempt: int = 0 #min(0)
+    - retry_at: date?
+    - schedule_id: id #required -> schedule.id
+    - scheduled_at: date #required
+    - started_at: date?
+    - status: pending | running | completed | failed | cancelled | timed_out | retrying = pending
+    - updated_at: date = now()
+    - worker_id: string?
+
+- name: job_status
+  schema:
+    - value: pending | running | completed | failed | cancelled | timed_out | retrying = pending
+
+- name: job_query
+  schema:
+    - limit: int?
+    - offset: int?
+    - schedule_id: string?
+    - scheduled_after: date?
+    - scheduled_before: date?
+    - status: pending | running | completed | failed | cancelled | timed_out | retrying?
+
+- name: job_info
+  schema:
+    - action_type: string
+    - completed_at: date?
+    - duration_ms: int?
+    - error: string?
+    - job_id: string
+    - retry_attempt: int
+    - schedule_id: string
+    - schedule_name: string
+    - scheduled_at: date
+    - started_at: date?
+    - status: string
+    - worker_id: string?

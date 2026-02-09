@@ -1,96 +1,86 @@
-- name: Read Content From File
-  method: read
+- name: read
   inputs:
-    mode: Text | Binary = Text
-    path: String #required
+    mode: text | binary = text
+    path: string #required
   outputs:
-    content: String | Bytes
+    content: string | bytes
 
-- name: Write Content To File
-  method: write
+- name: write
   inputs:
-    content: String | Bytes #required
-    mode: Text | Binary = Text
-    overwrite: Boolean = true
-    path: String #required
+    content: string | bytes #required
+    mode: text | binary = text
+    overwrite: boolean = true
+    path: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete File At Path
-  method: delete
+- name: delete
   inputs:
-    path: String #required
+    path: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Copy File To Destination
-  method: copy
+- name: copy
   inputs:
-    from: String #required
-    overwrite: Boolean = false
-    to: String #required
+    from: string #required
+    overwrite: boolean = false
+    to: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Move File To Destination
-  method: move
+- name: move
   inputs:
-    from: String #required
-    overwrite: Boolean = false
-    to: String #required
+    from: string #required
+    overwrite: boolean = false
+    to: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Check If File Exists
-  method: exists
+- name: exists
   inputs:
-    path: String #required
+    path: string #required
   outputs:
-    exists: Boolean
+    exists: boolean
 
-- name: Get File Metadata Info
-  method: info
+- name: info
   inputs:
-    path: String #required
+    path: string #required
   outputs:
-    created: Date
-    is_directory: Boolean
-    modified: Date
-    permissions: String
-    size: Int
+    created: date
+    is_directory: boolean
+    modified: date
+    permissions: string
+    size: int
 
-- name: List Files In Directory
-  method: list_directory
+- name: list_directory
   inputs:
-    path: String #required
-    pattern: String = "*"
-    recursive: Boolean = false
+    path: string #required
+    pattern: string = "*"
+    recursive: boolean = false
   outputs:
-    files: List[String]
+    files: list[string]
 
-- name: Create New Directory Path
-  method: create_directory
+- name: create_directory
   inputs:
-    path: String #required
-    recursive: Boolean = true
+    path: string #required
+    recursive: boolean = true
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Directory At Path
-  method: delete_directory
+- name: delete_directory
   inputs:
-    path: String #required
-    recursive: Boolean = false
+    path: string #required
+    recursive: boolean = false
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: File
+- name: file
   class:
-    path: String
-    name: String
-    size: Int
-    content_type: String
-    created: Date
-    modified: Date
-    is_directory: Boolean
-    permissions: String
+    path: string
+    name: string
+    size: int
+    content_type: string
+    created: date
+    modified: date
+    is_directory: boolean
+    permissions: string

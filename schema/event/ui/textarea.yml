@@ -1,51 +1,45 @@
-- name: Textarea Changed
-  type: textarea_changed
+- name: textarea_changed
   schema:
-    textarea_id: Id #required
-    textarea_name: String?
-    old_value: String?
-    new_value: String?
-    changed_at: Date = now()
+    textarea_id: id #required
+    textarea_name: string?
+    old_value: string?
+    new_value: string?
+    changed_at: date = now()
 
-- name: Textarea Focused
-  type: textarea_focused
+- name: textarea_focused
   schema:
-    textarea_id: Id #required
-    textarea_name: String?
-    focused_at: Date = now()
+    textarea_id: id #required
+    textarea_name: string?
+    focused_at: date = now()
 
-- name: Textarea Blurred
-  type: textarea_blurred
+- name: textarea_blurred
   schema:
-    textarea_id: Id #required
-    textarea_name: String?
-    final_value: String?
-    blurred_at: Date = now()
+    textarea_id: id #required
+    textarea_name: string?
+    final_value: string?
+    blurred_at: date = now()
 
-- name: Textarea Input
-  type: textarea_input
+- name: textarea_input
   schema:
-    textarea_id: Id #required
-    textarea_name: String?
-    current_value: String?
-    input_at: Date = now()
+    textarea_id: id #required
+    textarea_name: string?
+    current_value: string?
+    input_at: date = now()
 
-- name: Textarea Resized
-  type: textarea_resized
+- name: textarea_resized
   schema:
-    textarea_id: Id #required
-    textarea_name: String?
+    textarea_id: id #required
+    textarea_name: string?
     old_width: int? #min(0)
     old_height: int? #min(0)
     new_width: int? #min(0)
     new_height: int? #min(0)
-    resized_at: Date = now()
+    resized_at: date = now()
 
-- name: Textarea Character Limit Reached
-  type: textarea_character_limit_reached
+- name: textarea_character_limit_reached
   schema:
-    textarea_id: Id #required
-    textarea_name: String?
+    textarea_id: id #required
+    textarea_name: string?
     character_limit: int #required #min(1)
     current_length: int #required #min(0)
-    reached_at: Date = now()
+    reached_at: date = now()

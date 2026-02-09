@@ -1,77 +1,72 @@
-- name: AWS EventBridge Event Bus
-  type: aws_eventbridge_event_bus
+- name: aws_eventbridge_event_bus
   id: [account_id, name]
   schema:
-    - account_id: String #required #max(20)
-    - arn: String? #max(255)
-    - created_at: Date = now()
-    - name: String #required #unique #max(256)
-    - policy: String?
-    - region: String? #max(50)
-    - tags: String? # JSON
-    - updated_at: Date = now()
+    - account_id: string #required #max(20)
+    - arn: string? #max(255)
+    - created_at: date = now()
+    - name: string #required #unique #max(256)
+    - policy: string?
+    - region: string? #max(50)
+    - tags: string? # json
+    - updated_at: date = now()
 
-- name: AWS EventBridge Rule
-  type: aws_eventbridge_rule
+- name: aws_eventbridge_rule
   id: [event_bus_id, name]
   schema:
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - event_bus_id: Id #required -> AwsEventbridgeEventBus.id
-    - event_pattern: String?
-    - name: String #required #max(64)
-    - role_arn: String? #max(255)
-    - rule_arn: String? #max(255)
-    - schedule_expression: String? #max(255)
-    - state: Enabled | Disabled = Enabled
-    - tags: String? # JSON
-    - updated_at: Date = now()
+    - created_at: date = now()
+    - description: string? #max(500)
+    - event_bus_id: id #required -> aws_eventbridge_event_bus.id
+    - event_pattern: string?
+    - name: string #required #max(64)
+    - role_arn: string? #max(255)
+    - rule_arn: string? #max(255)
+    - schedule_expression: string? #max(255)
+    - state: enabled | disabled = enabled
+    - tags: string? # json
+    - updated_at: date = now()
 
-- name: AWS EventBridge Target
-  type: aws_eventbridge_target
+- name: aws_eventbridge_target
   id: [rule_id, target_id]
   schema:
-    - arn: String #required #max(255)
-    - created_at: Date = now()
-    - input: String?
-    - input_path: String? #max(255)
-    - input_transformer: String? # JSON
-    - role_arn: String? #max(255)
-    - rule_id: Id #required -> AwsEventbridgeRule.id
-    - target_id: String #required #max(64)
-    - updated_at: Date = now()
+    - arn: string #required #max(255)
+    - created_at: date = now()
+    - input: string?
+    - input_path: string? #max(255)
+    - input_transformer: string? # json
+    - role_arn: string? #max(255)
+    - rule_id: id #required -> aws_eventbridge_rule.id
+    - target_id: string #required #max(64)
+    - updated_at: date = now()
 
-- name: AWS EventBridge Archive
-  type: aws_eventbridge_archive
+- name: aws_eventbridge_archive
   id: [account_id, archive_name]
   schema:
-    - account_id: String #required #max(20)
-    - archive_arn: String? #max(255)
-    - archive_name: String #required #unique #max(48)
-    - created_at: Date = now()
-    - description: String? #max(500)
+    - account_id: string #required #max(20)
+    - archive_arn: string? #max(255)
+    - archive_name: string #required #unique #max(48)
+    - created_at: date = now()
+    - description: string? #max(500)
     - event_count: int = 0 #min(0)
-    - event_pattern: String?
-    - event_source_arn: String #required #max(255)
-    - region: String? #max(50)
+    - event_pattern: string?
+    - event_source_arn: string #required #max(255)
+    - region: string? #max(50)
     - retention_days: int? #min(0)
     - size_bytes: int = 0 #min(0)
-    - state: Enabled | Disabled | Creating | Updating | CreateFailed | UpdateFailed = Creating
-    - updated_at: Date = now()
+    - state: enabled | disabled | creating | updating | create_failed | update_failed = creating
+    - updated_at: date = now()
 
-- name: AWS EventBridge Replay
-  type: aws_eventbridge_replay
+- name: aws_eventbridge_replay
   id: [account_id, replay_name]
   schema:
-    - account_id: String #required #max(20)
-    - description: String? #max(500)
-    - event_end_time: Date #required
-    - event_source_arn: String #required #max(255)
-    - event_start_time: Date #required
-    - region: String? #max(50)
-    - replay_arn: String? #max(255)
-    - replay_end_time: Date?
-    - replay_name: String #required #unique #max(64)
-    - replay_start_time: Date?
-    - state: Starting | Running | Cancelling | Completed | Cancelled | Failed = Starting
-    - state_reason: String? #max(500)
+    - account_id: string #required #max(20)
+    - description: string? #max(500)
+    - event_end_time: date #required
+    - event_source_arn: string #required #max(255)
+    - event_start_time: date #required
+    - region: string? #max(50)
+    - replay_arn: string? #max(255)
+    - replay_end_time: date?
+    - replay_name: string #required #unique #max(64)
+    - replay_start_time: date?
+    - state: starting | running | cancelling | completed | cancelled | failed = starting
+    - state_reason: string? #max(500)

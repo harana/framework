@@ -1,6 +1,3 @@
-// Harana Actions - Log Module
-// This module provides log actions and functionality.
-
 pub mod output;
 
 use serde_json::Value;

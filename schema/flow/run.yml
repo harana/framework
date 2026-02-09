@@ -1,87 +1,80 @@
-- name: Start Process
-  method: start
+- name: start
   inputs:
-    command: String #required
-    args: List[String]
-    working_directory: String
-    environment: Map[String, String]
-    detach: Boolean = false
+    command: string #required
+    args: list[string]
+    working_directory: string
+    environment: map[string, string]
+    detach: boolean = false
   outputs:
-    process_id: Int
-    started: Boolean
-    error: String
+    process_id: int
+    started: boolean
+    error: string
 
-- name: Stop Process
-  method: stop
+- name: stop
   inputs:
-    process_id: Int #required
-    force: Boolean = false
-    timeout: Int = 30
+    process_id: int #required
+    force: boolean = false
+    timeout: int = 30
   outputs:
-    stopped: Boolean
-    exit_code: Int
-    error: String
+    stopped: boolean
+    exit_code: int
+    error: string
 
-- name: Kill Process
-  method: kill
+- name: kill
   inputs:
-    process_id: Int #required
-    signal: String = "SIGTERM"
+    process_id: int #required
+    signal: string = "sigterm"
   outputs:
-    killed: Boolean
-    error: String
+    killed: boolean
+    error: string
 
-- name: Check Process Status
-  method: status
+- name: status
   inputs:
-    process_id: Int #required
+    process_id: int #required
   outputs:
-    status: ProcessStatus
-    error: String
+    status: process_status
+    error: string
 
-- name: List Running Processes
-  method: list
+- name: list
   inputs:
-    filter: String
-    user: String
+    filter: string
+    user: string
   outputs:
-    processes: List[ProcessInfo]
+    processes: list[process_info]
 
-- name: Wait For Process
-  method: wait
+- name: wait
   inputs:
-    process_id: Int #required
-    timeout: Int = 60
+    process_id: int #required
+    timeout: int = 60
   outputs:
-    completed: Boolean
-    exit_code: Int
-    error: String
+    completed: boolean
+    exit_code: int
+    error: string
 
-- name: Get Process Output
-  method: output
+- name: output
   inputs:
-    process_id: Int #required
-    stream: String = "stdout"
+    process_id: int #required
+    stream: string = "stdout"
   outputs:
-    output: String
-    error: String
+    output: string
+    error: string
 
-- name: ProcessStatus
+- name: process_status
   class:
-    process_id: Int
-    running: Boolean
-    exit_code: Int
-    cpu_usage: Float
-    memory_usage: Int
-    uptime: Int
+    process_id: int
+    running: boolean
+    exit_code: int
+    cpu_usage: float
+    memory_usage: int
+    uptime: int
 
-- name: ProcessInfo
+- name: process_info
   class:
-    process_id: Int
-    name: String
-    command: String
-    user: String
-    cpu_usage: Float
-    memory_usage: Int
-    status: String
-    uptime: Int
+    process_id: int
+    name: string
+    command: string
+    user: string
+    cpu_usage: float
+    memory_usage: int
+    status: string
+    uptime: int

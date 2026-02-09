@@ -1,269 +1,251 @@
-- name: Generate PDF From HTML
-  method: from_html
+- name: from_html
   inputs:
-    footer_template: String
-    header_template: String
-    html: String #required
-    margin: PdfMargin
-    options: PdfOptions
-    orientation: Portrait | Landscape = Portrait
-    page_size: A4 | Letter | Legal | A3 | A5 = A4
+    footer_template: string
+    header_template: string
+    html: string #required
+    margin: pdf_margin
+    options: pdf_options
+    orientation: portrait | landscape = portrait
+    page_size: a4 | letter | legal | a3 | a5 = a4
   outputs:
-    page_count: Int
+    page_count: int
     pdf: bytes
-    size: Int
+    size: int
 
-- name: Generate PDF From Template
-  method: from_template
+- name: from_template
   inputs:
-    data: PdfTemplateData #required
-    options: PdfOptions
-    orientation: Portrait | Landscape = Portrait
-    page_size: A4 | Letter | Legal | A3 | A5 = A4
-    template_id: String #required
+    data: pdf_template_data #required
+    options: pdf_options
+    orientation: portrait | landscape = portrait
+    page_size: a4 | letter | legal | a3 | a5 = a4
+    template_id: string #required
   outputs:
-    page_count: Int
+    page_count: int
     pdf: bytes
-    size: Int
+    size: int
 
-- name: Merge PDF Documents
-  method: merge
+- name: merge
   inputs:
-    documents: List[bytes] #required
-    output_name: String
+    documents: list[bytes] #required
+    output_name: string
   outputs:
-    page_count: Int
+    page_count: int
     pdf: bytes
-    size: Int
+    size: int
 
-- name: Split PDF Document
-  method: split
+- name: split
   inputs:
     document: bytes #required
-    pages: List[integer]
-    ranges: List[String]
+    pages: list[integer]
+    ranges: list[string]
   outputs:
-    documents: List[bytes]
-    page_counts: List[integer]
+    documents: list[bytes]
+    page_counts: list[integer]
 
-- name: Extract PDF Pages
-  method: extract_pages
+- name: extract_pages
   inputs:
     document: bytes #required
-    end_page: Int #required
-    start_page: Int #required
+    end_page: int #required
+    start_page: int #required
   outputs:
-    page_count: Int
+    page_count: int
     pdf: bytes
-    size: Int
+    size: int
 
-- name: Extract Text From PDF
-  method: extract_text
+- name: extract_text
   inputs:
     document: bytes #required
-    pages: List[integer]
-    preserve_layout: Boolean = false
+    pages: list[integer]
+    preserve_layout: boolean = false
   outputs:
-    pages: List[PdfPageText]
-    text: String
+    pages: list[pdf_page_text]
+    text: string
 
-- name: Extract Images From PDF
-  method: extract_images
+- name: extract_images
   inputs:
     document: bytes #required
-    format: Png | Jpeg | Webp = Png
-    pages: List[integer]
+    format: png | jpeg | webp = png
+    pages: list[integer]
   outputs:
-    count: Int
-    images: List[PdfExtractedImage]
+    count: int
+    images: list[pdf_extracted_image]
 
-- name: Add Watermark To PDF
-  method: add_watermark
+- name: add_watermark
   inputs:
     document: bytes #required
-    opacity: Float = 0.5
-    pages: List[integer]
-    position: Center | Top | Bottom | Diagonal = Diagonal
+    opacity: float = 0.5
+    pages: list[integer]
+    position: center | top | bottom | diagonal = diagonal
     watermark_image: bytes
-    watermark_text: String
+    watermark_text: string
   outputs:
     pdf: bytes
-    size: Int
+    size: int
 
-- name: Compress PDF Document
-  method: compress
+- name: compress
   inputs:
     document: bytes #required
-    quality: Low | Medium | High = Medium
-    remove_metadata: Boolean = false
+    quality: low | medium | high = medium
+    remove_metadata: boolean = false
   outputs:
-    compressed_size: Int
-    compression_ratio: Float
-    original_size: Int
+    compressed_size: int
+    compression_ratio: float
+    original_size: int
     pdf: bytes
 
-- name: Encrypt PDF Document
-  method: encrypt
+- name: encrypt
   inputs:
     document: bytes #required
-    owner_password: String
-    permissions: PdfPermissions
-    user_password: String #required
+    owner_password: string
+    permissions: pdf_permissions
+    user_password: string #required
   outputs:
     pdf: bytes
-    size: Int
+    size: int
 
-- name: Decrypt PDF Document
-  method: decrypt
+- name: decrypt
   inputs:
     document: bytes #required
-    password: String #required
+    password: string #required
   outputs:
     pdf: bytes
-    size: Int
+    size: int
 
-- name: Get PDF Metadata
-  method: get_metadata
+- name: get_metadata
   inputs:
     document: bytes #required
   outputs:
-    author: String
-    creation_date: Date
-    creator: String
-    encrypted: Boolean
-    keywords: List[String]
-    modification_date: Date
-    page_count: Int
-    producer: String
-    size: Int
-    subject: String
-    title: String
+    author: string
+    creation_date: date
+    creator: string
+    encrypted: boolean
+    keywords: list[string]
+    modification_date: date
+    page_count: int
+    producer: string
+    size: int
+    subject: string
+    title: string
 
-- name: Set PDF Metadata
-  method: set_metadata
+- name: set_metadata
   inputs:
-    author: String
-    creator: String
+    author: string
+    creator: string
     document: bytes #required
-    keywords: List[String]
-    subject: String
-    title: String
+    keywords: list[string]
+    subject: string
+    title: string
   outputs:
     pdf: bytes
-    success: Boolean
+    success: boolean
 
-- name: Rotate PDF Pages
-  method: rotate_pages
+- name: rotate_pages
   inputs:
     angle: 90 | 180 | 270 #required
     document: bytes #required
-    pages: List[integer]
+    pages: list[integer]
   outputs:
     pdf: bytes
-    size: Int
+    size: int
 
-- name: Add Page Numbers To PDF
-  method: add_page_numbers
+- name: add_page_numbers
   inputs:
-    alignment: Left | Center | Right = Center
+    alignment: left | center | right = center
     document: bytes #required
-    font_size: Int = 12
-    format: String = "{page} of {total}"
-    position: Top | Bottom = Bottom
-    start_page: Int = 1
+    font_size: int = 12
+    format: string = "{page} of {total}"
+    position: top | bottom = bottom
+    start_page: int = 1
   outputs:
     pdf: bytes
-    size: Int
+    size: int
 
-- name: Convert PDF To Images
-  method: to_images
+- name: to_images
   inputs:
     document: bytes #required
-    dpi: Int = 150
-    format: Png | Jpeg | Webp = Png
-    pages: List[integer]
+    dpi: int = 150
+    format: png | jpeg | webp = png
+    pages: list[integer]
   outputs:
-    count: Int
-    images: List[bytes]
+    count: int
+    images: list[bytes]
 
-- name: Fill PDF Form
-  method: fill_form
+- name: fill_form
   inputs:
     document: bytes #required
-    fields: PdfFormFields #required
-    flatten: Boolean = false
+    fields: pdf_form_fields #required
+    flatten: boolean = false
   outputs:
     pdf: bytes
-    size: Int
+    size: int
 
-- name: Get PDF Form Fields
-  method: get_form_fields
+- name: get_form_fields
   inputs:
     document: bytes #required
   outputs:
-    count: Int
-    fields: List[PdfFormField]
+    count: int
+    fields: list[pdf_form_field]
 
-- name: PdfDocument
+- name: pdf_document
   class:
     content: bytes
-    page_count: Int
-    size: Int
-    title: String
-    author: String
-    orientation: String
-    page_size: String
+    page_count: int
+    size: int
+    title: string
+    author: string
+    orientation: string
+    page_size: string
 
-- name: PdfMargin
+- name: pdf_margin
   class:
-    top: Float
-    right: Float
-    bottom: Float
-    left: Float
+    top: float
+    right: float
+    bottom: float
+    left: float
 
-- name: PdfOptions
+- name: pdf_options
   class:
-    scale: Float
-    print_background: Boolean
-    prefer_css_page_size: Boolean
+    scale: float
+    print_background: boolean
+    prefer_css_page_size: boolean
 
-- name: PdfTemplateData
+- name: pdf_template_data
   class:
-    values: Map[String, Any]
+    values: map[string, any]
 
-- name: PdfPageText
+- name: pdf_page_text
   class:
-    page_number: Int
-    text: String
+    page_number: int
+    text: string
 
-- name: PdfExtractedImage
+- name: pdf_extracted_image
   class:
-    page_number: Int
+    page_number: int
     image: bytes
-    format: String
-    width: Int
-    height: Int
+    format: string
+    width: int
+    height: int
 
-- name: PdfPermissions
+- name: pdf_permissions
   class:
-    print: Boolean
-    copy: Boolean
-    modify: Boolean
-    annotate: Boolean
+    print: boolean
+    copy: boolean
+    modify: boolean
+    annotate: boolean
 
-- name: PdfFormFields
+- name: pdf_form_fields
   class:
-    fields: List[PdfFormFieldValue]
+    fields: list[pdf_form_field_value]
 
-- name: PdfFormFieldValue
+- name: pdf_form_field_value
   class:
-    name: String
-    value: String
+    name: string
+    value: string
 
-- name: PdfFormField
+- name: pdf_form_field
   class:
-    name: String
-    type: String
-    value: String
-    required: Boolean
-    options: List[String]
+    name: string
+    type: string
+    value: string
+    required: boolean
+    options: list[string]

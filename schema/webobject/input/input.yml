@@ -1,18 +1,17 @@
-- name: Input Component
-  type: input
+- name: input
   attributes:
-    - aria_label: String? #max(200)
-    - auto_focus: Boolean = false
-    - default_value: String? #max(1000)
-    - description: String? #max(500)
-    - error_message: String? #max(500)
-    - icon: String? #max(100)
-    - is_disabled: Boolean = false
-    - is_invalid: Boolean = false
-    - label: String? #max(200)
-    - pattern: String? #max(200)
-    - placeholder: String? #max(200)
-    - type: Email | Number | Password | Search | Tel | Text | Url | Date | DatetimeLocal | Month | Time | Week = Text
+    - aria_label: string? #max(200)
+    - auto_focus: boolean = false
+    - default_value: string? #max(1000)
+    - description: string? #max(500)
+    - error_message: string? #max(500)
+    - icon: string? #max(100)
+    - is_disabled: boolean = false
+    - is_invalid: boolean = false
+    - label: string? #max(200)
+    - pattern: string? #max(200)
+    - placeholder: string? #max(200)
+    - type: email | number | password | search | tel | text | url | date | datetime_local | month | time | week = text
   events:
     - blur
     - change

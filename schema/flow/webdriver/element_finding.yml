@@ -1,0 +1,32 @@
+- name: find
+  inputs:
+    by: id | name | class_name | css | x_path | tag | link_text | partial_link_text = css
+    session_id: string #required    value: string #required  outputs:
+    element: web_driver_element
+    found: boolean
+
+- name: find_all
+  inputs:
+    by: id | name | class_name | css | x_path | tag | link_text | partial_link_text = css
+    session_id: string #required    value: string #required  outputs:
+    elements: list[web_driver_element]
+    total: int
+
+- name: find_child
+  inputs:
+    by: id | name | class_name | css | x_path | tag | link_text | partial_link_text = css
+    parent_element_id: string #required    session_id: string #required    value: string #required  outputs:
+    element: web_driver_element
+    found: boolean
+
+- name: find_all_children
+  inputs:
+    by: id | name | class_name | css | x_path | tag | link_text | partial_link_text = css
+    parent_element_id: string #required    session_id: string #required    value: string #required  outputs:
+    elements: list[web_driver_element]
+    total: int
+
+- name: active_element
+  inputs:
+    session_id: string #required  outputs:
+    element: web_driver_element

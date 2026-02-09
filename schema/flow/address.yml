@@ -1,59 +1,55 @@
-- name: Validate Postal Address
-  method: validate
+- name: validate
   inputs:
-    address: Address #required
-    country: String
+    address: address #required
+    country: string
   outputs:
-    errors: List[AddressValidationError]
-    valid: Boolean
+    errors: list[address_validation_error]
+    valid: boolean
 
-- name: Normalize Address Format
-  method: normalize
+- name: normalize
   inputs:
-    address: Address #required
-    country: String
-    format: String = "standard"
+    address: address #required
+    country: string
+    format: string = "standard"
   outputs:
-    address: Address
+    address: address
 
-- name: Parse Address String To Components
-  method: parse
+- name: parse
   inputs:
-    address: String #required
-    country: String
+    address: string #required
+    country: string
   outputs:
-    city: String
-    country: String
-    postal_code: String
-    state: String
+    city: string
+    country: string
+    postal_code: string
+    state: string
     street:  string
 
-- name: Get Address Autocomplete Suggestions
-  method: autocomplete
+- name: autocomplete
   inputs:
-    country: String
-    limit: Int = 5
-    query: String #required
-    types: List[String]
+    country: string
+    limit: int = 5
+    query: string #required
+    types: list[string]
   outputs:
-    suggestions: List[AddressSuggestion]
+    suggestions: list[address_suggestion]
 
-- name: Address
+- name: address
   class:
-    street: String
-    city: String
-    state: String
-    postal_code: String
-    country: String
+    street: string
+    city: string
+    state: string
+    postal_code: string
+    country: string
 
-- name: AddressValidationError
+- name: address_validation_error
   class:
-    field: String
-    code: String
-    message: String
+    field: string
+    code: string
+    message: string
 
-- name: AddressSuggestion
+- name: address_suggestion
   class:
-    description: String
-    place_id: String
-    address: Address
+    description: string
+    place_id: string
+    address: address

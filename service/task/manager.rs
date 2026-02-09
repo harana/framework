@@ -1,11 +1,3 @@
-// Harana Components - Task Manager
-//
-// Unified interface for task management, combining:
-// - Task creation and querying
-// - Distributed locking for safe execution
-// - Scheduling for recurring tasks
-// - Worker management for execution
-
 use chrono::{DateTime, Utc};
 use parking_lot::RwLock;
 use std::collections::HashMap;
@@ -128,7 +120,6 @@ where
     SS: ScheduleStore + 'static,
     LS: Store<DistributedLock> + Clone + Send + Sync + 'static,
 {
-    /// Create a new task manager
     pub fn new(
         task_store: TS,
         history_store: THS,
@@ -181,13 +172,9 @@ where
             default_executor: RwLock::new(None),
         }
     }
-
-    /// Subscribe to task manager events
     pub fn subscribe(&self) -> broadcast::Receiver<TaskManagerEvent> {
         self.event_sender.subscribe()
     }
-
-    /// Subscribe to worker events
     pub fn subscribe_worker(&self) -> Option<broadcast::Receiver<WorkerEvent>> {
         self.worker.as_ref().map(|w| w.read().subscribe())
     }
@@ -195,8 +182,6 @@ where
     // ========================================================================
     // Executor Registration
     // ========================================================================
-
-    /// Register an executor for specific task types
     pub fn register_executor(&self, task_types: Vec<String>, executor: Arc<dyn TaskExecutor>) {
         {
             let mut executors = self.executors.write();
@@ -210,8 +195,6 @@ where
             worker.read().register_executor(task_types, executor);
         }
     }
-
-    /// Register a default executor for unhandled task types
     pub fn register_default_executor(&self, executor: Arc<dyn TaskExecutor>) {
         *self.default_executor.write() = Some(Arc::clone(&executor));
 
@@ -223,8 +206,6 @@ where
     // ========================================================================
     // Task Operations
     // ========================================================================
-
-    /// Create a new task
     pub async fn create_task(&self, task: Task) -> TaskResult<Task> {
         task_store::create_task(self.task_store.as_ref(), &task).await?;
 
@@ -252,23 +233,16 @@ where
     ) -> TaskSubmitBuilder<'_, TS, THS, SS, LS> {
         TaskSubmitBuilder::new(self, name.into(), task_type.into(), queue.into())
     }
-
-    /// Get a task by ID
     pub async fn get_task(&self, task_id: &str) -> TaskResult<Option<Task>> {
         task_store::get_task(self.task_store.as_ref(), task_id).await
     }
-
-    /// Query tasks
     pub async fn query_tasks(&self, query: TaskQuery) -> TaskResult<Vec<Task>> {
         task_store::query_tasks(self.task_store.as_ref(), query).await
     }
-
     /// Count tasks matching query
     pub async fn count_tasks(&self, query: TaskQuery) -> TaskResult<u64> {
         task_store::count_tasks(self.task_store.as_ref(), query).await
     }
-
-    /// Cancel a task
     pub async fn cancel_task(&self, task_id: &str) -> TaskResult<Task> {
         let mut task = task_store::get_task(self.task_store.as_ref(), task_id)
             .await?
@@ -298,13 +272,9 @@ where
 
         Ok(task)
     }
-
-    /// Delete a task
     pub async fn delete_task(&self, task_id: &str) -> TaskResult<bool> {
         task_store::delete_task(self.task_store.as_ref(), task_id).await
     }
-
-    /// Get task execution history
     pub async fn get_task_history(
         &self,
         task_id: &str,
@@ -312,13 +282,9 @@ where
     ) -> TaskResult<Vec<TaskExecutionHistory>> {
         task_store::get_task_history(self.history_store.as_ref(), task_id, limit).await
     }
-
-    /// Get queue statistics
     pub async fn get_queue_stats(&self, queue: &str) -> TaskResult<QueueStats> {
         task_store::get_queue_stats(self.task_store.as_ref(), queue).await
     }
-
-    /// Get all queue names
     pub async fn get_queues(&self) -> TaskResult<Vec<String>> {
         task_store::get_queues(self.task_store.as_ref()).await
     }
@@ -401,8 +367,6 @@ where
 
         Ok(schedule)
     }
-
-    /// Get a schedule by ID
     pub async fn get_schedule(&self, schedule_id: &str) -> TaskResult<Option<Schedule>> {
         let scheduler = self.scheduler_manager.as_ref().ok_or_else(|| {
             TaskError::InvalidConfiguration {
@@ -412,8 +376,6 @@ where
 
         scheduler.get_schedule(schedule_id).await
     }
-
-    /// Enable a schedule
     pub async fn enable_schedule(&self, schedule_id: &str) -> TaskResult<Schedule> {
         let scheduler = self.scheduler_manager.as_ref().ok_or_else(|| {
             TaskError::InvalidConfiguration {
@@ -423,8 +385,6 @@ where
 
         scheduler.enable_schedule(schedule_id).await
     }
-
-    /// Disable a schedule
     pub async fn disable_schedule(&self, schedule_id: &str) -> TaskResult<Schedule> {
         let scheduler = self.scheduler_manager.as_ref().ok_or_else(|| {
             TaskError::InvalidConfiguration {
@@ -434,8 +394,6 @@ where
 
         scheduler.disable_schedule(schedule_id).await
     }
-
-    /// Delete a schedule
     pub async fn delete_schedule(&self, schedule_id: &str) -> TaskResult<bool> {
         let scheduler = self.scheduler_manager.as_ref().ok_or_else(|| {
             TaskError::InvalidConfiguration {
@@ -445,8 +403,6 @@ where
 
         scheduler.delete_schedule(schedule_id).await
     }
-
-    /// Trigger a schedule immediately
     pub async fn trigger_schedule(&self, schedule_id: &str) -> TaskResult<Job> {
         let scheduler = self.scheduler_manager.as_ref().ok_or_else(|| {
             TaskError::InvalidConfiguration {
@@ -460,8 +416,6 @@ where
     // ========================================================================
     // Lock Operations
     // ========================================================================
-
-    /// Acquire a lock on a resource
     pub async fn acquire_lock(
         &self,
         resource_id: &str,
@@ -475,7 +429,6 @@ where
                 resource: e.to_string(),
             })
     }
-
     /// Try to acquire a lock without waiting
     pub async fn try_acquire_lock(
         &self,
@@ -490,8 +443,6 @@ where
                 resource: e.to_string(),
             })
     }
-
-    /// Release a lock
     pub async fn release_lock(&self, resource_id: &str, owner_id: &str) -> TaskResult<bool> {
         self.lock_manager
             .release_lock(resource_id, owner_id)
@@ -500,7 +451,6 @@ where
                 resource: e.to_string(),
             })
     }
-
     /// Extend a lock's TTL
     pub async fn extend_lock(
         &self,
@@ -515,8 +465,6 @@ where
                 resource: e.to_string(),
             })
     }
-
-    /// Check if a resource is locked
     pub async fn is_locked(&self, resource_id: &str) -> TaskResult<bool> {
         self.lock_manager
             .is_locked(resource_id)
@@ -525,8 +473,6 @@ where
                 resource: e.to_string(),
             })
     }
-
-    /// Get lock information
     pub async fn get_lock_info(&self, resource_id: &str) -> TaskResult<Option<DistributedLock>> {
         self.lock_manager
             .get_lock_info(resource_id)
@@ -539,8 +485,6 @@ where
     // ========================================================================
     // Lifecycle
     // ========================================================================
-
-    /// Start the task manager (worker and scheduler)
     pub async fn start(&mut self) -> TaskResult<()> {
         // Initialize lock manager
         self.lock_manager.initialize().await?;
@@ -561,8 +505,6 @@ where
 
         Ok(())
     }
-
-    /// Stop the task manager
     pub async fn stop(&self) -> TaskResult<()> {
         // Stop worker if enabled
         if let Some(worker) = &self.worker {
@@ -580,8 +522,6 @@ where
 
         Ok(())
     }
-
-    /// Check if the manager is running
     pub fn is_running(&self) -> bool {
         self.worker
             .as_ref()

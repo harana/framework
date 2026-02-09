@@ -1,28 +1,26 @@
-- name: Schedule
-  type: schedule
+- name: schedule
   schema:
-    - created_at: Date = now()
-    - cron_expression: String? #max(100)
-    - description: String? #max(500)
-    - enabled: Boolean = true
+    - created_at: date = now()
+    - cron_expression: string? #max(100)
+    - description: string? #max(500)
+    - enabled: boolean = true
     - interval_seconds: int? #min(1)
-    - last_run_at: Date?
-    - metadata: String?
-    - name: String #required #unique #max(200)
-    - next_run_at: Date?
-    - schedule_type: Cron | Interval | OneTime = Cron
-    - timezone: String = UTC #max(50)
-    - updated_at: Date = now()
+    - last_run_at: date?
+    - metadata: string?
+    - name: string #required #unique #max(200)
+    - next_run_at: date?
+    - schedule_type: cron | interval | one_time = cron
+    - timezone: string = utc #max(50)
+    - updated_at: date = now()
 
-- name: Schedule Execution
-  type: schedule_execution
+- name: schedule_execution
   id: [schedule_id, started_at]
   schema:
-    - completed_at: Date?
+    - completed_at: date?
     - duration_ms: int? #min(0)
-    - error_message: String? #max(2000)
-    - output: String?
-    - schedule_id: Id #required -> Schedule.id
-    - started_at: Date = now()
-    - status: Pending | Running | Completed | Failed | Skipped = Pending
-    - triggered_by: Manual | Scheduled | Api = Scheduled
+    - error_message: string? #max(2000)
+    - output: string?
+    - schedule_id: id #required -> schedule.id
+    - started_at: date = now()
+    - status: pending | running | completed | failed | skipped = pending
+    - triggered_by: manual | scheduled | api = scheduled

@@ -1,6 +1,3 @@
-// Harana Components - MongoDB Watch Implementation
-// Provides Change Stream support types for watching MongoDB collection changes.
-
 use mongodb::{
     bson::{doc, Bson, Document},
     change_stream::event::{ChangeStreamEvent, OperationType},

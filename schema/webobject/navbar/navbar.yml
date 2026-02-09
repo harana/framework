@@ -1,6 +1,5 @@
-- name: Navbar Component
-  type: navbar
+- name: navbar
   attributes:
-    sections: List[NavbarSection]
+    sections: list[navbar_section]
   events:
     - current_item_change

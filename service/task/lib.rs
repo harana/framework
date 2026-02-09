@@ -1,38 +1,36 @@
-// Harana Components - Task
-//
-// A unified task management component that integrates with:
-// - Lock component for distributed coordination
-// - Storage component for persistence
-// - Schedule component for recurring tasks
-//
-// This component provides:
-// - Durable task queues with priority support
-// - Distributed task execution with locking
-// - Task scheduling (cron, interval, one-time)
-// - Retry policies with exponential backoff
-// - Task progress tracking and history
-// - Worker management for task execution
+// Core entity types - now split into separate modules for better organization
+mod backoff;
+mod execution_history;
+mod lock_helpers;
+mod priority;
+mod retry_config;
+mod status;
+mod task;
 
-mod entity;
+// Other modules
 mod error;
 mod executor;
 mod manager;
 mod scheduler;
 mod store;
 mod worker;
+mod worker_config;
+mod worker_event;
 
 #[cfg(test)]
 mod tests;
 
-// Re-export core types
-pub use entity::{
-    BackoffStrategy, RetryConfig, Task, TaskExecutionHistory, TaskPriority, TaskStatus, queue_lock_resource,
-    task_lock_resource,
-};
+// Re-export core types from their individual modules
+pub use backoff::BackoffStrategy;
 pub use error::{TaskError, TaskResult};
+pub use execution_history::TaskExecutionHistory;
 pub use executor::{AsyncFnExecutor, CompositeExecutor, FnExecutor, LoggingExecutor, TaskExecutor};
+pub use lock_helpers::{queue_lock_resource, task_lock_resource};
 pub use manager::{TaskManager, TaskManagerConfig, TaskManagerEvent, TaskSubmitBuilder};
+pub use priority::TaskPriority;
+pub use retry_config::RetryConfig;
 pub use scheduler::{ScheduledTaskConfig, TaskCreatingExecutor, TaskSchedulerEvent, TaskSchedulerManager};
+pub use status::TaskStatus;
 pub use store::{
     QueueStats,
     TaskQuery,
@@ -57,7 +55,10 @@ pub use store::{
     try_lock_task,
     update_task,
 };
-pub use worker::{TaskWorker, WorkerConfig, WorkerEvent};
+pub use task::Task;
+pub use worker::TaskWorker;
+pub use worker_config::WorkerConfig;
+pub use worker_event::WorkerEvent;
 
 // Re-export commonly used types from dependencies
 pub use harana_components_lock::{

@@ -1,15 +1,14 @@
-- name: Cloudflare mTLS Certificate
-  type: cf_mtls_certificate
+- name: cf_mtls_certificate
   id: [account_id, certificate_name]
   schema:
-    - account_id: String #required #max(50)
-    - binding: String #required #max(255)
-    - certificate_name: String #required #unique #max(255)
-    - created_at: Date = now()
-    - expires_at: Date?
-    - issuer: String? #max(500)
-    - serial_number: String? #max(255)
-    - status: Active | Expired | Revoked = Active
-    - subject: String? #max(500)
-    - updated_at: Date = now()
+    - account_id: string #required #max(50)
+    - binding: string #required #max(255)
+    - certificate_name: string #required #unique #max(255)
+    - created_at: date = now()
+    - expires_at: date?
+    - issuer: string? #max(500)
+    - serial_number: string? #max(255)
+    - status: active | expired | revoked = active
+    - subject: string? #max(500)
+    - updated_at: date = now()
 

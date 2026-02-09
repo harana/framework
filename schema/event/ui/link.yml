@@ -1,23 +1,20 @@
-- name: Link Clicked
-  type: link_clicked
+- name: link_clicked
   schema:
-    link_id: Id #required
-    link_label: String?
-    link_href: String?
+    link_id: id #required
+    link_label: string?
+    link_href: string?
     link_target: _self | _blank | _parent | _top = _self
-    clicked_at: Date = now()
+    clicked_at: date = now()
 
-- name: Link Hovered
-  type: link_hovered
+- name: link_hovered
   schema:
-    link_id: Id #required
-    link_label: String?
-    link_href: String?
-    hovered_at: Date = now()
+    link_id: id #required
+    link_label: string?
+    link_href: string?
+    hovered_at: date = now()
 
-- name: Link Focused
-  type: link_focused
+- name: link_focused
   schema:
-    link_id: Id #required
-    link_label: String?
-    focused_at: Date = now()
+    link_id: id #required
+    link_label: string?
+    focused_at: date = now()

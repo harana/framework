@@ -1,0 +1,36 @@
+- name: metric
+  schema:
+    - description: string? #max(500)
+    - labels: string?
+    - type: counter | gauge | histogram | summary = gauge
+    - unit: string? #max(50)
+
+- name: metric_value
+  id: [metric_id, timestamp, labels]
+  schema:
+    - labels: string?
+    - metric_id: id #required -> metric.id
+    - timestamp: date = now()
+    - value: decimal #required
+- name: metric_alert
+  schema:
+    - comparison: gt | gte | lt | lte | eq | neq = gt
+    - created_at: date = now()
+    - is_active: boolean = true
+    - last_triggered_at: date?
+    - metric_id: id #required -> metric.id
+    - notification_channel: string? #max(100)
+    - threshold: decimal #required
+    - updated_at: date = now()
+
+- name: metric_datapoint
+  schema:
+    - timestamp: date
+    - value: float
+
+- name: metric_info
+  schema:
+    - name: string
+    - type: string
+    - description: string
+    - tags: list[string]

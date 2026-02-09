@@ -1,52 +1,46 @@
-- name: List Item Clicked
-  type: List_item_clicked
+- name: list_item_clicked
   schema:
-    list_id: Id #required
-    item_id: Id #required
+    list_id: id #required
+    item_id: id #required
     item_index: int? #min(0)
-    item_label: String?
-    clicked_at: Date = now()
+    item_label: string?
+    clicked_at: date = now()
 
-- name: List Item Reordered
-  type: List_item_reordered
+- name: list_item_reordered
   schema:
-    list_id: Id #required
-    item_id: Id #required
+    list_id: id #required
+    item_id: id #required
     from_index: int #required #min(0)
     to_index: int #required #min(0)
-    reordered_at: Date = now()
+    reordered_at: date = now()
 
-- name: List Item Deleted
-  type: List_item_deleted
+- name: list_item_deleted
   schema:
-    list_id: Id #required
-    item_id: Id #required
+    list_id: id #required
+    item_id: id #required
     item_index: int? #min(0)
-    item_label: String?
-    deleted_at: Date = now()
+    item_label: string?
+    deleted_at: date = now()
 
-- name: List Item Archived
-  type: List_item_archived
+- name: list_item_archived
   schema:
-    list_id: Id #required
-    item_id: Id #required
+    list_id: id #required
+    item_id: id #required
     item_index: int? #min(0)
-    item_label: String?
-    archived_at: Date = now()
+    item_label: string?
+    archived_at: date = now()
 
-- name: List Filtered
-  type: List_filtered
+- name: list_filtered
   schema:
-    list_id: Id #required
-    filter_type: String?
-    filter_value: String?
+    list_id: id #required
+    filter_type: string?
+    filter_value: string?
     results_count: int? #min(0)
-    filtered_at: Date = now()
+    filtered_at: date = now()
 
-- name: List Grouped
-  type: List_grouped
+- name: list_grouped
   schema:
-    list_id: Id #required
-    group_by: String #required
+    list_id: id #required
+    group_by: string #required
     groups_count: int? #min(0)
-    grouped_at: Date = now()
+    grouped_at: date = now()

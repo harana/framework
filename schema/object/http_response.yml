@@ -1,25 +1,23 @@
-- name: HTTP Response Template
-  type: http_response_template
+- name: http_response_template
   schema:
-    - body_template: String?
-    - content_type: String = application/json #max(100)
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - headers: String? # JSON map
-    - is_active: Boolean = true
+    - body_template: string?
+    - content_type: string = application/json #max(100)
+    - created_at: date = now()
+    - description: string? #max(500)
+    - headers: string? # json map
+    - is_active: boolean = true
     - status_code: int = 200 #min(100) #max(599)
-    - template_engine: Handlebars | Jinja2 | Tera | Liquid = Handlebars
-    - updated_at: Date = now()
+    - template_engine: handlebars | jinja2 | tera | liquid = handlebars
+    - updated_at: date = now()
 
-- name: HTTP Response Log
-  type: http_response_log
+- name: http_response_log
   id: [request_path, created_at]
   schema:
-    - content_type: String? #max(100)
-    - created_at: Date = now()
+    - content_type: string? #max(100)
+    - created_at: date = now()
     - duration_ms: int? #min(0)
-    - request_method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
-    - request_path: String #required #max(2000)
+    - request_method: get | post | put | patch | delete | head | options = get
+    - request_path: string #required #max(2000)
     - response_size: int? #min(0)
     - status_code: int #required #min(100) #max(599)
-    - template_id: Id? -> HttpResponseTemplate.id
+    - template_id: id? -> http_response_template.id

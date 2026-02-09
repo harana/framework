@@ -1,67 +1,59 @@
-- name: Cloudflare R2 Object Uploaded
-  type: cloudflare_r2_object_uploaded
+- name: cloudflare_r2_object_uploaded
   schema:
-    bucket: String #required
-    key: String #required
-    size: Int?
-    etag: String?
-    storage_class: Standard | InfrequentAccess = Standard
-    uploaded_at: Date = now()
+    bucket: string #required
+    key: string #required
+    size: int?
+    etag: string?
+    storage_class: standard | infrequent_access = standard
+    uploaded_at: date = now()
 
-- name: Cloudflare R2 Object Downloaded
-  type: cloudflare_r2_object_downloaded
+- name: cloudflare_r2_object_downloaded
   schema:
-    bucket: String #required
-    key: String #required
-    size: Int?
-    downloaded_at: Date = now()
+    bucket: string #required
+    key: string #required
+    size: int?
+    downloaded_at: date = now()
 
-- name: Cloudflare R2 Object Deleted
-  type: cloudflare_r2_object_deleted
+- name: cloudflare_r2_object_deleted
   schema:
-    bucket: String #required
-    key: String #required
-    deleted_at: Date = now()
+    bucket: string #required
+    key: string #required
+    deleted_at: date = now()
 
-- name: Cloudflare R2 Objects Deleted
-  type: cloudflare_r2_objects_deleted
+- name: cloudflare_r2_objects_deleted
   schema:
-    bucket: String #required
+    bucket: string #required
     key_count: int #required #min(1)
-    deleted_at: Date = now()
+    deleted_at: date = now()
 
-- name: Cloudflare R2 Objects Listed
-  type: cloudflare_r2_objects_listed
+- name: cloudflare_r2_objects_listed
   schema:
-    bucket: String #required
-    prefix: String?
-    object_count: Int?
-    truncated: Boolean?
-    listed_at: Date = now()
+    bucket: string #required
+    prefix: string?
+    object_count: int?
+    truncated: boolean?
+    listed_at: date = now()
 
-- name: Cloudflare R2 Multipart Upload Started
-  type: cloudflare_r2_multipart_upload_started
+- name: cloudflare_r2_multipart_upload_started
   schema:
-    bucket: String #required
-    key: String #required
-    upload_id: String #required
-    storage_class: Standard | InfrequentAccess = Standard
-    started_at: Date = now()
+    bucket: string #required
+    key: string #required
+    upload_id: string #required
+    storage_class: standard | infrequent_access = standard
+    started_at: date = now()
 
-- name: Cloudflare R2 Multipart Upload Completed
-  type: cloudflare_r2_multipart_upload_completed
+- name: cloudflare_r2_multipart_upload_completed
   schema:
-    bucket: String #required
-    key: String #required
-    upload_id: String #required
-    part_count: Int?
-    size: Int?
-    completed_at: Date = now()
+    bucket: string #required
+    key: string #required
+    upload_id: string #required
+    part_count: int?
+    size: int?
+    completed_at: date = now()
 
-- name: Cloudflare R2 Multipart Upload Aborted
-  type: cloudflare_r2_multipart_upload_aborted
+- name: cloudflare_r2_multipart_upload_aborted
   schema:
-    bucket: String #required
-    key: String #required
-    upload_id: String #required
-    aborted_at: Date = now()
+    bucket: string #required
+    key: string #required
+    upload_id: string #required
+    aborted_at: date = now()

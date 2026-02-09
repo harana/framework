@@ -1,34 +1,31 @@
-- name: Policy
-  type: policy
+- name: policy
   schema:
-    - actions: String #required # JSON array
-    - conditions: String? # JSON conditions
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - effect: Allow | Deny = Allow
-    - is_active: Boolean = true
-    - name: String #required #unique #max(200)
-    - resources: String #required # JSON array
-    - updated_at: Date = now()
+    - actions: string #required # json array
+    - conditions: string? # json conditions
+    - created_at: date = now()
+    - description: string? #max(500)
+    - effect: allow | deny = allow
+    - is_active: boolean = true
+    - name: string #required #unique #max(200)
+    - resources: string #required # json array
+    - updated_at: date = now()
 
-- name: Policy Attachment
-  type: policy_attachment
+- name: policy_attachment
   id: [policy_id, entity_id, entity_type]
   schema:
-    - attached_at: Date = now()
-    - attached_by: Id? -> User.id
-    - entity_id: Id #required
-    - entity_type: User | Role | Group = User
-    - policy_id: Id #required -> Policy.id
+    - attached_at: date = now()
+    - attached_by: id? -> user.id
+    - entity_id: id #required
+    - entity_type: user | role | group = user
+    - policy_id: id #required -> policy.id
 
-- name: Policy Evaluation Log
-  type: policy_evaluation_log
+- name: policy_evaluation_log
   id: [policy_id, evaluated_at]
   schema:
-    - action: String #required #max(200)
-    - allowed: Boolean = false
-    - evaluated_at: Date = now()
-    - policy_id: Id #required -> Policy.id
-    - reason: String? #max(500)
-    - resource: String #required #max(200)
-    - user_id: Id? -> User.id
+    - action: string #required #max(200)
+    - allowed: boolean = false
+    - evaluated_at: date = now()
+    - policy_id: id #required -> policy.id
+    - reason: string? #max(500)
+    - resource: string #required #max(200)
+    - user_id: id? -> user.id

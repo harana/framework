@@ -1,12 +1,3 @@
-// Harana Components - Distributed Locking with Deadlock Prevention
-//
-// This module provides a distributed locking mechanism that uses the storage component
-// for persistence. It includes deadlock prevention through:
-// 1. Lock timeouts (TTL) - prevents indefinite holding
-// 2. Lock ordering - prevents circular waits
-// 3. Wait timeout - prevents indefinite waiting
-// 4. Fencing tokens - prevents stale lock holders from making changes
-
 use async_trait::async_trait;
 use chrono::{DateTime, Duration, Utc};
 use harana_components_storage::{Entity, FilterCondition, QueryOptions, Store, StorageError};
@@ -66,13 +57,9 @@ impl DistributedLock {
             updated_at: now,
         }
     }
-
-    /// Check if the lock has expired
     pub fn is_expired(&self) -> bool {
         Utc::now() > self.expires_at
     }
-
-    /// Check if this lock is held by the given owner
     pub fn is_held_by(&self, owner_id: &str) -> bool {
         self.owner_id == owner_id && !self.is_expired()
     }
@@ -235,7 +222,6 @@ impl LockConfig {
 /// Trait for distributed lock operations
 #[async_trait]
 pub trait LockManager: Send + Sync {
-    /// Try to acquire a lock without waiting
     async fn try_acquire(
         &self,
         resource_id: &str,
@@ -250,10 +236,7 @@ pub trait LockManager: Send + Sync {
         owner_id: &str,
         ttl_seconds: Option<u64>,
     ) -> LockResult<u64>; // Returns fencing token
-
-    /// Release a lock
     async fn release_lock(&self, resource_id: &str, owner_id: &str) -> LockResult<bool>;
-
     /// Extend a lock's TTL
     async fn extend_lock(
         &self,
@@ -261,17 +244,12 @@ pub trait LockManager: Send + Sync {
         owner_id: &str,
         extension_seconds: u64,
     ) -> LockResult<bool>;
-
     /// Check if a resource is locked
     async fn is_locked(&self, resource_id: &str) -> LockResult<bool>;
-
     /// Get lock info for a resource
     async fn get_lock_info(&self, resource_id: &str) -> LockResult<Option<DistributedLock>>;
-
     /// Get all locks held by an owner
     async fn get_locks_by_owner(&self, owner_id: &str) -> LockResult<Vec<DistributedLock>>;
-
-    /// Clean up expired locks
     async fn cleanup_expired_locks(&self) -> LockResult<u64>;
 
     /// Force release a lock (admin operation)
@@ -313,8 +291,6 @@ where
     fn next_fencing_token(&self) -> u64 {
         self.fencing_counter.fetch_add(1, AtomicOrdering::SeqCst) + 1
     }
-
-    /// Initialize fencing counter from database (call on startup)
     pub async fn initialize(&self) -> LockResult<()> {
         // Find the highest fencing token in the database
         let locks = self.store
@@ -328,7 +304,6 @@ where
 
         Ok(())
     }
-
     /// Check lock ordering to prevent deadlocks (circular wait prevention)
     async fn check_lock_ordering(&self, resource_id: &str, owner_id: &str) -> LockResult<()> {
         if !self.config.enable_lock_ordering {
@@ -354,7 +329,6 @@ where
 
         Ok(())
     }
-
     /// Check if owner has reached max lock limit
     async fn check_max_locks(&self, owner_id: &str) -> LockResult<()> {
         let owner_locks = self.owner_locks.read().await;
@@ -387,8 +361,6 @@ where
             }
         }
     }
-
-    /// Acquire a lock and return a handle for RAII-style management
     pub async fn acquire_handle(
         self: &Arc<Self>,
         resource_id: &str,
@@ -439,8 +411,6 @@ where
 
         Ok(acquired_tokens)
     }
-
-    /// Release multiple locks
     pub async fn release_multiple(&self, resource_ids: &[&str], owner_id: &str) -> LockResult<usize> {
         let mut released_count = 0;
         for resource_id in resource_ids {
@@ -690,7 +660,6 @@ impl<S> MultiLockGuard<S>
 where
     S: Store<DistributedLock> + 'static,
 {
-    /// Create a new multi-lock guard
     pub fn new(
         resource_ids: Vec<String>,
         owner_id: String,

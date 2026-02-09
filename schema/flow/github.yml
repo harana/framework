@@ -1,438 +1,412 @@
-- name: Create Repository
-  method: create_repo
+- name: create_repo
   inputs:
-    auto_init: Boolean = false
-    description: String
-    gitignore_template: String
-    homepage: String
-    license_template: String
-    name: String #required
-    private: Boolean = false
+    auto_init: boolean = false
+    description: string
+    gitignore_template: string
+    homepage: string
+    license_template: string
+    name: string #required
+    private: boolean = false
   outputs:
-    full_name: String
-    repo_id: Int
-    success: Boolean
-    url: String
+    full_name: string
+    repo_id: int
+    success: boolean
+    url: string
 
-- name: Get Repository
-  method: get_repo
+- name: get_repo
   inputs:
-    owner: String #required
-    repo: String #required
+    owner: string #required
+    repo: string #required
   outputs:
-    created_at: Int
-    default_branch: String
-    description: String
-    fork: Boolean
-    full_name: String
-    name: String
-    private: Boolean
-    repo_id: Int
-    updated_at: Int
-    url: String
+    created_at: int
+    default_branch: string
+    description: string
+    fork: boolean
+    full_name: string
+    name: string
+    private: boolean
+    repo_id: int
+    updated_at: int
+    url: string
 
-- name: Update Repository
-  method: update_repo
+- name: update_repo
   inputs:
-    description: String
-    has_issues: Boolean
-    has_projects: Boolean
-    has_wiki: Boolean
-    homepage: String
-    name: String
-    owner: String #required
-    private: Boolean
-    repo: String #required
+    description: string
+    has_issues: boolean
+    has_projects: boolean
+    has_wiki: boolean
+    homepage: string
+    name: string
+    owner: string #required
+    private: boolean
+    repo: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Repository
-  method: delete_repo
+- name: delete_repo
   inputs:
-    owner: String #required
-    repo: String #required
+    owner: string #required
+    repo: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Repositories
-  method: list_repos
+- name: list_repos
   inputs:
-    direction: Asc | Desc = Desc
-    per_page: Int = 30
-    sort: Created | Updated | Pushed | FullName = FullName
-    type: All | Owner | Public | Private | Member = Owner
+    direction: asc | desc = desc
+    per_page: int = 30
+    sort: created | updated | pushed | full_name = full_name
+    type: all | owner | public | private | member = owner
   outputs:
-    repositories: List[GithubRepository]
-    total_count: Int
+    repositories: list[github_repository]
+    total_count: int
 
-- name: Create Issue
-  method: create_issue
+- name: create_issue
   inputs:
-    assignees: List[String]
-    body: String
-    labels: List[String]
-    milestone: Int
-    owner: String #required
-    repo: String #required
-    title: String #required
+    assignees: list[string]
+    body: string
+    labels: list[string]
+    milestone: int
+    owner: string #required
+    repo: string #required
+    title: string #required
   outputs:
-    issue_number: Int
-    success: Boolean
-    url: String
+    issue_number: int
+    success: boolean
+    url: string
 
-- name: Update Issue
-  method: update_issue
+- name: update_issue
   inputs:
-    assignees: List[String]
-    body: String
-    issue_number: Int #required
-    labels: List[String]
-    owner: String #required
-    repo: String #required
-    state: Open | Closed
-    title: String
+    assignees: list[string]
+    body: string
+    issue_number: int #required
+    labels: list[string]
+    owner: string #required
+    repo: string #required
+    state: open | closed
+    title: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Close Issue
-  method: close_issue
+- name: close_issue
   inputs:
-    issue_number: Int #required
-    owner: String #required
-    repo: String #required
+    issue_number: int #required
+    owner: string #required
+    repo: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Issues
-  method: list_issues
+- name: list_issues
   inputs:
-    direction: Asc | Desc = Desc
-    labels: List[String]
-    owner: String #required
-    per_page: Int = 30
-    repo: String #required
-    sort: Created | Updated | Comments = Created
-    state: Open | Closed | All = Open
+    direction: asc | desc = desc
+    labels: list[string]
+    owner: string #required
+    per_page: int = 30
+    repo: string #required
+    sort: created | updated | comments = created
+    state: open | closed | all = open
   outputs:
-    issues: List[GithubIssue]
-    total_count: Int
+    issues: list[github_issue]
+    total_count: int
 
-- name: Create Pull Request
-  method: create_pull_request
+- name: create_pull_request
   inputs:
-    base: String #required
-    body: String
-    draft: Boolean = false
-    head: String #required
-    owner: String #required
-    repo: String #required
-    title: String #required
+    base: string #required
+    body: string
+    draft: boolean = false
+    head: string #required
+    owner: string #required
+    repo: string #required
+    title: string #required
   outputs:
-    pr_number: Int
-    success: Boolean
-    url: String
+    pr_number: int
+    success: boolean
+    url: string
 
-- name: Update Pull Request
-  method: update_pull_request
+- name: update_pull_request
   inputs:
-    body: String
-    owner: String #required
-    pr_number: Int #required
-    repo: String #required
-    state: Open | Closed
-    title: String
+    body: string
+    owner: string #required
+    pr_number: int #required
+    repo: string #required
+    state: open | closed
+    title: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Merge Pull Request
-  method: merge_pull_request
+- name: merge_pull_request
   inputs:
-    commit_message: String
-    commit_title: String
-    merge_method: Merge | Squash | Rebase = Merge
-    owner: String #required
-    pr_number: Int #required
-    repo: String #required
+    commit_message: string
+    commit_title: string
+    merge_method: merge | squash | rebase = merge
+    owner: string #required
+    pr_number: int #required
+    repo: string #required
   outputs:
-    merged: Boolean
-    sha: String
-    success: Boolean
+    merged: boolean
+    sha: string
+    success: boolean
 
-- name: List Pull Requests
-  method: list_pull_requests
+- name: list_pull_requests
   inputs:
-    direction: Asc | Desc = Desc
-    owner: String #required
-    per_page: Int = 30
-    repo: String #required
-    sort: Created | Updated | Popularity | LongRunning = Created
-    state: Open | Closed | All = Open
+    direction: asc | desc = desc
+    owner: string #required
+    per_page: int = 30
+    repo: string #required
+    sort: created | updated | popularity | long_running = created
+    state: open | closed | all = open
   outputs:
-    pull_requests: List[GithubPullRequest]
-    total_count: Int
+    pull_requests: list[github_pull_request]
+    total_count: int
 
-- name: Create Branch
-  method: create_branch
+- name: create_branch
   inputs:
-    branch: String #required
-    owner: String #required
-    repo: String #required
-    sha: String #required
+    branch: string #required
+    owner: string #required
+    repo: string #required
+    sha: string #required
   outputs:
-    ref: String
-    success: Boolean
+    ref: string
+    success: boolean
 
-- name: Delete Branch
-  method: delete_branch
+- name: delete_branch
   inputs:
-    branch: String #required
-    owner: String #required
-    repo: String #required
+    branch: string #required
+    owner: string #required
+    repo: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Branches
-  method: list_branches
+- name: list_branches
   inputs:
-    owner: String #required
-    per_page: Int = 30
-    protected: Boolean
-    repo: String #required
+    owner: string #required
+    per_page: int = 30
+    protected: boolean
+    repo: string #required
   outputs:
-    branches: List[GithubBranch]
+    branches: list[github_branch]
 
-- name: Get Commit
-  method: get_commit
+- name: get_commit
   inputs:
-    owner: String #required
-    repo: String #required
-    sha: String #required
+    owner: string #required
+    repo: string #required
+    sha: string #required
   outputs:
-    author: Author
-    committer: Committer
-    created_at: Int
-    message: String
-    sha: String
-    url: String
+    author: author
+    committer: committer
+    created_at: int
+    message: string
+    sha: string
+    url: string
 
-- name: List Commits
-  method: list_commits
+- name: list_commits
   inputs:
-    author: String
-    owner: String #required
-    path: String
-    per_page: Int = 30
-    repo: String #required
-    sha: String
-    since: Int
-    until: Int
+    author: string
+    owner: string #required
+    path: string
+    per_page: int = 30
+    repo: string #required
+    sha: string
+    since: int
+    until: int
   outputs:
-    commits: List[GithubCommit]
+    commits: list[github_commit]
 
-- name: Create Release
-  method: create_release
+- name: create_release
   inputs:
-    body: String
-    draft: Boolean = false
-    name: String
-    owner: String #required
-    prerelease: Boolean = false
-    repo: String #required
-    tag_name: String #required
-    target_commitish: String
+    body: string
+    draft: boolean = false
+    name: string
+    owner: string #required
+    prerelease: boolean = false
+    repo: string #required
+    tag_name: string #required
+    target_commitish: string
   outputs:
-    release_id: Int
-    success: Boolean
-    upload_url: String
-    url: String
+    release_id: int
+    success: boolean
+    upload_url: string
+    url: string
 
-- name: Get Release
-  method: get_release
+- name: get_release
   inputs:
-    owner: String #required
-    release_id: Int #required
-    repo: String #required
+    owner: string #required
+    release_id: int #required
+    repo: string #required
   outputs:
-    body: String
-    created_at: Int
-    draft: Boolean
-    name: String
-    prerelease: Boolean
-    published_at: Int
-    release_id: Int
-    tag_name: String
+    body: string
+    created_at: int
+    draft: boolean
+    name: string
+    prerelease: boolean
+    published_at: int
+    release_id: int
+    tag_name: string
 
-- name: List Releases
-  method: list_releases
+- name: list_releases
   inputs:
-    owner: String #required
-    per_page: Int = 30
-    repo: String #required
+    owner: string #required
+    per_page: int = 30
+    repo: string #required
   outputs:
-    releases: List[GithubRelease]
+    releases: list[github_release]
 
-- name: Create Webhook
-  method: create_webhook
+- name: create_webhook
   inputs:
-    active: Boolean = true
-    config: WebhookConfig #required
-    events: List[String] #required
-    owner: String #required
-    repo: String #required
+    active: boolean = true
+    config: webhook_config #required
+    events: list[string] #required
+    owner: string #required
+    repo: string #required
   outputs:
-    success: Boolean
-    webhook_id: Int
+    success: boolean
+    webhook_id: int
 
-- name: Delete Webhook
-  method: delete_webhook
+- name: delete_webhook
   inputs:
-    owner: String #required
-    repo: String #required
-    webhook_id: Int #required
+    owner: string #required
+    repo: string #required
+    webhook_id: int #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get File Contents
-  method: get_file_contents
+- name: get_file_contents
   inputs:
-    owner: String #required
-    path: String #required
-    ref: String
-    repo: String #required
+    owner: string #required
+    path: string #required
+    ref: string
+    repo: string #required
   outputs:
-    content: String
-    encoding: String
-    sha: String
-    size: Int
+    content: string
+    encoding: string
+    sha: string
+    size: int
 
-- name: Create Or Update File
-  method: create_or_update_file
+- name: create_or_update_file
   inputs:
-    branch: String
-    content: String #required
-    message: String #required
-    owner: String #required
-    path: String #required
-    repo: String #required
-    sha: String
+    branch: string
+    content: string #required
+    message: string #required
+    owner: string #required
+    path: string #required
+    repo: string #required
+    sha: string
   outputs:
-    commit: Commit
-    content: FileContent
-    success: Boolean
+    commit: commit
+    content: file_content
+    success: boolean
 
-- name: Delete File
-  method: delete_file
+- name: delete_file
   inputs:
-    branch: String
-    message: String #required
-    owner: String #required
-    path: String #required
-    repo: String #required
-    sha: String #required
+    branch: string
+    message: string #required
+    owner: string #required
+    path: string #required
+    repo: string #required
+    sha: string #required
   outputs:
-    commit: Commit
-    success: Boolean
+    commit: commit
+    success: boolean
 
-- name: GithubRepository
+- name: github_repository
   class:
-    repo_id: Int
-    name: String
-    full_name: String
-    description: String
-    url: String
-    private: Boolean
-    default_branch: String
-    fork: Boolean
-    created_at: Date
-    updated_at: Date
+    repo_id: int
+    name: string
+    full_name: string
+    description: string
+    url: string
+    private: boolean
+    default_branch: string
+    fork: boolean
+    created_at: date
+    updated_at: date
 
-- name: Author
+- name: author
   class:
-    name: String
-    email: String
-    date: Date
+    name: string
+    email: string
+    date: date
 
-- name: Committer
+- name: committer
   class:
-    name: String
-    email: String
-    date: Date
+    name: string
+    email: string
+    date: date
 
-- name: Commit
+- name: commit
   class:
-    sha: String
-    message: String
-    url: String
-    author: Author
-    committer: Committer
+    sha: string
+    message: string
+    url: string
+    author: author
+    committer: committer
 
-- name: FileContent
+- name: file_content
   class:
-    name: String
-    path: String
-    sha: String
-    size: Int
-    url: String
-    content: String
-    encoding: String
+    name: string
+    path: string
+    sha: string
+    size: int
+    url: string
+    content: string
+    encoding: string
 
-- name: WebhookConfig
+- name: webhook_config
   class:
-    url: String
-    content_type: String
-    secret: String
-    insecure_ssl: String
+    url: string
+    content_type: string
+    secret: string
+    insecure_ssl: string
 
-- name: GithubIssue
+- name: github_issue
   class:
-    issue_number: Int
-    title: String
-    body: String
-    state: String
-    labels: List[String]
-    assignees: List[String]
-    milestone: Int
-    url: String
-    created_at: Date
-    updated_at: Date
+    issue_number: int
+    title: string
+    body: string
+    state: string
+    labels: list[string]
+    assignees: list[string]
+    milestone: int
+    url: string
+    created_at: date
+    updated_at: date
 
-- name: GithubPullRequest
+- name: github_pull_request
   class:
-    pr_number: Int
-    title: String
-    body: String
-    state: String
-    head: String
-    base: String
-    draft: Boolean
-    merged: Boolean
-    url: String
-    created_at: Date
-    updated_at: Date
+    pr_number: int
+    title: string
+    body: string
+    state: string
+    head: string
+    base: string
+    draft: boolean
+    merged: boolean
+    url: string
+    created_at: date
+    updated_at: date
 
-- name: GithubBranch
+- name: github_branch
   class:
-    name: String
-    sha: String
-    protected: Boolean
+    name: string
+    sha: string
+    protected: boolean
 
-- name: GithubCommit
+- name: github_commit
   class:
-    sha: String
-    message: String
-    url: String
-    author: Author
-    committer: Committer
-    created_at: Date
+    sha: string
+    message: string
+    url: string
+    author: author
+    committer: committer
+    created_at: date
 
-- name: GithubRelease
+- name: github_release
   class:
-    release_id: Int
-    tag_name: String
-    name: String
-    body: String
-    draft: Boolean
-    prerelease: Boolean
-    created_at: Date
-    published_at: Date
-    url: String
+    release_id: int
+    tag_name: string
+    name: string
+    body: string
+    draft: boolean
+    prerelease: boolean
+    created_at: date
+    published_at: date
+    url: string

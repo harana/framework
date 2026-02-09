@@ -1,40 +1,36 @@
-- name: Generate UUID V4
-  method: generate_v4
+- name: generate_v4
   inputs:
-    count: Int = 1
-    uppercase: Boolean = false
+    count: int = 1
+    uppercase: boolean = false
   outputs:
-    uuid: String | List[String]
+    uuid: string | list[string]
 
-- name: Generate UUID V7
-  method: generate_v7
+- name: generate_v7
   inputs:
-    count: Int = 1
-    uppercase: Boolean = false
+    count: int = 1
+    uppercase: boolean = false
   outputs:
-    uuid: String | List[String]
+    uuid: string | list[string]
 
-- name: Validate UUID Format
-  method: validate
+- name: validate
   inputs:
-    uuid: String #required
-    version: Int
+    uuid: string #required
+    version: int
   outputs:
-    valid: Boolean
-    version: Int
+    valid: boolean
+    version: int
 
-- name: Parse UUID To Components
-  method: parse
+- name: parse
   inputs:
-    uuid: String #required
+    uuid: string #required
   outputs:
-    timestamp: Int
-    variant: String
-    version: Int
+    timestamp: int
+    variant: string
+    version: int
 
-- name: Uuid
+- name: uuid
   class:
-    value: String
-    version: Int
-    variant: String
-    timestamp: Int
+    value: string
+    version: int
+    variant: string
+    timestamp: int

@@ -1,34 +1,31 @@
-- name: Email Template
-  type: email_template
+- name: email_template
   schema:
-    - body_html: String #required
-    - body_text: String?
-    - created_at: Date = now()
-    - is_active: Boolean = true
-    - subject: String #required #max(500)
-    - updated_at: Date = now()
+    - body_html: string #required
+    - body_text: string?
+    - created_at: date = now()
+    - is_active: boolean = true
+    - subject: string #required #max(500)
+    - updated_at: date = now()
 
-- name: Email
-  type: email
+- name: email
   id: [from_address, to_address, created_at]
   schema:
-    - bcc: String? #email
-    - body_html: String?
-    - body_text: String?
-    - cc: String? #email
-    - created_at: Date = now()
-    - from_address: String #required #email
-    - reply_to: String? #email
-    - sent_at: Date?
-    - status: Pending | Sent | Failed | Bounced = Pending
-    - subject: String #required #max(500)
-    - template_id: Id? -> EmailTemplate.id
-    - to_address: String #required #email
-    - updated_at: Date = now()
+    - bcc: string? #email
+    - body_html: string?
+    - body_text: string?
+    - cc: string? #email
+    - created_at: date = now()
+    - from_address: string #required #email
+    - reply_to: string? #email
+    - sent_at: date?
+    - status: pending | sent | failed | bounced = pending
+    - subject: string #required #max(500)
+    - template_id: id? -> email_template.id
+    - to_address: string #required #email
+    - updated_at: date = now()
 
-- name: Email Attachment
-  type: email_attachment
+- name: email_attachment
   id: [email_id, file_name]
   schema:
-    - content_type: String #required #max(100)
-    - email_id: Id #required -> Email.id
+    - content_type: string #required #max(100)
+    - email_id: id #required -> email.id

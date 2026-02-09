@@ -1,7 +1,6 @@
-- name: Check Rate Limit
-  method: limit
+- name: limit
   inputs:
-    key: String #required
-    rate_limiter: String #required
+    key: string #required
+    rate_limiter: string #required
   outputs:
-    success: Boolean
+    success: boolean

@@ -1,5 +1,3 @@
-//! Server error types
-
 use axum::{
     Json,
     http::StatusCode,

@@ -1,44 +1,39 @@
-- name: Notification Shown
-  type: notification_shown
+- name: notification_shown
   schema:
-    notification_id: Id #required
-    notification_type: Info | Success | Warning | Error = Info
-    notification_title: String?
-    notification_message: String?
+    notification_id: id #required
+    notification_type: info | success | warning | error = info
+    notification_title: string?
+    notification_message: string?
     duration_ms: int? #min(0)
-    shown_at: Date = now()
+    shown_at: date = now()
 
-- name: Notification Dismissed
-  type: notification_dismissed
+- name: notification_dismissed
   schema:
-    notification_id: Id #required
-    notification_type: Info | Success | Warning | Error = Info
-    dismiss_method: Button | Swipe | Timeout | Action = Button
+    notification_id: id #required
+    notification_type: info | success | warning | error = info
+    dismiss_method: button | swipe | timeout | action = button
     time_visible_ms: int? #min(0)
-    dismissed_at: Date = now()
+    dismissed_at: date = now()
 
-- name: Notification Clicked
-  type: notification_clicked
+- name: notification_clicked
   schema:
-    notification_id: Id #required
-    notification_type: Info | Success | Warning | Error = Info
-    notification_title: String?
-    clicked_at: Date = now()
+    notification_id: id #required
+    notification_type: info | success | warning | error = info
+    notification_title: string?
+    clicked_at: date = now()
 
-- name: Notification Action Clicked
-  type: notification_action_clicked
+- name: notification_action_clicked
   schema:
-    notification_id: Id #required
-    action_id: Id #required
-    action_label: String?
-    action_type: Primary | Secondary | Dismiss = Primary
-    clicked_at: Date = now()
+    notification_id: id #required
+    action_id: id #required
+    action_label: string?
+    action_type: primary | secondary | dismiss = primary
+    clicked_at: date = now()
 
-- name: Toast Expired
-  type: toast_expired
+- name: toast_expired
   schema:
-    toast_id: Id #required
-    toast_type: Info | Success | Warning | Error = Info
-    toast_message: String?
+    toast_id: id #required
+    toast_type: info | success | warning | error = info
+    toast_message: string?
     duration_ms: int? #min(0)
-    expired_at: Date = now()
+    expired_at: date = now()

@@ -1,0 +1,12 @@
+- name: math_expression
+  schema:
+    - created_at: date = now()
+    - description: string? #max(500)
+    - expression: string #required #max(2000)
+    - result: decimal?
+    - variables: string? # j_s_o_n map
+- name: number_value
+  schema:
+    - value: float
+    - precision: int
+    - formatted: string

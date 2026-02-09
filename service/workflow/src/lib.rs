@@ -1,6 +1,3 @@
-// Harana Actions - Workflow Module
-// This module provides workflow actions and functionality.
-
 pub mod output;
 
 use chrono::{DateTime, Utc};
@@ -78,8 +75,6 @@ fn add_history_event(
         .or_insert_with(Vec::new)
         .push(event);
 }
-
-/// Start Workflow Execution
 pub async fn start(
     workflow_id: &str,
     context: Option<HashMap<String, Value>>,
@@ -222,8 +217,6 @@ pub async fn cancel(
     
     Ok(CancelOutput { success: true })
 }
-
-/// Get Workflow Status
 pub async fn get_status(
     execution_id: &str,
 ) -> Result<GetStatusOutput, String> {
@@ -243,8 +236,6 @@ pub async fn get_status(
             .unwrap_or_default(),
     })
 }
-
-/// Get Workflow Result
 pub async fn get_result(
     execution_id: &str,
 ) -> Result<GetResultOutput, String> {
@@ -260,8 +251,6 @@ pub async fn get_result(
         error: exec.error.clone(),
     })
 }
-
-/// List Workflow Executions
 pub async fn list_executions(
     status: Option<&str>,
     workflow_id: Option<&str>,

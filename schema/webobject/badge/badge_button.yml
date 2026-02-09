@@ -1,9 +1,8 @@
-- name: Badge Button Component
-  type: badge_button
+- name: badge_button
   attributes:
-    - color: Red | Orange | Amber | Yellow | Lime | Green | Emerald | Teal | Cyan | Sky | Blue | Indigo | Violet | Purple | Fuchsia | Pink | Rose | Zinc = Zinc
-    - href: String? #max(500)
-    - label: String #required #max(100)
+    - color: red | orange | amber | yellow | lime | green | emerald | teal | cyan | sky | blue | indigo | violet | purple | fuchsia | pink | rose | zinc = zinc
+    - href: string? #max(500)
+    - label: string #required #max(100)
   events:
     - click
     - hover

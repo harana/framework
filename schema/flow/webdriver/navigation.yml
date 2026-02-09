@@ -1,0 +1,34 @@
+- name: goto
+  inputs:
+    session_id: string #required    url: string #required  outputs:
+    success: boolean
+
+- name: current_url
+  inputs:
+    session_id: string #required  outputs:
+    url: string
+
+- name: title
+  inputs:
+    session_id: string #required  outputs:
+    title: string
+
+- name: source
+  inputs:
+    session_id: string #required  outputs:
+    source: string
+
+- name: back
+  inputs:
+    session_id: string #required  outputs:
+    success: boolean
+
+- name: forward
+  inputs:
+    session_id: string #required  outputs:
+    success: boolean
+
+- name: refresh
+  inputs:
+    session_id: string #required  outputs:
+    success: boolean

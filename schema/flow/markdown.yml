@@ -1,37 +1,34 @@
-- name: Convert Markdown To HTML
-  method: to_html
+- name: to_html
   inputs:
-    data: String #required
-    gfm: Boolean = true
-    highlight_code: Boolean = true
-    sanitize: Boolean = false
+    data: string #required
+    gfm: boolean = true
+    highlight_code: boolean = true
+    sanitize: boolean = false
   outputs:
-    html: String
+    html: string
 
-- name: Convert HTML To Markdown
-  method: from_html
+- name: from_html
   inputs:
-    bullet_style: String = "-"
-    code_block_style: Fenced | Indented = Fenced
-    data: String #required
-    heading_style: Atx | Setext = Atx
+    bullet_style: string = "-"
+    code_block_style: fenced | indented = fenced
+    data: string #required
+    heading_style: atx | setext = atx
   outputs:
-    markdown: String
+    markdown: string
 
-- name: Extract YAML Frontmatter
-  method: extract_frontmatter
+- name: extract_frontmatter
   inputs:
-    data: String #required
+    data: string #required
   outputs:
-    content: String
-    frontmatter: MarkdownFrontmatter
+    content: string
+    frontmatter: markdown_frontmatter
 
-- name: MarkdownDocument
+- name: markdown_document
   class:
-    content: String
-    frontmatter: MarkdownFrontmatter
-    html: String
+    content: string
+    frontmatter: markdown_frontmatter
+    html: string
 
-- name: MarkdownFrontmatter
+- name: markdown_frontmatter
   class:
-    data: Map[String, Any]
+    data: map[string, any]

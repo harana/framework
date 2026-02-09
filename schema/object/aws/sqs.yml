@@ -1,49 +1,46 @@
-- name: AWS SQS Queue
-  type: aws_sqs_queue
+- name: aws_sqs_queue
   id: [account_id, queue_name]
   schema:
-    - account_id: String #required #max(20)
-    - content_based_deduplication: Boolean = false
-    - created_at: Date = now()
-    - dead_letter_target_arn: String? #max(255)
+    - account_id: string #required #max(20)
+    - content_based_deduplication: boolean = false
+    - created_at: date = now()
+    - dead_letter_target_arn: string? #max(255)
     - delay_seconds: int = 0 #min(0) #max(900)
-    - is_fifo: Boolean = false
+    - is_fifo: boolean = false
     - max_message_size: int = 262144 #min(1024) #max(262144)
     - message_retention_seconds: int = 345600 #min(60) #max(1209600)
-    - queue_arn: String? #max(255)
-    - queue_name: String #required #unique #max(80)
-    - queue_url: String? #max(1000)
+    - queue_arn: string? #max(255)
+    - queue_name: string #required #unique #max(80)
+    - queue_url: string? #max(1000)
     - receive_wait_time_seconds: int = 0 #min(0) #max(20)
     - redrive_max_receive_count: int? #min(1)
-    - region: String? #max(50)
-    - tags: String? # JSON
-    - updated_at: Date = now()
+    - region: string? #max(50)
+    - tags: string? # json
+    - updated_at: date = now()
     - visibility_timeout: int = 30 #min(0) #max(43200)
 
-- name: AWS SQS Message
-  type: aws_sqs_message
+- name: aws_sqs_message
   id: [queue_id, message_id]
   schema:
-    - body: String #required
-    - created_at: Date = now()
+    - body: string #required
+    - created_at: date = now()
     - delay_seconds: int? #min(0)
-    - message_attributes: String? # JSON
-    - message_deduplication_id: String? #max(128)
-    - message_group_id: String? #max(128)
-    - message_id: String #required #unique #max(255)
-    - queue_id: Id #required -> AwsSqsQueue.id
-    - receipt_handle: String? #max(1024)
+    - message_attributes: string? # json
+    - message_deduplication_id: string? #max(128)
+    - message_group_id: string? #max(128)
+    - message_id: string #required #unique #max(255)
+    - queue_id: id #required -> aws_sqs_queue.id
+    - receipt_handle: string? #max(1024)
     - receive_count: int = 0 #min(0)
-    - sequence_number: String? #max(255)
-    - status: Pending | InFlight | Processed | DeadLetter = Pending
-    - visible_at: Date = now()
+    - sequence_number: string? #max(255)
+    - status: pending | in_flight | processed | dead_letter = pending
+    - visible_at: date = now()
 
-- name: AWS SQS Queue Permission
-  type: aws_sqs_queue_permission
+- name: aws_sqs_queue_permission
   id: [queue_id, label]
   schema:
-    - actions: String #required # JSON list
-    - aws_account_ids: String #required # JSON list
-    - created_at: Date = now()
-    - label: String #required #max(80)
-    - queue_id: Id #required -> AwsSqsQueue.id
+    - actions: string #required # json list
+    - aws_account_ids: string #required # json list
+    - created_at: date = now()
+    - label: string #required #max(80)
+    - queue_id: id #required -> aws_sqs_queue.id

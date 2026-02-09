@@ -1,29 +1,26 @@
-- name: Nav Item Clicked
-  type: nav_item_clicked
+- name: nav_item_clicked
   schema:
-    nav_id: Id #required
-    nav_item_id: Id #required
-    nav_item_label: String?
-    nav_item_path: String?
+    nav_id: id #required
+    nav_item_id: id #required
+    nav_item_label: string?
+    nav_item_path: string?
     nav_level: int? #min(0)
-    clicked_at: Date = now()
+    clicked_at: date = now()
 
-- name: Tab Switched
-  type: tab_switched
+- name: tab_switched
   schema:
-    tab_group_id: Id #required
-    from_tab_id: Id?
-    to_tab_id: Id #required
-    from_tab_label: String?
-    to_tab_label: String?
+    tab_group_id: id #required
+    from_tab_id: id?
+    to_tab_id: id #required
+    from_tab_label: string?
+    to_tab_label: string?
     tab_index: int? #min(0)
-    switched_at: Date = now()
+    switched_at: date = now()
 
-- name: Breadcrumb Clicked
-  type: breadcrumb_clicked
+- name: breadcrumb_clicked
   schema:
-    breadcrumb_id: Id #required
-    breadcrumb_label: String?
-    breadcrumb_path: String?
+    breadcrumb_id: id #required
+    breadcrumb_label: string?
+    breadcrumb_path: string?
     breadcrumb_level: int? #min(0)
-    clicked_at: Date = now()
+    clicked_at: date = now()

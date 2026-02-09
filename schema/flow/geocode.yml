@@ -1,87 +1,82 @@
-- name: Calculate Distance Between Points
-  method: distance
+- name: distance
   inputs:
-    from: GeoCoordinate #required
-    to: GeoCoordinate #required
+    from: geo_coordinate #required
+    to: geo_coordinate #required
     unit: km | mi | m = km
   outputs:
-    distance: Float
-    unit: String
+    distance: float
+    unit: string
 
-- name: Convert Address To Coordinates
-  method: forward
+- name: forward
   inputs:
-    address: String #required
-    country: String
-    limit: Int = 5
+    address: string #required
+    country: string
+    limit: int = 5
   outputs:
-    latitude: Float
-    longitude: Float
-    results: List[GeocodingResult]
+    latitude: float
+    longitude: float
+    results: list[geocoding_result]
 
-- name: Convert Coordinates To Address
-  method: reverse
+- name: reverse
   inputs:
-    latitude: Float #required
-    longitude: Float #required
-    language: String
+    latitude: float #required
+    longitude: float #required
+    language: string
   outputs:
-    address: GeoAddress
-    formatted_address: String
+    address: geo_address
+    formatted_address: string
 
-- name: Get Route Between Points
-  method: route
+- name: route
   inputs:
-    from: GeoCoordinate #required
-    to: GeoCoordinate #required
+    from: geo_coordinate #required
+    to: geo_coordinate #required
     mode: driving | walking | cycling | transit = driving
-    waypoints: List[GeoCoordinate]
-    avoid: List[String]
+    waypoints: list[geo_coordinate]
+    avoid: list[string]
   outputs:
-    distance: Float
-    duration: Int
-    polyline: String
-    steps: List[RouteStep]
+    distance: float
+    duration: int
+    polyline: string
+    steps: list[route_step]
 
-- name: Get Timezone For Coordinates
-  method: timezone
+- name: timezone
   inputs:
-    latitude: Float #required
-    longitude: Float #required
-    timestamp: Int
+    latitude: float #required
+    longitude: float #required
+    timestamp: int
   outputs:
-    id: String
-    name: String
-    offset: Int
-    dst_offset: Int
+    id: string
+    name: string
+    offset: int
+    dst_offset: int
 
-- name: GeoCoordinate
+- name: geo_coordinate
   class:
-    latitude: Float
-    longitude: Float
+    latitude: float
+    longitude: float
 
-- name: GeocodingResult
+- name: geocoding_result
   class:
-    latitude: Float
-    longitude: Float
-    formatted_address: String
-    confidence: Float
+    latitude: float
+    longitude: float
+    formatted_address: string
+    confidence: float
 
-- name: GeoAddress
+- name: geo_address
   class:
-    street: String
-    city: String
-    county: String
-    state: String
-    postal_code: String
-    country: String
-    latitude: Float
-    longitude: Float
+    street: string
+    city: string
+    county: string
+    state: string
+    postal_code: string
+    country: string
+    latitude: float
+    longitude: float
 
-- name: RouteStep
+- name: route_step
   class:
-    instruction: String
-    distance: Float
-    duration: Int
-    latitude: Float
-    longitude: Float
+    instruction: string
+    distance: float
+    duration: int
+    latitude: float
+    longitude: float

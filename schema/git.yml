@@ -1,0 +1,142 @@
+- name: git_repository
+  id: [full_name]
+  schema:
+    - created_at: date = now()
+    - default_branch: string = main #max(200)
+    - description: string? #max(1000)
+    - full_name: string #required #unique #max(500)
+    - is_private: boolean = false
+    - provider: github | gitlab | bitbucket | local = github
+    - updated_at: date = now()
+    - url: string? #url
+- name: git_branch
+  id: [repository_id, name]
+  schema:
+    - created_at: date = now()
+    - is_protected: boolean = false
+    - name: string #required #max(200)
+    - repository_id: id #required -> git_repository.id
+    - sha: string? #max(64)
+
+- name: git_commit
+  id: [repository_id, sha]
+  schema:
+    - author_email: string? #max(255)
+    - author_name: string? #max(200)
+    - committed_at: date = now()
+    - message: string? #max(5000)
+    - repository_id: id #required -> git_repository.id
+    - sha: string #required #max(64)
+
+- name: git_tag
+  id: [repository_id, name]
+  schema:
+    - created_at: date = now()
+    - message: string? #max(2000)
+    - name: string #required #max(200)
+    - repository_id: id #required -> git_repository.id
+    - sha: string #required #max(64)
+
+- name: github_repository
+  schema:
+    - repo_id: int
+    - name: string
+    - full_name: string
+    - description: string
+    - url: string
+    - private: boolean
+    - default_branch: string
+    - fork: boolean
+    - created_at: date
+    - updated_at: date
+
+- name: author
+  schema:
+    - name: string
+    - email: string
+    - date: date
+
+- name: committer
+  schema:
+    - name: string
+    - email: string
+    - date: date
+
+- name: commit
+  schema:
+    - sha: string
+    - message: string
+    - url: string
+    - author: author
+    - committer: committer
+
+- name: file_content
+  schema:
+    - name: string
+    - path: string
+    - sha: string
+    - size: int
+    - url: string
+    - content: string
+    - encoding: string
+
+- name: webhook_config
+  schema:
+    - url: string
+    - content_type: string
+    - secret: string
+    - insecure_ssl: string
+
+- name: github_issue
+  schema:
+    - issue_number: int
+    - title: string
+    - body: string
+    - state: string
+    - labels: list[string]
+    - assignees: list[string]
+    - milestone: int
+    - url: string
+    - created_at: date
+    - updated_at: date
+
+- name: github_pull_request
+  schema:
+    - pr_number: int
+    - title: string
+    - body: string
+    - state: string
+    - head: string
+    - base: string
+    - draft: boolean
+    - merged: boolean
+    - url: string
+    - created_at: date
+    - updated_at: date
+
+- name: github_branch
+  schema:
+    - name: string
+    - sha: string
+    - protected: boolean
+
+- name: github_commit
+  schema:
+    - sha: string
+    - message: string
+    - url: string
+    - author: author
+    - committer: committer
+    - created_at: date
+
+- name: github_release
+  schema:
+    - release_id: int
+    - tag_name: string
+    - name: string
+    - body: string
+    - draft: boolean
+    - prerelease: boolean
+    - created_at: date
+    - published_at: date
+    - url: string

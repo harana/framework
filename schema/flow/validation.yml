@@ -1,142 +1,130 @@
-- name: Validate Against Schema
-  method: schema
+- name: schema
   inputs:
-    data: Any #required
-    schema: ValidationSchema #required
-    strict: Boolean = true
+    data: any #required
+    schema: validation_schema #required
+    strict: boolean = true
   outputs:
-    errors: List[ValidationError]
-    valid: Boolean
+    errors: list[validation_error]
+    valid: boolean
 
-- name: Validate Single Field
-  method: field
+- name: field
   inputs:
-    field_name: String
-    rules: List[String] #required
-    value: Any #required
+    field_name: string
+    rules: list[string] #required
+    value: any #required
   outputs:
-    errors: List[String]
-    valid: Boolean
+    errors: list[string]
+    valid: boolean
 
-- name: Validate Email Format
-  method: email_format
+- name: email_format
   inputs:
-    email: String #required
+    email: string #required
   outputs:
-    reason: String
-    valid: Boolean
+    reason: string
+    valid: boolean
 
-- name: Validate URL Format
-  method: url
+- name: url
   inputs:
-    allowed_schemes: List[String]
-    url: String #required
+    allowed_schemes: list[string]
+    url: string #required
   outputs:
-    reason: String
-    valid: Boolean
+    reason: string
+    valid: boolean
 
-- name: Validate Phone Number
-  method: phone
+- name: phone
   inputs:
-    country_code: String
-    phone: String #required
+    country_code: string
+    phone: string #required
   outputs:
-    country: String
-    formatted: String
-    valid: Boolean
+    country: string
+    formatted: string
+    valid: boolean
 
-- name: Validate Date Format
-  method: date
+- name: date
   inputs:
-    date: String #required
-    format: String = "ISO8601"
+    date: string #required
+    format: string = "iso8601"
   outputs:
-    parsed: Date
-    reason: String
-    valid: Boolean
+    parsed: date
+    reason: string
+    valid: boolean
 
-- name: Validate JSON Structure
-  method: json
+- name: json
   inputs:
-    json_string: String #required
+    json_string: string #required
   outputs:
-    error: String
-    parsed: Any
-    valid: Boolean
+    error: string
+    parsed: any
+    valid: boolean
 
-- name: Validate Credit Card
-  method: credit_card
+- name: credit_card
   inputs:
-    number: String #required
-    luhn: Boolean = true
+    number: string #required
+    luhn: boolean = true
   outputs:
-    card_type: String
-    last_four: String
-    valid: Boolean
+    card_type: string
+    last_four: string
+    valid: boolean
 
-- name: Validate UUID Format
-  method: uuid
+- name: uuid
   inputs:
-    uuid: String #required
-    version: Int
+    uuid: string #required
+    version: int
   outputs:
-    valid: Boolean
-    version: Int
+    valid: boolean
+    version: int
 
-- name: Validate IP Address
-  method: ip
+- name: ip
   inputs:
-    ip: String #required
+    ip: string #required
     version: 4 | 6 | any = any
   outputs:
-    is_private: Boolean
-    valid: Boolean
-    version: Int
+    is_private: boolean
+    valid: boolean
+    version: int
 
-- name: Validate Password Strength
-  method: password
+- name: password
   inputs:
-    min_length: Int = 8
-    password: String #required
-    require_lowercase: Boolean = true
-    require_numbers: Boolean = true
-    require_symbols: Boolean = false
-    require_uppercase: Boolean = true
+    min_length: int = 8
+    password: string #required
+    require_lowercase: boolean = true
+    require_numbers: boolean = true
+    require_symbols: boolean = false
+    require_uppercase: boolean = true
   outputs:
-    strength: Weak | Fair | Strong | VeryStrong
-    suggestions: List[String]
-    valid: Boolean
+    strength: weak | fair | strong | very_strong
+    suggestions: list[string]
+    valid: boolean
 
-- name: Sanitize HTML Content
-  method: sanitize_html
+- name: sanitize_html
   inputs:
-    allowed_attributes: HtmlAllowedAttributes
-    allowed_tags: List[String]
-    html: String #required
+    allowed_attributes: html_allowed_attributes
+    allowed_tags: list[string]
+    html: string #required
   outputs:
-    removed_count: Int
-    sanitized: String
+    removed_count: int
+    sanitized: string
 
-- name: ValidationResult
+- name: validation_result
   class:
-    valid: Boolean
-    errors: List[ValidationError]
-    field_name: String
-    value: Any
+    valid: boolean
+    errors: list[validation_error]
+    field_name: string
+    value: any
 
-- name: ValidationSchema
+- name: validation_schema
   class:
-    type: String
-    properties: Map[String, Any]
-    required: List[String]
+    type: string
+    properties: map[string, any]
+    required: list[string]
 
-- name: ValidationError
+- name: validation_error
   class:
-    path: String
-    message: String
-    code: String
+    path: string
+    message: string
+    code: string
 
-- name: HtmlAllowedAttributes
+- name: html_allowed_attributes
   class:
-    global: List[String]
-    per_tag: Map[string, List[String]]
+    global: list[string]
+    per_tag: map[string, list[string]]

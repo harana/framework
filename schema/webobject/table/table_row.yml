@@ -1,12 +1,11 @@
-- name: Table Row Component
-  type: table_row
+- name: table_row
   id: [table_id, name]
   attributes:
-    - href: String? #max(500)
+    - href: string? #max(500)
     - order: int = 0 #min(0)
-    - table_id: Id #required -> UITable.id
+    - table_id: id #required -> ui_table.id
     - target: _self | _blank | _parent | _top = _self
-    - title: String? #max(200)
+    - title: string? #max(200)
   events:
     - click
     - collapse

@@ -1,22 +1,20 @@
-- name: User Permission
-  type: user_permission
+- name: user_permission
   id: [user_id, resource, action]
   schema:
-    - action: String #required #max(100)
-    - conditions: String? # JSON
-    - expires_at: Date?
-    - granted_at: Date = now()
-    - granted_by: Id? -> User.id
-    - resource: String #required #max(200)
-    - user_id: Id #required -> User.id
+    - action: string #required #max(100)
+    - conditions: string? # json
+    - expires_at: date?
+    - granted_at: date = now()
+    - granted_by: id? -> user.id
+    - resource: string #required #max(200)
+    - user_id: id #required -> user.id
 
-- name: Effective Permission
-  type: effective_permission
+- name: effective_permission
   id: [user_id, resource, action]
   schema:
-    - action: String #required #max(100)
-    - allowed: Boolean = false
-    - resource: String #required #max(200)
-    - source_id: String? #max(200)
-    - source_type: Direct | Role | Group | Policy = Direct
-    - user_id: Id #required -> User.id
+    - action: string #required #max(100)
+    - allowed: boolean = false
+    - resource: string #required #max(200)
+    - source_id: string? #max(200)
+    - source_type: direct | role | group | policy = direct
+    - user_id: id #required -> user.id

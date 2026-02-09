@@ -1,37 +1,34 @@
-- name: Signing Key
-  type: signing_key
+- name: signing_key
   id: [key_id]
   schema:
-    - algorithm: RsaSha256 | RsaSha512 | EcdsaSha256 | Ed25519 = RsaSha256
-    - created_at: Date = now()
-    - created_by: Id? -> User.id
-    - expires_at: Date?
-    - is_active: Boolean = true
-    - key_id: String #required #unique #max(200)
-    - public_key_fingerprint: String? #max(128)
-    - updated_at: Date = now()
-    - usage: Artifact | Code | Container | Detached = Artifact
+    - algorithm: rsa_sha256 | rsa_sha512 | ecdsa_sha256 | ed25519 = rsa_sha256
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - expires_at: date?
+    - is_active: boolean = true
+    - key_id: string #required #unique #max(200)
+    - public_key_fingerprint: string? #max(128)
+    - updated_at: date = now()
+    - usage: artifact | code | container | detached = artifact
 
-- name: Signature
-  type: signature
+- name: signature
   id: [artifact_hash, key_id]
   schema:
-    - algorithm: String #required #max(50)
-    - artifact_hash: String #required #max(128)
-    - artifact_path: String? #max(2000)
-    - created_at: Date = now()
-    - format: Pkcs7 | Jws | Raw | Pgp | Smime | Cms | Cosign | Notary = Pkcs7
-    - is_valid: Boolean = true
-    - key_id: String #required #max(200)
-    - signer: String? #max(500)
+    - algorithm: string #required #max(50)
+    - artifact_hash: string #required #max(128)
+    - artifact_path: string? #max(2000)
+    - created_at: date = now()
+    - format: pkcs7 | jws | raw | pgp | smime | cms | cosign | notary = pkcs7
+    - is_valid: boolean = true
+    - key_id: string #required #max(200)
+    - signer: string? #max(500)
 
-- name: Signature Verification Log
-  type: signature_verification_log
+- name: signature_verification_log
   id: [signature_id, verified_at]
   schema:
-    - error_message: String? #max(1000)
-    - ip_address: String? #max(45)
-    - is_valid: Boolean = false
-    - signature_id: Id #required -> Signature.id
-    - verified_at: Date = now()
-    - verified_by: Id? -> User.id
+    - error_message: string? #max(1000)
+    - ip_address: string? #max(45)
+    - is_valid: boolean = false
+    - signature_id: id #required -> signature.id
+    - verified_at: date = now()
+    - verified_by: id? -> user.id

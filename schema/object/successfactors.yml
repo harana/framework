@@ -1,80 +1,74 @@
-- name: SuccessFactors Employee
-  type: sf_employee
+- name: sf_employee
   id: [user_id]
   schema:
-    - created_at: Date = now()
-    - department: String? #max(200)
-    - email: String #required #email #max(255)
-    - first_name: String #required #max(100)
-    - hire_date: Date?
-    - job_title: String? #max(200)
-    - last_name: String #required #max(100)
-    - manager_id: String? #max(200)
-    - status: Active | Inactive | Terminated = Active
-    - updated_at: Date = now()
-    - user_id: String #required #unique #max(200)
+    - created_at: date = now()
+    - department: string? #max(200)
+    - email: string #required #email #max(255)
+    - first_name: string #required #max(100)
+    - hire_date: date?
+    - job_title: string? #max(200)
+    - last_name: string #required #max(100)
+    - manager_id: string? #max(200)
+    - status: active | inactive | terminated = active
+    - updated_at: date = now()
+    - user_id: string #required #unique #max(200)
 
-- name: SuccessFactors Job Info
-  type: sf_job_info
+- name: sf_job_info
   id: [employee_id, effective_start_date]
   schema:
-    - cost_center: String? #max(100)
-    - department: String? #max(200)
-    - division: String? #max(200)
-    - effective_start_date: Date #required
-    - employee_id: Id #required -> SfEmployee.id
-    - employment_type: String? #max(100)
-    - job_code: String? #max(100)
-    - job_title: String? #max(200)
-    - location: String? #max(200)
-    - manager_id: String? #max(200)
+    - cost_center: string? #max(100)
+    - department: string? #max(200)
+    - division: string? #max(200)
+    - effective_start_date: date #required
+    - employee_id: id #required -> sf_employee.id
+    - employment_type: string? #max(100)
+    - job_code: string? #max(100)
+    - job_title: string? #max(200)
+    - location: string? #max(200)
+    - manager_id: string? #max(200)
 
-- name: SuccessFactors Compensation
-  type: sf_compensation
+- name: sf_compensation
   id: [employee_id, effective_start_date]
   schema:
     - bonus_target: decimal? #min(0)
-    - currency: String? #max(3)
-    - effective_start_date: Date #required
-    - employee_id: Id #required -> SfEmployee.id
-    - frequency: String? #max(50)
-    - pay_grade: String? #max(50)
-    - pay_type: String? #max(50)
+    - currency: string? #max(3)
+    - effective_start_date: date #required
+    - employee_id: id #required -> sf_employee.id
+    - frequency: string? #max(50)
+    - pay_grade: string? #max(50)
+    - pay_type: string? #max(50)
     - salary: decimal? #min(0)
 
-- name: SuccessFactors Time Off Request
-  type: sf_time_off_request
+- name: sf_time_off_request
   id: [request_id]
   schema:
-    - comment: String? #max(1000)
-    - created_at: Date = now()
+    - comment: string? #max(1000)
+    - created_at: date = now()
     - duration_hours: decimal? #min(0)
-    - duration_type: FullDay | HalfDay | Hours = FullDay
-    - employee_id: Id #required -> SfEmployee.id
-    - end_date: Date #required
-    - request_id: String #required #unique #max(200)
-    - start_date: Date #required
-    - status: Pending | Approved | Rejected | Cancelled = Pending
-    - time_type: String #required #max(100)
-    - updated_at: Date = now()
+    - duration_type: full_day | half_day | hours = full_day
+    - employee_id: id #required -> sf_employee.id
+    - end_date: date #required
+    - request_id: string #required #unique #max(200)
+    - start_date: date #required
+    - status: pending | approved | rejected | cancelled = pending
+    - time_type: string #required #max(100)
+    - updated_at: date = now()
 
-- name: SuccessFactors Time Off Balance
-  type: sf_time_off_balance
+- name: sf_time_off_balance
   id: [employee_id, time_type]
   schema:
-    - as_of_date: Date = now()
+    - as_of_date: date = now()
     - balance: decimal = 0
-    - employee_id: Id #required -> SfEmployee.id
-    - time_type: String #required #max(100)
-    - unit: Days | Hours = Days
+    - employee_id: id #required -> sf_employee.id
+    - time_type: string #required #max(100)
+    - unit: days | hours = days
 
-- name: SuccessFactors Department
-  type: sf_department
+- name: sf_department
   id: [department_id]
   schema:
-    - cost_center: String? #max(100)
-    - department_id: String #required #unique #max(200)
-    - description: String? #max(500)
-    - head_id: String? #max(200)
-    - name: String #required #max(200)
-    - parent_id: String? #max(200)
+    - cost_center: string? #max(100)
+    - department_id: string #required #unique #max(200)
+    - description: string? #max(500)
+    - head_id: string? #max(200)
+    - name: string #required #max(200)
+    - parent_id: string? #max(200)

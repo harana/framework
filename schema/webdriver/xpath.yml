@@ -1,0 +1,51 @@
+
+- name: x_path_entry
+  schema:
+    - description: string
+    - label: string
+    - xpath: string
+
+- name: x_path_collection
+  schema:
+    - entry_count: int
+    - name: string
+
+- name: x_path_text_result
+  schema:
+    - error: string
+    - found: boolean
+    - texts: list[string]
+    - total: int
+    - xpath: string
+
+- name: x_path_attribute_result
+  schema:
+    - attribute: string
+    - error: string
+    - found: boolean
+    - total: int
+    - values: list[string]
+    - xpath: string
+
+- name: x_path_test_result
+  schema:
+    - count: int
+    - found: boolean
+    - xpath: string
+
+- name: x_path_count_result
+  schema:
+    - count: int
+    - xpath: string
+
+- name: x_path_action_result
+  schema:
+    - affected: int
+    - error: string
+    - success: boolean
+    - xpath: string
+
+- name: x_path_keys_input
+  schema:
+    - keys: string
+    - xpath: string

@@ -1,0 +1,105 @@
+- name: aws_rds_instance
+  id: [account_id, db_instance_identifier]
+  schema:
+    - account_id: string #required #max(20)
+    - allocated_storage: int? #min(0)
+    - auto_minor_version_upgrade: boolean = true
+    - availability_zone: string? #max(100)
+    - backup_retention_period: int = 1 #min(0) #max(35)
+    - ca_certificate_identifier: string? #max(255)
+    - created_at: date = now()
+    - db_cluster_identifier: string? #max(63)
+    - db_instance_class: string #required #max(50)
+    - db_instance_identifier: string #required #unique #max(63)
+    - db_name: string? #max(64)
+    - db_subnet_group_name: string? #max(255)
+    - deletion_protection: boolean = false
+    - endpoint_address: string? #max(255)
+    - endpoint_port: int? #min(0)
+    - engine: string #required #max(50)
+    - engine_version: string? #max(50)
+    - iam_auth_enabled: boolean = false
+    - iops: int? #min(0)
+    - kms_key_id: string? #max(255)
+    - master_username: string? #max(128)
+    - multi_az: boolean = false
+    - performance_insights_enabled: boolean = false
+    - port: int? #min(0)
+    - publicly_accessible: boolean = false
+    - region: string? #max(50)
+    - status: available | backing-up | creating | deleting | failed | modifying | rebooting | starting | stopped | stopping | storage_optimization = creating
+    - storage_encrypted: boolean = false
+    - storage_type: standard | gp2 | gp3 | io1 | io2 = gp2
+    - tags: string? # json
+    - updated_at: date = now()
+
+- name: aws_rds_cluster
+  id: [account_id, db_cluster_identifier]
+  schema:
+    - account_id: string #required #max(20)
+    - availability_zones: string? # json list
+    - backup_retention_period: int = 1 #min(0) #max(35)
+    - created_at: date = now()
+    - database_name: string? #max(64)
+    - db_cluster_identifier: string #required #unique #max(63)
+    - deletion_protection: boolean = false
+    - endpoint: string? #max(255)
+    - engine: string #required #max(50)
+    - engine_mode: provisioned | serverless = provisioned
+    - engine_version: string? #max(50)
+    - iam_auth_enabled: boolean = false
+    - kms_key_id: string? #max(255)
+    - master_username: string? #max(128)
+    - multi_az: boolean = false
+    - port: int? #min(0)
+    - reader_endpoint: string? #max(255)
+    - region: string? #max(50)
+    - status: available | creating | deleting | failed | migrating | modifying = creating
+    - storage_encrypted: boolean = false
+    - tags: string? # json
+    - updated_at: date = now()
+
+- name: aws_rds_subnet_group
+  id: [account_id, db_subnet_group_name]
+  schema:
+    - account_id: string #required #max(20)
+    - created_at: date = now()
+    - db_subnet_group_description: string? #max(500)
+    - db_subnet_group_name: string #required #unique #max(255)
+    - region: string? #max(50)
+    - status: string? #max(50)
+    - subnet_ids: string? # json list
+    - tags: string? # json
+    - updated_at: date = now()
+    - vpc_id: string? #max(30)
+
+- name: aws_rds_parameter_group
+  id: [account_id, db_parameter_group_name]
+  schema:
+    - account_id: string #required #max(20)
+    - created_at: date = now()
+    - db_parameter_group_family: string? #max(50)
+    - db_parameter_group_name: string #required #unique #max(255)
+    - description: string? #max(500)
+    - region: string? #max(50)
+    - tags: string? # json
+    - updated_at: date = now()
+
+- name: aws_rds_snapshot
+  id: [account_id, db_snapshot_identifier]
+  schema:
+    - account_id: string #required #max(20)
+    - allocated_storage: int? #min(0)
+    - availability_zone: string? #max(100)
+    - created_at: date = now()
+    - db_instance_identifier: string? #max(63)
+    - db_snapshot_identifier: string #required #unique #max(255)
+    - encrypted: boolean = false
+    - engine: string? #max(50)
+    - engine_version: string? #max(50)
+    - kms_key_id: string? #max(255)
+    - region: string? #max(50)
+    - snapshot_type: automated | manual | shared | public = manual
+    - status: available | creating | deleting | failed = creating
+    - storage_type: string? #max(50)
+    - tags: string? # json

@@ -1,28 +1,25 @@
-- name: Input Cleared
-  type: input_cleared
+- name: input_cleared
   schema:
-    input_id: Id #required
-    input_name: String?
-    input_type: Text | Email | Password | Number | Tel | Url | Search = Text
-    previous_value: String?
-    cleared_at: Date = now()
+    input_id: id #required
+    input_name: string?
+    input_type: text | email | password | number | tel | url | search = text
+    previous_value: string?
+    cleared_at: date = now()
 
-- name: Textarea Resized
-  type: textarea_resized
+- name: textarea_resized
   schema:
-    textarea_id: Id #required
-    textarea_name: String?
+    textarea_id: id #required
+    textarea_name: string?
     old_width: int? #min(0)
     old_height: int? #min(0)
     new_width: int? #min(0)
     new_height: int? #min(0)
-    resized_at: Date = now()
+    resized_at: date = now()
 
-- name: Character Limit Reached
-  type: character_limit_reached
+- name: character_limit_reached
   schema:
-    input_id: Id #required
-    input_name: String?
+    input_id: id #required
+    input_name: string?
     character_limit: int #required #min(1)
     current_length: int #required #min(0)
-    reached_at: Date = now()
+    reached_at: date = now()

@@ -1,31 +1,28 @@
-- name: Webhook
-  type: webhook
+- name: webhook
   schema:
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - is_active: Boolean = true
-    - secret: String? #max(500) #encrypted
-    - updated_at: Date = now()
-    - url: String #required #url
+    - created_at: date = now()
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - secret: string? #max(500) #encrypted
+    - updated_at: date = now()
+    - url: string #required #url
 
-- name: Webhook Delivery
-  type: webhook_delivery
+- name: webhook_delivery
   id: [webhook_id, event_type, created_at]
   schema:
-    - created_at: Date = now()
-    - event_type: String #required #max(100)
-    - payload: String #required
-    - request_headers: String?
-    - response_body: String?
+    - created_at: date = now()
+    - event_type: string #required #max(100)
+    - payload: string #required
+    - request_headers: string?
+    - response_body: string?
     - response_code: int?
-    - response_headers: String?
+    - response_headers: string?
     - retry_count: int = 0 #min(0)
-    - status: Pending | Delivered | Failed = Pending
-    - webhook_id: Id #required -> Webhook.id
+    - status: pending | delivered | failed = pending
+    - webhook_id: id #required -> webhook.id
 
-- name: Webhook Event
-  type: webhook_event
+- name: webhook_event
   schema:
-    - description: String? #max(500)
-    - is_active: Boolean = true
-    - payload_schema: String?
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - payload_schema: string?

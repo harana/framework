@@ -1,6 +1,5 @@
-- name: Navbar Spacer Component
-  type: navbar_spacer
+- name: navbar_spacer
   id: [navbar_id, name]
   attributes:
-    - navbar_id: Id #required -> UINavbar.id
+    - navbar_id: id #required -> ui_navbar.id
     - order: int = 0 #min(0)

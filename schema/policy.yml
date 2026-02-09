@@ -1,0 +1,49 @@
+- name: policy
+  schema:
+    - actions: string #required # j_s_o_n array
+    - conditions: string? # j_s_o_n conditions
+    - created_at: date = now()
+    - description: string? #max(500)
+    - effect: allow | deny = allow
+    - is_active: boolean = true
+    - name: string #required #unique #max(200)
+    - resources: string #required # j_s_o_n array
+    - updated_at: date = now()
+
+- name: policy_attachment
+  id: [policy_id, entity_id, entity_type]
+  schema:
+    - attached_at: date = now()
+    - attached_by: id? -> user.id
+    - entity_id: id #required
+    - entity_type: user | role | group = user
+    - policy_id: id #required -> policy.id
+- name: policy_evaluation_log
+  id: [policy_id, evaluated_at]
+  schema:
+    - action: string #required #max(200)
+    - allowed: boolean = false
+    - evaluated_at: date = now()
+    - policy_id: id #required -> policy.id
+    - reason: string? #max(500)
+    - resource: string #required #max(200)
+    - user_id: id? -> user.id
+
+- name: policy_conditions
+  schema:
+    - conditions: map[string, any]
+
+- name: policy_info
+  schema:
+    - policy_id: string
+    - name: string
+    - description: string
+    - effect: string
+
+- name: policy_evaluation_context
+  schema:
+    - values: map[string, any]
+
+- name: policy_evaluated_conditions
+  schema:
+    - results: map[string, boolean]

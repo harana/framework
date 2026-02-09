@@ -1,5 +1,3 @@
-// Harana Components - Lock Tests
-
 use super::*;
 use async_trait::async_trait;
 use harana_components_storage::{FilterCondition, QueueMessage, QueryOptions, StorageError, StorageResult, Store};

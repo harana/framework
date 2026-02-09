@@ -1,0 +1,67 @@
+- name: text
+  inputs:
+    element_id: string #required    session_id: string #required  outputs:
+    text: string
+
+- name: attr
+  inputs:
+    attribute: string #required    element_id: string #required    session_id: string #required  outputs:
+    value: string
+
+- name: prop
+  inputs:
+    element_id: string #required    property: string #required    session_id: string #required  outputs:
+    value: string
+
+- name: css_value
+  inputs:
+    element_id: string #required    property: string #required    session_id: string #required  outputs:
+    value: string
+
+- name: tag_name
+  inputs:
+    element_id: string #required    session_id: string #required  outputs:
+    tag_name: string
+
+- name: rect
+  inputs:
+    element_id: string #required    session_id: string #required  outputs:
+    height: float
+    width: float
+    x: float
+    y: float
+
+- name: inner_html
+  inputs:
+    element_id: string #required    session_id: string #required  outputs:
+    html: string
+
+- name: outer_html
+  inputs:
+    element_id: string #required    session_id: string #required  outputs:
+    html: string
+
+- name: is_displayed
+  inputs:
+    element_id: string #required    session_id: string #required  outputs:
+    displayed: boolean
+
+- name: is_enabled
+  inputs:
+    element_id: string #required    session_id: string #required  outputs:
+    enabled: boolean
+
+- name: is_selected
+  inputs:
+    element_id: string #required    session_id: string #required  outputs:
+    selected: boolean
+
+- name: is_clickable
+  inputs:
+    element_id: string #required    session_id: string #required  outputs:
+    clickable: boolean
+
+- name: is_present
+  inputs:
+    element_id: string #required    session_id: string #required  outputs:
+    present: boolean

@@ -1,77 +1,73 @@
-- name: AWS Route53 Hosted Zone
-  type: aws_route53_hosted_zone
+- name: aws_route53_hosted_zone
   id: [account_id, hosted_zone_id]
   schema:
-    - account_id: String #required #max(20)
-    - caller_reference: String? #max(128)
-    - comment: String? #max(256)
-    - created_at: Date = now()
-    - hosted_zone_id: String #required #unique #max(32)
-    - is_private: Boolean = false
-    - name: String #required #max(255)
-    - name_servers: String? # JSON list
+    - account_id: string #required #max(20)
+    - caller_reference: string? #max(128)
+    - comment: string? #max(256)
+    - created_at: date = now()
+    - hosted_zone_id: string #required #unique #max(32)
+    - is_private: boolean = false
+    - name: string #required #max(255)
+    - name_servers: string? # json list
     - record_set_count: int = 0 #min(0)
-    - region: String? #max(50)
-    - tags: String? # JSON
-    - updated_at: Date = now()
+    - region: string? #max(50)
+    - tags: string? # json
+    - updated_at: date = now()
 
-- name: AWS Route53 Record Set
-  type: aws_route53_record_set
+- name: aws_route53_record_set
   id: [hosted_zone_id, name, type]
   schema:
-    - alias_dns_name: String? #max(255)
-    - alias_evaluate_target_health: Boolean = false
-    - alias_hosted_zone_id: String? #max(32)
-    - created_at: Date = now()
-    - failover: Primary | Secondary?
-    - health_check_id: String? #max(64)
-    - hosted_zone_id: Id #required -> AwsRoute53HostedZone.id
-    - multi_value_answer: Boolean = false
-    - name: String #required #max(255)
-    - region: String? #max(50)
-    - resource_records: String? # JSON list
-    - set_identifier: String? #max(128)
+    - alias_dns_name: string? #max(255)
+    - alias_evaluate_target_health: boolean = false
+    - alias_hosted_zone_id: string? #max(32)
+    - created_at: date = now()
+    - failover: primary | secondary?
+    - health_check_id: string? #max(64)
+    - hosted_zone_id: id #required -> aws_route53_hosted_zone.id
+    - multi_value_answer: boolean = false
+    - name: string #required #max(255)
+    - region: string? #max(50)
+    - resource_records: string? # json list
+    - set_identifier: string? #max(128)
     - ttl: int? #min(0)
-    - type: A | AAAA | CAA | CNAME | DS | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT #required
-    - updated_at: Date = now()
+    - type: A | aaaa | caa | cname | ds | mx | naptr | ns | ptr | soa | spf | srv | txt #required
+    - updated_at: date = now()
     - weight: int? #min(0) #max(255)
 
-- name: AWS Route53 Health Check
-  type: aws_route53_health_check
+- name: aws_route53_health_check
   id: [account_id, health_check_id]
   schema:
-    - account_id: String #required #max(20)
-    - created_at: Date = now()
-    - disabled: Boolean = false
-    - enable_sni: Boolean = true
+    - account_id: string #required #max(20)
+    - created_at: date = now()
+    - disabled: boolean = false
+    - enable_sni: boolean = true
     - failure_threshold: int = 3 #min(1) #max(10)
-    - fqdn: String? #max(255)
-    - health_check_id: String #required #unique #max(64)
+    - fqdn: string? #max(255)
+    - health_check_id: string #required #unique #max(64)
     - health_threshold: int? #min(0) #max(256)
-    - insufficient_data_health_status: Healthy | Unhealthy | LastKnownStatus = Healthy
-    - inverted: Boolean = false
-    - ip_address: String? #max(45)
+    - insufficient_data_health_status: healthy | unhealthy | last_known_status = healthy
+    - inverted: boolean = false
+    - ip_address: string? #max(45)
     - port: int? #min(1) #max(65535)
-    - region: String? #max(50)
+    - region: string? #max(50)
     - request_interval: int = 30 #min(10) #max(30)
-    - resource_path: String? #max(255)
-    - search_string: String? #max(255)
-    - status: Healthy | Unhealthy = Healthy
-    - tags: String? # JSON
-    - type: HTTP | HTTPS | HTTP_STR_MATCH | HTTPS_STR_MATCH | TCP | CALCULATED | CLOUDWATCH_METRIC = HTTP
-    - updated_at: Date = now()
+    - resource_path: string? #max(255)
+    - search_string: string? #max(255)
+    - status: healthy | unhealthy = healthy
+    - tags: string? # json
+    - type: http | https | HTTP_STR_MATCH | HTTPS_STR_MATCH | tcp | calculated | CLOUDWATCH_METRIC = http
+    - updated_at: date = now()
 
-- name: AWS Route53 Traffic Policy
-  type: aws_route53_traffic_policy
+- name: aws_route53_traffic_policy
   id: [account_id, traffic_policy_id, version]
   schema:
-    - account_id: String #required #max(20)
-    - comment: String? #max(256)
-    - created_at: Date = now()
-    - document: String #required
-    - name: String #required #max(255)
-    - region: String? #max(50)
-    - traffic_policy_id: String #required #max(36)
-    - type: A | AAAA | CNAME | MX | TXT #required
-    - updated_at: Date = now()
+    - account_id: string #required #max(20)
+    - comment: string? #max(256)
+    - created_at: date = now()
+    - document: string #required
+    - name: string #required #max(255)
+    - region: string? #max(50)
+    - traffic_policy_id: string #required #max(36)
+    - type: A | aaaa | cname | mx | txt #required
+    - updated_at: date = now()
     - version: int #required #min(1)

@@ -1,0 +1,102 @@
+- name: schedule
+  schema:
+    - action_config: map[string, any]
+    - action_type: string
+    - created_at: date = now()
+    - cron_expression: string? #max(100)
+    - description: string?
+    - end_at: date?
+    - execution_count: int = 0 #min(0)
+    - interval_seconds: int? #min(1)
+    - last_run_at: date?
+    - max_executions: int?
+    - metadata: map[string, any]
+    - name: string #required #unique #max(200)
+    - next_run_at: date?
+    - owner_id: string?
+    - resume_at: date?
+    - retry_config: retry_config
+    - run_at: date?
+    - schedule_type: cron | interval | one_time = cron
+    - start_at: date?
+    - status: active | paused | disabled | completed | expired = active
+    - tags: list[string]
+    - timezone: string = u_t_c #max(50)
+    - updated_at: date = now()
+    - version: int = 1 #min(1)
+
+- name: schedule_status
+  schema:
+    - value: active | paused | disabled | completed | expired = active
+
+- name: schedule_type
+  schema:
+    - value: cron | interval | one_time = cron
+
+- name: schedule_execution_history
+  schema:
+    - completed_at: date?
+    - created_at: date = now()
+    - duration_ms: int? #min(0)
+    - error: string?
+    - job_id: id #required -> job.id
+    - retry_attempt: int = 0 #min(0)
+    - schedule_id: id #required -> schedule.id
+    - scheduled_at: date #required
+    - started_at: date?
+    - status: pending | running | completed | failed | cancelled | timed_out | retrying = pending
+    - worker_id: string?
+
+- name: schedule_retry_config
+  schema:
+    - initial_delay_secs: int = 10 #min(1)
+    - jitter: boolean = true
+    - max_delay_secs: int = 3600 #min(1)
+    - max_retries: int = 3 #min(0)
+    - multiplier: float = 2.0
+    - strategy: fixed | linear | exponential = exponential
+
+- name: schedule_backoff_strategy
+  schema:
+    - value: fixed | linear | exponential = exponential
+
+- name: schedule_query
+  schema:
+    - due_before: date?
+    - limit: int?
+    - offset: int?
+    - owner_id: string?
+    - schedule_type: cron | interval | one_time?
+    - search: string?
+    - status: active | paused | disabled | completed | expired?
+    - tags: list[string]?
+
+- name: schedule_stats
+  schema:
+    - average_duration_ms: float?
+    - failed_executions: int = 0
+    - last_execution_at: date?
+    - next_execution_at: date?
+    - successful_executions: int = 0
+    - total_executions: int = 0
+
+- name: schedule_scheduler_config
+  schema:
+    - auto_create_jobs: boolean = true
+    - batch_size: int = 100 #min(1)
+    - cleanup_interval_secs: int = 3600 #min(1)
+    - history_retention_days: int = 30 #min(1)
+    - lock_duration_secs: int = 300 #min(1)
+    - max_concurrent_jobs: int = 10 #min(1)
+    - poll_interval_secs: int = 10 #min(1)
+    - stale_check_interval_secs: int = 60 #min(1)
+    - stale_threshold_secs: int = 600 #min(1)
+    - worker_id: string #required
+- name: schedule_info
+  schema:
+    - cron_expression: string?
+    - enabled: boolean
+    - last_run: int?
+    - name: string
+    - next_run: int?
+    - schedule_id: string

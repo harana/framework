@@ -1,72 +1,64 @@
-- name: Invoke Worker Fetch
-  method: fetch
+- name: fetch
   inputs:
-    body: Any
-    headers: Headers
-    method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
-    service_binding: String #required
-    url: String #required
+    body: any
+    headers: headers
+    method: get | post | put | patch | delete | head | options = get
+    service_binding: string #required
+    url: string #required
   outputs:
-    body: Any
-    headers: Headers
-    status_code: Int
+    body: any
+    headers: headers
+    status_code: int
 
-- name: Get Worker Environment Variable
-  method: get_var
+- name: get_var
   inputs:
-    name: String #required
+    name: string #required
   outputs:
-    value: String
+    value: string
 
-- name: Get Worker Secret
-  method: get_secret
+- name: get_secret
   inputs:
-    name: String #required
+    name: string #required
   outputs:
-    value: String
+    value: string
 
-- name: Schedule Worker Cron Trigger
-  method: scheduled
+- name: scheduled
   inputs:
-    cron: String #required
-    service_binding: String #required
+    cron: string #required
+    service_binding: string #required
   outputs:
-    scheduled_time: Date
-    success: Boolean
+    scheduled_time: date
+    success: boolean
 
-- name: Worker Wait Until
-  method: wait_until
+- name: wait_until
   inputs:
-    promise: Any #required
+    promise: any #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Worker Pass Through
-  method: pass_through
+- name: pass_through
   inputs:
-    request: Any #required
+    request: any #required
   outputs:
-    response: Any
+    response: any
 
-- name: Fetch External Service Binding
-  method: service_binding_fetch
+- name: service_binding_fetch
   inputs:
-    body: Any
-    headers: Headers
-    method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
-    service: String #required
-    url: String #required
+    body: any
+    headers: headers
+    method: get | post | put | patch | delete | head | options = get
+    service: string #required
+    url: string #required
   outputs:
-    body: Any
-    headers: Headers
-    status_code: Int
+    body: any
+    headers: headers
+    status_code: int
 
-- name: Get Worker Version Metadata
-  method: get_version
+- name: get_version
   inputs:
-    binding: String #required
+    binding: string #required
   outputs:
-    id: String
-    message: String
-    tag: String
-    timestamp: Date
+    id: string
+    message: string
+    tag: string
+    timestamp: date

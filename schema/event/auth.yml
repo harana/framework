@@ -1,191 +1,172 @@
-- name: Auth Registration Started
-  type: auth_registration_started
+- name: auth_registration_started
   schema:
-    user_id: Id?
-    email: String #required
-    username: String?
-    client_ip: String?
-    user_agent: String?
-    started_at: Date = now()
+    user_id: id?
+    email: string #required
+    username: string?
+    client_ip: string?
+    user_agent: string?
+    started_at: date = now()
 
-- name: Auth Registration Completed
-  type: auth_registration_completed
+- name: auth_registration_completed
   schema:
-    user_id: Id #required
-    email: String #required
-    username: String?
-    passkey_credential_id: String #required
-    client_ip: String?
-    user_agent: String?
-    completed_at: Date = now()
+    user_id: id #required
+    email: string #required
+    username: string?
+    passkey_credential_id: string #required
+    client_ip: string?
+    user_agent: string?
+    completed_at: date = now()
 
-- name: Auth Registration Failed
-  type: auth_registration_failed
+- name: auth_registration_failed
   schema:
-    email: String #required
-    reason: InvalidEmail | EmailExists | PasskeyCreationFailed | Timeout | UserCancelled | InvalidAttestation | Other = Other
-    error_message: String?
-    client_ip: String?
-    user_agent: String?
-    failed_at: Date = now()
+    email: string #required
+    reason: invalid_email | email_exists | passkey_creation_failed | timeout | user_cancelled | invalid_attestation | other = other
+    error_message: string?
+    client_ip: string?
+    user_agent: string?
+    failed_at: date = now()
 
-- name: Auth Login Started
-  type: auth_login_started
+- name: auth_login_started
   schema:
-    user_id: Id?
-    email: String?
-    username: String?
-    client_ip: String?
-    user_agent: String?
-    started_at: Date = now()
+    user_id: id?
+    email: string?
+    username: string?
+    client_ip: string?
+    user_agent: string?
+    started_at: date = now()
 
-- name: Auth Login Completed
-  type: auth_login_completed
+- name: auth_login_completed
   schema:
-    user_id: Id #required
-    email: String?
-    passkey_credential_id: String #required
-    session_id: Id #required
-    client_ip: String?
-    user_agent: String?
-    completed_at: Date = now()
+    user_id: id #required
+    email: string?
+    passkey_credential_id: string #required
+    session_id: id #required
+    client_ip: string?
+    user_agent: string?
+    completed_at: date = now()
 
-- name: Auth Login Failed
-  type: auth_login_failed
+- name: auth_login_failed
   schema:
-    user_id: Id?
-    email: String?
-    reason: UserNotFound | PasskeyNotFound | PasskeyVerificationFailed | Timeout | UserCancelled | InvalidAssertion | AccountLocked | Other = Other
-    error_message: String?
-    client_ip: String?
-    user_agent: String?
-    failed_at: Date = now()
+    user_id: id?
+    email: string?
+    reason: user_not_found | passkey_not_found | passkey_verification_failed | timeout | user_cancelled | invalid_assertion | account_locked | other = other
+    error_message: string?
+    client_ip: string?
+    user_agent: string?
+    failed_at: date = now()
 
-- name: Auth Logout
-  type: auth_logout
+- name: auth_logout
   schema:
-    user_id: Id #required
-    session_id: Id #required
-    reason: UserInitiated | SessionExpired | Forced | Other = UserInitiated
-    client_ip: String?
-    user_agent: String?
-    logged_out_at: Date = now()
+    user_id: id #required
+    session_id: id #required
+    reason: user_initiated | session_expired | forced | other = user_initiated
+    client_ip: string?
+    user_agent: string?
+    logged_out_at: date = now()
 
-- name: Auth Passkey Created
-  type: auth_passkey_created
+- name: auth_passkey_created
   schema:
-    user_id: Id #required
-    passkey_credential_id: String #required
-    passkey_name: String?
-    authenticator_type: Platform | CrossPlatform = Platform
-    discoverable: Boolean = true
-    client_ip: String?
-    user_agent: String?
-    created_at: Date = now()
+    user_id: id #required
+    passkey_credential_id: string #required
+    passkey_name: string?
+    authenticator_type: platform | cross_platform = platform
+    discoverable: boolean = true
+    client_ip: string?
+    user_agent: string?
+    created_at: date = now()
 
-- name: Auth Passkey Removed
-  type: auth_passkey_removed
+- name: auth_passkey_removed
   schema:
-    user_id: Id #required
-    passkey_credential_id: String #required
-    passkey_name: String?
-    removed_by: User | Admin | System = User
-    reason: UserRequested | Security | LostDevice | Other = UserRequested
-    client_ip: String?
-    removed_at: Date = now()
+    user_id: id #required
+    passkey_credential_id: string #required
+    passkey_name: string?
+    removed_by: user | admin | system = user
+    reason: user_requested | security | lost_device | other = user_requested
+    client_ip: string?
+    removed_at: date = now()
 
-- name: Auth Passkey Used
-  type: auth_passkey_used
+- name: auth_passkey_used
   schema:
-    user_id: Id #required
-    passkey_credential_id: String #required
-    passkey_name: String?
-    purpose: Login | Reauthentication | TransactionConfirmation = Login
-    client_ip: String?
-    user_agent: String?
-    used_at: Date = now()
+    user_id: id #required
+    passkey_credential_id: string #required
+    passkey_name: string?
+    purpose: login | reauthentication | transaction_confirmation = login
+    client_ip: string?
+    user_agent: string?
+    used_at: date = now()
 
-- name: Auth Session Created
-  type: auth_session_created
+- name: auth_session_created
   schema:
-    user_id: Id #required
-    session_id: Id #required
-    expires_at: Date #required
-    client_ip: String?
-    user_agent: String?
-    created_at: Date = now()
+    user_id: id #required
+    session_id: id #required
+    expires_at: date #required
+    client_ip: string?
+    user_agent: string?
+    created_at: date = now()
 
-- name: Auth Session Expired
-  type: auth_session_expired
+- name: auth_session_expired
   schema:
-    user_id: Id #required
-    session_id: Id #required
-    reason: Timeout | MaxAge | Inactivity = Timeout
-    expired_at: Date = now()
+    user_id: id #required
+    session_id: id #required
+    reason: timeout | max_age | inactivity = timeout
+    expired_at: date = now()
 
-- name: Auth Session Revoked
-  type: auth_session_revoked
+- name: auth_session_revoked
   schema:
-    user_id: Id #required
-    session_id: Id #required
-    revoked_by: User | Admin | System = User
-    reason: Logout | Security | PasswordChange | Other = Logout
-    client_ip: String?
-    revoked_at: Date = now()
+    user_id: id #required
+    session_id: id #required
+    revoked_by: user | admin | system = user
+    reason: logout | security | password_change | other = logout
+    client_ip: string?
+    revoked_at: date = now()
 
-- name: Auth Challenge Created
-  type: auth_challenge_created
+- name: auth_challenge_created
   schema:
-    user_id: Id?
-    challenge_id: Id #required
-    challenge_type: Registration | Authentication = Authentication
-    expires_at: Date #required
-    client_ip: String?
-    created_at: Date = now()
+    user_id: id?
+    challenge_id: id #required
+    challenge_type: registration | authentication = authentication
+    expires_at: date #required
+    client_ip: string?
+    created_at: date = now()
 
-- name: Auth Challenge Completed
-  type: auth_challenge_completed
+- name: auth_challenge_completed
   schema:
-    user_id: Id?
-    challenge_id: Id #required
-    challenge_type: Registration | Authentication = Authentication
-    success: Boolean #required
-    client_ip: String?
-    completed_at: Date = now()
+    user_id: id?
+    challenge_id: id #required
+    challenge_type: registration | authentication = authentication
+    success: boolean #required
+    client_ip: string?
+    completed_at: date = now()
 
-- name: Auth Account Locked
-  type: auth_account_locked
+- name: auth_account_locked
   schema:
-    user_id: Id #required
-    reason: FailedAttempts | SuspiciousActivity | AdminAction | PolicyViolation = FailedAttempts
+    user_id: id #required
+    reason: failed_attempts | suspicious_activity | admin_action | policy_violation = failed_attempts
     failed_attempts: int? #min(0)
-    locked_until: Date?
-    locked_by: System | Admin = System
-    locked_at: Date = now()
+    locked_until: date?
+    locked_by: system | admin = system
+    locked_at: date = now()
 
-- name: Auth Account Unlocked
-  type: auth_account_unlocked
+- name: auth_account_unlocked
   schema:
-    user_id: Id #required
-    reason: TimeoutExpired | AdminAction | UserVerification = TimeoutExpired
-    unlocked_by: System | Admin | User = System
-    unlocked_at: Date = now()
+    user_id: id #required
+    reason: timeout_expired | admin_action | user_verification = timeout_expired
+    unlocked_by: system | admin | user = system
+    unlocked_at: date = now()
 
-- name: Auth Reauthentication Required
-  type: auth_reauthentication_required
+- name: auth_reauthentication_required
   schema:
-    user_id: Id #required
-    session_id: Id #required
-    reason: SensitiveAction | SessionAge | Policy = SensitiveAction
-    action_requested: String?
-    required_at: Date = now()
+    user_id: id #required
+    session_id: id #required
+    reason: sensitive_action | session_age | policy = sensitive_action
+    action_requested: string?
+    required_at: date = now()
 
-- name: Auth Reauthentication Completed
-  type: auth_reauthentication_completed
+- name: auth_reauthentication_completed
   schema:
-    user_id: Id #required
-    session_id: Id #required
-    passkey_credential_id: String #required
-    action_requested: String?
-    client_ip: String?
-    completed_at: Date = now()
+    user_id: id #required
+    session_id: id #required
+    passkey_credential_id: string #required
+    action_requested: string?
+    client_ip: string?
+    completed_at: date = now()

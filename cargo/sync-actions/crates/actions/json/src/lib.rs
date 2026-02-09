@@ -1,6 +1,3 @@
-// Harana Actions - Json Module
-// This module provides json actions and functionality.
-
 pub mod output;
 
 use std::collections::HashMap;

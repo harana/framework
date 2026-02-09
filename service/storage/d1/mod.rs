@@ -1,14 +1,3 @@
-// Harana Components - Cloudflare D1 Storage Implementation (ORM-style)
-//
-// Maps entities directly to D1 tables using `sqlx_d1::FromRow`. Entity struct
-// fields correspond 1:1 with table columns — no JSON serialization layer.
-//
-// Usage:
-//   1. Derive `sqlx_d1::FromRow` on your entity struct.
-//   2. Ensure `Entity::entity_type()` returns the table name.
-//   3. Struct field names must match column names (use `#[sqlx(rename = "...")]`
-//      if they differ).
-
 mod query_builder;
 
 use async_trait::async_trait;
@@ -17,7 +6,7 @@ use sqlx_d1::D1Connection;
 use sqlx_d1::sqlx_core::database::Database;
 use std::marker::PhantomData;
 
-use crate::{Entity, FilterCondition, QueueMessage, QueryOptions, StorageError, StorageResult, Store};
+use crate::{Entity, FilterCondition, QueryOptions, QueueMessage, StorageError, StorageResult, Store};
 use query_builder::D1QueryBuilder;
 
 /// Re-export `sqlx_d1::FromRow` so consumers can derive it alongside `Entity`.
@@ -27,42 +16,6 @@ pub use sqlx_d1::FromRow;
 ///
 /// This extends the base `Entity` trait with D1-specific column metadata so that
 /// INSERT / UPDATE statements can be generated at runtime without JSON roundtrips.
-///
-/// # Example
-///
-/// ```ignore
-/// use sqlx_d1::FromRow;
-/// use harana_components_storage::{Entity, d1::D1Entity};
-///
-/// #[derive(Debug, Clone, serde::Serialize, serde::Deserialize, FromRow)]
-/// pub struct User {
-///     pub id: String,
-///     pub name: String,
-///     pub email: String,
-///     pub active: bool,
-/// }
-///
-/// impl Entity for User {
-///     fn id(&self) -> &str { &self.id }
-///     fn entity_type() -> &'static str { "users" }
-/// }
-///
-/// impl D1Entity for User {
-///     fn columns() -> &'static [&'static str] {
-///         &["id", "name", "email", "active"]
-///     }
-///
-///     fn bind_column(&self, col: &str) -> D1BindValue {
-///         match col {
-///             "id" => D1BindValue::Text(self.id.clone()),
-///             "name" => D1BindValue::Text(self.name.clone()),
-///             "email" => D1BindValue::Text(self.email.clone()),
-///             "active" => D1BindValue::Bool(self.active),
-///             _ => D1BindValue::Null,
-///         }
-///     }
-/// }
-/// ```
 pub trait D1Entity: Entity {
     /// Returns the ordered list of column names that map to struct fields.
     /// The first column should be `"id"`.
@@ -130,16 +83,10 @@ impl<T: Entity> D1Store<T> {
     }
 
     /// Creates a new D1 store from a `worker::Env` D1 binding name.
-    pub fn from_env(
-        env: &worker::Env,
-        binding: &str,
-        table_name: impl Into<String>,
-    ) -> StorageResult<Self> {
+    pub fn from_env(env: &worker::Env, binding: &str, table_name: impl Into<String>) -> StorageResult<Self> {
         let d1 = env
             .d1(binding)
-            .map_err(|e| StorageError::ConnectionError(format!(
-                "Failed to get D1 binding '{}': {}", binding, e
-            )))?;
+            .map_err(|e| StorageError::ConnectionError(format!("Failed to get D1 binding '{}': {}", binding, e)))?;
         let conn = D1Connection::new(d1);
         Ok(Self::new(conn, table_name))
     }
@@ -213,11 +160,7 @@ where
 
     async fn create(&self, entity: &T) -> StorageResult<()> {
         let cols = T::columns();
-        let col_list = cols
-            .iter()
-            .map(|c| format!("\"{}\"", c))
-            .collect::<Vec<_>>()
-            .join(", ");
+        let col_list = cols.iter().map(|c| format!("\"{}\"", c)).collect::<Vec<_>>().join(", ");
         let placeholders = cols.iter().map(|_| "?").collect::<Vec<_>>().join(", ");
 
         let sql = format!(
@@ -255,10 +198,7 @@ where
     }
 
     async fn find_by_id(&self, id: &str) -> StorageResult<Option<T>> {
-        let sql = format!(
-            "SELECT * FROM \"{}\" WHERE \"id\" = ? LIMIT 1",
-            self.table_name
-        );
+        let sql = format!("SELECT * FROM \"{}\" WHERE \"id\" = ? LIMIT 1", self.table_name);
 
         sqlx_d1::query_as::<T>(&sql)
             .bind(id)
@@ -267,11 +207,7 @@ where
             .map_err(|e| StorageError::QueryError(format!("Failed to find entity by id: {}", e)))
     }
 
-    async fn find_many(
-        &self,
-        filter: Option<FilterCondition>,
-        options: QueryOptions,
-    ) -> StorageResult<Vec<T>> {
+    async fn find_many(&self, filter: Option<FilterCondition>, options: QueryOptions) -> StorageResult<Vec<T>> {
         let mut builder = D1QueryBuilder::new();
         let mut sql = format!("SELECT * FROM \"{}\"", self.table_name);
 
@@ -336,10 +272,7 @@ where
             .collect::<Vec<_>>()
             .join(", ");
 
-        let sql = format!(
-            "UPDATE \"{}\" SET {} WHERE \"id\" = ?",
-            self.table_name, set_clause
-        );
+        let sql = format!("UPDATE \"{}\" SET {} WHERE \"id\" = ?", self.table_name, set_clause);
 
         let mut query = sqlx_d1::query(&sql);
         // Bind SET values
@@ -349,9 +282,10 @@ where
         // Bind WHERE id
         query = query.bind(entity.id().to_string());
 
-        let result = query.execute(&self.conn).await.map_err(|e| {
-            StorageError::QueryError(format!("Failed to update entity: {}", e))
-        })?;
+        let result = query
+            .execute(&self.conn)
+            .await
+            .map_err(|e| StorageError::QueryError(format!("Failed to update entity: {}", e)))?;
 
         if result.rows_affected == 0 {
             return Err(StorageError::NotFound {
@@ -365,11 +299,7 @@ where
 
     async fn upsert(&self, entity: &T) -> StorageResult<()> {
         let cols = T::columns();
-        let col_list = cols
-            .iter()
-            .map(|c| format!("\"{}\"", c))
-            .collect::<Vec<_>>()
-            .join(", ");
+        let col_list = cols.iter().map(|c| format!("\"{}\"", c)).collect::<Vec<_>>().join(", ");
         let placeholders = cols.iter().map(|_| "?").collect::<Vec<_>>().join(", ");
         let update_clause = cols
             .iter()
@@ -388,18 +318,15 @@ where
             query = bind_d1!(query, entity.bind_column(col));
         }
 
-        query.execute(&self.conn).await.map_err(|e| {
-            StorageError::QueryError(format!("Failed to upsert entity: {}", e))
-        })?;
+        query
+            .execute(&self.conn)
+            .await
+            .map_err(|e| StorageError::QueryError(format!("Failed to upsert entity: {}", e)))?;
 
         Ok(())
     }
 
-    async fn update_many(
-        &self,
-        filter: FilterCondition,
-        updates: Map<String, JsonValue>,
-    ) -> StorageResult<u64> {
+    async fn update_many(&self, filter: FilterCondition, updates: Map<String, JsonValue>) -> StorageResult<u64> {
         if updates.is_empty() {
             return Ok(0);
         }
@@ -427,9 +354,10 @@ where
             query = bind_json!(query, param);
         }
 
-        let result = query.execute(&self.conn).await.map_err(|e| {
-            StorageError::QueryError(format!("Failed to update entities: {}", e))
-        })?;
+        let result = query
+            .execute(&self.conn)
+            .await
+            .map_err(|e| StorageError::QueryError(format!("Failed to update entities: {}", e)))?;
 
         Ok(result.rows_affected as u64)
     }
@@ -450,19 +378,17 @@ where
         let mut builder = D1QueryBuilder::new();
         let where_clause = builder.build_where(&filter)?;
 
-        let sql = format!(
-            "DELETE FROM \"{}\" WHERE {}",
-            self.table_name, where_clause
-        );
+        let sql = format!("DELETE FROM \"{}\" WHERE {}", self.table_name, where_clause);
 
         let mut query = sqlx_d1::query(&sql);
         for param in builder.params() {
             query = bind_json!(query, param);
         }
 
-        let result = query.execute(&self.conn).await.map_err(|e| {
-            StorageError::QueryError(format!("Failed to delete entities: {}", e))
-        })?;
+        let result = query
+            .execute(&self.conn)
+            .await
+            .map_err(|e| StorageError::QueryError(format!("Failed to delete entities: {}", e)))?;
 
         Ok(result.rows_affected as u64)
     }
@@ -478,12 +404,7 @@ where
         Ok(result.rows_affected as u64)
     }
 
-    async fn text_search(
-        &self,
-        _text: &str,
-        _limit: Option<i64>,
-        _offset: Option<u64>,
-    ) -> StorageResult<Vec<T>> {
+    async fn text_search(&self, _text: &str, _limit: Option<i64>, _offset: Option<u64>) -> StorageResult<Vec<T>> {
         Err(StorageError::NotSupported(
             "Full-text search is not natively supported on D1. \
              Use find_many with FilterCondition::Contains, or \
@@ -529,9 +450,7 @@ where
         sqlx_d1::query(&sql)
             .execute(&self.conn)
             .await
-            .map_err(|e| StorageError::QueryError(format!(
-                "Failed to create queue '{}': {}", queue_name, e
-            )))?;
+            .map_err(|e| StorageError::QueryError(format!("Failed to create queue '{}': {}", queue_name, e)))?;
 
         Ok(())
     }
@@ -548,9 +467,8 @@ where
         };
 
         for item in items {
-            let payload = serde_json::to_string(item).map_err(|e| {
-                StorageError::SerializationError(format!("Failed to serialize queue item: {}", e))
-            })?;
+            let payload = serde_json::to_string(item)
+                .map_err(|e| StorageError::SerializationError(format!("Failed to serialize queue item: {}", e)))?;
 
             let sql = format!(
                 "INSERT INTO \"_queue_{}\" (payload, visible_at) VALUES (?, {})",
@@ -561,9 +479,7 @@ where
                 .bind(&payload)
                 .execute(&self.conn)
                 .await
-                .map_err(|e| StorageError::QueryError(format!(
-                    "Failed to add to queue '{}': {}", queue_name, e
-                )))?;
+                .map_err(|e| StorageError::QueryError(format!("Failed to add to queue '{}': {}", queue_name, e)))?;
         }
 
         Ok(())
@@ -592,36 +508,26 @@ where
             .bind(&ack_id)
             .execute(&self.conn)
             .await
-            .map_err(|e| StorageError::QueryError(format!(
-                "Failed to get from queue '{}': {}", queue_name, e
-            )))?;
+            .map_err(|e| StorageError::QueryError(format!("Failed to get from queue '{}': {}", queue_name, e)))?;
 
         if result.rows_affected == 0 {
             return Ok(None);
         }
 
         // Fetch the claimed message
-        let (payload_str, tries): (String, i32) =
-            sqlx_d1::query_as(&format!(
-                "SELECT payload, tries FROM \"_queue_{}\" WHERE ack_id = ?",
-                queue_name
-            ))
-            .bind(&ack_id)
-            .fetch_one(&self.conn)
-            .await
-            .map_err(|e| StorageError::QueryError(format!(
-                "Failed to fetch queue message: {}", e
-            )))?;
+        let (payload_str, tries): (String, i32) = sqlx_d1::query_as(&format!(
+            "SELECT payload, tries FROM \"_queue_{}\" WHERE ack_id = ?",
+            queue_name
+        ))
+        .bind(&ack_id)
+        .fetch_one(&self.conn)
+        .await
+        .map_err(|e| StorageError::QueryError(format!("Failed to fetch queue message: {}", e)))?;
 
-        let payload: Q = serde_json::from_str(&payload_str).map_err(|e| {
-            StorageError::SerializationError(format!("Failed to deserialize queue payload: {}", e))
-        })?;
+        let payload: Q = serde_json::from_str(&payload_str)
+            .map_err(|e| StorageError::SerializationError(format!("Failed to deserialize queue payload: {}", e)))?;
 
-        Ok(Some(QueueMessage {
-            ack_id,
-            payload,
-            tries,
-        }))
+        Ok(Some(QueueMessage { ack_id, payload, tries }))
     }
 
     async fn queue_ack<Q: serde::de::DeserializeOwned + Send>(
@@ -630,15 +536,14 @@ where
         ack_id: &str,
     ) -> StorageResult<Option<Q>> {
         // Fetch + complete in two steps (D1 doesn't support RETURNING)
-        let row: Option<(String,)> =
-            sqlx_d1::query_as(&format!(
-                "SELECT payload FROM \"_queue_{}\" WHERE ack_id = ? AND status = 'in_flight'",
-                queue_name
-            ))
-            .bind(ack_id)
-            .fetch_optional(&self.conn)
-            .await
-            .map_err(|e| StorageError::QueryError(format!("Failed to ack queue message: {}", e)))?;
+        let row: Option<(String,)> = sqlx_d1::query_as(&format!(
+            "SELECT payload FROM \"_queue_{}\" WHERE ack_id = ? AND status = 'in_flight'",
+            queue_name
+        ))
+        .bind(ack_id)
+        .fetch_optional(&self.conn)
+        .await
+        .map_err(|e| StorageError::QueryError(format!("Failed to ack queue message: {}", e)))?;
 
         match row {
             Some((payload_str,)) => {
@@ -650,14 +555,10 @@ where
                 .bind(ack_id)
                 .execute(&self.conn)
                 .await
-                .map_err(|e| StorageError::QueryError(format!(
-                    "Failed to complete queue message: {}", e
-                )))?;
+                .map_err(|e| StorageError::QueryError(format!("Failed to complete queue message: {}", e)))?;
 
                 let payload: Q = serde_json::from_str(&payload_str).map_err(|e| {
-                    StorageError::SerializationError(format!(
-                        "Failed to deserialize queue payload: {}", e
-                    ))
+                    StorageError::SerializationError(format!("Failed to deserialize queue payload: {}", e))
                 })?;
 
                 Ok(Some(payload))
@@ -686,24 +587,19 @@ where
             return Ok(None);
         }
 
-        let row: Option<(String,)> =
-            sqlx_d1::query_as(&format!(
-                "SELECT payload FROM \"_queue_{}\" WHERE ack_id = ?",
-                queue_name
-            ))
-            .bind(ack_id)
-            .fetch_optional(&self.conn)
-            .await
-            .map_err(|e| StorageError::QueryError(format!(
-                "Failed to fetch pinged message: {}", e
-            )))?;
+        let row: Option<(String,)> = sqlx_d1::query_as(&format!(
+            "SELECT payload FROM \"_queue_{}\" WHERE ack_id = ?",
+            queue_name
+        ))
+        .bind(ack_id)
+        .fetch_optional(&self.conn)
+        .await
+        .map_err(|e| StorageError::QueryError(format!("Failed to fetch pinged message: {}", e)))?;
 
         match row {
             Some((payload_str,)) => {
                 let payload: Q = serde_json::from_str(&payload_str).map_err(|e| {
-                    StorageError::SerializationError(format!(
-                        "Failed to deserialize queue payload: {}", e
-                    ))
+                    StorageError::SerializationError(format!("Failed to deserialize queue payload: {}", e))
                 })?;
                 Ok(Some(payload))
             }
@@ -742,13 +638,10 @@ where
     }
 
     async fn queue_total_count(&self, queue_name: &str) -> StorageResult<i64> {
-        sqlx_d1::query_scalar::<i64>(&format!(
-            "SELECT COUNT(*) FROM \"_queue_{}\"",
-            queue_name
-        ))
-        .fetch_one(&self.conn)
-        .await
-        .map_err(|e| StorageError::QueryError(format!("Failed to count total: {}", e)))
+        sqlx_d1::query_scalar::<i64>(&format!("SELECT COUNT(*) FROM \"_queue_{}\"", queue_name))
+            .fetch_one(&self.conn)
+            .await
+            .map_err(|e| StorageError::QueryError(format!("Failed to count total: {}", e)))
     }
 
     async fn queue_purge(&self, queue_name: &str) -> StorageResult<u64> {
@@ -807,10 +700,7 @@ where
             ));
         }
 
-        let like_clauses: Vec<String> = columns
-            .iter()
-            .map(|col| format!("\"{}\" LIKE ?", col))
-            .collect();
+        let like_clauses: Vec<String> = columns.iter().map(|col| format!("\"{}\" LIKE ?", col)).collect();
 
         let mut sql = format!(
             "SELECT * FROM \"{}\" WHERE ({})",
@@ -864,9 +754,7 @@ where
         sqlx_d1::query(&sql)
             .execute(&self.conn)
             .await
-            .map_err(|e| StorageError::QueryError(format!(
-                "Failed to create table '{}': {}", self.table_name, e
-            )))?;
+            .map_err(|e| StorageError::QueryError(format!("Failed to create table '{}': {}", self.table_name, e)))?;
 
         Ok(())
     }
@@ -897,9 +785,7 @@ where
         sqlx_d1::query(&sql)
             .execute(&self.conn)
             .await
-            .map_err(|e| StorageError::QueryError(format!(
-                "Failed to create table '{}': {}", self.table_name, e
-            )))?;
+            .map_err(|e| StorageError::QueryError(format!("Failed to create table '{}': {}", self.table_name, e)))?;
 
         Ok(())
     }

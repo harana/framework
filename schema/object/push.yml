@@ -1,43 +1,39 @@
-- name: Push Device
-  type: push_device
+- name: push_device
   id: [user_id, device_token]
   schema:
-    - created_at: Date = now()
-    - device_token: String #required #max(500)
-    - is_active: Boolean = true
-    - platform: Apns | Web | Fcm = Fcm
-    - updated_at: Date = now()
-    - user_agent: String? #max(500)
-    - user_id: Id #required -> User.id
+    - created_at: date = now()
+    - device_token: string #required #max(500)
+    - is_active: boolean = true
+    - platform: apns | web | fcm = fcm
+    - updated_at: date = now()
+    - user_agent: string? #max(500)
+    - user_id: id #required -> user.id
 
-- name: Push Topic
-  type: push_topic
+- name: push_topic
   id: [name]
   schema:
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - is_active: Boolean = true
-    - name: String #required #unique #max(200)
-    - platform: Apns | Web | Fcm = Fcm
+    - created_at: date = now()
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - name: string #required #unique #max(200)
+    - platform: apns | web | fcm = fcm
 
-- name: Push Topic Subscription
-  type: push_topic_subscription
+- name: push_topic_subscription
   id: [topic_id, device_id]
   schema:
-    - device_id: Id #required -> PushDevice.id
-    - subscribed_at: Date = now()
-    - topic_id: Id #required -> PushTopic.id
+    - device_id: id #required -> push_device.id
+    - subscribed_at: date = now()
+    - topic_id: id #required -> push_topic.id
 
-- name: Push Notification Log
-  type: push_notification_log
+- name: push_notification_log
   id: [device_id, sent_at]
   schema:
-    - body: String #required #max(1000)
-    - device_id: Id? -> PushDevice.id
-    - error_message: String? #max(1000)
-    - message_id: String? #max(200)
-    - platform: Apns | Web | Fcm = Fcm
-    - sent_at: Date = now()
-    - status: Pending | Sent | Delivered | Failed = Pending
-    - title: String #required #max(200)
-    - topic_id: Id? -> PushTopic.id
+    - body: string #required #max(1000)
+    - device_id: id? -> push_device.id
+    - error_message: string? #max(1000)
+    - message_id: string? #max(200)
+    - platform: apns | web | fcm = fcm
+    - sent_at: date = now()
+    - status: pending | sent | delivered | failed = pending
+    - title: string #required #max(200)
+    - topic_id: id? -> push_topic.id

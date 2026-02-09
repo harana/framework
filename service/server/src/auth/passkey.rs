@@ -1,5 +1,3 @@
-//! Passkey/WebAuthn authentication handlers
-
 use crate::error::ServerError;
 use crate::config::PasskeyConfig;
 #[cfg(feature = "standalone")]

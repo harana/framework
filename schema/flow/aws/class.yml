@@ -2,1220 +2,1220 @@
 
 # VPC Classes
 
-- name: VpcTags
+- name: vpc_tags
   class:
-    type: Map
-    key: String
-    value: String
+    type: map
+    key: string
+    value: string
 
-- name: VpcFilter
+- name: vpc_filter
   class:
-    name: String #required
-    values: List[String] #required
+    name: string #required
+    values: list[string] #required
 
-- name: Vpc
+- name: vpc
   class:
-    cidr_block: String
-    cidr_block_association_set: List[VpcCidrBlockAssociation]
-    dhcp_options_id: String
-    instance_tenancy: String
-    ipv6_cidr_block_association_set: List[VpcIpv6CidrBlockAssociation]
-    is_default: Boolean
-    owner_id: String
-    state: String
-    tags: List[Tag]
-    vpc_id: String
+    cidr_block: string
+    cidr_block_association_set: list[vpc_cidr_block_association]
+    dhcp_options_id: string
+    instance_tenancy: string
+    ipv6_cidr_block_association_set: list[vpc_ipv6_cidr_block_association]
+    is_default: boolean
+    owner_id: string
+    state: string
+    tags: list[tag]
+    vpc_id: string
 
-- name: VpcCidrBlockAssociation
+- name: vpc_cidr_block_association
   class:
-    association_id: String
-    cidr_block: String
-    cidr_block_state: VpcCidrBlockState
+    association_id: string
+    cidr_block: string
+    cidr_block_state: vpc_cidr_block_state
 
-- name: VpcCidrBlockState
+- name: vpc_cidr_block_state
   class:
-    state: String
-    status_message: String
+    state: string
+    status_message: string
 
-- name: VpcIpv6CidrBlockAssociation
+- name: vpc_ipv6_cidr_block_association
   class:
-    association_id: String
-    ipv6_cidr_block: String
-    ipv6_cidr_block_state: VpcCidrBlockState
-    ipv6_pool: String
-    network_border_group: String
+    association_id: string
+    ipv6_cidr_block: string
+    ipv6_cidr_block_state: vpc_cidr_block_state
+    ipv6_pool: string
+    network_border_group: string
 
-- name: Tag
+- name: tag
   class:
-    key: String
-    value: String
+    key: string
+    value: string
 
-- name: Subnet
+- name: subnet
   class:
-    assign_ipv6_address_on_creation: Boolean
-    availability_zone: String
-    availability_zone_id: String
-    available_ip_address_count: Int
-    cidr_block: String
-    default_for_az: Boolean
-    enable_dns64: Boolean
-    ipv6_cidr_block_association_set: List[SubnetIpv6CidrBlockAssociation]
-    ipv6_native: Boolean
-    map_customer_owned_ip_on_launch: Boolean
-    map_public_ip_on_launch: Boolean
-    outpost_arn: String
-    owner_id: String
-    private_dns_name_options_on_launch: PrivateDnsNameOptionsOnLaunch
-    state: String
-    subnet_arn: String
-    subnet_id: String
-    tags: List[Tag]
-    vpc_id: String
+    assign_ipv6_address_on_creation: boolean
+    availability_zone: string
+    availability_zone_id: string
+    available_ip_address_count: int
+    cidr_block: string
+    default_for_az: boolean
+    enable_dns64: boolean
+    ipv6_cidr_block_association_set: list[subnet_ipv6_cidr_block_association]
+    ipv6_native: boolean
+    map_customer_owned_ip_on_launch: boolean
+    map_public_ip_on_launch: boolean
+    outpost_arn: string
+    owner_id: string
+    private_dns_name_options_on_launch: private_dns_name_options_on_launch
+    state: string
+    subnet_arn: string
+    subnet_id: string
+    tags: list[tag]
+    vpc_id: string
 
-- name: SubnetIpv6CidrBlockAssociation
+- name: subnet_ipv6_cidr_block_association
   class:
-    association_id: String
-    ipv6_cidr_block: String
-    ipv6_cidr_block_state: SubnetCidrBlockState
+    association_id: string
+    ipv6_cidr_block: string
+    ipv6_cidr_block_state: subnet_cidr_block_state
 
-- name: SubnetCidrBlockState
+- name: subnet_cidr_block_state
   class:
-    state: String
-    status_message: String
+    state: string
+    status_message: string
 
-- name: PrivateDnsNameOptionsOnLaunch
+- name: private_dns_name_options_on_launch
   class:
-    enable_resource_name_dns_aaaa_record: Boolean
-    enable_resource_name_dns_a_record: Boolean
-    hostname_type: String
+    enable_resource_name_dns_aaaa_record: boolean
+    enable_resource_name_dns_a_record: boolean
+    hostname_type: string
 
-- name: InternetGateway
+- name: internet_gateway
   class:
-    attachments: List[InternetGatewayAttachment]
-    internet_gateway_id: String
-    owner_id: String
-    tags: List[Tag]
+    attachments: list[internet_gateway_attachment]
+    internet_gateway_id: string
+    owner_id: string
+    tags: list[tag]
 
-- name: InternetGatewayAttachment
+- name: internet_gateway_attachment
   class:
-    state: String
-    vpc_id: String
+    state: string
+    vpc_id: string
 
-- name: NatGateway
+- name: nat_gateway
   class:
-    connectivity_type: String
-    create_time: Date
-    delete_time: Date
-    failure_code: String
-    failure_message: String
-    nat_gateway_addresses: List[NatGatewayAddress]
-    nat_gateway_id: String
-    provisioned_bandwidth: ProvisionedBandwidth
-    state: String
-    subnet_id: String
-    tags: List[Tag]
-    vpc_id: String
+    connectivity_type: string
+    create_time: date
+    delete_time: date
+    failure_code: string
+    failure_message: string
+    nat_gateway_addresses: list[nat_gateway_address]
+    nat_gateway_id: string
+    provisioned_bandwidth: provisioned_bandwidth
+    state: string
+    subnet_id: string
+    tags: list[tag]
+    vpc_id: string
 
-- name: NatGatewayAddress
+- name: nat_gateway_address
   class:
-    allocation_id: String
-    network_interface_id: String
-    private_ip: String
-    public_ip: String
+    allocation_id: string
+    network_interface_id: string
+    private_ip: string
+    public_ip: string
 
-- name: ProvisionedBandwidth
+- name: provisioned_bandwidth
   class:
-    provision_time: Date
-    provisioned: String
-    request_time: Date
-    requested: String
-    status: String
+    provision_time: date
+    provisioned: string
+    request_time: date
+    requested: string
+    status: string
 
-- name: RouteTable
+- name: route_table
   class:
-    associations: List[RouteTableAssociation]
-    owner_id: String
-    propagating_vgws: List[PropagatingVgw]
-    route_table_id: String
-    routes: List[Route]
-    tags: List[Tag]
-    vpc_id: String
+    associations: list[route_table_association]
+    owner_id: string
+    propagating_vgws: list[propagating_vgw]
+    route_table_id: string
+    routes: list[route]
+    tags: list[tag]
+    vpc_id: string
 
-- name: RouteTableAssociation
+- name: route_table_association
   class:
-    association_state: RouteTableAssociationState
-    gateway_id: String
-    main: Boolean
-    route_table_association_id: String
-    route_table_id: String
-    subnet_id: String
+    association_state: route_table_association_state
+    gateway_id: string
+    main: boolean
+    route_table_association_id: string
+    route_table_id: string
+    subnet_id: string
 
-- name: RouteTableAssociationState
+- name: route_table_association_state
   class:
-    state: String
-    status_message: String
+    state: string
+    status_message: string
 
-- name: PropagatingVgw
+- name: propagating_vgw
   class:
-    gateway_id: String
+    gateway_id: string
 
-- name: Route
+- name: route
   class:
-    carrier_gateway_id: String
-    core_network_arn: String
-    destination_cidr_block: String
-    destination_ipv6_cidr_block: String
-    destination_prefix_list_id: String
-    egress_only_internet_gateway_id: String
-    gateway_id: String
-    instance_id: String
-    instance_owner_id: String
-    local_gateway_id: String
-    nat_gateway_id: String
-    network_interface_id: String
-    origin: String
-    state: String
-    transit_gateway_id: String
-    vpc_peering_connection_id: String
+    carrier_gateway_id: string
+    core_network_arn: string
+    destination_cidr_block: string
+    destination_ipv6_cidr_block: string
+    destination_prefix_list_id: string
+    egress_only_internet_gateway_id: string
+    gateway_id: string
+    instance_id: string
+    instance_owner_id: string
+    local_gateway_id: string
+    nat_gateway_id: string
+    network_interface_id: string
+    origin: string
+    state: string
+    transit_gateway_id: string
+    vpc_peering_connection_id: string
 
-- name: SecurityGroup
+- name: security_group
   class:
-    description: String
-    group_id: String
-    group_name: String
-    ip_permissions: List[IpPermission]
-    ip_permissions_egress: List[IpPermission]
-    owner_id: String
-    tags: List[Tag]
-    vpc_id: String
+    description: string
+    group_id: string
+    group_name: string
+    ip_permissions: list[ip_permission]
+    ip_permissions_egress: list[ip_permission]
+    owner_id: string
+    tags: list[tag]
+    vpc_id: string
 
-- name: IpPermission
+- name: ip_permission
   class:
-    from_port: Int
-    ip_protocol: String
-    ip_ranges: List[IpRange]
-    ipv6_ranges: List[Ipv6Range]
-    prefix_list_ids: List[PrefixListId]
-    to_port: Int
-    user_id_group_pairs: List[UserIdGroupPair]
+    from_port: int
+    ip_protocol: string
+    ip_ranges: list[ip_range]
+    ipv6_ranges: list[ipv6_range]
+    prefix_list_ids: list[prefix_list_id]
+    to_port: int
+    user_id_group_pairs: list[user_id_group_pair]
 
-- name: IpRange
+- name: ip_range
   class:
-    cidr_ip: String
-    description: String
+    cidr_ip: string
+    description: string
 
-- name: Ipv6Range
+- name: ipv6_range
   class:
-    cidr_ipv6: String
-    description: String
+    cidr_ipv6: string
+    description: string
 
-- name: PrefixListId
+- name: prefix_list_id
   class:
-    description: String
-    prefix_list_id: String
+    description: string
+    prefix_list_id: string
 
-- name: UserIdGroupPair
+- name: user_id_group_pair
   class:
-    description: String
-    group_id: String
-    group_name: String
-    peering_status: String
-    user_id: String
-    vpc_id: String
-    vpc_peering_connection_id: String
+    description: string
+    group_id: string
+    group_name: string
+    peering_status: string
+    user_id: string
+    vpc_id: string
+    vpc_peering_connection_id: string
 
-- name: SecurityGroupRule
+- name: security_group_rule
   class:
-    cidr_ipv4: String
-    cidr_ipv6: String
-    description: String
-    from_port: Int
-    group_id: String
-    group_owner_id: String
-    ip_protocol: String
-    is_egress: Boolean
-    prefix_list_id: String
-    referenced_group_info: ReferencedSecurityGroup
-    security_group_rule_id: String
-    tags: List[Tag]
-    to_port: Int
+    cidr_ipv4: string
+    cidr_ipv6: string
+    description: string
+    from_port: int
+    group_id: string
+    group_owner_id: string
+    ip_protocol: string
+    is_egress: boolean
+    prefix_list_id: string
+    referenced_group_info: referenced_security_group
+    security_group_rule_id: string
+    tags: list[tag]
+    to_port: int
 
-- name: ReferencedSecurityGroup
+- name: referenced_security_group
   class:
-    group_id: String
-    peering_status: String
-    user_id: String
-    vpc_id: String
-    vpc_peering_connection_id: String
+    group_id: string
+    peering_status: string
+    user_id: string
+    vpc_id: string
+    vpc_peering_connection_id: string
 
-- name: NetworkAcl
+- name: network_acl
   class:
-    associations: List[NetworkAclAssociation]
-    entries: List[NetworkAclEntry]
-    is_default: Boolean
-    network_acl_id: String
-    owner_id: String
-    tags: List[Tag]
-    vpc_id: String
+    associations: list[network_acl_association]
+    entries: list[network_acl_entry]
+    is_default: boolean
+    network_acl_id: string
+    owner_id: string
+    tags: list[tag]
+    vpc_id: string
 
-- name: NetworkAclAssociation
+- name: network_acl_association
   class:
-    network_acl_association_id: String
-    network_acl_id: String
-    subnet_id: String
+    network_acl_association_id: string
+    network_acl_id: string
+    subnet_id: string
 
-- name: NetworkAclEntry
+- name: network_acl_entry
   class:
-    cidr_block: String
-    egress: Boolean
-    icmp_type_code: IcmpTypeCode
-    ipv6_cidr_block: String
-    port_range: PortRange
-    protocol: String
-    rule_method: String
-    rule_number: Int
+    cidr_block: string
+    egress: boolean
+    icmp_type_code: icmp_type_code
+    ipv6_cidr_block: string
+    port_range: port_range
+    protocol: string
+    rule_method: string
+    rule_number: int
 
-- name: IcmpTypeCode
+- name: icmp_type_code
   class:
-    code: Int
-    type: Int
+    code: int
+    type: int
 
-- name: PortRange
+- name: port_range
   class:
-    from: Int
-    to: Int
+    from: int
+    to: int
 
-- name: ElasticIp
+- name: elastic_ip
   class:
-    allocation_id: String
-    association_id: String
-    carrier_ip: String
-    customer_owned_ip: String
-    customer_owned_ipv4_pool: String
-    domain: String
-    instance_id: String
-    network_border_group: String
-    network_interface_id: String
-    network_interface_owner_id: String
-    private_ip_address: String
-    public_ip: String
-    public_ipv4_pool: String
-    tags: List[Tag]
+    allocation_id: string
+    association_id: string
+    carrier_ip: string
+    customer_owned_ip: string
+    customer_owned_ipv4_pool: string
+    domain: string
+    instance_id: string
+    network_border_group: string
+    network_interface_id: string
+    network_interface_owner_id: string
+    private_ip_address: string
+    public_ip: string
+    public_ipv4_pool: string
+    tags: list[tag]
 
-- name: VpcPeeringConnection
+- name: vpc_peering_connection
   class:
-    accepter_vpc_info: VpcInfo
-    expiration_time: Date
-    requester_vpc_info: VpcInfo
-    status: PeeringConnectionStatus
-    tags: List[Tag]
-    vpc_peering_connection_id: String
+    accepter_vpc_info: vpc_info
+    expiration_time: date
+    requester_vpc_info: vpc_info
+    status: peering_connection_status
+    tags: list[tag]
+    vpc_peering_connection_id: string
 
-- name: VpcInfo
+- name: vpc_info
   class:
-    cidr_block: String
-    cidr_block_set: List[CidrBlock]
-    ipv6_cidr_block_set: List[Ipv6CidrBlock]
-    owner_id: String
-    peering_options: VpcPeeringConnectionOptionsDescription
-    region: String
-    vpc_id: String
+    cidr_block: string
+    cidr_block_set: list[cidr_block]
+    ipv6_cidr_block_set: list[ipv6_cidr_block]
+    owner_id: string
+    peering_options: vpc_peering_connection_options_description
+    region: string
+    vpc_id: string
 
-- name: CidrBlock
+- name: cidr_block
   class:
-    cidr_block: String
+    cidr_block: string
 
-- name: Ipv6CidrBlock
+- name: ipv6_cidr_block
   class:
-    ipv6_cidr_block: String
+    ipv6_cidr_block: string
 
-- name: VpcPeeringConnectionOptionsDescription
+- name: vpc_peering_connection_options_description
   class:
-    allow_dns_resolution_from_remote_vpc: Boolean
-    allow_egress_from_local_classic_link_to_remote_vpc: Boolean
-    allow_egress_from_local_vpc_to_remote_classic_link: Boolean
+    allow_dns_resolution_from_remote_vpc: boolean
+    allow_egress_from_local_classic_link_to_remote_vpc: boolean
+    allow_egress_from_local_vpc_to_remote_classic_link: boolean
 
-- name: PeeringConnectionStatus
+- name: peering_connection_status
   class:
-    code: String
-    message: String
+    code: string
+    message: string
 
-- name: VpcEndpoint
+- name: vpc_endpoint
   class:
-    creation_timestamp: Date
-    dns_entries: List[DnsEntry]
-    dns_options: DnsOptions
-    groups: List[SecurityGroupIdentifier]
-    ip_address_type: String
-    last_error: LastError
-    network_interface_ids: List[String]
-    owner_id: String
-    policy_document: String
-    private_dns_enabled: Boolean
-    requester_managed: Boolean
-    route_table_ids: List[String]
-    service_name: String
-    state: String
-    subnet_ids: List[String]
-    tags: List[Tag]
-    vpc_endpoint_id: String
-    vpc_endpoint_type: String
-    vpc_id: String
+    creation_timestamp: date
+    dns_entries: list[dns_entry]
+    dns_options: dns_options
+    groups: list[security_group_identifier]
+    ip_address_type: string
+    last_error: last_error
+    network_interface_ids: list[string]
+    owner_id: string
+    policy_document: string
+    private_dns_enabled: boolean
+    requester_managed: boolean
+    route_table_ids: list[string]
+    service_name: string
+    state: string
+    subnet_ids: list[string]
+    tags: list[tag]
+    vpc_endpoint_id: string
+    vpc_endpoint_type: string
+    vpc_id: string
 
-- name: DnsEntry
+- name: dns_entry
   class:
-    dns_name: String
-    hosted_zone_id: String
+    dns_name: string
+    hosted_zone_id: string
 
-- name: DnsOptions
+- name: dns_options
   class:
-    dns_record_ip_type: String
-    private_dns_only_for_inbound_resolver_endpoint: Boolean
+    dns_record_ip_type: string
+    private_dns_only_for_inbound_resolver_endpoint: boolean
 
-- name: SecurityGroupIdentifier
+- name: security_group_identifier
   class:
-    group_id: String
-    group_name: String
+    group_id: string
+    group_name: string
 
-- name: LastError
+- name: last_error
   class:
-    code: String
-    message: String
+    code: string
+    message: string
 
-- name: UnsuccessfulItem
+- name: unsuccessful_item
   class:
-    error: UnsuccessfulItemError
-    resource_id: String
+    error: unsuccessful_item_error
+    resource_id: string
 
-- name: UnsuccessfulItemError
+- name: unsuccessful_item_error
   class:
-    code: String
-    message: String
+    code: string
+    message: string
 
-- name: DhcpOptions
+- name: dhcp_options
   class:
-    dhcp_configurations: List[DhcpConfiguration]
-    dhcp_options_id: String
-    owner_id: String
-    tags: List[Tag]
+    dhcp_configurations: list[dhcp_configuration]
+    dhcp_options_id: string
+    owner_id: string
+    tags: list[tag]
 
-- name: DhcpConfiguration
+- name: dhcp_configuration
   class:
-    key: String
-    values: List[AttributeValue]
+    key: string
+    values: list[attribute_value]
 
-- name: AttributeValue
+- name: attribute_value
   class:
-    value: String
+    value: string
 
-- name: EgressOnlyInternetGateway
+- name: egress_only_internet_gateway
   class:
-    attachments: List[InternetGatewayAttachment]
-    egress_only_internet_gateway_id: String
-    tags: List[Tag]
+    attachments: list[internet_gateway_attachment]
+    egress_only_internet_gateway_id: string
+    tags: list[tag]
 
 # STS Classes
 
-- name: StsCredentials
+- name: sts_credentials
   class:
-    access_key_id: String
-    secret_access_key: String
-    session_token: String
-    expiration: Date
+    access_key_id: string
+    secret_access_key: string
+    session_token: string
+    expiration: date
 
-- name: AssumedRoleUser
+- name: assumed_role_user
   class:
-    assumed_role_id: String
-    arn: String
+    assumed_role_id: string
+    arn: string
 
-- name: FederatedUser
+- name: federated_user
   class:
-    federated_user_id: String
-    arn: String
+    federated_user_id: string
+    arn: string
 
-- name: Tags
+- name: tags
   class:
-    key: String
-    value: String
+    key: string
+    value: string
 
-- name: StsPolicyArn
+- name: sts_policy_arn
   class:
-    arn: String
+    arn: string
 
 # S3 Classes
 
-- name: S3Object
+- name: s3_object
   class:
-    bucket: String
-    key: String
-    etag: String
-    size: Int
-    content_type: String
-    storage_class: String
-    last_modified: Date
-    metadata: ObjectMetadata
-    version_id: String
+    bucket: string
+    key: string
+    etag: string
+    size: int
+    content_type: string
+    storage_class: string
+    last_modified: date
+    metadata: object_metadata
+    version_id: string
 
-- name: S3Bucket
+- name: s3_bucket
   class:
-    name: String
-    creation_date: Date
+    name: string
+    creation_date: date
 
-- name: S3Tags
+- name: s3_tags
   class:
-    items: List[S3Tag]
+    items: list[s3_tag]
 
-- name: S3Tag
+- name: s3_tag
   class:
-    key: String
-    value: String
+    key: string
+    value: string
 
-- name: ObjectMetadata
+- name: object_metadata
   class:
-    content_type: String
-    content_encoding: String
-    content_language: String
-    content_disposition: String
-    cache_control: String
-    custom: Map[String, String]
+    content_type: string
+    content_encoding: string
+    content_language: string
+    content_disposition: string
+    cache_control: string
+    custom: map[string, string]
 
-- name: DeletedObject
+- name: deleted_object
   class:
-    key: String
-    version_id: String
-    delete_marker: Boolean
-    delete_marker_version_id: String
+    key: string
+    version_id: string
+    delete_marker: boolean
+    delete_marker_version_id: string
 
-- name: S3Error
+- name: s3_error
   class:
-    key: String
-    version_id: String
-    code: String
-    message: String
+    key: string
+    version_id: string
+    code: string
+    message: string
 
-- name: EncryptionRule
+- name: encryption_rule
   class:
-    sse_algorithm: String
-    kms_master_key_id: String
-    bucket_key_enabled: Boolean
+    sse_algorithm: string
+    kms_master_key_id: string
+    bucket_key_enabled: boolean
 
-- name: CorsRule
+- name: cors_rule
   class:
-    allowed_headers: List[String]
-    allowed_methods: List[String]
-    allowed_origins: List[String]
-    expose_headers: List[String]
-    max_age_seconds: Int
+    allowed_headers: list[string]
+    allowed_methods: list[string]
+    allowed_origins: list[string]
+    expose_headers: list[string]
+    max_age_seconds: int
 
-- name: LifecycleRule
+- name: lifecycle_rule
   class:
-    id: String
-    status: String
-    prefix: String
-    expiration_days: Int
-    noncurrent_version_expiration_days: Int
-    transitions: List[LifecycleTransition]
+    id: string
+    status: string
+    prefix: string
+    expiration_days: int
+    noncurrent_version_expiration_days: int
+    transitions: list[lifecycle_transition]
 
-- name: LifecycleTransition
+- name: lifecycle_transition
   class:
-    days: Int
-    storage_class: String
+    days: int
+    storage_class: string
 
-- name: CompletedPart
+- name: completed_part
   class:
-    etag: String
-    part_number: Int
+    etag: string
+    part_number: int
 
 # IAM Classes
 
-- name: IamUser
+- name: iam_user
   class:
-    user_id: String
-    user_name: String
-    arn: String
-    path: String
-    create_date: Date
-    password_last_used: Date
-    permissions_boundary: PermissionsBoundary
-    tags: List[IamTag]
+    user_id: string
+    user_name: string
+    arn: string
+    path: string
+    create_date: date
+    password_last_used: date
+    permissions_boundary: permissions_boundary
+    tags: list[iam_tag]
 
-- name: IamTags
+- name: iam_tags
   class:
-    items: List[IamTag]
+    items: list[iam_tag]
 
-- name: IamTag
+- name: iam_tag
   class:
-    key: String
-    value: String
+    key: string
+    value: string
 
-- name: PermissionsBoundary
+- name: permissions_boundary
   class:
-    permissions_boundary_type: String
-    permissions_boundary_arn: String
+    permissions_boundary_type: string
+    permissions_boundary_arn: string
 
-- name: IamGroup
+- name: iam_group
   class:
-    group_id: String
-    group_name: String
-    arn: String
-    path: String
-    create_date: Date
+    group_id: string
+    group_name: string
+    arn: string
+    path: string
+    create_date: date
 
-- name: IamRole
+- name: iam_role
   class:
-    role_id: String
-    role_name: String
-    arn: String
-    path: String
-    create_date: Date
-    description: String
-    max_session_duration: Int
-    assume_role_policy_document: String
+    role_id: string
+    role_name: string
+    arn: string
+    path: string
+    create_date: date
+    description: string
+    max_session_duration: int
+    assume_role_policy_document: string
 
-- name: IamPolicy
+- name: iam_policy
   class:
-    policy_id: String
-    policy_name: String
-    arn: String
-    path: String
-    create_date: Date
-    update_date: Date
-    attachment_count: Int
-    is_attachable: Boolean
+    policy_id: string
+    policy_name: string
+    arn: string
+    path: string
+    create_date: date
+    update_date: date
+    attachment_count: int
+    is_attachable: boolean
 
-- name: AccessKeyMetadata
+- name: access_key_metadata
   class:
-    access_key_id: String
-    user_name: String
-    status: String
-    create_date: Date
+    access_key_id: string
+    user_name: string
+    status: string
+    create_date: date
 
-- name: AccountSummary
+- name: account_summary
   class:
-    users: Int
-    groups: Int
-    roles: Int
-    policies: Int
-    users_quota: Int
-    groups_quota: Int
-    roles_quota: Int
-    policies_quota: Int
-    server_certificates: Int
-    mfa_devices: Int
-    account_mfa_enabled: Boolean
+    users: int
+    groups: int
+    roles: int
+    policies: int
+    users_quota: int
+    groups_quota: int
+    roles_quota: int
+    policies_quota: int
+    server_certificates: int
+    mfa_devices: int
+    account_mfa_enabled: boolean
 
 # EventBridge Classes
 
-- name: EventBridgeRule
+- name: event_bridge_rule
   class:
-    name: String
-    arn: String
-    event_bus_name: String
-    event_pattern: String
-    schedule_expression: String
-    state: String
-    description: String
-    role_arn: String
+    name: string
+    arn: string
+    event_bus_name: string
+    event_pattern: string
+    schedule_expression: string
+    state: string
+    description: string
+    role_arn: string
 
-- name: EventBridgeEntry
+- name: event_bridge_entry
   class:
-    source: String
-    detail_type: String
-    detail: String
-    resources: List[String]
-    event_bus_name: String
-    time: Date
-    trace_header: String
+    source: string
+    detail_type: string
+    detail: string
+    resources: list[string]
+    event_bus_name: string
+    time: date
+    trace_header: string
 
-- name: PutEventsResultEntry
+- name: put_events_result_entry
   class:
-    event_id: String
-    error_code: String
-    error_message: String
+    event_id: string
+    error_code: string
+    error_message: string
 
-- name: EventBridgeTags
+- name: event_bridge_tags
   class:
-    items: List[EventBridgeTag]
+    items: list[event_bridge_tag]
 
-- name: EventBridgeTag
+- name: event_bridge_tag
   class:
-    key: String
-    value: String
+    key: string
+    value: string
 
-- name: EventBridgeTarget
+- name: event_bridge_target
   class:
-    id: String
-    arn: String
-    role_arn: String
-    input: String
-    input_path: String
-    input_transformer: InputTransformer
+    id: string
+    arn: string
+    role_arn: string
+    input: string
+    input_path: string
+    input_transformer: input_transformer
 
-- name: InputTransformer
+- name: input_transformer
   class:
-    input_paths_map: Map[String, String]
-    input_template: String
+    input_paths_map: map[string, string]
+    input_template: string
 
-- name: TargetFailure
+- name: target_failure
   class:
-    target_id: String
-    error_code: String
-    error_message: String
+    target_id: string
+    error_code: string
+    error_message: string
 
-- name: EventBus
+- name: event_bus
   class:
-    name: String
-    arn: String
-    policy: String
+    name: string
+    arn: string
+    policy: string
 
-- name: RuleCondition
+- name: rule_condition
   class:
-    type: String
-    key: String
-    value: String
+    type: string
+    key: string
+    value: string
 
-- name: EventDestination
+- name: event_destination
   class:
-    arn: String
-    filter_arns: List[String]
+    arn: string
+    filter_arns: list[string]
 
 # ECR Classes
 
-- name: EcrRepository
+- name: ecr_repository
   class:
-    repository_name: String
-    repository_uri: String
-    repository_arn: String
-    registry_id: String
-    image_tag_mutability: String
-    scan_on_push: Boolean
-    encryption_type: String
-    created_at: Date
+    repository_name: string
+    repository_uri: string
+    repository_arn: string
+    registry_id: string
+    image_tag_mutability: string
+    scan_on_push: boolean
+    encryption_type: string
+    created_at: date
 
-- name: EcrTags
+- name: ecr_tags
   class:
-    items: List[EcrTag]
+    items: list[ecr_tag]
 
-- name: EcrTag
+- name: ecr_tag
   class:
-    key: String
-    value: String
+    key: string
+    value: string
 
-- name: ImageFilter
+- name: image_filter
   class:
-    tag_status: String
+    tag_status: string
 
-- name: ImageId
+- name: image_id
   class:
-    image_digest: String
-    image_tag: String
+    image_digest: string
+    image_tag: string
 
-- name: EcrImage
+- name: ecr_image
   class:
-    registry_id: String
-    repository_name: String
-    image_id: ImageId
-    image_manifest: String
-    image_manifest_media_type: String
+    registry_id: string
+    repository_name: string
+    image_id: image_id
+    image_manifest: string
+    image_manifest_media_type: string
 
-- name: EcrImageDetail
+- name: ecr_image_detail
   class:
-    registry_id: String
-    repository_name: String
-    image_digest: String
-    image_tags: List[String]
-    image_size_in_bytes: Int
-    image_pushed_at: Date
-    image_scan_status: ImageScanStatus
+    registry_id: string
+    repository_name: string
+    image_digest: string
+    image_tags: list[string]
+    image_size_in_bytes: int
+    image_pushed_at: date
+    image_scan_status: image_scan_status
 
-- name: ImageFailure
+- name: image_failure
   class:
-    image_id: ImageId
-    failure_code: String
-    failure_reason: String
+    image_id: image_id
+    failure_code: string
+    failure_reason: string
 
-- name: ImageScanStatus
+- name: image_scan_status
   class:
-    status: String
-    description: String
+    status: string
+    description: string
 
-- name: ImageScanFinding
+- name: image_scan_finding
   class:
-    name: String
-    description: String
-    uri: String
-    severity: String
-    attributes: List[ScanFindingAttribute]
+    name: string
+    description: string
+    uri: string
+    severity: string
+    attributes: list[scan_finding_attribute]
 
-- name: ScanFindingAttribute
+- name: scan_finding_attribute
   class:
-    key: String
-    value: String
+    key: string
+    value: string
 
 # SES Classes
 
-- name: SesEmail
+- name: ses_email
   class:
-    message_id: String
-    from_address: String
-    to_addresses: List[String]
-    cc_addresses: List[String]
-    bcc_addresses: List[String]
-    subject: String
-    html_body: String
-    text_body: String
-    configuration_set_name: String
+    message_id: string
+    from_address: string
+    to_addresses: list[string]
+    cc_addresses: list[string]
+    bcc_addresses: list[string]
+    subject: string
+    html_body: string
+    text_body: string
+    configuration_set_name: string
 
-- name: SesTags
+- name: ses_tags
   class:
-    items: List[SesTag]
+    items: list[ses_tag]
 
-- name: SesTag
+- name: ses_tag
   class:
-    name: String
-    value: String
+    name: string
+    value: string
 
-- name: DefaultTags
+- name: default_tags
   class:
-    items: List[SesTag]
+    items: list[ses_tag]
 
-- name: BulkEmailDestination
+- name: bulk_email_destination
   class:
-    destination: SesDestination
-    replacement_tags: List[SesTag]
-    replacement_template_data: String
+    destination: ses_destination
+    replacement_tags: list[ses_tag]
+    replacement_template_data: string
 
-- name: SesDestination
+- name: ses_destination
   class:
-    to_addresses: List[String]
-    cc_addresses: List[String]
-    bcc_addresses: List[String]
+    to_addresses: list[string]
+    cc_addresses: list[string]
+    bcc_addresses: list[string]
 
-- name: BulkEmailStatus
+- name: bulk_email_status
   class:
-    status: String
-    error: String
-    message_id: String
+    status: string
+    error: string
+    message_id: string
 
-- name: VerificationAttributes
+- name: verification_attributes
   class:
-    entries: Map[string, VerificationAttributeEntry]
+    entries: map[string, verification_attribute_entry]
 
-- name: VerificationAttributeEntry
+- name: verification_attribute_entry
   class:
-    verification_status: String
-    verification_token: String
+    verification_status: string
+    verification_token: string
 
-- name: SesTemplate
+- name: ses_template
   class:
-    name: String
-    created_timestamp: Date
+    name: string
+    created_timestamp: date
 
-- name: SendDataPoint
+- name: send_data_point
   class:
-    timestamp: Date
-    delivery_attempts: Int
-    bounces: Int
-    complaints: Int
-    rejects: Int
+    timestamp: date
+    delivery_attempts: int
+    bounces: int
+    complaints: int
+    rejects: int
 
-- name: SesConfigurationSet
+- name: ses_configuration_set
   class:
-    name: String
+    name: string
 
-- name: IdentityPolicies
+- name: identity_policies
   class:
-    policies: Map[String, String]
+    policies: map[string, string]
 
-- name: DkimAttributes
+- name: dkim_attributes
   class:
-    entries: Map[string, DkimAttributeEntry]
+    entries: map[string, dkim_attribute_entry]
 
-- name: DkimAttributeEntry
+- name: dkim_attribute_entry
   class:
-    dkim_enabled: Boolean
-    dkim_verification_status: String
-    dkim_tokens: List[String]
+    dkim_enabled: boolean
+    dkim_verification_status: string
+    dkim_tokens: list[string]
 
 # SQS Classes
 
-- name: SqsMessage
+- name: sqs_message
   class:
-    message_id: String
-    queue_url: String
-    message_body: String
-    message_attributes: MessageAttributes
-    receipt_handle: String
-    md5_of_body: String
+    message_id: string
+    queue_url: string
+    message_body: string
+    message_attributes: message_attributes
+    receipt_handle: string
+    md5_of_body: string
 
-- name: QueueAttributes
+- name: queue_attributes
   class:
-    delay_seconds: String
-    maximum_message_size: String
-    message_retention_period: String
-    policy: String
-    receive_message_wait_time_seconds: String
-    visibility_timeout: String
-    redrive_policy: String
-    kms_master_key_id: String
-    kms_data_key_reuse_period_seconds: String
-    fifo_queue: String
-    content_based_deduplication: String
+    delay_seconds: string
+    maximum_message_size: string
+    message_retention_period: string
+    policy: string
+    receive_message_wait_time_seconds: string
+    visibility_timeout: string
+    redrive_policy: string
+    kms_master_key_id: string
+    kms_data_key_reuse_period_seconds: string
+    fifo_queue: string
+    content_based_deduplication: string
 
-- name: SqsTags
+- name: sqs_tags
   class:
-    tags: List[SqsTag]
+    tags: list[sqs_tag]
 
-- name: SqsTag
+- name: sqs_tag
   class:
-    key: String
-    value: String
+    key: string
+    value: string
 
-- name: MessageAttributes
+- name: message_attributes
   class:
-    attributes: List[MessageAttribute]
+    attributes: list[message_attribute]
 
-- name: MessageAttribute
+- name: message_attribute
   class:
-    name: String
-    data_type: String
-    string_value: String
+    name: string
+    data_type: string
+    string_value: string
     binary_value: bytes
 
-- name: SendMessageBatchEntry
+- name: send_message_batch_entry
   class:
-    id: String
-    message_body: String
-    delay_seconds: Int
-    message_attributes: MessageAttributes
-    message_deduplication_id: String
-    message_group_id: String
+    id: string
+    message_body: string
+    delay_seconds: int
+    message_attributes: message_attributes
+    message_deduplication_id: string
+    message_group_id: string
 
-- name: SendMessageBatchResult
+- name: send_message_batch_result
   class:
-    id: String
-    message_id: String
-    md5_of_message_body: String
-    md5_of_message_attributes: String
-    sequence_number: String
+    id: string
+    message_id: string
+    md5_of_message_body: string
+    md5_of_message_attributes: string
+    sequence_number: string
 
-- name: DeleteMessageBatchEntry
+- name: delete_message_batch_entry
   class:
-    id: String
-    receipt_handle: String
+    id: string
+    receipt_handle: string
 
-- name: DeleteMessageBatchResult
+- name: delete_message_batch_result
   class:
-    id: String
+    id: string
 
-- name: BatchResultErrorEntry
+- name: batch_result_error_entry
   class:
-    id: String
-    sender_fault: Boolean
-    code: String
-    message: String
+    id: string
+    sender_fault: boolean
+    code: string
+    message: string
 
-- name: ChangeMessageVisibilityBatchEntry
+- name: change_message_visibility_batch_entry
   class:
-    id: String
-    receipt_handle: String
-    visibility_timeout: Int
+    id: string
+    receipt_handle: string
+    visibility_timeout: int
 
-- name: ChangeMessageVisibilityBatchResult
+- name: change_message_visibility_batch_result
   class:
-    id: String
+    id: string
 
 # CloudFront Classes
 
-- name: CloudFrontDistribution
+- name: cloud_front_distribution
   class:
-    distribution_id: String
-    domain_name: String
-    arn: String
-    status: String
-    enabled: Boolean
-    aliases: List[String]
-    origins: List[CloudFrontOrigin]
-    price_class: String
-    last_modified_time: Date
+    distribution_id: string
+    domain_name: string
+    arn: string
+    status: string
+    enabled: boolean
+    aliases: list[string]
+    origins: list[cloud_front_origin]
+    price_class: string
+    last_modified_time: date
 
-- name: CloudFrontOrigin
+- name: cloud_front_origin
   class:
-    id: String
-    domain_name: String
-    origin_path: String
-    connection_attempts: Int
-    connection_timeout: Int
+    id: string
+    domain_name: string
+    origin_path: string
+    connection_attempts: int
+    connection_timeout: int
 
-- name: CacheBehavior
+- name: cache_behavior
   class:
-    path_pattern: String
-    target_origin_id: String
-    viewer_protocol_policy: String
-    allowed_methods: List[String]
-    cached_methods: List[String]
-    cache_policy_id: String
-    origin_request_policy_id: String
-    compress: Boolean
-    smooth_streaming: Boolean
+    path_pattern: string
+    target_origin_id: string
+    viewer_protocol_policy: string
+    allowed_methods: list[string]
+    cached_methods: list[string]
+    cache_policy_id: string
+    origin_request_policy_id: string
+    compress: boolean
+    smooth_streaming: boolean
 
-- name: CacheKeyParameters
+- name: cache_key_parameters
   class:
-    headers_config: HeadersConfig
-    cookies_config: CookiesConfig
-    query_strings_config: QueryStringsConfig
-    enable_accept_encoding_gzip: Boolean
-    enable_accept_encoding_brotli: Boolean
+    headers_config: headers_config
+    cookies_config: cookies_config
+    query_strings_config: query_strings_config
+    enable_accept_encoding_gzip: boolean
+    enable_accept_encoding_brotli: boolean
 
-- name: HeadersConfig
+- name: headers_config
   class:
-    header_behavior: String
-    headers: List[String]
+    header_behavior: string
+    headers: list[string]
 
-- name: CookiesConfig
+- name: cookies_config
   class:
-    cookie_behavior: String
-    cookies: List[String]
+    cookie_behavior: string
+    cookies: list[string]
 
-- name: QueryStringsConfig
+- name: query_strings_config
   class:
-    query_string_behavior: String
-    query_strings: List[String]
+    query_string_behavior: string
+    query_strings: list[string]
 
-- name: CorsConfig
+- name: cors_config
   class:
-    access_control_allow_origins: List[String]
-    access_control_allow_headers: List[String]
-    access_control_allow_methods: List[String]
-    access_control_allow_credentials: Boolean
-    access_control_max_age_sec: Int
-    origin_override: Boolean
+    access_control_allow_origins: list[string]
+    access_control_allow_headers: list[string]
+    access_control_allow_methods: list[string]
+    access_control_allow_credentials: boolean
+    access_control_max_age_sec: int
+    origin_override: boolean
 
-- name: SecurityHeadersConfig
+- name: security_headers_config
   class:
-    content_security_policy: String
-    content_type_options: String
-    frame_options: String
-    referrer_policy: String
-    strict_transport_security: String
-    xss_protection: String
+    content_security_policy: string
+    content_type_options: string
+    frame_options: string
+    referrer_policy: string
+    strict_transport_security: string
+    xss_protection: string
 
-- name: CustomHeadersConfig
+- name: custom_headers_config
   class:
-    items: List[CustomHeader]
+    items: list[custom_header]
 
-- name: CustomHeader
+- name: custom_header
   class:
-    header: String
-    value: String
-    override: Boolean
+    header: string
+    value: string
+    override: boolean
 
-- name: CustomErrorResponse
+- name: custom_error_response
   class:
-    error_code: Int
-    response_page_path: String
-    response_code: String
-    error_caching_min_ttl: Int
+    error_code: int
+    response_page_path: string
+    response_code: string
+    error_caching_min_ttl: int
 
-- name: CloudFrontInvalidation
+- name: cloud_front_invalidation
   class:
-    id: String
-    status: String
-    create_time: Date
+    id: string
+    status: string
+    create_time: date
 
-- name: CloudFrontTags
+- name: cloud_front_tags
   class:
-    items: List[CloudFrontTag]
+    items: list[cloud_front_tag]
 
-- name: CloudFrontTag
+- name: cloud_front_tag
   class:
-    key: String
-    value: String
+    key: string
+    value: string
 
-- name: DistributionConfig
+- name: distribution_config
   class:
-    caller_reference: String
-    aliases: List[String]
-    default_root_object: String
-    origins: List[CloudFrontOrigin]
-    default_cache_behavior: CacheBehavior
-    cache_behaviors: List[CacheBehavior]
-    custom_error_responses: List[CustomErrorResponse]
-    comment: String
-    logging: Boolean
-    price_class: String
-    enabled: Boolean
-    viewer_certificate: String
-    restrictions: String
-    web_acl_id: String
+    caller_reference: string
+    aliases: list[string]
+    default_root_object: string
+    origins: list[cloud_front_origin]
+    default_cache_behavior: cache_behavior
+    cache_behaviors: list[cache_behavior]
+    custom_error_responses: list[custom_error_response]
+    comment: string
+    logging: boolean
+    price_class: string
+    enabled: boolean
+    viewer_certificate: string
+    restrictions: string
+    web_acl_id: string
 
-- name: CachePolicy
+- name: cache_policy
   class:
-    cache_policy_id: String
-    name: String
-    default_ttl: Int
-    max_ttl: Int
-    min_ttl: Int
-    comment: String
+    cache_policy_id: string
+    name: string
+    default_ttl: int
+    max_ttl: int
+    min_ttl: int
+    comment: string
 
 # Secrets Manager Classes
 
-- name: AwsSecret
+- name: aws_secret
   class:
-    arn: String
-    name: String
-    description: String
-    secret_value: String
-    version_id: String
-    kms_key_id: String
-    rotation_enabled: Boolean
-    last_changed_date: Date
-    last_rotated_date: Date
+    arn: string
+    name: string
+    description: string
+    secret_value: string
+    version_id: string
+    kms_key_id: string
+    rotation_enabled: boolean
+    last_changed_date: date
+    last_rotated_date: date
 
-- name: SecretsTags
+- name: secrets_tags
   class:
-    items: List[SecretsTag]
+    items: list[secrets_tag]
 
-- name: SecretsTag
+- name: secrets_tag
   class:
-    key: String
-    value: String
+    key: string
+    value: string
 
-- name: SecretFilter
+- name: secret_filter
   class:
-    key: String
-    values: List[String]
+    key: string
+    values: list[string]
 
-- name: SecretListEntry
+- name: secret_list_entry
   class:
-    arn: String
-    name: String
-    description: String
-    kms_key_id: String
-    rotation_enabled: Boolean
-    last_accessed_date: Date
-    last_changed_date: Date
-    tags: List[SecretsTag]
+    arn: string
+    name: string
+    description: string
+    kms_key_id: string
+    rotation_enabled: boolean
+    last_accessed_date: date
+    last_changed_date: date
+    tags: list[secrets_tag]
 
-- name: RotationRules
+- name: rotation_rules
   class:
-    automatically_after_days: Int
-    duration: String
-    schedule_expression: String
+    automatically_after_days: int
+    duration: string
+    schedule_expression: string
 
-- name: KmsKeyIds
+- name: kms_key_ids
   class:
-    regions: Map[String, String]
+    regions: map[string, string]
 
-- name: ReplicationStatus
+- name: replication_status
   class:
-    region: String
-    kms_key_id: String
-    status: String
-    status_message: String
-    last_accessed_date: Date
+    region: string
+    kms_key_id: string
+    status: string
+    status_message: string
+    last_accessed_date: date
 
 # ACM Classes
 
-- name: Certificate
+- name: certificate
   class:
-    certificate_arn: String
-    domain_name: String
-    subject_alternative_names: List[String]
-    domain_validation_options: List[DomainValidationOption]
-    serial: String
-    subject: String
-    issuer: String
-    created_at: Date
-    issued_at: Date
-    imported_at: Date
-    status: String
-    revoked_at: Date
-    revocation_reason: String
-    not_before: Date
-    not_after: Date
-    key_algorithm: String
-    signature_algorithm: String
-    in_use_by: List[String]
-    failure_reason: String
-    type: String
-    renewal_summary: RenewalSummary
-    key_usages: List[KeyUsage]
-    extended_key_usages: List[ExtendedKeyUsage]
-    certificate_authority_arn: String
-    renewal_eligibility: String
-    options: CertificateOptions
+    certificate_arn: string
+    domain_name: string
+    subject_alternative_names: list[string]
+    domain_validation_options: list[domain_validation_option]
+    serial: string
+    subject: string
+    issuer: string
+    created_at: date
+    issued_at: date
+    imported_at: date
+    status: string
+    revoked_at: date
+    revocation_reason: string
+    not_before: date
+    not_after: date
+    key_algorithm: string
+    signature_algorithm: string
+    in_use_by: list[string]
+    failure_reason: string
+    type: string
+    renewal_summary: renewal_summary
+    key_usages: list[key_usage]
+    extended_key_usages: list[extended_key_usage]
+    certificate_authority_arn: string
+    renewal_eligibility: string
+    options: certificate_options
 
-- name: CertificateSummary
+- name: certificate_summary
   class:
-    certificate_arn: String
-    domain_name: String
-    subject_alternative_names: List[String]
-    has_additional_subject_alternative_names: Boolean
-    status: String
-    type: String
-    key_algorithm: String
-    key_usages: List[String]
-    extended_key_usages: List[String]
-    in_use: Boolean
-    exported: Boolean
-    renewal_eligibility: String
-    not_before: Date
-    not_after: Date
-    created_at: Date
-    issued_at: Date
-    imported_at: Date
-    revoked_at: Date
+    certificate_arn: string
+    domain_name: string
+    subject_alternative_names: list[string]
+    has_additional_subject_alternative_names: boolean
+    status: string
+    type: string
+    key_algorithm: string
+    key_usages: list[string]
+    extended_key_usages: list[string]
+    in_use: boolean
+    exported: boolean
+    renewal_eligibility: string
+    not_before: date
+    not_after: date
+    created_at: date
+    issued_at: date
+    imported_at: date
+    revoked_at: date
 
-- name: DomainValidationOption
+- name: domain_validation_option
   class:
-    domain_name: String
-    validation_domain: String
-    validation_status: String
-    resource_record: ResourceRecord
-    validation_method: String
-    validation_emails: List[String]
+    domain_name: string
+    validation_domain: string
+    validation_status: string
+    resource_record: resource_record
+    validation_method: string
+    validation_emails: list[string]
 
-- name: ResourceRecord
+- name: resource_record
   class:
-    name: String
-    type: String
-    value: String
+    name: string
+    type: string
+    value: string
 
-- name: RenewalSummary
+- name: renewal_summary
   class:
-    renewal_status: String
-    domain_validation_options: List[DomainValidationOption]
-    renewal_status_reason: String
-    updated_at: Date
+    renewal_status: string
+    domain_validation_options: list[domain_validation_option]
+    renewal_status_reason: string
+    updated_at: date
 
-- name: KeyUsage
+- name: key_usage
   class:
-    name: String
+    name: string
 
-- name: ExtendedKeyUsage
+- name: extended_key_usage
   class:
-    name: String
-    oid: String
+    name: string
+    oid: string
 
-- name: CertificateOptions
+- name: certificate_options
   class:
-    certificate_transparency_logging_preference: String
+    certificate_transparency_logging_preference: string
 
-- name: CertificateFilters
+- name: certificate_filters
   class:
-    extended_key_usage: List[String]
-    key_usage: List[String]
-    key_types: List[String]
+    extended_key_usage: list[string]
+    key_usage: list[string]
+    key_types: list[string]
 
-- name: ExpiryEventsConfiguration
+- name: expiry_events_configuration
   class:
-    days_before_expiry: Int
+    days_before_expiry: int
 
-- name: AccountConfiguration
+- name: account_configuration
   class:
-    expiry_events: ExpiryEventsConfiguration
+    expiry_events: expiry_events_configuration
 
-- name: AcmTags
+- name: acm_tags
   class:
-    tags: Map[String, String]
+    tags: map[string, string]

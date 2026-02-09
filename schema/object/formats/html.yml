@@ -1,11 +1,10 @@
-- name: HTML Document
-  type: html_document
+- name: html_document
   schema:
-    - charset: String = UTF-8 #max(20)
-    - created_at: Date = now()
-    - created_by: Id? -> User.id
-    - is_sanitized: Boolean = false
+    - charset: string = utf-8 #max(20)
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - is_sanitized: boolean = false
     - size: int = 0 #min(0)
-    - source_path: String? #max(2000)
-    - title: String? #max(500)
-    - updated_at: Date = now()
+    - source_path: string? #max(2000)
+    - title: string? #max(500)
+    - updated_at: date = now()

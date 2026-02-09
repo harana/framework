@@ -1,7 +1,7 @@
-name: ComboboxLabel
-type: UIComponent
+name: combobox_label
+type: ui_component
 id:
   - identifier
 attributes:
-  option_id: id #required -> ComboboxOption.id
-  text: String #required
+  option_id: id #required -> combobox_option.id
+  text: string #required

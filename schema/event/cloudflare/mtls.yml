@@ -1,16 +1,14 @@
-- name: Cloudflare mTLS Fetch Invoked
-  type: cloudflare_mtls_fetch_invoked
+- name: cloudflare_mtls_fetch_invoked
   schema:
-    certificate_binding: String #required
-    url: String #required
-    method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
-    status_code: Int?
-    invoked_at: Date = now()
+    certificate_binding: string #required
+    url: string #required
+    method: get | post | put | patch | delete | head | options = get
+    status_code: int?
+    invoked_at: date = now()
 
-- name: Cloudflare mTLS Fetch Failed
-  type: cloudflare_mtls_fetch_failed
+- name: cloudflare_mtls_fetch_failed
   schema:
-    certificate_binding: String #required
-    url: String #required
-    error_message: String #required
-    failed_at: Date = now()
+    certificate_binding: string #required
+    url: string #required
+    error_message: string #required
+    failed_at: date = now()

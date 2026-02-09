@@ -1,16 +1,15 @@
-- name: Textarea Component
-  type: textarea
+- name: textarea
   attributes:
-    - aria_label: String? #max(200)
-    - auto_focus: Boolean = false
-    - default_value: String? #max(10000)
-    - description: String? #max(500)
-    - error_message: String? #max(500)
-    - is_disabled: Boolean = false
-    - is_invalid: Boolean = false
-    - is_resizable: Boolean = true
-    - label: String? #max(200)
-    - placeholder: String? #max(200)
+    - aria_label: string? #max(200)
+    - auto_focus: boolean = false
+    - default_value: string? #max(10000)
+    - description: string? #max(500)
+    - error_message: string? #max(500)
+    - is_disabled: boolean = false
+    - is_invalid: boolean = false
+    - is_resizable: boolean = true
+    - label: string? #max(200)
+    - placeholder: string? #max(200)
     - rows: int? #min(1)
   events:
     - blur

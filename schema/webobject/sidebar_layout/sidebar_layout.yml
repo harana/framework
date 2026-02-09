@@ -1,5 +1,4 @@
-- name: Sidebar Layout Component
-  type: sidebar_layout
+- name: sidebar_layout
   attributes:
-    - navbar_id: Id? -> UINavbar.id
-    - sidebar_id: Id #required -> UISidebar.id
+    - navbar_id: id? -> ui_navbar.id
+    - sidebar_id: id #required -> ui_sidebar.id

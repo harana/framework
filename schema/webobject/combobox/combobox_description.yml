@@ -1,7 +1,7 @@
-name: ComboboxDescription
-type: UIComponent
+name: combobox_description
+type: ui_component
 id:
   - identifier
 
-  option_id: id #required -> ComboboxOption.id
-  text: String #required
+  option_id: id #required -> combobox_option.id
+  text: string #required

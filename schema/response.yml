@@ -1,0 +1,182 @@
+- name: response_template
+  schema:
+    - body_template: string?
+    - content_type: string = application/json #max(100)
+    - created_at: date = now()
+    - description: string? #max(500)
+    - headers: string? # j_s_o_n map
+    - is_active: boolean = true
+    - name: string #required #unique #max(200)
+    - status_code: int = 200 #min(100) #max(599)
+    - updated_at: date = now()
+
+- name: response_log
+  id: [request_path, created_at]
+  schema:
+    - content_type: string? #max(100)
+    - created_at: date = now()
+    - duration_ms: int? #min(0)
+    - request_method: string #required #max(10)
+    - request_path: string #required #max(2000)
+    - response_size: int? #min(0)
+    - status_code: int #required #min(100) #max(599)
+    - template_id: id? -> response_template.id
+
+- name: bad_gateway_output
+  schema:
+    - status_code: int
+    - message: string
+    - body: string
+
+- name: bad_request_output
+  schema:
+    - status_code: int
+    - message: string
+    - errors: list[string]
+    - body: string
+
+- name: binary_output
+  schema:
+    - data: bytes
+    - content_type: string
+    - filename: string
+    - status_code: int
+
+- name: cors_preflight_output
+  schema:
+    - status_code: int
+    - headers: map[string, any]
+
+- name: csv_output
+  schema:
+    - data: string
+    - content_type: string
+    - filename: string
+
+- name: delete_cookie_output
+  schema:
+    - set_cookie_header: string
+
+- name: empty_output
+  schema:
+    - status_code: int
+
+- name: error_output
+  schema:
+    - status_code: int
+    - message: string
+    - error_code: string
+    - details: string
+    - body: string
+
+- name: file_download_output
+  schema:
+    - data: bytes
+    - content_type: string
+    - filename: string
+    - content_disposition: string
+
+- name: forbidden_output
+  schema:
+    - status_code: int
+    - message: string
+    - body: string
+
+- name: graphql_output
+  schema:
+    - data: any
+    - errors: list[map[string, any]]
+    - extensions: map[string, any]
+    - body: string
+
+- name: html_output
+  schema:
+    - html: string
+    - status_code: int
+
+- name: internal_server_error_output
+  schema:
+    - status_code: int
+    - message: string
+    - body: string
+
+- name: json_output
+  schema:
+    - data: string
+    - status_code: int
+
+- name: not_found_output
+  schema:
+    - status_code: int
+    - message: string
+    - body: string
+
+- name: paginated_output
+  schema:
+    - data: list[any]
+    - total: int
+    - page: int
+    - page_size: int
+    - total_pages: int
+    - has_next: boolean
+    - has_previous: boolean
+
+- name: redirect_output
+  schema:
+    - url: string
+    - status_code: int
+
+- name: render_template_output
+  schema:
+    - content: string
+    - content_type: string
+    - status_code: int
+
+- name: render_template_file_output
+  schema:
+    - content: string
+    - content_type: string
+    - status_code: int
+
+- name: service_unavailable_output
+  schema:
+    - status_code: int
+    - message: string
+    - retry_after: int
+    - body: string
+
+- name: set_cookie_output
+  schema:
+    - set_cookie_header: string
+
+- name: sse_event_output
+  schema:
+    - event_string: string
+
+- name: sse_stream_output
+  schema:
+    - content_type: string
+    - stream: string
+
+- name: streaming_output
+  schema:
+    - content_type: string
+    - chunk_size: int
+
+- name: text_output
+  schema:
+    - text: string
+    - content_type: string
+    - status_code: int
+
+- name: unauthorized_output
+  schema:
+    - status_code: int
+    - message: string
+    - www_authenticate: string
+    - body: string
+
+- name: xml_output
+  schema:
+    - xml: string
+    - status_code: int

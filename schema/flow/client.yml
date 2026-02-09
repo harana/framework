@@ -1,316 +1,308 @@
-- name: Send HTTP GET Request
-  method: client/get
+- name: client/get
   inputs:
     - name: url
-      type: String
+      type: string
       required: true
-      description: The URL to send the GET request to
+      description: the url to send the get request to
     - name: headers
-      type: Hash
+      type: hash
       required: false
-      description: Optional HTTP headers to include with the request
+      description: optional http headers to include with the request
     - name: timeout
-      type: Integer
+      type: integer
       required: false
-      description: Request timeout in seconds (default 30)
+      description: request timeout in seconds (default 30)
     - name: query_params
-      type: Hash
+      type: hash
       required: false
-      description: Optional query parameters to append to the URL
+      description: optional query parameters to append to the url
   outputs:
-    - GetOutput
+    - get_output
 
-- name: Send HTTP POST Request
-  method: client/post
+- name: client/post
   inputs:
     - name: url
-      type: String
+      type: string
       required: true
-      description: The URL to send the POST request to
+      description: the url to send the post request to
     - name: body
-      type: String
+      type: string
       required: false
-      description: The request body content
+      description: the request body content
     - name: content_type
-      type: String
+      type: string
       required: false
-      description: Content type header (default application/json)
+      description: content type header (default application/json)
     - name: headers
-      type: Hash
+      type: hash
       required: false
-      description: Optional HTTP headers to include with the request
+      description: optional http headers to include with the request
     - name: query_params
-      type: Hash
+      type: hash
       required: false
-      description: Optional query parameters to append to the URL
+      description: optional query parameters to append to the url
     - name: timeout
-      type: Integer
+      type: integer
       required: false
-      description: Request timeout in seconds (default 30)
+      description: request timeout in seconds (default 30)
   outputs:
-    - PostOutput
+    - post_output
 
-- name: Send HTTP PUT Request
-  method: client/put
+- name: client/put
   inputs:
     - name: url
-      type: String
+      type: string
       required: true
-      description: The URL to send the PUT request to
+      description: the url to send the put request to
     - name: body
-      type: String
+      type: string
       required: false
-      description: The request body content
+      description: the request body content
     - name: content_type
-      type: String
+      type: string
       required: false
-      description: Content type header (default application/json)
+      description: content type header (default application/json)
     - name: headers
-      type: Hash
+      type: hash
       required: false
-      description: Optional HTTP headers to include with the request
+      description: optional http headers to include with the request
     - name: query_params
-      type: Hash
+      type: hash
       required: false
-      description: Optional query parameters to append to the URL
+      description: optional query parameters to append to the url
     - name: timeout
-      type: Integer
+      type: integer
       required: false
-      description: Request timeout in seconds (default 30)
+      description: request timeout in seconds (default 30)
   outputs:
-    - PutOutput
+    - put_output
 
-- name: Send HTTP PATCH Request
-  method: client/patch
+- name: client/patch
   inputs:
     - name: url
-      type: String
+      type: string
       required: true
-      description: The URL to send the PATCH request to
+      description: the url to send the patch request to
     - name: body
-      type: String
+      type: string
       required: false
-      description: The request body content
+      description: the request body content
     - name: content_type
-      type: String
+      type: string
       required: false
-      description: Content type header (default application/json)
+      description: content type header (default application/json)
     - name: headers
-      type: Hash
+      type: hash
       required: false
-      description: Optional HTTP headers to include with the request
+      description: optional http headers to include with the request
     - name: query_params
-      type: Hash
+      type: hash
       required: false
-      description: Optional query parameters to append to the URL
+      description: optional query parameters to append to the url
     - name: timeout
-      type: Integer
+      type: integer
       required: false
-      description: Request timeout in seconds (default 30)
+      description: request timeout in seconds (default 30)
   outputs:
-    - PatchOutput
+    - patch_output
 
-- name: Send HTTP DELETE Request
-  method: client/delete
+- name: client/delete
   inputs:
     - name: url
-      type: String
+      type: string
       required: true
-      description: The URL to send the DELETE request to
+      description: the url to send the delete request to
     - name: headers
-      type: Hash
+      type: hash
       required: false
-      description: Optional HTTP headers to include with the request
+      description: optional http headers to include with the request
     - name: query_params
-      type: Hash
+      type: hash
       required: false
-      description: Optional query parameters to append to the URL
+      description: optional query parameters to append to the url
     - name: timeout
-      type: Integer
+      type: integer
       required: false
-      description: Request timeout in seconds (default 30)
+      description: request timeout in seconds (default 30)
   outputs:
-    - DeleteOutput
+    - delete_output
 
-- name: Download File From URL
-  method: client/download
+- name: client/download
   inputs:
     - name: url
-      type: String
+      type: string
       required: true
-      description: The URL to download the file from
+      description: the url to download the file from
     - name: headers
-      type: Hash
+      type: hash
       required: false
-      description: Optional HTTP headers to include with the request
+      description: optional http headers to include with the request
     - name: timeout
-      type: Integer
+      type: integer
       required: false
-      description: Request timeout in seconds (default 300)
+      description: request timeout in seconds (default 300)
   outputs:
-    - DownloadOutput
+    - download_output
 
-- name: Upload File To URL
-  method: client/upload
+- name: client/upload
   inputs:
     - name: file
-      type: Bytes
+      type: bytes
       required: true
-      description: The file content to upload
+      description: the file content to upload
     - name: filename
-      type: String
+      type: string
       required: true
-      description: The filename for the uploaded file
+      description: the filename for the uploaded file
     - name: url
-      type: String
+      type: string
       required: true
-      description: The URL to upload the file to
+      description: the url to upload the file to
     - name: headers
-      type: Hash
+      type: hash
       required: false
-      description: Optional HTTP headers to include with the request
+      description: optional http headers to include with the request
     - name: timeout
-      type: Integer
+      type: integer
       required: false
-      description: Request timeout in seconds (default 300)
+      description: request timeout in seconds (default 300)
   outputs:
-    - UploadOutput
+    - upload_output
 
-- name: Send GraphQL Query
-  method: client/graphql_query
+- name: client/graphql_query
   inputs:
     - name: url
-      type: String
+      type: string
       required: true
-      description: The GraphQL endpoint URL
+      description: the graph_ql endpoint url
     - name: query
-      type: String
+      type: string
       required: true
-      description: The GraphQL query string
+      description: the graph_ql query string
     - name: headers
-      type: Hash
+      type: hash
       required: false
-      description: Optional HTTP headers to include with the request
+      description: optional http headers to include with the request
     - name: variables
-      type: Hash
+      type: hash
       required: false
-      description: Optional GraphQL variables
+      description: optional graph_ql variables
     - name: timeout
-      type: Integer
+      type: integer
       required: false
-      description: Request timeout in seconds (default 30)
+      description: request timeout in seconds (default 30)
   outputs:
-    - GraphqlQueryOutput
+    - graphql_query_output
 
 # Output Types
 
-- class: GetOutput
+- class: get_output
   fields:
     - name: body
-      type: String
-      description: Response body content
+      type: string
+      description: response body content
     - name: headers
-      type: Hash
-      description: Response headers
+      type: hash
+      description: response headers
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
 
-- class: PostOutput
+- class: post_output
   fields:
     - name: body
-      type: String
-      description: Response body content
+      type: string
+      description: response body content
     - name: headers
-      type: Hash
-      description: Response headers
+      type: hash
+      description: response headers
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
 
-- class: PutOutput
+- class: put_output
   fields:
     - name: body
-      type: String
-      description: Response body content
+      type: string
+      description: response body content
     - name: headers
-      type: Hash
-      description: Response headers
+      type: hash
+      description: response headers
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
 
-- class: PatchOutput
+- class: patch_output
   fields:
     - name: body
-      type: String
-      description: Response body content
+      type: string
+      description: response body content
     - name: headers
-      type: Hash
-      description: Response headers
+      type: hash
+      description: response headers
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
 
-- class: DeleteOutput
+- class: delete_output
   fields:
     - name: body
-      type: String
-      description: Response body content
+      type: string
+      description: response body content
     - name: headers
-      type: Hash
-      description: Response headers
+      type: hash
+      description: response headers
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
 
-- class: DownloadOutput
+- class: download_output
   fields:
     - name: content
-      type: Bytes
-      description: Downloaded file content
+      type: bytes
+      description: downloaded file content
     - name: content_type
-      type: String
-      description: Content type of the downloaded file
+      type: string
+      description: content type of the downloaded file
     - name: size
-      type: Integer
-      description: Size of the downloaded content in bytes
+      type: integer
+      description: size of the downloaded content in bytes
 
-- class: UploadOutput
+- class: upload_output
   fields:
     - name: body
-      type: String
-      description: Upload response body
+      type: string
+      description: upload response body
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
 
-- class: GraphqlQueryOutput
+- class: graphql_query_output
   fields:
     - name: data
-      type: Any
-      description: GraphQL response data
+      type: any
+      description: graph_ql response data
     - name: errors
-      type: Array[GraphqlError]
-      description: GraphQL errors if any
+      type: array[graphql_error]
+      description: graph_ql errors if any
 
-- class: GraphqlError
+- class: graphql_error
   fields:
     - name: message
-      type: String
-      description: Error message
+      type: string
+      description: error message
     - name: path
-      type: Array[String]
-      description: Path to the field that caused the error
+      type: array[string]
+      description: path to the field that caused the error
     - name: locations
-      type: Array[GraphqlErrorLocation]
-      description: Source locations related to the error
+      type: array[graphql_error_location]
+      description: source locations related to the error
 
-- class: GraphqlErrorLocation
+- class: graphql_error_location
   fields:
     - name: line
-      type: Integer
-      description: Line number in the query
+      type: integer
+      description: line number in the query
     - name: column
-      type: Integer
-      description: Column number in the query
+      type: integer
+      description: column number in the query

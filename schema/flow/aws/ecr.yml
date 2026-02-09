@@ -1,182 +1,165 @@
-- name: Create ECR Repository
-  method: create_repository
+- name: create_repository
   inputs:
-    encryption_type: AES256 | KMS
-    image_tag_mutability: MUTABLE | IMMUTABLE = MUTABLE
-    kms_key: String
-    region: String
-    repository_name: String #required
-    scan_on_push: Boolean = false
-    tags: EcrTags
+    encryption_type: aes256 | kms
+    image_tag_mutability: mutable | immutable = mutable
+    kms_key: string
+    region: string
+    repository_name: string #required
+    scan_on_push: boolean = false
+    tags: ecr_tags
   outputs:
-    registry_id: String
-    repository_arn: String
-    repository_uri: String
-    success: Boolean
+    registry_id: string
+    repository_arn: string
+    repository_uri: string
+    success: boolean
 
-- name: Delete ECR Repository
-  method: delete_repository
+- name: delete_repository
   inputs:
-    force: Boolean = false
-    region: String
-    repository_name: String #required
+    force: boolean = false
+    region: string
+    repository_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Describe ECR Repositories
-  method: describe_repositories
+- name: describe_repositories
   inputs:
-    region: String
-    repository_names: List[String]
+    region: string
+    repository_names: list[string]
   outputs:
-    repositories: List[EcrRepository]
+    repositories: list[ecr_repository]
 
-- name: List ECR Images
-  method: list_images
+- name: list_images
   inputs:
-    filter: ImageFilter
-    max_results: Int = 100
-    region: String
-    repository_name: String #required
+    filter: image_filter
+    max_results: int = 100
+    region: string
+    repository_name: string #required
   outputs:
-    image_ids: List[ImageId]
-    next_token: String
+    image_ids: list[image_id]
+    next_token: string
 
-- name: Describe ECR Images
-  method: describe_images
+- name: describe_images
   inputs:
-    image_ids: List[ImageId]
-    region: String
-    repository_name: String #required
+    image_ids: list[image_id]
+    region: string
+    repository_name: string #required
   outputs:
-    image_details: List[EcrImageDetail]
+    image_details: list[ecr_image_detail]
 
-- name: Put ECR Image
-  method: put_image
+- name: put_image
   inputs:
-    image_manifest: String #required
-    image_tag: String #required
-    region: String
-    repository_name: String #required
+    image_manifest: string #required
+    image_tag: string #required
+    region: string
+    repository_name: string #required
   outputs:
-    image: EcrImage
-    success: Boolean
+    image: ecr_image
+    success: boolean
 
-- name: Batch Delete ECR Image
-  method: batch_delete_image
+- name: batch_delete_image
   inputs:
-    image_ids: List[ImageId] #required
-    region: String
-    repository_name: String #required
+    image_ids: list[image_id] #required
+    region: string
+    repository_name: string #required
   outputs:
-    failures: List[ImageFailure]
-    image_ids: List[ImageId]
-    success: Boolean
+    failures: list[image_failure]
+    image_ids: list[image_id]
+    success: boolean
 
-- name: Get ECR Authorization Token
-  method: get_auth_token
+- name: get_auth_token
   inputs:
-    region: String
-    registry_ids: List[String]
+    region: string
+    registry_ids: list[string]
   outputs:
-    authorization_token: String
-    expires_at: Date
-    proxy_endpoint: String
-    success: Boolean
+    authorization_token: string
+    expires_at: date
+    proxy_endpoint: string
+    success: boolean
 
-- name: Get ECR Download URL
-  method: get_download_url
+- name: get_download_url
   inputs:
-    image_digest: String #required
-    region: String
-    repository_name: String #required
+    image_digest: string #required
+    region: string
+    repository_name: string #required
   outputs:
-    download_url: String
-    success: Boolean
+    download_url: string
+    success: boolean
 
-- name: Tag ECR Image
-  method: tag_image
+- name: tag_image
   inputs:
-    image_digest: String #required
-    image_tag: String #required
-    region: String
-    repository_name: String #required
+    image_digest: string #required
+    image_tag: string #required
+    region: string
+    repository_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Set Repository Policy
-  method: set_repository_policy
+- name: set_repository_policy
   inputs:
-    force: Boolean = false
-    policy_text: String #required
-    region: String
-    repository_name: String #required
+    force: boolean = false
+    policy_text: string #required
+    region: string
+    repository_name: string #required
   outputs:
-    policy_text: String
-    registry_id: String
-    repository_name: String
-    success: Boolean
+    policy_text: string
+    registry_id: string
+    repository_name: string
+    success: boolean
 
-- name: Get Repository Policy
-  method: get_repository_policy
+- name: get_repository_policy
   inputs:
-    region: String
-    repository_name: String #required
+    region: string
+    repository_name: string #required
   outputs:
-    policy_text: String
-    registry_id: String
-    repository_name: String
+    policy_text: string
+    registry_id: string
+    repository_name: string
 
-- name: Delete Repository Policy
-  method: delete_repository_policy
+- name: delete_repository_policy
   inputs:
-    region: String
-    repository_name: String #required
+    region: string
+    repository_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Start Image Scan
-  method: start_image_scan
+- name: start_image_scan
   inputs:
-    image_id: ImageId #required
-    region: String
-    repository_name: String #required
+    image_id: image_id #required
+    region: string
+    repository_name: string #required
   outputs:
-    image_id: ImageId
-    scan_status: String
-    success: Boolean
+    image_id: image_id
+    scan_status: string
+    success: boolean
 
-- name: Describe Image Scan Findings
-  method: describe_scan_findings
+- name: describe_scan_findings
   inputs:
-    image_id: ImageId #required
-    max_results: Int = 100
-    region: String
-    repository_name: String #required
+    image_id: image_id #required
+    max_results: int = 100
+    region: string
+    repository_name: string #required
   outputs:
-    findings: List[ImageScanFinding]
-    image_scan_status: ImageScanStatus
-    next_token: String
+    findings: list[image_scan_finding]
+    image_scan_status: image_scan_status
+    next_token: string
 
-- name: Put Lifecycle Policy
-  method: put_lifecycle_policy
+- name: put_lifecycle_policy
   inputs:
-    lifecycle_policy_text: String #required
-    region: String
-    repository_name: String #required
+    lifecycle_policy_text: string #required
+    region: string
+    repository_name: string #required
   outputs:
-    lifecycle_policy_text: String
-    registry_id: String
-    repository_name: String
-    success: Boolean
+    lifecycle_policy_text: string
+    registry_id: string
+    repository_name: string
+    success: boolean
 
-- name: Get Lifecycle Policy
-  method: get_lifecycle_policy
+- name: get_lifecycle_policy
   inputs:
-    region: String
-    repository_name: String #required
+    region: string
+    repository_name: string #required
   outputs:
-    last_evaluated_at: Date
-    lifecycle_policy_text: String
-    registry_id: String
-    repository_name: String
+    last_evaluated_at: date
+    lifecycle_policy_text: string
+    registry_id: string
+    repository_name: string

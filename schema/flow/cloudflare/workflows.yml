@@ -1,117 +1,104 @@
-- name: Create Workflow Instance
-  method: create
+- name: create
   inputs:
-    binding: String #required
-    id: String
-    params: Any
+    binding: string #required
+    id: string
+    params: any
   outputs:
-    id: String
-    success: Boolean
+    id: string
+    success: boolean
 
-- name: Create Workflow Instance Batch
-  method: create_batch
+- name: create_batch
   inputs:
-    binding: String #required
-    instances: List[WorkflowCreateOptions] #required
+    binding: string #required
+    instances: list[workflow_create_options] #required
   outputs:
-    instances: List[WorkflowInstanceInfo]
-    success: Boolean
+    instances: list[workflow_instance_info]
+    success: boolean
 
-- name: Get Workflow Instance
-  method: get
+- name: get
   inputs:
-    binding: String #required
-    id: String #required
+    binding: string #required
+    id: string #required
   outputs:
-    id: String
-    status: WorkflowInstanceStatus
+    id: string
+    status: workflow_instance_status
 
-- name: Get Workflow Instance Status
-  method: status
+- name: status
   inputs:
-    binding: String #required
-    id: String #required
+    binding: string #required
+    id: string #required
   outputs:
-    error: WorkflowError
-    output: Any
-    status: Queued | Running | Paused | Errored | Terminated | Complete | Waiting | WaitingForPause | Unknown
+    error: workflow_error
+    output: any
+    status: queued | running | paused | errored | terminated | complete | waiting | waiting_for_pause | unknown
 
-- name: Pause Workflow Instance
-  method: pause
+- name: pause
   inputs:
-    binding: String #required
-    id: String #required
+    binding: string #required
+    id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Resume Workflow Instance
-  method: resume
+- name: resume
   inputs:
-    binding: String #required
-    id: String #required
+    binding: string #required
+    id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Restart Workflow Instance
-  method: restart
+- name: restart
   inputs:
-    binding: String #required
-    id: String #required
+    binding: string #required
+    id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Terminate Workflow Instance
-  method: terminate
+- name: terminate
   inputs:
-    binding: String #required
-    id: String #required
+    binding: string #required
+    id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Send Event To Workflow Instance
-  method: send_event
+- name: send_event
   inputs:
-    binding: String #required
-    id: String #required
-    payload: Any
-    type: String #required
+    binding: string #required
+    id: string #required
+    payload: any
+    type: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Execute Workflow Step
-  method: step_do
+- name: step_do
   inputs:
-    callback: Any #required
-    name: String #required
-    retries_backoff: Constant | Linear | Exponential
-    retries_delay: String
-    retries_limit: Int
-    timeout: String
+    callback: any #required
+    name: string #required
+    retries_backoff: constant | linear | exponential
+    retries_delay: string
+    retries_limit: int
+    timeout: string
   outputs:
-    result: Any
+    result: any
 
-- name: Workflow Step Sleep
-  method: step_sleep
+- name: step_sleep
   inputs:
-    duration: String #required
-    name: String #required
+    duration: string #required
+    name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Workflow Step Sleep Until
-  method: step_sleep_until
+- name: step_sleep_until
   inputs:
-    name: String #required
-    timestamp: Date #required
+    name: string #required
+    timestamp: date #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Workflow Step Wait For Event
-  method: step_wait_for_event
+- name: step_wait_for_event
   inputs:
-    name: String #required
-    timeout: String = "24 hours"
-    type: String #required
+    name: string #required
+    timeout: string = "24 hours"
+    type: string #required
   outputs:
-    payload: Any
-    type: String
+    payload: any
+    type: string

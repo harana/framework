@@ -1,67 +1,61 @@
-- name: Get KV Value
-  method: get
+- name: get
   inputs:
-    cache_ttl: Int
-    key: String #required
-    namespace: String #required
-    type: Text | Json | ArrayBuffer | Stream = Text
+    cache_ttl: int
+    key: string #required
+    namespace: string #required
+    type: text | json | array_buffer | stream = text
   outputs:
-    found: Boolean
-    metadata: Any
-    value: Any
+    found: boolean
+    metadata: any
+    value: any
 
-- name: Get KV Value With Metadata
-  method: get_with_metadata
+- name: get_with_metadata
   inputs:
-    cache_ttl: Int
-    key: String #required
-    namespace: String #required
-    type: Text | Json | ArrayBuffer | Stream = Text
+    cache_ttl: int
+    key: string #required
+    namespace: string #required
+    type: text | json | array_buffer | stream = text
   outputs:
-    found: Boolean
-    metadata: Any
-    value: Any
+    found: boolean
+    metadata: any
+    value: any
 
-- name: Put KV Value
-  method: put
+- name: put
   inputs:
-    expiration: Int
-    expiration_ttl: Int
-    key: String #required
-    metadata: Any
-    namespace: String #required
-    value: Any #required
+    expiration: int
+    expiration_ttl: int
+    key: string #required
+    metadata: any
+    namespace: string #required
+    value: any #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Put KV Value With Metadata
-  method: put_with_metadata
+- name: put_with_metadata
   inputs:
-    expiration: Int
-    expiration_ttl: Int
-    key: String #required
-    metadata: Any #required
-    namespace: String #required
-    value: Any #required
+    expiration: int
+    expiration_ttl: int
+    key: string #required
+    metadata: any #required
+    namespace: string #required
+    value: any #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete KV Key
-  method: delete
+- name: delete
   inputs:
-    key: String #required
-    namespace: String #required
+    key: string #required
+    namespace: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List KV Keys
-  method: list
+- name: list
   inputs:
-    cursor: String
-    limit: Int = 1000
-    namespace: String #required
-    prefix: String
+    cursor: string
+    limit: int = 1000
+    namespace: string #required
+    prefix: string
   outputs:
-    cursor: String
-    keys: List[KvKey]
-    list_complete: Boolean
+    cursor: string
+    keys: list[kv_key]
+    list_complete: boolean

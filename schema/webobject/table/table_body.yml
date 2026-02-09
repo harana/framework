@@ -1,6 +1,6 @@
-name: TableBody
-type: UIComponent
+name: table_body
+type: ui_component
 id:
   - identifier
 
-  id #required -> Table.id
+  id #required -> table.id

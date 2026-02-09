@@ -1,27 +1,24 @@
-- name: Accordion Expanded
-  type: accordion_expanded
+- name: accordion_expanded
   schema:
-    accordion_id: Id #required
-    section_id: Id #required
-    section_title: String?
+    accordion_id: id #required
+    section_id: id #required
+    section_title: string?
     section_index: int? #min(0)
-    expanded_at: Date = now()
+    expanded_at: date = now()
 
-- name: Accordion Collapsed
-  type: accordion_collapsed
+- name: accordion_collapsed
   schema:
-    accordion_id: Id #required
-    section_id: Id #required
-    section_title: String?
+    accordion_id: id #required
+    section_id: id #required
+    section_title: string?
     section_index: int? #min(0)
-    collapsed_at: Date = now()
+    collapsed_at: date = now()
 
-- name: Accordion Section Clicked
-  type: accordion_section_clicked
+- name: accordion_section_clicked
   schema:
-    accordion_id: Id #required
-    section_id: Id #required
-    section_title: String?
+    accordion_id: id #required
+    section_id: id #required
+    section_title: string?
     section_index: int? #min(0)
-    was_expanded: Boolean = false
-    clicked_at: Date = now()
+    was_expanded: boolean = false
+    clicked_at: date = now()

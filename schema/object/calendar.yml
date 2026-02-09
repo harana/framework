@@ -1,61 +1,55 @@
 # Calendar event - used for displaying events on day/week/month views
-- name: CalendarEvent
-  type: calendar_event
+- name: calendar_event
   schema:
-    - id: String #required
-    - name: String #required #max(200)
-    - datetime: String #required
-    - time_display: String #required #max(20)
-    - href: String? #max(500)
-    - location: String? #max(200)
-    - color: String = "blue" #max(20)
-    - grid_row_start: Integer?
-    - grid_row_span: Integer?
-    - day_column: Integer?
+    - id: string #required
+    - name: string #required #max(200)
+    - datetime: string #required
+    - time_display: string #required #max(20)
+    - href: string? #max(500)
+    - location: string? #max(200)
+    - color: string = "blue" #max(20)
+    - grid_row_start: integer?
+    - grid_row_span: integer?
+    - day_column: integer?
 
 # Calendar meeting - used for meetings list with attendee images
-- name: CalendarMeeting
-  type: calendar_meeting
+- name: calendar_meeting
   schema:
-    - id: String #required
-    - name: String #required #max(200)
-    - image_url: String? #max(500)
-    - datetime: String #required
-    - datetime_display: String #required #max(100)
-    - location: String? #max(200)
+    - id: string #required
+    - name: string #required #max(200)
+    - image_url: string? #max(500)
+    - datetime: string #required
+    - datetime_display: string #required #max(100)
+    - location: string? #max(200)
 
 # Calendar day - used for day cells in month/week/day views
-- name: CalendarDay
-  type: calendar_day
+- name: calendar_day
   schema:
-    - date: String #required
-    - day_number: Integer #required
-    - weekday_short: String? #max(3)
-    - weekday_long: String? #max(10)
-    - is_current_month: Boolean = false
-    - is_today: Boolean = false
-    - is_selected: Boolean = false
-    - events: [CalendarEvent]
+    - date: string #required
+    - day_number: integer #required
+    - weekday_short: string? #max(3)
+    - weekday_long: string? #max(10)
+    - is_current_month: boolean = false
+    - is_today: boolean = false
+    - is_selected: boolean = false
+    - events: [calendar_event]
 
 # Calendar view option - dropdown menu items for view selection
-- name: CalendarViewOption
-  type: calendar_view_option
+- name: calendar_view_option
   schema:
-    - id: String #required
-    - label: String #required #max(50)
-    - href: String? #max(500)
-    - is_active: Boolean = false
+    - id: string #required
+    - label: string #required #max(50)
+    - href: string? #max(500)
+    - is_active: boolean = false
 
 # Calendar month - used for year view with month sections
-- name: CalendarMonth
-  type: calendar_month
+- name: calendar_month
   schema:
-    - name: String #required #max(20)
-    - days: [CalendarDay] #required
+    - name: string #required #max(20)
+    - days: [calendar_day] #required
 
 # Time slot - hour markers on the time axis
-- name: TimeSlot
-  type: time_slot
+- name: time_slot
   schema:
-    - label: String #required #max(10)
-    - hour: Integer #required
+    - label: string #required #max(10)
+    - hour: integer #required

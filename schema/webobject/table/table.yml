@@ -1,10 +1,9 @@
-- name: Table Component
-  type: table
+- name: table
   attributes:
-    - is_bleed: Boolean = false
-    - is_dense: Boolean = false
-    - is_grid: Boolean = false
-    - is_striped: Boolean = false
+    - is_bleed: boolean = false
+    - is_dense: boolean = false
+    - is_grid: boolean = false
+    - is_striped: boolean = false
   events:
     - bulk_selection_toggle
     - page_change

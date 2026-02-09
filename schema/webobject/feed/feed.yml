@@ -1,8 +1,7 @@
-- name: Feed Component
-  type: feed
+- name: feed
   attributes:
-    - show_comment_form: Boolean = false
-    - variant: Simple | WithComments = Simple
+    - show_comment_form: boolean = false
+    - variant: simple | with_comments = simple
   events:
     - comment_submit
     - item_click

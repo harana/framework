@@ -1,5 +1,3 @@
-//! Request extractors for authentication
-
 use crate::auth::jwt::Claims;
 use crate::auth::session::Session;
 use crate::error::ServerError;

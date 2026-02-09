@@ -1,0 +1,11 @@
+- name: execute
+  inputs:
+    args: list[any]
+    script: string #required    session_id: string #required  outputs:
+    result: any
+
+- name: execute_async
+  inputs:
+    args: list[any]
+    script: string #required    session_id: string #required  outputs:
+    result: any

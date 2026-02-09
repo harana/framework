@@ -1,10 +1,9 @@
-- name: Fieldset Component
-  type: fieldset
+- name: fieldset
   attributes:
-    - aria_label: String? #max(200)
-    - description: String? #max(500)
-    - is_disabled: Boolean = false
-    - legend: String? #max(200)
+    - aria_label: string? #max(200)
+    - description: string? #max(500)
+    - is_disabled: boolean = false
+    - legend: string? #max(200)
   events:
     - disable
     - enable

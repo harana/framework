@@ -1,842 +1,815 @@
-- name: Return 502 Bad Gateway
-  method: response/bad_gateway
+- name: response/bad_gateway
   inputs:
     - name: message
-      type: String
+      type: string
       required: false
-      description: Custom error message
+      description: custom error message
     - name: custom_data
-      type: Hash
+      type: hash
       required: false
-      description: Additional custom data to include in response
+      description: additional custom data to include in response
   outputs:
-    - BadGatewayOutput
+    - bad_gateway_output
 
-- name: Return 400 Bad Request
-  method: response/bad_request
+- name: response/bad_request
   inputs:
     - name: custom_data
-      type: Hash
+      type: hash
       required: false
-      description: Additional custom data to include in response
+      description: additional custom data to include in response
     - name: errors
-      type: Array[String]
+      type: array[string]
       required: false
-      description: List of validation errors
+      description: list of validation errors
     - name: message
-      type: String
+      type: string
       required: false
-      description: Custom error message
+      description: custom error message
   outputs:
-    - BadRequestOutput
+    - bad_request_output
 
-- name: Return Binary Response
-  method: response/binary
+- name: response/binary
   inputs:
     - name: content_type
-      type: String
+      type: string
       required: true
-      description: MIME type of the binary content
+      description: mime type of the binary content
     - name: data
-      type: Bytes
+      type: bytes
       required: true
-      description: Binary data to return
+      description: binary data to return
     - name: filename
-      type: String
+      type: string
       required: false
-      description: Suggested filename for download
+      description: suggested filename for download
     - name: status_code
-      type: Integer
+      type: integer
       required: false
-      description: HTTP status code (default 200)
+      description: http status code (default 200)
   outputs:
-    - BinaryOutput
+    - binary_output
 
-- name: Return CORS Preflight Response
-  method: response/cors_preflight
+- name: response/cors_preflight
   inputs:
     - name: allowed_origins
-      type: Array[String]
+      type: array[string]
       required: false
-      description: List of allowed origins
+      description: list of allowed origins
     - name: allowed_headers
-      type: Array[String]
+      type: array[string]
       required: false
-      description: List of allowed headers
+      description: list of allowed headers
     - name: allowed_methods
-      type: Array[String]
+      type: array[string]
       required: false
-      description: List of allowed HTTP methods
+      description: list of allowed http methods
     - name: max_age
-      type: Integer
+      type: integer
       required: false
-      description: Max age for preflight cache in seconds
+      description: max age for preflight cache in seconds
   outputs:
-    - CorsPreflightOutput
+    - cors_preflight_output
 
-- name: Return CSV Response
-  method: response/csv
+- name: response/csv
   inputs:
     - name: data
-      type: Array[Hash]
+      type: array[hash]
       required: true
-      description: Data rows to convert to CSV
+      description: data rows to convert to csv
     - name: filename
-      type: String
+      type: string
       required: false
-      description: Suggested filename for download
+      description: suggested filename for download
     - name: delimiter
-      type: String
+      type: string
       required: false
-      description: CSV delimiter character (default comma)
+      description: csv delimiter character (default comma)
     - name: include_headers
-      type: Boolean
+      type: boolean
       required: false
-      description: Whether to include header row (default true)
+      description: whether to include header row (default true)
   outputs:
-    - CsvOutput
+    - csv_output
 
-- name: Delete Response Cookie
-  method: response/delete_cookie
+- name: response/delete_cookie
   inputs:
     - name: name
-      type: String
+      type: string
       required: true
-      description: Name of the cookie to delete
+      description: name of the cookie to delete
     - name: path
-      type: String
+      type: string
       required: false
-      description: Cookie path
+      description: cookie path
     - name: domain
-      type: String
+      type: string
       required: false
-      description: Cookie domain
+      description: cookie domain
   outputs:
-    - DeleteCookieOutput
+    - delete_cookie_output
 
-- name: Return Empty Response
-  method: response/empty
+- name: response/empty
   inputs:
     - name: status_code
-      type: Integer
+      type: integer
       required: false
-      description: HTTP status code (default 204)
+      description: http status code (default 204)
   outputs:
-    - EmptyOutput
+    - empty_output
 
-- name: Return Custom Error Response
-  method: response/error
+- name: response/error
   inputs:
     - name: message
-      type: String
+      type: string
       required: true
-      description: Error message
+      description: error message
     - name: status_code
-      type: Integer
+      type: integer
       required: true
-      description: HTTP status code
+      description: http status code
     - name: details
-      type: String
+      type: string
       required: false
-      description: Additional error details
+      description: additional error details
     - name: error_code
-      type: String
+      type: string
       required: false
-      description: Application-specific error code
+      description: application-specific error code
   outputs:
-    - ErrorOutput
+    - error_output
 
-- name: Return File Download
-  method: response/file_download
+- name: response/file_download
   inputs:
     - name: file_path
-      type: String
+      type: string
       required: true
-      description: Path to the file to download
+      description: path to the file to download
     - name: filename
-      type: String
+      type: string
       required: false
-      description: Suggested filename for download
+      description: suggested filename for download
     - name: content_type
-      type: String
+      type: string
       required: false
-      description: MIME type of the file
+      description: mime type of the file
     - name: inline
-      type: Boolean
+      type: boolean
       required: false
-      description: Display inline instead of download
+      description: display inline instead of download
   outputs:
-    - FileDownloadOutput
+    - file_download_output
 
-- name: Return 403 Forbidden
-  method: response/forbidden
+- name: response/forbidden
   inputs:
     - name: message
-      type: String
+      type: string
       required: false
-      description: Custom error message
+      description: custom error message
     - name: custom_data
-      type: Hash
+      type: hash
       required: false
-      description: Additional custom data to include in response
+      description: additional custom data to include in response
   outputs:
-    - ForbiddenOutput
+    - forbidden_output
 
-- name: Return GraphQL Response
-  method: response/graphql
+- name: response/graphql
   inputs:
     - name: data
-      type: String
+      type: string
       required: false
-      description: GraphQL response data as JSON string
+      description: graph_ql response data as json string
     - name: errors
-      type: Array[Hash]
+      type: array[hash]
       required: false
-      description: GraphQL errors
+      description: graph_ql errors
     - name: extensions
-      type: Hash
+      type: hash
       required: false
-      description: GraphQL extensions
+      description: graph_ql extensions
   outputs:
-    - GraphqlOutput
+    - graphql_output
 
-- name: Return HTML Response
-  method: response/html
+- name: response/html
   inputs:
     - name: html
-      type: String
+      type: string
       required: true
-      description: HTML content to return
+      description: html content to return
     - name: status_code
-      type: Integer
+      type: integer
       required: false
-      description: HTTP status code (default 200)
+      description: http status code (default 200)
   outputs:
-    - HtmlOutput
+    - html_output
 
-- name: Return 500 Internal Server Error
-  method: response/internal_server_error
+- name: response/internal_server_error
   inputs:
     - name: custom_data
-      type: Hash
+      type: hash
       required: false
-      description: Additional custom data to include in response
+      description: additional custom data to include in response
     - name: message
-      type: String
+      type: string
       required: false
-      description: Custom error message
+      description: custom error message
     - name: include_details
-      type: Boolean
+      type: boolean
       required: false
-      description: Whether to include error details
+      description: whether to include error details
     - name: error
-      type: String
+      type: string
       required: false
-      description: Error details
+      description: error details
   outputs:
-    - InternalServerErrorOutput
+    - internal_server_error_output
 
-- name: Return JSON Response
-  method: response/json
+- name: response/json
   inputs:
     - name: data
-      type: String
+      type: string
       required: true
-      description: JSON string data to return
+      description: json string data to return
     - name: status_code
-      type: Integer
+      type: integer
       required: false
-      description: HTTP status code (default 200)
+      description: http status code (default 200)
     - name: pretty
-      type: Boolean
+      type: boolean
       required: false
-      description: Whether to pretty-print the JSON
+      description: whether to pretty-print the json
   outputs:
-    - JsonOutput
+    - json_output
 
-- name: Return 404 Not Found
-  method: response/not_found
+- name: response/not_found
   inputs:
     - name: message
-      type: String
+      type: string
       required: false
-      description: Custom error message
+      description: custom error message
     - name: custom_data
-      type: Hash
+      type: hash
       required: false
-      description: Additional custom data to include in response
+      description: additional custom data to include in response
     - name: include_body
-      type: Boolean
+      type: boolean
       required: false
-      description: Whether to include response body
+      description: whether to include response body
   outputs:
-    - NotFoundOutput
+    - not_found_output
 
-- name: Return Paginated Response
-  method: response/paginated
+- name: response/paginated
   inputs:
     - name: total
-      type: Integer
+      type: integer
       required: true
-      description: Total number of items
+      description: total number of items
     - name: data
-      type: Array[Any]
+      type: array[any]
       required: true
-      description: Items for the current page
+      description: items for the current page
     - name: include_metadata
-      type: Boolean
+      type: boolean
       required: false
-      description: Whether to include pagination metadata
+      description: whether to include pagination metadata
     - name: page
-      type: Integer
+      type: integer
       required: false
-      description: Current page number
+      description: current page number
     - name: page_size
-      type: Integer
+      type: integer
       required: false
-      description: Number of items per page
+      description: number of items per page
   outputs:
-    - PaginatedOutput
+    - paginated_output
 
-- name: Return Redirect Response
-  method: response/redirect
+- name: response/redirect
   inputs:
     - name: url
-      type: String
+      type: string
       required: true
-      description: URL to redirect to
+      description: url to redirect to
     - name: preserve_method
-      type: Boolean
+      type: boolean
       required: false
-      description: Whether to preserve the HTTP method
+      description: whether to preserve the http method
     - name: status_code
-      type: Integer
+      type: integer
       required: false
-      description: HTTP redirect status code (default 302)
+      description: http redirect status code (default 302)
   outputs:
-    - RedirectOutput
+    - redirect_output
 
-- name: Render Template
-  method: response/render_template
+- name: response/render_template
   inputs:
     - name: template
-      type: String
+      type: string
       required: true
-      description: Template content string
+      description: template content string
     - name: content_type
-      type: String
+      type: string
       required: false
-      description: Content type of the rendered output
+      description: content type of the rendered output
     - name: template_engine
-      type: String
+      type: string
       required: false
-      description: Template engine to use
+      description: template engine to use
     - name: data
-      type: Hash
+      type: hash
       required: false
-      description: Data to pass to the template
+      description: data to pass to the template
   outputs:
-    - RenderTemplateOutput
+    - render_template_output
 
-- name: Render Template From File
-  method: response/render_template_file
+- name: response/render_template_file
   inputs:
     - name: template_path
-      type: String
+      type: string
       required: true
-      description: Path to the template file
+      description: path to the template file
     - name: content_type
-      type: String
+      type: string
       required: false
-      description: Content type of the rendered output
+      description: content type of the rendered output
     - name: data
-      type: Hash
+      type: hash
       required: false
-      description: Data to pass to the template
+      description: data to pass to the template
     - name: template_engine
-      type: String
+      type: string
       required: false
-      description: Template engine to use
+      description: template engine to use
   outputs:
-    - RenderTemplateFileOutput
+    - render_template_file_output
 
-- name: Return 503 Service Unavailable
-  method: response/service_unavailable
+- name: response/service_unavailable
   inputs:
     - name: retry_after
-      type: Integer
+      type: integer
       required: false
-      description: Suggested retry delay in seconds
+      description: suggested retry delay in seconds
     - name: custom_data
-      type: Hash
+      type: hash
       required: false
-      description: Additional custom data to include in response
+      description: additional custom data to include in response
     - name: message
-      type: String
+      type: string
       required: false
-      description: Custom error message
+      description: custom error message
   outputs:
-    - ServiceUnavailableOutput
+    - service_unavailable_output
 
-- name: Set Response Cookie
-  method: response/set_cookie
+- name: response/set_cookie
   inputs:
     - name: name
-      type: String
+      type: string
       required: true
-      description: Cookie name
+      description: cookie name
     - name: value
-      type: String
+      type: string
       required: true
-      description: Cookie value
+      description: cookie value
     - name: domain
-      type: String
+      type: string
       required: false
-      description: Cookie domain
+      description: cookie domain
     - name: http_only
-      type: Boolean
+      type: boolean
       required: false
-      description: HTTP-only flag
+      description: http-only flag
     - name: secure
-      type: Boolean
+      type: boolean
       required: false
-      description: Secure flag
+      description: secure flag
     - name: max_age
-      type: Integer
+      type: integer
       required: false
-      description: Max age in seconds
+      description: max age in seconds
     - name: path
-      type: String
+      type: string
       required: false
-      description: Cookie path
+      description: cookie path
     - name: expires
-      type: String
+      type: string
       required: false
-      description: Expiration datetime string
+      description: expiration datetime string
     - name: same_site
-      type: String
+      type: string
       required: false
-      description: SameSite attribute (Strict, Lax, None)
+      description: same_site attribute (strict, lax, none)
   outputs:
-    - SetCookieOutput
+    - set_cookie_output
 
-- name: Stream SSE Event
-  method: response/sse_event
+- name: response/sse_event
   inputs:
     - name: data
-      type: String
+      type: string
       required: true
-      description: Event data
+      description: event data
     - name: retry
-      type: Integer
+      type: integer
       required: false
-      description: Retry interval in milliseconds
+      description: retry interval in milliseconds
     - name: event
-      type: String
+      type: string
       required: false
-      description: Event type name
+      description: event type name
     - name: id
-      type: String
+      type: string
       required: false
-      description: Event ID
+      description: event id
   outputs:
-    - SseEventOutput
+    - sse_event_output
 
-- name: Stream SSE Events
-  method: response/sse_stream
+- name: response/sse_stream
   inputs:
     - name: events
-      type: Array[Hash]
+      type: array[hash]
       required: true
-      description: Array of SSE events
+      description: array of sse events
     - name: keep_alive_interval
-      type: Integer
+      type: integer
       required: false
-      description: Keep-alive interval in seconds
+      description: keep-alive interval in seconds
   outputs:
-    - SseStreamOutput
+    - sse_stream_output
 
-- name: Return Streaming Response
-  method: response/streaming
+- name: response/streaming
   inputs:
     - name: stream_source
-      type: String
+      type: string
       required: true
-      description: Source identifier for the stream
+      description: source identifier for the stream
     - name: chunk_size
-      type: Integer
+      type: integer
       required: false
-      description: Size of each chunk in bytes
+      description: size of each chunk in bytes
     - name: content_type
-      type: String
+      type: string
       required: false
-      description: Content type of the stream
+      description: content type of the stream
   outputs:
-    - StreamingOutput
+    - streaming_output
 
-- name: Return Plain Text Response
-  method: response/text
+- name: response/text
   inputs:
     - name: text
-      type: String
+      type: string
       required: true
-      description: Plain text content to return
+      description: plain text content to return
     - name: content_type
-      type: String
+      type: string
       required: false
-      description: Content type (default text/plain)
+      description: content type (default text/plain)
     - name: status_code
-      type: Integer
+      type: integer
       required: false
-      description: HTTP status code (default 200)
+      description: http status code (default 200)
   outputs:
-    - TextOutput
+    - text_output
 
-- name: Return 401 Unauthorized
-  method: response/unauthorized
+- name: response/unauthorized
   inputs:
     - name: www_authenticate
-      type: String
+      type: string
       required: false
-      description: WWW-Authenticate header value
+      description: www-authenticate header value
     - name: message
-      type: String
+      type: string
       required: false
-      description: Custom error message
+      description: custom error message
     - name: custom_data
-      type: Hash
+      type: hash
       required: false
-      description: Additional custom data to include in response
+      description: additional custom data to include in response
   outputs:
-    - UnauthorizedOutput
+    - unauthorized_output
 
-- name: Return XML Response
-  method: response/xml
+- name: response/xml
   inputs:
     - name: xml
-      type: String
+      type: string
       required: true
-      description: XML content to return
+      description: xml content to return
     - name: status_code
-      type: Integer
+      type: integer
       required: false
-      description: HTTP status code (default 200)
+      description: http status code (default 200)
   outputs:
-    - XmlOutput
+    - xml_output
 
 # Output Types
 
-- class: BadGatewayOutput
+- class: bad_gateway_output
   fields:
     - name: status_code
-      type: Integer
-      description: HTTP status code (502)
+      type: integer
+      description: http status code (502)
     - name: message
-      type: String
-      description: Error message
+      type: string
+      description: error message
     - name: body
-      type: String
-      description: Response body
+      type: string
+      description: response body
 
-- class: BadRequestOutput
+- class: bad_request_output
   fields:
     - name: status_code
-      type: Integer
-      description: HTTP status code (400)
+      type: integer
+      description: http status code (400)
     - name: message
-      type: String
-      description: Error message
+      type: string
+      description: error message
     - name: errors
-      type: Array[String]
-      description: Validation errors
+      type: array[string]
+      description: validation errors
     - name: body
-      type: String
-      description: Response body
+      type: string
+      description: response body
 
-- class: BinaryOutput
+- class: binary_output
   fields:
     - name: data
-      type: Bytes
-      description: Binary data
+      type: bytes
+      description: binary data
     - name: content_type
-      type: String
-      description: MIME type
+      type: string
+      description: mime type
     - name: filename
-      type: String
-      description: Suggested filename
+      type: string
+      description: suggested filename
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
 
-- class: CorsPreflightOutput
+- class: cors_preflight_output
   fields:
     - name: status_code
-      type: Integer
-      description: HTTP status code (204)
+      type: integer
+      description: http status code (204)
     - name: headers
-      type: Hash
-      description: CORS headers
+      type: hash
+      description: cors headers
 
-- class: CsvOutput
+- class: csv_output
   fields:
     - name: data
-      type: String
-      description: CSV content
+      type: string
+      description: csv content
     - name: content_type
-      type: String
-      description: Content type (text/csv)
+      type: string
+      description: content type (text/csv)
     - name: filename
-      type: String
-      description: Suggested filename
+      type: string
+      description: suggested filename
 
-- class: DeleteCookieOutput
+- class: delete_cookie_output
   fields:
     - name: set_cookie_header
-      type: String
-      description: Set-Cookie header value for deletion
+      type: string
+      description: set-cookie header value for deletion
 
-- class: EmptyOutput
+- class: empty_output
   fields:
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
 
-- class: ErrorOutput
+- class: error_output
   fields:
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
     - name: message
-      type: String
-      description: Error message
+      type: string
+      description: error message
     - name: error_code
-      type: String
-      description: Application error code
+      type: string
+      description: application error code
     - name: details
-      type: String
-      description: Error details
+      type: string
+      description: error details
     - name: body
-      type: String
-      description: Response body
+      type: string
+      description: response body
 
-- class: FileDownloadOutput
+- class: file_download_output
   fields:
     - name: data
-      type: Bytes
-      description: File content
+      type: bytes
+      description: file content
     - name: content_type
-      type: String
-      description: MIME type
+      type: string
+      description: mime type
     - name: filename
-      type: String
-      description: Filename
+      type: string
+      description: filename
     - name: content_disposition
-      type: String
-      description: Content-Disposition header value
+      type: string
+      description: content-disposition header value
 
-- class: ForbiddenOutput
+- class: forbidden_output
   fields:
     - name: status_code
-      type: Integer
-      description: HTTP status code (403)
+      type: integer
+      description: http status code (403)
     - name: message
-      type: String
-      description: Error message
+      type: string
+      description: error message
     - name: body
-      type: String
-      description: Response body
+      type: string
+      description: response body
 
-- class: GraphqlOutput
+- class: graphql_output
   fields:
     - name: data
-      type: Any
-      description: GraphQL data
+      type: any
+      description: graph_ql data
     - name: errors
-      type: Array[Hash]
-      description: GraphQL errors
+      type: array[hash]
+      description: graph_ql errors
     - name: extensions
-      type: Hash
-      description: GraphQL extensions
+      type: hash
+      description: graph_ql extensions
     - name: body
-      type: String
-      description: Full response body as JSON
+      type: string
+      description: full response body as json
 
-- class: HtmlOutput
+- class: html_output
   fields:
     - name: html
-      type: String
-      description: HTML content
+      type: string
+      description: html content
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
 
-- class: InternalServerErrorOutput
+- class: internal_server_error_output
   fields:
     - name: status_code
-      type: Integer
-      description: HTTP status code (500)
+      type: integer
+      description: http status code (500)
     - name: message
-      type: String
-      description: Error message
+      type: string
+      description: error message
     - name: body
-      type: String
-      description: Response body
+      type: string
+      description: response body
 
-- class: JsonOutput
+- class: json_output
   fields:
     - name: data
-      type: String
-      description: JSON string
+      type: string
+      description: json string
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
 
-- class: NotFoundOutput
+- class: not_found_output
   fields:
     - name: status_code
-      type: Integer
-      description: HTTP status code (404)
+      type: integer
+      description: http status code (404)
     - name: message
-      type: String
-      description: Error message
+      type: string
+      description: error message
     - name: body
-      type: String
-      description: Response body
+      type: string
+      description: response body
 
-- class: PaginatedOutput
+- class: paginated_output
   fields:
     - name: data
-      type: Array[Any]
-      description: Page items
+      type: array[any]
+      description: page items
     - name: total
-      type: Integer
-      description: Total item count
+      type: integer
+      description: total item count
     - name: page
-      type: Integer
-      description: Current page
+      type: integer
+      description: current page
     - name: page_size
-      type: Integer
-      description: Items per page
+      type: integer
+      description: items per page
     - name: total_pages
-      type: Integer
-      description: Total pages
+      type: integer
+      description: total pages
     - name: has_next
-      type: Boolean
-      description: Has next page
+      type: boolean
+      description: has next page
     - name: has_previous
-      type: Boolean
-      description: Has previous page
+      type: boolean
+      description: has previous page
 
-- class: RedirectOutput
+- class: redirect_output
   fields:
     - name: url
-      type: String
-      description: Redirect URL
+      type: string
+      description: redirect url
     - name: status_code
-      type: Integer
-      description: HTTP redirect status code
+      type: integer
+      description: http redirect status code
 
-- class: RenderTemplateOutput
+- class: render_template_output
   fields:
     - name: content
-      type: String
-      description: Rendered content
+      type: string
+      description: rendered content
     - name: content_type
-      type: String
-      description: Content type
+      type: string
+      description: content type
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
 
-- class: RenderTemplateFileOutput
+- class: render_template_file_output
   fields:
     - name: content
-      type: String
-      description: Rendered content
+      type: string
+      description: rendered content
     - name: content_type
-      type: String
-      description: Content type
+      type: string
+      description: content type
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
 
-- class: ServiceUnavailableOutput
+- class: service_unavailable_output
   fields:
     - name: status_code
-      type: Integer
-      description: HTTP status code (503)
+      type: integer
+      description: http status code (503)
     - name: message
-      type: String
-      description: Error message
+      type: string
+      description: error message
     - name: retry_after
-      type: Integer
-      description: Suggested retry delay
+      type: integer
+      description: suggested retry delay
     - name: body
-      type: String
-      description: Response body
+      type: string
+      description: response body
 
-- class: SetCookieOutput
+- class: set_cookie_output
   fields:
     - name: set_cookie_header
-      type: String
-      description: Set-Cookie header value
+      type: string
+      description: set-cookie header value
 
-- class: SseEventOutput
+- class: sse_event_output
   fields:
     - name: event_string
-      type: String
-      description: Formatted SSE event string
+      type: string
+      description: formatted sse event string
 
-- class: SseStreamOutput
+- class: sse_stream_output
   fields:
     - name: content_type
-      type: String
-      description: Content type (text/event-stream)
+      type: string
+      description: content type (text/event-stream)
     - name: stream
-      type: String
-      description: SSE stream content
+      type: string
+      description: sse stream content
 
-- class: StreamingOutput
+- class: streaming_output
   fields:
     - name: content_type
-      type: String
-      description: Content type
+      type: string
+      description: content type
     - name: chunk_size
-      type: Integer
-      description: Chunk size
+      type: integer
+      description: chunk size
 
-- class: TextOutput
+- class: text_output
   fields:
     - name: text
-      type: String
-      description: Plain text content
+      type: string
+      description: plain text content
     - name: content_type
-      type: String
-      description: Content type
+      type: string
+      description: content type
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code
 
-- class: UnauthorizedOutput
+- class: unauthorized_output
   fields:
     - name: status_code
-      type: Integer
-      description: HTTP status code (401)
+      type: integer
+      description: http status code (401)
     - name: message
-      type: String
-      description: Error message
+      type: string
+      description: error message
     - name: www_authenticate
-      type: String
-      description: WWW-Authenticate header value
+      type: string
+      description: www-authenticate header value
     - name: body
-      type: String
-      description: Response body
+      type: string
+      description: response body
 
-- class: XmlOutput
+- class: xml_output
   fields:
     - name: xml
-      type: String
-      description: XML content
+      type: string
+      description: xml content
     - name: status_code
-      type: Integer
-      description: HTTP status code
+      type: integer
+      description: http status code

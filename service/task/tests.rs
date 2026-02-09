@@ -1,5 +1,3 @@
-// Harana Components - Task Tests
-
 #[cfg(test)]
 mod tests {
     use super::*;

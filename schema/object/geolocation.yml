@@ -1,32 +1,29 @@
-- name: Geolocation Point
-  type: geolocation_point
+- name: geolocation_point
   schema:
     - accuracy: decimal? #min(0)
     - altitude: decimal?
-    - created_at: Date = now()
-    - label: String? #max(200)
+    - created_at: date = now()
+    - label: string? #max(200)
     - latitude: decimal #required
     - longitude: decimal #required
-    - metadata: String?
+    - metadata: string?
 
-- name: Geolocation Route
-  type: geolocation_route
+- name: geolocation_route
   id: [from_point_id, to_point_id, mode]
   schema:
-    - calculated_at: Date = now()
+    - calculated_at: date = now()
     - distance: decimal? #min(0)
     - duration_seconds: int? #min(0)
-    - from_point_id: Id #required -> GeolocationPoint.id
-    - mode: Driving | Walking | Cycling | Transit = Driving
-    - polyline: String?
-    - to_point_id: Id #required -> GeolocationPoint.id
+    - from_point_id: id #required -> geolocation_point.id
+    - mode: driving | walking | cycling | transit = driving
+    - polyline: string?
+    - to_point_id: id #required -> geolocation_point.id
 
-- name: Geolocation Fence
-  type: geolocation_fence
+- name: geolocation_fence
   schema:
     - center_latitude: decimal #required
     - center_longitude: decimal #required
-    - created_at: Date = now()
-    - is_active: Boolean = true
+    - created_at: date = now()
+    - is_active: boolean = true
     - radius_meters: decimal #required #min(0)
-    - updated_at: Date = now()
+    - updated_at: date = now()

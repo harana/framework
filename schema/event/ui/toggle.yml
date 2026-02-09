@@ -1,53 +1,47 @@
-- name: Toggle Switched
-  type: toggle_switched
+- name: toggle_switched
   schema:
-    toggle_id: Id #required
-    toggle_name: String?
-    old_state: Boolean #required
-    new_state: Boolean #required
-    switched_at: Date = now()
+    toggle_id: id #required
+    toggle_name: string?
+    old_state: boolean #required
+    new_state: boolean #required
+    switched_at: date = now()
 
-- name: Checkbox Checked
-  type: checkbox_checked
+- name: checkbox_checked
   schema:
-    checkbox_id: Id #required
-    checkbox_name: String?
-    checkbox_label: String?
-    form_id: Id?
-    checked_at: Date = now()
+    checkbox_id: id #required
+    checkbox_name: string?
+    checkbox_label: string?
+    form_id: id?
+    checked_at: date = now()
 
-- name: Checkbox Unchecked
-  type: checkbox_unchecked
+- name: checkbox_unchecked
   schema:
-    checkbox_id: Id #required
-    checkbox_name: String?
-    checkbox_label: String?
-    form_id: Id?
-    unchecked_at: Date = now()
+    checkbox_id: id #required
+    checkbox_name: string?
+    checkbox_label: string?
+    form_id: id?
+    unchecked_at: date = now()
 
-- name: Radio Selected
-  type: radio_selected
+- name: radio_selected
   schema:
-    radio_group_id: Id #required
-    radio_id: Id #required
-    radio_name: String?
-    radio_value: String?
-    previous_value: String?
-    form_id: Id?
-    selected_at: Date = now()
+    radio_group_id: id #required
+    radio_id: id #required
+    radio_name: string?
+    radio_value: string?
+    previous_value: string?
+    form_id: id?
+    selected_at: date = now()
 
-- name: Switch Enabled
-  type: switch_enabled
+- name: switch_enabled
   schema:
-    switch_id: Id #required
-    switch_name: String?
-    switch_label: String?
-    enabled_at: Date = now()
+    switch_id: id #required
+    switch_name: string?
+    switch_label: string?
+    enabled_at: date = now()
 
-- name: Switch Disabled
-  type: switch_disabled
+- name: switch_disabled
   schema:
-    switch_id: Id #required
-    switch_name: String?
-    switch_label: String?
-    disabled_at: Date = now()
+    switch_id: id #required
+    switch_name: string?
+    switch_label: string?
+    disabled_at: date = now()

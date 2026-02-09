@@ -1,7 +1,7 @@
-name: ComboboxOption
-type: UIComponent
+name: combobox_option
+type: ui_component
 id: [combobox_id]
 attributes:
-  combobox_id: id #required -> Combobox.id
-  value: String #required
+  combobox_id: id #required -> combobox.id
+  value: string #required
   is_disabled: bool = false

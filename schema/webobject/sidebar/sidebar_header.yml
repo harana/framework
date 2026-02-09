@@ -1,5 +1,4 @@
-- name: Sidebar Header Component
-  type: sidebar_header
+- name: sidebar_header
   id: [sidebar_id]
   attributes:
-    - sidebar_id: Id #required -> UISidebar.id
+    - sidebar_id: id #required -> ui_sidebar.id

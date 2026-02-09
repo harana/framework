@@ -1,0 +1,27 @@
+- name: get_all_cookies
+  inputs:
+    session_id: string #required  outputs:
+    cookies: list[web_driver_cookie]
+    total: int
+
+- name: get_named_cookie
+  inputs:
+    name: string #required
+    session_id: string #required  outputs:
+    cookie: web_driver_cookie
+
+- name: add_cookie
+  inputs:
+    cookie: web_driver_cookie #required    session_id: string #required  outputs:
+    success: boolean
+
+- name: delete_cookie
+  inputs:
+    name: string #required
+    session_id: string #required  outputs:
+    success: boolean
+
+- name: delete_all_cookies
+  inputs:
+    session_id: string #required  outputs:
+    success: boolean

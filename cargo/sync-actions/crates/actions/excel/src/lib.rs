@@ -1,6 +1,3 @@
-// Harana Actions - Excel Module
-// This module provides excel actions and functionality.
-
 pub mod output;
 
 use std::collections::HashMap;

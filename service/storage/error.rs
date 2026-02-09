@@ -1,5 +1,3 @@
-// Harana Components - Storage Error Types
-
 use std::fmt;
 
 #[derive(Debug, Clone)]

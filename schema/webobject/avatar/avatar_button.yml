@@ -1,11 +1,10 @@
-- name: Avatar Button Component
-  type: avatar_button
+- name: avatar_button
   attributes:
-    - alt: String? #max(200)
-    - href: String? #max(500)
-    - initials: String? #max(3)
-    - is_square: Boolean = false
-    - size: Size5 | Size6 | Size7 | Size8 | Size9 | Size10 | Size11 | Size12 | Size14 | Size16 | Size20 | Size24 | Size28 | Size32 = Size8
-    - src: String? #max(500)
+    - alt: string? #max(200)
+    - href: string? #max(500)
+    - initials: string? #max(3)
+    - is_square: boolean = false
+    - size: size5 | size6 | size7 | size8 | size9 | size10 | size11 | size12 | size14 | size16 | size20 | size24 | size28 | size32 = size8
+    - src: string? #max(500)
   events:
     - click

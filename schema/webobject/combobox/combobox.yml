@@ -1,15 +1,15 @@
-name: Combobox
-type: UIComponent
+name: combobox
+type: ui_component
 id:
   - identifier
 
-  label: String
-  description: String
-  placeholder: String
-  aria_label: String
-  default_value: String
+  label: string
+  description: string
+  placeholder: string
+  aria_label: string
+  default_value: string
   is_disabled: bool = false
   is_invalid: bool = false
-  anchor: String enum(top, bottom) = bottom
-  error_message: String
+  anchor: string enum(top, bottom) = bottom
+  error_message: string
   change: event?

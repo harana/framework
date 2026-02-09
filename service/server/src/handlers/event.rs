@@ -1,5 +1,3 @@
-//! Datastar SSE handlers for real-time updates
-
 use axum::{
     extract::State,
     response::IntoResponse,
@@ -77,8 +75,6 @@ impl ChannelPermission {
             created_at: chrono::Utc::now(),
         }
     }
-
-    /// Check if a user can access this channel
     pub fn can_access(&self, user_id: &str) -> bool {
         match self.access {
             ChannelAccess::Private => self.owner_id == user_id,
@@ -86,8 +82,6 @@ impl ChannelPermission {
             ChannelAccess::Shared => self.owner_id == user_id || self.shared_with.contains(user_id),
         }
     }
-
-    /// Check if a user is the owner
     pub fn is_owner(&self, user_id: &str) -> bool {
         self.owner_id == user_id
     }
@@ -110,7 +104,6 @@ pub struct ChannelRegistry {
 }
 
 impl ChannelRegistry {
-    /// Create a new channel registry
     pub fn new() -> Self {
         let registry = Self::default();
         // Register system channels
@@ -123,23 +116,15 @@ impl ChannelRegistry {
         }
         registry
     }
-
-    /// Check if a channel is a system channel
     pub fn is_system_channel(&self, channel: &str) -> bool {
         self.system_channels.read().contains(channel)
     }
-
-    /// Register a channel with permissions
     pub fn register(&self, permission: ChannelPermission) {
         self.permissions.insert(permission.channel.clone(), permission);
     }
-
-    /// Get channel permission
     pub fn get(&self, channel: &str) -> Option<ChannelPermission> {
         self.permissions.get(channel).map(|p| p.clone())
     }
-
-    /// Check if user can access a channel
     pub fn can_access(&self, channel: &str, user_id: &str) -> bool {
         // System channels are accessible to all authenticated users
         if self.is_system_channel(channel) {
@@ -159,8 +144,6 @@ impl ChannelRegistry {
         // Default: channel doesn't exist or no permissions set - deny
         false
     }
-
-    /// Check if user is owner of a channel
     pub fn is_owner(&self, channel: &str, user_id: &str) -> bool {
         // System channels have no owner
         if self.is_system_channel(channel) {
@@ -198,8 +181,6 @@ impl ChannelRegistry {
     pub fn user_notifications(user_id: &str) -> String {
         format!("user:{}:notifications", user_id)
     }
-
-    /// List channels accessible to a user
     pub fn list_accessible(&self, user_id: &str) -> Vec<ChannelPermission> {
         let mut channels = Vec::new();
 
@@ -800,8 +781,6 @@ pub async fn channel_stream(
         }
     }))
 }
-
-/// List channels accessible to the authenticated user
 pub async fn list_channels(
     State(state): State<AppState>,
     auth: crate::extractors::Auth,
@@ -863,8 +842,6 @@ pub struct CreateChannelRequest {
     #[serde(default)]
     pub shared_with: Vec<String>,
 }
-
-/// Create a new channel owned by the authenticated user
 pub async fn create_channel(
     State(state): State<AppState>,
     auth: crate::extractors::Auth,
@@ -1030,8 +1007,6 @@ pub async fn unshare_channel(
 pub struct DeleteChannelRequest {
         pub channel: String,
 }
-
-/// Delete a channel (owner only)
 pub async fn delete_channel(
     State(state): State<AppState>,
     auth: crate::extractors::Auth,

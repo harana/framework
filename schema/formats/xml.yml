@@ -1,0 +1,49 @@
+- name: xml_document
+  schema:
+    - charset: string = utf-8 #max(20)
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - root_element: string? #max(255)
+    - size: int = 0 #min(0)
+    - source_path: string? #max(2000)
+    - updated_at: date = now()
+
+- name: xml_schema
+  schema:
+    - content: string #required
+    - created_at: date = now()
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - schema_type: xsd | dtd | relax_ng = xsd
+    - updated_at: date = now()
+    - version: int = 1 #min(1)
+
+- name: xml_validation_result
+  id: [document_id, validated_at]
+  schema:
+    - document_id: id #required -> xml_document.id
+    - error_count: int = 0 #min(0)
+    - errors: string? # json array
+    - is_valid: boolean = false
+    - schema_id: id #required -> xml_schema.id
+    - validated_at: date = now()
+
+- name: xml_object
+  schema:
+    - elements: map[string, any]
+    - attributes: map[string, string]
+
+- name: xml_validation_error
+  schema:
+    - line: int
+    - column: int
+    - message: string
+
+- name: xml_namespaces
+  schema:
+    - namespaces: list[xml_namespace]
+
+- name: xml_namespace
+  schema:
+    - prefix: string
+    - uri: string

@@ -1,75 +1,68 @@
-- name: Parse URL To Components
-  method: parse
+- name: parse
   inputs:
-    url: String #required
+    url: string #required
   outputs:
-    fragment: String
-    host: String
-    path: String
-    port: Int
-    protocol: String
-    query: Map[String, String]
+    fragment: string
+    host: string
+    path: string
+    port: int
+    protocol: string
+    query: map[string, string]
 
-- name: Build URL From Components
-  method: build
+- name: build
   inputs:
-    fragment: String
-    host: String #required
-    path: String
-    port: Int
-    protocol: String = "https"
-    query: Map[String, String]
+    fragment: string
+    host: string #required
+    path: string
+    port: int
+    protocol: string = "https"
+    query: map[string, string]
   outputs:
-    url: String
+    url: string
 
-- name: URL Encode String
-  method: encode
+- name: encode
   inputs:
-    component: Boolean = true
-    data: String #required
+    component: boolean = true
+    data: string #required
   outputs:
-    encoded: String
+    encoded: string
 
-- name: URL Decode String
-  method: decode
+- name: decode
   inputs:
-    component: Boolean = true
-    data: String #required
+    component: boolean = true
+    data: string #required
   outputs:
-    decoded: String
+    decoded: string
 
-- name: Create Short URL
-  method: shorten
+- name: shorten
   inputs:
-    custom_alias: String
-    expiration: String
-    url: String #required
+    custom_alias: string
+    expiration: string
+    url: string #required
   outputs:
-    short_url: String
+    short_url: string
 
-- name: Expand Short URL To Original
-  method: expand
+- name: expand
   inputs:
-    url: String #required
+    url: string #required
   outputs:
-    original_url: String
+    original_url: string
 
-- name: Validate URL Format
-  method: validate
+- name: validate
   inputs:
-    allowed_protocols: List[String]
-    require_tld: Boolean = true
-    url: String #required
+    allowed_protocols: list[string]
+    require_tld: boolean = true
+    url: string #required
   outputs:
-    errors: List[String]
-    valid: Boolean
+    errors: list[string]
+    valid: boolean
 
-- name: Url
+- name: url
   class:
-    url: String
-    protocol: String
-    host: String
-    port: Int
-    path: String
-    query: Map[String, String]
-    fragment: String
+    url: string
+    protocol: string
+    host: string
+    port: int
+    path: string
+    query: map[string, string]
+    fragment: string

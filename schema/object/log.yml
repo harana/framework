@@ -1,32 +1,29 @@
-- name: Log Entry
-  type: log_entry
+- name: log_entry
   id: [source, created_at]
   schema:
-    - created_at: Date = now()
-    - level: Debug | Info | Warn | Error = Info
-    - message: String #required #max(5000)
-    - metadata: String?
-    - request_id: String? #max(200)
-    - source: String? #max(200)
-    - span_id: String? #max(64)
-    - trace_id: String? #max(64)
-    - user_id: Id? -> User.id
+    - created_at: date = now()
+    - level: debug | info | warn | error = info
+    - message: string #required #max(5000)
+    - metadata: string?
+    - request_id: string? #max(200)
+    - source: string? #max(200)
+    - span_id: string? #max(64)
+    - trace_id: string? #max(64)
+    - user_id: id? -> user.id
 
-- name: Log Error
-  type: log_error
+- name: log_error
   id: [log_entry_id]
   schema:
-    - code: String? #max(100)
-    - log_entry_id: Id #required -> LogEntry.id
-    - message: String #required #max(2000)
-    - stack_trace: String?
+    - code: string? #max(100)
+    - log_entry_id: id #required -> log_entry.id
+    - message: string #required #max(2000)
+    - stack_trace: string?
 
-- name: Log Configuration
-  type: log_config
+- name: log_config
   id: [source]
   schema:
-    - is_enabled: Boolean = true
-    - level: Debug | Info | Warn | Error = Info
+    - is_enabled: boolean = true
+    - level: debug | info | warn | error = info
     - max_retention_days: int = 30 #min(1)
-    - source: String #required #unique #max(200)
-    - updated_at: Date = now()
+    - source: string #required #unique #max(200)
+    - updated_at: date = now()

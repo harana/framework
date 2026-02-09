@@ -1,21 +1,18 @@
-- name: Description List Item Clicked
-  type: description_list_item_clicked
+- name: description_list_item_clicked
   schema:
-    list_id: Id #required
-    item_term: String?
-    item_details: String?
-    clicked_at: Date = now()
+    list_id: id #required
+    item_term: string?
+    item_details: string?
+    clicked_at: date = now()
 
-- name: Description List Item Expanded
-  type: description_list_item_expanded
+- name: description_list_item_expanded
   schema:
-    list_id: Id #required
-    item_term: String?
-    expanded_at: Date = now()
+    list_id: id #required
+    item_term: string?
+    expanded_at: date = now()
 
-- name: Description List Item Collapsed
-  type: description_list_item_collapsed
+- name: description_list_item_collapsed
   schema:
-    list_id: Id #required
-    item_term: String?
-    collapsed_at: Date = now()
+    list_id: id #required
+    item_term: string?
+    collapsed_at: date = now()

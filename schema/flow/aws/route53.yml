@@ -1,644 +1,580 @@
-- name: Create Hosted Zone
-  method: create_hosted_zone
+- name: create_hosted_zone
   inputs:
-    caller_reference: String #required
-    delegation_set_id: String
-    hosted_zone_config: HostedZoneConfig
-    name: String #required
-    vpc: VPC
+    caller_reference: string #required
+    delegation_set_id: string
+    hosted_zone_config: hosted_zone_config
+    name: string #required
+    vpc: vpc
   outputs:
-    change_info: ChangeInfo
-    delegation_set: DelegationSet
-    hosted_zone: HostedZone
-    location: String
-    success: Boolean
-    vpc: VPC
+    change_info: change_info
+    delegation_set: delegation_set
+    hosted_zone: hosted_zone
+    location: string
+    success: boolean
+    vpc: vpc
 
-- name: Delete Hosted Zone
-  method: delete_hosted_zone
+- name: delete_hosted_zone
   inputs:
-    id: String #required
+    id: string #required
   outputs:
-    change_info: ChangeInfo
-    success: Boolean
+    change_info: change_info
+    success: boolean
 
-- name: Get Hosted Zone
-  method: get_hosted_zone
+- name: get_hosted_zone
   inputs:
-    id: String #required
+    id: string #required
   outputs:
-    delegation_set: DelegationSet
-    hosted_zone: HostedZone
-    vpcs: List[VPC]
+    delegation_set: delegation_set
+    hosted_zone: hosted_zone
+    vpcs: list[vpc]
 
-- name: List Hosted Zones
-  method: list_hosted_zones
+- name: list_hosted_zones
   inputs:
-    delegation_set_id: String
-    hosted_zone_type: PrivateHostedZone
-    marker: String
-    max_items: Int = 100
+    delegation_set_id: string
+    hosted_zone_type: private_hosted_zone
+    marker: string
+    max_items: int = 100
   outputs:
-    hosted_zones: List[HostedZone]
-    is_truncated: Boolean
-    marker: String
-    max_items: Int
-    next_marker: String
+    hosted_zones: list[hosted_zone]
+    is_truncated: boolean
+    marker: string
+    max_items: int
+    next_marker: string
 
-- name: List Hosted Zones By Name
-  method: list_hosted_zones_by_name
+- name: list_hosted_zones_by_name
   inputs:
-    dns_name: String
-    hosted_zone_id: String
-    max_items: Int = 100
+    dns_name: string
+    hosted_zone_id: string
+    max_items: int = 100
   outputs:
-    dns_name: String
-    hosted_zone_id: String
-    hosted_zones: List[HostedZone]
-    is_truncated: Boolean
-    max_items: Int
-    next_dns_name: String
-    next_hosted_zone_id: String
+    dns_name: string
+    hosted_zone_id: string
+    hosted_zones: list[hosted_zone]
+    is_truncated: boolean
+    max_items: int
+    next_dns_name: string
+    next_hosted_zone_id: string
 
-- name: List Hosted Zones By VPC
-  method: list_hosted_zones_by_vpc
+- name: list_hosted_zones_by_vpc
   inputs:
-    max_items: Int = 100
-    next_token: String
-    vpc_id: String #required
-    vpc_region: String #required
+    max_items: int = 100
+    next_token: string
+    vpc_id: string #required
+    vpc_region: string #required
   outputs:
-    hosted_zone_summaries: List[HostedZoneSummary]
-    max_items: Int
-    next_token: String
+    hosted_zone_summaries: list[hosted_zone_summary]
+    max_items: int
+    next_token: string
 
-- name: Update Hosted Zone Comment
-  method: update_hosted_zone_comment
+- name: update_hosted_zone_comment
   inputs:
-    comment: String
-    id: String #required
+    comment: string
+    id: string #required
   outputs:
-    hosted_zone: HostedZone
-    success: Boolean
+    hosted_zone: hosted_zone
+    success: boolean
 
-- name: Get Hosted Zone Count
-  method: get_hosted_zone_count
+- name: get_hosted_zone_count
   inputs: {}
   outputs:
-    hosted_zone_count: Int
+    hosted_zone_count: int
 
-- name: Change Resource Record Sets
-  method: change_resource_record_sets
+- name: change_resource_record_sets
   inputs:
-    change_batch: ChangeBatch #required
-    hosted_zone_id: String #required
+    change_batch: change_batch #required
+    hosted_zone_id: string #required
   outputs:
-    change_info: ChangeInfo
-    success: Boolean
+    change_info: change_info
+    success: boolean
 
-- name: List Resource Record Sets
-  method: list_resource_record_sets
+- name: list_resource_record_sets
   inputs:
-    hosted_zone_id: String #required
-    max_items: Int = 300
-    start_record_identifier: String
-    start_record_name: String
-    start_record_type: String
+    hosted_zone_id: string #required
+    max_items: int = 300
+    start_record_identifier: string
+    start_record_name: string
+    start_record_type: string
   outputs:
-    is_truncated: Boolean
-    max_items: Int
-    next_record_identifier: String
-    next_record_name: String
-    next_record_type: String
-    resource_record_sets: List[ResourceRecordSet]
+    is_truncated: boolean
+    max_items: int
+    next_record_identifier: string
+    next_record_name: string
+    next_record_type: string
+    resource_record_sets: list[resource_record_set]
 
-- name: Get Change
-  method: get_change
+- name: get_change
   inputs:
-    id: String #required
+    id: string #required
   outputs:
-    change_info: ChangeInfo
+    change_info: change_info
 
-- name: Create Health Check
-  method: create_health_check
+- name: create_health_check
   inputs:
-    caller_reference: String #required
-    health_check_config: HealthCheckConfig #required
+    caller_reference: string #required
+    health_check_config: health_check_config #required
   outputs:
-    health_check: HealthCheck
-    location: String
-    success: Boolean
+    health_check: health_check
+    location: string
+    success: boolean
 
-- name: Delete Health Check
-  method: delete_health_check
+- name: delete_health_check
   inputs:
-    health_check_id: String #required
+    health_check_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Health Check
-  method: get_health_check
+- name: get_health_check
   inputs:
-    health_check_id: String #required
+    health_check_id: string #required
   outputs:
-    health_check: HealthCheck
+    health_check: health_check
 
-- name: List Health Checks
-  method: list_health_checks
+- name: list_health_checks
   inputs:
-    marker: String
-    max_items: Int = 100
+    marker: string
+    max_items: int = 100
   outputs:
-    health_checks: List[HealthCheck]
-    is_truncated: Boolean
-    marker: String
-    max_items: Int
-    next_marker: String
+    health_checks: list[health_check]
+    is_truncated: boolean
+    marker: string
+    max_items: int
+    next_marker: string
 
-- name: Update Health Check
-  method: update_health_check
+- name: update_health_check
   inputs:
-    alarm_identifier: AlarmIdentifier
-    child_health_checks: List[String]
-    disabled: Boolean
-    enable_sni: Boolean
-    failure_threshold: Int
-    fully_qualified_domain_name: String
-    health_check_id: String #required
-    health_check_version: Int
-    health_threshold: Int
-    insufficient_data_health_status: Healthy | Unhealthy | LastKnownStatus
-    inverted: Boolean
-    ip_address: String
-    port: Int
-    regions: List[String]
-    reset_elements: List[FullyQualifiedDomainName | Regions | ResourcePath | ChildHealthChecks]
-    resource_path: String
-    search_string: String
+    alarm_identifier: alarm_identifier
+    child_health_checks: list[string]
+    disabled: boolean
+    enable_sni: boolean
+    failure_threshold: int
+    fully_qualified_domain_name: string
+    health_check_id: string #required
+    health_check_version: int
+    health_threshold: int
+    insufficient_data_health_status: healthy | unhealthy | last_known_status
+    inverted: boolean
+    ip_address: string
+    port: int
+    regions: list[string]
+    reset_elements: list[fully_qualified_domain_name | regions | resource_path | child_health_checks]
+    resource_path: string
+    search_string: string
   outputs:
-    health_check: HealthCheck
-    success: Boolean
+    health_check: health_check
+    success: boolean
 
-- name: Get Health Check Status
-  method: get_health_check_status
+- name: get_health_check_status
   inputs:
-    health_check_id: String #required
+    health_check_id: string #required
   outputs:
-    health_check_observations: List[HealthCheckObservation]
+    health_check_observations: list[health_check_observation]
 
-- name: Get Health Check Last Failure Reason
-  method: get_health_check_last_failure_reason
+- name: get_health_check_last_failure_reason
   inputs:
-    health_check_id: String #required
+    health_check_id: string #required
   outputs:
-    health_check_observations: List[HealthCheckObservation]
+    health_check_observations: list[health_check_observation]
 
-- name: Get Health Check Count
-  method: get_health_check_count
+- name: get_health_check_count
   inputs: {}
   outputs:
-    health_check_count: Int
+    health_check_count: int
 
-- name: Create Reusable Delegation Set
-  method: create_reusable_delegation_set
+- name: create_reusable_delegation_set
   inputs:
-    caller_reference: String #required
-    hosted_zone_id: String
+    caller_reference: string #required
+    hosted_zone_id: string
   outputs:
-    delegation_set: DelegationSet
-    location: String
-    success: Boolean
+    delegation_set: delegation_set
+    location: string
+    success: boolean
 
-- name: Delete Reusable Delegation Set
-  method: delete_reusable_delegation_set
+- name: delete_reusable_delegation_set
   inputs:
-    id: String #required
+    id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Reusable Delegation Set
-  method: get_reusable_delegation_set
+- name: get_reusable_delegation_set
   inputs:
-    id: String #required
+    id: string #required
   outputs:
-    delegation_set: DelegationSet
+    delegation_set: delegation_set
 
-- name: List Reusable Delegation Sets
-  method: list_reusable_delegation_sets
+- name: list_reusable_delegation_sets
   inputs:
-    marker: String
-    max_items: Int = 100
+    marker: string
+    max_items: int = 100
   outputs:
-    delegation_sets: List[DelegationSet]
-    is_truncated: Boolean
-    marker: String
-    max_items: Int
-    next_marker: String
+    delegation_sets: list[delegation_set]
+    is_truncated: boolean
+    marker: string
+    max_items: int
+    next_marker: string
 
-- name: Create Traffic Policy
-  method: create_traffic_policy
+- name: create_traffic_policy
   inputs:
-    comment: String
-    document: String #required
-    name: String #required
+    comment: string
+    document: string #required
+    name: string #required
   outputs:
-    location: String
-    success: Boolean
-    traffic_policy: TrafficPolicy
+    location: string
+    success: boolean
+    traffic_policy: traffic_policy
 
-- name: Delete Traffic Policy
-  method: delete_traffic_policy
+- name: delete_traffic_policy
   inputs:
-    id: String #required
-    version: Int #required
+    id: string #required
+    version: int #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Traffic Policy
-  method: get_traffic_policy
+- name: get_traffic_policy
   inputs:
-    id: String #required
-    version: Int #required
+    id: string #required
+    version: int #required
   outputs:
-    traffic_policy: TrafficPolicy
+    traffic_policy: traffic_policy
 
-- name: List Traffic Policies
-  method: list_traffic_policies
+- name: list_traffic_policies
   inputs:
-    max_items: Int = 100
-    traffic_policy_id_marker: String
+    max_items: int = 100
+    traffic_policy_id_marker: string
   outputs:
-    is_truncated: Boolean
-    max_items: Int
-    traffic_policy_id_marker: String
-    traffic_policy_summaries: List[TrafficPolicySummary]
+    is_truncated: boolean
+    max_items: int
+    traffic_policy_id_marker: string
+    traffic_policy_summaries: list[traffic_policy_summary]
 
-- name: Create Traffic Policy Version
-  method: create_traffic_policy_version
+- name: create_traffic_policy_version
   inputs:
-    comment: String
-    document: String #required
-    id: String #required
+    comment: string
+    document: string #required
+    id: string #required
   outputs:
-    location: String
-    success: Boolean
-    traffic_policy: TrafficPolicy
+    location: string
+    success: boolean
+    traffic_policy: traffic_policy
 
-- name: List Traffic Policy Versions
-  method: list_traffic_policy_versions
+- name: list_traffic_policy_versions
   inputs:
-    id: String #required
-    max_items: Int = 100
-    traffic_policy_version_marker: String
+    id: string #required
+    max_items: int = 100
+    traffic_policy_version_marker: string
   outputs:
-    is_truncated: Boolean
-    max_items: Int
-    traffic_policies: List[TrafficPolicy]
-    traffic_policy_version_marker: String
+    is_truncated: boolean
+    max_items: int
+    traffic_policies: list[traffic_policy]
+    traffic_policy_version_marker: string
 
-- name: Update Traffic Policy Comment
-  method: update_traffic_policy_comment
+- name: update_traffic_policy_comment
   inputs:
-    comment: String #required
-    id: String #required
-    version: Int #required
+    comment: string #required
+    id: string #required
+    version: int #required
   outputs:
-    success: Boolean
-    traffic_policy: TrafficPolicy
+    success: boolean
+    traffic_policy: traffic_policy
 
-- name: Create Traffic Policy Instance
-  method: create_traffic_policy_instance
+- name: create_traffic_policy_instance
   inputs:
-    hosted_zone_id: String #required
-    name: String #required
-    traffic_policy_id: String #required
-    traffic_policy_version: Int #required
-    ttl: Int #required
+    hosted_zone_id: string #required
+    name: string #required
+    traffic_policy_id: string #required
+    traffic_policy_version: int #required
+    ttl: int #required
   outputs:
-    location: String
-    success: Boolean
-    traffic_policy_instance: TrafficPolicyInstance
+    location: string
+    success: boolean
+    traffic_policy_instance: traffic_policy_instance
 
-- name: Delete Traffic Policy Instance
-  method: delete_traffic_policy_instance
+- name: delete_traffic_policy_instance
   inputs:
-    id: String #required
+    id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Traffic Policy Instance
-  method: get_traffic_policy_instance
+- name: get_traffic_policy_instance
   inputs:
-    id: String #required
+    id: string #required
   outputs:
-    traffic_policy_instance: TrafficPolicyInstance
+    traffic_policy_instance: traffic_policy_instance
 
-- name: List Traffic Policy Instances
-  method: list_traffic_policy_instances
+- name: list_traffic_policy_instances
   inputs:
-    hosted_zone_id_marker: String
-    max_items: Int = 100
-    traffic_policy_instance_name_marker: String
-    traffic_policy_instance_type_marker: String
+    hosted_zone_id_marker: string
+    max_items: int = 100
+    traffic_policy_instance_name_marker: string
+    traffic_policy_instance_type_marker: string
   outputs:
-    hosted_zone_id_marker: String
-    is_truncated: Boolean
-    max_items: Int
-    traffic_policy_instance_name_marker: String
-    traffic_policy_instance_type_marker: String
-    traffic_policy_instances: List[TrafficPolicyInstance]
+    hosted_zone_id_marker: string
+    is_truncated: boolean
+    max_items: int
+    traffic_policy_instance_name_marker: string
+    traffic_policy_instance_type_marker: string
+    traffic_policy_instances: list[traffic_policy_instance]
 
-- name: List Traffic Policy Instances By Hosted Zone
-  method: list_traffic_policy_instances_by_hosted_zone
+- name: list_traffic_policy_instances_by_hosted_zone
   inputs:
-    hosted_zone_id: String #required
-    max_items: Int = 100
-    traffic_policy_instance_name_marker: String
-    traffic_policy_instance_type_marker: String
+    hosted_zone_id: string #required
+    max_items: int = 100
+    traffic_policy_instance_name_marker: string
+    traffic_policy_instance_type_marker: string
   outputs:
-    is_truncated: Boolean
-    max_items: Int
-    traffic_policy_instance_name_marker: String
-    traffic_policy_instance_type_marker: String
-    traffic_policy_instances: List[TrafficPolicyInstance]
+    is_truncated: boolean
+    max_items: int
+    traffic_policy_instance_name_marker: string
+    traffic_policy_instance_type_marker: string
+    traffic_policy_instances: list[traffic_policy_instance]
 
-- name: List Traffic Policy Instances By Policy
-  method: list_traffic_policy_instances_by_policy
+- name: list_traffic_policy_instances_by_policy
   inputs:
-    hosted_zone_id_marker: String
-    max_items: Int = 100
-    traffic_policy_id: String #required
-    traffic_policy_instance_name_marker: String
-    traffic_policy_instance_type_marker: String
-    traffic_policy_version: Int #required
+    hosted_zone_id_marker: string
+    max_items: int = 100
+    traffic_policy_id: string #required
+    traffic_policy_instance_name_marker: string
+    traffic_policy_instance_type_marker: string
+    traffic_policy_version: int #required
   outputs:
-    hosted_zone_id_marker: String
-    is_truncated: Boolean
-    max_items: Int
-    traffic_policy_instance_name_marker: String
-    traffic_policy_instance_type_marker: String
-    traffic_policy_instances: List[TrafficPolicyInstance]
+    hosted_zone_id_marker: string
+    is_truncated: boolean
+    max_items: int
+    traffic_policy_instance_name_marker: string
+    traffic_policy_instance_type_marker: string
+    traffic_policy_instances: list[traffic_policy_instance]
 
-- name: Update Traffic Policy Instance
-  method: update_traffic_policy_instance
+- name: update_traffic_policy_instance
   inputs:
-    id: String #required
-    traffic_policy_id: String #required
-    traffic_policy_version: Int #required
-    ttl: Int #required
+    id: string #required
+    traffic_policy_id: string #required
+    traffic_policy_version: int #required
+    ttl: int #required
   outputs:
-    success: Boolean
-    traffic_policy_instance: TrafficPolicyInstance
+    success: boolean
+    traffic_policy_instance: traffic_policy_instance
 
-- name: Get Traffic Policy Instance Count
-  method: get_traffic_policy_instance_count
+- name: get_traffic_policy_instance_count
   inputs: {}
   outputs:
-    traffic_policy_instance_count: Int
+    traffic_policy_instance_count: int
 
-- name: Create Query Logging Config
-  method: create_query_logging_config
+- name: create_query_logging_config
   inputs:
-    cloud_watch_logs_log_group_arn: String #required
-    hosted_zone_id: String #required
+    cloud_watch_logs_log_group_arn: string #required
+    hosted_zone_id: string #required
   outputs:
-    location: String
-    query_logging_config: QueryLoggingConfig
-    success: Boolean
+    location: string
+    query_logging_config: query_logging_config
+    success: boolean
 
-- name: Delete Query Logging Config
-  method: delete_query_logging_config
+- name: delete_query_logging_config
   inputs:
-    id: String #required
+    id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Query Logging Config
-  method: get_query_logging_config
+- name: get_query_logging_config
   inputs:
-    id: String #required
+    id: string #required
   outputs:
-    query_logging_config: QueryLoggingConfig
+    query_logging_config: query_logging_config
 
-- name: List Query Logging Configs
-  method: list_query_logging_configs
+- name: list_query_logging_configs
   inputs:
-    hosted_zone_id: String
-    max_results: Int = 100
-    next_token: String
+    hosted_zone_id: string
+    max_results: int = 100
+    next_token: string
   outputs:
-    next_token: String
-    query_logging_configs: List[QueryLoggingConfig]
+    next_token: string
+    query_logging_configs: list[query_logging_config]
 
-- name: Associate VPC With Hosted Zone
-  method: associate_vpc_with_hosted_zone
+- name: associate_vpc_with_hosted_zone
   inputs:
-    comment: String
-    hosted_zone_id: String #required
-    vpc: VPC #required
+    comment: string
+    hosted_zone_id: string #required
+    vpc: vpc #required
   outputs:
-    change_info: ChangeInfo
-    success: Boolean
+    change_info: change_info
+    success: boolean
 
-- name: Disassociate VPC From Hosted Zone
-  method: disassociate_vpc_from_hosted_zone
+- name: disassociate_vpc_from_hosted_zone
   inputs:
-    comment: String
-    hosted_zone_id: String #required
-    vpc: VPC #required
+    comment: string
+    hosted_zone_id: string #required
+    vpc: vpc #required
   outputs:
-    change_info: ChangeInfo
-    success: Boolean
+    change_info: change_info
+    success: boolean
 
-- name: Create VPC Association Authorization
-  method: create_vpc_association_authorization
+- name: create_vpc_association_authorization
   inputs:
-    hosted_zone_id: String #required
-    vpc: VPC #required
+    hosted_zone_id: string #required
+    vpc: vpc #required
   outputs:
-    hosted_zone_id: String
-    success: Boolean
-    vpc: VPC
+    hosted_zone_id: string
+    success: boolean
+    vpc: vpc
 
-- name: Delete VPC Association Authorization
-  method: delete_vpc_association_authorization
+- name: delete_vpc_association_authorization
   inputs:
-    hosted_zone_id: String #required
-    vpc: VPC #required
+    hosted_zone_id: string #required
+    vpc: vpc #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List VPC Association Authorizations
-  method: list_vpc_association_authorizations
+- name: list_vpc_association_authorizations
   inputs:
-    hosted_zone_id: String #required
-    max_results: Int = 100
-    next_token: String
+    hosted_zone_id: string #required
+    max_results: int = 100
+    next_token: string
   outputs:
-    hosted_zone_id: String
-    next_token: String
-    vpcs: List[VPC]
+    hosted_zone_id: string
+    next_token: string
+    vpcs: list[vpc]
 
-- name: Enable Hosted Zone DNSSEC
-  method: enable_hosted_zone_dnssec
+- name: enable_hosted_zone_dnssec
   inputs:
-    hosted_zone_id: String #required
+    hosted_zone_id: string #required
   outputs:
-    change_info: ChangeInfo
-    success: Boolean
+    change_info: change_info
+    success: boolean
 
-- name: Disable Hosted Zone DNSSEC
-  method: disable_hosted_zone_dnssec
+- name: disable_hosted_zone_dnssec
   inputs:
-    hosted_zone_id: String #required
+    hosted_zone_id: string #required
   outputs:
-    change_info: ChangeInfo
-    success: Boolean
+    change_info: change_info
+    success: boolean
 
-- name: Get DNSSEC
-  method: get_dnssec
+- name: get_dnssec
   inputs:
-    hosted_zone_id: String #required
+    hosted_zone_id: string #required
   outputs:
-    key_signing_keys: List[KeySigningKey]
-    status: DNSSECStatus
+    key_signing_keys: list[key_signing_key]
+    status: dnssec_status
 
-- name: Create Key Signing Key
-  method: create_key_signing_key
+- name: create_key_signing_key
   inputs:
-    caller_reference: String #required
-    hosted_zone_id: String #required
-    key_management_service_arn: String #required
-    name: String #required
-    status: ACTIVE | INACTIVE #required
+    caller_reference: string #required
+    hosted_zone_id: string #required
+    key_management_service_arn: string #required
+    name: string #required
+    status: active | inactive #required
   outputs:
-    change_info: ChangeInfo
-    key_signing_key: KeySigningKey
-    location: String
-    success: Boolean
+    change_info: change_info
+    key_signing_key: key_signing_key
+    location: string
+    success: boolean
 
-- name: Delete Key Signing Key
-  method: delete_key_signing_key
+- name: delete_key_signing_key
   inputs:
-    hosted_zone_id: String #required
-    name: String #required
+    hosted_zone_id: string #required
+    name: string #required
   outputs:
-    change_info: ChangeInfo
-    success: Boolean
+    change_info: change_info
+    success: boolean
 
-- name: Activate Key Signing Key
-  method: activate_key_signing_key
+- name: activate_key_signing_key
   inputs:
-    hosted_zone_id: String #required
-    name: String #required
+    hosted_zone_id: string #required
+    name: string #required
   outputs:
-    change_info: ChangeInfo
-    success: Boolean
+    change_info: change_info
+    success: boolean
 
-- name: Deactivate Key Signing Key
-  method: deactivate_key_signing_key
+- name: deactivate_key_signing_key
   inputs:
-    hosted_zone_id: String #required
-    name: String #required
+    hosted_zone_id: string #required
+    name: string #required
   outputs:
-    change_info: ChangeInfo
-    success: Boolean
+    change_info: change_info
+    success: boolean
 
-- name: Test DNS Answer
-  method: test_dns_answer
+- name: test_dns_answer
   inputs:
-    edns0_client_subnet_ip: String
-    edns0_client_subnet_mask: String
-    hosted_zone_id: String #required
-    record_name: String #required
-    record_type: String #required
-    resolver_ip: String
+    edns0_client_subnet_ip: string
+    edns0_client_subnet_mask: string
+    hosted_zone_id: string #required
+    record_name: string #required
+    record_type: string #required
+    resolver_ip: string
   outputs:
-    nameserver: String
-    protocol: String
-    record_data: List[String]
-    record_name: String
-    record_type: String
-    response_code: String
+    nameserver: string
+    protocol: string
+    record_data: list[string]
+    record_name: string
+    record_type: string
+    response_code: string
 
-- name: Get Geo Location
-  method: get_geo_location
+- name: get_geo_location
   inputs:
-    continent_code: String
-    country_code: String
-    subdivision_code: String
+    continent_code: string
+    country_code: string
+    subdivision_code: string
   outputs:
-    geo_location_details: GeoLocationDetails
+    geo_location_details: geo_location_details
 
-- name: List Geo Locations
-  method: list_geo_locations
+- name: list_geo_locations
   inputs:
-    max_items: Int = 100
-    start_continent_code: String
-    start_country_code: String
-    start_subdivision_code: String
+    max_items: int = 100
+    start_continent_code: string
+    start_country_code: string
+    start_subdivision_code: string
   outputs:
-    geo_location_details_list: List[GeoLocationDetails]
-    is_truncated: Boolean
-    max_items: Int
-    next_continent_code: String
-    next_country_code: String
-    next_subdivision_code: String
+    geo_location_details_list: list[geo_location_details]
+    is_truncated: boolean
+    max_items: int
+    next_continent_code: string
+    next_country_code: string
+    next_subdivision_code: string
 
-- name: Change Tags For Resource
-  method: change_tags_for_resource
+- name: change_tags_for_resource
   inputs:
-    add_tags: List[Route53Tag]
-    remove_tag_keys: List[String]
-    resource_id: String #required
-    resource_type: Healthcheck | Hostedzone #required
+    add_tags: list[route53_tag]
+    remove_tag_keys: list[string]
+    resource_id: string #required
+    resource_type: healthcheck | hostedzone #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Tags For Resource
-  method: list_tags_for_resource
+- name: list_tags_for_resource
   inputs:
-    resource_id: String #required
-    resource_type: Healthcheck | Hostedzone #required
+    resource_id: string #required
+    resource_type: healthcheck | hostedzone #required
   outputs:
-    resource_tag_set: ResourceTagSet
+    resource_tag_set: resource_tag_set
 
-- name: List Tags For Resources
-  method: list_tags_for_resources
+- name: list_tags_for_resources
   inputs:
-    resource_ids: List[String] #required
-    resource_type: Healthcheck | Hostedzone #required
+    resource_ids: list[string] #required
+    resource_type: healthcheck | hostedzone #required
   outputs:
-    resource_tag_sets: List[ResourceTagSet]
+    resource_tag_sets: list[resource_tag_set]
 
-- name: Get Account Limit
-  method: get_account_limit
+- name: get_account_limit
   inputs:
-    type: MAX_HEALTH_CHECKS_BY_OWNER | MAX_HOSTED_ZONES_BY_OWNER | MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER | MAX_REUSABLE_DELEGATION_SETS_BY_OWNER | MAX_TRAFFIC_POLICIES_BY_OWNER #required
+    type: max_health_checks_by_owner | max_hosted_zones_by_owner | max_traffic_policy_instances_by_owner | max_reusable_delegation_sets_by_owner | max_traffic_policies_by_owner #required
   outputs:
-    count: Int
-    limit: AccountLimit
+    count: int
+    limit: account_limit
 
-- name: Get Hosted Zone Limit
-  method: get_hosted_zone_limit
+- name: get_hosted_zone_limit
   inputs:
-    hosted_zone_id: String #required
-    type: MAX_RRSETS_BY_ZONE | MAX_VPCS_ASSOCIATED_BY_ZONE #required
+    hosted_zone_id: string #required
+    type: max_rrsets_by_zone | max_vpcs_associated_by_zone #required
   outputs:
-    count: Int
-    limit: HostedZoneLimit
+    count: int
+    limit: hosted_zone_limit
 
-- name: Get Reusable Delegation Set Limit
-  method: get_reusable_delegation_set_limit
+- name: get_reusable_delegation_set_limit
   inputs:
-    delegation_set_id: String #required
-    type: MAX_ZONES_BY_REUSABLE_DELEGATION_SET #required
+    delegation_set_id: string #required
+    type: max_zones_by_reusable_delegation_set #required
   outputs:
-    count: Int
-    limit: ReusableDelegationSetLimit
+    count: int
+    limit: reusable_delegation_set_limit
 
-- name: Get Checker IP Ranges
-  method: get_checker_ip_ranges
+- name: get_checker_ip_ranges
   inputs: {}
   outputs:
-    checker_ip_ranges: List[String]
+    checker_ip_ranges: list[string]

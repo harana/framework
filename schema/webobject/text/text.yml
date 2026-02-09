@@ -1,7 +1,6 @@
-- name: Text Component
-  type: text
+- name: text
   attributes:
-    - content: String #required #max(5000)
+    - content: string #required #max(5000)
   events:
     - click
     - copy

@@ -1,23 +1,20 @@
-- name: Sidebar Toggled
-  type: sidebar_toggled
+- name: sidebar_toggled
   schema:
-    sidebar_id: Id #required
-    sidebar_name: String?
-    new_state: Expanded | Collapsed #required
-    toggled_at: Date = now()
+    sidebar_id: id #required
+    sidebar_name: string?
+    new_state: expanded | collapsed #required
+    toggled_at: date = now()
 
-- name: Sidebar Collapsed
-  type: sidebar_collapsed
+- name: sidebar_collapsed
   schema:
-    sidebar_id: Id #required
-    sidebar_name: String?
-    collapse_trigger: Button | Gesture | Auto = Button
-    collapsed_at: Date = now()
+    sidebar_id: id #required
+    sidebar_name: string?
+    collapse_trigger: button | gesture | auto = button
+    collapsed_at: date = now()
 
-- name: Sidebar Expanded
-  type: sidebar_expanded
+- name: sidebar_expanded
   schema:
-    sidebar_id: Id #required
-    sidebar_name: String?
-    expand_trigger: Button | Gesture | Hover = Button
-    expanded_at: Date = now()
+    sidebar_id: id #required
+    sidebar_name: string?
+    expand_trigger: button | gesture | hover = button
+    expanded_at: date = now()

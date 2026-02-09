@@ -1,0 +1,24 @@
+- name: screenshot
+  inputs:
+    path: string #required    session_id: string #required  outputs:
+    success: boolean
+
+- name: screenshot_as_png
+  inputs:
+    session_id: string #required  outputs:
+    data: bytes
+
+- name: screenshot_as_png_base64
+  inputs:
+    session_id: string #required  outputs:
+    data: string
+
+- name: element_screenshot
+  inputs:
+    element_id: string #required    path: string #required    session_id: string #required  outputs:
+    success: boolean
+
+- name: element_screenshot_as_png
+  inputs:
+    element_id: string #required    session_id: string #required  outputs:
+    data: bytes

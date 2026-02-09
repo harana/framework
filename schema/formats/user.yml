@@ -1,0 +1,41 @@
+- name: user_permission
+  id: [user_id, resource, action]
+  schema:
+    - action: string #required #max(100)
+    - conditions: string? # json
+    - expires_at: date?
+    - granted_at: date = now()
+    - granted_by: id? -> user.id
+    - resource: string #required #max(200)
+    - user_id: id #required -> user.id
+- name: effective_permission
+  id: [user_id, resource, action]
+  schema:
+    - action: string #required #max(100)
+    - allowed: boolean = false
+    - resource: string #required #max(200)
+    - source_id: string? #max(200)
+    - source_type: direct | role | group | policy = direct
+    - user_id: id #required -> user.id
+- name: user_permission_conditions
+  schema:
+    - conditions: map[string, any]
+
+- name: user_permission_info
+  schema:
+    - permission_id: string
+    - method: string
+    - resource: string
+    - expires_at: date
+
+- name: user_role_info
+  schema:
+    - role_id: string
+    - name: string
+    - assigned_at: date
+
+- name: permission_source
+  schema:
+    - source_type: string
+    - source_id: string
+    - name: string

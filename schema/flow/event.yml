@@ -1,103 +1,95 @@
-- name: Emit Event To Channel
-  method: emit_event
+- name: emit_event
   inputs:
-    channel: String #required
-    event_type: String #required
-    metadata: EventMetadata
-    payload: Any
+    channel: string #required
+    event_type: string #required
+    metadata: event_metadata
+    payload: any
   outputs:
-    event_id: String
-    success: Boolean
+    event_id: string
+    success: boolean
 
-- name: Subscribe To Channel
-  method: subscribe_channel
+- name: subscribe_channel
   inputs:
-    channel: String #required
-    event_types: List[String]
-    handler: String #required
+    channel: string #required
+    event_types: list[string]
+    handler: string #required
   outputs:
-    subscription_id: String
-    success: Boolean
+    subscription_id: string
+    success: boolean
 
-- name: Unsubscribe From Channel
-  method: unsubscribe_channel
+- name: unsubscribe_channel
   inputs:
-    subscription_id: String #required
+    subscription_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Broadcast Event To All
-  method: broadcast_event
+- name: broadcast_event
   inputs:
-    event_type: String #required
-    exclude_channels: List[String]
-    metadata: EventMetadata
-    payload: Any
+    event_type: string #required
+    exclude_channels: list[string]
+    metadata: event_metadata
+    payload: any
   outputs:
-    event_id: String
-    recipients: Int
+    event_id: string
+    recipients: int
 
-- name: Get Event By ID
-  method: get_event
+- name: get_event
   inputs:
-    event_id: String #required
+    event_id: string #required
   outputs:
-    channel: String
-    created_at: Date
-    event_type: String
-    metadata: EventMetadata
-    payload: Any
+    channel: string
+    created_at: date
+    event_type: string
+    metadata: event_metadata
+    payload: any
 
-- name: List Channel Events
-  method: list_events
+- name: list_events
   inputs:
-    channel: String #required
-    end_time: Date
-    event_types: List[String]
-    limit: Int = 100
-    start_time: Date
+    channel: string #required
+    end_time: date
+    event_types: list[string]
+    limit: int = 100
+    start_time: date
   outputs:
-    events: List[EventRecord]
-    total: Int
+    events: list[event_record]
+    total: int
 
-- name: Acknowledge Event Receipt
-  method: acknowledge_event
+- name: acknowledge_event
   inputs:
-    event_id: String #required
-    subscription_id: String #required
+    event_id: string #required
+    subscription_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Replay Events From Time
-  method: replay_events
+- name: replay_events
   inputs:
-    channel: String #required
-    end_time: Date
-    event_types: List[String]
-    start_time: Date #required
+    channel: string #required
+    end_time: date
+    event_types: list[string]
+    start_time: date #required
   outputs:
-    events_replayed: Int
-    success: Boolean
+    events_replayed: int
+    success: boolean
 
-- name: Event
+- name: event
   class:
-    event_id: String
-    event_type: String
-    channel: String
-    payload: Any
-    metadata: EventMetadata
-    created_at: Date
+    event_id: string
+    event_type: string
+    channel: string
+    payload: any
+    metadata: event_metadata
+    created_at: date
 
-- name: EventMetadata
+- name: event_metadata
   class:
-    values: Map[String, Any]
+    values: map[string, any]
 
-- name: EventRecord
+- name: event_record
   class:
-    event_id: String
-    event_type: String
-    channel: String
-    payload: Any
-    metadata: EventMetadata
-    created_at: Date
-    acknowledged: Boolean
+    event_id: string
+    event_type: string
+    channel: string
+    payload: any
+    metadata: event_metadata
+    created_at: date
+    acknowledged: boolean

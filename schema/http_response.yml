@@ -1,0 +1,23 @@
+- name: http_response_template
+  schema:
+    - body_template: string?
+    - content_type: string = application/json #max(100)
+    - created_at: date = now()
+    - description: string? #max(500)
+    - headers: string? # j_s_o_n map
+    - is_active: boolean = true
+    - status_code: int = 200 #min(100) #max(599)
+    - template_engine: handlebars | jinja2 | tera | liquid = handlebars
+    - updated_at: date = now()
+
+- name: http_response_log
+  id: [request_path, created_at]
+  schema:
+    - content_type: string? #max(100)
+    - created_at: date = now()
+    - duration_ms: int? #min(0)
+    - request_method: get | post | put | patch | delete | head | options = get
+    - request_path: string #required #max(2000)
+    - response_size: int? #min(0)
+    - status_code: int #required #min(100) #max(599)
+    - template_id: id? -> http_response_template.id

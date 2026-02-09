@@ -1,7 +1,6 @@
-- name: Divider Component
-  type: divider
+- name: divider
   attributes:
-    - is_soft: Boolean = false
-    - spacing: String? #max(20)
+    - is_soft: boolean = false
+    - spacing: string? #max(20)
   events:
     - click

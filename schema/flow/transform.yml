@@ -1,112 +1,99 @@
-- name: Convert JSON To XML
-  method: json_to_xml
+- name: json_to_xml
   inputs:
-    data: TransformJsonObject #required
-    root_element: String = "root"
+    data: transform_json_object #required
+    root_element: string = "root"
   outputs:
-    xml: String
+    xml: string
 
-- name: Convert XML To JSON
-  method: xml_to_json
+- name: xml_to_json
   inputs:
-    data: String #required
+    data: string #required
   outputs:
-    json: TransformJsonObject
+    json: transform_json_object
 
-- name: Convert CSV To JSON
-  method: csv_to_json
+- name: csv_to_json
   inputs:
-    data: String #required
-    delimiter: String = ","
-    headers: List[String]
+    data: string #required
+    delimiter: string = ","
+    headers: list[string]
   outputs:
-    json: List[TransformJsonObject]
+    json: list[transform_json_object]
 
-- name: Convert JSON To CSV
-  method: json_to_csv
+- name: json_to_csv
   inputs:
-    data: List[TransformJsonObject] #required
-    delimiter: String = ","
-    headers: List[String]
+    data: list[transform_json_object] #required
+    delimiter: string = ","
+    headers: list[string]
   outputs:
-    csv: String
+    csv: string
 
-- name: Convert YAML To JSON
-  method: yaml_to_json
+- name: yaml_to_json
   inputs:
-    data: String #required
+    data: string #required
   outputs:
-    json: TransformJsonObject
+    json: transform_json_object
 
-- name: Convert JSON To YAML
-  method: json_to_yaml
+- name: json_to_yaml
   inputs:
-    data: TransformJsonObject #required
+    data: transform_json_object #required
   outputs:
-    yaml: String
+    yaml: string
 
-- name: Base64 Encode Data
-  method: base64_encode
+- name: base64_encode
   inputs:
-    data: String #required
+    data: string #required
   outputs:
-    encoded: String
+    encoded: string
 
-- name: Base64 Decode Data
-  method: base64_decode
+- name: base64_decode
   inputs:
-    data: String #required
+    data: string #required
   outputs:
-    decoded: String
+    decoded: string
 
-- name: URL Encode String
-  method: url_encode
+- name: url_encode
   inputs:
-    data: String #required
+    data: string #required
   outputs:
-    encoded: String
+    encoded: string
 
-- name: URL Decode String
-  method: url_decode
+- name: url_decode
   inputs:
-    data: String #required
+    data: string #required
   outputs:
-    decoded: String
+    decoded: string
 
-- name: HTML Encode String
-  method: html_encode
+- name: html_encode
   inputs:
-    data: String #required
+    data: string #required
   outputs:
-    encoded: String
+    encoded: string
 
-- name: HTML Decode String
-  method: html_decode
+- name: html_decode
   inputs:
-    data: String #required
+    data: string #required
   outputs:
-    decoded: String
+    decoded: string
 
-- name: Convert Markdown To HTML
-  method: markdown_to_html
+- name: markdown_to_html
   inputs:
-    data: String #required
-    options: MarkdownOptions
+    data: string #required
+    options: markdown_options
   outputs:
-    html: String
+    html: string
 
-- name: TransformResult
+- name: transform_result
   class:
-    input_format: String
-    output_format: String
-    data: Any
+    input_format: string
+    output_format: string
+    data: any
 
-- name: TransformJsonObject
+- name: transform_json_object
   class:
-    data: Map[String, Any]
+    data: map[string, any]
 
-- name: MarkdownOptions
+- name: markdown_options
   class:
-    gfm: Boolean
-    breaks: Boolean
-    sanitize: Boolean
+    gfm: boolean
+    breaks: boolean
+    sanitize: boolean

@@ -1,0 +1,42 @@
+- name: geoip_lookup
+  id: [ip_address]
+  schema:
+    - city: string? #max(200)
+    - country: string? #max(100)
+    - created_at: date = now()
+    - ip_address: string #required #max(45)
+    - latitude: decimal?
+    - longitude: decimal?
+    - region: string? #max(200)
+    - timezone: string? #max(50)
+
+- name: geoip_cache
+  id: [ip_address]
+  schema:
+    - city: string? #max(200)
+    - country: string? #max(100)
+    - expires_at: date?
+    - ip_address: string #required #max(45)
+    - latitude: decimal?
+    - longitude: decimal?
+    - looked_up_at: date = now()
+    - region: string? #max(200)
+    - timezone: string? #max(50)
+
+- name: geo_location
+  schema:
+    - ip: string
+    - latitude: float
+    - longitude: float
+    - city: string
+    - region: string
+    - country: string
+    - timezone: string
+
+- name: geo_address
+  schema:
+    - street: string
+    - city: string
+    - region: string
+    - postal_code: string
+    - country: string

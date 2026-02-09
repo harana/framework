@@ -1,53 +1,47 @@
-- name: Cloudflare Worker Fetch Invoked
-  type: cloudflare_worker_fetch_invoked
+- name: cloudflare_worker_fetch_invoked
   schema:
-    service_binding: String #required
-    url: String #required
-    method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
-    status_code: Int?
-    invoked_at: Date = now()
+    service_binding: string #required
+    url: string #required
+    method: get | post | put | patch | delete | head | options = get
+    status_code: int?
+    invoked_at: date = now()
 
-- name: Cloudflare Worker Route Matched
-  type: cloudflare_worker_route_matched
+- name: cloudflare_worker_route_matched
   schema:
-    route_pattern: String #required
-    url: String #required
-    method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
-    service_binding: String?
-    matched_at: Date = now()
+    route_pattern: string #required
+    url: string #required
+    method: get | post | put | patch | delete | head | options = get
+    service_binding: string?
+    matched_at: date = now()
 
-- name: Cloudflare Worker Cron Triggered
-  type: cloudflare_worker_cron_triggered
+- name: cloudflare_worker_cron_triggered
   schema:
-    service_binding: String #required
-    cron: String #required
-    scheduled_time: Date?
-    triggered_at: Date = now()
+    service_binding: string #required
+    cron: string #required
+    scheduled_time: date?
+    triggered_at: date = now()
 
-- name: Cloudflare Worker Error Occurred
-  type: cloudflare_worker_error_occurred
+- name: cloudflare_worker_error_occurred
   schema:
-    service_binding: String?
-    url: String?
-    method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS?
-    error_message: String #required
-    status_code: Int?
-    occurred_at: Date = now()
+    service_binding: string?
+    url: string?
+    method: get | post | put | patch | delete | head | options?
+    error_message: string #required
+    status_code: int?
+    occurred_at: date = now()
 
-- name: Cloudflare Worker Version Deployed
-  type: cloudflare_worker_version_deployed
+- name: cloudflare_worker_version_deployed
   schema:
-    binding: String #required
-    version_id: String #required
-    version_tag: String?
-    version_message: String?
-    deployed_at: Date = now()
+    binding: string #required
+    version_id: string #required
+    version_tag: string?
+    version_message: string?
+    deployed_at: date = now()
 
-- name: Cloudflare Service Binding Fetch Invoked
-  type: cloudflare_service_binding_fetch_invoked
+- name: cloudflare_service_binding_fetch_invoked
   schema:
-    service: String #required
-    url: String #required
-    method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
-    status_code: Int?
-    invoked_at: Date = now()
+    service: string #required
+    url: string #required
+    method: get | post | put | patch | delete | head | options = get
+    status_code: int?
+    invoked_at: date = now()

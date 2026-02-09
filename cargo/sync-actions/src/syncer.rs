@@ -686,7 +686,6 @@ fn extract_functions(content: &str) -> Result<Vec<(String, String)>> {
 
     Ok(functions)
 }
-
 /// Find the next function start position
 fn find_next_function_start(content: &str) -> Option<usize> {
     // Look for "pub async fn" or "pub fn"
@@ -794,7 +793,6 @@ fn extract_structs(content: &str) -> Result<Vec<(String, String)>> {
 
     Ok(structs)
 }
-
 /// Find the next struct start position
 fn find_next_struct_start(content: &str) -> Option<usize> {
     content.find("pub struct ")

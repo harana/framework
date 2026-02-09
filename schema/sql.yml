@@ -1,0 +1,120 @@
+- name: sql_connection
+  schema:
+    - created_at: date = now()
+    - database: string #required #max(255)
+    - driver: postgres | mysql | sqlite | mssql = postgres
+    - host: string #required #max(255)
+    - is_active: boolean = true
+    - max_connections: int = 10 #min(1)
+    - password: string? #max(255) #encrypted
+    - port: int #required #min(1) #max(65535)
+    - ssl_mode: disable | prefer | require | verify_ca | verify_full = prefer
+    - updated_at: date = now()
+    - username: string? #max(255)
+
+- name: sql_table
+  id: [connection_id, schema_name, table_name]
+  schema:
+    - connection_id: id #required -> sql_connection.id
+    - row_count: int? #min(0)
+    - schema_name: string = public #max(255)
+    - table_name: string #required #max(255)
+
+- name: sql_column
+  id: [table_id, column_name]
+  schema:
+    - column_name: string #required #max(255)
+    - data_type: string #required #max(100)
+    - default_value: string?
+    - is_nullable: boolean = true
+    - is_primary_key: boolean = false
+    - max_length: int?
+    - sort_order: int = 0
+    - table_id: id #required -> sql_table.id
+
+- name: sql_index
+  id: [table_id, index_name]
+  schema:
+    - columns: string #required # j_s_o_n array
+    - created_at: date = now()
+    - index_name: string #required #max(255)
+    - is_unique: boolean = false
+    - table_id: id #required -> sql_table.id
+
+- name: sql_query_log
+  id: [connection_id, executed_at]
+  schema:
+    - affected_rows: int? #min(0)
+    - connection_id: id #required -> sql_connection.id
+    - duration_ms: int? #min(0)
+    - error_message: string? #max(2000)
+    - executed_at: date = now()
+    - query_hash: string? #max(128)
+    - query_text: string? #max(10000)
+    - query_type: select | insert | update | delete | execute | ddl = select
+    - status: success | failed | timeout | cancelled = success
+    - user_id: id? -> user.id
+
+- name: sql_transaction
+  id: [transaction_id]
+  schema:
+    - completed_at: date?
+    - connection_id: id #required -> sql_connection.id
+    - created_at: date = now()
+    - isolation_level: read_uncommitted | read_committed | repeatable_read | serializable = read_committed
+    - status: active | committed | rolled_back = active
+    - transaction_id: string #required #unique #max(200)
+
+- name: sql_query
+  schema:
+    - query: string
+    - parameters: list[any]
+    - database: string
+    - affected_rows: int
+    - rows: list[sql_row]
+
+- name: sql_row
+  schema:
+    - values: map[string, any]
+
+- name: sql_batch_query
+  schema:
+    - query: string
+    - parameters: list[any]
+
+- name: sql_batch_result
+  schema:
+    - success: boolean
+    - affected_rows: int
+    - error: string
+
+- name: sql_output_parameters
+  schema:
+    - values: map[string, any]
+
+- name: sql_result_set
+  schema:
+    - columns: list[string]
+    - rows: list[sql_row]
+
+- name: sql_column_info
+  schema:
+    - name: string
+    - data_type: string
+    - nullable: boolean
+    - default_value: string
+    - max_length: int
+
+- name: sql_index_info
+  schema:
+    - name: string
+    - columns: list[string]
+    - unique: boolean
+
+- name: sql_column_definition
+  schema:
+    - name: string
+    - data_type: string
+    - nullable: boolean
+    - default_value: string
+    - primary_key: boolean

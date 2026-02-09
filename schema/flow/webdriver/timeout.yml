@@ -1,0 +1,21 @@
+- name: get_timeouts
+  inputs:
+    session_id: string #required  outputs:
+    implicit_wait_ms: int
+    page_load_ms: int
+    script_ms: int
+
+- name: set_implicit_wait_timeout
+  inputs:
+    session_id: string #required    timeout_ms: int #required #min(0)  outputs:
+    success: boolean
+
+- name: set_page_load_timeout
+  inputs:
+    session_id: string #required    timeout_ms: int #required #min(0)  outputs:
+    success: boolean
+
+- name: set_script_timeout
+  inputs:
+    session_id: string #required    timeout_ms: int #required #min(0)  outputs:
+    success: boolean

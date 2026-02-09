@@ -1,219 +1,206 @@
-- name: Log Audit Event
-  method: log_event
+- name: log_event
   inputs:
-    method: String #required
-    actor_id: String #required
-    actor_type: User | Service | System = User
-    details: Map[String, Any]
-    ip_address: String
-    metadata: Map[String, Any]
-    outcome: Success | Failure | Partial #required
-    resource_id: String #required
-    resource_type: String #required
-    user_agent: String
+    method: string #required
+    actor_id: string #required
+    actor_type: user | service | system = user
+    details: map[string, any]
+    ip_address: string
+    metadata: map[string, any]
+    outcome: success | failure | partial #required
+    resource_id: string #required
+    resource_type: string #required
+    user_agent: string
   outputs:
-    audit_id: String
-    success: Boolean
-    timestamp: Date
+    audit_id: string
+    success: boolean
+    timestamp: date
 
-- name: Query Audit Logs
-  method: query_logs
+- name: query_logs
   inputs:
-    method: String
-    actor_id: String
-    actor_type: User | Service | System
-    end_time: Date
-    limit: Int = 100
-    offset: Int = 0
-    outcome: Success | Failure | Partial
-    resource_id: String
-    resource_type: String
-    sort_order: Asc | Desc = Desc
-    start_time: Date #required
+    method: string
+    actor_id: string
+    actor_type: user | service | system
+    end_time: date
+    limit: int = 100
+    offset: int = 0
+    outcome: success | failure | partial
+    resource_id: string
+    resource_type: string
+    sort_order: asc | desc = desc
+    start_time: date #required
   outputs:
-    has_more: Boolean
-    logs: List[AuditEvent]
-    total: Int
+    has_more: boolean
+    logs: list[audit_event]
+    total: int
 
-- name: Get Audit Event By ID
-  method: get_event
+- name: get_event
   inputs:
-    audit_id: String #required
+    audit_id: string #required
   outputs:
-    method: String
-    actor_id: String
-    actor_type: String
-    audit_id: String
-    details: Map[String, Any]
-    ip_address: String
-    metadata: Map[String, Any]
-    outcome: String
-    resource_id: String
-    resource_type: String
-    timestamp: Date
-    user_agent: String
+    method: string
+    actor_id: string
+    actor_type: string
+    audit_id: string
+    details: map[string, any]
+    ip_address: string
+    metadata: map[string, any]
+    outcome: string
+    resource_id: string
+    resource_type: string
+    timestamp: date
+    user_agent: string
 
-- name: Get Actor Activity
-  method: get_actor_activity
+- name: get_actor_activity
   inputs:
-    actor_id: String #required
-    end_time: Date
-    limit: Int = 100
-    start_time: Date
+    actor_id: string #required
+    end_time: date
+    limit: int = 100
+    start_time: date
   outputs:
-    activities: List[AuditActivity]
-    first_activity: Date
-    last_activity: Date
-    total: Int
+    activities: list[audit_activity]
+    first_activity: date
+    last_activity: date
+    total: int
 
-- name: Get Resource History
-  method: get_resource_history
+- name: get_resource_history
   inputs:
-    end_time: Date
-    limit: Int = 100
-    resource_id: String #required
-    resource_type: String #required
-    start_time: Date
+    end_time: date
+    limit: int = 100
+    resource_id: string #required
+    resource_type: string #required
+    start_time: date
   outputs:
-    created_at: Date
-    history: List[AuditEvent]
-    last_modified: Date
-    total: Int
+    created_at: date
+    history: list[audit_event]
+    last_modified: date
+    total: int
 
-- name: Export Audit Logs
-  method: export_logs
+- name: export_logs
   inputs:
-    end_time: Date #required
-    filters: AuditFilter
-    format: Json | Csv | Parquet = Json
-    include_fields: List[String]
-    start_time: Date #required
+    end_time: date #required
+    filters: audit_filter
+    format: json | csv | parquet = json
+    include_fields: list[string]
+    start_time: date #required
   outputs:
-    download_url: String
-    expires_at: Date
-    export_id: String
-    file_size: Int
-    record_count: Int
+    download_url: string
+    expires_at: date
+    export_id: string
+    file_size: int
+    record_count: int
 
-- name: Create Audit Alert
-  method: create_alert
+- name: create_alert
   inputs:
-    conditions: AuditAlertCondition #required
-    description: String
-    enabled: Boolean = true
-    name: String #required
-    notification_channels: List[String] #required
+    conditions: audit_alert_condition #required
+    description: string
+    enabled: boolean = true
+    name: string #required
+    notification_channels: list[string] #required
   outputs:
-    alert_id: String
-    success: Boolean
+    alert_id: string
+    success: boolean
 
-- name: Delete Audit Alert
-  method: delete_alert
+- name: delete_alert
   inputs:
-    alert_id: String #required
+    alert_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Audit Alerts
-  method: list_alerts
+- name: list_alerts
   inputs:
-    enabled: Boolean
-    limit: Int = 100
+    enabled: boolean
+    limit: int = 100
   outputs:
-    alerts: List[AuditAlert]
-    total: Int
+    alerts: list[audit_alert]
+    total: int
 
-- name: Get Audit Statistics
-  method: get_statistics
+- name: get_statistics
   inputs:
-    end_time: Date #required
-    group_by: Action | ResourceType | ActorId | Outcome | Hour | Day = Day
-    start_time: Date #required
+    end_time: date #required
+    group_by: action | resource_type | actor_id | outcome | hour | day = day
+    start_time: date #required
   outputs:
-    statistics: List[AuditStatistic]
-    total_events: Int
-    unique_actors: Int
-    unique_resources: Int
+    statistics: list[audit_statistic]
+    total_events: int
+    unique_actors: int
+    unique_resources: int
 
-- name: Set Retention Policy
-  method: set_retention_policy
+- name: set_retention_policy
   inputs:
-    archive_to_cold_storage: Boolean = false
-    cold_storage_after_days: Int
-    retention_days: Int #required
+    archive_to_cold_storage: boolean = false
+    cold_storage_after_days: int
+    retention_days: int #required
   outputs:
-    policy_id: String
-    success: Boolean
+    policy_id: string
+    success: boolean
 
-- name: Get Retention Policy
-  method: get_retention_policy
+- name: get_retention_policy
   inputs: {}
   outputs:
-    archive_to_cold_storage: Boolean
-    cold_storage_after_days: Int
-    policy_id: String
-    retention_days: Int
+    archive_to_cold_storage: boolean
+    cold_storage_after_days: int
+    policy_id: string
+    retention_days: int
 
-- name: Verify Audit Log Integrity
-  method: verify_integrity
+- name: verify_integrity
   inputs:
-    end_time: Date #required
-    start_time: Date #required
+    end_time: date #required
+    start_time: date #required
   outputs:
-    tampered_records: Int
-    total_records: Int
-    verification_hash: String
-    verified: Boolean
+    tampered_records: int
+    total_records: int
+    verification_hash: string
+    verified: boolean
 
-- name: AuditEvent
+- name: audit_event
   class:
-    audit_id: String
-    method: String
-    actor_id: String
-    actor_type: String
-    resource_id: String
-    resource_type: String
-    outcome: String
-    timestamp: Date
-    ip_address: String
-    user_agent: String
-    details: Map[String, Any]
-    metadata: Map[String, Any]
+    audit_id: string
+    method: string
+    actor_id: string
+    actor_type: string
+    resource_id: string
+    resource_type: string
+    outcome: string
+    timestamp: date
+    ip_address: string
+    user_agent: string
+    details: map[string, any]
+    metadata: map[string, any]
 
-- name: AuditActivity
+- name: audit_activity
   class:
-    audit_id: String
-    method: String
-    resource_id: String
-    resource_type: String
-    outcome: String
-    timestamp: Date
+    audit_id: string
+    method: string
+    resource_id: string
+    resource_type: string
+    outcome: string
+    timestamp: date
 
-- name: AuditFilter
+- name: audit_filter
   class:
-    method: String
-    actor_id: String
-    actor_type: String
-    outcome: String
-    resource_type: String
+    method: string
+    actor_id: string
+    actor_type: string
+    outcome: string
+    resource_type: string
 
-- name: AuditAlertCondition
+- name: audit_alert_condition
   class:
-    field: String
-    operator: String
-    value: String
+    field: string
+    operator: string
+    value: string
 
-- name: AuditAlert
+- name: audit_alert
   class:
-    alert_id: String
-    name: String
-    description: String
-    conditions: AuditAlertCondition
-    enabled: Boolean
-    notification_channels: List[String]
+    alert_id: string
+    name: string
+    description: string
+    conditions: audit_alert_condition
+    enabled: boolean
+    notification_channels: list[string]
 
-- name: AuditStatistic
+- name: audit_statistic
   class:
-    key: String
-    count: Int
-    percentage: Float
+    key: string
+    count: int
+    percentage: float

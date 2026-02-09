@@ -1,27 +1,25 @@
-- name: HTTP Client
-  type: http_client
+- name: http_client
   schema:
-    - base_url: String? #url
-    - created_at: Date = now()
-    - default_headers: String? # JSON map
-    - description: String? #max(500)
-    - is_active: Boolean = true
+    - base_url: string? #url
+    - created_at: date = now()
+    - default_headers: string? # json map
+    - description: string? #max(500)
+    - is_active: boolean = true
     - max_retries: int = 3 #min(0)
     - timeout_seconds: int = 30 #min(1)
-    - updated_at: Date = now()
+    - updated_at: date = now()
 
-- name: HTTP Request Log
-  type: http_request_log
+- name: http_request_log
   id: [client_id, created_at]
   schema:
-    - client_id: Id? -> HttpClient.id
-    - created_at: Date = now()
+    - client_id: id? -> http_client.id
+    - created_at: date = now()
     - duration_ms: int? #min(0)
-    - error_message: String? #max(1000)
-    - method: GET | POST | PUT | PATCH | DELETE | HEAD | OPTIONS = GET
-    - request_body: String?
-    - request_headers: String?
-    - response_body: String?
-    - response_headers: String?
+    - error_message: string? #max(1000)
+    - method: get | post | put | patch | delete | head | options = get
+    - request_body: string?
+    - request_headers: string?
+    - response_body: string?
+    - response_headers: string?
     - status_code: int?
-    - url: String #required #max(2000)
+    - url: string #required #max(2000)

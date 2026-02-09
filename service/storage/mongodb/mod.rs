@@ -1,8 +1,3 @@
-// Harana Components - Storage MongoDB Implementation
-// 
-// Note: This implementation assumes MongoDB is running as a replica set or sharded cluster,
-// which enables Change Stream support for real-time change notifications.
-
 use crate::{Store, Entity, FilterCondition, QueryOptions, StorageError, StorageResult, QueueMessage};
 use async_trait::async_trait;
 use futures::{Stream, StreamExt, TryStreamExt};

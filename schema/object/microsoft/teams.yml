@@ -1,75 +1,69 @@
-- name: Teams Team
-  type: teams_team
+- name: teams_team
   id: [team_id]
   schema:
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - display_name: String #required #max(200)
-    - is_archived: Boolean = false
-    - team_id: String #required #unique #max(200)
-    - visibility: Public | Private = Private
-    - web_url: String? #url
+    - created_at: date = now()
+    - description: string? #max(500)
+    - display_name: string #required #max(200)
+    - is_archived: boolean = false
+    - team_id: string #required #unique #max(200)
+    - visibility: public | private = private
+    - web_url: string? #url
 
-- name: Teams Channel
-  type: teams_channel
+- name: teams_channel
   id: [team_id, channel_id]
   schema:
-    - channel_id: String #required #max(200)
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - display_name: String #required #max(200)
-    - membership_type: Standard | Private | Shared = Standard
-    - team_id: Id #required -> TeamsTeam.id
-    - web_url: String? #url
+    - channel_id: string #required #max(200)
+    - created_at: date = now()
+    - description: string? #max(500)
+    - display_name: string #required #max(200)
+    - membership_type: standard | private | shared = standard
+    - team_id: id #required -> teams_team.id
+    - web_url: string? #url
 
-- name: Teams Member
-  type: teams_member
+- name: teams_member
   id: [team_id, user_id]
   schema:
-    - display_name: String? #max(200)
-    - email: String? #email #max(255)
-    - joined_at: Date = now()
-    - membership_id: String? #max(200)
-    - roles: String? # JSON array
-    - team_id: Id #required -> TeamsTeam.id
-    - user_id: String #required #max(200)
+    - display_name: string? #max(200)
+    - email: string? #email #max(255)
+    - joined_at: date = now()
+    - membership_id: string? #max(200)
+    - roles: string? # json array
+    - team_id: id #required -> teams_team.id
+    - user_id: string #required #max(200)
 
-- name: Teams Message
-  type: teams_message
+- name: teams_message
   id: [channel_id, message_id]
   schema:
-    - channel_id: String #required #max(200)
-    - content: String? #max(10000)
-    - content_type: Text | Html = Text
-    - created_at: Date = now()
-    - importance: Normal | High | Urgent = Normal
-    - message_id: String #required #max(200)
-    - sender_id: String? #max(200)
-    - thread_id: String? #max(200)
-    - updated_at: Date = now()
+    - channel_id: string #required #max(200)
+    - content: string? #max(10000)
+    - content_type: text | html = text
+    - created_at: date = now()
+    - importance: normal | high | urgent = normal
+    - message_id: string #required #max(200)
+    - sender_id: string? #max(200)
+    - thread_id: string? #max(200)
+    - updated_at: date = now()
 
-- name: Teams Meeting
-  type: teams_meeting
+- name: teams_meeting
   id: [meeting_id]
   schema:
-    - body: String? #max(2000)
-    - created_at: Date = now()
-    - end_time: Date?
-    - is_online: Boolean = true
-    - join_url: String? #url
-    - location: String? #max(200)
-    - meeting_id: String #required #unique #max(200)
-    - organizer_id: String? #max(200)
-    - start_time: Date?
-    - subject: String #required #max(500)
-    - updated_at: Date = now()
+    - body: string? #max(2000)
+    - created_at: date = now()
+    - end_time: date?
+    - is_online: boolean = true
+    - join_url: string? #url
+    - location: string? #max(200)
+    - meeting_id: string #required #unique #max(200)
+    - organizer_id: string? #max(200)
+    - start_time: date?
+    - subject: string #required #max(500)
+    - updated_at: date = now()
 
-- name: Teams Adaptive Card
-  type: teams_adaptive_card
+- name: teams_adaptive_card
   schema:
-    - body: String #required # JSON card body
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - is_active: Boolean = true
-    - schema_version: String = 1.4 #max(10)
-    - updated_at: Date = now()
+    - body: string #required # json card body
+    - created_at: date = now()
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - schema_version: string = 1.4 #max(10)
+    - updated_at: date = now()

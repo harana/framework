@@ -1,136 +1,128 @@
-- name: Assume STS Role
-  method: assume_role
+- name: assume_role
   inputs:
-    duration_seconds: Int = 3600
-    external_id: String
-    policy: String
-    policy_arns: List[StsPolicyArn]
-    region: String
-    role_arn: String #required
-    role_session_name: String #required
-    serial_number: String
-    source_identity: String
-    tags: Tags
-    token_code: String
-    transitive_tag_keys: List[String]
+    duration_seconds: int = 3600
+    external_id: string
+    policy: string
+    policy_arns: list[sts_policy_arn]
+    region: string
+    role_arn: string #required
+    role_session_name: string #required
+    serial_number: string
+    source_identity: string
+    tags: tags
+    token_code: string
+    transitive_tag_keys: list[string]
   outputs:
-    access_key_id: String
-    assumed_role_user: AssumedRoleUser
-    credentials: StsCredentials
-    expiration: Date
-    packed_policy_size: Int
-    secret_access_key: String
-    session_token: String
-    source_identity: String
-    success: Boolean
+    access_key_id: string
+    assumed_role_user: assumed_role_user
+    credentials: sts_credentials
+    expiration: date
+    packed_policy_size: int
+    secret_access_key: string
+    session_token: string
+    source_identity: string
+    success: boolean
 
-- name: Assume STS Role With SAML
-  method: assume_role_with_saml
+- name: assume_role_with_saml
   inputs:
-    duration_seconds: Int = 3600
-    policy: String
-    policy_arns: List[StsPolicyArn]
-    principal_arn: String #required
-    region: String
-    role_arn: String #required
-    saml_assertion: String #required
+    duration_seconds: int = 3600
+    policy: string
+    policy_arns: list[sts_policy_arn]
+    principal_arn: string #required
+    region: string
+    role_arn: string #required
+    saml_assertion: string #required
   outputs:
-    access_key_id: String
-    assumed_role_user: AssumedRoleUser
-    audience: String
-    credentials: StsCredentials
-    expiration: Date
-    issuer: String
-    name_qualifier: String
-    packed_policy_size: Int
-    secret_access_key: String
-    session_token: String
-    subject: String
-    subject_type: String
-    success: Boolean
+    access_key_id: string
+    assumed_role_user: assumed_role_user
+    audience: string
+    credentials: sts_credentials
+    expiration: date
+    issuer: string
+    name_qualifier: string
+    packed_policy_size: int
+    secret_access_key: string
+    session_token: string
+    subject: string
+    subject_type: string
+    success: boolean
 
-- name: Assume STS Role With Web Identity
-  method: assume_role_with_web_identity
+- name: assume_role_with_web_identity
   inputs:
-    duration_seconds: Int = 3600
-    policy: String
-    policy_arns: List[StsPolicyArn]
-    provider_id: String
-    region: String
-    role_arn: String #required
-    role_session_name: String #required
-    web_identity_token: String #required
+    duration_seconds: int = 3600
+    policy: string
+    policy_arns: list[sts_policy_arn]
+    provider_id: string
+    region: string
+    role_arn: string #required
+    role_session_name: string #required
+    web_identity_token: string #required
   outputs:
-    access_key_id: String
-    assumed_role_user: AssumedRoleUser
-    audience: String
-    credentials: StsCredentials
-    expiration: Date
-    packed_policy_size: Int
-    provider: String
-    secret_access_key: String
-    session_token: String
-    source_identity: String
-    subject_from_web_identity_token: String
-    success: Boolean
+    access_key_id: string
+    assumed_role_user: assumed_role_user
+    audience: string
+    credentials: sts_credentials
+    expiration: date
+    packed_policy_size: int
+    provider: string
+    secret_access_key: string
+    session_token: string
+    source_identity: string
+    subject_from_web_identity_token: string
+    success: boolean
 
-- name: Decode STS Authorization Message
-  method: decode_authorization_message
+- name: decode_authorization_message
   inputs:
-    encoded_message: String #required
-    region: String
+    encoded_message: string #required
+    region: string
   outputs:
-    decoded_message: String
-    success: Boolean
+    decoded_message: string
+    success: boolean
 
-- name: Get STS Caller Identity
-  method: get_caller_identity
+- name: get_caller_identity
   inputs:
-    region: String
+    region: string
   outputs:
-    account: String
-    arn: String
-    user_id: String
+    account: string
+    arn: string
+    user_id: string
 
-- name: Get STS Session Token
-  method: get_session_token
+- name: get_session_token
   inputs:
-    duration_seconds: Int = 3600
-    region: String
-    serial_number: String
-    token_code: String
+    duration_seconds: int = 3600
+    region: string
+    serial_number: string
+    token_code: string
   outputs:
-    access_key_id: String
-    credentials: StsCredentials
-    expiration: Date
-    secret_access_key: String
-    session_token: String
-    success: Boolean
+    access_key_id: string
+    credentials: sts_credentials
+    expiration: date
+    secret_access_key: string
+    session_token: string
+    success: boolean
 
-- name: Get STS Federation Token
-  method: get_federation_token
+- name: get_federation_token
   inputs:
-    duration_seconds: Int = 3600
-    name: String #required
-    policy: String
-    policy_arns: List[StsPolicyArn]
-    region: String
-    tags: Tags
+    duration_seconds: int = 3600
+    name: string #required
+    policy: string
+    policy_arns: list[sts_policy_arn]
+    region: string
+    tags: tags
   outputs:
-    access_key_id: String
-    credentials: StsCredentials
-    expiration: Date
-    federated_user: FederatedUser
-    packed_policy_size: Int
-    secret_access_key: String
-    session_token: String
-    success: Boolean
+    access_key_id: string
+    credentials: sts_credentials
+    expiration: date
+    federated_user: federated_user
+    packed_policy_size: int
+    secret_access_key: string
+    session_token: string
+    success: boolean
 
-- name: Get STS Access Key Info
-  method: get_access_key_info
+- name: get_access_key_info
   inputs:
-    access_key_id: String #required
-    region: String
+    access_key_id: string #required
+    region: string
   outputs:
-    account: String
-    success: Boolean
+    account: string
+    success: boolean

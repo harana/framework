@@ -1,0 +1,28 @@
+[package]
+name = "harana-components-blob"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+path = "lib.rs"
+
+[features]
+default = []
+r2 = ["worker", "wasm-bindgen"]
+
+[dependencies]
+async-trait.workspace = true
+bytes.workspace = true
+chrono = { workspace = true, features = ["serde"] }
+mime.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["fs", "io-util"] }
+wasm-bindgen = { workspace = true, optional = true }
+worker = { workspace = true, optional = true }
+
+[dev-dependencies]
+tempfile.workspace = true
+tokio = { workspace = true, features = ["macros", "rt", "time", "fs"] }

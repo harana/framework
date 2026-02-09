@@ -1,0 +1,24 @@
+- name: wait_for_element
+  inputs:
+    by: id | name | class_name | css | x_path | tag | link_text | partial_link_text = css
+    condition: present | displayed | enabled | clickable | selected | staleness_met = displayed
+    interval_ms: int = 500 #min(50)    session_id: string #required    timeout_ms: int = 10000 #min(0)    value: string #required  outputs:
+    element: web_driver_element
+    found: boolean
+    wait_ms: int
+
+- name: wait_for_elements
+  inputs:
+    by: id | name | class_name | css | x_path | tag | link_text | partial_link_text = css
+    interval_ms: int = 500 #min(50)    min_count: int = 1 #min(1)    session_id: string #required    timeout_ms: int = 10000 #min(0)    value: string #required  outputs:
+    elements: list[web_driver_element]
+    found: boolean
+    total: int
+    wait_ms: int
+
+- name: wait_until
+  inputs:
+    condition: displayed | not_displayed | enabled | not_enabled | selected | not_selected | clickable | staleness_met = displayed
+    element_id: string #required    interval_ms: int = 500 #min(50)    session_id: string #required    timeout_ms: int = 10000 #min(0)  outputs:
+    met: boolean
+    wait_ms: int

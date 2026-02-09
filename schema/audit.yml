@@ -1,0 +1,69 @@
+- name: audit_event
+  id: [actor_id, resource_id, created_at]
+  schema:
+    - action: string #required #max(200)
+    - actor_id: string #required #max(200)
+    - actor_type: user | service | system = user
+    - created_at: date = now()
+    - details: string?
+    - ip_address: string? #max(45)
+    - metadata: string?
+    - outcome: success | failure | partial = success
+    - resource_id: string #required #max(200)
+    - resource_type: string #required #max(100)
+    - user_agent: string? #max(500)
+
+- name: audit_alert
+  schema:
+    - action_pattern: string? #max(500)
+    - actor_pattern: string? #max(500)
+    - created_at: date = now()
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - last_triggered_at: date?
+    - notification_channel: string? #max(100)
+    - resource_pattern: string? #max(500)
+    - updated_at: date = now()
+
+- name: audit_export
+  id: [created_at]
+  schema:
+    - completed_at: date?
+    - created_at: date = now()
+    - download_url: string? #url
+    - end_time: date #required
+    - expires_at: date?
+    - file_size: int? #min(0)
+    - format: json | csv | parquet = json
+    - record_count: int? #min(0)
+    - start_time: date #required
+    - status: pending | processing | completed | failed = pending
+
+- name: audit_activity
+  schema:
+    - audit_id: string
+    - method: string
+    - resource_id: string
+    - resource_type: string
+    - outcome: string
+    - timestamp: date
+
+- name: audit_filter
+  schema:
+    - method: string
+    - actor_id: string
+    - actor_type: string
+    - outcome: string
+    - resource_type: string
+
+- name: audit_alert_condition
+  schema:
+    - field: string
+    - operator: string
+    - value: string
+
+- name: audit_statistic
+  schema:
+    - key: string
+    - count: int
+    - percentage: float

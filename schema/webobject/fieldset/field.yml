@@ -1,11 +1,10 @@
-- name: Field Component
-  type: field
+- name: field
   attributes:
-    - description: String? #max(500)
-    - error_message: String? #max(500)
-    - field_group_id: Id? -> UIFieldGroup.id
-    - is_disabled: Boolean = false
-    - label: String? #max(200)
+    - description: string? #max(500)
+    - error_message: string? #max(500)
+    - field_group_id: id? -> ui_field_group.id
+    - is_disabled: boolean = false
+    - label: string? #max(200)
   events:
     - blur
     - error_clear

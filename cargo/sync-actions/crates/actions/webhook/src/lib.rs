@@ -1,6 +1,3 @@
-// Harana Actions - Webhook Module
-// This module provides webhook actions and functionality.
-
 pub mod output;
 
 use std::collections::HashMap;

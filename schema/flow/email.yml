@@ -1,128 +1,120 @@
-- name: Send Email Message
-  method: send
+- name: send
   inputs:
-    attachments: List[EmailAttachment]
-    bcc: List[String]
-    body: String #required
-    cc: List[String]
-    content_type: Text | Html = Text
-    from: String
-    reply_to: String
-    subject: String #required
-    to: List[String] #required
+    attachments: list[email_attachment]
+    bcc: list[string]
+    body: string #required
+    cc: list[string]
+    content_type: text | html = text
+    from: string
+    reply_to: string
+    subject: string #required
+    to: list[string] #required
   outputs:
-    message_id: String
-    success: Boolean
+    message_id: string
+    success: boolean
 
-- name: Send Email From Template
-  method: send_template
+- name: send_template
   inputs:
-    attachments: List[EmailAttachment]
-    bcc: List[String]
-    cc: List[String]
-    from: String
-    reply_to: String
-    template_id: String #required
-    to: List[String] #required
-    variables: Map[String, String]
+    attachments: list[email_attachment]
+    bcc: list[string]
+    cc: list[string]
+    from: string
+    reply_to: string
+    template_id: string #required
+    to: list[string] #required
+    variables: map[string, string]
   outputs:
-    message_id: String
-    success: Boolean
+    message_id: string
+    success: boolean
 
-- name: Validate Email Address
-  method: validate_email
+- name: validate_email
   inputs:
-    check_mx: Boolean = false
-    check_smtp: Boolean = false
-    email: String #required
+    check_mx: boolean = false
+    check_smtp: boolean = false
+    email: string #required
   outputs:
-    reason: String
-    valid: Boolean
+    reason: string
+    valid: boolean
 
-- name: Get Email Status
-  method: status
+- name: status
   inputs:
-    message_id: String #required
+    message_id: string #required
   outputs:
-    clicked_at: Date
-    delivered_at: Date
-    error: String
-    opened_at: Date
-    status: Queued | Sent | Delivered | Bounced | Failed
+    clicked_at: date
+    delivered_at: date
+    error: string
+    opened_at: date
+    status: queued | sent | delivered | bounced | failed
 
-- name: Send Bulk Email
-  method: send_bulk
+- name: send_bulk
   inputs:
-    body: String #required
-    content_type: Text | Html = Text
-    from: String
-    recipients: List[EmailRecipient] #required
-    subject: String #required
+    body: string #required
+    content_type: text | html = text
+    from: string
+    recipients: list[email_recipient] #required
+    subject: string #required
   outputs:
-    failed: Int
-    message_ids: List[String]
-    successful: Int
-    total: Int
+    failed: int
+    message_ids: list[string]
+    successful: int
+    total: int
 
-- name: Create Email Template
-  method: create_template
+- name: create_template
   inputs:
-    body: String #required
-    content_type: Text | Html = Html
-    name: String #required
-    subject: String #required
-    variables: List[String]
+    body: string #required
+    content_type: text | html = html
+    name: string #required
+    subject: string #required
+    variables: list[string]
   outputs:
-    success: Boolean
-    template_id: String
+    success: boolean
+    template_id: string
 
-- name: Delete Email Template
-  method: delete_template
+- name: delete_template
   inputs:
-    template_id: String #required
+    template_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Email Templates
-  method: list_templates
+- name: list_templates
   inputs:
-    limit: Int = 100
-    offset: Int = 0
+    limit: int = 100
+    offset: int = 0
   outputs:
-    templates: List[EmailTemplate]
-    total: Int
+    templates: list[email_template]
+    total: int
 
-- name: EmailMessage
+- name: email_message
   class:
-    message_id: String
-    from: String
-    to: List[String]
-    cc: List[String]
-    bcc: List[String]
-    subject: String
-    body: String
-    content_type: String
-    attachments: List[EmailAttachment]
-    status: String
+    message_id: string
+    from: string
+    to: list[string]
+    cc: list[string]
+    bcc: list[string]
+    subject: string
+    body: string
+    content_type: string
+    attachments: list[email_attachment]
+    status: string
 
-- name: EmailAttachment
+- name: email_attachment
   class:
-    filename: String
-    content_type: String
+    filename: string
+    content_type: string
     content: bytes
-    size: Int
+    size: int
 
-- name: EmailRecipient
+- name: email_recipient
   class:
-    email: String
-    name: String
-    variables: Map[String, String]
+    email: string
+    name: string
+    variables: map[string, string]
 
-- name: EmailTemplate
+- name: email_template
   class:
-    template_id: String
-    name: String
-    subject: String
-    body: String
-    content_type: String
-    variables: List[String]
+    template_id: string
+    name: string
+    subject: string
+    body: string
+    content_type: string
+    variables: list[string]

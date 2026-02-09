@@ -1,6 +1,5 @@
-- name: Sidebar Divider Component
-  type: sidebar_divider
+- name: sidebar_divider
   id: [sidebar_id, name]
   attributes:
     - order: int = 0 #min(0)
-    - sidebar_id: Id #required -> UISidebar.id
+    - sidebar_id: id #required -> ui_sidebar.id

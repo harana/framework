@@ -33,6 +33,7 @@ pub fn build_router(state: AppState) -> Router {
         .merge(routes::general_routes())
         .merge(routes::auth_routes())
         .merge(routes::event_routes())
+        .merge(routes::blob_routes())
         .layer(axum::middleware::from_fn(middleware::auth_middleware))
         .with_state(state);
 
@@ -40,10 +41,7 @@ pub fn build_router(state: AppState) -> Router {
     let router = router
         .layer(CompressionLayer::new())
         .layer(TraceLayer::new_for_http())
-        .layer(CorsLayer::new()
-            .allow_origin(Any)
-            .allow_methods(Any)
-            .allow_headers(Any));
+        .layer(CorsLayer::new().allow_origin(Any).allow_methods(Any).allow_headers(Any));
 
     router
 }
@@ -68,8 +66,6 @@ impl HttpServer {
     pub fn with_state(config: ServerConfig, state: AppState) -> Self {
         Self { config, state }
     }
-
-    /// Initialize tracing/logging
     pub fn init_tracing() {
         tracing_subscriber::registry()
             .with(
@@ -115,11 +111,7 @@ mod cf {
     use worker::*;
 
     #[event(fetch)]
-    async fn fetch(
-        req: HttpRequest,
-        env: Env,
-        _ctx: Context,
-    ) -> Result<axum::http::Response<axum::body::Body>> {
+    async fn fetch(req: HttpRequest, env: Env, _ctx: Context) -> Result<axum::http::Response<axum::body::Body>> {
         let config = ServerConfig::default();
 
         // Use Cloudflare KV binding "SESSIONS" as the cache backend.

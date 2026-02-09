@@ -1,0 +1,4 @@
+- name: perform_actions
+  inputs:
+    actions: list[web_driver_action] #required    session_id: string #required  outputs:
+    success: boolean

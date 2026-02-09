@@ -1,40 +1,36 @@
-- name: Slider Changed
-  type: slider_changed
+- name: slider_changed
   schema:
-    slider_id: Id #required
-    slider_name: String?
-    old_value: Float?
-    new_value: Float #required
-    min_value: Float?
-    max_value: Float?
-    step: Float?
-    changed_at: Date = now()
+    slider_id: id #required
+    slider_name: string?
+    old_value: float?
+    new_value: float #required
+    min_value: float?
+    max_value: float?
+    step: float?
+    changed_at: date = now()
 
-- name: Slider Drag Started
-  type: slider_drag_started
+- name: slider_drag_started
   schema:
-    slider_id: Id #required
-    slider_name: String?
-    start_value: Float #required
-    started_at: Date = now()
+    slider_id: id #required
+    slider_name: string?
+    start_value: float #required
+    started_at: date = now()
 
-- name: Slider Drag Ended
-  type: slider_drag_ended
+- name: slider_drag_ended
   schema:
-    slider_id: Id #required
-    slider_name: String?
-    start_value: Float?
-    end_value: Float #required
+    slider_id: id #required
+    slider_name: string?
+    start_value: float?
+    end_value: float #required
     drag_duration_ms: int? #min(0)
-    ended_at: Date = now()
+    ended_at: date = now()
 
-- name: Range Adjusted
-  type: range_adjusted
+- name: range_adjusted
   schema:
-    slider_id: Id #required
-    slider_name: String?
-    old_min: Float?
-    old_max: Float?
-    new_min: Float #required
-    new_max: Float #required
-    adjusted_at: Date = now()
+    slider_id: id #required
+    slider_name: string?
+    old_min: float?
+    old_max: float?
+    new_min: float #required
+    new_max: float #required
+    adjusted_at: date = now()

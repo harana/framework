@@ -1,9 +1,3 @@
-//! Session management
-//!
-//! Sessions and user-session indices are persisted via the generic
-//! `CacheStore` backend (e.g. Cloudflare KV, Redis, etc.) instead of
-//! in-process `DashMap` statics.
-
 use crate::config::SessionConfig;
 use crate::error::ServerError;
 use chrono::{Duration, Utc};
@@ -63,7 +57,6 @@ pub struct SessionManager {
 }
 
 impl SessionManager {
-    /// Create a new session manager with the given cache backend.
     pub fn new(config: SessionConfig, cache: Arc<dyn CacheStore>) -> Self {
         Self { config, cache }
     }
@@ -95,8 +88,6 @@ impl SessionManager {
             Err(e) => Err(ServerError::Internal(format!("cache get: {e}"))),
         }
     }
-
-    /// Create a new session
     pub async fn create_session(
         &self,
         user_id: &str,
@@ -134,8 +125,6 @@ impl SessionManager {
 
         Ok(session)
     }
-
-    /// Get session by ID
     pub async fn get_session(&self, session_id: &str) -> Result<Session, ServerError> {
         let session: Session = self
             .cache_get_json(&session_key(session_id))
@@ -164,7 +153,6 @@ impl SessionManager {
 
         Ok(())
     }
-
     /// Extend session expiration
     pub async fn extend_session(&self, session_id: &str) -> Result<Session, ServerError> {
         let mut session = self.get_session(session_id).await?;
@@ -178,8 +166,6 @@ impl SessionManager {
 
         Ok(session)
     }
-
-    /// Set session data
     pub async fn set_session_data(
         &self,
         session_id: &str,
@@ -195,8 +181,6 @@ impl SessionManager {
 
         Ok(())
     }
-
-    /// Get session data
     pub async fn get_session_data(
         &self,
         session_id: &str,
@@ -205,8 +189,6 @@ impl SessionManager {
         let session = self.get_session(session_id).await?;
         Ok(session.data.get(key).cloned())
     }
-
-    /// Destroy session
     pub async fn destroy_session(&self, session_id: &str) {
         // Read session to find the owning user
         if let Ok(Some(session)) = self.cache_get_json::<Session>(&session_key(session_id)).await {
@@ -241,8 +223,6 @@ impl SessionManager {
             let _ = self.cache.delete(&user_sessions_key(user_id)).await;
         }
     }
-
-    /// Get all sessions for a user
     pub async fn get_user_sessions(&self, user_id: &str) -> Vec<Session> {
         let ids: Vec<String> = self
             .cache_get_json(&user_sessions_key(user_id))
@@ -261,8 +241,6 @@ impl SessionManager {
         }
         sessions
     }
-
-    /// Get session info for response
     pub async fn get_session_info(&self, session_id: Option<&str>) -> SessionInfo {
         let session = match session_id {
             Some(id) => self.get_session(id).await.ok(),
@@ -297,8 +275,6 @@ impl SessionManager {
     pub fn cookie_name(&self) -> &str {
         &self.config.cookie_name
     }
-
-    /// Check if secure cookies should be used
     pub fn is_secure(&self) -> bool {
         self.config.secure
     }

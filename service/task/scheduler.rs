@@ -1,8 +1,3 @@
-// Harana Components - Task Scheduler Integration
-//
-// Bridges the task component with the schedule component, allowing scheduled
-// execution of tasks via cron expressions, intervals, or one-time schedules.
-
 use chrono::{DateTime, Utc};
 use parking_lot::RwLock;
 use std::collections::HashMap;
@@ -106,8 +101,6 @@ impl<S: Store<Task>> TaskCreatingExecutor<S> {
             task_configs: RwLock::new(HashMap::new()),
         }
     }
-
-    /// Register a task configuration for a schedule
     pub fn register_task_config(&self, schedule_id: impl Into<String>, config: ScheduledTaskConfig) {
         self.task_configs
             .write()
@@ -118,8 +111,6 @@ impl<S: Store<Task>> TaskCreatingExecutor<S> {
     pub fn unregister_task_config(&self, schedule_id: &str) {
         self.task_configs.write().remove(schedule_id);
     }
-
-    /// Get a task configuration
     pub fn get_task_config(&self, schedule_id: &str) -> Option<ScheduledTaskConfig> {
         self.task_configs.read().get(schedule_id).cloned()
     }
@@ -218,7 +209,6 @@ where
     THS: Store<TaskExecutionHistory> + 'static,
     SS: ScheduleStore + 'static,
 {
-    /// Create a new task scheduler manager
     pub fn new(
         task_store: TS,
         history_store: THS,
@@ -242,8 +232,6 @@ where
             event_sender,
         }
     }
-
-    /// Subscribe to events
     pub fn subscribe(&self) -> broadcast::Receiver<TaskSchedulerEvent> {
         self.event_sender.subscribe()
     }
@@ -252,8 +240,6 @@ where
     pub fn task_store(&self) -> &TS {
         &self.task_store
     }
-
-    /// Create a cron-based scheduled task
     pub async fn create_cron_task(
         &self,
         schedule_id: impl Into<String>,
@@ -278,8 +264,6 @@ where
 
         Ok(schedule)
     }
-
-    /// Create an interval-based scheduled task
     pub async fn create_interval_task(
         &self,
         schedule_id: impl Into<String>,
@@ -304,8 +288,6 @@ where
 
         Ok(schedule)
     }
-
-    /// Create a one-time scheduled task
     pub async fn create_one_time_task(
         &self,
         schedule_id: impl Into<String>,
@@ -330,8 +312,6 @@ where
 
         Ok(schedule)
     }
-
-    /// Get a schedule by ID
     pub async fn get_schedule(&self, schedule_id: &str) -> TaskResult<Option<Schedule>> {
         self.scheduler
             .read()
@@ -339,8 +319,6 @@ where
             .await
             .map_err(|e| TaskError::ScheduleError(e.to_string()))
     }
-
-    /// Enable a schedule
     pub async fn enable_schedule(&self, schedule_id: &str) -> TaskResult<Schedule> {
         let schedule = self
             .scheduler
@@ -355,8 +333,6 @@ where
 
         Ok(schedule)
     }
-
-    /// Disable a schedule
     pub async fn disable_schedule(&self, schedule_id: &str) -> TaskResult<Schedule> {
         let schedule = self
             .scheduler
@@ -371,8 +347,6 @@ where
 
         Ok(schedule)
     }
-
-    /// Delete a schedule
     pub async fn delete_schedule(&self, schedule_id: &str) -> TaskResult<bool> {
         // Unregister the task config
         self.executor.unregister_task_config(schedule_id);
@@ -384,8 +358,6 @@ where
             .await
             .map_err(|e| TaskError::ScheduleError(e.to_string()))
     }
-
-    /// Trigger a schedule immediately (creates a task now)
     pub async fn trigger_now(&self, schedule_id: &str) -> TaskResult<Job> {
         let job = self
             .scheduler
@@ -401,8 +373,6 @@ where
 
         Ok(job)
     }
-
-    /// Start the scheduler
     pub async fn start(&self) -> TaskResult<()> {
         self.scheduler
             .write()
@@ -410,8 +380,6 @@ where
             .await
             .map_err(|e| TaskError::ScheduleError(e.to_string()))
     }
-
-    /// Stop the scheduler
     pub async fn stop(&self) -> TaskResult<()> {
         self.scheduler
             .read()

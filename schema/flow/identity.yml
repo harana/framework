@@ -1,142 +1,130 @@
-- name: Authenticate User Credentials
-  method: authenticate
+- name: authenticate
   inputs:
-    mfa_code: String
-    password: String #required
-    username: String #required
+    mfa_code: string
+    password: string #required
+    username: string #required
   outputs:
-    access_token: String
-    expires_at: Date
-    refresh_token: String
-    success: Boolean
-    user_id: String
+    access_token: string
+    expires_at: date
+    refresh_token: string
+    success: boolean
+    user_id: string
 
-- name: Verify Access Token
-  method: verify_token
+- name: verify_token
   inputs:
-    token: String #required
+    token: string #required
   outputs:
-    claims: TokenClaims
-    expires_at: Date
-    user_id: String
-    valid: Boolean
+    claims: token_claims
+    expires_at: date
+    user_id: string
+    valid: boolean
 
-- name: Refresh Access Token
-  method: refresh_token
+- name: refresh_token
   inputs:
-    refresh_token: String #required
+    refresh_token: string #required
   outputs:
-    access_token: String
-    expires_at: Date
-    refresh_token: String
+    access_token: string
+    expires_at: date
+    refresh_token: string
 
-- name: Revoke Access Token
-  method: revoke_token
+- name: revoke_token
   inputs:
-    token: String #required
+    token: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get User By ID
-  method: get_user
+- name: get_user
   inputs:
-    user_id: String #required
+    user_id: string #required
   outputs:
-    created_at: Date
-    email: String
-    metadata: UserMetadata
-    roles: List[String]
-    user_id: String
-    username: String
+    created_at: date
+    email: string
+    metadata: user_metadata
+    roles: list[string]
+    user_id: string
+    username: string
 
-- name: Create New User
-  method: create_user
+- name: create_user
   inputs:
-    email: String #required
-    metadata: UserMetadata
-    password: String #required
-    roles: List[String]
-    username: String #required
+    email: string #required
+    metadata: user_metadata
+    password: string #required
+    roles: list[string]
+    username: string #required
   outputs:
-    success: Boolean
-    user_id: String
+    success: boolean
+    user_id: string
 
-- name: Update User Details
-  method: update_user
+- name: update_user
   inputs:
-    email: String
-    metadata: UserMetadata
-    roles: List[String]
-    user_id: String #required
+    email: string
+    metadata: user_metadata
+    roles: list[string]
+    user_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete User Account
-  method: delete_user
+- name: delete_user
   inputs:
-    hard_delete: Boolean = false
-    user_id: String #required
+    hard_delete: boolean = false
+    user_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Change User Password
-  method: change_password
+- name: change_password
   inputs:
-    current_password: String #required
-    new_password: String #required
-    user_id: String #required
+    current_password: string #required
+    new_password: string #required
+    user_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Request Password Reset
-  method: request_password_reset
+- name: request_password_reset
   inputs:
-    email: String #required
+    email: string #required
   outputs:
-    reset_token: String
-    success: Boolean
+    reset_token: string
+    success: boolean
 
-- name: Reset Password With Token
-  method: reset_password
+- name: reset_password
   inputs:
-    new_password: String #required
-    reset_token: String #required
+    new_password: string #required
+    reset_token: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Users
-  method: list_users
+- name: list_users
   inputs:
-    limit: Int = 100
-    offset: Int = 0
-    roles: List[String]
-    search: String
+    limit: int = 100
+    offset: int = 0
+    roles: list[string]
+    search: string
   outputs:
-    total: Int
-    users: List[UserInfo]
+    total: int
+    users: list[user_info]
 
-- name: User
+- name: user
   class:
-    user_id: String
-    username: String
-    email: String
-    roles: List[String]
-    metadata: UserMetadata
-    created_at: Date
-    last_login: Date
+    user_id: string
+    username: string
+    email: string
+    roles: list[string]
+    metadata: user_metadata
+    created_at: date
+    last_login: date
 
-- name: TokenClaims
+- name: token_claims
   class:
-    claims: Map[String, Any]
+    claims: map[string, any]
 
-- name: UserMetadata
+- name: user_metadata
   class:
-    values: Map[String, Any]
+    values: map[string, any]
 
-- name: UserInfo
+- name: user_info
   class:
-    user_id: String
-    username: String
-    email: String
-    roles: List[String]
-    created_at: Date
+    user_id: string
+    username: string
+    email: string
+    roles: list[string]
+    created_at: date

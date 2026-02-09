@@ -1,5 +1,3 @@
-// Harana Components - Events Bus (Main Event System Interface)
-
 use chrono::{DateTime, Utc};
 use dashmap::DashMap;
 use std::pin::Pin;
@@ -7,9 +5,8 @@ use std::sync::Arc;
 use tokio::sync::{broadcast, mpsc};
 
 use crate::{
-    Channel, ChannelConfig, Event, EventError, EventMetadata,
-    EventResult, EventStore, InMemoryEventStore, Subscription,
-    SubscriptionFilter, SubscriptionHandler,
+    Channel, ChannelConfig, Event, EventError, EventMetadata, EventQuery, EventResult, EventStore, InMemoryEventStore,
+    Subscription, SubscriptionFilter, SubscriptionHandler,
 };
 
 #[derive(Debug, Clone)]
@@ -86,7 +83,8 @@ impl EventBusConfig {
 pub type EventCallback = Arc<dyn Fn(Event) + Send + Sync>;
 
 /// Async callback type for event handlers
-pub type AsyncEventCallback = Arc<dyn Fn(Event) -> Pin<Box<dyn std::future::Future<Output = EventResult<()>> + Send>> + Send + Sync>;
+pub type AsyncEventCallback =
+    Arc<dyn Fn(Event) -> Pin<Box<dyn std::future::Future<Output = EventResult<()>> + Send>> + Send + Sync>;
 
 struct CallbackEntry {
     subscription_id: String,
@@ -124,7 +122,6 @@ pub struct EventBus<S: EventStore = InMemoryEventStore> {
 }
 
 impl EventBus<InMemoryEventStore> {
-    /// Create a new event bus with in-memory storage
     pub fn new() -> Self {
         Self::with_store(InMemoryEventStore::new())
     }
@@ -159,8 +156,6 @@ impl<S: EventStore + 'static> EventBus<S> {
             shutdown_tx: None,
         }
     }
-
-    /// Get the underlying store
     pub fn store(&self) -> &S {
         &self.store
     }
@@ -171,46 +166,40 @@ impl<S: EventStore + 'static> EventBus<S> {
     }
 
     // ========== Channel Management ==========
-
-    /// Create a new channel with default configuration
     pub async fn create_channel(&self, name: impl Into<String>) -> EventResult<Channel> {
         let name = name.into();
         let channel = Channel::with_config(&name, self.config.default_channel_config.clone());
         self.store.upsert_channel(&channel).await?;
-        
+
         // Create broadcaster for the channel
-        self.broadcasters.entry(name.clone()).or_insert_with(|| {
-            Arc::new(ChannelBroadcaster::new(self.config.broadcast_buffer_size))
-        });
-        
+        self.broadcasters
+            .entry(name.clone())
+            .or_insert_with(|| Arc::new(ChannelBroadcaster::new(self.config.broadcast_buffer_size)));
+
         Ok(channel)
     }
-
-    /// Create a new channel with custom configuration
-    pub async fn create_channel_with_config(&self, name: impl Into<String>, config: ChannelConfig) -> EventResult<Channel> {
+    pub async fn create_channel_with_config(
+        &self,
+        name: impl Into<String>,
+        config: ChannelConfig,
+    ) -> EventResult<Channel> {
         let name = name.into();
         let channel = Channel::with_config(&name, config);
         self.store.upsert_channel(&channel).await?;
-        
+
         let buffer_size = channel.config.buffer_size;
-        self.broadcasters.entry(name.clone()).or_insert_with(|| {
-            Arc::new(ChannelBroadcaster::new(buffer_size))
-        });
-        
+        self.broadcasters
+            .entry(name.clone())
+            .or_insert_with(|| Arc::new(ChannelBroadcaster::new(buffer_size)));
+
         Ok(channel)
     }
-
-    /// Get a channel by name
     pub async fn get_channel(&self, name: &str) -> EventResult<Option<Channel>> {
         self.store.get_channel(name).await
     }
-
-    /// List all channels
     pub async fn list_channels(&self) -> EventResult<Vec<Channel>> {
         self.store.list_channels().await
     }
-
-    /// Delete a channel and all its events/subscriptions
     pub async fn delete_channel(&self, name: &str) -> EventResult<bool> {
         self.broadcasters.remove(name);
         self.callbacks.remove(name);
@@ -273,8 +262,7 @@ impl<S: EventStore + 'static> EventBus<S> {
         event_type: impl Into<String>,
         payload: impl serde::Serialize,
     ) -> EventResult<String> {
-        let event = Event::new(event_type, channel)
-            .with_payload(payload);
+        let event = Event::new(event_type, channel).with_payload(payload);
         self.publish(event).await
     }
 
@@ -311,9 +299,8 @@ impl<S: EventStore + 'static> EventBus<S> {
                 continue;
             }
 
-            let event = Event::new(&event_type, &channel.name)
-                .with_payload(payload.clone());
-            
+            let event = Event::new(&event_type, &channel.name).with_payload(payload.clone());
+
             if let Ok(id) = self.publish(event).await {
                 event_ids.push(id);
             }
@@ -323,17 +310,14 @@ impl<S: EventStore + 'static> EventBus<S> {
     }
 
     // ========== Subscription Management ==========
-
-    /// Subscribe to a channel with a sync callback
     pub async fn subscribe(
         &self,
         channel: impl Into<String>,
         callback: impl Fn(Event) + Send + Sync + 'static,
     ) -> EventResult<String> {
-        self.subscribe_with_filter(channel, SubscriptionFilter::new(), callback).await
+        self.subscribe_with_filter(channel, SubscriptionFilter::new(), callback)
+            .await
     }
-
-    /// Subscribe to a channel with a filter and sync callback
     pub async fn subscribe_with_filter(
         &self,
         channel: impl Into<String>,
@@ -341,45 +325,34 @@ impl<S: EventStore + 'static> EventBus<S> {
         callback: impl Fn(Event) + Send + Sync + 'static,
     ) -> EventResult<String> {
         let channel = channel.into();
-        
+
         // Ensure channel exists
         if self.store.get_channel(&channel).await?.is_none() {
             self.create_channel(&channel).await?;
         }
 
         let handler = SubscriptionHandler::callback("callback");
-        let subscription = Subscription::new(&channel, handler)
-            .with_filter(filter.clone());
-        
+        let subscription = Subscription::new(&channel, handler).with_filter(filter.clone());
+
         self.store.upsert_subscription(&subscription).await?;
 
         // Add callback with filter
-        self.callbacks
-            .entry(channel)
-            .or_default()
-            .push(CallbackEntry {
-                subscription_id: subscription.id.clone(),
-                filter,
-                callback: Arc::new(callback),
-            });
+        self.callbacks.entry(channel).or_default().push(CallbackEntry {
+            subscription_id: subscription.id.clone(),
+            filter,
+            callback: Arc::new(callback),
+        });
 
         Ok(subscription.id)
     }
-
-    /// Subscribe to a channel with an async callback
-    pub async fn subscribe_async<F, Fut>(
-        &self,
-        channel: impl Into<String>,
-        callback: F,
-    ) -> EventResult<String>
+    pub async fn subscribe_async<F, Fut>(&self, channel: impl Into<String>, callback: F) -> EventResult<String>
     where
         F: Fn(Event) -> Fut + Send + Sync + 'static,
         Fut: std::future::Future<Output = EventResult<()>> + Send + 'static,
     {
-        self.subscribe_async_with_filter(channel, SubscriptionFilter::new(), callback).await
+        self.subscribe_async_with_filter(channel, SubscriptionFilter::new(), callback)
+            .await
     }
-
-    /// Subscribe to a channel with a filter and async callback
     pub async fn subscribe_async_with_filter<F, Fut>(
         &self,
         channel: impl Into<String>,
@@ -391,16 +364,15 @@ impl<S: EventStore + 'static> EventBus<S> {
         Fut: std::future::Future<Output = EventResult<()>> + Send + 'static,
     {
         let channel = channel.into();
-        
+
         // Ensure channel exists
         if self.store.get_channel(&channel).await?.is_none() {
             self.create_channel(&channel).await?;
         }
 
         let handler = SubscriptionHandler::callback("async_callback");
-        let subscription = Subscription::new(&channel, handler)
-            .with_filter(filter.clone());
-        
+        let subscription = Subscription::new(&channel, handler).with_filter(filter.clone());
+
         self.store.upsert_subscription(&subscription).await?;
 
         // Wrap the callback
@@ -431,41 +403,35 @@ impl<S: EventStore + 'static> EventBus<S> {
     pub async fn unsubscribe(&self, subscription_id: &str) -> EventResult<bool> {
         // Remove from callbacks
         for mut callbacks in self.callbacks.iter_mut() {
-            callbacks.value_mut().retain(|entry| entry.subscription_id != subscription_id);
+            callbacks
+                .value_mut()
+                .retain(|entry| entry.subscription_id != subscription_id);
         }
         for mut callbacks in self.async_callbacks.iter_mut() {
-            callbacks.value_mut().retain(|entry| entry.subscription_id != subscription_id);
+            callbacks
+                .value_mut()
+                .retain(|entry| entry.subscription_id != subscription_id);
         }
 
         self.store.delete_subscription(subscription_id).await
     }
-
-    /// Get a subscription by ID
     pub async fn get_subscription(&self, subscription_id: &str) -> EventResult<Option<Subscription>> {
         self.store.get_subscription(subscription_id).await
     }
-
-    /// List subscriptions for a channel
     pub async fn list_subscriptions(&self, channel: Option<&str>) -> EventResult<Vec<Subscription>> {
         self.store.list_subscriptions(channel).await
     }
 
     // ========== Event Retrieval ==========
-
-    /// Get an event by ID
     pub async fn get_event(&self, event_id: &str) -> EventResult<Option<Event>> {
         self.store.get_event(event_id).await
     }
-
-    /// List events from a channel
     pub async fn list_events(
         &self,
         channel: &str,
         limit: Option<usize>,
         offset: Option<usize>,
     ) -> EventResult<Vec<Event>> {
-        use crate::store::EventQuery;
-        
         let mut query = EventQuery::for_channel(channel).descending();
         if let Some(limit) = limit {
             query = query.with_limit(limit);
@@ -473,12 +439,10 @@ impl<S: EventStore + 'static> EventBus<S> {
         if let Some(offset) = offset {
             query = query.with_offset(offset);
         }
-        
+
         self.store.query_events(query).await
     }
-
-    /// Query events with custom filters
-    pub async fn query_events(&self, query: crate::store::EventQuery) -> EventResult<Vec<Event>> {
+    pub async fn query_events(&self, query: EventQuery) -> EventResult<Vec<Event>> {
         self.store.query_events(query).await
     }
 
@@ -488,8 +452,6 @@ impl<S: EventStore + 'static> EventBus<S> {
     pub async fn acknowledge(&self, subscription_id: &str, event_id: &str) -> EventResult<()> {
         self.store.acknowledge_event(subscription_id, event_id).await
     }
-
-    /// Get pending (unacknowledged) events for a subscription
     pub async fn get_pending_events(&self, subscription_id: &str, limit: Option<usize>) -> EventResult<Vec<Event>> {
         self.store.get_pending_events(subscription_id, limit).await
     }
@@ -504,16 +466,14 @@ impl<S: EventStore + 'static> EventBus<S> {
         end_time: Option<DateTime<Utc>>,
         event_types: Option<Vec<String>>,
     ) -> EventResult<Vec<Event>> {
-        use crate::store::EventQuery;
-        
         let mut query = EventQuery::for_channel(channel)
             .with_time_range(Some(start_time), end_time)
             .ascending();
-        
+
         if let Some(types) = event_types {
             query = query.with_types(types);
         }
-        
+
         self.store.query_events(query).await
     }
 
@@ -534,8 +494,6 @@ impl<S: EventStore + 'static> EventBus<S> {
         let cutoff = Utc::now() - chrono::Duration::seconds(self.config.dedup_window_secs as i64);
         self.dedup_cache.retain(|_, time| *time > cutoff);
     }
-
-    /// Start the background cleanup task
     pub fn start_cleanup_task(self: Arc<Self>) {
         if !self.config.auto_cleanup {
             return;
@@ -567,13 +525,20 @@ mod tests {
         let counter_clone = counter.clone();
 
         // Subscribe to channel
-        let _sub_id = bus.subscribe("test-channel", move |_event| {
-            counter_clone.fetch_add(1, Ordering::SeqCst);
-        }).await.unwrap();
+        let _sub_id = bus
+            .subscribe("test-channel", move |_event| {
+                counter_clone.fetch_add(1, Ordering::SeqCst);
+            })
+            .await
+            .unwrap();
 
         // Publish events
-        bus.emit("test-channel", "test.event", serde_json::json!({"key": "value"})).await.unwrap();
-        bus.emit("test-channel", "test.event", serde_json::json!({"key": "value2"})).await.unwrap();
+        bus.emit("test-channel", "test.event", serde_json::json!({"key": "value"}))
+            .await
+            .unwrap();
+        bus.emit("test-channel", "test.event", serde_json::json!({"key": "value2"}))
+            .await
+            .unwrap();
 
         // Give time for callbacks to execute
         tokio::time::sleep(tokio::time::Duration::from_millis(10)).await;
@@ -589,9 +554,12 @@ mod tests {
 
         // Subscribe only to user.created events
         let filter = SubscriptionFilter::for_types(vec!["user.created"]);
-        let _sub_id = bus.subscribe_with_filter("users", filter, move |_event| {
-            counter_clone.fetch_add(1, Ordering::SeqCst);
-        }).await.unwrap();
+        let _sub_id = bus
+            .subscribe_with_filter("users", filter, move |_event| {
+                counter_clone.fetch_add(1, Ordering::SeqCst);
+            })
+            .await
+            .unwrap();
 
         // Publish matching and non-matching events
         bus.emit("users", "user.created", serde_json::json!({})).await.unwrap();
@@ -610,15 +578,20 @@ mod tests {
         let counter = Arc::new(AtomicU32::new(0));
         let counter_clone = counter.clone();
 
-        let _sub_id = bus.subscribe_async("test-channel", move |_event| {
-            let counter = counter_clone.clone();
-            async move {
-                counter.fetch_add(1, Ordering::SeqCst);
-                Ok(())
-            }
-        }).await.unwrap();
+        let _sub_id = bus
+            .subscribe_async("test-channel", move |_event| {
+                let counter = counter_clone.clone();
+                async move {
+                    counter.fetch_add(1, Ordering::SeqCst);
+                    Ok(())
+                }
+            })
+            .await
+            .unwrap();
 
-        bus.emit("test-channel", "test.event", serde_json::json!({})).await.unwrap();
+        bus.emit("test-channel", "test.event", serde_json::json!({}))
+            .await
+            .unwrap();
 
         tokio::time::sleep(tokio::time::Duration::from_millis(10)).await;
 
@@ -628,13 +601,15 @@ mod tests {
     #[tokio::test]
     async fn test_event_bus_receiver() {
         let bus = EventBus::new();
-        
+
         // Create channel and get receiver
         bus.create_channel("test-channel").await.unwrap();
         let mut receiver = bus.receiver("test-channel").unwrap();
 
         // Publish event
-        bus.emit("test-channel", "test.event", serde_json::json!({"id": 1})).await.unwrap();
+        bus.emit("test-channel", "test.event", serde_json::json!({"id": 1}))
+            .await
+            .unwrap();
 
         // Receive event
         let event = receiver.recv().await.unwrap();
@@ -644,18 +619,21 @@ mod tests {
     #[tokio::test]
     async fn test_event_bus_broadcast() {
         let bus = EventBus::new();
-        
+
         // Create multiple channels
         bus.create_channel("channel-1").await.unwrap();
         bus.create_channel("channel-2").await.unwrap();
         bus.create_channel("channel-3").await.unwrap();
 
         // Broadcast to all except channel-2
-        let event_ids = bus.broadcast(
-            "broadcast.event",
-            serde_json::json!({}),
-            Some(vec!["channel-2".to_string()]),
-        ).await.unwrap();
+        let event_ids = bus
+            .broadcast(
+                "broadcast.event",
+                serde_json::json!({}),
+                Some(vec!["channel-2".to_string()]),
+            )
+            .await
+            .unwrap();
 
         assert_eq!(event_ids.len(), 2);
     }
@@ -663,12 +641,15 @@ mod tests {
     #[tokio::test]
     async fn test_event_bus_acknowledgment() {
         let bus = EventBus::new();
-        
+
         // Create subscription
         let sub_id = bus.subscribe("test-channel", |_| {}).await.unwrap();
 
         // Publish event
-        let event_id = bus.emit("test-channel", "test.event", serde_json::json!({})).await.unwrap();
+        let event_id = bus
+            .emit("test-channel", "test.event", serde_json::json!({}))
+            .await
+            .unwrap();
 
         // Get pending events
         let pending = bus.get_pending_events(&sub_id, None).await.unwrap();
@@ -691,7 +672,7 @@ mod tests {
         });
 
         let event = Event::with_id("unique-id", "test.event", "test-channel");
-        
+
         // First publish should succeed
         let result = bus.publish(event.clone()).await;
         assert!(result.is_ok());

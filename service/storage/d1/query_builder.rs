@@ -1,9 +1,3 @@
-// Harana Components - D1 Query Builder
-//
-// Translates `FilterCondition` into SQLite-compatible WHERE clauses with `?`
-// placeholders. Parameters are collected in order and later bound to the
-// query via `bind()`.
-
 use serde_json::Value;
 
 use crate::{FilterCondition, QueryOptions, StorageResult};

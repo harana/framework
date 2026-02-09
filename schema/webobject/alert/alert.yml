@@ -1,10 +1,9 @@
-- name: Alert Component
-  type: alert
+- name: alert
   attributes:
-    - description: String? #max(500)
-    - is_open: Boolean = false
-    - size: Xs | Sm | Md | Lg | Xl | 2xl | 3xl | 4xl | 5xl = Md
-    - title: String #required #max(200)
+    - description: string? #max(500)
+    - is_open: boolean = false
+    - size: xs | sm | md | lg | xl | 2xl | 3xl | 4xl | 5xl = md
+    - title: string #required #max(200)
   events:
     - close
     - dismiss

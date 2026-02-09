@@ -3,7 +3,6 @@ use crate::parser::Action;
 pub struct RustGenerator;
 
 impl RustGenerator {
-    /// Check if an identifier is a Rust keyword that needs escaping
     fn is_rust_keyword(ident: &str) -> bool {
         matches!(
             ident,
@@ -174,8 +173,6 @@ pub async fn {}({}) -> Result<{}, String> {{
             action.name, escaped_fn_name, params_str, output_struct, action.action
         )
     }
-
-    /// Generate output struct
     pub fn generate_output_struct(action: &Action) -> String {
         let struct_name = Self::to_pascal_case(&action.action) + "Output";
         let mut fields = Vec::new();

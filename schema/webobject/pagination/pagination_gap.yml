@@ -1,6 +1,5 @@
-- name: Pagination Gap Component
-  type: pagination_gap
+- name: pagination_gap
   id: [pagination_id, name]
   attributes:
     - order: int = 0 #min(0)
-    - pagination_id: Id #required -> UIPagination.id
+    - pagination_id: id #required -> ui_pagination.id

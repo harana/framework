@@ -1,5 +1,3 @@
-// Harana Components - Schedule Store Trait and Implementations
-
 use async_trait::async_trait;
 use chrono::{DateTime, Utc};
 use dashmap::DashMap;
@@ -8,240 +6,9 @@ use std::collections::VecDeque;
 use std::sync::Arc;
 
 use crate::{
-    ExecutionHistory, Job, JobStatus, Schedule, ScheduleError, 
-    ScheduleResult, ScheduleStatus, ScheduleType,
+    ExecutionHistory, Job, JobQuery, JobStatus, Schedule, ScheduleError, ScheduleQuery, ScheduleResult, ScheduleStats,
+    ScheduleStore,
 };
-
-// ============================================================================
-// Query Types
-// ============================================================================
-
-#[derive(Debug, Clone, Default)]
-pub struct ScheduleQuery {
-    pub status: Option<ScheduleStatus>,
-    pub schedule_type: Option<ScheduleType>,
-    pub tags: Option<Vec<String>>,
-    pub owner_id: Option<String>,
-    pub due_before: Option<DateTime<Utc>>,
-    pub search: Option<String>,
-    pub limit: Option<usize>,
-    pub offset: Option<usize>,
-}
-
-impl ScheduleQuery {
-    pub fn new() -> Self {
-        Self::default()
-    }
-
-    pub fn active() -> Self {
-        Self {
-            status: Some(ScheduleStatus::Active),
-            ..Default::default()
-        }
-    }
-
-    pub fn due_now() -> Self {
-        Self {
-            status: Some(ScheduleStatus::Active),
-            due_before: Some(Utc::now()),
-            ..Default::default()
-        }
-    }
-
-    pub fn with_status(mut self, status: ScheduleStatus) -> Self {
-        self.status = Some(status);
-        self
-    }
-
-    pub fn with_type(mut self, schedule_type: ScheduleType) -> Self {
-        self.schedule_type = Some(schedule_type);
-        self
-    }
-
-    pub fn with_tags(mut self, tags: Vec<String>) -> Self {
-        self.tags = Some(tags);
-        self
-    }
-
-    pub fn with_owner(mut self, owner_id: impl Into<String>) -> Self {
-        self.owner_id = Some(owner_id.into());
-        self
-    }
-
-    pub fn with_search(mut self, search: impl Into<String>) -> Self {
-        self.search = Some(search.into());
-        self
-    }
-
-    pub fn with_limit(mut self, limit: usize) -> Self {
-        self.limit = Some(limit);
-        self
-    }
-
-    pub fn with_offset(mut self, offset: usize) -> Self {
-        self.offset = Some(offset);
-        self
-    }
-}
-
-#[derive(Debug, Clone, Default)]
-pub struct JobQuery {
-    pub schedule_id: Option<String>,
-    pub status: Option<JobStatus>,
-    pub scheduled_after: Option<DateTime<Utc>>,
-    pub scheduled_before: Option<DateTime<Utc>>,
-    pub limit: Option<usize>,
-    pub offset: Option<usize>,
-}
-
-impl JobQuery {
-    pub fn new() -> Self {
-        Self::default()
-    }
-
-    pub fn for_schedule(schedule_id: impl Into<String>) -> Self {
-        Self {
-            schedule_id: Some(schedule_id.into()),
-            ..Default::default()
-        }
-    }
-
-    pub fn pending() -> Self {
-        Self {
-            status: Some(JobStatus::Pending),
-            ..Default::default()
-        }
-    }
-
-    pub fn runnable() -> Self {
-        Self {
-            status: Some(JobStatus::Pending),
-            scheduled_before: Some(Utc::now()),
-            ..Default::default()
-        }
-    }
-
-    pub fn with_status(mut self, status: JobStatus) -> Self {
-        self.status = Some(status);
-        self
-    }
-
-    pub fn with_limit(mut self, limit: usize) -> Self {
-        self.limit = Some(limit);
-        self
-    }
-
-    pub fn with_offset(mut self, offset: usize) -> Self {
-        self.offset = Some(offset);
-        self
-    }
-}
-
-// ============================================================================
-// Schedule Store Trait
-// ============================================================================
-
-/// Store trait for persisting and querying schedules, jobs, and execution history
-#[async_trait]
-pub trait ScheduleStore: Send + Sync {
-    // ========== Schedule Operations ==========
-
-    /// Create a new schedule
-    async fn create_schedule(&self, schedule: &Schedule) -> ScheduleResult<()>;
-
-    /// Get a schedule by ID
-    async fn get_schedule(&self, schedule_id: &str) -> ScheduleResult<Option<Schedule>>;
-
-    /// Update a schedule
-    async fn update_schedule(&self, schedule: &Schedule) -> ScheduleResult<()>;
-
-    /// Delete a schedule and all its jobs
-    async fn delete_schedule(&self, schedule_id: &str) -> ScheduleResult<bool>;
-
-    /// Query schedules
-    async fn query_schedules(&self, query: ScheduleQuery) -> ScheduleResult<Vec<Schedule>>;
-
-    /// Count schedules matching query
-    async fn count_schedules(&self, query: ScheduleQuery) -> ScheduleResult<u64>;
-
-    /// Get schedules that are due to run
-    async fn get_due_schedules(&self, limit: usize) -> ScheduleResult<Vec<Schedule>>;
-
-    // ========== Job Operations ==========
-
-    /// Create a new job
-    async fn create_job(&self, job: &Job) -> ScheduleResult<()>;
-
-    /// Get a job by ID
-    async fn get_job(&self, job_id: &str) -> ScheduleResult<Option<Job>>;
-
-    /// Update a job
-    async fn update_job(&self, job: &Job) -> ScheduleResult<()>;
-
-    /// Delete a job
-    async fn delete_job(&self, job_id: &str) -> ScheduleResult<bool>;
-
-    /// Query jobs
-    async fn query_jobs(&self, query: JobQuery) -> ScheduleResult<Vec<Job>>;
-
-    /// Count jobs matching query
-    async fn count_jobs(&self, query: JobQuery) -> ScheduleResult<u64>;
-
-    /// Get runnable jobs (pending and due)
-    async fn get_runnable_jobs(&self, limit: usize) -> ScheduleResult<Vec<Job>>;
-
-    /// Try to acquire a lock on a job for execution
-    async fn try_lock_job(
-        &self,
-        job_id: &str,
-        worker_id: &str,
-        lock_duration_secs: u64,
-    ) -> ScheduleResult<Option<String>>; // Returns lock token if acquired
-
-    /// Release a job lock
-    async fn release_job_lock(&self, job_id: &str, lock_token: &str) -> ScheduleResult<bool>;
-
-    /// Extend a job lock
-    async fn extend_job_lock(
-        &self,
-        job_id: &str,
-        lock_token: &str,
-        extension_secs: u64,
-    ) -> ScheduleResult<bool>;
-
-    /// Get jobs with expired locks (for recovery)
-    async fn get_stale_jobs(&self, stale_threshold: DateTime<Utc>) -> ScheduleResult<Vec<Job>>;
-
-    // ========== Execution History Operations ==========
-
-    /// Record execution history
-    async fn record_execution(&self, history: &ExecutionHistory) -> ScheduleResult<()>;
-
-    /// Get execution history for a schedule
-    async fn get_execution_history(
-        &self,
-        schedule_id: &str,
-        limit: Option<usize>,
-    ) -> ScheduleResult<Vec<ExecutionHistory>>;
-
-    /// Delete old execution history
-    async fn cleanup_history(&self, before: DateTime<Utc>) -> ScheduleResult<u64>;
-
-    // ========== Statistics ==========
-
-    /// Get schedule statistics
-    async fn get_schedule_stats(&self, schedule_id: &str) -> ScheduleResult<ScheduleStats>;
-}
-
-#[derive(Debug, Clone, Default)]
-pub struct ScheduleStats {
-    pub total_executions: u64,
-    pub successful_executions: u64,
-    pub failed_executions: u64,
-    pub average_duration_ms: Option<f64>,
-    pub last_execution_at: Option<DateTime<Utc>>,
-    pub next_execution_at: Option<DateTime<Utc>>,
-}
 
 // ============================================================================
 // In-Memory Store Implementation
@@ -378,11 +145,13 @@ impl ScheduleStore for InMemoryScheduleStore {
     }
 
     async fn count_schedules(&self, query: ScheduleQuery) -> ScheduleResult<u64> {
-        let schedules = self.query_schedules(ScheduleQuery {
-            limit: None,
-            offset: None,
-            ..query
-        }).await?;
+        let schedules = self
+            .query_schedules(ScheduleQuery {
+                limit: None,
+                offset: None,
+                ..query
+            })
+            .await?;
         Ok(schedules.len() as u64)
     }
 
@@ -403,9 +172,7 @@ impl ScheduleStore for InMemoryScheduleStore {
 
     async fn update_job(&self, job: &Job) -> ScheduleResult<()> {
         if !self.jobs.contains_key(&job.id) {
-            return Err(ScheduleError::JobNotFound {
-                job_id: job.id.clone(),
-            });
+            return Err(ScheduleError::JobNotFound { job_id: job.id.clone() });
         }
         self.jobs.insert(job.id.clone(), job.clone());
         Ok(())
@@ -456,11 +223,13 @@ impl ScheduleStore for InMemoryScheduleStore {
     }
 
     async fn count_jobs(&self, query: JobQuery) -> ScheduleResult<u64> {
-        let jobs = self.query_jobs(JobQuery {
-            limit: None,
-            offset: None,
-            ..query
-        }).await?;
+        let jobs = self
+            .query_jobs(JobQuery {
+                limit: None,
+                offset: None,
+                ..query
+            })
+            .await?;
         Ok(jobs.len() as u64)
     }
 
@@ -476,7 +245,11 @@ impl ScheduleStore for InMemoryScheduleStore {
     ) -> ScheduleResult<Option<String>> {
         let mut job = match self.jobs.get_mut(job_id) {
             Some(j) => j,
-            None => return Err(ScheduleError::JobNotFound { job_id: job_id.to_string() }),
+            None => {
+                return Err(ScheduleError::JobNotFound {
+                    job_id: job_id.to_string(),
+                });
+            }
         };
 
         let now = Utc::now();
@@ -501,7 +274,11 @@ impl ScheduleStore for InMemoryScheduleStore {
     async fn release_job_lock(&self, job_id: &str, lock_token: &str) -> ScheduleResult<bool> {
         let mut job = match self.jobs.get_mut(job_id) {
             Some(j) => j,
-            None => return Err(ScheduleError::JobNotFound { job_id: job_id.to_string() }),
+            None => {
+                return Err(ScheduleError::JobNotFound {
+                    job_id: job_id.to_string(),
+                });
+            }
         };
 
         if job.lock_token.as_deref() != Some(lock_token) {
@@ -515,15 +292,14 @@ impl ScheduleStore for InMemoryScheduleStore {
         Ok(true)
     }
 
-    async fn extend_job_lock(
-        &self,
-        job_id: &str,
-        lock_token: &str,
-        extension_secs: u64,
-    ) -> ScheduleResult<bool> {
+    async fn extend_job_lock(&self, job_id: &str, lock_token: &str, extension_secs: u64) -> ScheduleResult<bool> {
         let mut job = match self.jobs.get_mut(job_id) {
             Some(j) => j,
-            None => return Err(ScheduleError::JobNotFound { job_id: job_id.to_string() }),
+            None => {
+                return Err(ScheduleError::JobNotFound {
+                    job_id: job_id.to_string(),
+                });
+            }
         };
 
         if job.lock_token.as_deref() != Some(lock_token) {
@@ -542,8 +318,7 @@ impl ScheduleStore for InMemoryScheduleStore {
             .jobs
             .iter()
             .filter(|j| {
-                j.status == JobStatus::Running
-                    && j.lock_expires_at.map(|e| e < stale_threshold).unwrap_or(true)
+                j.status == JobStatus::Running && j.lock_expires_at.map(|e| e < stale_threshold).unwrap_or(true)
             })
             .map(|j| j.clone())
             .collect())
@@ -595,25 +370,13 @@ impl ScheduleStore for InMemoryScheduleStore {
         let hist = self.history.read();
         let schedule = self.schedules.get(schedule_id);
 
-        let executions: Vec<_> = hist
-            .iter()
-            .filter(|h| h.schedule_id == schedule_id)
-            .collect();
+        let executions: Vec<_> = hist.iter().filter(|h| h.schedule_id == schedule_id).collect();
 
         let total = executions.len() as u64;
-        let successful = executions
-            .iter()
-            .filter(|h| h.status == JobStatus::Completed)
-            .count() as u64;
-        let failed = executions
-            .iter()
-            .filter(|h| h.status == JobStatus::Failed)
-            .count() as u64;
+        let successful = executions.iter().filter(|h| h.status == JobStatus::Completed).count() as u64;
+        let failed = executions.iter().filter(|h| h.status == JobStatus::Failed).count() as u64;
 
-        let durations: Vec<i64> = executions
-            .iter()
-            .filter_map(|h| h.duration_ms)
-            .collect();
+        let durations: Vec<i64> = executions.iter().filter_map(|h| h.duration_ms).collect();
 
         let average_duration_ms = if durations.is_empty() {
             None
@@ -621,10 +384,7 @@ impl ScheduleStore for InMemoryScheduleStore {
             Some(durations.iter().sum::<i64>() as f64 / durations.len() as f64)
         };
 
-        let last_execution_at = executions
-            .iter()
-            .filter_map(|h| h.completed_at)
-            .max();
+        let last_execution_at = executions.iter().filter_map(|h| h.completed_at).max();
 
         let next_execution_at = schedule.and_then(|s| s.next_run_at);
 
@@ -662,20 +422,8 @@ where
     S: Store<Schedule> + Store<Job> + Store<ExecutionHistory> + Store<DistributedLock> + Clone + 'static,
 {
     /// Create a new persistent schedule store with the given storage backend.
-    ///
-    /// # Example
-    /// ```ignore
-    /// use harana_components_storage::sql::postgres::PgBackend;
-    /// use harana_components_schedule::PersistentScheduleStore;
-    ///
-    /// let pg_backend = PgBackend::new(pool).await?;
-    /// let store = PersistentScheduleStore::new(pg_backend);
-    /// ```
     pub fn new(store: S) -> Self {
-        let lock_manager = Arc::new(DistributedLockManager::new(
-            store.clone(),
-            LockConfig::default(),
-        ));
+        let lock_manager = Arc::new(DistributedLockManager::new(store.clone(), LockConfig::default()));
         Self {
             store,
             lock_manager,
@@ -684,22 +432,8 @@ where
     }
 
     /// Create a new persistent schedule store with custom lock configuration.
-    ///
-    /// # Example
-    /// ```ignore
-    /// use harana_components_schedule::{PersistentScheduleStore, LockConfig};
-    ///
-    /// let config = LockConfig::new()
-    ///     .with_ttl(60)
-    ///     .with_wait_timeout(30000)
-    ///     .with_lock_ordering(true);
-    /// let store = PersistentScheduleStore::with_lock_config(backend, config);
-    /// ```
     pub fn with_lock_config(store: S, lock_config: LockConfig) -> Self {
-        let lock_manager = Arc::new(DistributedLockManager::new(
-            store.clone(),
-            lock_config,
-        ));
+        let lock_manager = Arc::new(DistributedLockManager::new(store.clone(), lock_config));
         Self {
             store,
             lock_manager,
@@ -716,13 +450,9 @@ where
     pub fn lock_manager(&self) -> &Arc<DistributedLockManager<S>> {
         &self.lock_manager
     }
-
-    /// Initialize the store (call on startup to sync fencing tokens).
     pub async fn initialize(&self) -> ScheduleResult<()> {
         self.lock_manager.initialize().await.map_err(|e| e.into())
     }
-
-    /// Clean up expired locks (call periodically for housekeeping).
     pub async fn cleanup_expired_locks(&self) -> ScheduleResult<u64> {
         self.lock_manager.cleanup_expired_locks().await.map_err(|e| e.into())
     }
@@ -783,8 +513,7 @@ where
             Some(FilterCondition::And(conditions))
         };
 
-        let mut options = QueryOptions::new()
-            .with_sort("next_run_at", false);
+        let mut options = QueryOptions::new().with_sort("next_run_at", false);
 
         if let Some(limit) = query.limit {
             options = options.with_limit(limit as u32);
@@ -873,8 +602,7 @@ where
             Some(FilterCondition::And(conditions))
         };
 
-        let mut options = QueryOptions::new()
-            .with_sort("scheduled_at", false);
+        let mut options = QueryOptions::new().with_sort("scheduled_at", false);
 
         if let Some(limit) = query.limit {
             options = options.with_limit(limit as u32);
@@ -924,18 +652,24 @@ where
     ) -> ScheduleResult<Option<String>> {
         // Use the distributed lock manager with deadlock prevention
         let resource_id = job_lock_resource(job_id);
-        
-        match self.lock_manager.try_acquire(&resource_id, worker_id, Some(lock_duration_secs)).await? {
+
+        match self
+            .lock_manager
+            .try_acquire(&resource_id, worker_id, Some(lock_duration_secs))
+            .await?
+        {
             Some(fencing_token) => {
                 // Update the job record with lock information
                 let job = Store::<Job>::find_by_id(&self.store, job_id)
                     .await
                     .map_err(|e| ScheduleError::StorageError(e.to_string()))?
-                    .ok_or_else(|| ScheduleError::JobNotFound { job_id: job_id.to_string() })?;
+                    .ok_or_else(|| ScheduleError::JobNotFound {
+                        job_id: job_id.to_string(),
+                    })?;
 
                 let now = Utc::now();
                 let lock_token = format!("{}:{}", fencing_token, uuid::Uuid::new_v4());
-                
+
                 let mut updated_job = job;
                 updated_job.lock_token = Some(lock_token.clone());
                 updated_job.lock_expires_at = Some(now + chrono::Duration::seconds(lock_duration_secs as i64));
@@ -956,7 +690,9 @@ where
         let job = Store::<Job>::find_by_id(&self.store, job_id)
             .await
             .map_err(|e| ScheduleError::StorageError(e.to_string()))?
-            .ok_or_else(|| ScheduleError::JobNotFound { job_id: job_id.to_string() })?;
+            .ok_or_else(|| ScheduleError::JobNotFound {
+                job_id: job_id.to_string(),
+            })?;
 
         // Verify the lock token matches
         if job.lock_token.as_deref() != Some(lock_token) {
@@ -983,16 +719,13 @@ where
         Ok(true)
     }
 
-    async fn extend_job_lock(
-        &self,
-        job_id: &str,
-        lock_token: &str,
-        extension_secs: u64,
-    ) -> ScheduleResult<bool> {
+    async fn extend_job_lock(&self, job_id: &str, lock_token: &str, extension_secs: u64) -> ScheduleResult<bool> {
         let job = Store::<Job>::find_by_id(&self.store, job_id)
             .await
             .map_err(|e| ScheduleError::StorageError(e.to_string()))?
-            .ok_or_else(|| ScheduleError::JobNotFound { job_id: job_id.to_string() })?;
+            .ok_or_else(|| ScheduleError::JobNotFound {
+                job_id: job_id.to_string(),
+            })?;
 
         // Verify the lock token matches
         if job.lock_token.as_deref() != Some(lock_token) {
@@ -1002,8 +735,12 @@ where
         // Extend the distributed lock
         let worker_id = job.worker_id.clone().unwrap_or_default();
         let resource_id = job_lock_resource(job_id);
-        
-        if !self.lock_manager.extend_lock(&resource_id, &worker_id, extension_secs).await? {
+
+        if !self
+            .lock_manager
+            .extend_lock(&resource_id, &worker_id, extension_secs)
+            .await?
+        {
             return Ok(false);
         }
 
@@ -1043,8 +780,7 @@ where
         limit: Option<usize>,
     ) -> ScheduleResult<Vec<ExecutionHistory>> {
         let filter = FilterCondition::eq("schedule_id", schedule_id);
-        let mut options = QueryOptions::new()
-            .with_sort("created_at", true);
+        let mut options = QueryOptions::new().with_sort("created_at", true);
 
         if let Some(limit) = limit {
             options = options.with_limit(limit as u32);

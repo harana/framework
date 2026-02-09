@@ -1,0 +1,21 @@
+- name: compression_job
+  schema:
+    - algorithm: gzip | zstd | brotli | lz4 | deflate = gzip
+    - completed_at: date?
+    - compressed_size: int? #min(0)
+    - compression_level: int = 6 #min(0) #max(22)
+    - compression_ratio: decimal? #min(0)
+    - created_at: date = now()
+    - direction: compress | decompress = compress
+    - error_message: string? #max(1000)
+    - original_size: int? #min(0)
+    - status: pending | running | completed | failed = pending
+    - updated_at: date = now()
+
+- name: compressed_data
+  schema:
+    - algorithm: string
+    - original_size: int
+    - compressed_size: int
+    - compression_ratio: float
+    - data: bytes

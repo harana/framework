@@ -1,44 +1,40 @@
-- name: MongoDB Connection
-  type: mongodb_connection
+- name: mongodb_connection
   schema:
-    - connection_string: String? #max(1000)
-    - created_at: Date = now()
-    - database: String #required #max(255)
-    - host: String #required #max(255)
-    - is_active: Boolean = true
+    - connection_string: string? #max(1000)
+    - created_at: date = now()
+    - database: string #required #max(255)
+    - host: string #required #max(255)
+    - is_active: boolean = true
     - port: int = 27017 #min(1) #max(65535)
-    - updated_at: Date = now()
-    - use_ssl: Boolean = false
+    - updated_at: date = now()
+    - use_ssl: boolean = false
 
-- name: MongoDB Collection
-  type: mongodb_collection
+- name: mongodb_collection
   id: [connection_id, name]
   schema:
-    - connection_id: Id #required -> MongodbConnection.id
-    - created_at: Date = now()
+    - connection_id: id #required -> mongodb_connection.id
+    - created_at: date = now()
     - document_count: int = 0 #min(0)
-    - name: String #required #max(255)
+    - name: string #required #max(255)
     - size: int = 0 #min(0)
 
-- name: MongoDB Index
-  type: mongodb_index
+- name: mongodb_index
   id: [collection_id, name]
   schema:
-    - collection_id: Id #required -> MongodbCollection.id
-    - created_at: Date = now()
-    - is_unique: Boolean = false
-    - keys: String #required # JSON
-    - name: String #required #max(255)
+    - collection_id: id #required -> mongodb_collection.id
+    - created_at: date = now()
+    - is_unique: boolean = false
+    - keys: string #required # json
+    - name: string #required #max(255)
 
-- name: MongoDB Query Log
-  type: mongodb_query_log
+- name: mongodb_query_log
   id: [collection_id, executed_at]
   schema:
-    - collection_id: Id #required -> MongodbCollection.id
+    - collection_id: id #required -> mongodb_collection.id
     - documents_affected: int = 0 #min(0)
     - duration_ms: int? #min(0)
-    - error_message: String? #max(1000)
-    - executed_at: Date = now()
-    - operation: Insert | Find | Update | Delete | Aggregate | BulkWrite = Find
-    - status: Success | Failed | Timeout = Success
-    - user_id: Id? -> User.id
+    - error_message: string? #max(1000)
+    - executed_at: date = now()
+    - operation: insert | find | update | delete | aggregate | bulk_write = find
+    - status: success | failed | timeout = success
+    - user_id: id? -> user.id

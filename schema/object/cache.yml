@@ -1,18 +1,16 @@
-- name: Cache Entry
-  type: cache_entry
+- name: cache_entry
   id: [namespace, key]
   schema:
-    - created_at: Date = now()
-    - expires_at: Date?
-    - key: String #required #unique #max(500)
-    - namespace: String = default #max(100)
+    - created_at: date = now()
+    - expires_at: date?
+    - key: string #required #unique #max(500)
+    - namespace: string = default #max(100)
     - ttl_seconds: int? #min(1)
-    - value: String #required
+    - value: string #required
 
-- name: Cache Configuration
-  type: cache_config
+- name: cache_config
   schema:
     - default_ttl_seconds: int = 3600 #min(1)
-    - is_enabled: Boolean = true
+    - is_enabled: boolean = true
     - max_entries: int = 10000 #min(1)
-    - strategy: Lru | Lfu | Fifo = Lru
+    - strategy: lru | lfu | fifo = lru

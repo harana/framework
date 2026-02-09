@@ -1,180 +1,168 @@
-- name: Search Query Documents
-  method: search_query
+- name: search_query
   inputs:
-    fields: List[String]
-    filters: SearchFilters
-    highlight: Boolean = false
-    index: String #required
-    limit: Int = 10
-    offset: Int = 0
-    query: String #required
-    sort: List[SearchSortField]
+    fields: list[string]
+    filters: search_filters
+    highlight: boolean = false
+    index: string #required
+    limit: int = 10
+    offset: int = 0
+    query: string #required
+    sort: list[search_sort_field]
   outputs:
-    hits: List[SearchHit]
-    took_ms: Int
-    total: Int
+    hits: list[search_hit]
+    took_ms: int
+    total: int
 
-- name: Index Single Document
-  method: index_document
+- name: index_document
   inputs:
-    document: SearchDocumentData #required
-    document_id: String #required
-    index: String #required
-    refresh: Boolean = false
+    document: search_document_data #required
+    document_id: string #required
+    index: string #required
+    refresh: boolean = false
   outputs:
-    success: Boolean
-    version: Int
+    success: boolean
+    version: int
 
-- name: Index Multiple Documents
-  method: bulk_index
+- name: bulk_index
   inputs:
-    documents: List[SearchDocumentData] #required
-    index: String #required
-    refresh: Boolean = false
+    documents: list[search_document_data] #required
+    index: string #required
+    refresh: boolean = false
   outputs:
-    errors: List[SearchIndexError]
-    failed: Int
-    indexed: Int
+    errors: list[search_index_error]
+    failed: int
+    indexed: int
 
-- name: Get Document By ID
-  method: get_document
+- name: get_document
   inputs:
-    document_id: String #required
-    index: String #required
+    document_id: string #required
+    index: string #required
   outputs:
-    document: SearchDocumentData
-    found: Boolean
-    version: Int
+    document: search_document_data
+    found: boolean
+    version: int
 
-- name: Update Existing Document
-  method: update_document
+- name: update_document
   inputs:
-    document: SearchDocumentData #required
-    document_id: String #required
-    index: String #required
-    upsert: Boolean = false
+    document: search_document_data #required
+    document_id: string #required
+    index: string #required
+    upsert: boolean = false
   outputs:
-    success: Boolean
-    version: Int
+    success: boolean
+    version: int
 
-- name: Delete Document By ID
-  method: delete_document
+- name: delete_document
   inputs:
-    document_id: String #required
-    index: String #required
-    refresh: Boolean = false
+    document_id: string #required
+    index: string #required
+    refresh: boolean = false
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Documents By Query
-  method: delete_by_query
+- name: delete_by_query
   inputs:
-    index: String #required
-    query: SearchQuery #required
-    refresh: Boolean = false
+    index: string #required
+    query: search_query #required
+    refresh: boolean = false
   outputs:
-    deleted: Int
-    success: Boolean
+    deleted: int
+    success: boolean
 
-- name: Create Search Index
-  method: create_index
+- name: create_index
   inputs:
-    index: String #required
-    mappings: SearchMappings
-    settings: SearchIndexSettings
+    index: string #required
+    mappings: search_mappings
+    settings: search_index_settings
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Search Index
-  method: delete_index
+- name: delete_index
   inputs:
-    index: String #required
+    index: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Search Indexes
-  method: list_indexes
+- name: list_indexes
   inputs:
-    pattern: String = "*"
+    pattern: string = "*"
   outputs:
-    indexes: List[SearchIndexInfo]
-    total: Int
+    indexes: list[search_index_info]
+    total: int
 
-- name: Get Index Statistics
-  method: get_index_stats
+- name: get_index_stats
   inputs:
-    index: String #required
+    index: string #required
   outputs:
-    document_count: Int
-    mappings: SearchMappings
-    size_bytes: Int
+    document_count: int
+    mappings: search_mappings
+    size_bytes: int
 
-- name: Suggest Search Terms
-  method: suggest
+- name: suggest
   inputs:
-    field: String #required
-    index: String #required
-    size: Int = 5
-    text: String #required
+    field: string #required
+    index: string #required
+    size: int = 5
+    text: string #required
   outputs:
-    suggestions: List[String]
+    suggestions: list[string]
 
-- name: SearchDocument
+- name: search_document
   class:
-    document_id: String
-    index: String
-    document: SearchDocumentData
-    score: Float
-    version: Int
+    document_id: string
+    index: string
+    document: search_document_data
+    score: float
+    version: int
 
-- name: SearchDocumentData
+- name: search_document_data
   class:
-    fields: Map[String, Any]
+    fields: map[string, any]
 
-- name: SearchFilters
+- name: search_filters
   class:
-    conditions: Map[String, Any]
+    conditions: map[string, any]
 
-- name: SearchSortField
+- name: search_sort_field
   class:
-    field: String
-    order: String
+    field: string
+    order: string
 
-- name: SearchHit
+- name: search_hit
   class:
-    document_id: String
-    score: Float
-    source: SearchDocumentData
-    highlight: Map[string, List[String]]
+    document_id: string
+    score: float
+    source: search_document_data
+    highlight: map[string, list[string]]
 
-- name: SearchIndexError
+- name: search_index_error
   class:
-    document_id: String
-    error: String
-    status: Int
+    document_id: string
+    error: string
+    status: int
 
-- name: SearchQuery
+- name: search_query
   class:
-    query: Map[String, Any]
+    query: map[string, any]
 
-- name: SearchMappings
+- name: search_mappings
   class:
-    properties: Map[string, SearchFieldMapping]
+    properties: map[string, search_field_mapping]
 
-- name: SearchFieldMapping
+- name: search_field_mapping
   class:
-    type: String
-    analyzer: String
-    index: Boolean
+    type: string
+    analyzer: string
+    index: boolean
 
-- name: SearchIndexSettings
+- name: search_index_settings
   class:
-    number_of_shards: Int
-    number_of_replicas: Int
+    number_of_shards: int
+    number_of_replicas: int
 
-- name: SearchIndexInfo
+- name: search_index_info
   class:
-    name: String
-    document_count: Int
-    size_bytes: Int
-    status: String
+    name: string
+    document_count: int
+    size_bytes: int
+    status: string

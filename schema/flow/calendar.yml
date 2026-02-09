@@ -1,205 +1,192 @@
-- name: Create Calendar Event
-  method: create_event
+- name: create_event
   inputs:
-    all_day: Boolean = false
-    attendees: List[String]
-    calendar_id: String = "primary"
-    description: String
-    end_time: Date #required
-    location: String
-    recurrence: String
-    reminders: List[CalendarReminder]
-    start_time: Date #required
-    timezone: String = "UTC"
-    title: String #required
+    all_day: boolean = false
+    attendees: list[string]
+    calendar_id: string = "primary"
+    description: string
+    end_time: date #required
+    location: string
+    recurrence: string
+    reminders: list[calendar_reminder]
+    start_time: date #required
+    timezone: string = "utc"
+    title: string #required
   outputs:
-    event_id: String
-    html_link: String
-    success: Boolean
+    event_id: string
+    html_link: string
+    success: boolean
 
-- name: Update Calendar Event
-  method: update_event
+- name: update_event
   inputs:
-    attendees: List[String]
-    calendar_id: String = "primary"
-    description: String
-    end_time: Date
-    event_id: String #required
-    location: String
-    recurrence: String
-    reminders: List[CalendarReminder]
-    start_time: Date
-    timezone: String
-    title: String
+    attendees: list[string]
+    calendar_id: string = "primary"
+    description: string
+    end_time: date
+    event_id: string #required
+    location: string
+    recurrence: string
+    reminders: list[calendar_reminder]
+    start_time: date
+    timezone: string
+    title: string
   outputs:
-    event_id: String
-    success: Boolean
+    event_id: string
+    success: boolean
 
-- name: Delete Calendar Event
-  method: delete_event
+- name: delete_event
   inputs:
-    calendar_id: String = "primary"
-    event_id: String #required
-    send_updates: None | All | ExternalOnly = All
+    calendar_id: string = "primary"
+    event_id: string #required
+    send_updates: none | all | external_only = all
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Calendar Event
-  method: get_event
+- name: get_event
   inputs:
-    calendar_id: String = "primary"
-    event_id: String #required
+    calendar_id: string = "primary"
+    event_id: string #required
   outputs:
-    attendees: List[CalendarAttendee]
-    description: String
-    end_time: Date
-    event_id: String
-    html_link: String
-    location: String
-    start_time: Date
-    status: String
-    title: String
+    attendees: list[calendar_attendee]
+    description: string
+    end_time: date
+    event_id: string
+    html_link: string
+    location: string
+    start_time: date
+    status: string
+    title: string
 
-- name: List Calendar Events
-  method: list_events
+- name: list_events
   inputs:
-    calendar_id: String = "primary"
-    end_time: Date
-    max_results: Int = 100
-    order_by: StartTime | Updated = StartTime
-    query: String
-    single_events: Boolean = true
-    start_time: Date
+    calendar_id: string = "primary"
+    end_time: date
+    max_results: int = 100
+    order_by: start_time | updated = start_time
+    query: string
+    single_events: boolean = true
+    start_time: date
   outputs:
-    events: List[CalendarEvent]
-    next_page_token: String
-    total: Int
+    events: list[calendar_event]
+    next_page_token: string
+    total: int
 
-- name: Create Calendar
-  method: create_calendar
+- name: create_calendar
   inputs:
-    color: String
-    description: String
-    name: String #required
-    timezone: String = "UTC"
+    color: string
+    description: string
+    name: string #required
+    timezone: string = "utc"
   outputs:
-    calendar_id: String
-    success: Boolean
+    calendar_id: string
+    success: boolean
 
-- name: Delete Calendar
-  method: delete_calendar
+- name: delete_calendar
   inputs:
-    calendar_id: String #required
+    calendar_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List Calendars
-  method: list_calendars
+- name: list_calendars
   inputs:
-    max_results: Int = 100
-    show_hidden: Boolean = false
+    max_results: int = 100
+    show_hidden: boolean = false
   outputs:
-    calendars: List[Calendar]
-    total: Int
+    calendars: list[calendar]
+    total: int
 
-- name: Check Availability
-  method: check_availability
+- name: check_availability
   inputs:
-    calendar_ids: List[String] #required
-    end_time: Date #required
-    start_time: Date #required
-    timezone: String = "UTC"
+    calendar_ids: list[string] #required
+    end_time: date #required
+    start_time: date #required
+    timezone: string = "utc"
   outputs:
-    busy_periods: List[CalendarTimePeriod]
-    free_periods: List[CalendarTimePeriod]
+    busy_periods: list[calendar_time_period]
+    free_periods: list[calendar_time_period]
 
-- name: Add Event Attendee
-  method: add_attendee
+- name: add_attendee
   inputs:
-    calendar_id: String = "primary"
-    email: String #required
-    event_id: String #required
-    optional: Boolean = false
-    send_updates: None | All | ExternalOnly = All
+    calendar_id: string = "primary"
+    email: string #required
+    event_id: string #required
+    optional: boolean = false
+    send_updates: none | all | external_only = all
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Remove Event Attendee
-  method: remove_attendee
+- name: remove_attendee
   inputs:
-    calendar_id: String = "primary"
-    email: String #required
-    event_id: String #required
-    send_updates: None | All | ExternalOnly = All
+    calendar_id: string = "primary"
+    email: string #required
+    event_id: string #required
+    send_updates: none | all | external_only = all
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Respond To Event Invitation
-  method: respond_to_invitation
+- name: respond_to_invitation
   inputs:
-    calendar_id: String = "primary"
-    comment: String
-    event_id: String #required
-    response: Accepted | Declined | Tentative #required
+    calendar_id: string = "primary"
+    comment: string
+    event_id: string #required
+    response: accepted | declined | tentative #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Find Available Slots
-  method: find_available_slots
+- name: find_available_slots
   inputs:
-    attendees: List[String] #required
-    duration_minutes: Int #required
-    end_time: Date #required
-    start_time: Date #required
-    timezone: String = "UTC"
-    working_hours_only: Boolean = true
+    attendees: list[string] #required
+    duration_minutes: int #required
+    end_time: date #required
+    start_time: date #required
+    timezone: string = "utc"
+    working_hours_only: boolean = true
   outputs:
-    available_slots: List[CalendarTimeSlot]
-    total: Int
+    available_slots: list[calendar_time_slot]
+    total: int
 
-- name: CalendarEvent
+- name: calendar_event
   class:
-    event_id: String
-    calendar_id: String
-    title: String
-    description: String
-    start_time: Date
-    end_time: Date
-    timezone: String
-    location: String
-    attendees: List[CalendarAttendee]
-    recurrence: String
-    status: String
+    event_id: string
+    calendar_id: string
+    title: string
+    description: string
+    start_time: date
+    end_time: date
+    timezone: string
+    location: string
+    attendees: list[calendar_attendee]
+    recurrence: string
+    status: string
 
-- name: Calendar
+- name: calendar
   class:
-    calendar_id: String
-    name: String
-    description: String
-    color: String
-    timezone: String
-    primary: Boolean
+    calendar_id: string
+    name: string
+    description: string
+    color: string
+    timezone: string
+    primary: boolean
 
-- name: CalendarAttendee
+- name: calendar_attendee
   class:
-    email: String
-    name: String
-    response_status: String
-    optional: Boolean
+    email: string
+    name: string
+    response_status: string
+    optional: boolean
 
-- name: CalendarReminder
+- name: calendar_reminder
   class:
-    method: String
-    minutes: Int
+    method: string
+    minutes: int
 
-- name: CalendarTimePeriod
+- name: calendar_time_period
   class:
-    start_time: Date
-    end_time: Date
-    calendar_id: String
+    start_time: date
+    end_time: date
+    calendar_id: string
 
-- name: CalendarTimeSlot
+- name: calendar_time_slot
   class:
-    start_time: Date
-    end_time: Date
-    duration_minutes: Int
+    start_time: date
+    end_time: date
+    duration_minutes: int

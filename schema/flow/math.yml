@@ -1,71 +1,62 @@
-- name: Round Number Value
-  method: round
+- name: round
   inputs:
-    precision: Int = 0
-    value: Float #required
+    precision: int = 0
+    value: float #required
   outputs:
-    result: Float
+    result: float
 
-- name: Floor Number Value
-  method: floor
+- name: floor
   inputs:
-    value: Float #required
+    value: float #required
   outputs:
-    result: Float
+    result: float
 
-- name: Ceiling Number Value
-  method: ceil
+- name: ceil
   inputs:
-    value: Float #required
+    value: float #required
   outputs:
-    result: Float
+    result: float
 
-- name: Absolute Number Value
-  method: abs
+- name: abs
   inputs:
-    value: Float #required
+    value: float #required
   outputs:
-    result: Float
+    result: float
 
-- name: Minimum Of Values
-  method: min
+- name: min
   inputs:
-    values: List[float] #required
+    values: list[float] #required
   outputs:
-    result: Float
+    result: float
 
-- name: Maximum Of Values
-  method: max
+- name: max
   inputs:
-    values: List[float] #required
+    values: list[float] #required
   outputs:
-    result: Float
+    result: float
 
-- name: Sum Of Values
-  method: sum
+- name: sum
   inputs:
-    values: List[float] #required
+    values: list[float] #required
   outputs:
-    result: Float
+    result: float
 
-- name: Average Of Values
-  method: average
+- name: average
   inputs:
-    values: List[float] #required
+    values: list[float] #required
   outputs:
-    result: Float
+    result: float
 
-- name: Calculate Percentage
-  method: percentage
+- name: percentage
   inputs:
-    precision: Int = 2
-    total: Float #required
-    value: Float #required
+    precision: int = 2
+    total: float #required
+    value: float #required
   outputs:
-    result: Float
+    result: float
 
-- name: NumberValue
+- name: number_value
   class:
-    value: Float
-    precision: Int
-    formatted: String
+    value: float
+    precision: int
+    formatted: string

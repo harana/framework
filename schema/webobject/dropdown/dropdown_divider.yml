@@ -1,6 +1,5 @@
-- name: Dropdown Divider Component
-  type: dropdown_divider
+- name: dropdown_divider
   id: [dropdown_id, name]
   attributes:
-    - dropdown_id: Id #required -> UIDropdown.id
+    - dropdown_id: id #required -> ui_dropdown.id
     - order: int = 0 #min(0)

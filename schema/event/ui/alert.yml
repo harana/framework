@@ -1,30 +1,26 @@
-- name: Alert Opened
-  type: alert_opened
+- name: alert_opened
   schema:
-    alert_id: Id #required
-    alert_name: String?
-    alert_title: String?
-    opened_at: Date = now()
+    alert_id: id #required
+    alert_name: string?
+    alert_title: string?
+    opened_at: date = now()
 
-- name: Alert Closed
-  type: alert_closed
+- name: alert_closed
   schema:
-    alert_id: Id #required
-    alert_name: String?
-    close_reason: Button | Escape | ClickOutside | Auto = Button
-    closed_at: Date = now()
+    alert_id: id #required
+    alert_name: string?
+    close_reason: button | escape | click_outside | auto = button
+    closed_at: date = now()
 
-- name: Alert Action Clicked
-  type: alert_action_clicked
+- name: alert_action_clicked
   schema:
-    alert_id: Id #required
-    action_id: Id #required
-    action_label: String?
-    clicked_at: Date = now()
+    alert_id: id #required
+    action_id: id #required
+    action_label: string?
+    clicked_at: date = now()
 
-- name: Alert Dismissed
-  type: alert_dismissed
+- name: alert_dismissed
   schema:
-    alert_id: Id #required
-    alert_name: String?
-    dismissed_at: Date = now()
+    alert_id: id #required
+    alert_name: string?
+    dismissed_at: date = now()

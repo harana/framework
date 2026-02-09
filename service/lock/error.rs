@@ -1,5 +1,3 @@
-// Harana Components - Lock Error Types
-
 use thiserror::Error;
 
 #[derive(Debug, Error)]

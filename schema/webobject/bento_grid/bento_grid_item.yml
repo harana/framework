@@ -1,16 +1,15 @@
-- name: Bento Grid Item Component
-  type: bento_grid_item
+- name: bento_grid_item
   id: [bento_grid_id, name]
   attributes:
-    - bento_grid_id: Id #required -> UIBentoGrid.id
+    - bento_grid_id: id #required -> ui_bento_grid.id
     - col_span: 1 | 2 | 3 | 4 = 1
-    - description: String? #max(500)
-    - href: String? #max(500)
-    - image_dark: String? #max(500)
-    - image_light: String? #max(500)
+    - description: string? #max(500)
+    - href: string? #max(500)
+    - image_dark: string? #max(500)
+    - image_light: string? #max(500)
     - order: int = 0 #min(0)
     - row_span: 1 | 2 = 1
-    - subtitle: String? #max(200)
-    - title: String? #max(200)
+    - subtitle: string? #max(200)
+    - title: string? #max(200)
   events:
     - click

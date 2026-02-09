@@ -1,0 +1,52 @@
+
+- name: http response sent
+  class: server_route_response_sent
+  extends: event
+  schema:
+    server_route: boolean
+    http_method: string #required  set:
+    attributes: $all_values
+    type: route.response.sent
+
+- name: route matched
+  class: server_route_matched
+  extends: event
+  schema:
+    handler: string #required    matched_at: date = now()
+    path_params: string?
+    request_id: id #required    route_name: string?
+    route_pattern: string #required  set:
+    attributes: $all_values
+    type: route.matched
+
+- name: route not found
+  class: server_route_not_found
+  extends: event
+  schema:
+    method: get | post | put | patch | delete | head | options
+    occurred_at: date = now()
+    path: string #required    request_id: id #required  set:
+    attributes: $all_values
+    type: route.not_found
+
+- name: request authenticated
+  class: server_route_request_authenticated
+  extends: event
+  schema:
+    auth_method: bearer | basic | api_key | session | none = none
+    authenticated_at: date = now()
+    is_authenticated: boolean = false
+    request_id: id #required    user_id: id?
+  set:
+    attributes: $all_values
+    type: route.request.authenticated
+
+- name: request rate limited
+  class: server_route_request_rate_limited
+  extends: event
+  schema:
+    current_count: int #required #min(0)    ip_address: string? #ip    limit: int #required #min(1)    limited_at: date = now()
+    request_id: id #required    user_id: id?
+    window_seconds: int #required #min(1)  set:
+    attributes: $all_values
+    type: route.request.rate_limited

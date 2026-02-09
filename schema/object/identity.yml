@@ -1,102 +1,93 @@
-- name: Group
-  type: group
+- name: group
   id: [id]
   schema:
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - id: Id #required
-    - is_active: Boolean = true
-    - name: String #required #unique #max(100)
-    - parent_id: Id? -> Group.id
-    - updated_at: Date = now()
+    - created_at: date = now()
+    - description: string? #max(500)
+    - id: id #required
+    - is_active: boolean = true
+    - name: string #required #unique #max(100)
+    - parent_id: id? -> group.id
+    - updated_at: date = now()
 
-- name: Group Member
-  type: group_member
+- name: group_member
   id: [group_id, user_id]
   schema:
-    - added_at: Date = now()
-    - added_by: Id? -> User.id
-    - group_id: Id #required -> Group.id
-    - is_admin: Boolean = false
-    - user_id: Id #required -> User.id
+    - added_at: date = now()
+    - added_by: id? -> user.id
+    - group_id: id #required -> group.id
+    - is_admin: boolean = false
+    - user_id: id #required -> user.id
 
-- name: Group Role
-  type: group_role
+- name: group_role
   id: [group_id, role_id]
   schema:
-    - assigned_at: Date = now()
-    - assigned_by: Id? -> User.id
-    - group_id: Id #required -> Group.id
-    - role_id: Id #required -> Role.id
+    - assigned_at: date = now()
+    - assigned_by: id? -> user.id
+    - group_id: id #required -> group.id
+    - role_id: id #required -> role.id
 
-- name: Role
-  type: role
+- name: role
   id: [id]
   schema:
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - id: Id #required
-    - is_system: Boolean = false
-    - name: String #required #unique #max(100)
-    - updated_at: Date = now()
+    - created_at: date = now()
+    - description: string? #max(500)
+    - id: id #required
+    - is_system: boolean = false
+    - name: string #required #unique #max(100)
+    - updated_at: date = now()
 
-- name: Role Permission
-  type: role_permission
+- name: role_permission
   id: [role_id, permission_id]
   schema:
-    - granted_at: Date = now()
-    - granted_by: Id? -> User.id
-    - permission_id: Id #required -> Permission.id
-    - role_id: Id #required -> Role.id
+    - granted_at: date = now()
+    - granted_by: id? -> user.id
+    - permission_id: id #required -> permission.id
+    - role_id: id #required -> role.id
 
-- name: User Role
-  type: user_role
+- name: user_role
   id: [user_id, role_id]
   schema:
-    - assigned_at: Date = now()
-    - assigned_by: Id? -> User.id
-    - expires_at: Date?
-    - role_id: Id #required -> Role.id
-    - user_id: Id #required -> User.id
+    - assigned_at: date = now()
+    - assigned_by: id? -> user.id
+    - expires_at: date?
+    - role_id: id #required -> role.id
+    - user_id: id #required -> user.id
 
-- name: User
-  type: user
+- name: user
   id: [id]
   schema:
-    - avatar_url: String? #url
-    - created_at: Date = now()
-    - email: String #required #unique #email #max(255)
-    - first_name: String? #max(100)
-    - id: Id #required
-    - is_active: Boolean = true
-    - is_verified: Boolean = false
-    - last_login_at: Date?
-    - last_name: String? #max(100)
-    - phone: String? #max(20)
-    - timezone: String? #max(50)
-    - updated_at: Date = now()
-    - username: String #required #unique #max(50)
+    - avatar_url: string? #url
+    - created_at: date = now()
+    - email: string #required #unique #email #max(255)
+    - first_name: string? #max(100)
+    - id: id #required
+    - is_active: boolean = true
+    - is_verified: boolean = false
+    - last_login_at: date?
+    - last_name: string? #max(100)
+    - phone: string? #max(20)
+    - timezone: string? #max(50)
+    - updated_at: date = now()
+    - username: string #required #unique #max(50)
 
-- name: User Profile
-  type: user_profile
+- name: user_profile
   id: [user_id]
   schema:
-    - bio: String? #max(1000)
+    - bio: string? #max(1000)
     - date_of_birth: date?
-    - job_title: String? #max(100)
-    - location: String? #max(200)
-    - organisation: String? #max(200)
-    - updated_at: Date = now()
-    - user_id: Id #required -> User.id
-    - website: String? #url
+    - job_title: string? #max(100)
+    - location: string? #max(200)
+    - organisation: string? #max(200)
+    - updated_at: date = now()
+    - user_id: id #required -> user.id
+    - website: string? #url
 
-- name: User Credential
-  type: user_credential
+- name: user_credential
   id: [user_id, credential_type]
   schema:
-    - created_at: Date = now()
-    - credential_type: Password | Passkey | Oauth | ApiKey = Password
-    - credential_value: String #required #max(500)
-    - is_primary: Boolean = false
-    - updated_at: Date = now()
-    - user_id: Id #required -> User.id
+    - created_at: date = now()
+    - credential_type: password | passkey | oauth | api_key = password
+    - credential_value: string #required #max(500)
+    - is_primary: boolean = false
+    - updated_at: date = now()
+    - user_id: id #required -> user.id

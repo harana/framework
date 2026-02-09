@@ -1,6 +1,3 @@
-// Harana Components - Storage
-// Generic CRUD interface with type support for SQL and MongoDB implementations.
-
 mod entity;
 mod error;
 mod filter;
@@ -8,6 +5,9 @@ mod repository;
 
 #[cfg(feature = "d1")]
 pub mod d1;
+
+#[cfg(feature = "durable_object")]
+pub mod durable_object;
 
 #[cfg(feature = "mongodb")]
 pub mod mongodb;
@@ -25,7 +25,7 @@ mod tests;
 pub use entity::Entity;
 pub use error::{StorageError, StorageResult};
 pub use filter::{FilterCondition, QueryOptions};
-pub use repository::{QueueMessage, QueueStats, Store, StoreExt};
+pub use repository::{QueueMessage, QueueStats, Store};
 
 // ============================================================================
 // SQL Types (available with any SQL feature)
@@ -61,3 +61,10 @@ pub use mongodb::{
 
 #[cfg(feature = "d1")]
 pub use d1::{D1BindValue, D1Entity, D1Store};
+
+// ============================================================================
+// Cloudflare Durable Object Types (available with durable_object feature)
+// ============================================================================
+
+#[cfg(feature = "durable_object")]
+pub use durable_object::{DOBindValue, DOEntity, DOStore};

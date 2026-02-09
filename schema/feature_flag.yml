@@ -1,0 +1,53 @@
+- name: feature_flag
+  id: [key]
+  schema:
+    - created_at: date = now()
+    - default_variation: int = 0 #min(0)
+    - description: string? #max(500)
+    - enabled: boolean = false
+    - key: string #required #unique #max(200)
+    - tags: string? # j_s_o_n array
+    - updated_at: date = now()
+
+- name: feature_flag_variation
+  id: [flag_id, sort_order]
+  schema:
+    - description: string? #max(500)
+    - flag_id: id #required -> feature_flag.id
+    - sort_order: int = 0
+    - value: string #required
+- name: feature_flag_targeting_rule
+  id: [flag_id, name]
+  schema:
+    - conditions: string #required # j_s_o_n conditions
+    - flag_id: id #required -> feature_flag.id
+    - is_active: boolean = true
+    - name: string #required #max(200)
+    - priority: int = 0
+    - variation_index: int #required #min(0)
+
+- name: feature_flag_evaluation_log
+  id: [flag_id, user_id, evaluated_at]
+  schema:
+    - evaluated_at: date = now()
+    - flag_id: id #required -> feature_flag.id
+    - reason: string? #max(200)
+    - user_id: string? #max(200)
+    - variation_index: int #required #min(0)
+
+- name: flag_variation
+  schema:
+    - name: string
+    - value: any
+    - description: string
+
+- name: flag_evaluation_context
+  schema:
+    - user_id: string
+    - attributes: map[string, any]
+
+- name: flag_rule_condition
+  schema:
+    - attribute: string
+    - operator: string
+    - value: any

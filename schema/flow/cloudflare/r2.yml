@@ -1,135 +1,125 @@
-- name: Get R2 Object
-  method: get
+- name: get
   inputs:
-    bucket: String #required
-    key: String #required
-    only_if: R2Conditional
-    range: R2Range
+    bucket: string #required
+    key: string #required
+    only_if: r2_conditional
+    range: r2_range
   outputs:
     body: bytes
-    custom_metadata: Any
-    etag: String
-    http_etag: String
-    http_metadata: R2HttpMetadata
-    key: String
-    size: Int
-    uploaded: Date
-    version: String
+    custom_metadata: any
+    etag: string
+    http_etag: string
+    http_metadata: r2_http_metadata
+    key: string
+    size: int
+    uploaded: date
+    version: string
 
-- name: Head R2 Object
-  method: head
+- name: head
   inputs:
-    bucket: String #required
-    key: String #required
+    bucket: string #required
+    key: string #required
   outputs:
-    custom_metadata: Any
-    etag: String
-    http_etag: String
-    http_metadata: R2HttpMetadata
-    key: String
-    size: Int
-    uploaded: Date
-    version: String
+    custom_metadata: any
+    etag: string
+    http_etag: string
+    http_metadata: r2_http_metadata
+    key: string
+    size: int
+    uploaded: date
+    version: string
 
-- name: Put R2 Object
-  method: put
+- name: put
   inputs:
-    bucket: String #required
-    custom_metadata: Any
-    http_metadata: R2HttpMetadata
-    key: String #required
-    md5: String
-    only_if: R2Conditional
-    sha1: String
-    sha256: String
-    sha384: String
-    sha512: String
-    storage_class: Standard | InfrequentAccess = Standard
+    bucket: string #required
+    custom_metadata: any
+    http_metadata: r2_http_metadata
+    key: string #required
+    md5: string
+    only_if: r2_conditional
+    sha1: string
+    sha256: string
+    sha384: string
+    sha512: string
+    storage_class: standard | infrequent_access = standard
     value: bytes #required
   outputs:
-    etag: String
-    key: String
-    size: Int
-    success: Boolean
-    uploaded: Date
-    version: String
+    etag: string
+    key: string
+    size: int
+    success: boolean
+    uploaded: date
+    version: string
 
-- name: Delete R2 Object
-  method: delete
+- name: delete
   inputs:
-    bucket: String #required
-    key: String #required
+    bucket: string #required
+    key: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete R2 Objects
-  method: delete_many
+- name: delete_many
   inputs:
-    bucket: String #required
-    keys: List[String] #required
+    bucket: string #required
+    keys: list[string] #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List R2 Objects
-  method: list
+- name: list
   inputs:
-    bucket: String #required
-    cursor: String
-    delimiter: String
-    include: List[HttpMetadata | CustomMetadata]
-    limit: Int = 1000
-    prefix: String
-    start_after: String
+    bucket: string #required
+    cursor: string
+    delimiter: string
+    include: list[http_metadata | custom_metadata]
+    limit: int = 1000
+    prefix: string
+    start_after: string
   outputs:
-    cursor: String
-    delimited_prefixes: List[String]
-    objects: List[R2Object]
-    truncated: Boolean
+    cursor: string
+    delimited_prefixes: list[string]
+    objects: list[r2_object]
+    truncated: boolean
 
-- name: Create R2 Multipart Upload
-  method: create_multipart_upload
+- name: create_multipart_upload
   inputs:
-    bucket: String #required
-    custom_metadata: Any
-    http_metadata: R2HttpMetadata
-    key: String #required
-    storage_class: Standard | InfrequentAccess = Standard
+    bucket: string #required
+    custom_metadata: any
+    http_metadata: r2_http_metadata
+    key: string #required
+    storage_class: standard | infrequent_access = standard
   outputs:
-    key: String
-    upload_id: String
+    key: string
+    upload_id: string
 
-- name: Upload R2 Multipart Part
-  method: upload_part
+- name: upload_part
   inputs:
-    bucket: String #required
-    key: String #required
-    part_number: Int #required
-    upload_id: String #required
+    bucket: string #required
+    key: string #required
+    part_number: int #required
+    upload_id: string #required
     value: bytes #required
   outputs:
-    etag: String
-    part_number: Int
+    etag: string
+    part_number: int
 
-- name: Complete R2 Multipart Upload
-  method: complete_multipart_upload
+- name: complete_multipart_upload
   inputs:
-    bucket: String #required
-    key: String #required
-    parts: List[R2UploadedPart] #required
-    upload_id: String #required
+    bucket: string #required
+    key: string #required
+    parts: list[r2_uploaded_part] #required
+    upload_id: string #required
   outputs:
-    etag: String
-    key: String
-    size: Int
-    success: Boolean
-    uploaded: Date
-    version: String
+    etag: string
+    key: string
+    size: int
+    success: boolean
+    uploaded: date
+    version: string
 
-- name: Abort R2 Multipart Upload
-  method: abort_multipart_upload
+- name: abort_multipart_upload
   inputs:
-    bucket: String #required
-    key: String #required
-    upload_id: String #required
+    bucket: string #required
+    key: string #required
+    upload_id: string #required
   outputs:
-    success: Boolean
+    success: boolean

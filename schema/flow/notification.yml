@@ -1,124 +1,114 @@
-- name: Send Push Notification
-  method: send_push
+- name: send_push
   inputs:
-    user_id: String #required
-    title: String #required
-    body: String #required
-    data: Map[String, Any]
-    badge: Int
-    sound: String
-    priority: String = "normal"
+    user_id: string #required
+    title: string #required
+    body: string #required
+    data: map[string, any]
+    badge: int
+    sound: string
+    priority: string = "normal"
   outputs:
-    notification_id: String
-    success: Boolean
+    notification_id: string
+    success: boolean
 
-- name: Send SMS Message
-  method: send_sms
+- name: send_sms
   inputs:
-    phone_number: String #required
-    message: String #required
-    sender_id: String
+    phone_number: string #required
+    message: string #required
+    sender_id: string
   outputs:
-    message_id: String
-    success: Boolean
+    message_id: string
+    success: boolean
 
-- name: Send In-App Notification
-  method: send_in_app
+- name: send_in_app
   inputs:
-    user_id: String #required
-    title: String #required
-    message: String #required
+    user_id: string #required
+    title: string #required
+    message: string #required
     notification_type: info | warning | error | success = info
-    action_url: String
-    data: Map[String, Any]
+    action_url: string
+    data: map[string, any]
   outputs:
-    notification_id: String
-    success: Boolean
+    notification_id: string
+    success: boolean
 
-- name: Send Bulk Notification
-  method: send_bulk
+- name: send_bulk
   inputs:
-    user_ids: List[String] #required
-    title: String #required
-    body: String #required
+    user_ids: list[string] #required
+    title: string #required
+    body: string #required
     channel: push | sms | in_app = push
-    data: Map[String, Any]
+    data: map[string, any]
   outputs:
-    total: Int
-    successful: Int
-    failed: Int
+    total: int
+    successful: int
+    failed: int
 
-- name: Get Notification Status
-  method: status
+- name: status
   inputs:
-    notification_id: String #required
+    notification_id: string #required
   outputs:
-    status: String
-    sent_at: Date
-    delivered_at: Date
-    read_at: Date
-    error: String
+    status: string
+    sent_at: date
+    delivered_at: date
+    read_at: date
+    error: string
 
-- name: Mark Notification As Read
-  method: mark_as_read
+- name: mark_as_read
   inputs:
-    notification_id: String #required
+    notification_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: List User Notifications
-  method: list
+- name: list
   inputs:
-    user_id: String #required
-    unread_only: Boolean = false
-    limit: Int = 100
-    offset: Int = 0
+    user_id: string #required
+    unread_only: boolean = false
+    limit: int = 100
+    offset: int = 0
   outputs:
-    notifications: List[Notification]
-    total: Int
-    unread_count: Int
+    notifications: list[notification]
+    total: int
+    unread_count: int
 
-- name: Delete Notification
-  method: delete
+- name: delete
   inputs:
-    notification_id: String #required
+    notification_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Register Device For Push
-  method: register_device
+- name: register_device
   inputs:
-    user_id: String #required
-    device_token: String #required
+    user_id: string #required
+    device_token: string #required
     platform: ios | android | web #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Unregister Device
-  method: unregister_device
+- name: unregister_device
   inputs:
-    device_token: String #required
+    device_token: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Notification
+- name: notification
   class:
-    notification_id: String
-    user_id: String
-    title: String
-    body: String
-    notification_type: String
-    channel: String
-    status: String
-    sent_at: Date
-    delivered_at: Date
-    read_at: Date
-    action_url: String
-    data: Map[String, Any]
+    notification_id: string
+    user_id: string
+    title: string
+    body: string
+    notification_type: string
+    channel: string
+    status: string
+    sent_at: date
+    delivered_at: date
+    read_at: date
+    action_url: string
+    data: map[string, any]
 
-- name: DeviceRegistration
+- name: device_registration
   class:
-    device_token: String
-    user_id: String
-    platform: String
-    registered_at: Date
+    device_token: string
+    user_id: string
+    platform: string
+    registered_at: date

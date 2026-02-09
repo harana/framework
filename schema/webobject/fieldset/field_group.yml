@@ -1,4 +1,3 @@
-- name: Field Group Component
-  type: field_group
+- name: field_group
   attributes:
-    - fieldset_id: Id? -> UIFieldset.id
+    - fieldset_id: id? -> ui_fieldset.id

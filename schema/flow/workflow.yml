@@ -1,154 +1,141 @@
-- name: Start Workflow Execution
-  method: start
+- name: start
   inputs:
-    context: WorkflowContext
-    input: Any
-    workflow_id: String #required
+    context: workflow_context
+    input: any
+    workflow_id: string #required
   outputs:
-    execution_id: String
-    status: String
-    success: Boolean
+    execution_id: string
+    status: string
+    success: boolean
 
-- name: Pause Workflow Execution
-  method: pause
+- name: pause
   inputs:
-    execution_id: String #required
-    reason: String
+    execution_id: string #required
+    reason: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Resume Paused Workflow
-  method: resume
+- name: resume
   inputs:
-    execution_id: String #required
-    input: Any
+    execution_id: string #required
+    input: any
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Cancel Workflow Execution
-  method: cancel
+- name: cancel
   inputs:
-    execution_id: String #required
-    reason: String
+    execution_id: string #required
+    reason: string
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Workflow Status
-  method: get_status
+- name: get_status
   inputs:
-    execution_id: String #required
+    execution_id: string #required
   outputs:
-    completed_at: Date
-    current_step: String
-    error: String
-    progress: Float
-    started_at: Date
-    status: Pending | Running | Paused | Completed | Failed | Cancelled
+    completed_at: date
+    current_step: string
+    error: string
+    progress: float
+    started_at: date
+    status: pending | running | paused | completed | failed | cancelled
 
-- name: Get Workflow Result
-  method: get_result
+- name: get_result
   inputs:
-    execution_id: String #required
+    execution_id: string #required
   outputs:
-    completed: Boolean
-    error: String
-    output: Any
+    completed: boolean
+    error: string
+    output: any
 
-- name: List Workflow Executions
-  method: list_executions
+- name: list_executions
   inputs:
-    end_date: Date
-    limit: Int = 100
-    offset: Int = 0
-    start_date: Date
-    status: String
-    workflow_id: String
+    end_date: date
+    limit: int = 100
+    offset: int = 0
+    start_date: date
+    status: string
+    workflow_id: string
   outputs:
-    executions: List[WorkflowExecutionInfo]
-    total: Int
+    executions: list[workflow_execution_info]
+    total: int
 
-- name: Send Signal To Workflow
-  method: signal
+- name: signal
   inputs:
-    execution_id: String #required
-    payload: Any
-    signal_name: String #required
+    execution_id: string #required
+    payload: any
+    signal_name: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Wait For External Event
-  method: wait_for_event
+- name: wait_for_event
   inputs:
-    event_name: String #required
-    execution_id: String #required
-    timeout: Int = 3600
+    event_name: string #required
+    execution_id: string #required
+    timeout: int = 3600
   outputs:
-    payload: Any
-    received: Boolean
-    timed_out: Boolean
+    payload: any
+    received: boolean
+    timed_out: boolean
 
-- name: Get Workflow History
-  method: history
+- name: history
   inputs:
-    execution_id: String #required
+    execution_id: string #required
   outputs:
-    events: List[WorkflowHistoryEvent]
-    total: Int
+    events: list[workflow_history_event]
+    total: int
 
-- name: Retry Failed Step
-  method: retry_step
+- name: retry_step
   inputs:
-    execution_id: String #required
-    step_id: String #required
+    execution_id: string #required
+    step_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Skip Workflow Step
-  method: skip_step
+- name: skip_step
   inputs:
-    execution_id: String #required
-    output: Any
-    step_id: String #required
+    execution_id: string #required
+    output: any
+    step_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Terminate All Executions
-  method: terminate_all
+- name: terminate_all
   inputs:
-    reason: String
-    workflow_id: String #required
+    reason: string
+    workflow_id: string #required
   outputs:
-    success: Boolean
-    terminated_count: Int
+    success: boolean
+    terminated_count: int
 
-- name: WorkflowExecution
+- name: workflow_execution
   class:
-    execution_id: String
-    workflow_id: String
-    status: String
-    current_step: String
-    input: Any
-    output: Any
-    started_at: Date
-    completed_at: Date
-    error: String
+    execution_id: string
+    workflow_id: string
+    status: string
+    current_step: string
+    input: any
+    output: any
+    started_at: date
+    completed_at: date
+    error: string
 
-- name: WorkflowContext
+- name: workflow_context
   class:
-    values: Map[String, Any]
+    values: map[string, any]
 
-- name: WorkflowExecutionInfo
+- name: workflow_execution_info
   class:
-    execution_id: String
-    workflow_id: String
-    status: String
-    started_at: Date
-    completed_at: Date
+    execution_id: string
+    workflow_id: string
+    status: string
+    started_at: date
+    completed_at: date
 
-- name: WorkflowHistoryEvent
+- name: workflow_history_event
   class:
-    event_id: String
-    event_type: String
-    step_id: String
-    timestamp: Date
-    data: Any
+    event_id: string
+    event_type: string
+    step_id: string
+    timestamp: date
+    data: any

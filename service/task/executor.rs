@@ -1,5 +1,3 @@
-// Harana Components - Task Executor Trait
-
 use async_trait::async_trait;
 use serde_json::Value;
 

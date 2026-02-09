@@ -1,5 +1,3 @@
-// Harana Components - Events Tests
-
 use crate::*;
 
 #[tokio::test]

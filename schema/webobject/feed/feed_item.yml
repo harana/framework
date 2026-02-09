@@ -1,18 +1,17 @@
-- name: Feed Item Component
-  type: feed_item
+- name: feed_item
   id: [feed_id, name]
   attributes:
-    - actor_avatar: String? #max(500)
-    - actor_href: String? #max(500)
-    - actor_name: String #required #max(200)
-    - content: String? #max(2000)
-    - feed_id: Id #required -> UIFeed.id
-    - icon: String? #max(100)
-    - is_complete: Boolean = false
+    - actor_avatar: string? #max(500)
+    - actor_href: string? #max(500)
+    - actor_name: string #required #max(200)
+    - content: string? #max(2000)
+    - feed_id: id #required -> ui_feed.id
+    - icon: string? #max(100)
+    - is_complete: boolean = false
     - order: int = 0 #min(0)
-    - target_href: String? #max(500)
-    - target_name: String? #max(200)
-    - timestamp: String? #max(100)
-    - type: Comment | Assignment | Tag | Action | Status = Action
+    - target_href: string? #max(500)
+    - target_name: string? #max(200)
+    - timestamp: string? #max(100)
+    - type: comment | assignment | tag | action | status = action
   events:
     - click

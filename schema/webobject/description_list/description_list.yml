@@ -1,3 +1,2 @@
-- name: Description List Component
-  type: description_list
+- name: description_list
   id: [name]

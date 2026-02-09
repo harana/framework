@@ -1,43 +1,40 @@
-- name: PDF Document
-  type: pdf_document
+- name: pdf_document
   schema:
-    - author: String? #max(200)
-    - blob_id: Id? -> BlobObject.id
-    - created_at: Date = now()
-    - created_by: Id? -> User.id
-    - creator: String? #max(200)
-    - is_encrypted: Boolean = false
-    - keywords: String? # JSON array
-    - modification_date: Date?
+    - author: string? #max(200)
+    - blob_id: id? -> blob_object.id
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - creator: string? #max(200)
+    - is_encrypted: boolean = false
+    - keywords: string? # json array
+    - modification_date: date?
     - page_count: int = 0 #min(0)
-    - producer: String? #max(200)
+    - producer: string? #max(200)
     - size: int = 0 #min(0)
-    - subject: String? #max(500)
-    - title: String? #max(500)
-    - updated_at: Date = now()
+    - subject: string? #max(500)
+    - title: string? #max(500)
+    - updated_at: date = now()
 
-- name: PDF Template
-  type: pdf_template
+- name: pdf_template
   schema:
-    - content_template: String #required
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - footer_template: String?
-    - header_template: String?
-    - is_active: Boolean = true
-    - orientation: Portrait | Landscape = Portrait
-    - page_size: A4 | Letter | Legal | A3 | A5 = A4
-    - updated_at: Date = now()
+    - content_template: string #required
+    - created_at: date = now()
+    - description: string? #max(500)
+    - footer_template: string?
+    - header_template: string?
+    - is_active: boolean = true
+    - orientation: portrait | landscape = portrait
+    - page_size: a4 | letter | legal | a3 | a5 = a4
+    - updated_at: date = now()
 
-- name: PDF Generation Log
-  type: pdf_generation_log
+- name: pdf_generation_log
   id: [created_at]
   schema:
-    - completed_at: Date?
-    - created_at: Date = now()
-    - error_message: String? #max(1000)
+    - completed_at: date?
+    - created_at: date = now()
+    - error_message: string? #max(1000)
     - output_size: int? #min(0)
     - page_count: int? #min(0)
-    - source: Html | Template | Merge | Split = Html
-    - status: Pending | Running | Completed | Failed = Pending
-    - template_id: Id? -> PdfTemplate.id
+    - source: html | template | merge | split = html
+    - status: pending | running | completed | failed = pending
+    - template_id: id? -> pdf_template.id

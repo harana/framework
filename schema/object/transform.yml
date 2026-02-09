@@ -1,12 +1,11 @@
-- name: Transform Job
-  type: transform_job
+- name: transform_job
   schema:
-    - completed_at: Date?
-    - created_at: Date = now()
-    - error_message: String? #max(1000)
-    - input_format: String #required #max(50)
+    - completed_at: date?
+    - created_at: date = now()
+    - error_message: string? #max(1000)
+    - input_format: string #required #max(50)
     - input_size: int? #min(0)
-    - output_format: String #required #max(50)
+    - output_format: string #required #max(50)
     - output_size: int? #min(0)
-    - status: Pending | Running | Completed | Failed = Pending
-    - transform_type: JsonToXml | XmlToJson | CsvToJson | JsonToCsv | YamlToJson | JsonToYaml | MarkdownToHtml | Base64Encode | Base64Decode | UrlEncode | UrlDecode | HtmlEncode | HtmlDecode = JsonToXml
+    - status: pending | running | completed | failed = pending
+    - transform_type: json_to_xml | xml_to_json | csv_to_json | json_to_csv | yaml_to_json | json_to_yaml | markdown_to_html | base64_encode | base64_decode | url_encode | url_decode | html_encode | html_decode = json_to_xml

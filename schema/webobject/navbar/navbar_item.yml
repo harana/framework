@@ -1,15 +1,14 @@
-- name: Navbar Item Component
-  type: navbar_item
+- name: navbar_item
   id: [navbar_id, name]
   attributes:
-    - aria_label: String? #max(200)
-    - href: String? #max(500)
-    - icon: String? #max(100)
-    - is_current: Boolean = false
-    - label: String? #max(200)
-    - navbar_id: Id #required -> UINavbar.id
+    - aria_label: string? #max(200)
+    - href: string? #max(500)
+    - icon: string? #max(100)
+    - is_current: boolean = false
+    - label: string? #max(200)
+    - navbar_id: id #required -> ui_navbar.id
     - order: int = 0 #min(0)
-    - section_id: Id? -> UINavbarSection.id
+    - section_id: id? -> ui_navbar_section.id
   events:
     - click
     - hover

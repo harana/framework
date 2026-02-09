@@ -1,34 +1,30 @@
-- name: Setting Changed
-  type: setting_changed
+- name: setting_changed
   schema:
-    setting_id: Id #required
-    setting_key: String #required
-    setting_category: String?
-    old_value: String?
-    new_value: String #required
-    changed_at: Date = now()
+    setting_id: id #required
+    setting_key: string #required
+    setting_category: string?
+    old_value: string?
+    new_value: string #required
+    changed_at: date = now()
 
-- name: Preference Toggled
-  type: preference_toggled
+- name: preference_toggled
   schema:
-    preference_id: Id #required
-    preference_key: String #required
-    preference_category: String?
-    new_state: Boolean #required
-    toggled_at: Date = now()
+    preference_id: id #required
+    preference_key: string #required
+    preference_category: string?
+    new_state: boolean #required
+    toggled_at: date = now()
 
-- name: Theme Switched
-  type: theme_switched
+- name: theme_switched
   schema:
-    from_theme: String?
-    to_theme: String #required
-    theme_type: Light | Dark | System | Custom = System
-    switched_at: Date = now()
+    from_theme: string?
+    to_theme: string #required
+    theme_type: light | dark | system | custom = system
+    switched_at: date = now()
 
-- name: Language Changed
-  type: language_changed
+- name: language_changed
   schema:
-    from_language: String?
-    to_language: String #required
-    language_code: String #required
-    changed_at: Date = now()
+    from_language: string?
+    to_language: string #required
+    language_code: string #required
+    changed_at: date = now()

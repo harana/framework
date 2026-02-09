@@ -1,11 +1,10 @@
-- name: Description List Item Component
-  type: description_list_item
+- name: description_list_item
   id: [list_id, term]
   attributes:
-    - details: String #required #max(1000)
-    - list_id: Id #required -> UIDescriptionList.id
+    - details: string #required #max(1000)
+    - list_id: id #required -> ui_description_list.id
     - order: int = 0 #min(0)
-    - term: String #required #max(200)
+    - term: string #required #max(200)
   events:
     - click
     - collapse

@@ -1,30 +1,27 @@
-- name: Role
-  type: role
+- name: role
   schema:
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - is_system: Boolean = false
-    - name: String #required #unique #max(200)
-    - updated_at: Date = now()
+    - created_at: date = now()
+    - description: string? #max(500)
+    - is_system: boolean = false
+    - name: string #required #unique #max(200)
+    - updated_at: date = now()
 
-- name: Role Permission
-  type: role_permission
+- name: role_permission
   id: [role_id, action, resource]
   schema:
-    - action: String #required #max(100)
-    - conditions: String? # JSON
-    - granted_at: Date = now()
-    - granted_by: Id? -> User.id
-    - resource: String #required #max(200)
-    - role_id: Id #required -> Role.id
+    - action: string #required #max(100)
+    - conditions: string? # json
+    - granted_at: date = now()
+    - granted_by: id? -> user.id
+    - resource: string #required #max(200)
+    - role_id: id #required -> role.id
 
-- name: Role Assignment
-  type: role_assignment
+- name: role_assignment
   id: [role_id, entity_id, entity_type]
   schema:
-    - assigned_at: Date = now()
-    - assigned_by: Id? -> User.id
-    - entity_id: Id #required
-    - entity_type: User | Group = User
-    - expires_at: Date?
-    - role_id: Id #required -> Role.id
+    - assigned_at: date = now()
+    - assigned_by: id? -> user.id
+    - entity_id: id #required
+    - entity_type: user | group = user
+    - expires_at: date?
+    - role_id: id #required -> role.id

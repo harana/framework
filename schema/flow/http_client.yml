@@ -1,137 +1,129 @@
-- name: Send HTTP GET Request
-  method: get
+- name: get
   inputs:
-    headers: Headers
-    query_params: QueryParams
-    timeout: Int = 30
-    url: String #required
+    headers: headers
+    query_params: query_params
+    timeout: int = 30
+    url: string #required
   outputs:
-    body: Any
-    headers: Headers
-    status_code: Int
+    body: any
+    headers: headers
+    status_code: int
 
-- name: Send HTTP POST Request
-  method: post
+- name: post
   inputs:
-    body: Any
-    content_type: String = "application/json"
-    headers: Headers
-    query_params: QueryParams
-    timeout: Int = 30
-    url: String #required
+    body: any
+    content_type: string = "application/json"
+    headers: headers
+    query_params: query_params
+    timeout: int = 30
+    url: string #required
   outputs:
-    body: Any
-    headers: Headers
-    status_code: Int
+    body: any
+    headers: headers
+    status_code: int
 
-- name: Send HTTP PUT Request
-  method: put
+- name: put
   inputs:
-    body: Any
-    content_type: String = "application/json"
-    headers: Headers
-    query_params: QueryParams
-    timeout: Int = 30
-    url: String #required
+    body: any
+    content_type: string = "application/json"
+    headers: headers
+    query_params: query_params
+    timeout: int = 30
+    url: string #required
   outputs:
-    body: Any
-    headers: Headers
-    status_code: Int
+    body: any
+    headers: headers
+    status_code: int
 
-- name: Send HTTP PATCH Request
-  method: patch
+- name: patch
   inputs:
-    body: Any
-    content_type: String = "application/json"
-    headers: Headers
-    query_params: QueryParams
-    timeout: Int = 30
-    url: String #required
+    body: any
+    content_type: string = "application/json"
+    headers: headers
+    query_params: query_params
+    timeout: int = 30
+    url: string #required
   outputs:
-    body: Any
-    headers: Headers
-    status_code: Int
+    body: any
+    headers: headers
+    status_code: int
 
-- name: Send HTTP DELETE Request
-  method: delete
+- name: delete
   inputs:
-    headers: Headers
-    query_params: QueryParams
-    timeout: Int = 30
-    url: String #required
+    headers: headers
+    query_params: query_params
+    timeout: int = 30
+    url: string #required
   outputs:
-    body: Any
-    headers: Headers
-    status_code: Int
+    body: any
+    headers: headers
+    status_code: int
 
-- name: Download File From URL
-  method: download
+- name: download
   inputs:
-    headers: Headers
-    timeout: Int = 300
-    url: String #required
+    headers: headers
+    timeout: int = 300
+    url: string #required
   outputs:
     content: bytes
-    content_type: String
-    size: Int
+    content_type: string
+    size: int
 
-- name: Upload File To URL
-  method: upload
+- name: upload
   inputs:
     file: bytes #required
-    filename: String #required
-    headers: Headers
-    timeout: Int = 300
-    url: String #required
+    filename: string #required
+    headers: headers
+    timeout: int = 300
+    url: string #required
   outputs:
-    body: Any
-    status_code: Int
+    body: any
+    status_code: int
 
-- name: Send GraphQL Query
-  method: graphql_query
+- name: graphql_query
   inputs:
-    headers: Headers
-    query: String #required
-    timeout: Int = 30
-    url: String #required
-    variables: Variables
+    headers: headers
+    query: string #required
+    timeout: int = 30
+    url: string #required
+    variables: variables
   outputs:
-    data: Any
-    errors: List[GraphQLError]
+    data: any
+    errors: list[graph_ql_error]
 
-- name: HttpRequest
+- name: http_request
   class:
-    url: String
-    method: String
-    headers: Headers
-    query_params: QueryParams
-    body: Any
-    timeout: Int
+    url: string
+    method: string
+    headers: headers
+    query_params: query_params
+    body: any
+    timeout: int
 
-- name: Headers
+- name: headers
   class:
-    content_type: String
-    authorization: String
-    accept: String
-    user_agent: String
+    content_type: string
+    authorization: string
+    accept: string
+    user_agent: string
 
-- name: QueryParams
+- name: query_params
   class:
-    key: String
-    value: String
+    key: string
+    value: string
 
-- name: Variables
+- name: variables
   class:
-    key: String
-    value: Any
+    key: string
+    value: any
 
-- name: GraphQLError
+- name: graph_ql_error
   class:
-    message: String
-    path: List[String]
-    locations: List[GraphQLErrorLocation]
+    message: string
+    path: list[string]
+    locations: list[graph_ql_error_location]
 
-- name: GraphQLErrorLocation
+- name: graph_ql_error_location
   class:
-    line: Int
-    column: Int
+    line: int
+    column: int

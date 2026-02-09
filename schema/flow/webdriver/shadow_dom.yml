@@ -1,0 +1,4 @@
+- name: get_shadow_root
+  inputs:
+    element_id: string #required    session_id: string #required  outputs:
+    shadow_root: web_driver_element

@@ -1,126 +1,116 @@
-- name: Create Policy
-  method: create
+- name: create
   inputs:
-    conditions: PolicyConditions #required
-    description: String
-    effect: String #required # allow or deny
-    name: String #required
-    resources: List[String] #required
-    actions: List[String] #required
+    conditions: policy_conditions #required
+    description: string
+    effect: string #required # allow or deny
+    name: string #required
+    resources: list[string] #required
+    actions: list[string] #required
   outputs:
-    policy_id: String
-    success: Boolean
+    policy_id: string
+    success: boolean
 
-- name: Update Policy
-  method: update
+- name: update
   inputs:
-    conditions: PolicyConditions
-    description: String
-    effect: String
-    name: String
-    policy_id: String #required
-    resources: List[String]
-    actions: List[String]
+    conditions: policy_conditions
+    description: string
+    effect: string
+    name: string
+    policy_id: string #required
+    resources: list[string]
+    actions: list[string]
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Delete Policy
-  method: delete
+- name: delete
   inputs:
-    policy_id: String #required
+    policy_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Get Policy Details
-  method: get
+- name: get
   inputs:
-    policy_id: String #required
+    policy_id: string #required
   outputs:
-    actions: List[String]
-    conditions: PolicyConditions
-    description: String
-    effect: String
-    name: String
-    resources: List[String]
+    actions: list[string]
+    conditions: policy_conditions
+    description: string
+    effect: string
+    name: string
+    resources: list[string]
 
-- name: List Policies
-  method: list_policies
+- name: list_policies
   inputs:
-    limit: Int = 100
-    offset: Int = 0
+    limit: int = 100
+    offset: int = 0
   outputs:
-    policies: List[PolicyInfo]
-    total: Int
+    policies: list[policy_info]
+    total: int
 
-- name: Attach Policy To User
-  method: attach_to_user
+- name: attach_to_user
   inputs:
-    policy_id: String #required
-    user_id: String #required
+    policy_id: string #required
+    user_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Detach Policy From User
-  method: detach_from_user
+- name: detach_from_user
   inputs:
-    policy_id: String #required
-    user_id: String #required
+    policy_id: string #required
+    user_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Attach Policy To Role
-  method: attach_to_role
+- name: attach_to_role
   inputs:
-    policy_id: String #required
-    role_id: String #required
+    policy_id: string #required
+    role_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Detach Policy From Role
-  method: detach_from_role
+- name: detach_from_role
   inputs:
-    policy_id: String #required
-    role_id: String #required
+    policy_id: string #required
+    role_id: string #required
   outputs:
-    success: Boolean
+    success: boolean
 
-- name: Evaluate Policy
-  method: evaluate
+- name: evaluate
   inputs:
-    method: String #required
-    context: PolicyEvaluationContext
-    policy_id: String #required
-    resource: String #required
+    method: string #required
+    context: policy_evaluation_context
+    policy_id: string #required
+    resource: string #required
   outputs:
-    allowed: Boolean
-    evaluated_conditions: PolicyEvaluatedConditions
-    reason: String
+    allowed: boolean
+    evaluated_conditions: policy_evaluated_conditions
+    reason: string
 
-- name: Policy
+- name: policy
   class:
-    policy_id: String
-    name: String
-    description: String
-    effect: String
-    actions: List[String]
-    resources: List[String]
-    conditions: PolicyConditions
+    policy_id: string
+    name: string
+    description: string
+    effect: string
+    actions: list[string]
+    resources: list[string]
+    conditions: policy_conditions
 
-- name: PolicyConditions
+- name: policy_conditions
   class:
-    conditions: Map[String, Any]
+    conditions: map[string, any]
 
-- name: PolicyInfo
+- name: policy_info
   class:
-    policy_id: String
-    name: String
-    description: String
-    effect: String
+    policy_id: string
+    name: string
+    description: string
+    effect: string
 
-- name: PolicyEvaluationContext
+- name: policy_evaluation_context
   class:
-    values: Map[String, Any]
+    values: map[string, any]
 
-- name: PolicyEvaluatedConditions
+- name: policy_evaluated_conditions
   class:
-    results: Map[string, boolean]
+    results: map[string, boolean]

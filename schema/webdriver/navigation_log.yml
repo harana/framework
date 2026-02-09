@@ -1,0 +1,10 @@
+- name: webdriver_navigation_log
+  id: [session_id, navigated_at]
+  schema:
+    - duration_ms: int? #min(0)
+    - error_message: string? #max(2000)
+    - navigated_at: date = now()
+    - page_title: string? #max(1000)
+    - session_id: id #required -> web_driver_session.id
+    - status: success | failed | timeout = success
+    - url: string #required #max(4000)

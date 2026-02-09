@@ -1,148 +1,137 @@
-- name: Execute Tasks In Parallel
-  method: all
+- name: all
   inputs:
-    fail_fast: Boolean = true
-    max_concurrency: Int
-    tasks: List[ParallelTask] #required
-    timeout: Int
+    fail_fast: boolean = true
+    max_concurrency: int
+    tasks: list[parallel_task] #required
+    timeout: int
   outputs:
-    completed: Int
-    failed: Int
-    results: List[ParallelResult]
-    success: Boolean
+    completed: int
+    failed: int
+    results: list[parallel_result]
+    success: boolean
 
-- name: Execute First Successful Task
-  method: race
+- name: race
   inputs:
-    tasks: List[ParallelTask] #required
-    timeout: Int
+    tasks: list[parallel_task] #required
+    timeout: int
   outputs:
-    result: Any
-    success: Boolean
-    winner_index: Int
+    result: any
+    success: boolean
+    winner_index: int
 
-- name: Execute Any Successful Task
-  method: Any
+- name: any
   inputs:
-    tasks: List[ParallelTask] #required
-    timeout: Int
+    tasks: list[parallel_task] #required
+    timeout: int
   outputs:
-    result: Any
-    success: Boolean
-    success_index: Int
+    result: any
+    success: boolean
+    success_index: int
 
-- name: Execute All And Settle
-  method: all_settled
+- name: all_settled
   inputs:
-    max_concurrency: Int
-    tasks: List[ParallelTask] #required
-    timeout: Int
+    max_concurrency: int
+    tasks: list[parallel_task] #required
+    timeout: int
   outputs:
-    fulfilled: Int
-    rejected: Int
-    results: List[ParallelSettledResult]
+    fulfilled: int
+    rejected: int
+    results: list[parallel_settled_result]
 
-- name: Map Items In Parallel
-  method: Map
+- name: map
   inputs:
-    handler: String #required
-    items: List[any] #required
-    max_concurrency: Int = 10
+    handler: string #required
+    items: list[any] #required
+    max_concurrency: int = 10
   outputs:
-    errors: List[ParallelError]
-    results: List[any]
-    success: Boolean
+    errors: list[parallel_error]
+    results: list[any]
+    success: boolean
 
-- name: Filter Items In Parallel
-  method: filter
+- name: filter
   inputs:
-    handler: String #required
-    items: List[any] #required
-    max_concurrency: Int = 10
+    handler: string #required
+    items: list[any] #required
+    max_concurrency: int = 10
   outputs:
-    count: Int
-    results: List[any]
+    count: int
+    results: list[any]
 
-- name: Reduce Items In Parallel
-  method: reduce
+- name: reduce
   inputs:
-    handler: String #required
-    initial_value: Any
-    items: List[any] #required
-    max_concurrency: Int = 10
+    handler: string #required
+    initial_value: any
+    items: list[any] #required
+    max_concurrency: int = 10
   outputs:
-    result: Any
+    result: any
 
-- name: Execute With Retry
-  method: retry
+- name: retry
   inputs:
-    backoff_multiplier: Float = 2.0
-    delay_ms: Int = 1000
-    max_attempts: Int = 3
-    task: ParallelTask #required
+    backoff_multiplier: float = 2.0
+    delay_ms: int = 1000
+    max_attempts: int = 3
+    task: parallel_task #required
   outputs:
-    attempts: Int
-    result: Any
-    success: Boolean
+    attempts: int
+    result: any
+    success: boolean
 
-- name: Execute With Timeout
-  method: timeout
+- name: timeout
   inputs:
-    task: ParallelTask #required
-    timeout_ms: Int #required
+    task: parallel_task #required
+    timeout_ms: int #required
   outputs:
-    result: Any
-    success: Boolean
-    timed_out: Boolean
+    result: any
+    success: boolean
+    timed_out: boolean
 
-- name: Execute In Batches
-  method: batch
+- name: batch
   inputs:
-    batch_size: Int = 10
-    handler: String #required
-    items: List[any] #required
-    max_concurrency: Int = 1
+    batch_size: int = 10
+    handler: string #required
+    items: list[any] #required
+    max_concurrency: int = 1
   outputs:
-    batch_count: Int
-    results: List[any]
-    success: Boolean
+    batch_count: int
+    results: list[any]
+    success: boolean
 
-- name: Execute With Semaphore
-  method: semaphore
+- name: semaphore
   inputs:
-    max_concurrent: Int #required
-    tasks: List[ParallelTask] #required
+    max_concurrent: int #required
+    tasks: list[parallel_task] #required
   outputs:
-    completed: Int
-    failed: Int
-    results: List[ParallelResult]
+    completed: int
+    failed: int
+    results: list[parallel_result]
 
-- name: ParallelTask
+- name: parallel_task
   class:
-    id: String
-    handler: String
-    input: Any
-    timeout: Int
+    id: string
+    handler: string
+    input: any
+    timeout: int
 
-- name: ParallelResult
+- name: parallel_result
   class:
-    task_id: String
-    success: Boolean
-    result: Any
-    error: String
-    duration_ms: Int
+    task_id: string
+    success: boolean
+    result: any
+    error: string
+    duration_ms: int
 
-- name: ParallelSettledResult
+- name: parallel_settled_result
   class:
-    task_id: String
-    status: Fulfilled | Rejected
-    value: Any
-    reason: String
-    duration_ms: Int
+    task_id: string
+    status: fulfilled | rejected
+    value: any
+    reason: string
+    duration_ms: int
 
-- name: ParallelError
+- name: parallel_error
   class:
-    task_id: String
-    index: Int
-    message: String
-    code: String
+    task_id: string
+    index: int
+    message: string
+    code: string

@@ -30,7 +30,6 @@ impl Default for MemoryCacheStore {
 }
 
 impl MemoryCacheStore {
-    /// Create a new, empty in-memory cache.
     pub fn new() -> Self {
         Self { data: DashMap::new() }
     }

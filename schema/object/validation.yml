@@ -1,37 +1,33 @@
-- name: Validation Rule
-  type: validation_rule
+- name: validation_rule
   schema:
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - is_active: Boolean = true
-    - pattern: String? #max(1000)
-    - type: Required | Min | Max | Email | Url | Regex | Custom = Required
-    - updated_at: Date = now()
-    - value: String? #max(500)
+    - created_at: date = now()
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - pattern: string? #max(1000)
+    - type: required | min | max | email | url | regex | custom = required
+    - updated_at: date = now()
+    - value: string? #max(500)
 
-- name: Validation Rule Set
-  type: validation_rule_set
+- name: validation_rule_set
   schema:
-    - created_at: Date = now()
-    - description: String? #max(500)
-    - is_active: Boolean = true
-    - updated_at: Date = now()
+    - created_at: date = now()
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - updated_at: date = now()
 
-- name: Validation Rule Set Assignment
-  type: validation_rule_set_assignment
+- name: validation_rule_set_assignment
   id: [rule_set_id, rule_id]
   schema:
-    - rule_id: Id #required -> ValidationRule.id
-    - rule_set_id: Id #required -> ValidationRuleSet.id
+    - rule_id: id #required -> validation_rule.id
+    - rule_set_id: id #required -> validation_rule_set.id
     - sort_order: int = 0
 
-- name: Validation Error Log
-  type: validation_error_log
+- name: validation_error_log
   id: [field_name, created_at, rule_id]
   schema:
-    - created_at: Date = now()
-    - field_name: String #required #max(100)
-    - input_value: String? #max(1000)
-    - rule_id: Id? -> ValidationRule.id
-    - rule_set_id: Id? -> ValidationRuleSet.id
-    - violation_message: String #required #max(500)
+    - created_at: date = now()
+    - field_name: string #required #max(100)
+    - input_value: string? #max(1000)
+    - rule_id: id? -> validation_rule.id
+    - rule_set_id: id? -> validation_rule_set.id
+    - violation_message: string #required #max(500)

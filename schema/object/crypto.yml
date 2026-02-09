@@ -1,40 +1,37 @@
-- name: Encryption Key
-  type: encryption_key
+- name: encryption_key
   id: [key_id]
   schema:
-    - algorithm: Aes256Gcm | Aes256Cbc | Rsa | Ed25519 | Ecdsa = Aes256Gcm
-    - created_at: Date = now()
-    - created_by: Id? -> User.id
-    - expires_at: Date?
-    - is_active: Boolean = true
-    - key_id: String #required #unique #max(200)
+    - algorithm: aes256_gcm | aes256_cbc | rsa | ed25519 | ecdsa = aes256_gcm
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - expires_at: date?
+    - is_active: boolean = true
+    - key_id: string #required #unique #max(200)
     - key_size: int #required #min(128)
-    - key_type: Symmetric | Asymmetric = Symmetric
-    - last_rotated_at: Date?
-    - updated_at: Date = now()
-    - usage: Encrypt | Sign | Both = Encrypt
+    - key_type: symmetric | asymmetric = symmetric
+    - last_rotated_at: date?
+    - updated_at: date = now()
+    - usage: encrypt | sign | both = encrypt
 
-- name: Key Pair
-  type: key_pair
+- name: key_pair
   id: [key_id]
   schema:
-    - algorithm: Rsa | Ed25519 | Ecdsa = Rsa
-    - created_at: Date = now()
-    - created_by: Id? -> User.id
-    - expires_at: Date?
-    - is_active: Boolean = true
-    - key_id: String #required #unique #max(200)
+    - algorithm: rsa | ed25519 | ecdsa = rsa
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - expires_at: date?
+    - is_active: boolean = true
+    - key_id: string #required #unique #max(200)
     - key_size: int #required #min(256)
-    - public_key_fingerprint: String? #max(128)
-    - updated_at: Date = now()
+    - public_key_fingerprint: string? #max(128)
+    - updated_at: date = now()
 
-- name: Crypto Operation Log
-  type: crypto_operation_log
+- name: crypto_operation_log
   id: [key_id, created_at]
   schema:
-    - algorithm: String #required #max(50)
-    - created_at: Date = now()
-    - key_id: String #required #max(200)
-    - operation: Hash | Hmac | Encrypt | Decrypt | Sign | Verify | GenerateKey = Encrypt
-    - status: Success | Failed = Success
-    - user_id: Id? -> User.id
+    - algorithm: string #required #max(50)
+    - created_at: date = now()
+    - key_id: string #required #max(200)
+    - operation: hash | hmac | encrypt | decrypt | sign | verify | generate_key = encrypt
+    - status: success | failed = success
+    - user_id: id? -> user.id
