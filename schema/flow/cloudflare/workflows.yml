@@ -1,4 +1,4 @@
-- name: create
+- action: create
   inputs:
     binding: string #required
     id: string
@@ -7,7 +7,7 @@
     id: string
     success: boolean
 
-- name: create_batch
+- action: create_batch
   inputs:
     binding: string #required
     instances: list[workflow_create_options] #required
@@ -15,7 +15,7 @@
     instances: list[workflow_instance_info]
     success: boolean
 
-- name: get
+- action: get
   inputs:
     binding: string #required
     id: string #required
@@ -23,7 +23,7 @@
     id: string
     status: workflow_instance_status
 
-- name: status
+- action: status
   inputs:
     binding: string #required
     id: string #required
@@ -32,35 +32,35 @@
     output: any
     status: queued | running | paused | errored | terminated | complete | waiting | waiting_for_pause | unknown
 
-- name: pause
+- action: pause
   inputs:
     binding: string #required
     id: string #required
   outputs:
     success: boolean
 
-- name: resume
+- action: resume
   inputs:
     binding: string #required
     id: string #required
   outputs:
     success: boolean
 
-- name: restart
+- action: restart
   inputs:
     binding: string #required
     id: string #required
   outputs:
     success: boolean
 
-- name: terminate
+- action: terminate
   inputs:
     binding: string #required
     id: string #required
   outputs:
     success: boolean
 
-- name: send_event
+- action: send_event
   inputs:
     binding: string #required
     id: string #required
@@ -69,7 +69,7 @@
   outputs:
     success: boolean
 
-- name: step_do
+- action: step_do
   inputs:
     callback: any #required
     name: string #required
@@ -80,21 +80,21 @@
   outputs:
     result: any
 
-- name: step_sleep
+- action: step_sleep
   inputs:
     duration: string #required
     name: string #required
   outputs:
     success: boolean
 
-- name: step_sleep_until
+- action: step_sleep_until
   inputs:
     name: string #required
     timestamp: date #required
   outputs:
     success: boolean
 
-- name: step_wait_for_event
+- action: step_wait_for_event
   inputs:
     name: string #required
     timeout: string = "24 hours"

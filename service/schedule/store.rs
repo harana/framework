@@ -6,22 +6,22 @@ use std::collections::VecDeque;
 use std::sync::Arc;
 
 use crate::{
-    ExecutionHistory, Job, JobQuery, JobStatus, Schedule, ScheduleError, ScheduleQuery, ScheduleResult, ScheduleStats,
-    ScheduleStore,
+    ExecutionHistory, Job, JobQuery, JobStatus, Schedule, ScheduleError, ScheduleQuery, ScheduleResult,
+    ScheduleService, ScheduleStats,
 };
 
 // ============================================================================
-// In-Memory Store Implementation
+// In-Memory Service Implementation
 // ============================================================================
 
-pub struct InMemoryScheduleStore {
+pub struct InMemoryScheduleService {
     schedules: DashMap<String, Schedule>,
     jobs: DashMap<String, Job>,
     history: Arc<RwLock<VecDeque<ExecutionHistory>>>,
     max_history_size: usize,
 }
 
-impl InMemoryScheduleStore {
+impl InMemoryScheduleService {
     pub fn new() -> Self {
         Self {
             schedules: DashMap::new(),
@@ -37,14 +37,14 @@ impl InMemoryScheduleStore {
     }
 }
 
-impl Default for InMemoryScheduleStore {
+impl Default for InMemoryScheduleService {
     fn default() -> Self {
         Self::new()
     }
 }
 
 #[async_trait]
-impl ScheduleStore for InMemoryScheduleStore {
+impl ScheduleService for InMemoryScheduleService {
     // ========== Schedule Operations ==========
 
     async fn create_schedule(&self, schedule: &Schedule) -> ScheduleResult<()> {
@@ -400,30 +400,33 @@ impl ScheduleStore for InMemoryScheduleStore {
 }
 
 // ============================================================================
-// Persistent Store (uses harana-components-storage)
+// Persistent Service (uses harana-components-storage)
 // ============================================================================
 
+use harana_components_cache::CacheService;
 use harana_components_storage::{FilterCondition, QueryOptions, Store};
 use std::marker::PhantomData;
 
-use harana_components_lock::{DistributedLock, DistributedLockManager, LockConfig, LockManager, job_lock_resource};
+use harana_components_lock::{DistributedLockManager, LockConfig, LockManager, job_lock_resource};
 
-pub struct PersistentScheduleStore<S>
+pub struct PersistentScheduleService<S, C>
 where
-    S: Store<Schedule> + Store<Job> + Store<ExecutionHistory> + Store<DistributedLock>,
+    S: Store<Schedule> + Store<Job> + Store<ExecutionHistory>,
+    C: CacheService,
 {
     store: S,
-    lock_manager: Arc<DistributedLockManager<S>>,
+    lock_manager: Arc<DistributedLockManager<C>>,
     _phantom: PhantomData<(Schedule, Job, ExecutionHistory)>,
 }
 
-impl<S> PersistentScheduleStore<S>
+impl<S, C> PersistentScheduleService<S, C>
 where
-    S: Store<Schedule> + Store<Job> + Store<ExecutionHistory> + Store<DistributedLock> + Clone + 'static,
+    S: Store<Schedule> + Store<Job> + Store<ExecutionHistory> + 'static,
+    C: CacheService + 'static,
 {
-    /// Create a new persistent schedule store with the given storage backend.
-    pub fn new(store: S) -> Self {
-        let lock_manager = Arc::new(DistributedLockManager::new(store.clone(), LockConfig::default()));
+    /// Create a new persistent schedule store with the given storage backend and cache for locks.
+    pub fn new(store: S, cache: C) -> Self {
+        let lock_manager = Arc::new(DistributedLockManager::new(cache, LockConfig::default()));
         Self {
             store,
             lock_manager,
@@ -432,8 +435,8 @@ where
     }
 
     /// Create a new persistent schedule store with custom lock configuration.
-    pub fn with_lock_config(store: S, lock_config: LockConfig) -> Self {
-        let lock_manager = Arc::new(DistributedLockManager::new(store.clone(), lock_config));
+    pub fn with_lock_config(store: S, cache: C, lock_config: LockConfig) -> Self {
+        let lock_manager = Arc::new(DistributedLockManager::new(cache, lock_config));
         Self {
             store,
             lock_manager,
@@ -447,7 +450,7 @@ where
     }
 
     /// Get a reference to the lock manager for advanced locking operations.
-    pub fn lock_manager(&self) -> &Arc<DistributedLockManager<S>> {
+    pub fn lock_manager(&self) -> &Arc<DistributedLockManager<C>> {
         &self.lock_manager
     }
     pub async fn initialize(&self) -> ScheduleResult<()> {
@@ -459,9 +462,10 @@ where
 }
 
 #[async_trait]
-impl<S> ScheduleStore for PersistentScheduleStore<S>
+impl<S, C> ScheduleService for PersistentScheduleService<S, C>
 where
-    S: Store<Schedule> + Store<Job> + Store<ExecutionHistory> + Store<DistributedLock> + Send + Sync + Clone + 'static,
+    S: Store<Schedule> + Store<Job> + Store<ExecutionHistory> + Send + Sync + Clone + 'static,
+    C: CacheService + Send + Sync + 'static,
 {
     async fn create_schedule(&self, schedule: &Schedule) -> ScheduleResult<()> {
         Store::<Schedule>::create(&self.store, schedule)

@@ -1,5 +1,5 @@
-- name: pagination_gap
+- webobject: pagination_gap
   id: [pagination_id, name]
   attributes:
     - order: int = 0 #min(0)
-    - pagination_id: id #required -> ui_pagination.id
+    - pagination_id: id -> ui_pagination.id

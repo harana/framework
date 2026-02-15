@@ -1,4 +1,4 @@
-- name: http_client
+- object: http_client
   schema:
     - base_url: string? #url
     - created_at: date = now()
@@ -9,7 +9,7 @@
     - timeout_seconds: int = 30 #min(1)
     - updated_at: date = now()
 
-- name: http_request_log
+- object: http_request_log
   id: [client_id, created_at]
   schema:
     - client_id: id? -> http_client.id
@@ -22,9 +22,9 @@
     - response_body: string?
     - response_headers: string?
     - status_code: int?
-    - url: string #required #max(2000)
+    - url: string #max(2000)
 
-- name: http_request
+- object: http_request
   schema:
     - url: string
     - method: string
@@ -33,30 +33,30 @@
     - body: any
     - timeout: int
 
-- name: headers
+- object: headers
   schema:
     - content_type: string
     - authorization: string
     - accept: string
     - user_agent: string
 
-- name: query_params
+- object: query_params
   schema:
     - key: string
     - value: string
 
-- name: variables
+- object: variables
   schema:
     - key: string
     - value: any
 
-- name: graph_ql_error
+- object: graph_ql_error
   schema:
     - message: string
     - path: list[string]
     - locations: list[graph_q_l_error_location]
 
-- name: graph_ql_error_location
+- object: graph_ql_error_location
   schema:
     - line: int
     - column: int

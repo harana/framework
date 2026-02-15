@@ -1,4 +1,4 @@
-- name: tabs
+- webobject: tabs
   attributes:
     - active_tab: string? #max(100)
     - variant: simple | bar_underline | full_width | icons | pills | underline | underline_badge = simple

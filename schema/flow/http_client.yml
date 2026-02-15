@@ -1,4 +1,4 @@
-- name: get
+- action: get
   inputs:
     headers: headers
     query_params: query_params
@@ -9,20 +9,7 @@
     headers: headers
     status_code: int
 
-- name: post
-  inputs:
-    body: any
-    content_type: string = "application/json"
-    headers: headers
-    query_params: query_params
-    timeout: int = 30
-    url: string #required
-  outputs:
-    body: any
-    headers: headers
-    status_code: int
-
-- name: put
+- action: post
   inputs:
     body: any
     content_type: string = "application/json"
@@ -35,7 +22,7 @@
     headers: headers
     status_code: int
 
-- name: patch
+- action: put
   inputs:
     body: any
     content_type: string = "application/json"
@@ -48,7 +35,20 @@
     headers: headers
     status_code: int
 
-- name: delete
+- action: patch
+  inputs:
+    body: any
+    content_type: string = "application/json"
+    headers: headers
+    query_params: query_params
+    timeout: int = 30
+    url: string #required
+  outputs:
+    body: any
+    headers: headers
+    status_code: int
+
+- action: delete
   inputs:
     headers: headers
     query_params: query_params
@@ -59,7 +59,7 @@
     headers: headers
     status_code: int
 
-- name: download
+- action: download
   inputs:
     headers: headers
     timeout: int = 300
@@ -69,7 +69,7 @@
     content_type: string
     size: int
 
-- name: upload
+- action: upload
   inputs:
     file: bytes #required
     filename: string #required
@@ -80,7 +80,7 @@
     body: any
     status_code: int
 
-- name: graphql_query
+- action: graphql_query
   inputs:
     headers: headers
     query: string #required
@@ -91,7 +91,7 @@
     data: any
     errors: list[graph_ql_error]
 
-- name: http_request
+- object: http_request
   class:
     url: string
     method: string
@@ -100,30 +100,30 @@
     body: any
     timeout: int
 
-- name: headers
+- object: headers
   class:
     content_type: string
     authorization: string
     accept: string
     user_agent: string
 
-- name: query_params
+- object: query_params
   class:
     key: string
     value: string
 
-- name: variables
+- object: variables
   class:
     key: string
     value: any
 
-- name: graph_ql_error
+- object: graph_ql_error
   class:
     message: string
     path: list[string]
     locations: list[graph_ql_error_location]
 
-- name: graph_ql_error_location
+- object: graph_ql_error_location
   class:
     line: int
     column: int

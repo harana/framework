@@ -1,8 +1,8 @@
-- name: badge_button
+- webobject: badge_button
   attributes:
     - color: red | orange | amber | yellow | lime | green | emerald | teal | cyan | sky | blue | indigo | violet | purple | fuchsia | pink | rose | zinc = zinc
     - href: string? #max(500)
-    - label: string #required #max(100)
+    - label: string #max(100)
   events:
     - click
     - hover

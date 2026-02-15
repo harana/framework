@@ -1,0 +1,68 @@
+- action: read
+  inputs:
+    file: string
+    has_headers: boolean = true
+    range: string
+    sheet: string
+  outputs:
+    rows: list[excel_row]
+
+- action: write
+  inputs:
+    data: list[excel_row]
+    file: string
+    headers: list[string]
+    include_headers: boolean = true
+    sheet: string = "sheet1"
+  outputs:
+    path: string
+
+- action: get_sheets
+  inputs:
+    file: string
+  outputs:
+    sheets: list[string]
+
+- action: read_sheet
+  inputs:
+    file: string
+    has_headers: boolean = true
+    range: string
+    sheet: string
+  outputs:
+    rows: list[excel_row]
+
+- object: excel_workbook
+  class:
+    path: string
+    sheets: list[string]
+    active_sheet: string
+    row_count: int
+    column_count: int
+
+- object: excel_row
+  class:
+    values: map[string, any]
+
+- object: excel_workbook
+  schema:
+    - blob_id: id? -> blob_object.id
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - file_path: string? #max(2000)
+    - sheet_count: int = 0 #min(0)
+    - size: int = 0 #min(0)
+    - updated_at: date = now()
+
+- object: excel_sheet
+  id: [workbook_id, name]
+  schema:
+    - column_count: int = 0 #min(0)
+
+    - name: string #max(200)
+    - row_count: int = 0 #min(0)
+    - workbook_id: id -> excel_workbook.id
+
+- object: excel_row
+  schema:
+    - values: map[string, any]

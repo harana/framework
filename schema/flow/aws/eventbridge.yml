@@ -1,4 +1,4 @@
-- name: put_events
+- action: put_events
   inputs:
     entries: list[event_bridge_entry] #required
     endpoint_id: string
@@ -7,7 +7,7 @@
     entries: list[put_events_result_entry]
     success: boolean
 
-- name: create_rule
+- action: create_rule
   inputs:
     name: string #required
     event_bus_name: string = "default"
@@ -21,7 +21,7 @@
     rule_arn: string
     success: boolean
 
-- name: delete_rule
+- action: delete_rule
   inputs:
     name: string #required
     event_bus_name: string = "default"
@@ -29,7 +29,7 @@
   outputs:
     success: boolean
 
-- name: describe_rule
+- action: describe_rule
   inputs:
     name: string #required
     event_bus_name: string = "default"
@@ -44,7 +44,7 @@
     event_bus_name: string
     created_by: string
 
-- name: list_rules
+- action: list_rules
   inputs:
     event_bus_name: string = "default"
     name_prefix: string
@@ -54,21 +54,21 @@
     rules: list[event_bridge_rule]
     next_token: string
 
-- name: enable_rule
+- action: enable_rule
   inputs:
     name: string #required
     event_bus_name: string = "default"
   outputs:
     success: boolean
 
-- name: disable_rule
+- action: disable_rule
   inputs:
     name: string #required
     event_bus_name: string = "default"
   outputs:
     success: boolean
 
-- name: put_targets
+- action: put_targets
   inputs:
     rule: string #required
     event_bus_name: string = "default"
@@ -78,7 +78,7 @@
     failed_entries: list[target_failure]
     success: boolean
 
-- name: remove_targets
+- action: remove_targets
   inputs:
     rule: string #required
     event_bus_name: string = "default"
@@ -89,7 +89,7 @@
     failed_entries: list[target_failure]
     success: boolean
 
-- name: list_targets_by_rule
+- action: list_targets_by_rule
   inputs:
     rule: string #required
     event_bus_name: string = "default"
@@ -99,7 +99,7 @@
     targets: list[event_bridge_target]
     next_token: string
 
-- name: create_event_bus
+- action: create_event_bus
   inputs:
     name: string #required
     event_source_name: string
@@ -108,13 +108,13 @@
     event_bus_arn: string
     success: boolean
 
-- name: delete_event_bus
+- action: delete_event_bus
   inputs:
     name: string #required
   outputs:
     success: boolean
 
-- name: describe_event_bus
+- action: describe_event_bus
   inputs:
     name: string = "default"
   outputs:
@@ -122,7 +122,7 @@
     arn: string
     policy: string
 
-- name: list_event_buses
+- action: list_event_buses
   inputs:
     name_prefix: string
     limit: int = 100
@@ -131,7 +131,7 @@
     event_buses: list[event_bus]
     next_token: string
 
-- name: put_permission
+- action: put_permission
   inputs:
     event_bus_name: string = "default"
     method: string = "events:put_events"
@@ -141,7 +141,7 @@
   outputs:
     success: boolean
 
-- name: remove_permission
+- action: remove_permission
   inputs:
     event_bus_name: string = "default"
     statement_id: string #required
@@ -149,7 +149,7 @@
   outputs:
     success: boolean
 
-- name: create_archive
+- action: create_archive
   inputs:
     archive_name: string #required
     event_source_arn: string #required
@@ -163,13 +163,13 @@
     creation_time: date
     success: boolean
 
-- name: delete_archive
+- action: delete_archive
   inputs:
     archive_name: string #required
   outputs:
     success: boolean
 
-- name: describe_archive
+- action: describe_archive
   inputs:
     archive_name: string #required
   outputs:
@@ -184,11 +184,11 @@
     event_count: int
     creation_time: date
 
-- name: start_replay
+- action: start_replay
   inputs:
     replay_name: string #required
     event_source_arn: string #required
-    destination: event_destination #required  
+    destination: event_destination  
     event_start_time: date #required
     event_end_time: date #required
     description: string
@@ -199,7 +199,7 @@
     replay_start_time: date
     success: boolean
 
-- name: cancel_replay
+- action: cancel_replay
   inputs:
     replay_name: string #required
   outputs:
@@ -207,7 +207,7 @@
     state_reason: string
     success: boolean
 
-- name: describe_replay 
+- action: describe_replay 
   inputs:
     replay_name: string #required
   outputs:
@@ -223,7 +223,7 @@
     replay_start_time: date
     replay_end_time: date
 
-- name: test_event_pattern
+- action: test_event_pattern
   inputs:
     event_pattern: string #required
     event: string #required

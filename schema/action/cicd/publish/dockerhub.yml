@@ -1,0 +1,10 @@
+- object: publish_dockerhub
+  schema:
+    - description: string? #max(5000)
+    - enabled: boolean = true
+    - image: string #max(500)
+    - password_env: string #max(200)
+    - readme: string? #max(2000)
+    - registry: string = docker.io #max(500)
+    - tags: list[string]
+    - username_env: string #max(200)

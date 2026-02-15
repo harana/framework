@@ -1,7 +1,7 @@
-- name: aws_iam_user
+- object: aws_iam_user
   id: [account_id, user_name]
   schema:
-    - account_id: string #required #max(20)
+    - account_id: string #max(20)
     - arn: string? #max(255)
     - created_at: date = now()
     - password_last_used: date?
@@ -10,30 +10,30 @@
     - tags: string? # json
     - updated_at: date = now()
     - user_id: string? #unique #max(128)
-    - user_name: string #required #unique #max(64)
+    - user_name: string #unique #max(64)
 
-- name: aws_iam_group
+- object: aws_iam_group
   id: [account_id, group_name]
   schema:
-    - account_id: string #required #max(20)
+    - account_id: string #max(20)
     - arn: string? #max(255)
     - created_at: date = now()
     - group_id: string? #unique #max(128)
-    - group_name: string #required #unique #max(128)
+    - group_name: string #unique #max(128)
     - path: string = / #max(512)
     - updated_at: date = now()
 
-- name: aws_iam_group_membership
+- object: aws_iam_group_membership
   id: [group_id, user_id]
   schema:
     - created_at: date = now()
-    - group_id: id #required -> aws_iam_group.id
-    - user_id: id #required -> aws_iamuser.id
+    - group_id: id -> aws_iam_group.id
+    - user_id: id -> aws_iamuser.id
 
-- name: aws_iam_role
+- object: aws_iam_role
   id: [account_id, role_name]
   schema:
-    - account_id: string #required #max(20)
+    - account_id: string #max(20)
     - arn: string? #max(255)
     - assume_role_policy_document: string?
     - created_at: date = now()
@@ -42,14 +42,14 @@
     - path: string = / #max(512)
     - permissions_boundary_arn: string? #max(255)
     - role_id: string? #unique #max(128)
-    - role_name: string #required #unique #max(64)
+    - role_name: string #unique #max(64)
     - tags: string? # json
     - updated_at: date = now()
 
-- name: aws_iam_policy
+- object: aws_iam_policy
   id: [account_id, policy_arn]
   schema:
-    - account_id: string #required #max(20)
+    - account_id: string #max(20)
     - arn: string? #max(255)
     - attachment_count: int = 0 #min(0)
     - created_at: date = now()
@@ -57,28 +57,28 @@
     - description: string? #max(500)
     - is_attachable: boolean = true
     - path: string = / #max(512)
-    - policy_arn: string #required #unique #max(255)
+    - policy_arn: string #unique #max(255)
     - policy_id: string? #unique #max(128)
-    - policy_name: string #required #max(128)
+    - policy_name: string #max(128)
     - tags: string? # json
     - updated_at: date = now()
 
-- name: aws_iam_policy_attachment
+- object: aws_iam_policy_attachment
   id: [policy_id, entity_type, entity_name]
   schema:
     - attached_at: date = now()
-    - entity_name: string #required #max(128)
+    - entity_name: string #max(128)
     - entity_type: user | group | role #required
-    - policy_id: id #required -> aws_iam_policy.id
+    - policy_id: id -> aws_iam_policy.id
 
-- name: aws_iam_access_key
+- object: aws_iam_access_key
   id: [user_id, access_key_id]
   schema:
-    - access_key_id: string #required #unique #max(128)
+    - access_key_id: string #unique #max(128)
     - created_at: date = now()
     - last_used_at: date?
     - last_used_region: string? #max(50)
     - last_used_service: string? #max(100)
     - status: active | inactive = active
     - updated_at: date = now()
-    - user_id: id #required -> aws_iamuser.id
+    - user_id: id -> aws_iamuser.id

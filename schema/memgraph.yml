@@ -1,46 +1,46 @@
-- name: memgraph_node
+- object: memgraph_node
   id: [node_id]
   schema:
     - created_at: date = now()
     - labels: string? # j_s_o_n array
-    - node_id: string #required #max(200)
+    - node_id: string #max(200)
     - properties: string? # j_s_o_n
-- name: memgraph_relationship
+- object: memgraph_relationship
   id: [relationship_id]
   schema:
     - created_at: date = now()
-    - from_node_id: string #required #max(200)
+    - from_node_id: string #max(200)
     - properties: string? # j_s_o_n
-    - relationship_id: string #required #max(200)
-    - to_node_id: string #required #max(200)
-    - type: string #required #max(200)
+    - relationship_id: string #max(200)
+    - to_node_id: string #max(200)
+    - type: string #max(200)
 
-- name: memgraph_index
+- object: memgraph_index
   id: [label, property]
   schema:
     - created_at: date = now()
-    - label: string #required #max(200)
-    - property: string #required #max(200)
+    - label: string #max(200)
+    - property: string #max(200)
 
-- name: memgraph_query_log
+- object: memgraph_query_log
   id: [executed_at]
   schema:
     - duration_ms: int? #min(0)
     - error_message: string? #max(1000)
     - executed_at: date = now()
     - nodes_affected: int = 0 #min(0)
-    - query: string #required #max(10000)
+    - query: string #max(10000)
     - relationships_affected: int = 0 #min(0)
     - status: success | failed | timeout = success
     - user_id: id? -> user.id
 
-- name: graph_node
+- object: graph_node
   schema:
     - node_id: string
     - labels: list[string]
     - properties: map[string, any]
 
-- name: query_summary
+- object: query_summary
   schema:
     - nodes_created: int
     - nodes_deleted: int
@@ -48,24 +48,24 @@
     - relationships_deleted: int
     - properties_set: int
 
-- name: graph_path_element
+- object: graph_path_element
   schema:
     - node_id: string
     - relationship_id: string
     - relationship_type: string
 
-- name: graph_path
+- object: graph_path
   schema:
     - elements: list[graph_path_element]
     - length: int
 
-- name: graph_stats
+- object: graph_stats
   schema:
     - labels: map[string, integer]
     - relationship_types: map[string, integer]
     - indexes: list[string]
 
-- name: algorithm_result
+- object: algorithm_result
   schema:
     - node_id: string
     - score: float

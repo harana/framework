@@ -1,4 +1,4 @@
-- name: compression_job
+- object: compression_job
   schema:
     - algorithm: gzip | zstd | brotli | lz4 | deflate = gzip
     - completed_at: date?

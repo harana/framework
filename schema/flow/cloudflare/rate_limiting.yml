@@ -1,4 +1,4 @@
-- name: limit
+- action: limit
   inputs:
     key: string #required
     rate_limiter: string #required

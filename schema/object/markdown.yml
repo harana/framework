@@ -1,4 +1,4 @@
-- name: markdown_document
+- object: markdown_document
   schema:
     - content: string #required
     - created_at: date = now()

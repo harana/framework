@@ -1,4 +1,4 @@
-- name: sign_artifact
+- action: sign_artifact
   inputs:
     algorithm: rsa-sha256 | rsa-sha512 | ecdsa-sha256 | ed25519 = rsa-sha256
     artifact: bytes #required
@@ -13,7 +13,7 @@
     timestamp: date
     success: boolean
 
-- name: verify_artifact
+- action: verify_artifact
   inputs:
     algorithm: rsa-sha256 | rsa-sha512 | ecdsa-sha256 | ed25519
     artifact: bytes #required
@@ -28,7 +28,7 @@
     algorithm: string
     error: string
 
-- name: sign_code
+- action: sign_code
   inputs:
     artifact: bytes #required
     artifact_path: string
@@ -44,7 +44,7 @@
     success: boolean
     timestamp: date
 
-- name: create_detached
+- action: create_detached
   inputs:
     algorithm: rsa-sha256 | rsa-sha512 | ecdsa-sha256 | ed25519 = rsa-sha256
     artifact: bytes #required
@@ -55,7 +55,7 @@
     signature: string
     success: boolean
 
-- name: verify_detached
+- action: verify_detached
   inputs:
     algorithm: rsa-sha256 | rsa-sha512 | ecdsa-sha256 | ed25519
     artifact: bytes #required
@@ -67,7 +67,7 @@
     signer: string
     error: string
 
-- name: sign_container
+- action: sign_container
   inputs:
     digest: string
     format: cosign | notary = cosign
@@ -80,7 +80,7 @@
     signature_digest: string
     success: boolean
 
-- name: verify_container
+- action: verify_container
   inputs:
     format: cosign | notary = cosign
     image: string #required
@@ -94,7 +94,7 @@
     timestamp: date
     error: string
 
-- name: sign_jar
+- action: sign_jar
   inputs:
     alias: string #required
     jar_path: string #required
@@ -107,7 +107,7 @@
     signed_jar_path: string
     success: boolean
 
-- name: verify_jar
+- action: verify_jar
   inputs:
     jar_path: string #required
     certificate: string
@@ -117,7 +117,7 @@
     timestamp: date
     error: string
 
-- name: timestamp
+- action: timestamp
   inputs:
     authority_url: string #required
     digest: string #required
@@ -127,7 +127,7 @@
     timestamp_token: string
     success: boolean
 
-- name: signature_metadata
+- object: signature_metadata
   class:
     signer: string
     organization: string
@@ -136,7 +136,7 @@
     url: string
     custom_attributes: map[string, string]
 
-- name: signed_artifact
+- object: signed_artifact
   class:
     artifact: bytes
     signature: string

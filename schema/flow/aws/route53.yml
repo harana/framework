@@ -1,4 +1,4 @@
-- name: create_hosted_zone
+- action: create_hosted_zone
   inputs:
     caller_reference: string #required
     delegation_set_id: string
@@ -13,14 +13,14 @@
     success: boolean
     vpc: vpc
 
-- name: delete_hosted_zone
+- action: delete_hosted_zone
   inputs:
     id: string #required
   outputs:
     change_info: change_info
     success: boolean
 
-- name: get_hosted_zone
+- action: get_hosted_zone
   inputs:
     id: string #required
   outputs:
@@ -28,7 +28,7 @@
     hosted_zone: hosted_zone
     vpcs: list[vpc]
 
-- name: list_hosted_zones
+- action: list_hosted_zones
   inputs:
     delegation_set_id: string
     hosted_zone_type: private_hosted_zone
@@ -41,7 +41,7 @@
     max_items: int
     next_marker: string
 
-- name: list_hosted_zones_by_name
+- action: list_hosted_zones_by_name
   inputs:
     dns_name: string
     hosted_zone_id: string
@@ -55,7 +55,7 @@
     next_dns_name: string
     next_hosted_zone_id: string
 
-- name: list_hosted_zones_by_vpc
+- action: list_hosted_zones_by_vpc
   inputs:
     max_items: int = 100
     next_token: string
@@ -66,7 +66,7 @@
     max_items: int
     next_token: string
 
-- name: update_hosted_zone_comment
+- action: update_hosted_zone_comment
   inputs:
     comment: string
     id: string #required
@@ -74,12 +74,12 @@
     hosted_zone: hosted_zone
     success: boolean
 
-- name: get_hosted_zone_count
+- action: get_hosted_zone_count
   inputs: {}
   outputs:
     hosted_zone_count: int
 
-- name: change_resource_record_sets
+- action: change_resource_record_sets
   inputs:
     change_batch: change_batch #required
     hosted_zone_id: string #required
@@ -87,7 +87,7 @@
     change_info: change_info
     success: boolean
 
-- name: list_resource_record_sets
+- action: list_resource_record_sets
   inputs:
     hosted_zone_id: string #required
     max_items: int = 300
@@ -102,13 +102,13 @@
     next_record_type: string
     resource_record_sets: list[resource_record_set]
 
-- name: get_change
+- action: get_change
   inputs:
     id: string #required
   outputs:
     change_info: change_info
 
-- name: create_health_check
+- action: create_health_check
   inputs:
     caller_reference: string #required
     health_check_config: health_check_config #required
@@ -117,19 +117,19 @@
     location: string
     success: boolean
 
-- name: delete_health_check
+- action: delete_health_check
   inputs:
     health_check_id: string #required
   outputs:
     success: boolean
 
-- name: get_health_check
+- action: get_health_check
   inputs:
     health_check_id: string #required
   outputs:
     health_check: health_check
 
-- name: list_health_checks
+- action: list_health_checks
   inputs:
     marker: string
     max_items: int = 100
@@ -140,7 +140,7 @@
     max_items: int
     next_marker: string
 
-- name: update_health_check
+- action: update_health_check
   inputs:
     alarm_identifier: alarm_identifier
     child_health_checks: list[string]
@@ -163,24 +163,24 @@
     health_check: health_check
     success: boolean
 
-- name: get_health_check_status
+- action: get_health_check_status
   inputs:
     health_check_id: string #required
   outputs:
     health_check_observations: list[health_check_observation]
 
-- name: get_health_check_last_failure_reason
+- action: get_health_check_last_failure_reason
   inputs:
     health_check_id: string #required
   outputs:
     health_check_observations: list[health_check_observation]
 
-- name: get_health_check_count
+- action: get_health_check_count
   inputs: {}
   outputs:
     health_check_count: int
 
-- name: create_reusable_delegation_set
+- action: create_reusable_delegation_set
   inputs:
     caller_reference: string #required
     hosted_zone_id: string
@@ -189,19 +189,19 @@
     location: string
     success: boolean
 
-- name: delete_reusable_delegation_set
+- action: delete_reusable_delegation_set
   inputs:
     id: string #required
   outputs:
     success: boolean
 
-- name: get_reusable_delegation_set
+- action: get_reusable_delegation_set
   inputs:
     id: string #required
   outputs:
     delegation_set: delegation_set
 
-- name: list_reusable_delegation_sets
+- action: list_reusable_delegation_sets
   inputs:
     marker: string
     max_items: int = 100
@@ -212,7 +212,7 @@
     max_items: int
     next_marker: string
 
-- name: create_traffic_policy
+- action: create_traffic_policy
   inputs:
     comment: string
     document: string #required
@@ -222,21 +222,21 @@
     success: boolean
     traffic_policy: traffic_policy
 
-- name: delete_traffic_policy
+- action: delete_traffic_policy
   inputs:
     id: string #required
     version: int #required
   outputs:
     success: boolean
 
-- name: get_traffic_policy
+- action: get_traffic_policy
   inputs:
     id: string #required
     version: int #required
   outputs:
     traffic_policy: traffic_policy
 
-- name: list_traffic_policies
+- action: list_traffic_policies
   inputs:
     max_items: int = 100
     traffic_policy_id_marker: string
@@ -246,7 +246,7 @@
     traffic_policy_id_marker: string
     traffic_policy_summaries: list[traffic_policy_summary]
 
-- name: create_traffic_policy_version
+- action: create_traffic_policy_version
   inputs:
     comment: string
     document: string #required
@@ -256,7 +256,7 @@
     success: boolean
     traffic_policy: traffic_policy
 
-- name: list_traffic_policy_versions
+- action: list_traffic_policy_versions
   inputs:
     id: string #required
     max_items: int = 100
@@ -267,7 +267,7 @@
     traffic_policies: list[traffic_policy]
     traffic_policy_version_marker: string
 
-- name: update_traffic_policy_comment
+- action: update_traffic_policy_comment
   inputs:
     comment: string #required
     id: string #required
@@ -276,7 +276,7 @@
     success: boolean
     traffic_policy: traffic_policy
 
-- name: create_traffic_policy_instance
+- action: create_traffic_policy_instance
   inputs:
     hosted_zone_id: string #required
     name: string #required
@@ -288,19 +288,19 @@
     success: boolean
     traffic_policy_instance: traffic_policy_instance
 
-- name: delete_traffic_policy_instance
+- action: delete_traffic_policy_instance
   inputs:
     id: string #required
   outputs:
     success: boolean
 
-- name: get_traffic_policy_instance
+- action: get_traffic_policy_instance
   inputs:
     id: string #required
   outputs:
     traffic_policy_instance: traffic_policy_instance
 
-- name: list_traffic_policy_instances
+- action: list_traffic_policy_instances
   inputs:
     hosted_zone_id_marker: string
     max_items: int = 100
@@ -314,7 +314,7 @@
     traffic_policy_instance_type_marker: string
     traffic_policy_instances: list[traffic_policy_instance]
 
-- name: list_traffic_policy_instances_by_hosted_zone
+- action: list_traffic_policy_instances_by_hosted_zone
   inputs:
     hosted_zone_id: string #required
     max_items: int = 100
@@ -327,7 +327,7 @@
     traffic_policy_instance_type_marker: string
     traffic_policy_instances: list[traffic_policy_instance]
 
-- name: list_traffic_policy_instances_by_policy
+- action: list_traffic_policy_instances_by_policy
   inputs:
     hosted_zone_id_marker: string
     max_items: int = 100
@@ -343,7 +343,7 @@
     traffic_policy_instance_type_marker: string
     traffic_policy_instances: list[traffic_policy_instance]
 
-- name: update_traffic_policy_instance
+- action: update_traffic_policy_instance
   inputs:
     id: string #required
     traffic_policy_id: string #required
@@ -353,12 +353,12 @@
     success: boolean
     traffic_policy_instance: traffic_policy_instance
 
-- name: get_traffic_policy_instance_count
+- action: get_traffic_policy_instance_count
   inputs: {}
   outputs:
     traffic_policy_instance_count: int
 
-- name: create_query_logging_config
+- action: create_query_logging_config
   inputs:
     cloud_watch_logs_log_group_arn: string #required
     hosted_zone_id: string #required
@@ -367,19 +367,19 @@
     query_logging_config: query_logging_config
     success: boolean
 
-- name: delete_query_logging_config
+- action: delete_query_logging_config
   inputs:
     id: string #required
   outputs:
     success: boolean
 
-- name: get_query_logging_config
+- action: get_query_logging_config
   inputs:
     id: string #required
   outputs:
     query_logging_config: query_logging_config
 
-- name: list_query_logging_configs
+- action: list_query_logging_configs
   inputs:
     hosted_zone_id: string
     max_results: int = 100
@@ -388,7 +388,7 @@
     next_token: string
     query_logging_configs: list[query_logging_config]
 
-- name: associate_vpc_with_hosted_zone
+- action: associate_vpc_with_hosted_zone
   inputs:
     comment: string
     hosted_zone_id: string #required
@@ -397,7 +397,7 @@
     change_info: change_info
     success: boolean
 
-- name: disassociate_vpc_from_hosted_zone
+- action: disassociate_vpc_from_hosted_zone
   inputs:
     comment: string
     hosted_zone_id: string #required
@@ -406,7 +406,7 @@
     change_info: change_info
     success: boolean
 
-- name: create_vpc_association_authorization
+- action: create_vpc_association_authorization
   inputs:
     hosted_zone_id: string #required
     vpc: vpc #required
@@ -415,14 +415,14 @@
     success: boolean
     vpc: vpc
 
-- name: delete_vpc_association_authorization
+- action: delete_vpc_association_authorization
   inputs:
     hosted_zone_id: string #required
     vpc: vpc #required
   outputs:
     success: boolean
 
-- name: list_vpc_association_authorizations
+- action: list_vpc_association_authorizations
   inputs:
     hosted_zone_id: string #required
     max_results: int = 100
@@ -432,28 +432,28 @@
     next_token: string
     vpcs: list[vpc]
 
-- name: enable_hosted_zone_dnssec
+- action: enable_hosted_zone_dnssec
   inputs:
     hosted_zone_id: string #required
   outputs:
     change_info: change_info
     success: boolean
 
-- name: disable_hosted_zone_dnssec
+- action: disable_hosted_zone_dnssec
   inputs:
     hosted_zone_id: string #required
   outputs:
     change_info: change_info
     success: boolean
 
-- name: get_dnssec
+- action: get_dnssec
   inputs:
     hosted_zone_id: string #required
   outputs:
     key_signing_keys: list[key_signing_key]
     status: dnssec_status
 
-- name: create_key_signing_key
+- action: create_key_signing_key
   inputs:
     caller_reference: string #required
     hosted_zone_id: string #required
@@ -466,7 +466,7 @@
     location: string
     success: boolean
 
-- name: delete_key_signing_key
+- action: delete_key_signing_key
   inputs:
     hosted_zone_id: string #required
     name: string #required
@@ -474,7 +474,7 @@
     change_info: change_info
     success: boolean
 
-- name: activate_key_signing_key
+- action: activate_key_signing_key
   inputs:
     hosted_zone_id: string #required
     name: string #required
@@ -482,7 +482,7 @@
     change_info: change_info
     success: boolean
 
-- name: deactivate_key_signing_key
+- action: deactivate_key_signing_key
   inputs:
     hosted_zone_id: string #required
     name: string #required
@@ -490,7 +490,7 @@
     change_info: change_info
     success: boolean
 
-- name: test_dns_answer
+- action: test_dns_answer
   inputs:
     edns0_client_subnet_ip: string
     edns0_client_subnet_mask: string
@@ -506,7 +506,7 @@
     record_type: string
     response_code: string
 
-- name: get_geo_location
+- action: get_geo_location
   inputs:
     continent_code: string
     country_code: string
@@ -514,7 +514,7 @@
   outputs:
     geo_location_details: geo_location_details
 
-- name: list_geo_locations
+- action: list_geo_locations
   inputs:
     max_items: int = 100
     start_continent_code: string
@@ -528,7 +528,7 @@
     next_country_code: string
     next_subdivision_code: string
 
-- name: change_tags_for_resource
+- action: change_tags_for_resource
   inputs:
     add_tags: list[route53_tag]
     remove_tag_keys: list[string]
@@ -537,28 +537,28 @@
   outputs:
     success: boolean
 
-- name: list_tags_for_resource
+- action: list_tags_for_resource
   inputs:
     resource_id: string #required
     resource_type: healthcheck | hostedzone #required
   outputs:
     resource_tag_set: resource_tag_set
 
-- name: list_tags_for_resources
+- action: list_tags_for_resources
   inputs:
     resource_ids: list[string] #required
     resource_type: healthcheck | hostedzone #required
   outputs:
     resource_tag_sets: list[resource_tag_set]
 
-- name: get_account_limit
+- action: get_account_limit
   inputs:
     type: max_health_checks_by_owner | max_hosted_zones_by_owner | max_traffic_policy_instances_by_owner | max_reusable_delegation_sets_by_owner | max_traffic_policies_by_owner #required
   outputs:
     count: int
     limit: account_limit
 
-- name: get_hosted_zone_limit
+- action: get_hosted_zone_limit
   inputs:
     hosted_zone_id: string #required
     type: max_rrsets_by_zone | max_vpcs_associated_by_zone #required
@@ -566,7 +566,7 @@
     count: int
     limit: hosted_zone_limit
 
-- name: get_reusable_delegation_set_limit
+- action: get_reusable_delegation_set_limit
   inputs:
     delegation_set_id: string #required
     type: max_zones_by_reusable_delegation_set #required
@@ -574,7 +574,7 @@
     count: int
     limit: reusable_delegation_set_limit
 
-- name: get_checker_ip_ranges
+- action: get_checker_ip_ranges
   inputs: {}
   outputs:
     checker_ip_ranges: list[string]

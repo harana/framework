@@ -1,52 +1,52 @@
 
-- name: http response sent
+- event: http response sent
   class: server_route_response_sent
   extends: event
   schema:
     server_route: boolean
-    http_method: string #required  set:
+    http_method: string  set:
     attributes: $all_values
     type: route.response.sent
 
-- name: route matched
+- event: route matched
   class: server_route_matched
   extends: event
   schema:
-    handler: string #required    matched_at: date = now()
+    handler: string    matched_at: date = now()
     path_params: string?
-    request_id: id #required    route_name: string?
-    route_pattern: string #required  set:
+    request_id: id    route_name: string?
+    route_pattern: string  set:
     attributes: $all_values
     type: route.matched
 
-- name: route not found
+- event: route not found
   class: server_route_not_found
   extends: event
   schema:
     method: get | post | put | patch | delete | head | options
     occurred_at: date = now()
-    path: string #required    request_id: id #required  set:
+    path: string    request_id: id  set:
     attributes: $all_values
     type: route.not_found
 
-- name: request authenticated
+- event: request authenticated
   class: server_route_request_authenticated
   extends: event
   schema:
     auth_method: bearer | basic | api_key | session | none = none
     authenticated_at: date = now()
     is_authenticated: boolean = false
-    request_id: id #required    user_id: id?
+    request_id: id    user_id: id?
   set:
     attributes: $all_values
     type: route.request.authenticated
 
-- name: request rate limited
+- event: request rate limited
   class: server_route_request_rate_limited
   extends: event
   schema:
-    current_count: int #required #min(0)    ip_address: string? #ip    limit: int #required #min(1)    limited_at: date = now()
-    request_id: id #required    user_id: id?
-    window_seconds: int #required #min(1)  set:
+    current_count: int #min(0)    ip_address: string? #ip    limit: int #min(1)    limited_at: date = now()
+    request_id: id    user_id: id?
+    window_seconds: int #min(1)  set:
     attributes: $all_values
     type: route.request.rate_limited

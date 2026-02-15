@@ -1,4 +1,4 @@
-- name: response_template
+- object: response_template
   schema:
     - body_template: string?
     - content_type: string = application/json #max(100)
@@ -6,18 +6,18 @@
     - description: string? #max(500)
     - headers: string? # json map
     - is_active: boolean = true
-    - name: string #required #unique #max(200)
+    - name: string #unique #max(200)
     - status_code: int = 200 #min(100) #max(599)
     - updated_at: date = now()
 
-- name: response_log
+- object: response_log
   id: [request_path, created_at]
   schema:
     - content_type: string? #max(100)
     - created_at: date = now()
     - duration_ms: int? #min(0)
-    - request_method: string #required #max(10)
-    - request_path: string #required #max(2000)
+    - request_method: string #max(10)
+    - request_path: string #max(2000)
     - response_size: int? #min(0)
-    - status_code: int #required #min(100) #max(599)
+    - status_code: int #min(100) #max(599)
     - template_id: id? -> response_template.id

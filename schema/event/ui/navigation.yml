@@ -1,4 +1,4 @@
-- name: nav_item_clicked
+- event: nav_item_clicked
   schema:
     nav_id: id #required
     nav_item_id: id #required
@@ -7,7 +7,7 @@
     nav_level: int? #min(0)
     clicked_at: date = now()
 
-- name: tab_switched
+- event: tab_switched
   schema:
     tab_group_id: id #required
     from_tab_id: id?
@@ -17,7 +17,7 @@
     tab_index: int? #min(0)
     switched_at: date = now()
 
-- name: breadcrumb_clicked
+- event: breadcrumb_clicked
   schema:
     breadcrumb_id: id #required
     breadcrumb_label: string?

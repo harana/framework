@@ -1,4 +1,4 @@
-- name: run_instances
+- action: run_instances
   inputs:
     block_device_mappings: list[block_device_mapping]
     capacity_reservation_specification: capacity_reservation_specification
@@ -44,7 +44,7 @@
     reservation_id: string
     success: boolean
 
-- name: start_instances
+- action: start_instances
   inputs:
     instance_ids: list[string] #required
     region: string
@@ -52,7 +52,7 @@
     starting_instances: list[instance_state_change]
     success: boolean
 
-- name: stop_instances
+- action: stop_instances
   inputs:
     force: boolean = false
     hibernate: boolean = false
@@ -62,14 +62,14 @@
     stopping_instances: list[instance_state_change]
     success: boolean
 
-- name: reboot_instances
+- action: reboot_instances
   inputs:
     instance_ids: list[string] #required
     region: string
   outputs:
     success: boolean
 
-- name: terminate_instances
+- action: terminate_instances
   inputs:
     instance_ids: list[string] #required
     region: string
@@ -77,7 +77,7 @@
     success: boolean
     terminating_instances: list[instance_state_change]
 
-- name: describe_instances
+- action: describe_instances
   inputs:
     filters: list[ec2_filter]
     instance_ids: list[string]
@@ -85,7 +85,7 @@
   outputs:
     reservations: list[reservation]
 
-- name: describe_instance_status
+- action: describe_instance_status
   inputs:
     filters: list[ec2_filter]
     include_all_instances: boolean = false
@@ -94,7 +94,7 @@
   outputs:
     instance_statuses: list[instance_status]
 
-- name: modify_instance_attribute
+- action: modify_instance_attribute
   inputs:
     attribute: instance_type | kernel | ramdisk | user_data | disable_api_termination | instance_initiated_shutdown_behavior | block_device_mapping | source_dest_check | group_set | ebs_optimized | sriov_net_support | ena_support | enclave_options | disable_api_stop
     block_device_mappings: list[block_device_mapping]
@@ -115,7 +115,7 @@
   outputs:
     success: boolean
 
-- name: get_console_output
+- action: get_console_output
   inputs:
     instance_id: string #required
     latest: boolean = true
@@ -126,7 +126,7 @@
     success: boolean
     timestamp: date
 
-- name: get_password_data
+- action: get_password_data
   inputs:
     instance_id: string #required
     region: string
@@ -136,7 +136,7 @@
     success: boolean
     timestamp: date
 
-- name: create_image
+- action: create_image
   inputs:
     block_device_mappings: list[block_device_mapping]
     description: string
@@ -149,14 +149,14 @@
     image_id: string
     success: boolean
 
-- name: deregister_image
+- action: deregister_image
   inputs:
     image_id: string #required
     region: string
   outputs:
     success: boolean
 
-- name: describe_images
+- action: describe_images
   inputs:
     executable_users: list[string]
     filters: list[ec2_filter]
@@ -167,7 +167,7 @@
   outputs:
     images: list[image]
 
-- name: copy_image
+- action: copy_image
   inputs:
     description: string
     destination_region: string
@@ -182,7 +182,7 @@
     image_id: string
     success: boolean
 
-- name: modify_image_attribute
+- action: modify_image_attribute
   inputs:
     attribute: description | launchPermission
     description: string
@@ -195,7 +195,7 @@
   outputs:
     success: boolean
 
-- name: create_snapshot
+- action: create_snapshot
   inputs:
     description: string
     outpost_arn: string
@@ -214,14 +214,14 @@
     volume_id: string
     volume_size: int
 
-- name: delete_snapshot
+- action: delete_snapshot
   inputs:
     region: string
     snapshot_id: string #required
   outputs:
     success: boolean
 
-- name: describe_snapshots
+- action: describe_snapshots
   inputs:
     filters: list[ec2_filter]
     owner_ids: list[string]
@@ -231,7 +231,7 @@
   outputs:
     snapshots: list[snapshot]
 
-- name: copy_snapshot
+- action: copy_snapshot
   inputs:
     description: string
     destination_region: string
@@ -246,7 +246,7 @@
     snapshot_id: string
     success: boolean
 
-- name: create_volume
+- action: create_volume
   inputs:
     availability_zone: string #required
     encrypted: boolean = false
@@ -276,14 +276,14 @@
     volume_id: string
     volume_type: string
 
-- name: delete_volume
+- action: delete_volume
   inputs:
     region: string
     volume_id: string #required
   outputs:
     success: boolean
 
-- name: describe_volumes
+- action: describe_volumes
   inputs:
     filters: list[ec2_filter]
     region: string
@@ -291,7 +291,7 @@
   outputs:
     volumes: list[volume]
 
-- name: attach_volume
+- action: attach_volume
   inputs:
     device: string #required
     instance_id: string #required
@@ -306,7 +306,7 @@
     success: boolean
     volume_id: string
 
-- name: detach_volume
+- action: detach_volume
   inputs:
     device: string
     force: boolean = false
@@ -322,7 +322,7 @@
     success: boolean
     volume_id: string
 
-- name: modify_volume
+- action: modify_volume
   inputs:
     iops: int
     multi_attach_enabled: boolean
@@ -346,7 +346,7 @@
     target_volume_type: string
     volume_id: string
 
-- name: create_key_pair
+- action: create_key_pair
   inputs:
     key_format: pem | ppk = pem
     key_name: string #required
@@ -360,7 +360,7 @@
     key_pair_id: string
     success: boolean
 
-- name: delete_key_pair
+- action: delete_key_pair
   inputs:
     key_name: string
     key_pair_id: string
@@ -368,7 +368,7 @@
   outputs:
     success: boolean
 
-- name: describe_key_pairs
+- action: describe_key_pairs
   inputs:
     filters: list[ec2_filter]
     include_public_key: boolean = false
@@ -378,7 +378,7 @@
   outputs:
     key_pairs: list[key_pair]
 
-- name: import_key_pair
+- action: import_key_pair
   inputs:
     key_name: string #required
     public_key_material: string #required
@@ -390,7 +390,7 @@
     key_pair_id: string
     success: boolean
 
-- name: create_launch_template
+- action: create_launch_template
   inputs:
     launch_template_data: launch_template_data #required
     launch_template_name: string #required
@@ -406,7 +406,7 @@
     launch_template_name: string
     success: boolean
 
-- name: delete_launch_template
+- action: delete_launch_template
   inputs:
     launch_template_id: string
     launch_template_name: string
@@ -416,7 +416,7 @@
     launch_template_name: string
     success: boolean
 
-- name: describe_launch_templates
+- action: describe_launch_templates
   inputs:
     filters: list[ec2_filter]
     launch_template_ids: list[string]
@@ -425,7 +425,7 @@
   outputs:
     launch_templates: list[launch_template]
 
-- name: create_launch_template_version
+- action: create_launch_template_version
   inputs:
     launch_template_data: launch_template_data #required
     launch_template_id: string
@@ -437,7 +437,7 @@
     launch_template_version: launch_template_version
     success: boolean
 
-- name: delete_launch_template_versions
+- action: delete_launch_template_versions
   inputs:
     launch_template_id: string
     launch_template_name: string
@@ -448,7 +448,7 @@
     unsuccessfully_deleted_launch_template_versions: list[delete_launch_template_versions_response_error_item]
     success: boolean
 
-- name: modify_launch_template
+- action: modify_launch_template
   inputs:
     default_version: string
     launch_template_id: string
@@ -458,7 +458,7 @@
     launch_template: launch_template
     success: boolean
 
-- name: create_network_interface
+- action: create_network_interface
   inputs:
     description: string
     groups: list[string]
@@ -479,14 +479,14 @@
     network_interface: network_interface
     success: boolean
 
-- name: delete_network_interface
+- action: delete_network_interface
   inputs:
     network_interface_id: string #required
     region: string
   outputs:
     success: boolean
 
-- name: describe_network_interfaces
+- action: describe_network_interfaces
   inputs:
     filters: list[ec2_filter]
     network_interface_ids: list[string]
@@ -494,7 +494,7 @@
   outputs:
     network_interfaces: list[network_interface]
 
-- name: attach_network_interface
+- action: attach_network_interface
   inputs:
     device_index: int #required
     instance_id: string #required
@@ -506,7 +506,7 @@
     network_card_index: int
     success: boolean
 
-- name: detach_network_interface
+- action: detach_network_interface
   inputs:
     attachment_id: string #required
     force: boolean = false
@@ -514,7 +514,7 @@
   outputs:
     success: boolean
 
-- name: modify_network_interface_attribute
+- action: modify_network_interface_attribute
   inputs:
     attachment: network_interface_attachment_changes
     description: string
@@ -525,7 +525,7 @@
   outputs:
     success: boolean
 
-- name: create_placement_group
+- action: create_placement_group
   inputs:
     group_name: string
     partition_count: int
@@ -542,14 +542,14 @@
     strategy: string
     success: boolean
 
-- name: delete_placement_group
+- action: delete_placement_group
   inputs:
     group_name: string #required
     region: string
   outputs:
     success: boolean
 
-- name: describe_placement_groups
+- action: describe_placement_groups
   inputs:
     filters: list[ec2_filter]
     group_ids: list[string]
@@ -558,7 +558,7 @@
   outputs:
     placement_groups: list[placement_group]
 
-- name: describe_instance_types
+- action: describe_instance_types
   inputs:
     filters: list[ec2_filter]
     instance_types: list[string]
@@ -566,7 +566,7 @@
   outputs:
     instance_types: list[instance_type_info]
 
-- name: describe_availability_zones
+- action: describe_availability_zones
   inputs:
     all_availability_zones: boolean = false
     filters: list[ec2_filter]
@@ -576,7 +576,7 @@
   outputs:
     availability_zones: list[availability_zone]
 
-- name: describe_regions
+- action: describe_regions
   inputs:
     all_regions: boolean = false
     filters: list[ec2_filter]
@@ -584,7 +584,7 @@
   outputs:
     regions: list[region]
 
-- name: create_tags
+- action: create_tags
   inputs:
     region: string
     resources: list[string] #required
@@ -592,7 +592,7 @@
   outputs:
     success: boolean
 
-- name: delete_tags
+- action: delete_tags
   inputs:
     region: string
     resources: list[string] #required
@@ -600,14 +600,14 @@
   outputs:
     success: boolean
 
-- name: describe_tags
+- action: describe_tags
   inputs:
     filters: list[ec2_filter]
     region: string
   outputs:
     tags: list[tag_description]
 
-- name: request_spot_instances
+- action: request_spot_instances
   inputs:
     availability_zone_group: string
     block_duration_minutes: int
@@ -625,7 +625,7 @@
     spot_instance_requests: list[spot_instance_request]
     success: boolean
 
-- name: cancel_spot_instance_requests
+- action: cancel_spot_instance_requests
   inputs:
     region: string
     spot_instance_request_ids: list[string] #required
@@ -633,7 +633,7 @@
     cancelled_spot_instance_requests: list[cancelled_spot_instance_request]
     success: boolean
 
-- name: describe_spot_instance_requests
+- action: describe_spot_instance_requests
   inputs:
     filters: list[ec2_filter]
     region: string
@@ -641,7 +641,7 @@
   outputs:
     spot_instance_requests: list[spot_instance_request]
 
-- name: describe_spot_price_history
+- action: describe_spot_price_history
   inputs:
     availability_zone: string
     end_time: date
@@ -653,7 +653,7 @@
   outputs:
     spot_price_history: list[spot_price]
 
-- name: create_fleet
+- action: create_fleet
   inputs:
     context: string
     excess_capacity_termination_policy: no-termination | termination = termination
@@ -674,7 +674,7 @@
     instances: list[create_fleet_instance]
     success: boolean
 
-- name: delete_fleets
+- action: delete_fleets
   inputs:
     fleet_ids: list[string] #required
     region: string
@@ -684,7 +684,7 @@
     unsuccessful_fleet_deletions: list[delete_fleet_error_item]
     success: boolean
 
-- name: describe_fleets
+- action: describe_fleets
   inputs:
     filters: list[ec2_filter]
     fleet_ids: list[string]
@@ -692,7 +692,7 @@
   outputs:
     fleets: list[fleet_data]
 
-- name: modify_fleet
+- action: modify_fleet
   inputs:
     context: string
     excess_capacity_termination_policy: no-termination | termination

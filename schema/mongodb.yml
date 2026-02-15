@@ -1,36 +1,36 @@
-- name: mongodb_connection
+- object: mongodb_connection
   schema:
     - connection_string: string? #max(1000)
     - created_at: date = now()
-    - database: string #required #max(255)
-    - host: string #required #max(255)
+    - database: string #max(255)
+    - host: string #max(255)
     - is_active: boolean = true
     - port: int = 27017 #min(1) #max(65535)
     - updated_at: date = now()
     - use_ssl: boolean = false
 
-- name: mongodb_collection
+- object: mongodb_collection
   id: [connection_id, name]
   schema:
-    - connection_id: id #required -> mongodb_connection.id
+    - connection_id: id -> mongodb_connection.id
     - created_at: date = now()
     - document_count: int = 0 #min(0)
-    - name: string #required #max(255)
+    - name: string #max(255)
     - size: int = 0 #min(0)
 
-- name: mongodb_index
+- object: mongodb_index
   id: [collection_id, name]
   schema:
-    - collection_id: id #required -> mongodb_collection.id
+    - collection_id: id -> mongodb_collection.id
     - created_at: date = now()
     - is_unique: boolean = false
-    - keys: string #required # j_s_o_n
-    - name: string #required #max(255)
+    - keys: string # j_s_o_n
+    - name: string #max(255)
 
-- name: mongodb_query_log
+- object: mongodb_query_log
   id: [collection_id, executed_at]
   schema:
-    - collection_id: id #required -> mongodb_collection.id
+    - collection_id: id -> mongodb_collection.id
     - documents_affected: int = 0 #min(0)
     - duration_ms: int? #min(0)
     - error_message: string? #max(1000)
@@ -39,42 +39,42 @@
     - status: success | failed | timeout = success
     - user_id: id? -> user.id
 
-- name: mongo_document
+- object: mongo_document
   schema:
     - _id: string
     - collection: string
     - database: string
     - document: mongo_document_data
 
-- name: mongo_document_data
+- object: mongo_document_data
   schema:
     - data: map[string, any]
 
-- name: mongo_filter
+- object: mongo_filter
   schema:
     - conditions: map[string, any]
 
-- name: mongo_projection
+- object: mongo_projection
   schema:
     - fields: map[string, integer]
 
-- name: mongo_sort
+- object: mongo_sort
   schema:
     - fields: map[string, integer]
 
-- name: mongo_update
+- object: mongo_update
   schema:
     - operators: map[string, any]
 
-- name: mongo_pipeline_stage
+- object: mongo_pipeline_stage
   schema:
     - stage: map[string, any]
 
-- name: mongo_index_keys
+- object: mongo_index_keys
   schema:
     - fields: map[string, integer]
 
-- name: mongo_bulk_operation
+- object: mongo_bulk_operation
   schema:
     - operation_type: string
     - filter: mongo_filter

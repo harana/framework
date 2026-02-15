@@ -1,11 +1,11 @@
-- name: cloudflare_hyperdrive_connected
+- event: cloudflare_hyperdrive_connected
   schema:
     binding: string #required
     host: string?
     port: int?
     connected_at: date = now()
 
-- name: cloudflare_hyperdrive_connection_failed
+- event: cloudflare_hyperdrive_connection_failed
   schema:
     binding: string #required
     error_message: string?

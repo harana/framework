@@ -1,23 +1,23 @@
-- name: uuid
+- action: uuid
   inputs:
     version: v4 | v7 = v4
   outputs:
     uuid: string
 
-- name: bytes
+- action: bytes
   inputs:
     length: int #required
   outputs:
     bytes: bytes
 
-- name: string
+- action: string
   inputs:
     charset: alphanumeric | alpha | numeric | hex = alphanumeric
     length: int #required
   outputs:
     string: string
 
-- name: number
+- action: number
   inputs:
     integer: boolean = true
     max: float
@@ -25,19 +25,19 @@
   outputs:
     number: float
 
-- name: choice
+- action: choice
   inputs:
     items: list[any] #required
   outputs:
     item: any
 
-- name: shuffle
+- action: shuffle
   inputs:
     items: list[any] #required
   outputs:
     items: list[any]
 
-- name: random_value
+- object: random_value
   class:
     seed: int
     value: any

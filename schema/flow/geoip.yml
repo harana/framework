@@ -1,4 +1,4 @@
-- name: lookup
+- action: lookup
   inputs:
     ip: string #required
   outputs:
@@ -9,7 +9,7 @@
     region: string
     timezone: string
 
-- name: distance
+- action: distance
   inputs:
     from_lat: float #required
     from_lon: float #required
@@ -19,7 +19,7 @@
   outputs:
     distance: float
 
-- name: geocode
+- action: geocode
   inputs:
     address: string #required
   outputs:
@@ -29,7 +29,7 @@
     longitude: float
     region: string
 
-- name: reverse_geocode
+- action: reverse_geocode
   inputs:
     latitude: float #required
     longitude: float #required
@@ -37,7 +37,7 @@
     address: geo_address
     formatted_address: string
 
-- name: geo_location
+- object: geo_location
   class:
     ip: string
     latitude: float
@@ -47,7 +47,7 @@
     country: string
     timezone: string
 
-- name: geo_address
+- object: geo_address
   class:
     street: string
     city: string

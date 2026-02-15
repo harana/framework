@@ -1,4 +1,4 @@
-- name: start
+- action: start
   inputs:
     context: workflow_context
     input: any
@@ -8,28 +8,28 @@
     status: string
     success: boolean
 
-- name: pause
+- action: pause
   inputs:
     execution_id: string #required
     reason: string
   outputs:
     success: boolean
 
-- name: resume
+- action: resume
   inputs:
     execution_id: string #required
     input: any
   outputs:
     success: boolean
 
-- name: cancel
+- action: cancel
   inputs:
     execution_id: string #required
     reason: string
   outputs:
     success: boolean
 
-- name: get_status
+- action: get_status
   inputs:
     execution_id: string #required
   outputs:
@@ -40,7 +40,7 @@
     started_at: date
     status: pending | running | paused | completed | failed | cancelled
 
-- name: get_result
+- action: get_result
   inputs:
     execution_id: string #required
   outputs:
@@ -48,7 +48,7 @@
     error: string
     output: any
 
-- name: list_executions
+- action: list_executions
   inputs:
     end_date: date
     limit: int = 100
@@ -60,7 +60,7 @@
     executions: list[workflow_execution_info]
     total: int
 
-- name: signal
+- action: signal
   inputs:
     execution_id: string #required
     payload: any
@@ -68,7 +68,7 @@
   outputs:
     success: boolean
 
-- name: wait_for_event
+- action: wait_for_event
   inputs:
     event_name: string #required
     execution_id: string #required
@@ -78,21 +78,21 @@
     received: boolean
     timed_out: boolean
 
-- name: history
+- action: history
   inputs:
     execution_id: string #required
   outputs:
     events: list[workflow_history_event]
     total: int
 
-- name: retry_step
+- action: retry_step
   inputs:
     execution_id: string #required
     step_id: string #required
   outputs:
     success: boolean
 
-- name: skip_step
+- action: skip_step
   inputs:
     execution_id: string #required
     output: any
@@ -100,7 +100,7 @@
   outputs:
     success: boolean
 
-- name: terminate_all
+- action: terminate_all
   inputs:
     reason: string
     workflow_id: string #required
@@ -108,7 +108,7 @@
     success: boolean
     terminated_count: int
 
-- name: workflow_execution
+- object: workflow_execution
   class:
     execution_id: string
     workflow_id: string
@@ -120,11 +120,11 @@
     completed_at: date
     error: string
 
-- name: workflow_context
+- object: workflow_context
   class:
     values: map[string, any]
 
-- name: workflow_execution_info
+- object: workflow_execution_info
   class:
     execution_id: string
     workflow_id: string
@@ -132,7 +132,7 @@
     started_at: date
     completed_at: date
 
-- name: workflow_history_event
+- object: workflow_history_event
   class:
     event_id: string
     event_type: string

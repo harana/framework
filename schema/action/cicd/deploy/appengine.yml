@@ -1,0 +1,22 @@
+- object: deploy_appengine
+  schema:
+    - enabled: boolean = true
+    - env_variables: map[string, string]
+    - instance_type: f1 | f2 | f4 = f2
+    - project_id: string #max(255)
+    - promote_traffic: boolean = true
+    - region: string #max(100)
+    - runtime: nodejs20 | python312 | go121 = nodejs20
+    - scaling: deploy_appengine_scaling?
+    - service: string = default #max(255)
+    - stop_previous_version: boolean = true
+    - version: string = auto #max(200)
+    - vpc_access_connector: string? #max(500)
+
+- object: deploy_appengine_scaling
+  schema:
+    - max_instances: int = 10 #min(1)
+    - min_instances: int = 1 #min(0)
+    - target_cpu_utilization: decimal = 0.65 #min(0) #max(1)
+    - target_throughput_utilization: decimal = 0.6 #min(0) #max(1)
+    - type: automatic | basic | manual = automatic

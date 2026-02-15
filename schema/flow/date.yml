@@ -1,10 +1,10 @@
-- name: now
+- action: now
   inputs:
     timezone: string = "utc"
   outputs:
     timestamp: string
 
-- name: format
+- action: format
   inputs:
     date: string #required
     format: string #required
@@ -12,7 +12,7 @@
   outputs:
     formatted: string
 
-- name: parse
+- action: parse
   inputs:
     date: string #required
     format: string
@@ -20,7 +20,7 @@
   outputs:
     timestamp: string
 
-- name: add
+- action: add
   inputs:
     amount: int #required
     date: string #required
@@ -28,7 +28,7 @@
   outputs:
     result: string
 
-- name: subtract
+- action: subtract
   inputs:
     amount: int #required
     date: string #required
@@ -36,7 +36,7 @@
   outputs:
     result: string
 
-- name: diff
+- action: diff
   inputs:
     end: string #required
     start: string #required
@@ -44,7 +44,7 @@
   outputs:
     difference: float
 
-- name: convert_timezone
+- action: convert_timezone
   inputs:
     date: string #required
     from_timezone: string #required
@@ -52,7 +52,7 @@
   outputs:
     result: string
 
-- name: start_of
+- action: start_of
   inputs:
     date: string #required
     period: second | minute | hour | day | week | month | year #required
@@ -60,7 +60,7 @@
   outputs:
     result: string
 
-- name: end_of
+- action: end_of
   inputs:
     date: string #required
     period: second | minute | hour | day | week | month | year #required
@@ -68,7 +68,7 @@
   outputs:
     result: string
 
-- name: date
+- object: date
   class:
     timestamp: string
     timezone: string

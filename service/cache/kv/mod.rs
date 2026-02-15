@@ -5,18 +5,19 @@ use serde_json::Value as JsonValue;
 use worker::kv::KvStore;
 
 use crate::error::{CacheError, CacheResult};
-use crate::store::{CacheStore, GetOptions, KeyEntry, ListOptions, ListResponse, PutOptions};
+use crate::model::{GetOptions, KeyEntry, ListOptions, ListResponse, PutOptions};
+use crate::service::CacheService;
 
-pub struct KvCacheStore {
+pub struct KvCacheService {
     kv: KvStore,
 }
 
 // `KvStore` is already Send + Sync via `unsafe impl` in workers-rs.
-// We mirror that here so `CacheStore` trait bounds are satisfied.
-unsafe impl Send for KvCacheStore {}
-unsafe impl Sync for KvCacheStore {}
+// We mirror that here so `CacheService` trait bounds are satisfied.
+unsafe impl Send for KvCacheService {}
+unsafe impl Sync for KvCacheService {}
 
-impl KvCacheStore {
+impl KvCacheService {
     /// Wrap an existing `worker::KvStore`.
     pub fn new(kv: KvStore) -> Self {
         Self { kv }
@@ -87,7 +88,7 @@ impl KvCacheStore {
 }
 
 #[async_trait]
-impl CacheStore for KvCacheStore {
+impl CacheService for KvCacheService {
     async fn put(&self, key: &str, value: &str, options: PutOptions) -> CacheResult<()> {
         self.execute_put(key, value, options).await
     }

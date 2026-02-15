@@ -1,0 +1,252 @@
+- action: create_flag
+  inputs:
+    default_variation: int = 0
+    description: string
+    enabled: boolean = false
+    key: string
+    name: string
+    tags: list[string]
+    variations: list[flag_variation]
+  outputs:
+    flag_id: string
+    key: string
+    success: boolean
+
+- action: update_flag
+  inputs:
+    description: string
+    enabled: boolean
+    flag_id: string
+    name: string
+    tags: list[string]
+    variations: list[flag_variation]
+  outputs:
+    flag_id: string
+    success: boolean
+
+- action: toggle_flag
+  inputs:
+    enabled: boolean
+    flag_id: string
+  outputs:
+    enabled: boolean
+    flag_id: string
+    success: boolean
+
+- action: delete_flag
+  inputs:
+    flag_id: string
+  outputs:
+    success: boolean
+
+- action: get_flag
+  inputs:
+    flag_id: string
+  outputs:
+    created_at: int
+    description: string
+    enabled: boolean
+    flag_id: string
+    key: string
+    name: string
+    updated_at: int
+    variations: list[flag_variation]
+
+- action: list_flags
+  inputs:
+    enabled: boolean
+    limit: int = 100
+    offset: int = 0
+    tags: list[string]
+  outputs:
+    flags: list[feature_flag]
+    total: int
+
+- action: evaluate_flag
+  inputs:
+    context: flag_evaluation_context
+    flag_id: string
+    user_id: string
+  outputs:
+    enabled: boolean
+    flag_id: string
+    reason: string
+    variation: flag_variation
+
+- action: create_targeting_rule
+  inputs:
+    conditions: list[flag_rule_condition]
+    flag_id: string
+    name: string
+    priority: int = 0
+    variation: int
+  outputs:
+    flag_id: string
+    rule_id: string
+    success: boolean
+
+- action: update_targeting_rule
+  inputs:
+    conditions: list[flag_rule_condition]
+    name: string
+    priority: int
+    rule_id: string
+    variation: int
+  outputs:
+    rule_id: string
+    success: boolean
+
+- action: delete_targeting_rule
+  inputs:
+    rule_id: string
+  outputs:
+    success: boolean
+
+- action: create_rollout
+  inputs:
+    flag_id: string
+    percentages: map[string, integer]
+    seed: string
+  outputs:
+    flag_id: string
+    rollout_id: string
+    success: boolean
+
+- action: update_rollout
+  inputs:
+    percentages: map[string, integer]
+    rollout_id: string
+  outputs:
+    rollout_id: string
+    success: boolean
+
+- action: get_evaluation_count
+  inputs:
+    end_date: int
+    flag_id: string
+    start_date: int
+  outputs:
+    flag_id: string
+    total_evaluations: int
+    variation_counts: map[string, integer]
+
+- action: create_environment
+  inputs:
+    description: string
+    key: string
+    name: string
+  outputs:
+    environment_id: string
+    key: string
+    success: boolean
+
+- action: clone_flag
+  inputs:
+    flag_id: string
+    source_environment: string
+    target_environment: string
+  outputs:
+    flag_id: string
+    success: boolean
+
+- action: archive_flag
+  inputs:
+    flag_id: string
+  outputs:
+    archived: boolean
+    flag_id: string
+    success: boolean
+
+- action: restore_flag
+  inputs:
+    flag_id: string
+  outputs:
+    archived: boolean
+    flag_id: string
+    success: boolean
+
+- object: feature_flag
+  class:
+    flag_id: string
+    key: string
+    name: string
+    description: string
+    enabled: boolean
+    variations: list[flag_variation]
+    default_variation: int
+    tags: list[string]
+    created_at: date
+    updated_at: date
+
+- object: flag_variation
+  class:
+    name: string
+    value: any
+    description: string
+
+- object: flag_evaluation_context
+  class:
+    user_id: string
+    attributes: map[string, any]
+
+- object: flag_rule_condition
+  class:
+    attribute: string
+    operator: string
+    value: any
+
+- object: feature_flag
+  id: [key]
+  schema:
+    - created_at: date = now()
+    - default_variation: int = 0 #min(0)
+    - description: string? #max(500)
+    - enabled: boolean = false
+    - key: string #unique #max(200)
+    - tags: string? #jsonarray
+    - updated_at: date = now()
+
+- object: variation
+  id: [flag_id, sort_order]
+  schema:
+    - description: string? #max(500)
+    - flag_id: id -> feature_flag.id
+    - sort_order: int = 0
+    - value: string
+
+- object: targeting_rule
+  id: [flag_id, name]
+  schema:
+    - conditions: string # json conditions
+    - flag_id: id -> feature_flag.id
+    - is_active: boolean = true
+
+    - name: string #max(200)
+    - priority: int = 0
+    - variation_index: int #min(0)
+
+- object: evaluation_log
+  id: [flag_id, user_id, evaluated_at]
+  schema:
+    - evaluated_at: date = now()
+    - flag_id: id -> feature_flag.id
+    - reason: string? #max(200)
+    - user_id: string? #max(200)
+    - variation_index: int #min(0)
+
+- object: flag_variation
+  schema:
+    - name: string
+    - value: any
+    - description: string
+
+- object: flag_evaluation_context
+  schema:
+    - user_id: string
+    - attributes: map[string, any]
+
+- object: flag_rule_condition
+  schema:
+    - attribute: string
+    - operator: string
+    - value: any

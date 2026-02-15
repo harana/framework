@@ -1,0 +1,104 @@
+- action: parse
+  inputs:
+    data: string
+    fragment: boolean = false
+  outputs:
+    result: html_dom
+
+- action: sanitize
+  inputs:
+    allowed_attributes: html_allowed_attributes
+    allowed_tags: list[string]
+    data: string
+    strip_comments: boolean = true
+  outputs:
+    html: string
+
+- action: extract_text
+  inputs:
+    data: string
+    preserve_whitespace: boolean = false
+    separator: string = " "
+  outputs:
+    text: string
+
+- action: css_select
+  inputs:
+    attribute: string
+    data: string
+    selector: string
+  outputs:
+    results: list[any]
+
+- action: minify
+  inputs:
+    collapse_whitespace: boolean = true
+    data: string
+    minify_css: boolean = true
+    minify_js: boolean = true
+    remove_comments: boolean = true
+  outputs:
+    html: string
+
+- object: html_document
+  class:
+    content: string
+    title: string
+    charset: string
+    head: html_element
+    body: html_element
+
+- object: html_dom
+  class:
+    document_type: string
+    root: html_element
+
+- object: html_element
+  class:
+    tag_name: string
+    attributes: map[string, string]
+    children: list[html_node]
+    text_content: string
+
+- object: html_node
+  class:
+    node_type: string
+    value: any
+
+- object: html_allowed_attributes
+  class:
+    global: list[string]
+    per_tag: map[string, list[string]]
+
+- object: html_document
+  schema:
+    - charset: string = utf-8 #max(20)
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - is_sanitized: boolean = false
+    - size: int = 0 #min(0)
+    - source_path: string? #max(2000)
+    - title: string? #max(500)
+    - updated_at: date = now()
+
+- object: html_dom
+  schema:
+    - document_type: string
+    - root: html_element
+
+- object: html_element
+  schema:
+    - tag_name: string
+    - attributes: map[string, string]
+    - children: list[html_node]
+    - text_content: string
+
+- object: html_node
+  schema:
+    - node_type: string
+    - value: any
+
+- object: html_allowed_attributes
+  schema:
+    - global: list[string]
+    - per_tag: map[string, list[string]]

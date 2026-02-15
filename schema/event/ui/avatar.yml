@@ -1,18 +1,18 @@
-- name: avatar_clicked
+- event: avatar_clicked
   schema:
     avatar_id: id #required
     user_id: id?
     avatar_type: user | group | placeholder = user
     clicked_at: date = now()
 
-- name: badge_clicked
+- event: badge_clicked
   schema:
     badge_id: id #required
     badge_type: status | count | label = label
     badge_value: string?
     clicked_at: date = now()
 
-- name: status_changed
+- event: status_changed
   schema:
     entity_id: id #required
     entity_type: string?

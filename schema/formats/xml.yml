@@ -1,4 +1,4 @@
-- name: xml_document
+- object: xml_document
   schema:
     - charset: string = utf-8 #max(20)
     - created_at: date = now()
@@ -8,7 +8,7 @@
     - source_path: string? #max(2000)
     - updated_at: date = now()
 
-- name: xml_schema
+- object: xml_schema
   schema:
     - content: string #required
     - created_at: date = now()
@@ -18,32 +18,32 @@
     - updated_at: date = now()
     - version: int = 1 #min(1)
 
-- name: xml_validation_result
+- object: xml_validation_result
   id: [document_id, validated_at]
   schema:
-    - document_id: id #required -> xml_document.id
+    - document_id: id -> xml_document.id
     - error_count: int = 0 #min(0)
     - errors: string? # json array
     - is_valid: boolean = false
-    - schema_id: id #required -> xml_schema.id
+    - schema_id: id -> xml_schema.id
     - validated_at: date = now()
 
-- name: xml_object
+- object: xml_object
   schema:
     - elements: map[string, any]
     - attributes: map[string, string]
 
-- name: xml_validation_error
+- object: xml_validation_error
   schema:
     - line: int
     - column: int
     - message: string
 
-- name: xml_namespaces
+- object: xml_namespaces
   schema:
     - namespaces: list[xml_namespace]
 
-- name: xml_namespace
+- object: xml_namespace
   schema:
     - prefix: string
     - uri: string

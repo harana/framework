@@ -12,7 +12,7 @@ pub use error::ServerError;
 pub use state::AppState;
 
 use axum::Router;
-use harana_components_cache::CacheStore;
+use harana_components_cache::CacheService;
 use std::sync::Arc;
 
 #[cfg(feature = "standalone")]
@@ -58,7 +58,7 @@ pub struct HttpServer {
 
 #[cfg(feature = "standalone")]
 impl HttpServer {
-    pub fn new(config: ServerConfig, cache: Arc<dyn CacheStore>) -> Self {
+    pub fn new(config: ServerConfig, cache: Arc<dyn CacheService>) -> Self {
         let state = AppState::new(config.clone(), cache);
         Self { config, state }
     }
@@ -115,8 +115,8 @@ mod cf {
         let config = ServerConfig::default();
 
         // Use Cloudflare KV binding "SESSIONS" as the cache backend.
-        let cache: Arc<dyn CacheStore> = Arc::new(
-            harana_components_cache::KvCacheStore::from_env(&env, "SESSIONS")
+        let cache: Arc<dyn CacheService> = Arc::new(
+            harana_components_cache::KvCacheService::from_env(&env, "SESSIONS")
                 .map_err(|e| worker::Error::RustError(format!("KV init: {e}")))?,
         );
 

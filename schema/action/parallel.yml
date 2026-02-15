@@ -1,0 +1,183 @@
+- action: all
+  inputs:
+    fail_fast: boolean = true
+    max_concurrency: int
+    tasks: list[parallel_task]
+    timeout: int
+  outputs:
+    completed: int
+    failed: int
+    results: list[parallel_result]
+    success: boolean
+
+- action: race
+  inputs:
+    tasks: list[parallel_task]
+    timeout: int
+  outputs:
+    result: any
+    success: boolean
+    winner_index: int
+
+- action: any
+  inputs:
+    tasks: list[parallel_task]
+    timeout: int
+  outputs:
+    result: any
+    success: boolean
+    success_index: int
+
+- action: all_settled
+  inputs:
+    max_concurrency: int
+    tasks: list[parallel_task]
+    timeout: int
+  outputs:
+    fulfilled: int
+    rejected: int
+    results: list[parallel_settled_result]
+
+- action: map
+  inputs:
+    handler: string
+    items: list[any]
+    max_concurrency: int = 10
+  outputs:
+    errors: list[parallel_error]
+    results: list[any]
+    success: boolean
+
+- action: filter
+  inputs:
+    handler: string
+    items: list[any]
+    max_concurrency: int = 10
+  outputs:
+    count: int
+    results: list[any]
+
+- action: reduce
+  inputs:
+    handler: string
+    initial_value: any
+    items: list[any]
+    max_concurrency: int = 10
+  outputs:
+    result: any
+
+- action: retry
+  inputs:
+    backoff_multiplier: float = 2.0
+    delay_ms: int = 1000
+    max_attempts: int = 3
+    task: parallel_task
+  outputs:
+    attempts: int
+    result: any
+    success: boolean
+
+- action: timeout
+  inputs:
+    task: parallel_task
+    timeout_ms: int
+  outputs:
+    result: any
+    success: boolean
+    timed_out: boolean
+
+- action: batch
+  inputs:
+    batch_size: int = 10
+    handler: string
+    items: list[any]
+    max_concurrency: int = 1
+  outputs:
+    batch_count: int
+    results: list[any]
+    success: boolean
+
+- action: semaphore
+  inputs:
+    max_concurrent: int
+    tasks: list[parallel_task]
+  outputs:
+    completed: int
+    failed: int
+    results: list[parallel_result]
+
+- object: task
+  class:
+    id: string
+    handler: string
+    input: any
+    timeout: int
+
+- object: result
+  class:
+    task_id: string
+    success: boolean
+    result: any
+    error: string
+    duration_ms: int
+
+- object: settled_result
+  class:
+    task_id: string
+    status: fulfilled | rejected
+    value: any
+    reason: string
+    duration_ms: int
+
+- object: error
+  class:
+    task_id: string
+    index: int
+    message: string
+    code: string
+
+- object: execution
+  schema:
+    - completed_at: date?
+    - completed_count: int = 0 #min(0)
+    - created_at: date = now()
+    - failed_count: int = 0 #min(0)
+    - max_concurrency: int? #min(1)
+    - status: pending | running | completed | failed | cancelled = pending
+    - strategy: all | race | any | all_settled | map | batch = all
+    - timeout_ms: int? #min(1)
+    - total_count: int = 0 #min(0)
+
+- object: task
+  id: [execution_id, task_index]
+  schema:
+    - completed_at: date?
+    - error_message: string? #max(2000)
+    - execution_id: id -> parallel_execution.id
+    - result: string?
+    - started_at: date?
+    - status: pending | running | fulfilled | rejected = pending
+    - task_index: int #min(0)
+
+- object: result
+  schema:
+    - task_id: string
+    - success: boolean
+    - result: any
+    - error: string
+    - duration_ms: int
+
+- object: settled_result
+  schema:
+    - task_id: string
+    - status: fulfilled | rejected
+    - value: any
+    - reason: string
+    - duration_ms: int
+
+- object: error
+  schema:
+    - task_id: string
+    - index: int
+    - message: string
+    - code: string

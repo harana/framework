@@ -1,4 +1,4 @@
-- name: client/get
+- action: client/get
   inputs:
     - name: url
       type: string
@@ -19,7 +19,7 @@
   outputs:
     - get_output
 
-- name: client/post
+- action: client/post
   inputs:
     - name: url
       type: string
@@ -48,7 +48,7 @@
   outputs:
     - post_output
 
-- name: client/put
+- action: client/put
   inputs:
     - name: url
       type: string
@@ -77,7 +77,7 @@
   outputs:
     - put_output
 
-- name: client/patch
+- action: client/patch
   inputs:
     - name: url
       type: string
@@ -106,7 +106,7 @@
   outputs:
     - patch_output
 
-- name: client/delete
+- action: client/delete
   inputs:
     - name: url
       type: string
@@ -127,7 +127,7 @@
   outputs:
     - delete_output
 
-- name: client/download
+- action: client/download
   inputs:
     - name: url
       type: string
@@ -144,7 +144,7 @@
   outputs:
     - download_output
 
-- name: client/upload
+- action: client/upload
   inputs:
     - name: file
       type: bytes
@@ -169,7 +169,7 @@
   outputs:
     - upload_output
 
-- name: client/graphql_query
+- action: client/graphql_query
   inputs:
     - name: url
       type: string

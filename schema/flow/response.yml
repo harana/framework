@@ -1,4 +1,4 @@
-- name: response/bad_gateway
+- action: response/bad_gateway
   inputs:
     - name: message
       type: string
@@ -11,7 +11,7 @@
   outputs:
     - bad_gateway_output
 
-- name: response/bad_request
+- action: response/bad_request
   inputs:
     - name: custom_data
       type: hash
@@ -28,7 +28,7 @@
   outputs:
     - bad_request_output
 
-- name: response/binary
+- action: response/binary
   inputs:
     - name: content_type
       type: string
@@ -49,7 +49,7 @@
   outputs:
     - binary_output
 
-- name: response/cors_preflight
+- action: response/cors_preflight
   inputs:
     - name: allowed_origins
       type: array[string]
@@ -70,7 +70,7 @@
   outputs:
     - cors_preflight_output
 
-- name: response/csv
+- action: response/csv
   inputs:
     - name: data
       type: array[hash]
@@ -91,7 +91,7 @@
   outputs:
     - csv_output
 
-- name: response/delete_cookie
+- action: response/delete_cookie
   inputs:
     - name: name
       type: string
@@ -108,7 +108,7 @@
   outputs:
     - delete_cookie_output
 
-- name: response/empty
+- action: response/empty
   inputs:
     - name: status_code
       type: integer
@@ -117,7 +117,7 @@
   outputs:
     - empty_output
 
-- name: response/error
+- action: response/error
   inputs:
     - name: message
       type: string
@@ -138,7 +138,7 @@
   outputs:
     - error_output
 
-- name: response/file_download
+- action: response/file_download
   inputs:
     - name: file_path
       type: string
@@ -159,7 +159,7 @@
   outputs:
     - file_download_output
 
-- name: response/forbidden
+- action: response/forbidden
   inputs:
     - name: message
       type: string
@@ -172,7 +172,7 @@
   outputs:
     - forbidden_output
 
-- name: response/graphql
+- action: response/graphql
   inputs:
     - name: data
       type: string
@@ -189,7 +189,7 @@
   outputs:
     - graphql_output
 
-- name: response/html
+- action: response/html
   inputs:
     - name: html
       type: string
@@ -202,7 +202,7 @@
   outputs:
     - html_output
 
-- name: response/internal_server_error
+- action: response/internal_server_error
   inputs:
     - name: custom_data
       type: hash
@@ -223,7 +223,7 @@
   outputs:
     - internal_server_error_output
 
-- name: response/json
+- action: response/json
   inputs:
     - name: data
       type: string
@@ -240,7 +240,7 @@
   outputs:
     - json_output
 
-- name: response/not_found
+- action: response/not_found
   inputs:
     - name: message
       type: string
@@ -257,7 +257,7 @@
   outputs:
     - not_found_output
 
-- name: response/paginated
+- action: response/paginated
   inputs:
     - name: total
       type: integer
@@ -282,7 +282,7 @@
   outputs:
     - paginated_output
 
-- name: response/redirect
+- action: response/redirect
   inputs:
     - name: url
       type: string
@@ -299,7 +299,7 @@
   outputs:
     - redirect_output
 
-- name: response/render_template
+- action: response/render_template
   inputs:
     - name: template
       type: string
@@ -320,7 +320,7 @@
   outputs:
     - render_template_output
 
-- name: response/render_template_file
+- action: response/render_template_file
   inputs:
     - name: template_path
       type: string
@@ -341,7 +341,7 @@
   outputs:
     - render_template_file_output
 
-- name: response/service_unavailable
+- action: response/service_unavailable
   inputs:
     - name: retry_after
       type: integer
@@ -358,7 +358,7 @@
   outputs:
     - service_unavailable_output
 
-- name: response/set_cookie
+- action: response/set_cookie
   inputs:
     - name: name
       type: string
@@ -399,7 +399,7 @@
   outputs:
     - set_cookie_output
 
-- name: response/sse_event
+- action: response/sse_event
   inputs:
     - name: data
       type: string
@@ -420,7 +420,7 @@
   outputs:
     - sse_event_output
 
-- name: response/sse_stream
+- action: response/sse_stream
   inputs:
     - name: events
       type: array[hash]
@@ -433,7 +433,7 @@
   outputs:
     - sse_stream_output
 
-- name: response/streaming
+- action: response/streaming
   inputs:
     - name: stream_source
       type: string
@@ -450,7 +450,7 @@
   outputs:
     - streaming_output
 
-- name: response/text
+- action: response/text
   inputs:
     - name: text
       type: string
@@ -467,7 +467,7 @@
   outputs:
     - text_output
 
-- name: response/unauthorized
+- action: response/unauthorized
   inputs:
     - name: www_authenticate
       type: string
@@ -484,7 +484,7 @@
   outputs:
     - unauthorized_output
 
-- name: response/xml
+- action: response/xml
   inputs:
     - name: xml
       type: string

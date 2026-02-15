@@ -1,4 +1,4 @@
-- name: insert
+- action: insert
   inputs:
     index: string #required
     vectors: list[vectorize_vector] #required
@@ -7,7 +7,7 @@
     mutation_id: string
     success: boolean
 
-- name: upsert
+- action: upsert
   inputs:
     index: string #required
     vectors: list[vectorize_vector] #required
@@ -16,7 +16,7 @@
     mutation_id: string
     success: boolean
 
-- name: query
+- action: query
   inputs:
     filter: vectorize_filter
     index: string #required
@@ -29,7 +29,7 @@
     count: int
     matches: list[vectorize_match]
 
-- name: query_by_id
+- action: query_by_id
   inputs:
     filter: vectorize_filter
     index: string #required
@@ -42,14 +42,14 @@
     count: int
     matches: list[vectorize_match]
 
-- name: get_by_ids
+- action: get_by_ids
   inputs:
     ids: list[string] #required
     index: string #required
   outputs:
     vectors: list[vectorize_vector]
 
-- name: delete_by_ids
+- action: delete_by_ids
   inputs:
     ids: list[string] #required
     index: string #required
@@ -58,7 +58,7 @@
     mutation_id: string
     success: boolean
 
-- name: describe
+- action: describe
   inputs:
     index: string #required
   outputs:
@@ -68,7 +68,7 @@
     name: string
     vectors_count: int
 
-- name: info
+- action: info
   inputs:
     index: string #required
   outputs:
@@ -77,7 +77,7 @@
     name: string
     vectors_count: int
 
-- name: create_metadata_index
+- action: create_metadata_index
   inputs:
     index: string #required
     property_name: string #required
@@ -85,14 +85,14 @@
   outputs:
     success: boolean
 
-- name: delete_metadata_index
+- action: delete_metadata_index
   inputs:
     index: string #required
     property_name: string #required
   outputs:
     success: boolean
 
-- name: list_metadata_indexes
+- action: list_metadata_indexes
   inputs:
     index: string #required
   outputs:

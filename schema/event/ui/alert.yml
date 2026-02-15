@@ -1,25 +1,25 @@
-- name: alert_opened
+- event: alert_opened
   schema:
     alert_id: id #required
     alert_name: string?
     alert_title: string?
     opened_at: date = now()
 
-- name: alert_closed
+- event: alert_closed
   schema:
     alert_id: id #required
     alert_name: string?
     close_reason: button | escape | click_outside | auto = button
     closed_at: date = now()
 
-- name: alert_action_clicked
+- event: alert_action_clicked
   schema:
     alert_id: id #required
     action_id: id #required
     action_label: string?
     clicked_at: date = now()
 
-- name: alert_dismissed
+- event: alert_dismissed
   schema:
     alert_id: id #required
     alert_name: string?

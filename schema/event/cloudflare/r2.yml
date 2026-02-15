@@ -1,4 +1,4 @@
-- name: cloudflare_r2_object_uploaded
+- event: cloudflare_r2_object_uploaded
   schema:
     bucket: string #required
     key: string #required
@@ -7,26 +7,26 @@
     storage_class: standard | infrequent_access = standard
     uploaded_at: date = now()
 
-- name: cloudflare_r2_object_downloaded
+- event: cloudflare_r2_object_downloaded
   schema:
     bucket: string #required
     key: string #required
     size: int?
     downloaded_at: date = now()
 
-- name: cloudflare_r2_object_deleted
+- event: cloudflare_r2_object_deleted
   schema:
     bucket: string #required
     key: string #required
     deleted_at: date = now()
 
-- name: cloudflare_r2_objects_deleted
+- event: cloudflare_r2_objects_deleted
   schema:
     bucket: string #required
-    key_count: int #required #min(1)
+    key_count: int #min(1)
     deleted_at: date = now()
 
-- name: cloudflare_r2_objects_listed
+- event: cloudflare_r2_objects_listed
   schema:
     bucket: string #required
     prefix: string?
@@ -34,7 +34,7 @@
     truncated: boolean?
     listed_at: date = now()
 
-- name: cloudflare_r2_multipart_upload_started
+- event: cloudflare_r2_multipart_upload_started
   schema:
     bucket: string #required
     key: string #required
@@ -42,7 +42,7 @@
     storage_class: standard | infrequent_access = standard
     started_at: date = now()
 
-- name: cloudflare_r2_multipart_upload_completed
+- event: cloudflare_r2_multipart_upload_completed
   schema:
     bucket: string #required
     key: string #required
@@ -51,7 +51,7 @@
     size: int?
     completed_at: date = now()
 
-- name: cloudflare_r2_multipart_upload_aborted
+- event: cloudflare_r2_multipart_upload_aborted
   schema:
     bucket: string #required
     key: string #required

@@ -1,11 +1,11 @@
-- name: cloudflare_rate_limit_checked
+- event: cloudflare_rate_limit_checked
   schema:
     rate_limiter: string #required
     key: string #required
     allowed: boolean #required
     checked_at: date = now()
 
-- name: cloudflare_rate_limit_exceeded
+- event: cloudflare_rate_limit_exceeded
   schema:
     rate_limiter: string #required
     key: string #required

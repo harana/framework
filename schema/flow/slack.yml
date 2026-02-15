@@ -1,4 +1,4 @@
-- name: send_message
+- action: send_message
   inputs:
     attachments: list[slack_attachment]
     blocks: list[slack_block]
@@ -13,7 +13,7 @@
     message_ts: string
     success: boolean
 
-- name: update_message
+- action: update_message
   inputs:
     attachments: list[slack_attachment]
     blocks: list[slack_block]
@@ -24,14 +24,14 @@
     message_ts: string
     success: boolean
 
-- name: delete_message
+- action: delete_message
   inputs:
     channel_id: string #required
     timestamp: string #required
   outputs:
     success: boolean
 
-- name: send_dm
+- action: send_dm
   inputs:
     attachments: list[slack_attachment]
     blocks: list[slack_block]
@@ -42,7 +42,7 @@
     message_ts: string
     success: boolean
 
-- name: create_channel
+- action: create_channel
   inputs:
     description: string
     is_private: boolean = false
@@ -52,33 +52,33 @@
     name: string
     success: boolean
 
-- name: archive_channel
+- action: archive_channel
   inputs:
     channel_id: string #required
   outputs:
     success: boolean
 
-- name: unarchive_channel
+- action: unarchive_channel
   inputs:
     channel_id: string #required
   outputs:
     success: boolean
 
-- name: invite_users
+- action: invite_users
   inputs:
     channel_id: string #required
     user_ids: list[string] #required
   outputs:
     success: boolean
 
-- name: kick_user
+- action: kick_user
   inputs:
     channel_id: string #required
     user_id: string #required
   outputs:
     success: boolean
 
-- name: get_channel_info
+- action: get_channel_info
   inputs:
     channel_id: string #required
   outputs:
@@ -90,7 +90,7 @@
     purpose: string
     topic: string
 
-- name: list_channels
+- action: list_channels
   inputs:
     exclude_archived: boolean = true
     limit: int = 100
@@ -98,7 +98,7 @@
   outputs:
     channels: list[slack_channel]
 
-- name: get_user_info
+- action: get_user_info
   inputs:
     user_id: string #required
   outputs:
@@ -110,13 +110,13 @@
     timezone: string
     user_id: string
 
-- name: list_users
+- action: list_users
   inputs:
     limit: int = 100
   outputs:
     users: list[slack_user]
 
-- name: add_reaction
+- action: add_reaction
   inputs:
     channel_id: string #required
     emoji: string #required
@@ -124,7 +124,7 @@
   outputs:
     success: boolean
 
-- name: remove_reaction
+- action: remove_reaction
   inputs:
     channel_id: string #required
     emoji: string #required
@@ -132,7 +132,7 @@
   outputs:
     success: boolean
 
-- name: upload_file
+- action: upload_file
   inputs:
     channels: list[string]
     content: string
@@ -144,35 +144,35 @@
     file_id: string
     success: boolean
 
-- name: pin_message
+- action: pin_message
   inputs:
     channel_id: string #required
     timestamp: string #required
   outputs:
     success: boolean
 
-- name: unpin_message
+- action: unpin_message
   inputs:
     channel_id: string #required
     timestamp: string #required
   outputs:
     success: boolean
 
-- name: set_channel_topic
+- action: set_channel_topic
   inputs:
     channel_id: string #required
     topic: string #required
   outputs:
     success: boolean
 
-- name: set_channel_purpose
+- action: set_channel_purpose
   inputs:
     channel_id: string #required
     purpose: string #required
   outputs:
     success: boolean
 
-- name: slack_message
+- object: slack_message
   class:
     message_ts: string
     channel_id: string
@@ -182,20 +182,20 @@
     blocks: list[slack_block]
     attachments: list[slack_attachment]
 
-- name: slack_block
+- object: slack_block
   class:
     type: string
     block_id: string
     text: slack_text_object
     elements: list[any]
 
-- name: slack_text_object
+- object: slack_text_object
   class:
     type: string
     text: string
     emoji: boolean
 
-- name: slack_attachment
+- object: slack_attachment
   class:
     fallback: string
     color: string
@@ -205,13 +205,13 @@
     text: string
     fields: list[slack_attachment_field]
 
-- name: slack_attachment_field
+- object: slack_attachment_field
   class:
     title: string
     value: string
     short: boolean
 
-- name: slack_channel
+- object: slack_channel
   class:
     channel_id: string
     name: string
@@ -221,7 +221,7 @@
     topic: string
     purpose: string
 
-- name: slack_user
+- object: slack_user
   class:
     user_id: string
     name: string

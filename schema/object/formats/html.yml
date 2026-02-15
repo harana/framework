@@ -1,4 +1,4 @@
-- name: html_document
+- object: html_document
   schema:
     - charset: string = utf-8 #max(20)
     - created_at: date = now()

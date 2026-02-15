@@ -1,4 +1,4 @@
-- name: listbox
+- webobject: listbox
   attributes:
     - aria_label: string? #max(200)
     - default_value: string? #max(200)

@@ -1,4 +1,4 @@
-- name: insert
+- action: insert
   inputs:
     collection: string #required
     database: string #required
@@ -7,7 +7,7 @@
     inserted_id: string
     success: boolean
 
-- name: insert_many
+- action: insert_many
   inputs:
     collection: string #required
     database: string #required
@@ -18,7 +18,7 @@
     inserted_ids: list[string]
     success: boolean
 
-- name: find_one
+- action: find_one
   inputs:
     collection: string #required
     database: string #required
@@ -28,7 +28,7 @@
     document: mongo_document_data
     found: boolean
 
-- name: find
+- action: find
   inputs:
     collection: string #required
     database: string #required
@@ -41,7 +41,7 @@
     count: int
     documents: list[mongo_document_data]
 
-- name: update_one
+- action: update_one
   inputs:
     collection: string #required
     database: string #required
@@ -54,7 +54,7 @@
     success: boolean
     upserted_id: string
 
-- name: update_many
+- action: update_many
   inputs:
     collection: string #required
     database: string #required
@@ -67,7 +67,7 @@
     success: boolean
     upserted_id: string
 
-- name: replace_one
+- action: replace_one
   inputs:
     collection: string #required
     database: string #required
@@ -80,7 +80,7 @@
     success: boolean
     upserted_id: string
 
-- name: delete_one
+- action: delete_one
   inputs:
     collection: string #required
     database: string #required
@@ -89,7 +89,7 @@
     deleted_count: int
     success: boolean
 
-- name: delete_many
+- action: delete_many
   inputs:
     collection: string #required
     database: string #required
@@ -98,7 +98,7 @@
     deleted_count: int
     success: boolean
 
-- name: count
+- action: count
   inputs:
     collection: string #required
     database: string #required
@@ -106,7 +106,7 @@
   outputs:
     count: int
 
-- name: aggregate
+- action: aggregate
   inputs:
     collection: string #required
     database: string #required
@@ -114,7 +114,7 @@
   outputs:
     documents: list[mongo_document_data]
 
-- name: create_index
+- action: create_index
   inputs:
     collection: string #required
     database: string #required
@@ -125,7 +125,7 @@
     index_name: string
     success: boolean
 
-- name: drop_index
+- action: drop_index
   inputs:
     collection: string #required
     database: string #required
@@ -133,20 +133,20 @@
   outputs:
     success: boolean
 
-- name: list_collections
+- action: list_collections
   inputs:
     database: string #required
   outputs:
     collections: list[string]
 
-- name: drop_collection
+- action: drop_collection
   inputs:
     collection: string #required
     database: string #required
   outputs:
     success: boolean
 
-- name: bulk_write
+- action: bulk_write
   inputs:
     collection: string #required
     database: string #required
@@ -160,42 +160,42 @@
     success: boolean
     upserted_count: int
 
-- name: mongo_document
+- object: mongo_document
   class:
     _id: string
     collection: string
     database: string
     document: mongo_document_data
 
-- name: mongo_document_data
+- object: mongo_document_data
   class:
     data: map[string, any]
 
-- name: mongo_filter
+- object: mongo_filter
   class:
     conditions: map[string, any]
 
-- name: mongo_projection
+- object: mongo_projection
   class:
     fields: map[string, integer]
 
-- name: mongo_sort
+- object: mongo_sort
   class:
     fields: map[string, integer]
 
-- name: mongo_update
+- object: mongo_update
   class:
     operators: map[string, any]
 
-- name: mongo_pipeline_stage
+- object: mongo_pipeline_stage
   class:
     stage: map[string, any]
 
-- name: mongo_index_keys
+- object: mongo_index_keys
   class:
     fields: map[string, integer]
 
-- name: mongo_bulk_operation
+- object: mongo_bulk_operation
   class:
     operation_type: string
     filter: mongo_filter

@@ -1,10 +1,10 @@
-- name: alert_action
+- webobject: alert_action
   id: [alert_id, name]
   attributes:
-    - alert_id: id #required -> ui_alert.id
+    - alert_id: id -> ui_alert.id
     - color: dark_zinc | light | dark_white | dark | zinc | white | red | orange | amber | yellow | lime | green | emerald | teal | cyan | sky | blue | indigo | violet | purple | fuchsia | pink | rose = dark_zinc
     - is_plain: boolean = false
-    - label: string #required #max(100)
+    - label: string #max(100)
     - order: int = 0 #min(0)
   events:
     - click

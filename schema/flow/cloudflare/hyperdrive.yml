@@ -1,4 +1,4 @@
-- name: connect
+- action: connect
   inputs:
     binding: string #required
   outputs:

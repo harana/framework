@@ -1,26 +1,26 @@
-- name: form
+- object: form
   id: [slug]
   schema:
     - created_at: date = now()
     - description: string? #max(1000)
     - is_active: boolean = true
-    - slug: string #required #unique #lowercase
+    - slug: string #unique #lowercase
     - updated_at: date = now()
 
-- name: form_field
+- object: form_field
   id: [form_id, name]
   schema:
     - default_value: string?
-    - form_id: id #required -> form.id
+    - form_id: id -> form.id
     - is_required: boolean = false
-    - label: string #required #max(200)
+    - label: string #max(200)
     - options: string?
     - placeholder: string? #max(200)
     - sort_order: int = 0
     - type: text | email | number | date | select | checkbox | radio | textarea | file = text
     - validation_rules: string?
 
-- name: form_submission
+- object: form_submission
   id: [form_id, created_at, submitted_by]
   schema:
     - created_at: date = now()
@@ -30,27 +30,27 @@
     - submitted_by: id? -> user.id
     - user_agent: string? #max(500)
 
-- name: form_data
+- object: form_data
   schema:
     - values: map[string, any]
 
-- name: form_validation_error
+- object: form_validation_error
   schema:
     - field: string
     - message: string
     - code: string
 
-- name: form_metadata
+- object: form_metadata
   schema:
     - title: string
     - description: string
     - version: string
 
-- name: form_validation_rules
+- object: form_validation_rules
   schema:
     - rules: map[string, any]
 
-- name: form_submission_info
+- object: form_submission_info
   schema:
     - submission_id: string
     - form_id: string

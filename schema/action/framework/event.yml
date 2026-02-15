@@ -1,0 +1,224 @@
+- action: emit_event
+  inputs:
+    channel: string
+    event_type: string
+    metadata: event_metadata
+    payload: any
+  outputs:
+    event_id: string
+    success: boolean
+
+- action: subscribe_channel
+  inputs:
+    channel: string
+    event_types: list[string]
+    handler: string
+  outputs:
+    subscription_id: string
+    success: boolean
+
+- action: unsubscribe_channel
+  inputs:
+    subscription_id: string
+  outputs:
+    success: boolean
+
+- action: broadcast_event
+  inputs:
+    event_type: string
+    exclude_channels: list[string]
+    metadata: event_metadata
+    payload: any
+  outputs:
+    event_id: string
+    recipients: int
+
+- action: get_event
+  inputs:
+    event_id: string
+  outputs:
+    channel: string
+    created_at: date
+    event_type: string
+    metadata: event_metadata
+    payload: any
+
+- action: list_events
+  inputs:
+    channel: string
+    end_time: date
+    event_types: list[string]
+    limit: int = 100
+    start_time: date
+  outputs:
+    events: list[event_record]
+    total: int
+
+- action: acknowledge_event
+  inputs:
+    event_id: string
+    subscription_id: string
+  outputs:
+    success: boolean
+
+- action: replay_events
+  inputs:
+    channel: string
+    end_time: date
+    event_types: list[string]
+    start_time: date
+  outputs:
+    events_replayed: int
+    success: boolean
+
+- object: event
+  class:
+    event_id: string
+    event_type: string
+    channel: string
+    payload: any
+    metadata: event_metadata
+    created_at: date
+
+- object: event_metadata
+  class:
+    values: map[string, any]
+
+- object: event_record
+  class:
+    event_id: string
+    event_type: string
+    channel: string
+    payload: any
+    metadata: event_metadata
+    created_at: date
+    acknowledged: boolean
+
+
+- object: event
+  schema:
+    - event_id: string
+    - event_type: string
+    - channel: string
+    - payload: any
+    - metadata: event_metadata
+    - created_at: date
+
+- object: event_metadata
+  schema:
+    - values: map[string, any]
+
+- object: event_record
+  schema:
+    - event_id: string
+    - event_type: string
+    - channel: string
+    - payload: any
+    - metadata: event_metadata
+    - created_at: date
+    - acknowledged: boolean
+
+- object: event_priority
+  schema:
+    - value: low | normal | high | critical = normal
+
+- object: event_status
+  schema:
+    - value: pending | delivered | acknowledged | failed | expired = pending
+
+- object: event_full_metadata
+  schema:
+    - attributes: map[string, any]
+    - causation_id: string?
+    - correlation_id: string?
+    - source: string?
+    - tags: list[string]
+    - tenant_id: string?
+    - user_id: string?
+
+- object: event_full
+  schema:
+    - channel: string
+    - created_at: date = now()
+    - delivery_attempts: int = 0 #min(0)
+    - event_type: string
+    - expires_at: date?
+    - id: string
+    - metadata: event_full_metadata
+    - payload: any
+    - priority: low | normal | high | critical = normal
+    - scheduled_at: date?
+    - status: pending | delivered | acknowledged | failed | expired = pending
+    - ttl_seconds: int?
+    - updated_at: date = now()
+
+- object: event_channel_config
+  schema:
+    - allow_duplicates: boolean = false
+    - allowed_event_types: list[string]
+    - buffer_size: int = 1024 #min(1)
+    - default_ttl_seconds: int?
+    - durable: boolean = false
+    - max_events: int?
+    - persistent: boolean = false
+
+- object: event_channel
+  schema:
+    - active: boolean = true
+    - config: event_channel_config
+    - name: string
+    - pending_events: int = 0 #min(0)
+    - subscriber_count: int = 0 #min(0)
+    - total_events: int = 0 #min(0)
+
+- object: event_handler_type
+  schema:
+    - value: callback | webhook | queue | custom = callback
+
+- object: event_subscription_handler
+  schema:
+    - handler_id: string
+    - handler_type: callback | webhook | queue | custom = callback
+    - max_concurrency: int = 10 #min(1)
+    - max_retries: int = 3 #min(0)
+    - ordered: boolean = false
+    - retry_delay_ms: int = 1000 #min(0)
+    - timeout_ms: int = 30000 #min(0)
+
+- object: event_subscription_filter
+  schema:
+    - any_tags: list[string]
+    - custom_filter: string?
+    - event_type_prefix: string?
+    - event_types: list[string]
+    - min_priority: low | normal | high | critical?
+    - required_tags: list[string]
+    - source: string?
+    - tenant_id: string?
+    - user_id: string?
+
+- object: event_subscription
+  schema:
+    - active: boolean = true
+    - channel: string
+    - created_at: date = now()
+    - custom_data: any?
+    - durable: boolean = false
+    - filter: event_subscription_filter
+    - handler: event_subscription_handler
+    - id: string
+    - last_active_at: date = now()
+    - last_event_id: string?
+    - last_event_time: date?
+    - name: string?
+
+- object: event_query
+  schema:
+    - ascending: boolean = false
+    - channel: string?
+    - end_time: date?
+    - event_types: list[string]?
+    - limit: int?
+    - offset: int?
+    - start_time: date?
+    - status: pending | delivered | acknowledged | failed | expired?

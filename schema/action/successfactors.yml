@@ -1,0 +1,423 @@
+- action: get_employee
+  inputs:
+    expand: list[string]
+    select: list[string]
+    user_id: string
+  outputs:
+    custom_fields: map[string, any]
+    department: string
+    email: string
+    first_name: string
+    hire_date: date
+    job_title: string
+    last_name: string
+    manager_id: string
+    status: string
+    user_id: string
+
+- action: list_employees
+  inputs:
+    expand: list[string]
+    filter: string
+    order_by: string
+    select: list[string]
+    skip: int = 0
+    top: int = 100
+  outputs:
+    count: int
+    employees: list[sf_employee]
+    next_link: string
+
+- action: create_employee
+  inputs:
+    custom_fields: map[string, any]
+    department: string
+    email: string
+    first_name: string
+    hire_date: date
+    job_title: string
+    last_name: string
+    manager_id: string
+    user_id: string
+  outputs:
+    success: boolean
+    user_id: string
+
+- action: update_employee
+  inputs:
+    custom_fields: map[string, any]
+    department: string
+    email: string
+    first_name: string
+    job_title: string
+    last_name: string
+    manager_id: string
+    user_id: string
+  outputs:
+    success: boolean
+
+- action: terminate_employee
+  inputs:
+    last_day_worked: date
+    notes: string
+    termination_date: date
+    termination_reason: string
+    user_id: string
+  outputs:
+    success: boolean
+
+- action: get_job_info
+  inputs:
+    effective_date: date
+    user_id: string
+  outputs:
+    cost_center: string
+    department: string
+    division: string
+    effective_start_date: date
+    employment_type: string
+    job_code: string
+    job_title: string
+    location: string
+    manager_id: string
+
+- action: list_job_history
+  inputs:
+    end_date: date
+    start_date: date
+    user_id: string
+  outputs:
+    count: int
+    job_history: list[sf_job_history_entry]
+
+- action: get_compensation
+  inputs:
+    effective_date: date
+    user_id: string
+  outputs:
+    bonus_target: float
+    currency: string
+    effective_start_date: date
+    frequency: string
+    pay_grade: string
+    pay_type: string
+    salary: float
+
+- action: list_compensation_history
+  inputs:
+    end_date: date
+    start_date: date
+    user_id: string
+  outputs:
+    compensation_history: list[sf_compensation_entry]
+    count: int
+
+- action: get_time_off_balance
+  inputs:
+    as_of_date: date
+    time_type: string
+    user_id: string
+  outputs:
+    balances: list[sf_time_off_balance]
+    total_balance: float
+
+- action: request_time_off
+  inputs:
+    comment: string
+    duration_hours: float
+    duration_type: full_day | half_day | hours = full_day
+    end_date: date
+    start_date: date
+    time_type: string
+    user_id: string
+  outputs:
+    request_id: string
+    status: string
+    success: boolean
+
+- action: list_time_off_requests
+  inputs:
+    end_date: date
+    start_date: date
+    status: pending | approved | rejected | cancelled
+    top: int = 100
+    user_id: string
+  outputs:
+    count: int
+    requests: list[sf_time_off_request]
+
+- action: approve_time_off
+  inputs:
+    comment: string
+    request_id: string
+  outputs:
+    success: boolean
+
+- action: reject_time_off
+  inputs:
+    reason: string
+    request_id: string
+  outputs:
+    success: boolean
+
+- action: get_org_chart
+  inputs:
+    depth: int = 3
+    direction: up | down | both = both
+    user_id: string
+  outputs:
+    levels: int
+    org_chart: sf_org_chart_node
+
+- action: get_direct_reports
+  inputs:
+    include_indirect: boolean = false
+    manager_id: string
+  outputs:
+    count: int
+    direct_reports: list[sf_employee]
+
+- action: list_departments
+  inputs:
+    filter: string
+    top: int = 100
+  outputs:
+    count: int
+    departments: list[sf_department]
+
+- action: get_department
+  inputs:
+    department_id: string
+  outputs:
+    cost_center: string
+    department_id: string
+    description: string
+    head_of_department: string
+    name: string
+    parent_department_id: string
+
+- action: list_positions
+  inputs:
+    department_id: string
+    status: active | inactive
+    top: int = 100
+  outputs:
+    count: int
+    positions: list[sf_position]
+
+- action: get_position
+  inputs:
+    position_id: string
+  outputs:
+    department_id: string
+    incumbent_user_id: string
+    job_code: string
+    pay_grade: string
+    position_id: string
+    status: string
+    title: string
+
+- object: employee
+  class:
+    user_id: string
+    first_name: string
+    last_name: string
+    email: string
+    department: string
+    job_title: string
+    manager_id: string
+    hire_date: date
+    status: string
+    custom_fields: map[string, any]
+
+- object: employee
+  class:
+    user_id: string
+    first_name: string
+    last_name: string
+    email: string
+    department: string
+    job_title: string
+    manager_id: string
+    hire_date: date
+    status: string
+
+- object: job_history_entry
+  class:
+    effective_date: date
+    job_title: string
+    department: string
+    job_code: string
+    employment_type: string
+
+- object: compensation_entry
+  class:
+    effective_date: date
+    salary: float
+    currency: string
+    pay_grade: string
+    frequency: string
+
+- object: time_off_balance
+  class:
+    time_type: string
+    balance: float
+    used: float
+    pending: float
+
+- object: time_off_request
+  class:
+    request_id: string
+    user_id: string
+    time_type: string
+    start_date: date
+    end_date: date
+    duration_hours: float
+    status: string
+    comment: string
+
+- object: org_chart_node
+  class:
+    user_id: string
+    name: string
+    job_title: string
+    reports: list[sf_org_chart_node]
+
+- object: department
+  class:
+    department_id: string
+    name: string
+    description: string
+    parent_department_id: string
+    head_of_department: string
+
+- object: position
+  class:
+    position_id: string
+    title: string
+    department_id: string
+    job_code: string
+    status: string
+    incumbent_user_id: string
+
+- object: employee
+  id: [user_id]
+  schema:
+    - created_at: date = now()
+    - department: string? #max(200)
+    - email: string #email #max(255)
+    - first_name: string #max(100)
+    - hire_date: date?
+    - job_title: string? #max(200)
+    - last_name: string #max(100)
+    - manager_id: string? #max(200)
+    - status: active | inactive | terminated = active
+    - updated_at: date = now()
+    - user_id: string #unique #max(200)
+
+- object: job_info
+  id: [employee_id, effective_start_date]
+  schema:
+    - cost_center: string? #max(100)
+    - department: string? #max(200)
+    - division: string? #max(200)
+    - effective_start_date: date
+    - employee_id: id -> sf_employee.id
+    - employment_type: string? #max(100)
+    - job_code: string? #max(100)
+    - job_title: string? #max(200)
+    - location: string? #max(200)
+    - manager_id: string? #max(200)
+
+- object: compensation
+  id: [employee_id, effective_start_date]
+  schema:
+    - bonus_target: decimal? #min(0)
+    - currency: string? #max(3)
+    - effective_start_date: date
+    - employee_id: id -> sf_employee.id
+    - frequency: string? #max(50)
+    - pay_grade: string? #max(50)
+    - pay_type: string? #max(50)
+    - salary: decimal? #min(0)
+
+- object: time_off_request
+  id: [request_id]
+  schema:
+    - comment: string? #max(1000)
+    - created_at: date = now()
+    - duration_hours: decimal? #min(0)
+    - duration_type: full_day | half_day | hours = full_day
+    - employee_id: id -> sf_employee.id
+    - end_date: date
+    - request_id: string #unique #max(200)
+    - start_date: date
+    - status: pending | approved | rejected | cancelled = pending
+    - time_type: string #max(100)
+    - updated_at: date = now()
+
+- object: time_off_balance
+  id: [employee_id, time_type]
+  schema:
+    - as_of_date: date = now()
+    - balance: decimal = 0
+    - employee_id: id -> sf_employee.id
+    - time_type: string #max(100)
+    - unit: days | hours = days
+
+- object: department
+  id: [department_id]
+  schema:
+    - cost_center: string? #max(100)
+    - department_id: string #unique #max(200)
+    - description: string? #max(500)
+    - head_id: string? #max(200)
+
+    - name: string #max(200)
+    - parent_id: string? #max(200)
+
+- object: employee
+  schema:
+    - user_id: string
+    - first_name: string
+    - last_name: string
+    - email: string
+    - department: string
+    - job_title: string
+    - manager_id: string
+    - hire_date: date
+    - status: string
+    - custom_fields: map[string, any]
+
+- object: job_history_entry
+  schema:
+    - effective_date: date
+    - job_title: string
+    - department: string
+    - job_code: string
+    - employment_type: string
+
+- object: compensation_entry
+  schema:
+    - effective_date: date
+    - salary: float
+    - currency: string
+    - pay_grade: string
+    - frequency: string
+
+- object: org_chart_node
+  schema:
+    - user_id: string
+
+    - name: string
+    - job_title: string
+    - reports: list[sf_org_chart_node]
+
+- object: position
+  schema:
+    - position_id: string
+    - title: string
+    - department_id: string
+    - job_code: string
+    - status: string
+    - incumbent_user_id: string

@@ -1,21 +1,21 @@
-- name: role
+- object: role
   schema:
     - created_at: date = now()
     - description: string? #max(500)
     - is_system: boolean = false
-    - name: string #required #unique #max(200)
+    - name: string #unique #max(200)
     - updated_at: date = now()
 
-- name: role_permission
+- object: role_permission
   id: [role_id, action, resource]
   schema:
-    - action: string #required #max(100)
+    - action: string #max(100)
     - conditions: string? # j_s_o_n
     - granted_at: date = now()
     - granted_by: id? -> user.id
-    - resource: string #required #max(200)
-    - role_id: id #required -> role.id
-- name: role_assignment
+    - resource: string #max(200)
+    - role_id: id -> role.id
+- object: role_assignment
   id: [role_id, entity_id, entity_type]
   schema:
     - assigned_at: date = now()
@@ -23,14 +23,14 @@
     - entity_id: id #required
     - entity_type: user | group = user
     - expires_at: date?
-    - role_id: id #required -> role.id
-- name: role_info
+    - role_id: id -> role.id
+- object: role_info
   schema:
     - role_id: string
     - name: string
     - description: string
     - user_count: int
 
-- name: role_permission_conditions
+- object: role_permission_conditions
   schema:
     - conditions: map[string, any]

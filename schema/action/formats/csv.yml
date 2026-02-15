@@ -1,0 +1,123 @@
+- action: parse
+  inputs:
+    data: string
+    delimiter: string = ","
+    has_headers: boolean = true
+    headers: list[string]
+    skip_empty_lines: boolean = true
+  outputs:
+    rows: list[csv_row]
+
+- action: generate
+  inputs:
+    data: list[csv_row]
+    delimiter: string = ","
+    headers: list[string]
+    include_headers: boolean = true
+  outputs:
+    csv: string
+
+- action: transform
+  inputs:
+    data: string
+    delimiter: string = ","
+    operations: list[csv_transform_operation]
+  outputs:
+    csv: string
+
+- action: validate
+  inputs:
+    data: string
+    delimiter: string = ","
+    schema: csv_schema
+  outputs:
+    errors: list[csv_validation_error]
+    valid: boolean
+
+- object: csv_document
+  class:
+    headers: list[string]
+    rows: list[csv_row]
+    delimiter: string
+    row_count: int
+
+- object: csv_row
+  class:
+    values: map[string, string]
+
+- object: csv_transform_operation
+  class:
+    operation: string
+    column: string
+    parameters: map[string, any]
+
+- object: csv_schema
+  class:
+    columns: list[csv_column_schema]
+    allow_extra_columns: boolean
+
+- object: csv_column_schema
+  class:
+    name: string
+    type: string
+    required: boolean
+    pattern: string
+
+- object: csv_validation_error
+  class:
+    row: int
+    column: string
+    message: string
+
+- object: csv_document
+  schema:
+    - column_count: int = 0 #min(0)
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - delimiter: string = , #max(5)
+    - has_headers: boolean = true
+    - row_count: int = 0 #min(0)
+    - size: int = 0 #min(0)
+    - source_path: string? #max(2000)
+    - updated_at: date = now()
+
+- object: csv_column_schema
+  id: [document_id, name]
+  schema:
+    - document_id: id -> csv_document.id
+    - is_required: boolean = false
+
+    - name: string #max(255)
+    - pattern: string? #max(500)
+    - sort_order: int = 0
+    - type: string | int | float | bool | date = string
+
+- object: csv_validation_result
+  id: [document_id, validated_at]
+  schema:
+    - document_id: id -> csv_document.id
+    - error_count: int = 0 #min(0)
+    - errors: string? # json array
+    - is_valid: boolean = false
+    - validated_at: date = now()
+
+- object: csv_row
+  schema:
+    - values: map[string, string]
+
+- object: csv_transform_operation
+  schema:
+    - operation: string
+    - column: string
+    - parameters: map[string, any]
+
+- object: csv_schema
+  schema:
+    - columns: list[csv_column_schema]
+    - allow_extra_columns: boolean
+
+- object: csv_validation_error
+  schema:
+    - row: int
+    - column: string
+    - message: string

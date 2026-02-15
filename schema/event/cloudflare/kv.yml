@@ -1,4 +1,4 @@
-- name: cloudflare_kv_value_read
+- event: cloudflare_kv_value_read
   schema:
     namespace: string #required
     key: string #required
@@ -6,7 +6,7 @@
     type: text | json | array_buffer | stream = text
     read_at: date = now()
 
-- name: cloudflare_kv_value_written
+- event: cloudflare_kv_value_written
   schema:
     namespace: string #required
     key: string #required
@@ -14,13 +14,13 @@
     has_metadata: boolean = false
     written_at: date = now()
 
-- name: cloudflare_kv_key_deleted
+- event: cloudflare_kv_key_deleted
   schema:
     namespace: string #required
     key: string #required
     deleted_at: date = now()
 
-- name: cloudflare_kv_keys_listed
+- event: cloudflare_kv_keys_listed
   schema:
     namespace: string #required
     prefix: string?

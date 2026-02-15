@@ -1,4 +1,4 @@
-- name: upload_blob
+- action: upload_blob
   inputs:
     bucket: string #required
     content: bytes #required
@@ -9,7 +9,7 @@
     etag: string
     url: string
 
-- name: download_blob
+- action: download_blob
   inputs:
     bucket: string #required
     key: string #required
@@ -19,14 +19,14 @@
     metadata: blob_metadata
     size: int
 
-- name: delete_blob
+- action: delete_blob
   inputs:
     bucket: string #required
     key: string #required
   outputs:
     success: boolean
 
-- name: list_blobs
+- action: list_blobs
   inputs:
     bucket: string #required
     continuation_token: string
@@ -36,14 +36,14 @@
     blobs: list[blob_info]
     next_token: string
 
-- name: exists
+- action: exists
   inputs:
     bucket: string #required
     key: string #required
   outputs:
     exists: boolean
 
-- name: get_blob_metadata
+- action: get_blob_metadata
   inputs:
     bucket: string #required
     key: string #required
@@ -55,7 +55,7 @@
     modified: date
     size: int
 
-- name: copy_blob
+- action: copy_blob
   inputs:
     dest_bucket: string #required
     dest_key: string #required
@@ -65,7 +65,7 @@
     etag: string
     success: boolean
 
-- name: generate_presigned_url
+- action: generate_presigned_url
   inputs:
     bucket: string #required
     expires_in: int = 3600
@@ -75,7 +75,7 @@
     expires_at: date
     url: string
 
-- name: blob
+- object: blob
   class:
     bucket: string
     key: string
@@ -85,11 +85,11 @@
     size: int
     metadata: blob_metadata
 
-- name: blob_metadata
+- object: blob_metadata
   class:
     values: map[string, string]
 
-- name: blob_info
+- object: blob_info
   class:
     key: string
     size: int

@@ -1,4 +1,4 @@
-- name: route
+- object: route
   schema:
     - auth: route_auth_options?
     - created_at: date = now()
@@ -8,24 +8,24 @@
     - is_active: boolean = true
     - method: get | post | put | patch | delete | head | options = get
     - middleware: string?
-    - path: string #required #max(500)
+    - path: string #max(500)
     - rate_limit: int? #min(1)
     - sse: route_sse_options?
     - updated_at: date = now()
     - upload: route_upload_options?
     - websocket: route_web_socket_options?
 
-- name: route_group
+- object: route_group
   schema:
     - middleware: string?
-    - prefix: string #required #max(200)
+    - prefix: string #max(200)
 
-- name: route_group_assignment
+- object: route_group_assignment
   id: [route_id, group_id]
   schema:
-    - group_id: id #required -> route_group.id
-    - route_id: id #required -> route.id
-- name: route_auth_options
+    - group_id: id -> route_group.id
+    - route_id: id -> route.id
+- object: route_auth_options
   schema:
     - allow_anonymous_fallback: boolean = false
     - auth_required: boolean = true
@@ -35,7 +35,7 @@
     - required_roles: string?
     - required_scopes: string?
 
-- name: route_upload_options
+- object: route_upload_options
   schema:
     - allowed_extensions: string?
     - allowed_mime_types: string?
@@ -43,20 +43,20 @@
     - max_file_size: int = 104857600 #min(1)
     - max_files: int = 10 #min(1) #max(100)
     - overwrite_existing: boolean = false
-    - storage_id: id #required -> blob_storage.id
+    - storage_id: id -> blob_storage.id
     - storage_path: string? #max(1000)
     - strip_exif: boolean = false
 
-- name: route_download_options
+- object: route_download_options
   schema:
     - cache_control: string? #max(200)
     - content_disposition: inline | attachment = attachment
     - require_signed_url: boolean = false
     - signed_url_ttl: int = 3600 #min(1)
-    - storage_id: id #required -> blob_storage.id
+    - storage_id: id -> blob_storage.id
     - storage_path: string? #max(1000)
 
-- name: route_websocket_options
+- object: route_websocket_options
   schema:
     - allowed_origins: string?
     - heartbeat_interval: int = 30 #min(1)
@@ -66,7 +66,7 @@
     - max_message_size: int = 1048576 #min(1)
     - protocol: string? #max(200)
 
-- name: route_sse_options
+- object: route_sse_options
   schema:
     - channel: string? #max(500)
     - heartbeat_interval: int = 15 #min(1)
@@ -74,18 +74,18 @@
     - max_connections: int? #min(1)
     - retry_timeout: int = 3000 #min(1)
 
-- name: route_transfer_log
+- object: route_transfer_log
   id: [route_id, created_at, user_id]
   schema:
-    - blob_key: string #required #max(1000)
-    - bytes_transferred: int #required #min(0)
+    - blob_key: string #max(1000)
+    - bytes_transferred: int #min(0)
     - created_at: date = now()
     - direction: upload | download = upload
     - duration_ms: int? #min(0)
     - file_name: string? #max(255)
     - ip_address: string? #max(45)
     - mime_type: string? #max(100)
-    - route_id: id #required -> route.id
+    - route_id: id -> route.id
     - status: success | failed | rejected | timeout = success
     - user_agent: string? #max(500)
     - user_id: id? -> user.id

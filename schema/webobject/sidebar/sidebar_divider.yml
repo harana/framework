@@ -1,5 +1,5 @@
-- name: sidebar_divider
+- webobject: sidebar_divider
   id: [sidebar_id, name]
   attributes:
     - order: int = 0 #min(0)
-    - sidebar_id: id #required -> ui_sidebar.id
+    - sidebar_id: id -> ui_sidebar.id

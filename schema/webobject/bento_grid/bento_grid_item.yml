@@ -1,7 +1,7 @@
-- name: bento_grid_item
+- webobject: bento_grid_item
   id: [bento_grid_id, name]
   attributes:
-    - bento_grid_id: id #required -> ui_bento_grid.id
+    - bento_grid_id: id -> ui_bento_grid.id
     - col_span: 1 | 2 | 3 | 4 = 1
     - description: string? #max(500)
     - href: string? #max(500)

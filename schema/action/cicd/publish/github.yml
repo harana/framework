@@ -1,0 +1,20 @@
+- object: build_github_release
+  schema:
+    - assets: list[build_github_release_asset]
+    - body: string? #max(10000)
+    - discussion_category: string? #max(200)
+    - draft: boolean = false
+    - enabled: boolean = true
+    - generate_release_notes: boolean = true
+    - overwrite: boolean = false
+    - prerelease: boolean = false
+    - release_name: string #max(500)
+    - repository: string #max(500)
+    - tag: string #max(200)
+    - token_env: string #max(200)
+
+- object: build_github_release_asset
+  schema:
+    - content_type: string #max(200)
+    - label: string? #max(500)
+    - path: string #max(2000)

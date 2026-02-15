@@ -1,4 +1,4 @@
-- name: generate_text
+- action: generate_text
   inputs:
     max_tokens: int = 1000
     model: string = "default"
@@ -8,7 +8,7 @@
     text: string
     tokens_used: int
 
-- name: chat_completion
+- action: chat_completion
   inputs:
     max_tokens: int = 1000
     messages: list[ai_chat_message] #required
@@ -19,7 +19,7 @@
     response: string
     tokens_used: int
 
-- name: generate_embeddings
+- action: generate_embeddings
   inputs:
     model: string = "default"
     text: string #required
@@ -27,7 +27,7 @@
     dimensions: int
     embeddings: list[float]
 
-- name: generate_image
+- action: generate_image
   inputs:
     model: string = "default"
     prompt: string #required
@@ -37,7 +37,7 @@
     base64: string
     url: string
 
-- name: transcribe_audio
+- action: transcribe_audio
   inputs:
     audio: bytes #required
     language: string
@@ -46,7 +46,7 @@
     duration: float
     text: string
 
-- name: classify_text
+- action: classify_text
   inputs:
     labels: list[string] #required
     model: string = "default"
@@ -56,7 +56,7 @@
     label: string
     scores: map[string, float]
 
-- name: summarize_text
+- action: summarize_text
   inputs:
     max_length: int = 500
     model: string = "default"
@@ -64,7 +64,7 @@
   outputs:
     summary: string
 
-- name: extract_entities
+- action: extract_entities
   inputs:
     entity_types: list[string]
     model: string = "default"
@@ -72,7 +72,7 @@
   outputs:
     entities: list[ai_entity]
 
-- name: onnx_load_model
+- action: onnx_load_model
   inputs:
     model_path: string #required
     optimize: boolean = true
@@ -81,7 +81,7 @@
     model_id: string
     output_shapes: list[ai_tensor_shape]
 
-- name: onnx_inference
+- action: onnx_inference
   inputs:
     input_data: map[string, any] #required
     model_id: string #required
@@ -89,7 +89,7 @@
     inference_time_ms: float
     outputs: map[string, any]
 
-- name: onnx_inference_bytes
+- action: onnx_inference_bytes
   inputs:
     input_data: map[string, any] #required
     model_bytes: bytes #required
@@ -98,7 +98,7 @@
     inference_time_ms: float
     outputs: map[string, any]
 
-- name: onnx_model_info
+- action: onnx_model_info
   inputs:
     model_path: string #required
   outputs:
@@ -107,13 +107,13 @@
     output_names: list[string]
     output_shapes: list[ai_tensor_shape]
 
-- name: onnx_unload_model
+- action: onnx_unload_model
   inputs:
     model_id: string #required
   outputs:
     success: boolean
 
-- name: onnx_classify_image
+- action: onnx_classify_image
   inputs:
     image: bytes #required
     labels: list[string]
@@ -123,7 +123,7 @@
     inference_time_ms: float
     predictions: list[ai_classification_prediction]
 
-- name: onnx_detect_objects
+- action: onnx_detect_objects
   inputs:
     confidence_threshold: float = 0.5
     image: bytes #required
@@ -134,7 +134,7 @@
     detections: list[ai_object_detection]
     inference_time_ms: float
 
-- name: onnx_text_embedding
+- action: onnx_text_embedding
   inputs:
     model_id: string #required
     text: string #required
@@ -143,7 +143,7 @@
     embedding: list[float]
     inference_time_ms: float
 
-- name: ai_model
+- object: ai_model
   class:
     model_id: string
     name: string
@@ -152,12 +152,12 @@
     temperature: float
     capabilities: list[string]
 
-- name: ai_chat_message
+- object: ai_chat_message
   class:
     role: string
     content: string
 
-- name: ai_entity
+- object: ai_entity
   class:
     text: string
     type: string
@@ -165,19 +165,19 @@
     end: int
     confidence: float
 
-- name: ai_tensor_shape
+- object: ai_tensor_shape
   class:
     name: string
     dtype: string
     shape: list[integer]
 
-- name: ai_classification_prediction
+- object: ai_classification_prediction
   class:
     label: string
     confidence: float
     index: int
 
-- name: ai_object_detection
+- object: ai_object_detection
   class:
     label: string
     confidence: float

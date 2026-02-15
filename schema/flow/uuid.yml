@@ -1,18 +1,18 @@
-- name: generate_v4
+- action: generate_v4
   inputs:
     count: int = 1
     uppercase: boolean = false
   outputs:
     uuid: string | list[string]
 
-- name: generate_v7
+- action: generate_v7
   inputs:
     count: int = 1
     uppercase: boolean = false
   outputs:
     uuid: string | list[string]
 
-- name: validate
+- action: validate
   inputs:
     uuid: string #required
     version: int
@@ -20,7 +20,7 @@
     valid: boolean
     version: int
 
-- name: parse
+- action: parse
   inputs:
     uuid: string #required
   outputs:
@@ -28,7 +28,7 @@
     variant: string
     version: int
 
-- name: uuid
+- object: uuid
   class:
     value: string
     version: int

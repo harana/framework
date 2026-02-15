@@ -1,11 +1,11 @@
-- name: feed_item
+- webobject: feed_item
   id: [feed_id, name]
   attributes:
     - actor_avatar: string? #max(500)
     - actor_href: string? #max(500)
-    - actor_name: string #required #max(200)
+    - actor_name: string #max(200)
     - content: string? #max(2000)
-    - feed_id: id #required -> ui_feed.id
+    - feed_id: id -> ui_feed.id
     - icon: string? #max(100)
     - is_complete: boolean = false
     - order: int = 0 #min(0)

@@ -1,18 +1,18 @@
-- name: cloudflare_vectors_inserted
+- event: cloudflare_vectors_inserted
   schema:
     index: string #required
-    count: int #required #min(1)
+    count: int #min(1)
     mutation_id: string?
     inserted_at: date = now()
 
-- name: cloudflare_vectors_upserted
+- event: cloudflare_vectors_upserted
   schema:
     index: string #required
-    count: int #required #min(1)
+    count: int #min(1)
     mutation_id: string?
     upserted_at: date = now()
 
-- name: cloudflare_vectors_queried
+- event: cloudflare_vectors_queried
   schema:
     index: string #required
     top_k: int = 5
@@ -20,21 +20,21 @@
     namespace: string?
     queried_at: date = now()
 
-- name: cloudflare_vectors_deleted
+- event: cloudflare_vectors_deleted
   schema:
     index: string #required
     count: int?
     mutation_id: string?
     deleted_at: date = now()
 
-- name: cloudflare_vectorize_metadata_index_created
+- event: cloudflare_vectorize_metadata_index_created
   schema:
     index: string #required
     property_name: string #required
     type: string | number | boolean = string
     created_at: date = now()
 
-- name: cloudflare_vectorize_metadata_index_deleted
+- event: cloudflare_vectorize_metadata_index_deleted
   schema:
     index: string #required
     property_name: string #required

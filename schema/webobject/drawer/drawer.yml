@@ -1,11 +1,11 @@
-- name: drawer
+- webobject: drawer
   attributes:
     - is_open: boolean = false
     - position: left | right = right
     - show_backdrop: boolean = true
     - show_footer: boolean = false
     - size: sm | md | lg | xl | 2xl = md
-    - title: string #required #max(200)
+    - title: string #max(200)
   events:
     - close
     - open

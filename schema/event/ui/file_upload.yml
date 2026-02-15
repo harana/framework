@@ -1,4 +1,4 @@
-- name: file_selected
+- event: file_selected
   schema:
     upload_id: id #required
     file_name: string #required
@@ -7,14 +7,14 @@
     mime_type: string?
     selected_at: date = now()
 
-- name: file_removed
+- event: file_removed
   schema:
     upload_id: id #required
     file_name: string #required
     file_id: id?
     removed_at: date = now()
 
-- name: file_upload_started
+- event: file_upload_started
   schema:
     upload_id: id #required
     file_name: string #required
@@ -22,7 +22,7 @@
     file_type: string?
     started_at: date = now()
 
-- name: file_upload_completed
+- event: file_upload_completed
   schema:
     upload_id: id #required
     file_name: string #required
@@ -31,7 +31,7 @@
     upload_duration_ms: int? #min(0)
     completed_at: date = now()
 
-- name: file_upload_failed
+- event: file_upload_failed
   schema:
     upload_id: id #required
     file_name: string #required
@@ -39,23 +39,23 @@
     error_message: string?
     failed_at: date = now()
 
-- name: drag_entered
+- event: drag_entered
   schema:
     dropzone_id: id #required
     dropzone_name: string?
     file_count: int? #min(0)
     entered_at: date = now()
 
-- name: drag_left
+- event: drag_left
   schema:
     dropzone_id: id #required
     dropzone_name: string?
     left_at: date = now()
 
-- name: file_dropped
+- event: file_dropped
   schema:
     dropzone_id: id #required
     dropzone_name: string?
-    file_count: int #required #min(1)
+    file_count: int #min(1)
     total_size: int? #min(0)
     dropped_at: date = now()

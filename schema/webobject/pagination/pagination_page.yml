@@ -1,9 +1,9 @@
-- name: pagination_page
+- webobject: pagination_page
   id: [pagination_id, page_number]
   attributes:
-    - href: string #required #max(500)
+    - href: string #max(500)
     - is_current: boolean = false
-    - page_number: int #required #min(1)
-    - pagination_id: id #required -> ui_pagination.id
+    - page_number: int #min(1)
+    - pagination_id: id -> ui_pagination.id
   events:
     - click

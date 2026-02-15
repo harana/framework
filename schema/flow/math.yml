@@ -1,53 +1,53 @@
-- name: round
+- action: round
   inputs:
     precision: int = 0
     value: float #required
   outputs:
     result: float
 
-- name: floor
+- action: floor
   inputs:
     value: float #required
   outputs:
     result: float
 
-- name: ceil
+- action: ceil
   inputs:
     value: float #required
   outputs:
     result: float
 
-- name: abs
+- action: abs
   inputs:
     value: float #required
   outputs:
     result: float
 
-- name: min
+- action: min
   inputs:
     values: list[float] #required
   outputs:
     result: float
 
-- name: max
+- action: max
   inputs:
     values: list[float] #required
   outputs:
     result: float
 
-- name: sum
+- action: sum
   inputs:
     values: list[float] #required
   outputs:
     result: float
 
-- name: average
+- action: average
   inputs:
     values: list[float] #required
   outputs:
     result: float
 
-- name: percentage
+- action: percentage
   inputs:
     precision: int = 2
     total: float #required
@@ -55,7 +55,7 @@
   outputs:
     result: float
 
-- name: number_value
+- object: number_value
   class:
     value: float
     precision: int

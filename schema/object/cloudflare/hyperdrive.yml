@@ -1,16 +1,16 @@
-- name: cf_hyperdrive_config
+- object: cf_hyperdrive_config
   id: [account_id, config_name]
   schema:
-    - account_id: string #required #max(50)
-    - binding: string #required #max(255)
+    - account_id: string #max(50)
+    - binding: string #max(255)
     - caching_disabled: boolean = false
     - config_id: string? #unique #max(255)
-    - config_name: string #required #unique #max(255)
+    - config_name: string #unique #max(255)
     - created_at: date = now()
-    - database: string #required #max(255)
-    - host: string #required #max(255)
-    - port: int #required #min(1) #max(65535)
+    - database: string #max(255)
+    - host: string #max(255)
+    - port: int #min(1) #max(65535)
     - scheme: postgres | mysql = postgres
     - updated_at: date = now()
-    - user: string #required #max(255)
+    - user: string #max(255)
 

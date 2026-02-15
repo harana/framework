@@ -1,0 +1,292 @@
+- action: send_email
+  inputs:
+    bcc_addresses: list[string]
+    cc_addresses: list[string]
+    configuration_set_name: string
+    from_address: string
+    html_body: string
+    region: string
+    reply_to_addresses: list[string]
+    return_path: string
+    subject: string
+    tags: ses_tags
+    text_body: string
+    to_addresses: list[string]
+  outputs:
+    message_id: string
+    success: boolean
+
+- action: send_raw_email
+  inputs:
+    configuration_set_name: string
+    destinations: list[string]
+    from_arn: string
+    raw_message: bytes
+    region: string
+    return_path_arn: string
+    source: string
+    source_arn: string
+    tags: ses_tags
+  outputs:
+    message_id: string
+    success: boolean
+
+- action: send_templated_email
+  inputs:
+    bcc_addresses: list[string]
+    cc_addresses: list[string]
+    configuration_set_name: string
+    from_address: string
+    region: string
+    reply_to_addresses: list[string]
+    return_path: string
+    tags: ses_tags
+    template_data: string
+    template_name: string
+    to_addresses: list[string]
+  outputs:
+    message_id: string
+    success: boolean
+
+- action: send_bulk_templated_email
+  inputs:
+    configuration_set_name: string
+    default_tags: default_tags
+    default_template_data: string
+    destinations: list[bulk_email_destination]
+    from_address: string
+    region: string
+    reply_to_addresses: list[string]
+    return_path: string
+    template_name: string
+  outputs:
+    message_ids: list[string]
+    status: list[bulk_email_status]
+    success: boolean
+
+- action: verify_email_identity
+  inputs:
+    email_address: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: verify_domain_identity
+  inputs:
+    domain: string
+    region: string
+  outputs:
+    success: boolean
+    verification_token: string
+
+- action: delete_identity
+  inputs:
+    identity: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: list_identities
+  inputs:
+    identity_type: email_address | domain
+    max_items: int = 100
+    region: string
+  outputs:
+    identities: list[string]
+    next_token: string
+
+- action: get_identity_verification_attributes
+  inputs:
+    identities: list[string]
+    region: string
+  outputs:
+    verification_attributes: verification_attributes
+
+- action: set_identity_notification_topic
+  inputs:
+    identity: string
+    notification_type: bounce | complaint | delivery
+    region: string
+    sns_topic: string
+  outputs:
+    success: boolean
+
+- action: create_template
+  inputs:
+    html_part: string
+    region: string
+    subject_part: string
+    template_name: string
+    text_part: string
+  outputs:
+    success: boolean
+
+- action: update_template
+  inputs:
+    html_part: string
+    region: string
+    subject_part: string
+    template_name: string
+    text_part: string
+  outputs:
+    success: boolean
+
+- action: delete_template
+  inputs:
+    region: string
+    template_name: string
+  outputs:
+    success: boolean
+
+- action: get_template
+  inputs:
+    region: string
+    template_name: string
+  outputs:
+    html_part: string
+    subject_part: string
+    template_name: string
+    text_part: string
+
+- action: list_templates
+  inputs:
+    max_items: int = 100
+    region: string
+  outputs:
+    next_token: string
+    templates: list[ses_template]
+
+- action: get_send_quota
+  inputs:
+    region: string
+  outputs:
+    max_24_hour_send: float
+    max_send_rate: float
+    sent_last_24_hours: float
+
+- action: get_send_statistics
+  inputs:
+    region: string
+  outputs:
+    send_data_points: list[send_data_point]
+
+- action: put_configuration_set
+  inputs:
+    configuration_set_name: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: delete_configuration_set
+  inputs:
+    configuration_set_name: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: list_configuration_sets
+  inputs:
+    max_items: int = 100
+    region: string
+  outputs:
+    configuration_sets: list[ses_configuration_set]
+    next_token: string
+
+- action: put_identity_policy
+  inputs:
+    identity: string
+    policy: string
+    policy_name: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: get_identity_policies
+  inputs:
+    identity: string
+    policy_names: list[string]
+    region: string
+  outputs:
+    policies: identity_policies
+
+- action: delete_identity_policy
+  inputs:
+    identity: string
+    policy_name: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: set_identity_feedback_forwarding
+  inputs:
+    forwarding_enabled: boolean
+    identity: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: set_identity_dkim_enabled
+  inputs:
+    dkim_enabled: boolean
+    identity: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: get_identity_dkim_attributes
+  inputs:
+    identities: list[string]
+    region: string
+  outputs:
+    dkim_attributes: dkim_attributes
+
+- object: identity
+  id: [account_id, identity]
+  schema:
+    - account_id: string #max(20)
+    - created_at: date = now()
+    - dkim_enabled: boolean = false
+    - feedback_forwarding_enabled: boolean = true
+    - identity: string #unique #max(255)
+    - identity_type: email_address | domain
+    - region: string? #max(50)
+    - updated_at: date = now()
+    - verification_status: pending | success | failed | temporary_failure | not_started = not_started
+    - verification_token: string? #max(500)
+
+- object: template
+  id: [account_id, template_name]
+  schema:
+    - account_id: string #max(20)
+    - created_at: date = now()
+    - html_part: string?
+    - region: string? #max(50)
+    - subject_part: string #max(500)
+    - template_name: string #unique #max(64)
+    - text_part: string?
+    - updated_at: date = now()
+
+- object: configuration_set
+  id: [account_id, configuration_set_name]
+  schema:
+    - account_id: string #max(20)
+    - configuration_set_name: string #unique #max(64)
+    - created_at: date = now()
+    - region: string? #max(50)
+    - updated_at: date = now()
+
+- object: send_log
+  id: [identity_id, message_id]
+  schema:
+    - bcc_addresses: string? # json list
+    - cc_addresses: string? # json list
+    - configuration_set_name: string? #max(64)
+    - created_at: date = now()
+    - from_address: string #max(255) #email
+    - identity_id: id? -> aws_ses_identity.id
+    - message_id: string #unique #max(255)
+    - status: queued | sent | delivered | bounced | complained | failed = queued
+    - subject: string? #max(500)
+    - template_name: string? #max(64)
+    - to_addresses: string # json list
+    - updated_at: date = now()

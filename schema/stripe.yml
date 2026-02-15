@@ -1,8 +1,8 @@
-- name: stripe_customer
+- object: stripe_customer
   id: [customer_id]
   schema:
     - created_at: date = now()
-    - customer_id: string #required #unique #max(200)
+    - customer_id: string #unique #max(200)
     - description: string? #max(500)
     - email: string? #email #max(255)
     - metadata: string? # j_s_o_n
@@ -11,23 +11,23 @@
     - updated_at: date = now()
     - user_id: id? -> user.id
 
-- name: stripe_payment_intent
+- object: stripe_payment_intent
   id: [payment_intent_id]
   schema:
-    - amount: int #required #min(0)
+    - amount: int #min(0)
     - capture_method: automatic | manual = automatic
     - client_secret: string? #max(500)
     - created_at: date = now()
-    - currency: string #required #max(3)
+    - currency: string #max(3)
     - customer_id: string? #max(200)
     - description: string? #max(500)
     - metadata: string? # j_s_o_n
-    - payment_intent_id: string #required #unique #max(200)
+    - payment_intent_id: string #unique #max(200)
     - payment_method: string? #max(200)
     - status: requires_payment_method | requires_confirmation | requires_action | processing | succeeded | cancelled = requires_payment_method
     - updated_at: date = now()
 
-- name: stripe_subscription
+- object: stripe_subscription
   id: [subscription_id]
   schema:
     - cancel_at_period_end: boolean = false
@@ -35,72 +35,72 @@
     - created_at: date = now()
     - current_period_end: date?
     - current_period_start: date?
-    - customer_id: string #required #max(200)
+    - customer_id: string #max(200)
     - metadata: string? # j_s_o_n
-    - price_id: string #required #max(200)
+    - price_id: string #max(200)
     - quantity: int = 1 #min(1)
     - status: active | past_due | cancelled | incomplete | trialing | unpaid = active
-    - subscription_id: string #required #unique #max(200)
+    - subscription_id: string #unique #max(200)
     - trial_end: date?
     - updated_at: date = now()
 
-- name: stripe_product
+- object: stripe_product
   id: [product_id]
   schema:
     - created_at: date = now()
     - description: string? #max(500)
     - is_active: boolean = true
     - metadata: string? # j_s_o_n
-    - name: string #required #max(200)
-    - product_id: string #required #unique #max(200)
+    - name: string #max(200)
+    - product_id: string #unique #max(200)
     - updated_at: date = now()
 
-- name: stripe_price
+- object: stripe_price
   id: [price_id]
   schema:
     - created_at: date = now()
-    - currency: string #required #max(3)
+    - currency: string #max(3)
     - is_active: boolean = true
-    - price_id: string #required #unique #max(200)
-    - product_id: string #required #max(200)
+    - price_id: string #unique #max(200)
+    - product_id: string #max(200)
     - recurring_interval: day | week | month | year?
     - recurring_interval_count: int = 1 #min(1)
-    - unit_amount: int #required #min(0)
+    - unit_amount: int #min(0)
 
-- name: stripe_refund
+- object: stripe_refund
   id: [refund_id]
   schema:
-    - amount: int #required #min(0)
+    - amount: int #min(0)
     - created_at: date = now()
     - metadata: string? # j_s_o_n
-    - payment_intent_id: string #required #max(200)
+    - payment_intent_id: string #max(200)
     - reason: duplicate | fraudulent | requested_by_customer?
-    - refund_id: string #required #unique #max(200)
+    - refund_id: string #unique #max(200)
     - status: pending | succeeded | failed | cancelled = pending
 
-- name: stripe_webhook_event
+- object: stripe_webhook_event
   id: [event_id]
   schema:
     - created_at: date = now()
-    - event_id: string #required #unique #max(200)
-    - event_type: string #required #max(200)
+    - event_id: string #unique #max(200)
+    - event_type: string #max(200)
     - payload: string #required
     - processed_at: date?
     - status: pending | processed | failed = pending
 
-- name: stripe_line_item
+- object: stripe_line_item
   schema:
     - price_id: string
     - quantity: int
 
-- name: stripe_billing_details
+- object: stripe_billing_details
   schema:
     - name: string
     - email: string
     - phone: string
     - address: stripe_address
 
-- name: stripe_address
+- object: stripe_address
   schema:
     - line1: string
     - line2: string
@@ -109,7 +109,7 @@
     - postal_code: string
     - country: string
 
-- name: stripe_card
+- object: stripe_card
   schema:
     - number: string
     - exp_month: int

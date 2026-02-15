@@ -1,4 +1,4 @@
-- name: form_submitted
+- event: form_submitted
   schema:
     form_id: id #required
     form_name: string?
@@ -6,7 +6,7 @@
     submission_time_ms: int? #min(0)
     submitted_at: date = now()
 
-- name: form_validation_failed
+- event: form_validation_failed
   schema:
     form_id: id #required
     form_name: string?
@@ -15,7 +15,7 @@
     error_count: int? #min(0)
     failed_at: date = now()
 
-- name: form_reset
+- event: form_reset
   schema:
     form_id: id #required
     form_name: string?

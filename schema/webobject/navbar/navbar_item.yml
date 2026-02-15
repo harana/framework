@@ -1,4 +1,4 @@
-- name: navbar_item
+- webobject: navbar_item
   id: [navbar_id, name]
   attributes:
     - aria_label: string? #max(200)
@@ -6,7 +6,7 @@
     - icon: string? #max(100)
     - is_current: boolean = false
     - label: string? #max(200)
-    - navbar_id: id #required -> ui_navbar.id
+    - navbar_id: id -> ui_navbar.id
     - order: int = 0 #min(0)
     - section_id: id? -> ui_navbar_section.id
   events:

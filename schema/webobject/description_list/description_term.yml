@@ -3,5 +3,5 @@ type: ui_component
 id:
   - identifier
 
-  list_id: id #required -> description_list.id
+  list_id: id -> description_list.id
   text: string #required

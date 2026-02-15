@@ -1,4 +1,4 @@
-- name: bento_grid
+- webobject: bento_grid
   attributes:
     - background: white | gray = white
     - description: string? #max(500)

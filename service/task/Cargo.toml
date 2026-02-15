@@ -8,6 +8,7 @@ path = "lib.rs"
 
 [dependencies]
 harana-components-lock = { path = "../lock" }
+harana-components-cache = { path = "../cache" }
 harana-components-storage = { path = "../storage" }
 harana-components-schedule = { path = "../schedule" }
 async-trait.workspace = true

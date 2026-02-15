@@ -1,4 +1,4 @@
-- name: read
+- action: read
   inputs:
     file: string #required
     has_headers: boolean = true
@@ -7,7 +7,7 @@
   outputs:
     rows: list[excel_row]
 
-- name: write
+- action: write
   inputs:
     data: list[excel_row] #required
     file: string #required
@@ -17,13 +17,13 @@
   outputs:
     path: string
 
-- name: get_sheets
+- action: get_sheets
   inputs:
     file: string #required
   outputs:
     sheets: list[string]
 
-- name: read_sheet
+- action: read_sheet
   inputs:
     file: string #required
     has_headers: boolean = true
@@ -32,7 +32,7 @@
   outputs:
     rows: list[excel_row]
 
-- name: excel_workbook
+- object: excel_workbook
   class:
     path: string
     sheets: list[string]
@@ -40,6 +40,6 @@
     row_count: int
     column_count: int
 
-- name: excel_row
+- object: excel_row
   class:
     values: map[string, any]

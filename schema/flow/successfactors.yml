@@ -1,4 +1,4 @@
-- name: get_employee
+- action: get_employee
   inputs:
     expand: list[string]
     select: list[string]
@@ -15,7 +15,7 @@
     status: string
     user_id: string
 
-- name: list_employees
+- action: list_employees
   inputs:
     expand: list[string]
     filter: string
@@ -28,7 +28,7 @@
     employees: list[sf_employee]
     next_link: string
 
-- name: create_employee
+- action: create_employee
   inputs:
     custom_fields: map[string, any]
     department: string
@@ -43,7 +43,7 @@
     success: boolean
     user_id: string
 
-- name: update_employee
+- action: update_employee
   inputs:
     custom_fields: map[string, any]
     department: string
@@ -56,7 +56,7 @@
   outputs:
     success: boolean
 
-- name: terminate_employee
+- action: terminate_employee
   inputs:
     last_day_worked: date
     notes: string
@@ -66,7 +66,7 @@
   outputs:
     success: boolean
 
-- name: get_job_info
+- action: get_job_info
   inputs:
     effective_date: date
     user_id: string #required
@@ -81,7 +81,7 @@
     location: string
     manager_id: string
 
-- name: list_job_history
+- action: list_job_history
   inputs:
     end_date: date
     start_date: date
@@ -90,7 +90,7 @@
     count: int
     job_history: list[sf_job_history_entry]
 
-- name: get_compensation
+- action: get_compensation
   inputs:
     effective_date: date
     user_id: string #required
@@ -103,7 +103,7 @@
     pay_type: string
     salary: float
 
-- name: list_compensation_history
+- action: list_compensation_history
   inputs:
     end_date: date
     start_date: date
@@ -112,7 +112,7 @@
     compensation_history: list[sf_compensation_entry]
     count: int
 
-- name: get_time_off_balance
+- action: get_time_off_balance
   inputs:
     as_of_date: date
     time_type: string
@@ -121,7 +121,7 @@
     balances: list[sf_time_off_balance]
     total_balance: float
 
-- name: request_time_off
+- action: request_time_off
   inputs:
     comment: string
     duration_hours: float
@@ -135,7 +135,7 @@
     status: string
     success: boolean
 
-- name: list_time_off_requests
+- action: list_time_off_requests
   inputs:
     end_date: date
     start_date: date
@@ -146,21 +146,21 @@
     count: int
     requests: list[sf_time_off_request]
 
-- name: approve_time_off
+- action: approve_time_off
   inputs:
     comment: string
     request_id: string #required
   outputs:
     success: boolean
 
-- name: reject_time_off
+- action: reject_time_off
   inputs:
     reason: string #required
     request_id: string #required
   outputs:
     success: boolean
 
-- name: get_org_chart
+- action: get_org_chart
   inputs:
     depth: int = 3
     direction: up | down | both = both
@@ -169,7 +169,7 @@
     levels: int
     org_chart: sf_org_chart_node
 
-- name: get_direct_reports
+- action: get_direct_reports
   inputs:
     include_indirect: boolean = false
     manager_id: string #required
@@ -177,7 +177,7 @@
     count: int
     direct_reports: list[sf_employee]
 
-- name: list_departments
+- action: list_departments
   inputs:
     filter: string
     top: int = 100
@@ -185,7 +185,7 @@
     count: int
     departments: list[sf_department]
 
-- name: get_department
+- action: get_department
   inputs:
     department_id: string #required
   outputs:
@@ -196,7 +196,7 @@
     name: string
     parent_department_id: string
 
-- name: list_positions
+- action: list_positions
   inputs:
     department_id: string
     status: active | inactive
@@ -205,7 +205,7 @@
     count: int
     positions: list[sf_position]
 
-- name: get_position
+- action: get_position
   inputs:
     position_id: string #required
   outputs:
@@ -217,7 +217,7 @@
     status: string
     title: string
 
-- name: employee
+- object: employee
   class:
     user_id: string
     first_name: string
@@ -230,7 +230,7 @@
     status: string
     custom_fields: map[string, any]
 
-- name: sf_employee
+- object: sf_employee
   class:
     user_id: string
     first_name: string
@@ -242,7 +242,7 @@
     hire_date: date
     status: string
 
-- name: sf_job_history_entry
+- object: sf_job_history_entry
   class:
     effective_date: date
     job_title: string
@@ -250,7 +250,7 @@
     job_code: string
     employment_type: string
 
-- name: sf_compensation_entry
+- object: sf_compensation_entry
   class:
     effective_date: date
     salary: float
@@ -258,14 +258,14 @@
     pay_grade: string
     frequency: string
 
-- name: sf_time_off_balance
+- object: sf_time_off_balance
   class:
     time_type: string
     balance: float
     used: float
     pending: float
 
-- name: sf_time_off_request
+- object: sf_time_off_request
   class:
     request_id: string
     user_id: string
@@ -276,14 +276,14 @@
     status: string
     comment: string
 
-- name: sf_org_chart_node
+- object: sf_org_chart_node
   class:
     user_id: string
     name: string
     job_title: string
     reports: list[sf_org_chart_node]
 
-- name: sf_department
+- object: sf_department
   class:
     department_id: string
     name: string
@@ -291,7 +291,7 @@
     parent_department_id: string
     head_of_department: string
 
-- name: sf_position
+- object: sf_position
   class:
     position_id: string
     title: string

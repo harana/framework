@@ -1,34 +1,34 @@
-- name: cloudflare_queue
+- object: cloudflare_queue
   id: [account_id, queue_name]
   schema:
-    - account_id: string #required #max(50)
+    - account_id: string #max(50)
     - created_at: date = now()
     - queue_id: string? #unique #max(255)
-    - queue_name: string #required #unique #max(255)
+    - queue_name: string #unique #max(255)
     - updated_at: date = now()
 
-- name: cloudflare_queue_message
+- object: cloudflare_queue_message
   id: [queue_id, message_id]
   schema:
     - body: string #required
     - content_type: json | text | bytes | v8 = json
     - created_at: date = now()
     - delay_seconds: int? #min(0)
-    - message_id: string #required #unique #max(255)
-    - queue_id: id #required -> cf_queue.id
+    - message_id: string #unique #max(255)
+    - queue_id: id -> cf_queue.id
     - receive_count: int = 0 #min(0)
     - status: pending | in_flight | processed | dead_letter = pending
     - timestamp: date = now()
 
-- name: cloudflare_queue_consumer
+- object: cloudflare_queue_consumer
   id: [queue_id, consumer_name]
   schema:
-    - consumer_name: string #required #max(255)
+    - consumer_name: string #max(255)
     - created_at: date = now()
     - max_batch_size: int = 10 #min(1) #max(100)
     - max_batch_timeout: int = 5 #min(0) #max(30)
     - max_retries: int = 3 #min(0) #max(100)
-    - queue_id: id #required -> cf_queue.id
+    - queue_id: id -> cf_queue.id
     - script_name: string? #max(255)
     - updated_at: date = now()
 

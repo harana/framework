@@ -1,0 +1,150 @@
+- action: register
+  inputs:
+    active: boolean = true
+    description: string
+    events: list[string]
+    secret: string
+    url: string
+  outputs:
+    secret: string
+    success: boolean
+    webhook_id: string
+
+- action: update
+  inputs:
+    active: boolean
+    description: string
+    events: list[string]
+    secret: string
+    url: string
+    webhook_id: string
+  outputs:
+    success: boolean
+
+- action: unregister
+  inputs:
+    webhook_id: string
+  outputs:
+    success: boolean
+
+- action: trigger
+  inputs:
+    event: string
+    payload: any
+    webhook_ids: list[string]
+  outputs:
+    success: boolean
+    triggered_count: int
+
+- action: get
+  inputs:
+    webhook_id: string
+  outputs:
+    active: boolean
+    created_at: date
+    description: string
+    events: list[string]
+    url: string
+
+- action: lists
+  inputs:
+    active_only: boolean = false
+    event: string
+    limit: int = 100
+    offset: int = 0
+  outputs:
+    total: int
+    webhooks: list[webhook]
+
+- action: test
+  inputs:
+    payload: any
+    webhook_id: string
+  outputs:
+    error: string
+    response_time_ms: int
+    status_code: int
+    success: boolean
+
+- action: get_deliveries
+  inputs:
+    limit: int = 50
+    offset: int = 0
+    status: success | failed | pending
+    webhook_id: string
+  outputs:
+    deliveries: list[webhook_delivery]
+    total: int
+
+- action: retry_delivery
+  inputs:
+    delivery_id: string
+  outputs:
+    status_code: int
+    success: boolean
+
+- action: verify_signature
+  inputs:
+    algorithm: sha256 | sha512 = sha256
+    payload: string
+    secret: string
+    signature: string
+  outputs:
+    valid: boolean
+
+- action: rotate_secret
+  inputs:
+    webhook_id: string
+  outputs:
+    new_secret: string
+    success: boolean
+
+- object: webhook
+  class:
+    webhook_id: string
+    url: string
+    events: list[string]
+    secret: string
+    active: boolean
+    description: string
+    created_at: date
+
+- object: delivery
+  class:
+    delivery_id: string
+    webhook_id: string
+    event: string
+    status: string
+    status_code: int
+    response_time_ms: int
+    error: string
+    created_at: date
+
+- object: webhook
+  schema:
+    - created_at: date = now()
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - secret: string? #max(500) #encrypted
+    - updated_at: date = now()
+    - url: string #url
+
+- object: delivery
+  id: [webhook_id, event_type, created_at]
+  schema:
+    - created_at: date = now()
+    - event_type: string #max(100)
+    - payload: string
+    - request_headers: string?
+    - response_body: string?
+    - response_code: int?
+    - response_headers: string?
+    - retry_count: int = 0 #min(0)
+    - status: pending | delivered | failed = pending
+    - webhook_id: id -> webhook.id
+
+- object: event
+  schema:
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - payload_schema: string?

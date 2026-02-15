@@ -13,6 +13,7 @@ chrono-tz.workspace = true
 cron.workspace = true
 dashmap.workspace = true
 futures.workspace = true
+harana-components-cache = { path = "../cache" }
 harana-components-lock = { path = "../lock" }
 harana-components-storage = { path = "../storage" }
 parking_lot.workspace = true

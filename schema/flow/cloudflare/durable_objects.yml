@@ -1,32 +1,32 @@
-- name: id_from_name
+- action: id_from_name
   inputs:
     name: string #required
     namespace: string #required
   outputs:
     id: string
 
-- name: id_from_string
+- action: id_from_string
   inputs:
     id: string #required
     namespace: string #required
   outputs:
     id: string
 
-- name: new_unique_id
+- action: new_unique_id
   inputs:
     jurisdiction: string
     namespace: string #required
   outputs:
     id: string
 
-- name: get_stub
+- action: get_stub
   inputs:
     id: string #required
     namespace: string #required
   outputs:
     stub: durable_object_stub
 
-- name: fetch
+- action: fetch
   inputs:
     body: any
     headers: headers
@@ -39,49 +39,49 @@
     headers: headers
     status_code: int
 
-- name: storage_get
+- action: storage_get
   inputs:
     key: string #required
   outputs:
     found: boolean
     value: any
 
-- name: storage_get_multiple
+- action: storage_get_multiple
   inputs:
     keys: list[string] #required
   outputs:
     values: any
 
-- name: storage_put
+- action: storage_put
   inputs:
     key: string #required
     value: any #required
   outputs:
     success: boolean
 
-- name: storage_put_multiple
+- action: storage_put_multiple
   inputs:
     entries: any #required
   outputs:
     success: boolean
 
-- name: storage_delete
+- action: storage_delete
   inputs:
     key: string #required
   outputs:
     deleted: boolean
 
-- name: storage_delete_multiple
+- action: storage_delete_multiple
   inputs:
     keys: list[string] #required
   outputs:
     deleted_count: int
 
-- name: storage_delete_all
+- action: storage_delete_all
   outputs:
     success: boolean
 
-- name: storage_list
+- action: storage_list
   inputs:
     end: string
     limit: int
@@ -91,13 +91,13 @@
   outputs:
     entries: any
 
-- name: storage_transaction
+- action: storage_transaction
   inputs:
     closure: any #required
   outputs:
     result: any
 
-- name: sql_exec
+- action: sql_exec
   inputs:
     params: list[any]
     sql: string #required
@@ -107,40 +107,40 @@
     rows_read: int
     rows_written: int
 
-- name: set_alarm
+- action: set_alarm
   inputs:
     scheduled_time: date #required
   outputs:
     success: boolean
 
-- name: get_alarm
+- action: get_alarm
   outputs:
     scheduled_time: date
 
-- name: delete_alarm
+- action: delete_alarm
   outputs:
     success: boolean
 
-- name: accept_websocket
+- action: accept_websocket
   inputs:
     tags: list[string]
   outputs:
     success: boolean
 
-- name: get_websockets
+- action: get_websockets
   inputs:
     tag: string
   outputs:
     websockets: list[web_socket]
 
-- name: set_websocket_auto_response
+- action: set_websocket_auto_response
   inputs:
     request: string
     response: string #required
   outputs:
     success: boolean
 
-- name: hibernate_websocket
+- action: hibernate_websocket
   inputs:
     websocket: web_socket #required
   outputs:

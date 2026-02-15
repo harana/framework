@@ -1,6 +1,6 @@
-- name: dropdown_header
+- webobject: dropdown_header
   id: [dropdown_id, name]
   attributes:
-    - content: string #required #max(500)
-    - dropdown_id: id #required -> ui_dropdown.id
+    - content: string #max(500)
+    - dropdown_id: id -> ui_dropdown.id
     - order: int = 0 #min(0)

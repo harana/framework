@@ -1,25 +1,25 @@
-- name: short_url
+- object: short_url
   id: [alias]
   schema:
-    - alias: string #required #unique #max(100)
+    - alias: string #unique #max(100)
     - click_count: int = 0 #min(0)
     - created_at: date = now()
     - created_by: id? -> user.id
     - expires_at: date?
     - is_active: boolean = true
-    - original_url: string #required #url #max(2000)
-    - short_url: string #required #url #max(500)
+    - original_url: string #url #max(2000)
+    - short_url: string #url #max(500)
 
-- name: short_url_click
+- object: short_url_click
   id: [short_url_id, clicked_at]
   schema:
     - clicked_at: date = now()
     - ip_address: string? #max(45)
     - referrer: string? #max(2000)
-    - short_url_id: id #required -> short_url.id
+    - short_url_id: id -> short_url.id
     - user_agent: string? #max(500)
 
-- name: url
+- object: url
   schema:
     - url: string
     - protocol: string

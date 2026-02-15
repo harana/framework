@@ -1,36 +1,36 @@
-- name: memgraph_node
+- object: memgraph_node
   id: [node_id]
   schema:
     - created_at: date = now()
     - labels: string? # json array
-    - node_id: string #required #max(200)
+    - node_id: string #max(200)
     - properties: string? # json
 
-- name: memgraph_relationship
+- object: memgraph_relationship
   id: [relationship_id]
   schema:
     - created_at: date = now()
-    - from_node_id: string #required #max(200)
+    - from_node_id: string #max(200)
     - properties: string? # json
-    - relationship_id: string #required #max(200)
-    - to_node_id: string #required #max(200)
-    - type: string #required #max(200)
+    - relationship_id: string #max(200)
+    - to_node_id: string #max(200)
+    - type: string #max(200)
 
-- name: memgraph_index
+- object: memgraph_index
   id: [label, property]
   schema:
     - created_at: date = now()
-    - label: string #required #max(200)
-    - property: string #required #max(200)
+    - label: string #max(200)
+    - property: string #max(200)
 
-- name: memgraph_query_log
+- object: memgraph_query_log
   id: [executed_at]
   schema:
     - duration_ms: int? #min(0)
     - error_message: string? #max(1000)
     - executed_at: date = now()
     - nodes_affected: int = 0 #min(0)
-    - query: string #required #max(10000)
+    - query: string #max(10000)
     - relationships_affected: int = 0 #min(0)
     - status: success | failed | timeout = success
     - user_id: id? -> user.id

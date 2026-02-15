@@ -1,4 +1,4 @@
-- name: check_service
+- action: check_service
   inputs:
     service_name: string #required
     timeout: int = 5
@@ -8,7 +8,7 @@
     latency_ms: int
     status: string
 
-- name: check_database
+- action: check_database
   inputs:
     connection_name: string = "default"
     timeout: int = 5
@@ -17,7 +17,7 @@
     healthy: boolean
     latency_ms: int
 
-- name: check_cache
+- action: check_cache
   inputs:
     cache_name: string = "default"
     timeout: int = 5
@@ -26,7 +26,7 @@
     healthy: boolean
     latency_ms: int
 
-- name: check_external_api
+- action: check_external_api
   inputs:
     expected_status: int = 200
     method: get | head = get
@@ -37,7 +37,7 @@
     latency_ms: int
     status_code: int
 
-- name: check_disk_space
+- action: check_disk_space
   inputs:
     path: string = "/"
     threshold_percent: int = 90
@@ -48,7 +48,7 @@
     total_bytes: int
     used_bytes: int
 
-- name: check_memory
+- action: check_memory
   inputs:
     threshold_percent: int = 90
   outputs:
@@ -58,7 +58,7 @@
     total_bytes: int
     used_bytes: int
 
-- name: check_all
+- action: check_all
   inputs:
     fail_fast: boolean = false
     timeout: int = 30
@@ -68,7 +68,7 @@
     healthy: boolean
     passed_count: int
 
-- name: get_system_status
+- action: get_system_status
   inputs:
     include_metrics: boolean = true
   outputs:
@@ -77,7 +77,7 @@
     uptime_seconds: int
     version: string
 
-- name: health_status
+- object: health_status
   class:
     service_name: string
     healthy: boolean
@@ -86,20 +86,20 @@
     details: health_details
     checked_at: date
 
-- name: health_details
+- object: health_details
   class:
     message: string
     error: string
     extra: map[string, any]
 
-- name: health_check
+- object: health_check
   class:
     name: string
     healthy: boolean
     latency_ms: int
     error: string
 
-- name: system_metrics
+- object: system_metrics
   class:
     cpu_usage: float
     memory_usage: float

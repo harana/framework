@@ -1,4 +1,4 @@
-- name: setting_changed
+- event: setting_changed
   schema:
     setting_id: id #required
     setting_key: string #required
@@ -7,7 +7,7 @@
     new_value: string #required
     changed_at: date = now()
 
-- name: preference_toggled
+- event: preference_toggled
   schema:
     preference_id: id #required
     preference_key: string #required
@@ -15,14 +15,14 @@
     new_state: boolean #required
     toggled_at: date = now()
 
-- name: theme_switched
+- event: theme_switched
   schema:
     from_theme: string?
     to_theme: string #required
     theme_type: light | dark | system | custom = system
     switched_at: date = now()
 
-- name: language_changed
+- event: language_changed
   schema:
     from_language: string?
     to_language: string #required

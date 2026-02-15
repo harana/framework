@@ -1,4 +1,4 @@
-- name: notification
+- webobject: notification
   attributes:
     - avatar_url: string? #max(2000)
     - description: string? #max(500)
@@ -7,7 +7,7 @@
     - primary_action_label: string? #max(100)
     - secondary_action_label: string? #max(100)
     - show_close_button: boolean = true
-    - title: string #required #max(200)
+    - title: string #max(200)
     - variant: simple | avatar | buttons_below | condensed | actions = simple
   events:
     - close

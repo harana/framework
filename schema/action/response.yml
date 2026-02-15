@@ -1,0 +1,999 @@
+- action: response/bad_gateway
+  inputs:
+    - name: message
+      type: string
+      required: false
+      description: custom error message
+    - name: custom_data
+      type: hash
+      required: false
+      description: additional custom data to include in response
+  outputs:
+    - bad_gateway_output
+
+- action: response/bad_request
+  inputs:
+    - name: custom_data
+      type: hash
+      required: false
+      description: additional custom data to include in response
+    - name: errors
+      type: array[string]
+      required: false
+      description: list of validation errors
+    - name: message
+      type: string
+      required: false
+      description: custom error message
+  outputs:
+    - bad_request_output
+
+- action: response/binary
+  inputs:
+    - name: content_type
+      type: string
+      required: true
+      description: mime type of the binary content
+    - name: data
+      type: bytes
+      required: true
+      description: binary data to return
+    - name: filename
+      type: string
+      required: false
+      description: suggested filename for download
+    - name: status_code
+      type: integer
+      required: false
+      description: http status code (default 200)
+  outputs:
+    - binary_output
+
+- action: response/cors_preflight
+  inputs:
+    - name: allowed_origins
+      type: array[string]
+      required: false
+      description: list of allowed origins
+    - name: allowed_headers
+      type: array[string]
+      required: false
+      description: list of allowed headers
+    - name: allowed_methods
+      type: array[string]
+      required: false
+      description: list of allowed http methods
+    - name: max_age
+      type: integer
+      required: false
+      description: max age for preflight cache in seconds
+  outputs:
+    - cors_preflight_output
+
+- action: response/csv
+  inputs:
+    - name: data
+      type: array[hash]
+      required: true
+      description: data rows to convert to csv
+    - name: filename
+      type: string
+      required: false
+      description: suggested filename for download
+    - name: delimiter
+      type: string
+      required: false
+      description: csv delimiter character (default comma)
+    - name: include_headers
+      type: boolean
+      required: false
+      description: whether to include header row (default true)
+  outputs:
+    - csv_output
+
+- action: response/delete_cookie
+  inputs:
+    - name: name
+      type: string
+      required: true
+      description: name of the cookie to delete
+    - name: path
+      type: string
+      required: false
+      description: cookie path
+    - name: domain
+      type: string
+      required: false
+      description: cookie domain
+  outputs:
+    - delete_cookie_output
+
+- action: response/empty
+  inputs:
+    - name: status_code
+      type: integer
+      required: false
+      description: http status code (default 204)
+  outputs:
+    - empty_output
+
+- action: response/error
+  inputs:
+    - name: message
+      type: string
+      required: true
+      description: error message
+    - name: status_code
+      type: integer
+      required: true
+      description: http status code
+    - name: details
+      type: string
+      required: false
+      description: additional error details
+    - name: error_code
+      type: string
+      required: false
+      description: application-specific error code
+  outputs:
+    - error_output
+
+- action: response/file_download
+  inputs:
+    - name: file_path
+      type: string
+      required: true
+      description: path to the file to download
+    - name: filename
+      type: string
+      required: false
+      description: suggested filename for download
+    - name: content_type
+      type: string
+      required: false
+      description: mime type of the file
+    - name: inline
+      type: boolean
+      required: false
+      description: display inline instead of download
+  outputs:
+    - file_download_output
+
+- action: response/forbidden
+  inputs:
+    - name: message
+      type: string
+      required: false
+      description: custom error message
+    - name: custom_data
+      type: hash
+      required: false
+      description: additional custom data to include in response
+  outputs:
+    - forbidden_output
+
+- action: response/graphql
+  inputs:
+    - name: data
+      type: string
+      required: false
+      description: graph_ql response data as json string
+    - name: errors
+      type: array[hash]
+      required: false
+      description: graph_ql errors
+    - name: extensions
+      type: hash
+      required: false
+      description: graph_ql extensions
+  outputs:
+    - graphql_output
+
+- action: response/html
+  inputs:
+    - name: html
+      type: string
+      required: true
+      description: html content to return
+    - name: status_code
+      type: integer
+      required: false
+      description: http status code (default 200)
+  outputs:
+    - html_output
+
+- action: response/internal_server_error
+  inputs:
+    - name: custom_data
+      type: hash
+      required: false
+      description: additional custom data to include in response
+    - name: message
+      type: string
+      required: false
+      description: custom error message
+    - name: include_details
+      type: boolean
+      required: false
+      description: whether to include error details
+    - name: error
+      type: string
+      required: false
+      description: error details
+  outputs:
+    - internal_server_error_output
+
+- action: response/json
+  inputs:
+    - name: data
+      type: string
+      required: true
+      description: json string data to return
+    - name: status_code
+      type: integer
+      required: false
+      description: http status code (default 200)
+    - name: pretty
+      type: boolean
+      required: false
+      description: whether to pretty-print the json
+  outputs:
+    - json_output
+
+- action: response/not_found
+  inputs:
+    - name: message
+      type: string
+      required: false
+      description: custom error message
+    - name: custom_data
+      type: hash
+      required: false
+      description: additional custom data to include in response
+    - name: include_body
+      type: boolean
+      required: false
+      description: whether to include response body
+  outputs:
+    - not_found_output
+
+- action: response/paginated
+  inputs:
+    - name: total
+      type: integer
+      required: true
+      description: total number of items
+    - name: data
+      type: array[any]
+      required: true
+      description: items for the current page
+    - name: include_metadata
+      type: boolean
+      required: false
+      description: whether to include pagination metadata
+    - name: page
+      type: integer
+      required: false
+      description: current page number
+    - name: page_size
+      type: integer
+      required: false
+      description: number of items per page
+  outputs:
+    - paginated_output
+
+- action: response/redirect
+  inputs:
+    - name: url
+      type: string
+      required: true
+      description: url to redirect to
+    - name: preserve_method
+      type: boolean
+      required: false
+      description: whether to preserve the http method
+    - name: status_code
+      type: integer
+      required: false
+      description: http redirect status code (default 302)
+  outputs:
+    - redirect_output
+
+- action: response/render_template
+  inputs:
+    - name: template
+      type: string
+      required: true
+      description: template content string
+    - name: content_type
+      type: string
+      required: false
+      description: content type of the rendered output
+    - name: template_engine
+      type: string
+      required: false
+      description: template engine to use
+    - name: data
+      type: hash
+      required: false
+      description: data to pass to the template
+  outputs:
+    - render_template_output
+
+- action: response/render_template_file
+  inputs:
+    - name: template_path
+      type: string
+      required: true
+      description: path to the template file
+    - name: content_type
+      type: string
+      required: false
+      description: content type of the rendered output
+    - name: data
+      type: hash
+      required: false
+      description: data to pass to the template
+    - name: template_engine
+      type: string
+      required: false
+      description: template engine to use
+  outputs:
+    - render_template_file_output
+
+- action: response/service_unavailable
+  inputs:
+    - name: retry_after
+      type: integer
+      required: false
+      description: suggested retry delay in seconds
+    - name: custom_data
+      type: hash
+      required: false
+      description: additional custom data to include in response
+    - name: message
+      type: string
+      required: false
+      description: custom error message
+  outputs:
+    - service_unavailable_output
+
+- action: response/set_cookie
+  inputs:
+    - name: name
+      type: string
+      required: true
+      description: cookie name
+    - name: value
+      type: string
+      required: true
+      description: cookie value
+    - name: domain
+      type: string
+      required: false
+      description: cookie domain
+    - name: http_only
+      type: boolean
+      required: false
+      description: http-only flag
+    - name: secure
+      type: boolean
+      required: false
+      description: secure flag
+    - name: max_age
+      type: integer
+      required: false
+      description: max age in seconds
+    - name: path
+      type: string
+      required: false
+      description: cookie path
+    - name: expires
+      type: string
+      required: false
+      description: expiration datetime string
+    - name: same_site
+      type: string
+      required: false
+      description: same_site attribute (strict, lax, none)
+  outputs:
+    - set_cookie_output
+
+- action: response/sse_event
+  inputs:
+    - name: data
+      type: string
+      required: true
+      description: event data
+    - name: retry
+      type: integer
+      required: false
+      description: retry interval in milliseconds
+    - name: event
+      type: string
+      required: false
+      description: event type name
+    - name: id
+      type: string
+      required: false
+      description: event id
+  outputs:
+    - sse_event_output
+
+- action: response/sse_stream
+  inputs:
+    - name: events
+      type: array[hash]
+      required: true
+      description: array of sse events
+    - name: keep_alive_interval
+      type: integer
+      required: false
+      description: keep-alive interval in seconds
+  outputs:
+    - sse_stream_output
+
+- action: response/streaming
+  inputs:
+    - name: stream_source
+      type: string
+      required: true
+      description: source identifier for the stream
+    - name: chunk_size
+      type: integer
+      required: false
+      description: size of each chunk in bytes
+    - name: content_type
+      type: string
+      required: false
+      description: content type of the stream
+  outputs:
+    - streaming_output
+
+- action: response/text
+  inputs:
+    - name: text
+      type: string
+      required: true
+      description: plain text content to return
+    - name: content_type
+      type: string
+      required: false
+      description: content type (default text/plain)
+    - name: status_code
+      type: integer
+      required: false
+      description: http status code (default 200)
+  outputs:
+    - text_output
+
+- action: response/unauthorized
+  inputs:
+    - name: www_authenticate
+      type: string
+      required: false
+      description: www-authenticate header value
+    - name: message
+      type: string
+      required: false
+      description: custom error message
+    - name: custom_data
+      type: hash
+      required: false
+      description: additional custom data to include in response
+  outputs:
+    - unauthorized_output
+
+- action: response/xml
+  inputs:
+    - name: xml
+      type: string
+      required: true
+      description: xml content to return
+    - name: status_code
+      type: integer
+      required: false
+      description: http status code (default 200)
+  outputs:
+    - xml_output
+
+# Output Types
+
+- class: bad_gateway_output
+  fields:
+    - name: status_code
+      type: integer
+      description: http status code (502)
+    - name: message
+      type: string
+      description: error message
+    - name: body
+      type: string
+      description: response body
+
+- class: bad_request_output
+  fields:
+    - name: status_code
+      type: integer
+      description: http status code (400)
+    - name: message
+      type: string
+      description: error message
+    - name: errors
+      type: array[string]
+      description: validation errors
+    - name: body
+      type: string
+      description: response body
+
+- class: binary_output
+  fields:
+    - name: data
+      type: bytes
+      description: binary data
+    - name: content_type
+      type: string
+      description: mime type
+    - name: filename
+      type: string
+      description: suggested filename
+    - name: status_code
+      type: integer
+      description: http status code
+
+- class: cors_preflight_output
+  fields:
+    - name: status_code
+      type: integer
+      description: http status code (204)
+    - name: headers
+      type: hash
+      description: cors headers
+
+- class: csv_output
+  fields:
+    - name: data
+      type: string
+      description: csv content
+    - name: content_type
+      type: string
+      description: content type (text/csv)
+    - name: filename
+      type: string
+      description: suggested filename
+
+- class: delete_cookie_output
+  fields:
+    - name: set_cookie_header
+      type: string
+      description: set-cookie header value for deletion
+
+- class: empty_output
+  fields:
+    - name: status_code
+      type: integer
+      description: http status code
+
+- class: error_output
+  fields:
+    - name: status_code
+      type: integer
+      description: http status code
+    - name: message
+      type: string
+      description: error message
+    - name: error_code
+      type: string
+      description: application error code
+    - name: details
+      type: string
+      description: error details
+    - name: body
+      type: string
+      description: response body
+
+- class: file_download_output
+  fields:
+    - name: data
+      type: bytes
+      description: file content
+    - name: content_type
+      type: string
+      description: mime type
+    - name: filename
+      type: string
+      description: filename
+    - name: content_disposition
+      type: string
+      description: content-disposition header value
+
+- class: forbidden_output
+  fields:
+    - name: status_code
+      type: integer
+      description: http status code (403)
+    - name: message
+      type: string
+      description: error message
+    - name: body
+      type: string
+      description: response body
+
+- class: graphql_output
+  fields:
+    - name: data
+      type: any
+      description: graph_ql data
+    - name: errors
+      type: array[hash]
+      description: graph_ql errors
+    - name: extensions
+      type: hash
+      description: graph_ql extensions
+    - name: body
+      type: string
+      description: full response body as json
+
+- class: html_output
+  fields:
+    - name: html
+      type: string
+      description: html content
+    - name: status_code
+      type: integer
+      description: http status code
+
+- class: internal_server_error_output
+  fields:
+    - name: status_code
+      type: integer
+      description: http status code (500)
+    - name: message
+      type: string
+      description: error message
+    - name: body
+      type: string
+      description: response body
+
+- class: json_output
+  fields:
+    - name: data
+      type: string
+      description: json string
+    - name: status_code
+      type: integer
+      description: http status code
+
+- class: not_found_output
+  fields:
+    - name: status_code
+      type: integer
+      description: http status code (404)
+    - name: message
+      type: string
+      description: error message
+    - name: body
+      type: string
+      description: response body
+
+- class: paginated_output
+  fields:
+    - name: data
+      type: array[any]
+      description: page items
+    - name: total
+      type: integer
+      description: total item count
+    - name: page
+      type: integer
+      description: current page
+    - name: page_size
+      type: integer
+      description: items per page
+    - name: total_pages
+      type: integer
+      description: total pages
+    - name: has_next
+      type: boolean
+      description: has next page
+    - name: has_previous
+      type: boolean
+      description: has previous page
+
+- class: redirect_output
+  fields:
+    - name: url
+      type: string
+      description: redirect url
+    - name: status_code
+      type: integer
+      description: http redirect status code
+
+- class: render_template_output
+  fields:
+    - name: content
+      type: string
+      description: rendered content
+    - name: content_type
+      type: string
+      description: content type
+    - name: status_code
+      type: integer
+      description: http status code
+
+- class: render_template_file_output
+  fields:
+    - name: content
+      type: string
+      description: rendered content
+    - name: content_type
+      type: string
+      description: content type
+    - name: status_code
+      type: integer
+      description: http status code
+
+- class: service_unavailable_output
+  fields:
+    - name: status_code
+      type: integer
+      description: http status code (503)
+    - name: message
+      type: string
+      description: error message
+    - name: retry_after
+      type: integer
+      description: suggested retry delay
+    - name: body
+      type: string
+      description: response body
+
+- class: set_cookie_output
+  fields:
+    - name: set_cookie_header
+      type: string
+      description: set-cookie header value
+
+- class: sse_event_output
+  fields:
+    - name: event_string
+      type: string
+      description: formatted sse event string
+
+- class: sse_stream_output
+  fields:
+    - name: content_type
+      type: string
+      description: content type (text/event-stream)
+    - name: stream
+      type: string
+      description: sse stream content
+
+- class: streaming_output
+  fields:
+    - name: content_type
+      type: string
+      description: content type
+    - name: chunk_size
+      type: integer
+      description: chunk size
+
+- class: text_output
+  fields:
+    - name: text
+      type: string
+      description: plain text content
+    - name: content_type
+      type: string
+      description: content type
+    - name: status_code
+      type: integer
+      description: http status code
+
+- class: unauthorized_output
+  fields:
+    - name: status_code
+      type: integer
+      description: http status code (401)
+    - name: message
+      type: string
+      description: error message
+    - name: www_authenticate
+      type: string
+      description: www-authenticate header value
+    - name: body
+      type: string
+      description: response body
+
+- class: xml_output
+  fields:
+    - name: xml
+      type: string
+      description: xml content
+    - name: status_code
+      type: integer
+      description: http status code
+
+- object: template
+  schema:
+    - body_template: string?
+    - content_type: string = application/json #max(100)
+    - created_at: date = now()
+    - description: string? #max(500)
+    - headers: string? # json map
+    - is_active: boolean = true
+
+    - name: string #unique #max(200)
+    - status_code: int = 200 #min(100) #max(599)
+    - updated_at: date = now()
+
+- object: log
+  id: [request_path, created_at]
+  schema:
+    - content_type: string? #max(100)
+    - created_at: date = now()
+    - duration_ms: int? #min(0)
+    - request_method: string #max(10)
+    - request_path: string #max(2000)
+    - response_size: int? #min(0)
+    - status_code: int #min(100) #max(599)
+    - template_id: id? -> response_template.id
+
+- object: bad_gateway_output
+  schema:
+    - status_code: int
+    - message: string
+    - body: string
+
+- object: bad_request_output
+  schema:
+    - status_code: int
+    - message: string
+    - errors: list[string]
+    - body: string
+
+- object: binary_output
+  schema:
+    - data: bytes
+    - content_type: string
+    - filename: string
+    - status_code: int
+
+- object: cors_preflight_output
+  schema:
+    - status_code: int
+    - headers: map[string, any]
+
+- object: csv_output
+  schema:
+    - data: string
+    - content_type: string
+    - filename: string
+
+- object: delete_cookie_output
+  schema:
+    - set_cookie_header: string
+
+- object: empty_output
+  schema:
+    - status_code: int
+
+- object: error_output
+  schema:
+    - status_code: int
+    - message: string
+    - error_code: string
+    - details: string
+    - body: string
+
+- object: file_download_output
+  schema:
+    - data: bytes
+    - content_type: string
+    - filename: string
+    - content_disposition: string
+
+- object: forbidden_output
+  schema:
+    - status_code: int
+    - message: string
+    - body: string
+
+- object: graphql_output
+  schema:
+    - data: any
+    - errors: list[map[string, any]]
+    - extensions: map[string, any]
+    - body: string
+
+- object: html_output
+  schema:
+    - html: string
+    - status_code: int
+
+- object: internal_server_error_output
+  schema:
+    - status_code: int
+    - message: string
+    - body: string
+
+- object: json_output
+  schema:
+    - data: string
+    - status_code: int
+
+- object: not_found_output
+  schema:
+    - status_code: int
+    - message: string
+    - body: string
+
+- object: paginated_output
+  schema:
+    - data: list[any]
+    - total: int
+    - page: int
+    - page_size: int
+    - total_pages: int
+    - has_next: boolean
+    - has_previous: boolean
+
+- object: redirect_output
+  schema:
+    - url: string
+    - status_code: int
+
+- object: render_template_output
+  schema:
+    - content: string
+    - content_type: string
+    - status_code: int
+
+- object: render_template_file_output
+  schema:
+    - content: string
+    - content_type: string
+    - status_code: int
+
+- object: service_unavailable_output
+  schema:
+    - status_code: int
+    - message: string
+    - retry_after: int
+    - body: string
+
+- object: set_cookie_output
+  schema:
+    - set_cookie_header: string
+
+- object: sse_event_output
+  schema:
+    - event_string: string
+
+- object: sse_stream_output
+  schema:
+    - content_type: string
+    - stream: string
+
+- object: streaming_output
+  schema:
+    - content_type: string
+    - chunk_size: int
+
+- object: text_output
+  schema:
+    - text: string
+    - content_type: string
+    - status_code: int
+
+- object: unauthorized_output
+  schema:
+    - status_code: int
+    - message: string
+    - www_authenticate: string
+    - body: string
+
+- object: xml_output
+  schema:
+    - xml: string
+    - status_code: int

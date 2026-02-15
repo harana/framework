@@ -1,4 +1,4 @@
-- name: accordion_expanded
+- event: accordion_expanded
   schema:
     accordion_id: id #required
     section_id: id #required
@@ -6,7 +6,7 @@
     section_index: int? #min(0)
     expanded_at: date = now()
 
-- name: accordion_collapsed
+- event: accordion_collapsed
   schema:
     accordion_id: id #required
     section_id: id #required
@@ -14,7 +14,7 @@
     section_index: int? #min(0)
     collapsed_at: date = now()
 
-- name: accordion_section_clicked
+- event: accordion_section_clicked
   schema:
     accordion_id: id #required
     section_id: id #required

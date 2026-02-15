@@ -1,4 +1,4 @@
-- name: pdf_document
+- object: pdf_document
   schema:
     - author: string? #max(200)
     - blob_id: id? -> blob_object.id
@@ -15,7 +15,7 @@
     - title: string? #max(500)
     - updated_at: date = now()
 
-- name: pdf_template
+- object: pdf_template
   schema:
     - content_template: string #required
     - created_at: date = now()
@@ -27,7 +27,7 @@
     - page_size: a4 | letter | legal | a3 | a5 = a4
     - updated_at: date = now()
 
-- name: pdf_generation_log
+- object: pdf_generation_log
   id: [created_at]
   schema:
     - completed_at: date?
@@ -39,29 +39,29 @@
     - status: pending | running | completed | failed = pending
     - template_id: id? -> pdf_template.id
 
-- name: pdf_margin
+- object: pdf_margin
   schema:
     - top: float
     - right: float
     - bottom: float
     - left: float
 
-- name: pdf_options
+- object: pdf_options
   schema:
     - scale: float
     - print_background: boolean
     - prefer_css_page_size: boolean
 
-- name: pdf_template_data
+- object: pdf_template_data
   schema:
     - values: map[string, any]
 
-- name: pdf_page_text
+- object: pdf_page_text
   schema:
     - page_number: int
     - text: string
 
-- name: pdf_extracted_image
+- object: pdf_extracted_image
   schema:
     - page_number: int
     - image: bytes
@@ -69,23 +69,23 @@
     - width: int
     - height: int
 
-- name: pdf_permissions
+- object: pdf_permissions
   schema:
     - print: boolean
     - copy: boolean
     - modify: boolean
     - annotate: boolean
 
-- name: pdf_form_fields
+- object: pdf_form_fields
   schema:
     - fields: list[pdf_form_field_value]
 
-- name: pdf_form_field_value
+- object: pdf_form_field_value
   schema:
     - name: string
     - value: string
 
-- name: pdf_form_field
+- object: pdf_form_field
   schema:
     - name: string
     - type: string

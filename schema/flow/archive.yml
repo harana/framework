@@ -1,4 +1,4 @@
-- name: zip
+- action: zip
   inputs:
     compression_level: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 6
     include_hidden: boolean = false
@@ -11,7 +11,7 @@
     size: int
     success: boolean
 
-- name: unzip
+- action: unzip
   inputs:
     archive_path: string #required
     destination_path: string #required
@@ -23,7 +23,7 @@
     file_count: int
     success: boolean
 
-- name: tar
+- action: tar
   inputs:
     format: tar | tar.gz | tar.bz2 | tar.xz = tar
     include_hidden: boolean = false
@@ -36,7 +36,7 @@
     size: int
     success: boolean
 
-- name: untar
+- action: untar
   inputs:
     archive_path: string #required
     destination_path: string #required
@@ -48,7 +48,7 @@
     file_count: int
     success: boolean
 
-- name: gzip
+- action: gzip
   inputs:
     compression_level: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 6
     keep_source: boolean = true
@@ -61,7 +61,7 @@
     original_size: int
     success: boolean
 
-- name: gunzip
+- action: gunzip
   inputs:
     archive_path: string #required
     keep_archive: boolean = true
@@ -71,7 +71,7 @@
     size: int
     success: boolean
 
-- name: list
+- action: list
   inputs:
     archive_path: string #required
     archive_type: zip | tar | tar.gz | tar.bz2 | tar.xz | gz #required
@@ -81,7 +81,7 @@
     total_files: int
     total_size: int
 
-- name: add_to_archive
+- action: add_to_archive
   inputs:
     archive_path: string #required
     archive_type: zip | tar #required
@@ -91,7 +91,7 @@
     archive_path: string
     success: boolean
 
-- name: remove_from_archive
+- action: remove_from_archive
   inputs:
     archive_path: string #required
     archive_type: zip | tar #required
@@ -101,7 +101,7 @@
     removed_count: int
     success: boolean
 
-- name: bzip2
+- action: bzip2
   inputs:
     compression_level: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 9
     keep_source: boolean = true
@@ -114,7 +114,7 @@
     original_size: int
     success: boolean
 
-- name: bunzip2
+- action: bunzip2
   inputs:
     archive_path: string #required
     keep_archive: boolean = true
@@ -124,7 +124,7 @@
     size: int
     success: boolean
 
-- name: xz
+- action: xz
   inputs:
     compression_level: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 6
     keep_source: boolean = true
@@ -137,7 +137,7 @@
     original_size: int
     success: boolean
 
-- name: unxz
+- action: unxz
   inputs:
     archive_path: string #required
     keep_archive: boolean = true
@@ -147,7 +147,7 @@
     size: int
     success: boolean
 
-- name: verify_archive
+- action: verify_archive
   inputs:
     archive_path: string #required
     archive_type: zip | tar | tar.gz | tar.bz2 | tar.xz | gz #required
@@ -157,7 +157,7 @@
     file_count: int
     valid: boolean
 
-- name: get_archive_info
+- action: get_archive_info
   inputs:
     archive_path: string #required
   outputs:
@@ -169,7 +169,7 @@
     is_encrypted: boolean
     size: int
 
-- name: archive
+- object: archive
   class:
     path: string
     archive_type: string
@@ -179,7 +179,7 @@
     is_encrypted: boolean
     created_at: date
 
-- name: archive_entry
+- object: archive_entry
   class:
     path: string
     size: int

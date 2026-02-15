@@ -1,6 +1,6 @@
-- name: sidebar_section
+- webobject: sidebar_section
   id: [sidebar_id, name]
   attributes:
     - order: int = 0 #min(0)
     - parent_type: header | body | footer = body
-    - sidebar_id: id #required -> ui_sidebar.id
+    - sidebar_id: id -> ui_sidebar.id

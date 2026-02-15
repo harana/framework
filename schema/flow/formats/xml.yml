@@ -1,4 +1,4 @@
-- name: parse
+- action: parse
   inputs:
     data: string #required
     preserve_attributes: boolean = true
@@ -6,7 +6,7 @@
   outputs:
     result: xml_object
 
-- name: generate
+- action: generate
   inputs:
     data: xml_object #required
     declaration: boolean = true
@@ -15,7 +15,7 @@
   outputs:
     xml: string
 
-- name: validate
+- action: validate
   inputs:
     data: string #required
     schema: string #required
@@ -23,7 +23,7 @@
     errors: list[xml_validation_error]
     valid: boolean
 
-- name: xpath_query
+- action: xpath_query
   inputs:
     data: string #required
     namespaces: xml_namespaces
@@ -31,29 +31,29 @@
   outputs:
     results: list[any]
 
-- name: xml_document
+- object: xml_document
   class:
     content: string
     root_element: string
     namespaces: xml_namespaces
     encoding: string
 
-- name: xml_object
+- object: xml_object
   class:
     elements: map[string, any]
     attributes: map[string, string]
 
-- name: xml_validation_error
+- object: xml_validation_error
   class:
     line: int
     column: int
     message: string
 
-- name: xml_namespaces
+- object: xml_namespaces
   class:
     namespaces: list[xml_namespace]
 
-- name: xml_namespace
+- object: xml_namespace
   class:
     prefix: string
     uri: string

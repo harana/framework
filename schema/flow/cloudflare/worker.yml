@@ -1,4 +1,4 @@
-- name: fetch
+- action: fetch
   inputs:
     body: any
     headers: headers
@@ -10,19 +10,19 @@
     headers: headers
     status_code: int
 
-- name: get_var
+- action: get_var
   inputs:
     name: string #required
   outputs:
     value: string
 
-- name: get_secret
+- action: get_secret
   inputs:
     name: string #required
   outputs:
     value: string
 
-- name: scheduled
+- action: scheduled
   inputs:
     cron: string #required
     service_binding: string #required
@@ -30,19 +30,19 @@
     scheduled_time: date
     success: boolean
 
-- name: wait_until
+- action: wait_until
   inputs:
     promise: any #required
   outputs:
     success: boolean
 
-- name: pass_through
+- action: pass_through
   inputs:
     request: any #required
   outputs:
     response: any
 
-- name: service_binding_fetch
+- action: service_binding_fetch
   inputs:
     body: any
     headers: headers
@@ -54,7 +54,7 @@
     headers: headers
     status_code: int
 
-- name: get_version
+- action: get_version
   inputs:
     binding: string #required
   outputs:

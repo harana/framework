@@ -1,4 +1,4 @@
-- name: menu_opened
+- event: menu_opened
   schema:
     menu_id: id #required
     menu_name: string?
@@ -7,14 +7,14 @@
     items_count: int? #min(0)
     opened_at: date = now()
 
-- name: menu_closed
+- event: menu_closed
   schema:
     menu_id: id #required
     menu_name: string?
     close_reason: selection | blur | escape | click_outside = blur
     closed_at: date = now()
 
-- name: submenu_expanded
+- event: submenu_expanded
   schema:
     menu_id: id #required
     submenu_id: id #required

@@ -1,5 +1,5 @@
-- name: navbar_label
+- webobject: navbar_label
   id: [navbar_item_id]
   attributes:
-    - content: string #required #max(200)
-    - navbar_item_id: id #required -> ui_navbar_item.id
+    - content: string #max(200)
+    - navbar_item_id: id -> ui_navbar_item.id

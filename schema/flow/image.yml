@@ -1,4 +1,4 @@
-- name: resize
+- action: resize
   inputs:
     fit: cover | contain | fill | inside | outside = cover
     format: jpeg | png | webp | avif | tiff
@@ -12,7 +12,7 @@
     size: int
     width: int
 
-- name: crop
+- action: crop
   inputs:
     height: int #required
     source: string #required
@@ -24,7 +24,7 @@
     image: string
     width: int
 
-- name: compress
+- action: compress
   inputs:
     format: jpeg | png | webp | avif = webp
     progressive: boolean = false
@@ -35,7 +35,7 @@
     image: string
     size: int
 
-- name: rotate
+- action: rotate
   inputs:
     angle: int #required
     background: string = transparent
@@ -45,7 +45,7 @@
     image: string
     width: int
 
-- name: thumbnail
+- action: thumbnail
   inputs:
     fit: cover | contain | fill = cover
     format: jpeg | png | webp
@@ -56,55 +56,55 @@
     image: string
     width: int
 
-- name: blur
+- action: blur
   inputs:
     sigma: float = 5.0
     source: string #required
   outputs:
     image: string
 
-- name: greyscale
+- action: greyscale
   inputs:
     source: string #required
   outputs:
     image: string
 
-- name: flip
+- action: flip
   inputs:
     direction: horizontal | vertical #required
     source: string #required
   outputs:
     image: string
 
-- name: sharpen
+- action: sharpen
   inputs:
     sigma: float = 1.0
     source: string #required
   outputs:
     image: string
 
-- name: brightness
+- action: brightness
   inputs:
     brightness: float #required
     source: string #required
   outputs:
     image: string
 
-- name: contrast
+- action: contrast
   inputs:
     contrast: float #required
     source: string #required
   outputs:
     image: string
 
-- name: tint
+- action: tint
   inputs:
     color: string #required
     source: string #required
   outputs:
     image: string
 
-- name: get_metadata
+- action: get_metadata
   inputs:
     source: string #required
   outputs:
@@ -116,7 +116,7 @@
     size: int
     width: int
 
-- name: convert_format
+- action: convert_format
   inputs:
     format: jpeg | png | webp | avif | tiff | gif #required
     quality: int = 80
@@ -126,7 +126,7 @@
     image: string
     size: int
 
-- name: watermark
+- action: watermark
   inputs:
     opacity: float = 0.5
     position: top-left | top-right | bottom-left | bottom-right | center = bottom-right
@@ -135,7 +135,7 @@
   outputs:
     image: string
 
-- name: image
+- object: image
   class:
     source: string
     width: int

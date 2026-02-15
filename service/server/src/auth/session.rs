@@ -1,7 +1,7 @@
 use crate::config::SessionConfig;
 use crate::error::ServerError;
 use chrono::{Duration, Utc};
-use harana_components_cache::{CacheStore, PutOptions};
+use harana_components_cache::{CacheService, PutOptions};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
@@ -53,11 +53,11 @@ fn user_sessions_key(user_id: &str) -> String {
 
 pub struct SessionManager {
     config: SessionConfig,
-    cache: Arc<dyn CacheStore>,
+    cache: Arc<dyn CacheService>,
 }
 
 impl SessionManager {
-    pub fn new(config: SessionConfig, cache: Arc<dyn CacheStore>) -> Self {
+    pub fn new(config: SessionConfig, cache: Arc<dyn CacheService>) -> Self {
         Self { config, cache }
     }
 

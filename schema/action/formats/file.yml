@@ -1,0 +1,108 @@
+- action: read
+  inputs:
+    mode: text | binary = text
+    path: string
+  outputs:
+    content: string | bytes
+
+- action: write
+  inputs:
+    content: string | bytes
+    mode: text | binary = text
+    overwrite: boolean = true
+    path: string
+  outputs:
+    success: boolean
+
+- action: delete
+  inputs:
+    path: string
+  outputs:
+    success: boolean
+
+- action: copy
+  inputs:
+    from: string
+    overwrite: boolean = false
+    to: string
+  outputs:
+    success: boolean
+
+- action: move
+  inputs:
+    from: string
+    overwrite: boolean = false
+    to: string
+  outputs:
+    success: boolean
+
+- action: exists
+  inputs:
+    path: string
+  outputs:
+    exists: boolean
+
+- action: info
+  inputs:
+    path: string
+  outputs:
+    created: date
+    is_directory: boolean
+    modified: date
+    permissions: string
+    size: int
+
+- action: list_directory
+  inputs:
+    path: string
+    pattern: string = "*"
+    recursive: boolean = false
+  outputs:
+    files: list[string]
+
+- action: create_directory
+  inputs:
+    path: string
+    recursive: boolean = true
+  outputs:
+    success: boolean
+
+- action: delete_directory
+  inputs:
+    path: string
+    recursive: boolean = false
+  outputs:
+    success: boolean
+
+- object: file
+  class:
+    path: string
+    name: string
+    size: int
+    content_type: string
+    created: date
+    modified: date
+    is_directory: boolean
+    permissions: string
+
+- object: file_document
+  schema:
+    - content_type: string? #max(100)
+    - created_at: date = now()
+    - is_directory: boolean = false
+    - modified_at: date?
+    - path: string #max(2000)
+    - permissions: string? #max(20)
+    - size: int = 0 #min(0)
+
+- object: file
+  schema:
+    - path: string
+
+    - name: string
+    - size: int
+    - content_type: string
+    - created: date
+    - modified: date
+    - is_directory: boolean
+    - permissions: string

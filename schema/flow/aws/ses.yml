@@ -1,4 +1,4 @@
-- name: send_email
+- action: send_email
   inputs:
     bcc_addresses: list[string]
     cc_addresses: list[string]
@@ -16,7 +16,7 @@
     message_id: string
     success: boolean
 
-- name: send_raw_email
+- action: send_raw_email
   inputs:
     configuration_set_name: string
     destinations: list[string]
@@ -31,7 +31,7 @@
     message_id: string
     success: boolean
 
-- name: send_templated_email
+- action: send_templated_email
   inputs:
     bcc_addresses: list[string]
     cc_addresses: list[string]
@@ -48,7 +48,7 @@
     message_id: string
     success: boolean
 
-- name: send_bulk_templated_email
+- action: send_bulk_templated_email
   inputs:
     configuration_set_name: string
     default_tags: default_tags
@@ -64,14 +64,14 @@
     status: list[bulk_email_status]
     success: boolean
 
-- name: verify_email_identity
+- action: verify_email_identity
   inputs:
     email_address: string #required
     region: string
   outputs:
     success: boolean
 
-- name: verify_domain_identity
+- action: verify_domain_identity
   inputs:
     domain: string #required
     region: string
@@ -79,14 +79,14 @@
     success: boolean
     verification_token: string
 
-- name: delete_identity
+- action: delete_identity
   inputs:
     identity: string #required
     region: string
   outputs:
     success: boolean
 
-- name: list_identities
+- action: list_identities
   inputs:
     identity_type: email_address | domain
     max_items: int = 100
@@ -95,14 +95,14 @@
     identities: list[string]
     next_token: string
 
-- name: get_identity_verification_attributes
+- action: get_identity_verification_attributes
   inputs:
     identities: list[string] #required
     region: string
   outputs:
     verification_attributes: verification_attributes
 
-- name: set_identity_notification_topic
+- action: set_identity_notification_topic
   inputs:
     identity: string #required
     notification_type: bounce | complaint | delivery #required
@@ -111,7 +111,7 @@
   outputs:
     success: boolean
 
-- name: create_template
+- action: create_template
   inputs:
     html_part: string
     region: string
@@ -121,7 +121,7 @@
   outputs:
     success: boolean
 
-- name: update_template
+- action: update_template
   inputs:
     html_part: string
     region: string
@@ -131,14 +131,14 @@
   outputs:
     success: boolean
 
-- name: delete_template
+- action: delete_template
   inputs:
     region: string
     template_name: string #required
   outputs:
     success: boolean
 
-- name: get_template
+- action: get_template
   inputs:
     region: string
     template_name: string #required
@@ -148,7 +148,7 @@
     template_name: string
     text_part: string
 
-- name: list_templates
+- action: list_templates
   inputs:
     max_items: int = 100
     region: string
@@ -156,7 +156,7 @@
     next_token: string
     templates: list[ses_template]
 
-- name: get_send_quota
+- action: get_send_quota
   inputs:
     region: string
   outputs:
@@ -164,27 +164,27 @@
     max_send_rate: float
     sent_last_24_hours: float
 
-- name: get_send_statistics
+- action: get_send_statistics
   inputs:
     region: string
   outputs:
     send_data_points: list[send_data_point]
 
-- name: put_configuration_set
+- action: put_configuration_set
   inputs:
     configuration_set_name: string #required
     region: string
   outputs:
     success: boolean
 
-- name: delete_configuration_set
+- action: delete_configuration_set
   inputs:
     configuration_set_name: string #required
     region: string
   outputs:
     success: boolean
 
-- name: list_configuration_sets
+- action: list_configuration_sets
   inputs:
     max_items: int = 100
     region: string
@@ -192,7 +192,7 @@
     configuration_sets: list[ses_configuration_set]
     next_token: string
 
-- name: put_identity_policy
+- action: put_identity_policy
   inputs:
     identity: string #required
     policy: string #required
@@ -201,7 +201,7 @@
   outputs:
     success: boolean
 
-- name: get_identity_policies
+- action: get_identity_policies
   inputs:
     identity: string #required
     policy_names: list[string] #required
@@ -209,7 +209,7 @@
   outputs:
     policies: identity_policies
 
-- name: delete_identity_policy
+- action: delete_identity_policy
   inputs:
     identity: string #required
     policy_name: string #required
@@ -217,7 +217,7 @@
   outputs:
     success: boolean
 
-- name: set_identity_feedback_forwarding
+- action: set_identity_feedback_forwarding
   inputs:
     forwarding_enabled: boolean #required
     identity: string #required
@@ -225,7 +225,7 @@
   outputs:
     success: boolean
 
-- name: set_identity_dkim_enabled
+- action: set_identity_dkim_enabled
   inputs:
     dkim_enabled: boolean #required
     identity: string #required
@@ -233,7 +233,7 @@
   outputs:
     success: boolean
 
-- name: get_identity_dkim_attributes
+- action: get_identity_dkim_attributes
   inputs:
     identities: list[string] #required
     region: string

@@ -1,4 +1,4 @@
-- name: cloudflare_d1_query_executed
+- event: cloudflare_d1_query_executed
   schema:
     database: string #required
     operation: select | insert | update | delete | create | drop | alter | other = other
@@ -8,23 +8,23 @@
     duration_ms: float?
     executed_at: date = now()
 
-- name: cloudflare_d1_query_failed
+- event: cloudflare_d1_query_failed
   schema:
     database: string #required
     error_message: string #required
     operation: select | insert | update | delete | create | drop | alter | other = other
     failed_at: date = now()
 
-- name: cloudflare_d1_batch_executed
+- event: cloudflare_d1_batch_executed
   schema:
     database: string #required
-    statement_count: int #required #min(1)
+    statement_count: int #min(1)
     total_rows_read: int?
     total_rows_written: int?
     duration_ms: float?
     executed_at: date = now()
 
-- name: cloudflare_d1_database_dumped
+- event: cloudflare_d1_database_dumped
   schema:
     database: string #required
     size_bytes: int?

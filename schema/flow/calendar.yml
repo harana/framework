@@ -1,4 +1,4 @@
-- name: create_event
+- action: create_event
   inputs:
     all_day: boolean = false
     attendees: list[string]
@@ -16,7 +16,7 @@
     html_link: string
     success: boolean
 
-- name: update_event
+- action: update_event
   inputs:
     attendees: list[string]
     calendar_id: string = "primary"
@@ -33,7 +33,7 @@
     event_id: string
     success: boolean
 
-- name: delete_event
+- action: delete_event
   inputs:
     calendar_id: string = "primary"
     event_id: string #required
@@ -41,7 +41,7 @@
   outputs:
     success: boolean
 
-- name: get_event
+- action: get_event
   inputs:
     calendar_id: string = "primary"
     event_id: string #required
@@ -56,7 +56,7 @@
     status: string
     title: string
 
-- name: list_events
+- action: list_events
   inputs:
     calendar_id: string = "primary"
     end_time: date
@@ -70,7 +70,7 @@
     next_page_token: string
     total: int
 
-- name: create_calendar
+- action: create_calendar
   inputs:
     color: string
     description: string
@@ -80,13 +80,13 @@
     calendar_id: string
     success: boolean
 
-- name: delete_calendar
+- action: delete_calendar
   inputs:
     calendar_id: string #required
   outputs:
     success: boolean
 
-- name: list_calendars
+- action: list_calendars
   inputs:
     max_results: int = 100
     show_hidden: boolean = false
@@ -94,7 +94,7 @@
     calendars: list[calendar]
     total: int
 
-- name: check_availability
+- action: check_availability
   inputs:
     calendar_ids: list[string] #required
     end_time: date #required
@@ -104,7 +104,7 @@
     busy_periods: list[calendar_time_period]
     free_periods: list[calendar_time_period]
 
-- name: add_attendee
+- action: add_attendee
   inputs:
     calendar_id: string = "primary"
     email: string #required
@@ -114,7 +114,7 @@
   outputs:
     success: boolean
 
-- name: remove_attendee
+- action: remove_attendee
   inputs:
     calendar_id: string = "primary"
     email: string #required
@@ -123,7 +123,7 @@
   outputs:
     success: boolean
 
-- name: respond_to_invitation
+- action: respond_to_invitation
   inputs:
     calendar_id: string = "primary"
     comment: string
@@ -132,7 +132,7 @@
   outputs:
     success: boolean
 
-- name: find_available_slots
+- action: find_available_slots
   inputs:
     attendees: list[string] #required
     duration_minutes: int #required
@@ -144,7 +144,7 @@
     available_slots: list[calendar_time_slot]
     total: int
 
-- name: calendar_event
+- object: calendar_event
   class:
     event_id: string
     calendar_id: string
@@ -158,7 +158,7 @@
     recurrence: string
     status: string
 
-- name: calendar
+- object: calendar
   class:
     calendar_id: string
     name: string
@@ -167,25 +167,25 @@
     timezone: string
     primary: boolean
 
-- name: calendar_attendee
+- object: calendar_attendee
   class:
     email: string
     name: string
     response_status: string
     optional: boolean
 
-- name: calendar_reminder
+- object: calendar_reminder
   class:
     method: string
     minutes: int
 
-- name: calendar_time_period
+- object: calendar_time_period
   class:
     start_time: date
     end_time: date
     calendar_id: string
 
-- name: calendar_time_slot
+- object: calendar_time_slot
   class:
     start_time: date
     end_time: date

@@ -9,13 +9,14 @@ help:
 	@echo "  install   - Install the plugin to cargo bin"
 	@echo "  test      - Run tests"
 	@echo "  example   - Generate code from example schema"
-	@echo "  generate  - Generate from core schemas (requires SCHEMA_DIR)"
+	@echo "  generate  - Generate from schemas (default: ../../schema, override with SCHEMA_DIR=path)"
 	@echo "  clean     - Clean build artifacts"
 	@echo ""
 	@echo "Examples:"
 	@echo "  make release"
 	@echo "  make install"
 	@echo "  make example"
+	@echo "  make generate"
 	@echo "  make generate SCHEMA_DIR=../core/schema/data"
 
 # Build in debug mode
@@ -48,20 +49,14 @@ example: release
 
 # Generate from schema directory (use: make generate SCHEMA_DIR=path/to/schemas)
 generate: release
-ifndef SCHEMA_DIR
-	@echo "Error: SCHEMA_DIR not set"
-	@echo "Usage: make generate SCHEMA_DIR=path/to/schemas"
-	@exit 1
-endif
 	./target/release/cargo-generate-models generate-models generate \
-		--schema-dir $(SCHEMA_DIR) \
-		--rust-output generated/rust \
-		--python-output generated/python
+		--schema-dir $(if $(SCHEMA_DIR),$(SCHEMA_DIR),../../schema) \
+		--rust-output ../../models
 
 # Clean build artifacts
 clean:
 	cargo clean
-	rm -rf generated/
+	rm -rf ../../models/
 	rm -rf /tmp/example-output/
 
 # Watch for changes and rebuild

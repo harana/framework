@@ -1,4 +1,4 @@
-- name: archive
+- object: archive
   schema:
     - archive_type: zip | tar | tar_gz | tar_bz2 | tar_xz | gz = zip
     - compression_level: int = 6 #min(0) #max(9)
@@ -7,18 +7,18 @@
     - file_count: int = 0 #min(0)
     - is_encrypted: boolean = false
     - original_size: int? #min(0)
-    - output_path: string #required #max(2000)
+    - output_path: string #max(2000)
     - size: int? #min(0)
     - status: pending | creating | completed | failed = pending
     - updated_at: date = now()
 
-- name: archive_entry
+- object: archive_entry
   id: [archive_id, path]
   schema:
-    - archive_id: id #required -> archive.id
+    - archive_id: id -> archive.id
     - compressed_size: int? #min(0)
     - is_directory: boolean = false
     - modified_at: date?
     - original_size: int? #min(0)
-    - path: string #required #max(2000)
+    - path: string #max(2000)
     - permissions: string? #max(20)

@@ -1,0 +1,244 @@
+- action: create_repository
+  inputs:
+    encryption_type: aes256 | kms
+    image_tag_mutability: mutable | immutable = mutable
+    kms_key: string
+    region: string
+    repository_name: string
+    scan_on_push: boolean = false
+    tags: ecr_tags
+  outputs:
+    registry_id: string
+    repository_arn: string
+    repository_uri: string
+    success: boolean
+
+- action: delete_repository
+  inputs:
+    force: boolean = false
+    region: string
+    repository_name: string
+  outputs:
+    success: boolean
+
+- action: describe_repositories
+  inputs:
+    region: string
+    repository_names: list[string]
+  outputs:
+    repositories: list[ecr_repository]
+
+- action: list_images
+  inputs:
+    filter: image_filter
+    max_results: int = 100
+    region: string
+    repository_name: string
+  outputs:
+    image_ids: list[image_id]
+    next_token: string
+
+- action: describe_images
+  inputs:
+    image_ids: list[image_id]
+    region: string
+    repository_name: string
+  outputs:
+    image_details: list[ecr_image_detail]
+
+- action: put_image
+  inputs:
+    image_manifest: string
+    image_tag: string
+    region: string
+    repository_name: string
+  outputs:
+    image: ecr_image
+    success: boolean
+
+- action: batch_delete_image
+  inputs:
+    image_ids: list[image_id]
+    region: string
+    repository_name: string
+  outputs:
+    failures: list[image_failure]
+    image_ids: list[image_id]
+    success: boolean
+
+- action: get_auth_token
+  inputs:
+    region: string
+    registry_ids: list[string]
+  outputs:
+    authorization_token: string
+    expires_at: date
+    proxy_endpoint: string
+    success: boolean
+
+- action: get_download_url
+  inputs:
+    image_digest: string
+    region: string
+    repository_name: string
+  outputs:
+    download_url: string
+    success: boolean
+
+- action: tag_image
+  inputs:
+    image_digest: string
+    image_tag: string
+    region: string
+    repository_name: string
+  outputs:
+    success: boolean
+
+- action: set_repository_policy
+  inputs:
+    force: boolean = false
+    policy_text: string
+    region: string
+    repository_name: string
+  outputs:
+    policy_text: string
+    registry_id: string
+    repository_name: string
+    success: boolean
+
+- action: get_repository_policy
+  inputs:
+    region: string
+    repository_name: string
+  outputs:
+    policy_text: string
+    registry_id: string
+    repository_name: string
+
+- action: delete_repository_policy
+  inputs:
+    region: string
+    repository_name: string
+  outputs:
+    success: boolean
+
+- action: start_image_scan
+  inputs:
+    image_id: image_id
+    region: string
+    repository_name: string
+  outputs:
+    image_id: image_id
+    scan_status: string
+    success: boolean
+
+- action: describe_scan_findings
+  inputs:
+    image_id: image_id
+    max_results: int = 100
+    region: string
+    repository_name: string
+  outputs:
+    findings: list[image_scan_finding]
+    image_scan_status: image_scan_status
+    next_token: string
+
+- action: put_lifecycle_policy
+  inputs:
+    lifecycle_policy_text: string
+    region: string
+    repository_name: string
+  outputs:
+    lifecycle_policy_text: string
+    registry_id: string
+    repository_name: string
+    success: boolean
+
+- action: get_lifecycle_policy
+  inputs:
+    region: string
+    repository_name: string
+  outputs:
+    last_evaluated_at: date
+    lifecycle_policy_text: string
+    registry_id: string
+    repository_name: string
+
+- object: cluster
+  id: [account_id, cluster_name]
+  schema:
+    - account_id: string #max(20)
+    - active_services_count: int = 0 #min(0)
+    - capacity_providers: string? # json list
+    - cluster_arn: string? #max(255)
+    - cluster_name: string #unique #max(255)
+    - created_at: date = now()
+    - pending_tasks_count: int = 0 #min(0)
+    - region: string? #max(50)
+    - registered_container_instances_count: int = 0 #min(0)
+    - running_tasks_count: int = 0 #min(0)
+    - settings: string? # json
+    - status: active | provisioning | deprovisioning | failed | inactive = active
+    - tags: string? # json
+    - updated_at: date = now()
+
+- object: service
+  id: [cluster_id, service_name]
+  schema:
+    - cluster_id: id -> aws_ecs_cluster.id
+    - created_at: date = now()
+    - desired_count: int = 1 #min(0)
+    - launch_type: ec2 | fargate | external = fargate
+    - load_balancers: string? # json
+    - network_configuration: string? # json
+    - pending_count: int = 0 #min(0)
+    - platform_version: string? #max(50)
+    - running_count: int = 0 #min(0)
+    - scheduling_strategy: replica | daemon = replica
+    - service_arn: string? #max(255)
+    - service_name: string #max(255)
+    - status: active | draining | inactive = active
+    - tags: string? # json
+    - task_definition: string? #max(255)
+    - updated_at: date = now()
+
+- object: task_definition
+  id: [account_id, family, revision]
+  schema:
+    - account_id: string #max(20)
+    - container_definitions: string? # json
+    - cpu: string? #max(20)
+    - created_at: date = now()
+    - execution_role_arn: string? #max(255)
+    - family: string #max(255)
+    - memory: string? #max(20)
+    - network_mode: none | bridge | awsvpc | host = awsvpc
+    - region: string? #max(50)
+    - requires_compatibilities: string? # json list
+    - revision: int #min(1)
+    - status: active | inactive = active
+    - tags: string? # json
+    - task_definition_arn: string? #max(255)
+    - task_role_arn: string? #max(255)
+
+- object: task
+  id: [cluster_id, task_arn]
+  schema:
+    - cluster_id: id -> aws_ecs_cluster.id
+    - connectivity: connected | disconnected = connected
+    - container_instance_arn: string? #max(255)
+    - cpu: string? #max(20)
+    - created_at: date = now()
+    - desired_status: running | stopped = running
+    - group: string? #max(255)
+    - last_status: provisioning | pending | activating | running | deactivating | stopping | deprovisioning | stopped = provisioning
+    - launch_type: ec2 | fargate | external = fargate
+    - memory: string? #max(20)
+    - platform_version: string? #max(50)
+    - started_at: date?
+    - stopped_at: date?
+    - stopped_reason: string? #max(500)
+    - tags: string? # json
+    - task_arn: string #max(255)
+    - task_definition_arn: string? #max(255)
+    - updated_at: date = now()

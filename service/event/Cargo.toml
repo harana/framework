@@ -8,11 +8,9 @@ path = "lib.rs"
 
 [features]
 default = []
-postgres = ["harana-components-storage/postgres"]
-mysql = ["harana-components-storage/mysql"]
-sqlite = ["harana-components-storage/sqlite"]
+durable_object = ["harana-components-storage/durable_object"]
 mongodb = ["harana-components-storage/mongodb"]
-full = ["postgres", "mysql", "sqlite", "mongodb"]
+full = ["durable_object", "mongodb"]
 
 # Client-side features (no persistence, in-memory only)
 client = []

@@ -1,4 +1,4 @@
-- name: exec
+- action: exec
   inputs:
     database: string #required
     sql: string #required
@@ -10,7 +10,7 @@
     rows_written: int
     success: boolean
 
-- name: prepare
+- action: prepare
   inputs:
     database: string #required
     sql: string #required
@@ -18,7 +18,7 @@
     statement: d1_prepared_statement
     success: boolean
 
-- name: run
+- action: run
   inputs:
     bind_values: list[any]
     database: string #required
@@ -32,7 +32,7 @@
     rows_written: int
     success: boolean
 
-- name: first
+- action: first
   inputs:
     bind_values: list[any]
     column: string
@@ -41,7 +41,7 @@
   outputs:
     result: any
 
-- name: all
+- action: all
   inputs:
     bind_values: list[any]
     database: string #required
@@ -55,7 +55,7 @@
     rows_written: int
     success: boolean
 
-- name: raw
+- action: raw
   inputs:
     bind_values: list[any]
     database: string #required
@@ -64,7 +64,7 @@
     columns: list[string]
     rows: list[list[any]]
 
-- name: batch
+- action: batch
   inputs:
     database: string #required
     statements: list[d1_batch_statement] #required
@@ -72,7 +72,7 @@
     results: list[d1_batch_result]
     success: boolean
 
-- name: dump
+- action: dump
   inputs:
     database: string #required
   outputs:

@@ -1,0 +1,155 @@
+- action: request_certificate
+  inputs:
+    domain_name: string
+    subject_alternative_names: list[string]
+    validation_method: dns | email = dns
+    certificate_authority_arn: string
+    domain_validation_options: list[domain_validation_option]
+    tags: acm_tags
+  outputs:
+    certificate_arn: string
+    domain_validation_options: list[domain_validation_option]
+    success: boolean
+
+- action: import_certificate
+  inputs:
+    certificate: string
+    certificate_chain: string
+    private_key: string
+    certificate_arn: string
+    tags: acm_tags
+  outputs:
+    certificate_arn: string
+    success: boolean
+
+- action: delete_certificate
+  inputs:
+    certificate_arn: string
+  outputs:
+    success: boolean
+
+- action: describe_certificate
+  inputs:
+    certificate_arn: string
+  outputs:
+    certificate: certificate
+
+- action: list_certificates
+  inputs:
+    certificate_statuses: list[string]
+    includes: certificate_filters
+    max_items: int = 100
+    next_token: string
+  outputs:
+    certificates: list[certificate_summary]
+    next_token: string
+
+- action: get_certificate
+  inputs:
+    certificate_arn: string
+  outputs:
+    certificate: string
+    certificate_chain: string
+
+- action: add_tags
+  inputs:
+    certificate_arn: string
+    tags: acm_tags
+  outputs:
+    success: boolean
+
+- action: remove_tags
+  inputs:
+    certificate_arn: string
+    tag_keys: list[string]
+  outputs:
+    success: boolean
+
+- action: list_tags
+  inputs:
+    certificate_arn: string
+  outputs:
+    tags: acm_tags
+
+- action: renew_certificate
+  inputs:
+    certificate_arn: string
+  outputs:
+    success: boolean
+
+- action: export_certificate
+  inputs:
+    certificate_arn: string
+    passphrase: bytes
+  outputs:
+    certificate: string
+    certificate_chain: string
+    private_key: string
+
+- action: resend_validation_email
+  inputs:
+    certificate_arn: string
+    domain: string
+    validation_domain: string
+  outputs:
+    success: boolean
+
+- action: update_certificate_options
+  inputs:
+    certificate_arn: string
+    options: certificate_options
+  outputs:
+    success: boolean
+
+- action: get_account_configuration
+  inputs:
+    expiry_events: expiry_events_configuration
+  outputs:
+    configuration: account_configuration
+
+- action: put_account_configuration
+  inputs:
+    expiry_events: expiry_events_configuration
+    idempotency_token: string
+  outputs:
+    success: boolean
+
+- object: certificate
+  id: [account_id, certificate_arn]
+  schema:
+    - account_id: string #max(20)
+    - certificate_arn: string #unique #max(255)
+    - certificate_authority_arn: string? #max(255)
+    - created_at: date = now()
+    - domain_name: string #max(253)
+    - failure_reason: string? #max(255)
+    - imported_at: date?
+    - in_use_by: string? # json list of ar_ns
+    - issued_at: date?
+    - issuer: string? #max(255)
+    - key_algorithm: RSA_1024 | RSA_2048 | RSA_3072 | RSA_4096 | EC_prime256v1 | EC_secp384r1 | EC_secp521r1 = RSA_2048
+    - not_after: date?
+    - not_before: date?
+    - region: string? #max(50)
+    - renewal_eligibility: eligible | ineligible = ineligible
+    - revocation_reason: string? #max(255)
+    - revoked_at: date?
+    - serial: string? #max(255)
+    - status: pending_validation | issued | inactive | revoked | expired | validation_timed_out | failed = pending_validation
+    - subject_alternative_names: string? # json list
+    - tags: string? # json
+    - type: imported | amazon_issued | private = amazon_issued
+    - updated_at: date = now()
+    - validation_method: dns | email = dns
+
+- object: domain_validation
+  id: [certificate_id, domain_name]
+  schema:
+    - certificate_id: id -> aws_acm_certificate.id
+    - domain_name: string #max(253)
+    - resource_record_name: string? #max(253)
+    - resource_record_type: string? #max(10)
+    - resource_record_value: string? #max(500)
+    - validation_domain: string? #max(253)
+    - validation_method: dns | email = dns
+    - validation_status: pending_validation | success | failed = pending_validation

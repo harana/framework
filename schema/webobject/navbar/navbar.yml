@@ -1,4 +1,4 @@
-- name: navbar
+- webobject: navbar
   attributes:
     sections: list[navbar_section]
   events:

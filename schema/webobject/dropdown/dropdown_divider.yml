@@ -1,5 +1,5 @@
-- name: dropdown_divider
+- webobject: dropdown_divider
   id: [dropdown_id, name]
   attributes:
-    - dropdown_id: id #required -> ui_dropdown.id
+    - dropdown_id: id -> ui_dropdown.id
     - order: int = 0 #min(0)

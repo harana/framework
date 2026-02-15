@@ -1,10 +1,10 @@
-- name: flyout_menu_action
+- webobject: flyout_menu_action
   id: [flyout_menu_id, name]
   attributes:
-    - flyout_menu_id: id #required -> ui_flyout_menu.id
+    - flyout_menu_id: id -> ui_flyout_menu.id
     - href: string? #max(500)
     - icon: string? #max(100)
-    - label: string #required #max(200)
+    - label: string #max(200)
     - order: int = 0 #min(0)
   events:
     - click

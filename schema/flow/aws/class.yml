@@ -2,18 +2,18 @@
 
 # VPC Classes
 
-- name: vpc_tags
+- object: vpc_tags
   class:
     type: map
     key: string
     value: string
 
-- name: vpc_filter
+- object: vpc_filter
   class:
     name: string #required
     values: list[string] #required
 
-- name: vpc
+- object: vpc
   class:
     cidr_block: string
     cidr_block_association_set: list[vpc_cidr_block_association]
@@ -26,18 +26,18 @@
     tags: list[tag]
     vpc_id: string
 
-- name: vpc_cidr_block_association
+- object: vpc_cidr_block_association
   class:
     association_id: string
     cidr_block: string
     cidr_block_state: vpc_cidr_block_state
 
-- name: vpc_cidr_block_state
+- object: vpc_cidr_block_state
   class:
     state: string
     status_message: string
 
-- name: vpc_ipv6_cidr_block_association
+- object: vpc_ipv6_cidr_block_association
   class:
     association_id: string
     ipv6_cidr_block: string
@@ -45,12 +45,12 @@
     ipv6_pool: string
     network_border_group: string
 
-- name: tag
+- object: tag
   class:
     key: string
     value: string
 
-- name: subnet
+- object: subnet
   class:
     assign_ipv6_address_on_creation: boolean
     availability_zone: string
@@ -72,36 +72,36 @@
     tags: list[tag]
     vpc_id: string
 
-- name: subnet_ipv6_cidr_block_association
+- object: subnet_ipv6_cidr_block_association
   class:
     association_id: string
     ipv6_cidr_block: string
     ipv6_cidr_block_state: subnet_cidr_block_state
 
-- name: subnet_cidr_block_state
+- object: subnet_cidr_block_state
   class:
     state: string
     status_message: string
 
-- name: private_dns_name_options_on_launch
+- object: private_dns_name_options_on_launch
   class:
     enable_resource_name_dns_aaaa_record: boolean
     enable_resource_name_dns_a_record: boolean
     hostname_type: string
 
-- name: internet_gateway
+- object: internet_gateway
   class:
     attachments: list[internet_gateway_attachment]
     internet_gateway_id: string
     owner_id: string
     tags: list[tag]
 
-- name: internet_gateway_attachment
+- object: internet_gateway_attachment
   class:
     state: string
     vpc_id: string
 
-- name: nat_gateway
+- object: nat_gateway
   class:
     connectivity_type: string
     create_time: date
@@ -116,14 +116,14 @@
     tags: list[tag]
     vpc_id: string
 
-- name: nat_gateway_address
+- object: nat_gateway_address
   class:
     allocation_id: string
     network_interface_id: string
     private_ip: string
     public_ip: string
 
-- name: provisioned_bandwidth
+- object: provisioned_bandwidth
   class:
     provision_time: date
     provisioned: string
@@ -131,7 +131,7 @@
     requested: string
     status: string
 
-- name: route_table
+- object: route_table
   class:
     associations: list[route_table_association]
     owner_id: string
@@ -141,7 +141,7 @@
     tags: list[tag]
     vpc_id: string
 
-- name: route_table_association
+- object: route_table_association
   class:
     association_state: route_table_association_state
     gateway_id: string
@@ -150,16 +150,16 @@
     route_table_id: string
     subnet_id: string
 
-- name: route_table_association_state
+- object: route_table_association_state
   class:
     state: string
     status_message: string
 
-- name: propagating_vgw
+- object: propagating_vgw
   class:
     gateway_id: string
 
-- name: route
+- object: route
   class:
     carrier_gateway_id: string
     core_network_arn: string
@@ -178,7 +178,7 @@
     transit_gateway_id: string
     vpc_peering_connection_id: string
 
-- name: security_group
+- object: security_group
   class:
     description: string
     group_id: string
@@ -189,7 +189,7 @@
     tags: list[tag]
     vpc_id: string
 
-- name: ip_permission
+- object: ip_permission
   class:
     from_port: int
     ip_protocol: string
@@ -199,22 +199,22 @@
     to_port: int
     user_id_group_pairs: list[user_id_group_pair]
 
-- name: ip_range
+- object: ip_range
   class:
     cidr_ip: string
     description: string
 
-- name: ipv6_range
+- object: ipv6_range
   class:
     cidr_ipv6: string
     description: string
 
-- name: prefix_list_id
+- object: prefix_list_id
   class:
     description: string
     prefix_list_id: string
 
-- name: user_id_group_pair
+- object: user_id_group_pair
   class:
     description: string
     group_id: string
@@ -224,7 +224,7 @@
     vpc_id: string
     vpc_peering_connection_id: string
 
-- name: security_group_rule
+- object: security_group_rule
   class:
     cidr_ipv4: string
     cidr_ipv6: string
@@ -240,7 +240,7 @@
     tags: list[tag]
     to_port: int
 
-- name: referenced_security_group
+- object: referenced_security_group
   class:
     group_id: string
     peering_status: string
@@ -248,7 +248,7 @@
     vpc_id: string
     vpc_peering_connection_id: string
 
-- name: network_acl
+- object: network_acl
   class:
     associations: list[network_acl_association]
     entries: list[network_acl_entry]
@@ -258,13 +258,13 @@
     tags: list[tag]
     vpc_id: string
 
-- name: network_acl_association
+- object: network_acl_association
   class:
     network_acl_association_id: string
     network_acl_id: string
     subnet_id: string
 
-- name: network_acl_entry
+- object: network_acl_entry
   class:
     cidr_block: string
     egress: boolean
@@ -275,17 +275,17 @@
     rule_method: string
     rule_number: int
 
-- name: icmp_type_code
+- object: icmp_type_code
   class:
     code: int
     type: int
 
-- name: port_range
+- object: port_range
   class:
     from: int
     to: int
 
-- name: elastic_ip
+- object: elastic_ip
   class:
     allocation_id: string
     association_id: string
@@ -302,7 +302,7 @@
     public_ipv4_pool: string
     tags: list[tag]
 
-- name: vpc_peering_connection
+- object: vpc_peering_connection
   class:
     accepter_vpc_info: vpc_info
     expiration_time: date
@@ -311,7 +311,7 @@
     tags: list[tag]
     vpc_peering_connection_id: string
 
-- name: vpc_info
+- object: vpc_info
   class:
     cidr_block: string
     cidr_block_set: list[cidr_block]
@@ -321,26 +321,26 @@
     region: string
     vpc_id: string
 
-- name: cidr_block
+- object: cidr_block
   class:
     cidr_block: string
 
-- name: ipv6_cidr_block
+- object: ipv6_cidr_block
   class:
     ipv6_cidr_block: string
 
-- name: vpc_peering_connection_options_description
+- object: vpc_peering_connection_options_description
   class:
     allow_dns_resolution_from_remote_vpc: boolean
     allow_egress_from_local_classic_link_to_remote_vpc: boolean
     allow_egress_from_local_vpc_to_remote_classic_link: boolean
 
-- name: peering_connection_status
+- object: peering_connection_status
   class:
     code: string
     message: string
 
-- name: vpc_endpoint
+- object: vpc_endpoint
   class:
     creation_timestamp: date
     dns_entries: list[dns_entry]
@@ -362,53 +362,53 @@
     vpc_endpoint_type: string
     vpc_id: string
 
-- name: dns_entry
+- object: dns_entry
   class:
     dns_name: string
     hosted_zone_id: string
 
-- name: dns_options
+- object: dns_options
   class:
     dns_record_ip_type: string
     private_dns_only_for_inbound_resolver_endpoint: boolean
 
-- name: security_group_identifier
+- object: security_group_identifier
   class:
     group_id: string
     group_name: string
 
-- name: last_error
+- object: last_error
   class:
     code: string
     message: string
 
-- name: unsuccessful_item
+- object: unsuccessful_item
   class:
     error: unsuccessful_item_error
     resource_id: string
 
-- name: unsuccessful_item_error
+- object: unsuccessful_item_error
   class:
     code: string
     message: string
 
-- name: dhcp_options
+- object: dhcp_options
   class:
     dhcp_configurations: list[dhcp_configuration]
     dhcp_options_id: string
     owner_id: string
     tags: list[tag]
 
-- name: dhcp_configuration
+- object: dhcp_configuration
   class:
     key: string
     values: list[attribute_value]
 
-- name: attribute_value
+- object: attribute_value
   class:
     value: string
 
-- name: egress_only_internet_gateway
+- object: egress_only_internet_gateway
   class:
     attachments: list[internet_gateway_attachment]
     egress_only_internet_gateway_id: string
@@ -416,35 +416,35 @@
 
 # STS Classes
 
-- name: sts_credentials
+- object: sts_credentials
   class:
     access_key_id: string
     secret_access_key: string
     session_token: string
     expiration: date
 
-- name: assumed_role_user
+- object: assumed_role_user
   class:
     assumed_role_id: string
     arn: string
 
-- name: federated_user
+- object: federated_user
   class:
     federated_user_id: string
     arn: string
 
-- name: tags
+- object: tags
   class:
     key: string
     value: string
 
-- name: sts_policy_arn
+- object: sts_policy_arn
   class:
     arn: string
 
 # S3 Classes
 
-- name: s3_object
+- object: s3_object
   class:
     bucket: string
     key: string
@@ -456,21 +456,21 @@
     metadata: object_metadata
     version_id: string
 
-- name: s3_bucket
+- object: s3_bucket
   class:
     name: string
     creation_date: date
 
-- name: s3_tags
+- object: s3_tags
   class:
     items: list[s3_tag]
 
-- name: s3_tag
+- object: s3_tag
   class:
     key: string
     value: string
 
-- name: object_metadata
+- object: object_metadata
   class:
     content_type: string
     content_encoding: string
@@ -479,27 +479,27 @@
     cache_control: string
     custom: map[string, string]
 
-- name: deleted_object
+- object: deleted_object
   class:
     key: string
     version_id: string
     delete_marker: boolean
     delete_marker_version_id: string
 
-- name: s3_error
+- object: s3_error
   class:
     key: string
     version_id: string
     code: string
     message: string
 
-- name: encryption_rule
+- object: encryption_rule
   class:
     sse_algorithm: string
     kms_master_key_id: string
     bucket_key_enabled: boolean
 
-- name: cors_rule
+- object: cors_rule
   class:
     allowed_headers: list[string]
     allowed_methods: list[string]
@@ -507,7 +507,7 @@
     expose_headers: list[string]
     max_age_seconds: int
 
-- name: lifecycle_rule
+- object: lifecycle_rule
   class:
     id: string
     status: string
@@ -516,19 +516,19 @@
     noncurrent_version_expiration_days: int
     transitions: list[lifecycle_transition]
 
-- name: lifecycle_transition
+- object: lifecycle_transition
   class:
     days: int
     storage_class: string
 
-- name: completed_part
+- object: completed_part
   class:
     etag: string
     part_number: int
 
 # IAM Classes
 
-- name: iam_user
+- object: iam_user
   class:
     user_id: string
     user_name: string
@@ -539,21 +539,21 @@
     permissions_boundary: permissions_boundary
     tags: list[iam_tag]
 
-- name: iam_tags
+- object: iam_tags
   class:
     items: list[iam_tag]
 
-- name: iam_tag
+- object: iam_tag
   class:
     key: string
     value: string
 
-- name: permissions_boundary
+- object: permissions_boundary
   class:
     permissions_boundary_type: string
     permissions_boundary_arn: string
 
-- name: iam_group
+- object: iam_group
   class:
     group_id: string
     group_name: string
@@ -561,7 +561,7 @@
     path: string
     create_date: date
 
-- name: iam_role
+- object: iam_role
   class:
     role_id: string
     role_name: string
@@ -572,7 +572,7 @@
     max_session_duration: int
     assume_role_policy_document: string
 
-- name: iam_policy
+- object: iam_policy
   class:
     policy_id: string
     policy_name: string
@@ -583,14 +583,14 @@
     attachment_count: int
     is_attachable: boolean
 
-- name: access_key_metadata
+- object: access_key_metadata
   class:
     access_key_id: string
     user_name: string
     status: string
     create_date: date
 
-- name: account_summary
+- object: account_summary
   class:
     users: int
     groups: int
@@ -606,7 +606,7 @@
 
 # EventBridge Classes
 
-- name: event_bridge_rule
+- object: event_bridge_rule
   class:
     name: string
     arn: string
@@ -617,7 +617,7 @@
     description: string
     role_arn: string
 
-- name: event_bridge_entry
+- object: event_bridge_entry
   class:
     source: string
     detail_type: string
@@ -627,22 +627,22 @@
     time: date
     trace_header: string
 
-- name: put_events_result_entry
+- object: put_events_result_entry
   class:
     event_id: string
     error_code: string
     error_message: string
 
-- name: event_bridge_tags
+- object: event_bridge_tags
   class:
     items: list[event_bridge_tag]
 
-- name: event_bridge_tag
+- object: event_bridge_tag
   class:
     key: string
     value: string
 
-- name: event_bridge_target
+- object: event_bridge_target
   class:
     id: string
     arn: string
@@ -651,37 +651,37 @@
     input_path: string
     input_transformer: input_transformer
 
-- name: input_transformer
+- object: input_transformer
   class:
     input_paths_map: map[string, string]
     input_template: string
 
-- name: target_failure
+- object: target_failure
   class:
     target_id: string
     error_code: string
     error_message: string
 
-- name: event_bus
+- object: event_bus
   class:
     name: string
     arn: string
     policy: string
 
-- name: rule_condition
+- object: rule_condition
   class:
     type: string
     key: string
     value: string
 
-- name: event_destination
+- object: event_destination
   class:
     arn: string
     filter_arns: list[string]
 
 # ECR Classes
 
-- name: ecr_repository
+- object: ecr_repository
   class:
     repository_name: string
     repository_uri: string
@@ -692,25 +692,25 @@
     encryption_type: string
     created_at: date
 
-- name: ecr_tags
+- object: ecr_tags
   class:
     items: list[ecr_tag]
 
-- name: ecr_tag
+- object: ecr_tag
   class:
     key: string
     value: string
 
-- name: image_filter
+- object: image_filter
   class:
     tag_status: string
 
-- name: image_id
+- object: image_id
   class:
     image_digest: string
     image_tag: string
 
-- name: ecr_image
+- object: ecr_image
   class:
     registry_id: string
     repository_name: string
@@ -718,7 +718,7 @@
     image_manifest: string
     image_manifest_media_type: string
 
-- name: ecr_image_detail
+- object: ecr_image_detail
   class:
     registry_id: string
     repository_name: string
@@ -728,18 +728,18 @@
     image_pushed_at: date
     image_scan_status: image_scan_status
 
-- name: image_failure
+- object: image_failure
   class:
     image_id: image_id
     failure_code: string
     failure_reason: string
 
-- name: image_scan_status
+- object: image_scan_status
   class:
     status: string
     description: string
 
-- name: image_scan_finding
+- object: image_scan_finding
   class:
     name: string
     description: string
@@ -747,14 +747,14 @@
     severity: string
     attributes: list[scan_finding_attribute]
 
-- name: scan_finding_attribute
+- object: scan_finding_attribute
   class:
     key: string
     value: string
 
 # SES Classes
 
-- name: ses_email
+- object: ses_email
   class:
     message_id: string
     from_address: string
@@ -766,52 +766,52 @@
     text_body: string
     configuration_set_name: string
 
-- name: ses_tags
+- object: ses_tags
   class:
     items: list[ses_tag]
 
-- name: ses_tag
+- object: ses_tag
   class:
     name: string
     value: string
 
-- name: default_tags
+- object: default_tags
   class:
     items: list[ses_tag]
 
-- name: bulk_email_destination
+- object: bulk_email_destination
   class:
     destination: ses_destination
     replacement_tags: list[ses_tag]
     replacement_template_data: string
 
-- name: ses_destination
+- object: ses_destination
   class:
     to_addresses: list[string]
     cc_addresses: list[string]
     bcc_addresses: list[string]
 
-- name: bulk_email_status
+- object: bulk_email_status
   class:
     status: string
     error: string
     message_id: string
 
-- name: verification_attributes
+- object: verification_attributes
   class:
     entries: map[string, verification_attribute_entry]
 
-- name: verification_attribute_entry
+- object: verification_attribute_entry
   class:
     verification_status: string
     verification_token: string
 
-- name: ses_template
+- object: ses_template
   class:
     name: string
     created_timestamp: date
 
-- name: send_data_point
+- object: send_data_point
   class:
     timestamp: date
     delivery_attempts: int
@@ -819,19 +819,19 @@
     complaints: int
     rejects: int
 
-- name: ses_configuration_set
+- object: ses_configuration_set
   class:
     name: string
 
-- name: identity_policies
+- object: identity_policies
   class:
     policies: map[string, string]
 
-- name: dkim_attributes
+- object: dkim_attributes
   class:
     entries: map[string, dkim_attribute_entry]
 
-- name: dkim_attribute_entry
+- object: dkim_attribute_entry
   class:
     dkim_enabled: boolean
     dkim_verification_status: string
@@ -839,7 +839,7 @@
 
 # SQS Classes
 
-- name: sqs_message
+- object: sqs_message
   class:
     message_id: string
     queue_url: string
@@ -848,7 +848,7 @@
     receipt_handle: string
     md5_of_body: string
 
-- name: queue_attributes
+- object: queue_attributes
   class:
     delay_seconds: string
     maximum_message_size: string
@@ -862,27 +862,27 @@
     fifo_queue: string
     content_based_deduplication: string
 
-- name: sqs_tags
+- object: sqs_tags
   class:
     tags: list[sqs_tag]
 
-- name: sqs_tag
+- object: sqs_tag
   class:
     key: string
     value: string
 
-- name: message_attributes
+- object: message_attributes
   class:
     attributes: list[message_attribute]
 
-- name: message_attribute
+- object: message_attribute
   class:
     name: string
     data_type: string
     string_value: string
     binary_value: bytes
 
-- name: send_message_batch_entry
+- object: send_message_batch_entry
   class:
     id: string
     message_body: string
@@ -891,7 +891,7 @@
     message_deduplication_id: string
     message_group_id: string
 
-- name: send_message_batch_result
+- object: send_message_batch_result
   class:
     id: string
     message_id: string
@@ -899,35 +899,35 @@
     md5_of_message_attributes: string
     sequence_number: string
 
-- name: delete_message_batch_entry
+- object: delete_message_batch_entry
   class:
     id: string
     receipt_handle: string
 
-- name: delete_message_batch_result
+- object: delete_message_batch_result
   class:
     id: string
 
-- name: batch_result_error_entry
+- object: batch_result_error_entry
   class:
     id: string
     sender_fault: boolean
     code: string
     message: string
 
-- name: change_message_visibility_batch_entry
+- object: change_message_visibility_batch_entry
   class:
     id: string
     receipt_handle: string
     visibility_timeout: int
 
-- name: change_message_visibility_batch_result
+- object: change_message_visibility_batch_result
   class:
     id: string
 
 # CloudFront Classes
 
-- name: cloud_front_distribution
+- object: cloud_front_distribution
   class:
     distribution_id: string
     domain_name: string
@@ -939,7 +939,7 @@
     price_class: string
     last_modified_time: date
 
-- name: cloud_front_origin
+- object: cloud_front_origin
   class:
     id: string
     domain_name: string
@@ -947,7 +947,7 @@
     connection_attempts: int
     connection_timeout: int
 
-- name: cache_behavior
+- object: cache_behavior
   class:
     path_pattern: string
     target_origin_id: string
@@ -959,7 +959,7 @@
     compress: boolean
     smooth_streaming: boolean
 
-- name: cache_key_parameters
+- object: cache_key_parameters
   class:
     headers_config: headers_config
     cookies_config: cookies_config
@@ -967,22 +967,22 @@
     enable_accept_encoding_gzip: boolean
     enable_accept_encoding_brotli: boolean
 
-- name: headers_config
+- object: headers_config
   class:
     header_behavior: string
     headers: list[string]
 
-- name: cookies_config
+- object: cookies_config
   class:
     cookie_behavior: string
     cookies: list[string]
 
-- name: query_strings_config
+- object: query_strings_config
   class:
     query_string_behavior: string
     query_strings: list[string]
 
-- name: cors_config
+- object: cors_config
   class:
     access_control_allow_origins: list[string]
     access_control_allow_headers: list[string]
@@ -991,7 +991,7 @@
     access_control_max_age_sec: int
     origin_override: boolean
 
-- name: security_headers_config
+- object: security_headers_config
   class:
     content_security_policy: string
     content_type_options: string
@@ -1000,39 +1000,39 @@
     strict_transport_security: string
     xss_protection: string
 
-- name: custom_headers_config
+- object: custom_headers_config
   class:
     items: list[custom_header]
 
-- name: custom_header
+- object: custom_header
   class:
     header: string
     value: string
     override: boolean
 
-- name: custom_error_response
+- object: custom_error_response
   class:
     error_code: int
     response_page_path: string
     response_code: string
     error_caching_min_ttl: int
 
-- name: cloud_front_invalidation
+- object: cloud_front_invalidation
   class:
     id: string
     status: string
     create_time: date
 
-- name: cloud_front_tags
+- object: cloud_front_tags
   class:
     items: list[cloud_front_tag]
 
-- name: cloud_front_tag
+- object: cloud_front_tag
   class:
     key: string
     value: string
 
-- name: distribution_config
+- object: distribution_config
   class:
     caller_reference: string
     aliases: list[string]
@@ -1049,7 +1049,7 @@
     restrictions: string
     web_acl_id: string
 
-- name: cache_policy
+- object: cache_policy
   class:
     cache_policy_id: string
     name: string
@@ -1060,7 +1060,7 @@
 
 # Secrets Manager Classes
 
-- name: aws_secret
+- object: aws_secret
   class:
     arn: string
     name: string
@@ -1072,21 +1072,21 @@
     last_changed_date: date
     last_rotated_date: date
 
-- name: secrets_tags
+- object: secrets_tags
   class:
     items: list[secrets_tag]
 
-- name: secrets_tag
+- object: secrets_tag
   class:
     key: string
     value: string
 
-- name: secret_filter
+- object: secret_filter
   class:
     key: string
     values: list[string]
 
-- name: secret_list_entry
+- object: secret_list_entry
   class:
     arn: string
     name: string
@@ -1097,17 +1097,17 @@
     last_changed_date: date
     tags: list[secrets_tag]
 
-- name: rotation_rules
+- object: rotation_rules
   class:
     automatically_after_days: int
     duration: string
     schedule_expression: string
 
-- name: kms_key_ids
+- object: kms_key_ids
   class:
     regions: map[string, string]
 
-- name: replication_status
+- object: replication_status
   class:
     region: string
     kms_key_id: string
@@ -1117,7 +1117,7 @@
 
 # ACM Classes
 
-- name: certificate
+- object: certificate
   class:
     certificate_arn: string
     domain_name: string
@@ -1146,7 +1146,7 @@
     renewal_eligibility: string
     options: certificate_options
 
-- name: certificate_summary
+- object: certificate_summary
   class:
     certificate_arn: string
     domain_name: string
@@ -1167,7 +1167,7 @@
     imported_at: date
     revoked_at: date
 
-- name: domain_validation_option
+- object: domain_validation_option
   class:
     domain_name: string
     validation_domain: string
@@ -1176,46 +1176,46 @@
     validation_method: string
     validation_emails: list[string]
 
-- name: resource_record
+- object: resource_record
   class:
     name: string
     type: string
     value: string
 
-- name: renewal_summary
+- object: renewal_summary
   class:
     renewal_status: string
     domain_validation_options: list[domain_validation_option]
     renewal_status_reason: string
     updated_at: date
 
-- name: key_usage
+- object: key_usage
   class:
     name: string
 
-- name: extended_key_usage
+- object: extended_key_usage
   class:
     name: string
     oid: string
 
-- name: certificate_options
+- object: certificate_options
   class:
     certificate_transparency_logging_preference: string
 
-- name: certificate_filters
+- object: certificate_filters
   class:
     extended_key_usage: list[string]
     key_usage: list[string]
     key_types: list[string]
 
-- name: expiry_events_configuration
+- object: expiry_events_configuration
   class:
     days_before_expiry: int
 
-- name: account_configuration
+- object: account_configuration
   class:
     expiry_events: expiry_events_configuration
 
-- name: acm_tags
+- object: acm_tags
   class:
     tags: map[string, string]

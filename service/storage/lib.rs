@@ -1,7 +1,5 @@
-mod entity;
 mod error;
-mod filter;
-mod repository;
+mod service;
 
 #[cfg(feature = "d1")]
 pub mod d1;
@@ -22,10 +20,8 @@ mod tests;
 // Core Types (always available)
 // ============================================================================
 
-pub use entity::Entity;
 pub use error::{StorageError, StorageResult};
-pub use filter::{FilterCondition, QueryOptions};
-pub use repository::{QueueMessage, QueueStats, Store};
+pub use service::Store;
 
 // ============================================================================
 // SQL Types (available with any SQL feature)

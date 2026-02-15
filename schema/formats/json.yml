@@ -1,4 +1,4 @@
-- name: json_document
+- object: json_document
   schema:
     - created_at: date = now()
     - created_by: id? -> user.id
@@ -8,7 +8,7 @@
     - source_path: string? #max(2000)
     - updated_at: date = now()
 
-- name: json_schema
+- object: json_schema
   schema:
     - additional_properties: boolean = true
     - created_at: date = now()
@@ -20,22 +20,22 @@
     - updated_at: date = now()
     - version: int = 1 #min(1)
 
-- name: json_validation_result
+- object: json_validation_result
   id: [document_id, validated_at]
   schema:
-    - document_id: id #required -> json_document.id
+    - document_id: id -> json_document.id
     - error_count: int = 0 #min(0)
     - errors: string? # json array
     - is_valid: boolean = false
-    - schema_id: id #required -> json_schema.id
+    - schema_id: id -> json_schema.id
     - validated_at: date = now()
 
-- name: json_validation_error
+- object: json_validation_error
   schema:
     - path: string
     - message: string
     - keyword: string
 
-- name: json_object
+- object: json_object
   schema:
     - data: map[string, any]

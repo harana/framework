@@ -1,6 +1,6 @@
-- name: side_calendar
+- webobject: side_calendar
   attributes:
-    - current_month_display: string #required #max(50)
+    - current_month_display: string #max(50)
     - days: [calendar_day] #required
     - meetings: [calendar_meeting]
     - schedule_title: string = "schedule for" #max(50)

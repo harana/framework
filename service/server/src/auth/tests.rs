@@ -4,7 +4,7 @@ mod tests {
     use super::*;
     use async_trait::async_trait;
     use harana_components_cache::{
-        CacheError, CacheResult, CacheStore, GetOptions, KeyEntry, ListOptions, ListResponse,
+        CacheError, CacheResult, CacheService, GetOptions, KeyEntry, ListOptions, ListResponse,
         PutOptions,
     };
     use parking_lot::RwLock;
@@ -22,12 +22,12 @@ mod tests {
     }
 
     /// Convenience factory for use in other test modules.
-    pub(crate) fn memory_cache() -> Arc<dyn CacheStore> {
+    pub(crate) fn memory_cache() -> Arc<dyn CacheService> {
         MemoryCache::new()
     }
 
     #[async_trait]
-    impl CacheStore for MemoryCache {
+    impl CacheService for MemoryCache {
         async fn put(&self, key: &str, value: &str, _options: PutOptions) -> CacheResult<()> {
             self.data.write().insert(key.to_string(), value.to_string());
             Ok(())

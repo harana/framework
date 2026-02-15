@@ -1,14 +1,14 @@
-- name: cache_entry
+- object: cache_entry
   id: [namespace, key]
   schema:
     - created_at: date = now()
     - expires_at: date?
-    - key: string #required #unique #max(500)
+    - key: string #unique #max(500)
     - namespace: string = default #max(100)
     - ttl_seconds: int? #min(1)
     - value: string #required
 
-- name: cache_config
+- object: cache_config
   schema:
     - default_ttl_seconds: int = 3600 #min(1)
     - is_enabled: boolean = true

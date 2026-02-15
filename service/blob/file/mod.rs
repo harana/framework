@@ -4,23 +4,16 @@ use std::path::{Path, PathBuf};
 use tokio::fs;
 
 use crate::error::{BlobError, BlobResult};
-use crate::store::{BlobInfo, BlobMetadata, BlobStore, ListOptions, ListResponse, PutOptions};
+use crate::model::{BlobInfo, BlobMetadata, ListOptions, ListResponse, PutOptions};
+use crate::service::BlobService;
 
 const METADATA_SUFFIX: &str = ".meta.json";
 
-/// A blob store backed by the local file system.
-///
-/// Blobs are stored as files within `base_dir`. Each blob at key `k` is stored
-/// as `<base_dir>/<k>` with an optional sidecar `<base_dir>/<k>.meta.json`
-/// containing serialised [`BlobMetadata`].
-pub struct FileBlobStore {
+pub struct FileBlobService {
     base_dir: PathBuf,
 }
 
-impl FileBlobStore {
-    /// Create a new `FileBlobStore` rooted at `base_dir`.
-    ///
-    /// The directory will be created if it does not exist.
+impl FileBlobService {
     pub async fn new(base_dir: impl Into<PathBuf>) -> BlobResult<Self> {
         let base_dir = base_dir.into();
         fs::create_dir_all(&base_dir)
@@ -60,7 +53,7 @@ impl FileBlobStore {
 }
 
 #[async_trait]
-impl BlobStore for FileBlobStore {
+impl BlobService for FileBlobService {
     async fn put(&self, key: &str, data: &[u8], options: PutOptions) -> BlobResult<BlobInfo> {
         let path = self.blob_path(key);
 
@@ -232,7 +225,6 @@ impl BlobStore for FileBlobStore {
     }
 }
 
-/// Recursively collect file entries under `dir`.
 async fn collect_entries(
     base: &Path,
     dir: &Path,
@@ -250,7 +242,6 @@ async fn collect_entries(
     {
         let path = entry.path();
 
-        // Skip metadata sidecar files.
         if path
             .file_name()
             .and_then(|n| n.to_str())

@@ -1,17 +1,17 @@
-- name: command_palette_opened
+- event: command_palette_opened
   schema:
     palette_id: id #required
     trigger_method: keyboard | button | menu = keyboard
     opened_at: date = now()
 
-- name: command_palette_closed
+- event: command_palette_closed
   schema:
     palette_id: id #required
     close_reason: selection | escape | blur = escape
     time_open_ms: int? #min(0)
     closed_at: date = now()
 
-- name: command_selected
+- event: command_selected
   schema:
     palette_id: id #required
     command_id: id #required
@@ -20,7 +20,7 @@
     selection_index: int? #min(0)
     selected_at: date = now()
 
-- name: command_searched
+- event: command_searched
   schema:
     palette_id: id #required
     search_query: string #required

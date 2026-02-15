@@ -1,24 +1,24 @@
-- name: slack_workspace
+- object: slack_workspace
   schema:
     - access_token: string? #max(500) #encrypted
     - created_at: date = now()
     - is_active: boolean = true
-    - team_id: string #required #unique #max(100)
+    - team_id: string #unique #max(100)
     - team_name: string? #max(200)
     - updated_at: date = now()
 
-- name: slack_channel
+- object: slack_channel
   id: [workspace_id, channel_id]
   schema:
-    - channel_id: string #required #max(100)
+    - channel_id: string #max(100)
     - is_archived: boolean = false
     - is_private: boolean = false
-    - name: string #required #max(200)
+    - name: string #max(200)
     - num_members: int = 0 #min(0)
     - purpose: string? #max(500)
     - topic: string? #max(500)
-    - workspace_id: id #required -> slack_workspace.id
-- name: slack_user
+    - workspace_id: id -> slack_workspace.id
+- object: slack_user
   id: [workspace_id, user_id]
   schema:
     - email: string? #email #max(255)
@@ -27,20 +27,20 @@
     - name: string? #max(200)
     - real_name: string? #max(200)
     - timezone: string? #max(50)
-    - user_id: string #required #max(100)
-    - workspace_id: id #required -> slack_workspace.id
-- name: slack_message_log
+    - user_id: string #max(100)
+    - workspace_id: id -> slack_workspace.id
+- object: slack_message_log
   id: [channel_id, message_ts]
   schema:
-    - channel_id: string #required #max(100)
+    - channel_id: string #max(100)
     - created_at: date = now()
-    - message_ts: string #required #max(50)
+    - message_ts: string #max(50)
     - status: sent | updated | deleted | failed = sent
     - text: string? #max(5000)
     - thread_ts: string? #max(50)
     - user_id: string? #max(100)
 
-- name: slack_message
+- object: slack_message
   schema:
     - message_ts: string
     - channel_id: string
@@ -50,20 +50,20 @@
     - blocks: list[slack_block]
     - attachments: list[slack_attachment]
 
-- name: slack_block
+- object: slack_block
   schema:
     - type: string
     - block_id: string
     - text: slack_text_object
     - elements: list[any]
 
-- name: slack_text_object
+- object: slack_text_object
   schema:
     - type: string
     - text: string
     - emoji: boolean
 
-- name: slack_attachment
+- object: slack_attachment
   schema:
     - fallback: string
     - color: string
@@ -73,7 +73,7 @@
     - text: string
     - fields: list[slack_attachment_field]
 
-- name: slack_attachment_field
+- object: slack_attachment_field
   schema:
     - title: string
     - value: string

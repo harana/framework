@@ -1,4 +1,4 @@
-- name: signing_key
+- object: signing_key
   id: [key_id]
   schema:
     - algorithm: rsa_sha256 | rsa_sha512 | ecdsa_sha256 | ed25519 = rsa_sha256
@@ -6,29 +6,29 @@
     - created_by: id? -> user.id
     - expires_at: date?
     - is_active: boolean = true
-    - key_id: string #required #unique #max(200)
+    - key_id: string #unique #max(200)
     - public_key_fingerprint: string? #max(128)
     - updated_at: date = now()
     - usage: artifact | code | container | detached = artifact
 
-- name: signature
+- object: signature
   id: [artifact_hash, key_id]
   schema:
-    - algorithm: string #required #max(50)
-    - artifact_hash: string #required #max(128)
+    - algorithm: string #max(50)
+    - artifact_hash: string #max(128)
     - artifact_path: string? #max(2000)
     - created_at: date = now()
     - format: pkcs7 | jws | raw | pgp | smime | cms | cosign | notary = pkcs7
     - is_valid: boolean = true
-    - key_id: string #required #max(200)
+    - key_id: string #max(200)
     - signer: string? #max(500)
 
-- name: signature_verification_log
+- object: signature_verification_log
   id: [signature_id, verified_at]
   schema:
     - error_message: string? #max(1000)
     - ip_address: string? #max(45)
     - is_valid: boolean = false
-    - signature_id: id #required -> signature.id
+    - signature_id: id -> signature.id
     - verified_at: date = now()
     - verified_by: id? -> user.id

@@ -1,12 +1,12 @@
-- name: sidebar_item
+- webobject: sidebar_item
   id: [sidebar_id, name]
   attributes:
     - href: string? #max(500)
     - icon: string? #max(100)
     - is_current: boolean = false
-    - label: string #required #max(200)
+    - label: string #max(200)
     - order: int = 0 #min(0)
     - section_id: id? -> ui_sidebar_section.id
-    - sidebar_id: id #required -> ui_sidebar.id
+    - sidebar_id: id -> ui_sidebar.id
   events:
     - click

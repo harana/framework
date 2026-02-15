@@ -1,18 +1,18 @@
-- name: sidebar_toggled
+- event: sidebar_toggled
   schema:
     sidebar_id: id #required
     sidebar_name: string?
     new_state: expanded | collapsed #required
     toggled_at: date = now()
 
-- name: sidebar_collapsed
+- event: sidebar_collapsed
   schema:
     sidebar_id: id #required
     sidebar_name: string?
     collapse_trigger: button | gesture | auto = button
     collapsed_at: date = now()
 
-- name: sidebar_expanded
+- event: sidebar_expanded
   schema:
     sidebar_id: id #required
     sidebar_name: string?

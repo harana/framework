@@ -230,12 +230,12 @@ mod tests {
     }
 
     // ========================================================================
-    // In-Memory Store Tests
+    // In-Memory Service Tests
     // ========================================================================
 
     #[tokio::test]
     async fn test_inmemory_store_schedule_crud() {
-        let store = InMemoryScheduleStore::new();
+        let store = InMemoryScheduleService::new();
 
         // Create
         let schedule = Schedule::cron("test-1", "Test Schedule", "0 * * * *");
@@ -264,7 +264,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_inmemory_store_query_schedules() {
-        let store = InMemoryScheduleStore::new();
+        let store = InMemoryScheduleService::new();
 
         // Create multiple schedules
         for i in 0..10 {
@@ -305,7 +305,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_inmemory_store_job_crud() {
-        let store = InMemoryScheduleStore::new();
+        let store = InMemoryScheduleService::new();
 
         // Create schedule first
         let schedule = Schedule::cron("sched-1", "Test", "* * * * *");
@@ -335,7 +335,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_inmemory_store_job_locking() {
-        let store = InMemoryScheduleStore::new();
+        let store = InMemoryScheduleService::new();
 
         let schedule = Schedule::cron("sched-1", "Test", "* * * * *");
         store.create_schedule(&schedule).await.unwrap();
@@ -368,7 +368,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_inmemory_store_execution_history() {
-        let store = InMemoryScheduleStore::new();
+        let store = InMemoryScheduleService::new();
 
         let schedule = Schedule::cron("sched-1", "Test", "* * * * *");
         store.create_schedule(&schedule).await.unwrap();

@@ -1,10 +1,10 @@
-- name: random_seed
+- object: random_seed
   schema:
     - algorithm: string = default #max(50)
     - created_at: date = now()
     - seed_value: int?
 
-- name: random_value
+- object: random_value
   schema:
     - seed: int
     - value: any

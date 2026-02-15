@@ -1,0 +1,111 @@
+- action: parse
+  inputs:
+    data: string
+    strict: boolean = true
+  outputs:
+    result: any
+
+- action: stringify
+  inputs:
+    data: any
+    indent: int = 0
+    sort_keys: boolean = false
+  outputs:
+    json: string
+
+- action: validate
+  inputs:
+    data: any
+    schema: json_schema
+  outputs:
+    errors: list[json_validation_error]
+    valid: boolean
+
+- action: jmespath_query
+  inputs:
+    data: any
+    query: string
+  outputs:
+    result: any
+
+- action: merge
+  inputs:
+    objects: list[json_object]
+    strategy: deep | shallow | concat_arrays = deep
+  outputs:
+    result: json_object
+
+- action: diff
+  inputs:
+    include_unchanged: boolean = false
+    source: any
+    target: any
+  outputs:
+    added: json_object
+    changed: json_object
+    removed: json_object
+
+- object: json_document
+  class:
+    data: any
+    schema: json_schema
+    valid: boolean
+
+- object: json_schema
+  class:
+    type: string
+    properties: map[string, any]
+    required: list[string]
+    additional_properties: boolean
+
+- object: json_validation_error
+  class:
+    path: string
+    message: string
+    keyword: string
+
+- object: json_object
+  class:
+    data: map[string, any]
+
+- object: json_document
+  schema:
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - is_valid: boolean = true
+    - schema_id: id? -> json_schema.id
+    - size: int = 0 #min(0)
+    - source_path: string? #max(2000)
+    - updated_at: date = now()
+
+- object: json_schema
+  schema:
+    - additional_properties: boolean = true
+    - created_at: date = now()
+    - description: string? #max(500)
+    - is_active: boolean = true
+    - properties: string? # json
+    - required_fields: string? # json array
+    - schema_type: object | array | string | number | boolean = object
+    - updated_at: date = now()
+    - version: int = 1 #min(1)
+
+- object: json_validation_result
+  id: [document_id, validated_at]
+  schema:
+    - document_id: id -> json_document.id
+    - error_count: int = 0 #min(0)
+    - errors: string? # json array
+    - is_valid: boolean = false
+    - schema_id: id -> json_schema.id
+    - validated_at: date = now()
+
+- object: json_validation_error
+  schema:
+    - path: string
+    - message: string
+    - keyword: string
+
+- object: json_object
+  schema:
+    - data: map[string, any]

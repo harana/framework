@@ -1,4 +1,4 @@
-- name: cloudflare_queue_message_sent
+- event: cloudflare_queue_message_sent
   schema:
     queue: string #required
     message_id: string?
@@ -6,14 +6,14 @@
     delay_seconds: int?
     sent_at: date = now()
 
-- name: cloudflare_queue_message_batch_sent
+- event: cloudflare_queue_message_batch_sent
   schema:
     queue: string #required
-    message_count: int #required #min(1)
+    message_count: int #min(1)
     failed_count: int? #min(0)
     sent_at: date = now()
 
-- name: cloudflare_queue_message_arrived
+- event: cloudflare_queue_message_arrived
   schema:
     queue: string #required
     message_id: string #required
@@ -21,38 +21,38 @@
     timestamp: date?
     arrived_at: date = now()
 
-- name: cloudflare_queue_message_batch_arrived
+- event: cloudflare_queue_message_batch_arrived
   schema:
     queue: string #required
-    message_count: int #required #min(1)
+    message_count: int #min(1)
     max_batch_size: int?
     arrived_at: date = now()
 
-- name: cloudflare_queue_message_acknowledged
+- event: cloudflare_queue_message_acknowledged
   schema:
     queue: string #required
     message_id: string #required
     acknowledged_at: date = now()
 
-- name: cloudflare_queue_all_messages_acknowledged
+- event: cloudflare_queue_all_messages_acknowledged
   schema:
     queue: string #required
     acknowledged_at: date = now()
 
-- name: cloudflare_queue_message_retried
+- event: cloudflare_queue_message_retried
   schema:
     queue: string #required
     message_id: string #required
     delay_seconds: int?
     retried_at: date = now()
 
-- name: cloudflare_queue_all_messages_retried
+- event: cloudflare_queue_all_messages_retried
   schema:
     queue: string #required
     delay_seconds: int?
     retried_at: date = now()
 
-- name: cloudflare_queue_message_processing_failed
+- event: cloudflare_queue_message_processing_failed
   schema:
     queue: string #required
     message_id: string?

@@ -1,4 +1,4 @@
-- name: fieldset
+- webobject: fieldset
   attributes:
     - aria_label: string? #max(200)
     - description: string? #max(500)

@@ -1,5 +1,5 @@
-- name: dropdown_menu
+- webobject: dropdown_menu
   id: [dropdown_id]
   attributes:
     - anchor: top | bottom | left | right | top_start | top_end | bottom_start | bottom_end = bottom
-    - dropdown_id: id #required -> ui_dropdown.id
+    - dropdown_id: id -> ui_dropdown.id

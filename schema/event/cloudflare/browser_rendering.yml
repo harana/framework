@@ -1,11 +1,11 @@
-- name: cloudflare_browser_page_rendered
+- event: cloudflare_browser_page_rendered
   schema:
     binding: string #required
     url: string #required
     status_code: int?
     rendered_at: date = now()
 
-- name: cloudflare_browser_screenshot_taken
+- event: cloudflare_browser_screenshot_taken
   schema:
     binding: string #required
     url: string #required
@@ -15,14 +15,14 @@
     full_page: boolean = false
     taken_at: date = now()
 
-- name: cloudflare_browser_content_extracted
+- event: cloudflare_browser_content_extracted
   schema:
     binding: string #required
     url: string #required
     selector: string?
     extracted_at: date = now()
 
-- name: cloudflare_browser_pdf_generated
+- event: cloudflare_browser_pdf_generated
   schema:
     binding: string #required
     url: string #required

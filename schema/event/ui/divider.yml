@@ -1,4 +1,4 @@
-- name: divider_clicked
+- event: divider_clicked
   schema:
     divider_id: id #required
     divider_name: string?

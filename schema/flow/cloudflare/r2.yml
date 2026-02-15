@@ -1,4 +1,4 @@
-- name: get
+- action: get
   inputs:
     bucket: string #required
     key: string #required
@@ -15,7 +15,7 @@
     uploaded: date
     version: string
 
-- name: head
+- action: head
   inputs:
     bucket: string #required
     key: string #required
@@ -29,7 +29,7 @@
     uploaded: date
     version: string
 
-- name: put
+- action: put
   inputs:
     bucket: string #required
     custom_metadata: any
@@ -51,21 +51,21 @@
     uploaded: date
     version: string
 
-- name: delete
+- action: delete
   inputs:
     bucket: string #required
     key: string #required
   outputs:
     success: boolean
 
-- name: delete_many
+- action: delete_many
   inputs:
     bucket: string #required
     keys: list[string] #required
   outputs:
     success: boolean
 
-- name: list
+- action: list
   inputs:
     bucket: string #required
     cursor: string
@@ -80,7 +80,7 @@
     objects: list[r2_object]
     truncated: boolean
 
-- name: create_multipart_upload
+- action: create_multipart_upload
   inputs:
     bucket: string #required
     custom_metadata: any
@@ -91,7 +91,7 @@
     key: string
     upload_id: string
 
-- name: upload_part
+- action: upload_part
   inputs:
     bucket: string #required
     key: string #required
@@ -102,7 +102,7 @@
     etag: string
     part_number: int
 
-- name: complete_multipart_upload
+- action: complete_multipart_upload
   inputs:
     bucket: string #required
     key: string #required
@@ -116,7 +116,7 @@
     uploaded: date
     version: string
 
-- name: abort_multipart_upload
+- action: abort_multipart_upload
   inputs:
     bucket: string #required
     key: string #required

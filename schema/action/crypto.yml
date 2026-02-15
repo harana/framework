@@ -1,0 +1,114 @@
+- action: hash
+  inputs:
+    algorithm: sha256 | sha512 | md5 | sha1 = sha256
+    data: string
+    encoding: hex | base64 = hex
+  outputs:
+    digest: string
+
+- action: hmac
+  inputs:
+    algorithm: sha256 | sha512 = sha256
+    data: string
+    encoding: hex | base64 = hex
+    key: string
+  outputs:
+    digest: string
+
+- action: encrypt
+  inputs:
+    algorithm: aes-256-gcm | aes-256-cbc = aes-256-gcm
+    data: string
+    iv: string
+    key: string
+  outputs:
+    auth_tag: string
+    ciphertext: string
+    iv: string
+
+- action: decrypt
+  inputs:
+    algorithm: aes-256-gcm | aes-256-cbc = aes-256-gcm
+    auth_tag: string
+    ciphertext: string
+    iv: string
+    key: string
+  outputs:
+    plaintext: string
+
+- action: generate_key
+  inputs:
+    encoding: hex | base64 = hex
+    length: int = 32
+  outputs:
+    key: string
+
+- action: sign
+  inputs:
+    algorithm: rsa-sha256 | rsa-sha512 | ed25519 = rsa-sha256
+    data: string
+    private_key: string
+  outputs:
+    signature: string
+
+- action: verify
+  inputs:
+    algorithm: rsa-sha256 | rsa-sha512 | ed25519 = rsa-sha256
+    data: string
+    public_key: string
+    signature: string
+  outputs:
+    valid: boolean
+
+- action: generate_keypair
+  inputs:
+    algorithm: rsa | ed25519 | ecdsa = rsa
+    key_size: int = 2048
+  outputs:
+    private_key: string
+    public_key: string
+
+- object: key_pair
+  class:
+    algorithm: string
+    private_key: string
+    public_key: string
+    key_size: int
+
+- object: encryption_key
+  id: [key_id]
+  schema:
+    - algorithm: aes_256_gcm | aes_256_cbc | rsa | ed25519 | ecdsa = aes_256_gcm
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - expires_at: date?
+    - is_active: boolean = true
+    - key_id: string #unique #max(200)
+    - key_size: int #min(128)
+    - key_type: symmetric | asymmetric = symmetric
+    - last_rotated_at: date?
+    - updated_at: date = now()
+    - usage: encrypt | sign | both = encrypt
+
+- object: key_pair
+  id: [key_id]
+  schema:
+    - algorithm: rsa | ed25519 | ecdsa = rsa
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - expires_at: date?
+    - is_active: boolean = true
+    - key_id: string #unique #max(200)
+    - key_size: int #min(256)
+    - public_key_fingerprint: string? #max(128)
+    - updated_at: date = now()
+
+- object: operation_log
+  id: [key_id, created_at]
+  schema:
+    - algorithm: string #max(50)
+    - created_at: date = now()
+    - key_id: string #max(200)
+    - operation: hash | hmac | encrypt | decrypt | sign | verify | generate_key = encrypt
+    - status: success | failed = success
+    - user_id: id? -> user.id

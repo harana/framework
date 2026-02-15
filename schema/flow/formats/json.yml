@@ -1,11 +1,11 @@
-- name: parse
+- action: parse
   inputs:
     data: string #required
     strict: boolean = true
   outputs:
     result: any
 
-- name: stringify
+- action: stringify
   inputs:
     data: any #required
     indent: int = 0
@@ -13,7 +13,7 @@
   outputs:
     json: string
 
-- name: validate
+- action: validate
   inputs:
     data: any #required
     schema: json_schema #required
@@ -21,21 +21,21 @@
     errors: list[json_validation_error]
     valid: boolean
 
-- name: jmespath_query
+- action: jmespath_query
   inputs:
     data: any #required
     query: string #required
   outputs:
     result: any
 
-- name: merge
+- action: merge
   inputs:
     objects: list[json_object] #required
     strategy: deep | shallow | concat_arrays = deep
   outputs:
     result: json_object
 
-- name: diff
+- action: diff
   inputs:
     include_unchanged: boolean = false
     source: any #required
@@ -45,25 +45,25 @@
     changed: json_object
     removed: json_object
 
-- name: json_document
+- object: json_document
   class:
     data: any
     schema: json_schema
     valid: boolean
 
-- name: json_schema
+- object: json_schema
   class:
     type: string
     properties: map[string, any]
     required: list[string]
     additional_properties: boolean
 
-- name: json_validation_error
+- object: json_validation_error
   class:
     path: string
     message: string
     keyword: string
 
-- name: json_object
+- object: json_object
   class:
     data: map[string, any]

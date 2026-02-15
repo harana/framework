@@ -1,0 +1,141 @@
+- config: environment
+  schema:
+    - blob: blob_options?
+    - cache: cache_options?
+    - deployment: deployment_options?
+    - environment: development | staging | production = development
+    - http: http_options?
+    - jwt: jwt_options?
+    - log: log_options?
+    - oauth: oauth_options?
+    - passkey: passkey_options?
+    - session: session_options
+    - storage: storage_options?
+    - tls: tls_options?
+    - tracing: tracing_options?
+
+- config: http_options
+  schema:
+    - allowed_origins: list[string]?
+    - enable_cors: boolean = true
+    - graceful_shutdown_seconds: int = 30 #min(0)
+    - host: string = "127.0.0.1" #max(255)
+    - max_concurrent_requests: int? #min(1)
+    - port: int = 3000 #min(1) #max(65535)
+    - read_timeout_seconds: int = 15 #min(1)
+    - write_timeout_seconds: int = 15 #min(1)
+
+- config: tls_options
+  schema:
+    - alpn_protocols: list[string]?
+    - cert_path: string? #max(1000)
+    - enabled: boolean = false
+    - key_path: string? #max(1000)
+
+- config: log_options
+  schema:
+    - level: debug | info | warn | error = info
+    - format: text | json = text
+    - metrics_enabled: boolean = true
+    - metrics_listen: string? #max(255)
+    - sentry_dsn: string? #max(500)
+
+- config: tracing_options
+  schema:
+    - enabled: boolean = false
+    - provider: jaeger | zipkin | otlp | none = none
+    - endpoint: string? #url #max(2000)
+    - sample_rate: float = 1.0 #min(0) #max(1)
+
+- config: storage_options
+  schema:
+    - backend: d1 | durable_object | mongodb = durable_object
+    - mongodb_url: string? #max(2000)
+    - mongodb_database: string? #max(200)
+    - d1_binding: string? #max(200)
+    - durable_object: durable_object_options?
+
+- config: cache_options
+  schema:
+    - backend: memory | kv | mongodb = memory
+    - kv_binding: string? #max(200)
+    - mongodb_url: string? #max(2000)
+    - mongodb_database: string? #max(200)
+
+- config: blob_options
+  schema:
+    - backend: file | r2 = file
+    - file_base_path: string? #max(1000)
+    - r2_binding: string? #max(200)
+
+- config: jwt_options
+  schema:
+    - secret: string #max(5000)
+    - issuer: string = "harana" #max(500)
+    - audience: string = "harana-app" #max(500)
+    - access_token_expiry: int = 3600 #min(1)
+    - refresh_token_expiry: int = 604800 #min(1)
+
+- config: oauth_options
+  schema:
+    - providers: list[oauth_provider]
+    - auth_code_expiry: int = 600 #min(1)
+    - issuer: string? #max(500)
+    - discovery_cache_ttl: int = 3600 #min(1)
+    - state_ttl: int = 600 #min(1)
+
+- config: oauth_provider
+  schema:
+    - name: string #max(200)
+    - kind: cloudflare | google | github | microsoft | generic = generic
+    - client_id: string #max(500)
+    - client_secret: string #max(500)
+    - discovery_url: string? #url #max(2000)
+    - auth_url: string? #url #max(2000)
+    - token_url: string? #url #max(2000)
+    - userinfo_url: string? #url #max(2000)
+    - scopes: list[string]?
+    - cloudflare_team_domain: string? #max(500)
+
+- config: passkey_options
+  schema:
+    - relying_party_id: string = "localhost" #max(255)
+    - relying_party_name: string = "Harana" #max(255)
+    - relying_party_origin: string = "http://localhost:3000" #url #max(2000)
+    - timeout: int = 60000 #min(1000)
+
+- config: session_options
+  schema:
+    - cookie_name: string = "harana_session" #max(200)
+    - ttl: int = 86400 #min(1)
+    - secure: boolean = false
+    - domain: string? #max(255)
+
+- config: durable_object_options
+  schema:
+    - binding: string
+    - namespace: string #max(200)
+    - alarm_interval_seconds: int? #min(1)
+    - max_stored_bytes: int? #min(0)
+
+- config: deployment_options
+  schema:
+    - target: cloudflare_worker | standalone = standalone
+    - cloudflare_worker: cloudflare_worker_options?
+    - standalone: standalone_options?
+
+- config: cloudflare_worker_options
+  schema:
+    - worker_name: string #max(200)
+    - compatibility_date: string #max(10)
+    - account_id: string? #max(200)
+    - route: string? #max(500)
+    - zone_id: string? #max(200)
+    - durable_object_binding: string? #max(200)
+
+- config: standalone_options
+  schema:
+    - workers: int = 4 #min(1)
+    - max_blocking_threads: int? #min(1)
+    - enable_http2: boolean = true
+    - pid_file: string? #max(1000)

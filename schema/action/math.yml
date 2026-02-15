@@ -1,0 +1,76 @@
+- action: round
+  inputs:
+    precision: int = 0
+    value: float
+  outputs:
+    result: float
+
+- action: floor
+  inputs:
+    value: float
+  outputs:
+    result: float
+
+- action: ceil
+  inputs:
+    value: float
+  outputs:
+    result: float
+
+- action: abs
+  inputs:
+    value: float
+  outputs:
+    result: float
+
+- action: min
+  inputs:
+    values: list[float]
+  outputs:
+    result: float
+
+- action: max
+  inputs:
+    values: list[float]
+  outputs:
+    result: float
+
+- action: sum
+  inputs:
+    values: list[float]
+  outputs:
+    result: float
+
+- action: average
+  inputs:
+    values: list[float]
+  outputs:
+    result: float
+
+- action: percentage
+  inputs:
+    precision: int = 2
+    total: float
+    value: float
+  outputs:
+    result: float
+
+- object: number_value
+  class:
+    value: float
+    precision: int
+    formatted: string
+
+- object: expression
+  schema:
+    - created_at: date = now()
+    - description: string? #max(500)
+    - expression: string #max(2000)
+    - result: decimal?
+    - variables: string? # json map
+
+- object: number_value
+  schema:
+    - value: float
+    - precision: int
+    - formatted: string

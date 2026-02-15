@@ -1,4 +1,4 @@
-- name: create_vpc
+- action: create_vpc
   inputs:
     cidr_block: string #required
     enable_dns_hostnames: boolean = true
@@ -18,14 +18,14 @@
     success: boolean
     vpc_id: string
 
-- name: delete_vpc
+- action: delete_vpc
   inputs:
     region: string
     vpc_id: string #required
   outputs:
     success: boolean
 
-- name: describe_vpcs
+- action: describe_vpcs
   inputs:
     filters: list[vpc_filter]
     region: string
@@ -33,7 +33,7 @@
   outputs:
     vpcs: list[vpc]
 
-- name: modify_vpc_attribute
+- action: modify_vpc_attribute
   inputs:
     enable_dns_hostnames: boolean
     enable_dns_support: boolean
@@ -42,7 +42,7 @@
   outputs:
     success: boolean
 
-- name: create_subnet
+- action: create_subnet
   inputs:
     availability_zone: string
     availability_zone_id: string
@@ -66,14 +66,14 @@
     success: boolean
     vpc_id: string
 
-- name: delete_subnet
+- action: delete_subnet
   inputs:
     region: string
     subnet_id: string #required
   outputs:
     success: boolean
 
-- name: describe_subnets
+- action: describe_subnets
   inputs:
     filters: list[vpc_filter]
     region: string
@@ -81,7 +81,7 @@
   outputs:
     subnets: list[subnet]
 
-- name: modify_subnet_attribute
+- action: modify_subnet_attribute
   inputs:
     assign_ipv6_address_on_creation: boolean
     map_public_ip_on_launch: boolean
@@ -90,7 +90,7 @@
   outputs:
     success: boolean
 
-- name: create_internet_gateway
+- action: create_internet_gateway
   inputs:
     region: string
     tags: vpc_tags
@@ -100,22 +100,14 @@
     owner_id: string
     success: boolean
 
-- name: delete_internet_gateway
+- action: delete_internet_gateway
   inputs:
     internet_gateway_id: string #required
     region: string
   outputs:
     success: boolean
 
-- name: attach_internet_gateway
-  inputs:
-    internet_gateway_id: string #required
-    region: string
-    vpc_id: string #required
-  outputs:
-    success: boolean
-
-- name: detach_internet_gateway
+- action: attach_internet_gateway
   inputs:
     internet_gateway_id: string #required
     region: string
@@ -123,7 +115,15 @@
   outputs:
     success: boolean
 
-- name: describe_internet_gateways
+- action: detach_internet_gateway
+  inputs:
+    internet_gateway_id: string #required
+    region: string
+    vpc_id: string #required
+  outputs:
+    success: boolean
+
+- action: describe_internet_gateways
   inputs:
     filters: list[vpc_filter]
     internet_gateway_ids: list[string]
@@ -131,7 +131,7 @@
   outputs:
     internet_gateways: list[internet_gateway]
 
-- name: create_nat_gateway
+- action: create_nat_gateway
   inputs:
     allocation_id: string
     connectivity_type: public | private = public
@@ -148,7 +148,7 @@
     success: boolean
     vpc_id: string
 
-- name: delete_nat_gateway
+- action: delete_nat_gateway
   inputs:
     nat_gateway_id: string #required
     region: string
@@ -156,7 +156,7 @@
     nat_gateway_id: string
     success: boolean
 
-- name: describe_nat_gateways
+- action: describe_nat_gateways
   inputs:
     filters: list[vpc_filter]
     nat_gateway_ids: list[string]
@@ -164,7 +164,7 @@
   outputs:
     nat_gateways: list[nat_gateway]
 
-- name: create_route_table
+- action: create_route_table
   inputs:
     region: string
     tags: vpc_tags
@@ -178,14 +178,14 @@
     success: boolean
     vpc_id: string
 
-- name: delete_route_table
+- action: delete_route_table
   inputs:
     region: string
     route_table_id: string #required
   outputs:
     success: boolean
 
-- name: describe_route_tables
+- action: describe_route_tables
   inputs:
     filters: list[vpc_filter]
     region: string
@@ -193,7 +193,7 @@
   outputs:
     route_tables: list[route_table]
 
-- name: create_route
+- action: create_route
   inputs:
     carrier_gateway_id: string
     destination_cidr_block: string
@@ -211,7 +211,7 @@
   outputs:
     success: boolean
 
-- name: delete_route
+- action: delete_route
   inputs:
     destination_cidr_block: string
     destination_ipv6_cidr_block: string
@@ -220,7 +220,7 @@
   outputs:
     success: boolean
 
-- name: replace_route
+- action: replace_route
   inputs:
     carrier_gateway_id: string
     destination_cidr_block: string
@@ -237,7 +237,7 @@
   outputs:
     success: boolean
 
-- name: associate_route_table
+- action: associate_route_table
   inputs:
     gateway_id: string
     region: string
@@ -248,14 +248,14 @@
     association_state: string
     success: boolean
 
-- name: disassociate_route_table
+- action: disassociate_route_table
   inputs:
     association_id: string #required
     region: string
   outputs:
     success: boolean
 
-- name: create_security_group
+- action: create_security_group
   inputs:
     description: string #required
     group_name: string #required
@@ -266,7 +266,7 @@
     group_id: string
     success: boolean
 
-- name: delete_security_group
+- action: delete_security_group
   inputs:
     group_id: string
     group_name: string
@@ -274,7 +274,7 @@
   outputs:
     success: boolean
 
-- name: describe_security_groups
+- action: describe_security_groups
   inputs:
     filters: list[vpc_filter]
     group_ids: list[string]
@@ -283,7 +283,7 @@
   outputs:
     security_groups: list[security_group]
 
-- name: authorize_security_group_ingress
+- action: authorize_security_group_ingress
   inputs:
     cidr_ip: string
     from_port: int
@@ -298,7 +298,7 @@
     security_group_rules: list[security_group_rule]
     success: boolean
 
-- name: authorize_security_group_egress
+- action: authorize_security_group_egress
   inputs:
     cidr_ip: string
     from_port: int
@@ -311,7 +311,7 @@
     security_group_rules: list[security_group_rule]
     success: boolean
 
-- name: revoke_security_group_ingress
+- action: revoke_security_group_ingress
   inputs:
     cidr_ip: string
     from_port: int
@@ -326,7 +326,7 @@
   outputs:
     success: boolean
 
-- name: revoke_security_group_egress
+- action: revoke_security_group_egress
   inputs:
     cidr_ip: string
     from_port: int
@@ -339,7 +339,7 @@
   outputs:
     success: boolean
 
-- name: create_network_acl
+- action: create_network_acl
   inputs:
     region: string
     tags: vpc_tags
@@ -353,14 +353,14 @@
     success: boolean
     vpc_id: string
 
-- name: delete_network_acl
+- action: delete_network_acl
   inputs:
     network_acl_id: string #required
     region: string
   outputs:
     success: boolean
 
-- name: describe_network_acls
+- action: describe_network_acls
   inputs:
     filters: list[vpc_filter]
     network_acl_ids: list[string]
@@ -368,7 +368,7 @@
   outputs:
     network_acls: list[network_acl]
 
-- name: create_network_acl_entry
+- action: create_network_acl_entry
   inputs:
     cidr_block: string
     egress: boolean #required
@@ -385,7 +385,7 @@
   outputs:
     success: boolean
 
-- name: delete_network_acl_entry
+- action: delete_network_acl_entry
   inputs:
     egress: boolean #required
     network_acl_id: string #required
@@ -394,7 +394,7 @@
   outputs:
     success: boolean
 
-- name: replace_network_acl_association
+- action: replace_network_acl_association
   inputs:
     association_id: string #required
     network_acl_id: string #required
@@ -403,7 +403,7 @@
     new_association_id: string
     success: boolean
 
-- name: allocate_address
+- action: allocate_address
   inputs:
     domain: vpc | standard = vpc
     network_border_group: string
@@ -418,7 +418,7 @@
     public_ipv4_pool: string
     success: boolean
 
-- name: release_address
+- action: release_address
   inputs:
     allocation_id: string
     public_ip: string
@@ -426,7 +426,7 @@
   outputs:
     success: boolean
 
-- name: associate_address
+- action: associate_address
   inputs:
     allocation_id: string
     allow_reassociation: boolean = false
@@ -439,7 +439,7 @@
     association_id: string
     success: boolean
 
-- name: disassociate_address
+- action: disassociate_address
   inputs:
     association_id: string
     public_ip: string
@@ -447,7 +447,7 @@
   outputs:
     success: boolean
 
-- name: describe_addresses
+- action: describe_addresses
   inputs:
     allocation_ids: list[string]
     filters: list[vpc_filter]
@@ -456,7 +456,7 @@
   outputs:
     addresses: list[elastic_ip]
 
-- name: create_vpc_peering_connection
+- action: create_vpc_peering_connection
   inputs:
     peer_owner_id: string
     peer_region: string
@@ -472,7 +472,7 @@
     success: boolean
     vpc_peering_connection_id: string
 
-- name: accept_vpc_peering_connection
+- action: accept_vpc_peering_connection
   inputs:
     region: string
     vpc_peering_connection_id: string #required
@@ -483,21 +483,21 @@
     success: boolean
     vpc_peering_connection_id: string
 
-- name: delete_vpc_peering_connection
+- action: delete_vpc_peering_connection
   inputs:
     region: string
     vpc_peering_connection_id: string #required
   outputs:
     success: boolean
 
-- name: reject_vpc_peering_connection
+- action: reject_vpc_peering_connection
   inputs:
     region: string
     vpc_peering_connection_id: string #required
   outputs:
     success: boolean
 
-- name: describe_vpc_peering_connections
+- action: describe_vpc_peering_connections
   inputs:
     filters: list[vpc_filter]
     region: string
@@ -505,7 +505,7 @@
   outputs:
     vpc_peering_connections: list[vpc_peering_connection]
 
-- name: create_vpc_endpoint
+- action: create_vpc_endpoint
   inputs:
     policy_document: string
     private_dns_enabled: boolean = true
@@ -535,7 +535,7 @@
     vpc_endpoint_type: string
     vpc_id: string
 
-- name: delete_vpc_endpoints
+- action: delete_vpc_endpoints
   inputs:
     region: string
     vpc_endpoint_ids: list[string] #required
@@ -543,7 +543,7 @@
     unsuccessful: list[unsuccessful_item]
     success: boolean
 
-- name: describe_vpc_endpoints
+- action: describe_vpc_endpoints
   inputs:
     filters: list[vpc_filter]
     region: string
@@ -551,7 +551,7 @@
   outputs:
     vpc_endpoints: list[vpc_endpoint]
 
-- name: modify_vpc_endpoint
+- action: modify_vpc_endpoint
   inputs:
     add_route_table_ids: list[string]
     add_security_group_ids: list[string]
@@ -567,7 +567,7 @@
   outputs:
     success: boolean
 
-- name: create_dhcp_options
+- action: create_dhcp_options
   inputs:
     dhcp_configurations: list[dhcp_configuration] #required
     region: string
@@ -578,14 +578,14 @@
     owner_id: string
     success: boolean
 
-- name: delete_dhcp_options
+- action: delete_dhcp_options
   inputs:
     dhcp_options_id: string #required
     region: string
   outputs:
     success: boolean
 
-- name: describe_dhcp_options
+- action: describe_dhcp_options
   inputs:
     dhcp_options_ids: list[string]
     filters: list[vpc_filter]
@@ -593,7 +593,7 @@
   outputs:
     dhcp_options: list[dhcp_options]
 
-- name: associate_dhcp_options
+- action: associate_dhcp_options
   inputs:
     dhcp_options_id: string #required
     region: string
@@ -601,7 +601,7 @@
   outputs:
     success: boolean
 
-- name: create_egress_only_internet_gateway
+- action: create_egress_only_internet_gateway
   inputs:
     region: string
     tags: vpc_tags
@@ -611,14 +611,14 @@
     egress_only_internet_gateway_id: string
     success: boolean
 
-- name: delete_egress_only_internet_gateway
+- action: delete_egress_only_internet_gateway
   inputs:
     egress_only_internet_gateway_id: string #required
     region: string
   outputs:
     success: boolean
 
-- name: describe_egress_only_internet_gateways
+- action: describe_egress_only_internet_gateways
   inputs:
     egress_only_internet_gateway_ids: list[string]
     filters: list[vpc_filter]

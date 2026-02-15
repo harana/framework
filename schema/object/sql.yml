@@ -1,51 +1,51 @@
-- name: sql_connection
+- object: sql_connection
   schema:
     - created_at: date = now()
-    - database: string #required #max(255)
+    - database: string #max(255)
     - driver: postgres | mysql | sqlite | mssql = postgres
-    - host: string #required #max(255)
+    - host: string #max(255)
     - is_active: boolean = true
     - max_connections: int = 10 #min(1)
     - password: string? #max(255) #encrypted
-    - port: int #required #min(1) #max(65535)
+    - port: int #min(1) #max(65535)
     - ssl_mode: disable | prefer | require | verify_ca | verify_full = prefer
     - updated_at: date = now()
     - username: string? #max(255)
 
-- name: sql_table
+- object: sql_table
   id: [connection_id, schema_name, table_name]
   schema:
-    - connection_id: id #required -> sql_connection.id
+    - connection_id: id -> sql_connection.id
     - row_count: int? #min(0)
     - schema_name: string = public #max(255)
-    - table_name: string #required #max(255)
+    - table_name: string #max(255)
 
-- name: sql_column
+- object: sql_column
   id: [table_id, column_name]
   schema:
-    - column_name: string #required #max(255)
-    - data_type: string #required #max(100)
+    - column_name: string #max(255)
+    - data_type: string #max(100)
     - default_value: string?
     - is_nullable: boolean = true
     - is_primary_key: boolean = false
     - max_length: int?
     - sort_order: int = 0
-    - table_id: id #required -> sql_table.id
+    - table_id: id -> sql_table.id
 
-- name: sql_index
+- object: sql_index
   id: [table_id, index_name]
   schema:
-    - columns: string #required # json array
+    - columns: string # json array
     - created_at: date = now()
-    - index_name: string #required #max(255)
+    - index_name: string #max(255)
     - is_unique: boolean = false
-    - table_id: id #required -> sql_table.id
+    - table_id: id -> sql_table.id
 
-- name: sql_query_log
+- object: sql_query_log
   id: [connection_id, executed_at]
   schema:
     - affected_rows: int? #min(0)
-    - connection_id: id #required -> sql_connection.id
+    - connection_id: id -> sql_connection.id
     - duration_ms: int? #min(0)
     - error_message: string? #max(2000)
     - executed_at: date = now()
@@ -55,12 +55,12 @@
     - status: success | failed | timeout | cancelled = success
     - user_id: id? -> user.id
 
-- name: sql_transaction
+- object: sql_transaction
   id: [transaction_id]
   schema:
     - completed_at: date?
-    - connection_id: id #required -> sql_connection.id
+    - connection_id: id -> sql_connection.id
     - created_at: date = now()
     - isolation_level: read_uncommitted | read_committed | repeatable_read | serializable = read_committed
     - status: active | committed | rolled_back = active
-    - transaction_id: string #required #unique #max(200)
+    - transaction_id: string #unique #max(200)

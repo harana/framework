@@ -1,5 +1,5 @@
-- name: sidebar_heading
+- webobject: sidebar_heading
   id: [section_id]
   attributes:
-    - section_id: id #required -> ui_sidebar_section.id
-    - title: string #required #max(100)
+    - section_id: id -> ui_sidebar_section.id
+    - title: string #max(100)

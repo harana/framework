@@ -1,13 +1,13 @@
-- name: week_calendar
+- webobject: week_calendar
   attributes:
     - add_event_label: string = "add event" #max(50)
-    - current_week_datetime: string #required #max(20)
-    - current_week_display: string #required #max(50)
+    - current_week_datetime: string #max(20)
+    - current_week_display: string #max(50)
     - days: [calendar_day] #required
     - events: [calendar_event]
     - selected_view: string = "week" #max(20)
     - time_slots: [time_slot]
-    - title: string #required #max(100)
+    - title: string #max(100)
     - today_label: string = "today" #max(20)
     - view_options: [calendar_view_option]
   events:

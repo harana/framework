@@ -1,4 +1,4 @@
-- name: create_repository
+- action: create_repository
   inputs:
     encryption_type: aes256 | kms
     image_tag_mutability: mutable | immutable = mutable
@@ -13,7 +13,7 @@
     repository_uri: string
     success: boolean
 
-- name: delete_repository
+- action: delete_repository
   inputs:
     force: boolean = false
     region: string
@@ -21,14 +21,14 @@
   outputs:
     success: boolean
 
-- name: describe_repositories
+- action: describe_repositories
   inputs:
     region: string
     repository_names: list[string]
   outputs:
     repositories: list[ecr_repository]
 
-- name: list_images
+- action: list_images
   inputs:
     filter: image_filter
     max_results: int = 100
@@ -38,7 +38,7 @@
     image_ids: list[image_id]
     next_token: string
 
-- name: describe_images
+- action: describe_images
   inputs:
     image_ids: list[image_id]
     region: string
@@ -46,7 +46,7 @@
   outputs:
     image_details: list[ecr_image_detail]
 
-- name: put_image
+- action: put_image
   inputs:
     image_manifest: string #required
     image_tag: string #required
@@ -56,7 +56,7 @@
     image: ecr_image
     success: boolean
 
-- name: batch_delete_image
+- action: batch_delete_image
   inputs:
     image_ids: list[image_id] #required
     region: string
@@ -66,7 +66,7 @@
     image_ids: list[image_id]
     success: boolean
 
-- name: get_auth_token
+- action: get_auth_token
   inputs:
     region: string
     registry_ids: list[string]
@@ -76,7 +76,7 @@
     proxy_endpoint: string
     success: boolean
 
-- name: get_download_url
+- action: get_download_url
   inputs:
     image_digest: string #required
     region: string
@@ -85,7 +85,7 @@
     download_url: string
     success: boolean
 
-- name: tag_image
+- action: tag_image
   inputs:
     image_digest: string #required
     image_tag: string #required
@@ -94,7 +94,7 @@
   outputs:
     success: boolean
 
-- name: set_repository_policy
+- action: set_repository_policy
   inputs:
     force: boolean = false
     policy_text: string #required
@@ -106,7 +106,7 @@
     repository_name: string
     success: boolean
 
-- name: get_repository_policy
+- action: get_repository_policy
   inputs:
     region: string
     repository_name: string #required
@@ -115,14 +115,14 @@
     registry_id: string
     repository_name: string
 
-- name: delete_repository_policy
+- action: delete_repository_policy
   inputs:
     region: string
     repository_name: string #required
   outputs:
     success: boolean
 
-- name: start_image_scan
+- action: start_image_scan
   inputs:
     image_id: image_id #required
     region: string
@@ -132,7 +132,7 @@
     scan_status: string
     success: boolean
 
-- name: describe_scan_findings
+- action: describe_scan_findings
   inputs:
     image_id: image_id #required
     max_results: int = 100
@@ -143,7 +143,7 @@
     image_scan_status: image_scan_status
     next_token: string
 
-- name: put_lifecycle_policy
+- action: put_lifecycle_policy
   inputs:
     lifecycle_policy_text: string #required
     region: string
@@ -154,7 +154,7 @@
     repository_name: string
     success: boolean
 
-- name: get_lifecycle_policy
+- action: get_lifecycle_policy
   inputs:
     region: string
     repository_name: string #required

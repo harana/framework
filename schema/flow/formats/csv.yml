@@ -1,4 +1,4 @@
-- name: parse
+- action: parse
   inputs:
     data: string #required
     delimiter: string = ","
@@ -8,7 +8,7 @@
   outputs:
     rows: list[csv_row]
 
-- name: generate
+- action: generate
   inputs:
     data: list[csv_row] #required
     delimiter: string = ","
@@ -17,7 +17,7 @@
   outputs:
     csv: string
 
-- name: transform
+- action: transform
   inputs:
     data: string #required
     delimiter: string = ","
@@ -25,7 +25,7 @@
   outputs:
     csv: string
 
-- name: validate
+- action: validate
   inputs:
     data: string #required
     delimiter: string = ","
@@ -34,36 +34,36 @@
     errors: list[csv_validation_error]
     valid: boolean
 
-- name: csv_document
+- object: csv_document
   class:
     headers: list[string]
     rows: list[csv_row]
     delimiter: string
     row_count: int
 
-- name: csv_row
+- object: csv_row
   class:
     values: map[string, string]
 
-- name: csv_transform_operation
+- object: csv_transform_operation
   class:
     operation: string
     column: string
     parameters: map[string, any]
 
-- name: csv_schema
+- object: csv_schema
   class:
     columns: list[csv_column_schema]
     allow_extra_columns: boolean
 
-- name: csv_column_schema
+- object: csv_column_schema
   class:
     name: string
     type: string
     required: boolean
     pattern: string
 
-- name: csv_validation_error
+- object: csv_validation_error
   class:
     row: int
     column: string

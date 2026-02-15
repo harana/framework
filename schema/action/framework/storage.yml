@@ -1,0 +1,27 @@
+- object: storage_query_options
+  schema:
+    - limit: int?
+    - offset: int?
+    - sort_by: string?
+    - sort_desc: boolean = false
+
+- object: storage_filter_condition
+  schema:
+    - field: string
+    - operator: eq | ne | gt | gte | lt | lte | in | not_in | contains | starts_with | ends_with | is_null | is_not_null | and | or = eq
+    - value: any?
+    - values: list[any]?
+    - conditions: list[storage_filter_condition]?
+
+- object: storage_queue_stats
+  schema:
+    - completed: int = 0
+    - in_flight: int = 0
+    - total: int = 0
+    - waiting: int = 0
+
+- object: storage_queue_message
+  schema:
+    - ack_id: string
+    - payload: any
+    - tries: int = 0 #min(0)

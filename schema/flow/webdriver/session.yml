@@ -1,20 +1,20 @@
-- name: new_session
+- action: new_session
   inputs:
     browser: chrome | firefox | edge | safari | opera = chrome
     capabilities: web_driver_capabilities
     headless: boolean = false
-    server_url: string #required  outputs:
+    server_url: string  outputs:
     browser: string
     session_id: string
     success: boolean
 
-- name: quit
+- action: quit
   inputs:
-    session_id: string #required  outputs:
+    session_id: string  outputs:
     success: boolean
 
-- name: status
+- action: status
   inputs:
-    session_id: string #required  outputs:
+    session_id: string  outputs:
     message: string
     ready: boolean

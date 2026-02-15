@@ -1,4 +1,4 @@
-- name: search_query
+- action: search_query
   inputs:
     fields: list[string]
     filters: search_filters
@@ -13,7 +13,7 @@
     took_ms: int
     total: int
 
-- name: index_document
+- action: index_document
   inputs:
     document: search_document_data #required
     document_id: string #required
@@ -23,7 +23,7 @@
     success: boolean
     version: int
 
-- name: bulk_index
+- action: bulk_index
   inputs:
     documents: list[search_document_data] #required
     index: string #required
@@ -33,7 +33,7 @@
     failed: int
     indexed: int
 
-- name: get_document
+- action: get_document
   inputs:
     document_id: string #required
     index: string #required
@@ -42,7 +42,7 @@
     found: boolean
     version: int
 
-- name: update_document
+- action: update_document
   inputs:
     document: search_document_data #required
     document_id: string #required
@@ -52,7 +52,7 @@
     success: boolean
     version: int
 
-- name: delete_document
+- action: delete_document
   inputs:
     document_id: string #required
     index: string #required
@@ -60,7 +60,7 @@
   outputs:
     success: boolean
 
-- name: delete_by_query
+- action: delete_by_query
   inputs:
     index: string #required
     query: search_query #required
@@ -69,7 +69,7 @@
     deleted: int
     success: boolean
 
-- name: create_index
+- action: create_index
   inputs:
     index: string #required
     mappings: search_mappings
@@ -77,20 +77,20 @@
   outputs:
     success: boolean
 
-- name: delete_index
+- action: delete_index
   inputs:
     index: string #required
   outputs:
     success: boolean
 
-- name: list_indexes
+- action: list_indexes
   inputs:
     pattern: string = "*"
   outputs:
     indexes: list[search_index_info]
     total: int
 
-- name: get_index_stats
+- action: get_index_stats
   inputs:
     index: string #required
   outputs:
@@ -98,7 +98,7 @@
     mappings: search_mappings
     size_bytes: int
 
-- name: suggest
+- action: suggest
   inputs:
     field: string #required
     index: string #required
@@ -107,7 +107,7 @@
   outputs:
     suggestions: list[string]
 
-- name: search_document
+- object: search_document
   class:
     document_id: string
     index: string
@@ -115,52 +115,52 @@
     score: float
     version: int
 
-- name: search_document_data
+- object: search_document_data
   class:
     fields: map[string, any]
 
-- name: search_filters
+- object: search_filters
   class:
     conditions: map[string, any]
 
-- name: search_sort_field
+- object: search_sort_field
   class:
     field: string
     order: string
 
-- name: search_hit
+- object: search_hit
   class:
     document_id: string
     score: float
     source: search_document_data
     highlight: map[string, list[string]]
 
-- name: search_index_error
+- object: search_index_error
   class:
     document_id: string
     error: string
     status: int
 
-- name: search_query
+- object: search_query
   class:
     query: map[string, any]
 
-- name: search_mappings
+- object: search_mappings
   class:
     properties: map[string, search_field_mapping]
 
-- name: search_field_mapping
+- object: search_field_mapping
   class:
     type: string
     analyzer: string
     index: boolean
 
-- name: search_index_settings
+- object: search_index_settings
   class:
     number_of_shards: int
     number_of_replicas: int
 
-- name: search_index_info
+- object: search_index_info
   class:
     name: string
     document_count: int

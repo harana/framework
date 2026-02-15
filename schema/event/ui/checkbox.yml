@@ -1,25 +1,25 @@
-- name: checkbox_checked
+- event: checkbox_checked
   schema:
     checkbox_id: id #required
     checkbox_name: string?
     checkbox_value: string?
     checked_at: date = now()
 
-- name: checkbox_unchecked
+- event: checkbox_unchecked
   schema:
     checkbox_id: id #required
     checkbox_name: string?
     checkbox_value: string?
     unchecked_at: date = now()
 
-- name: checkbox_indeterminate_changed
+- event: checkbox_indeterminate_changed
   schema:
     checkbox_id: id #required
     checkbox_name: string?
     is_indeterminate: boolean #required
     changed_at: date = now()
 
-- name: checkbox_group_changed
+- event: checkbox_group_changed
   schema:
     group_id: id #required
     group_name: string?

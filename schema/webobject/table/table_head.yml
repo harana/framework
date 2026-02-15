@@ -3,4 +3,4 @@ type: ui_component
 id:
   - identifier
 
-  id #required -> table.id
+  id -> table.id

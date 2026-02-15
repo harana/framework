@@ -5,7 +5,8 @@ use serde::de::DeserializeOwned;
 use std::time::{Duration, Instant};
 
 use crate::error::{CacheError, CacheResult};
-use crate::store::{CacheStore, GetOptions, KeyEntry, ListOptions, ListResponse, PutOptions};
+use crate::model::{GetOptions, KeyEntry, ListOptions, ListResponse, PutOptions};
+use crate::service::CacheService;
 
 struct Entry {
     value: String,
@@ -19,17 +20,17 @@ impl Entry {
     }
 }
 
-pub struct MemoryCacheStore {
+pub struct MemoryCacheService {
     data: DashMap<String, Entry>,
 }
 
-impl Default for MemoryCacheStore {
+impl Default for MemoryCacheService {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl MemoryCacheStore {
+impl MemoryCacheService {
     pub fn new() -> Self {
         Self { data: DashMap::new() }
     }
@@ -57,7 +58,7 @@ impl MemoryCacheStore {
 }
 
 #[async_trait]
-impl CacheStore for MemoryCacheStore {
+impl CacheService for MemoryCacheService {
     async fn put(&self, key: &str, value: &str, options: PutOptions) -> CacheResult<()> {
         let expires_at = Self::resolve_expiry(&options);
         self.data.insert(

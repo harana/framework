@@ -1,4 +1,4 @@
-- name: send
+- action: send
   inputs:
     content_type: json | text | bytes | v8 = json
     delay_seconds: int
@@ -7,7 +7,7 @@
   outputs:
     success: boolean
 
-- name: send_batch
+- action: send_batch
   inputs:
     messages: list[queue_batch_message] #required
     queue: string #required

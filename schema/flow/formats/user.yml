@@ -1,4 +1,4 @@
-- name: check_permission
+- action: check_permission
   inputs:
     method: string #required
     resource: string #required
@@ -7,7 +7,7 @@
     allowed: boolean
     reason: string
 
-- name: grant_permission
+- action: grant_permission
   inputs:
     method: string #required
     conditions: user_permission_conditions
@@ -18,14 +18,14 @@
     permission_id: string
     success: boolean
 
-- name: revoke_permission
+- action: revoke_permission
   inputs:
     permission_id: string #required
     user_id: string #required
   outputs:
     success: boolean
 
-- name: list_permissions
+- action: list_permissions
   inputs:
     resource: string
     user_id: string #required
@@ -33,28 +33,28 @@
     permissions: list[user_permission_info]
     total: int
 
-- name: assign_role
+- action: assign_role
   inputs:
     role_id: string #required
     user_id: string #required
   outputs:
     success: boolean
 
-- name: remove_role
+- action: remove_role
   inputs:
     role_id: string #required
     user_id: string #required
   outputs:
     success: boolean
 
-- name: list_roles
+- action: list_roles
   inputs:
     user_id: string #required
   outputs:
     roles: list[user_role_info]
     total: int
 
-- name: get_effective_permissions
+- action: get_effective_permissions
   inputs:
     resource: string
     user_id: string #required
@@ -62,7 +62,7 @@
     permissions: list[effective_permission]
     sources: list[permission_source]
 
-- name: user_permission
+- object: user_permission
   class:
     permission_id: string
     user_id: string
@@ -71,30 +71,30 @@
     conditions: user_permission_conditions
     expires_at: date
 
-- name: user_permission_conditions
+- object: user_permission_conditions
   class:
     conditions: map[string, any]
 
-- name: user_permission_info
+- object: user_permission_info
   class:
     permission_id: string
     method: string
     resource: string
     expires_at: date
 
-- name: user_role_info
+- object: user_role_info
   class:
     role_id: string
     name: string
     assigned_at: date
 
-- name: effective_permission
+- object: effective_permission
   class:
     method: string
     resource: string
     allowed: boolean
 
-- name: permission_source
+- object: permission_source
   class:
     source_type: string
     source_id: string

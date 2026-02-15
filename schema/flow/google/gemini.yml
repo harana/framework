@@ -1,4 +1,4 @@
-- name: generate_content
+- action: generate_content
   inputs:
     max_output_tokens: int = 1024
     model: gemini-pro | gemini-pro-vision | gemini-ultra = gemini-pro
@@ -14,7 +14,7 @@
     text: string
     usage: gemini_usage
 
-- name: chat
+- action: chat
   inputs:
     max_output_tokens: int = 1024
     messages: list[gemini_chat_message] #required
@@ -29,7 +29,7 @@
     safety_ratings: list[gemini_safety_rating]
     usage: gemini_usage
 
-- name: generate_multimodal
+- action: generate_multimodal
   inputs:
     audio: list[bytes]
     images: list[bytes]
@@ -44,7 +44,7 @@
     text: string
     usage: gemini_usage
 
-- name: stream_generate
+- action: stream_generate
   inputs:
     max_output_tokens: int = 1024
     model: gemini-pro | gemini-ultra = gemini-pro
@@ -54,7 +54,7 @@
     stream_id: string
     success: boolean
 
-- name: embed_content
+- action: embed_content
   inputs:
     content: string #required
     model: embedding-001 = embedding-001
@@ -63,7 +63,7 @@
     dimensions: int
     embedding: list[float]
 
-- name: batch_embed
+- action: batch_embed
   inputs:
     contents: list[string] #required
     model: embedding-001 = embedding-001
@@ -72,14 +72,14 @@
     count: int
     embeddings: list[gemini_embedding]
 
-- name: count_tokens
+- action: count_tokens
   inputs:
     content: string #required
     model: gemini-pro | gemini-pro-vision | gemini-ultra = gemini-pro
   outputs:
     total_tokens: int
 
-- name: list_models
+- action: list_models
   inputs:
     page_size: int = 50
     page_token: string
@@ -87,7 +87,7 @@
     models: list[gemini_model]
     next_page_token: string
 
-- name: get_model
+- action: get_model
   inputs:
     model: string #required
   outputs:
@@ -101,7 +101,7 @@
     top_k: gemini_parameter_range
     top_p: gemini_parameter_range
 
-- name: analyze_image
+- action: analyze_image
   inputs:
     image: bytes #required
     model: gemini-pro-vision | gemini-ultra-vision = gemini-pro-vision
@@ -111,7 +111,7 @@
     description: string
     safety_ratings: list[gemini_safety_rating]
 
-- name: generate_code
+- action: generate_code
   inputs:
     language: string
     max_output_tokens: int = 2048
@@ -123,7 +123,7 @@
     explanation: string
     language: string
 
-- name: summarize
+- action: summarize
   inputs:
     max_length: int = 500
     model: gemini-pro | gemini-ultra = gemini-pro
@@ -134,7 +134,7 @@
     summary: string
     summary_length: int
 
-- name: translate
+- action: translate
   inputs:
     model: gemini-pro | gemini-ultra = gemini-pro
     source_language: string
@@ -144,7 +144,7 @@
     detected_source_language: string
     translated_text: string
 
-- name: extract_structured
+- action: extract_structured
   inputs:
     model: gemini-pro | gemini-ultra = gemini-pro
     schema: extract_schema #required
@@ -153,7 +153,7 @@
     confidence: float
     data: extracted_data
 
-- name: gemini_model
+- object: gemini_model
   class:
     model_id: string
     name: string
@@ -162,50 +162,50 @@
     output_token_limit: int
     supported_generation_methods: list[string]
 
-- name: gemini_safety_setting
+- object: gemini_safety_setting
   class:
     category: string
     threshold: string
 
-- name: gemini_safety_rating
+- object: gemini_safety_rating
   class:
     category: string
     probability: string
     blocked: boolean
 
-- name: gemini_usage
+- object: gemini_usage
   class:
     prompt_token_count: int
     candidates_token_count: int
     total_token_count: int
 
-- name: gemini_chat_message
+- object: gemini_chat_message
   class:
     role: string
     content: string
 
-- name: gemini_embedding
+- object: gemini_embedding
   class:
     values: list[float]
     dimensions: int
 
-- name: gemini_parameter_range
+- object: gemini_parameter_range
   class:
     min: float
     max: float
     default: float
 
-- name: extract_schema
+- object: extract_schema
   class:
     fields: list[extract_schema_field]
 
-- name: extract_schema_field
+- object: extract_schema_field
   class:
     name: string
     type: string
     description: string
     required: boolean
 
-- name: extracted_data
+- object: extracted_data
   class:
     values: map[string, any]

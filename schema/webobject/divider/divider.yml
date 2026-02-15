@@ -1,4 +1,4 @@
-- name: divider
+- webobject: divider
   attributes:
     - is_soft: boolean = false
     - spacing: string? #max(20)

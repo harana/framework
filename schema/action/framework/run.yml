@@ -1,0 +1,80 @@
+- action: start
+  inputs:
+    command: string
+    args: list[string]
+    working_directory: string
+    environment: map[string, string]
+    detach: boolean = false
+  outputs:
+    process_id: int
+    started: boolean
+    error: string
+
+- action: stop
+  inputs:
+    process_id: int
+    force: boolean = false
+    timeout: int = 30
+  outputs:
+    stopped: boolean
+    exit_code: int
+    error: string
+
+- action: kill
+  inputs:
+    process_id: int
+    signal: string = "sigterm"
+  outputs:
+    killed: boolean
+    error: string
+
+- action: status
+  inputs:
+    process_id: int
+  outputs:
+    status: process_status
+    error: string
+
+- action: list
+  inputs:
+    filter: string
+    user: string
+  outputs:
+    processes: list[process_info]
+
+- action: wait
+  inputs:
+    process_id: int
+    timeout: int = 60
+  outputs:
+    completed: boolean
+    exit_code: int
+    error: string
+
+- action: output
+  inputs:
+    process_id: int
+    stream: string = "stdout"
+  outputs:
+    output: string
+    error: string
+
+- object: process_status
+  class:
+    process_id: int
+    running: boolean
+    exit_code: int
+    cpu_usage: float
+    memory_usage: int
+    uptime: int
+
+- object: process_info
+  class:
+    process_id: int
+    name: string
+    command: string
+    user: string
+    cpu_usage: float
+    memory_usage: int
+    status: string
+    uptime: int

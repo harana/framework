@@ -1,4 +1,4 @@
-- name: privacy_consent
+- object: privacy_consent
   id: [user_id, consent_type]
   schema:
     - consent_type: marketing | analytics | functional | necessary = necessary
@@ -8,20 +8,20 @@
     - revoked_at: date?
     - updated_at: date = now()
     - user_agent: string? #max(500)
-    - user_id: id #required -> user.id
-    - version: string #required #max(50)
+    - user_id: id -> user.id
+    - version: string #max(50)
 
-- name: privacy_consent_history
+- object: privacy_consent_history
   id: [user_id, consent_type, created_at]
   schema:
     - action: granted | revoked | updated = granted
     - consent_type: marketing | analytics | functional | necessary = necessary
     - created_at: date = now()
     - ip_address: string? #max(45)
-    - user_id: id #required -> user.id
+    - user_id: id -> user.id
     - version: string? #max(50)
 
-- name: privacy_data_export
+- object: privacy_data_export
   id: [user_id, created_at]
   schema:
     - completed_at: date?
@@ -30,28 +30,28 @@
     - expires_at: date?
     - format: json | csv | xml = json
     - status: pending | processing | completed | failed = pending
-    - user_id: id #required -> user.id
-- name: privacy_data_deletion
+    - user_id: id -> user.id
+- object: privacy_data_deletion
   id: [user_id, created_at]
   schema:
     - cancelled_at: date?
     - completed_at: date?
     - created_at: date = now()
     - delete_type: soft | hard = soft
-    - reason: string #required #max(500)
+    - reason: string #max(500)
     - scheduled_at: date?
     - status: pending | processing | completed | failed | cancelled = pending
-    - user_id: id #required -> user.id
-- name: privacy_data_access_log
+    - user_id: id -> user.id
+- object: privacy_data_access_log
   id: [user_id, accessed_at]
   schema:
     - access_type: read | write | delete = read
     - accessed_at: date = now()
-    - accessor_id: string #required #max(200)
+    - accessor_id: string #max(200)
     - purpose: string? #max(500)
-    - resource: string #required #max(200)
-    - user_id: id #required -> user.id
-- name: privacy_policy_version
+    - resource: string #max(200)
+    - user_id: id -> user.id
+- object: privacy_policy_version
   id: [version]
   schema:
     - content: string #required
@@ -59,10 +59,10 @@
     - effective_date: date #required
     - is_active: boolean = false
     - policy_type: privacy | terms | cookie = privacy
-    - title: string #required #max(500)
-    - version: string #required #unique #max(50)
+    - title: string #max(500)
+    - version: string #unique #max(50)
 
-- name: consent
+- object: consent
   schema:
     - consent_id: string
     - user_id: string
@@ -73,7 +73,7 @@
     - ip_address: string
     - user_agent: string
 
-- name: privacy_data_access
+- object: privacy_data_access
   schema:
     - access_id: string
     - accessor_id: string

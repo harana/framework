@@ -1,11 +1,11 @@
-- name: cloudflare_durable_object_created
+- event: cloudflare_durable_object_created
   schema:
     namespace: string #required
     object_id: string #required
     name: string?
     created_at: date = now()
 
-- name: cloudflare_durable_object_fetch_received
+- event: cloudflare_durable_object_fetch_received
   schema:
     namespace: string #required
     object_id: string #required
@@ -14,49 +14,49 @@
     status_code: int?
     received_at: date = now()
 
-- name: cloudflare_durable_object_storage_updated
+- event: cloudflare_durable_object_storage_updated
   schema:
     operation: get | put | delete | delete_all | list | transaction = put
     key: string?
     key_count: int?
     updated_at: date = now()
 
-- name: cloudflare_durable_object_alarm_triggered
+- event: cloudflare_durable_object_alarm_triggered
   schema:
     scheduled_time: date #required
     triggered_at: date = now()
 
-- name: cloudflare_durable_object_alarm_set
+- event: cloudflare_durable_object_alarm_set
   schema:
     scheduled_time: date #required
     set_at: date = now()
 
-- name: cloudflare_durable_object_alarm_deleted
+- event: cloudflare_durable_object_alarm_deleted
   schema:
     deleted_at: date = now()
 
-- name: cloudflare_durable_object_websocket_accepted
+- event: cloudflare_durable_object_websocket_accepted
   schema:
     tag_count: int?
     accepted_at: date = now()
 
-- name: cloudflare_durable_object_websocket_message_received
+- event: cloudflare_durable_object_websocket_message_received
   schema:
     tag: string?
     received_at: date = now()
 
-- name: cloudflare_durable_object_websocket_closed
+- event: cloudflare_durable_object_websocket_closed
   schema:
     code: int?
     reason: string?
     closed_at: date = now()
 
-- name: cloudflare_durable_object_websocket_error
+- event: cloudflare_durable_object_websocket_error
   schema:
     error_message: string?
     occurred_at: date = now()
 
-- name: cloudflare_durable_object_sql_executed
+- event: cloudflare_durable_object_sql_executed
   schema:
     rows_read: int?
     rows_written: int?

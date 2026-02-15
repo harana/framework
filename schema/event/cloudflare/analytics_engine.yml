@@ -1,4 +1,4 @@
-- name: cloudflare_analytics_data_point_written
+- event: cloudflare_analytics_data_point_written
   schema:
     binding: string #required
     index_count: int?
@@ -6,7 +6,7 @@
     blob_count: int?
     written_at: date = now()
 
-- name: cloudflare_analytics_queried
+- event: cloudflare_analytics_queried
   schema:
     binding: string #required
     row_count: int?

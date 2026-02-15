@@ -1,11 +1,11 @@
-- name: badge_button_clicked
+- event: badge_button_clicked
   schema:
     badge_id: id #required
     badge_label: string?
     badge_color: string?
     clicked_at: date = now()
 
-- name: badge_hovered
+- event: badge_hovered
   schema:
     badge_id: id #required
     badge_label: string?

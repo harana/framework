@@ -1,14 +1,14 @@
-- name: app_started
+- event: app_started
   schema:
     app_id: id #required
     app_name: string #required
     version: string #required
     environment: development | staging | production = development
     host: string #required
-    port: int #required #min(1) #max(65535)
+    port: int #min(1) #max(65535)
     started_at: date = now()
 
-- name: app_stopped
+- event: app_stopped
   schema:
     app_id: id #required
     app_name: string #required
@@ -17,7 +17,7 @@
     uptime_seconds: int? #min(0)
     stopped_at: date = now()
 
-- name: app_config_updated
+- event: app_config_updated
   schema:
     app_id: id #required
     config_key: string #required
@@ -27,7 +27,7 @@
     updated_by: string?
     updated_at: date = now()
 
-- name: app_config_loaded
+- event: app_config_loaded
   schema:
     app_id: id #required
     config_path: string?
@@ -35,7 +35,7 @@
     keys_loaded: int? #min(0)
     loaded_at: date = now()
 
-- name: app_health_check
+- event: app_health_check
   schema:
     app_id: id #required
     status: healthy | degraded | unhealthy = healthy
@@ -44,21 +44,21 @@
     response_time_ms: int? #min(0)
     checked_at: date = now()
 
-- name: app_ready
+- event: app_ready
   schema:
     app_id: id #required
     app_name: string #required
     startup_time_ms: int? #min(0)
     ready_at: date = now()
 
-- name: app_shutting_down
+- event: app_shutting_down
   schema:
     app_id: id #required
     reason: shutdown | restart | sigterm | sigint | timeout = shutdown
     grace_period_ms: int? #min(0)
     initiated_at: date = now()
 
-- name: app_error
+- event: app_error
   schema:
     app_id: id #required
     error_type: string #required
@@ -67,7 +67,7 @@
     severity: debug | info | warning | error | critical = error
     occurred_at: date = now()
 
-- name: app_connection_pool_created
+- event: app_connection_pool_created
   schema:
     app_id: id #required
     pool_name: string #required
@@ -76,11 +76,11 @@
     max_connections: int? #min(1)
     created_at: date = now()
 
-- name: app_connection_pool_exhausted
+- event: app_connection_pool_exhausted
   schema:
     app_id: id #required
     pool_name: string #required
-    active_connections: int #required #min(0)
-    max_connections: int #required #min(1)
+    active_connections: int #min(0)
+    max_connections: int #min(1)
     waiting_requests: int? #min(0)
     occurred_at: date = now()

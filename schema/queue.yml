@@ -1,4 +1,4 @@
-- name: queue
+- object: queue
   schema:
     - created_at: date = now()
     - dead_letter_queue_id: id? -> queue.id
@@ -10,38 +10,38 @@
     - updated_at: date = now()
     - visibility_timeout_seconds: int = 30 #min(0) #max(43200)
 
-- name: queue_message
+- object: queue_message
   id: [queue_id, sequence_number, created_at]
   schema:
     - attributes: string?
     - body: string #required
     - message_group_id: string? #max(128)
-    - queue_id: id #required -> queue.id
+    - queue_id: id -> queue.id
     - receipt_handle: string? #max(1024)
     - receive_count: int = 0 #min(0)
     - sequence_number: int?
     - status: pending | in_flight | processed | dead_letter = pending
     - visible_at: date = now()
 
-- name: queue_subscription
+- object: queue_subscription
   id: [queue_id, endpoint]
   schema:
     - created_at: date = now()
-    - endpoint: string #required #max(500)
+    - endpoint: string #max(500)
     - is_active: boolean = true
     - protocol: http | https | lambda | sqs | sns = https
-    - queue_id: id #required -> queue.id
+    - queue_id: id -> queue.id
     - updated_at: date = now()
 
-- name: queue_metric
+- object: queue_metric
   id: [queue_id, timestamp]
   schema:
     - approximate_age_oldest_message: int? #min(0)
     - approximate_messages_delayed: int = 0 #min(0)
-    - queue_id: id #required -> queue.id
+    - queue_id: id -> queue.id
     - timestamp: date = now()
 
-- name: queue_peek_message
+- object: queue_peek_message
   schema:
     - message_id: string
     - message: any

@@ -1,0 +1,340 @@
+- action: generate_content
+  inputs:
+    max_output_tokens: int = 1024
+    model: gemini-pro | gemini-pro-vision | gemini-ultra = gemini-pro
+    prompt: string
+    safety_settings: list[gemini_safety_setting]
+    stop_sequences: list[string]
+    temperature: float = 0.7
+    top_k: int = 40
+    top_p: float = 0.95
+  outputs:
+    finish_reason: string
+    safety_ratings: list[gemini_safety_rating]
+    text: string
+    usage: gemini_usage
+
+- action: chat
+  inputs:
+    max_output_tokens: int = 1024
+    messages: list[gemini_chat_message]
+    model: gemini-pro | gemini-ultra = gemini-pro
+    safety_settings: list[gemini_safety_setting]
+    temperature: float = 0.7
+    top_k: int = 40
+    top_p: float = 0.95
+  outputs:
+    finish_reason: string
+    response: string
+    safety_ratings: list[gemini_safety_rating]
+    usage: gemini_usage
+
+- action: generate_multimodal
+  inputs:
+    audio: list[bytes]
+    images: list[bytes]
+    max_output_tokens: int = 1024
+    model: gemini-pro-vision | gemini-ultra-vision = gemini-pro-vision
+    prompt: string
+    temperature: float = 0.4
+    videos: list[bytes]
+  outputs:
+    finish_reason: string
+    safety_ratings: list[gemini_safety_rating]
+    text: string
+    usage: gemini_usage
+
+- action: stream_generate
+  inputs:
+    max_output_tokens: int = 1024
+    model: gemini-pro | gemini-ultra = gemini-pro
+    prompt: string
+    temperature: float = 0.7
+  outputs:
+    stream_id: string
+    success: boolean
+
+- action: embed_content
+  inputs:
+    content: string
+    model: embedding-001 = embedding-001
+    task_type: retrieval_query | retrieval_document | semantic_similarity | classification | clustering
+  outputs:
+    dimensions: int
+    embedding: list[float]
+
+- action: batch_embed
+  inputs:
+    contents: list[string]
+    model: embedding-001 = embedding-001
+    task_type: retrieval_query | retrieval_document | semantic_similarity | classification | clustering
+  outputs:
+    count: int
+    embeddings: list[gemini_embedding]
+
+- action: count_tokens
+  inputs:
+    content: string
+    model: gemini-pro | gemini-pro-vision | gemini-ultra = gemini-pro
+  outputs:
+    total_tokens: int
+
+- action: list_models
+  inputs:
+    page_size: int = 50
+    page_token: string
+  outputs:
+    models: list[gemini_model]
+    next_page_token: string
+
+- action: get_model
+  inputs:
+    model: string
+  outputs:
+    description: string
+    display_name: string
+    input_token_limit: int
+    name: string
+    output_token_limit: int
+    supported_generation_methods: list[string]
+    temperature: gemini_parameter_range
+    top_k: gemini_parameter_range
+    top_p: gemini_parameter_range
+
+- action: analyze_image
+  inputs:
+    image: bytes
+    model: gemini-pro-vision | gemini-ultra-vision = gemini-pro-vision
+    prompt: string = "describe this image in detail"
+    temperature: float = 0.4
+  outputs:
+    description: string
+    safety_ratings: list[gemini_safety_rating]
+
+- action: generate_code
+  inputs:
+    language: string
+    max_output_tokens: int = 2048
+    model: gemini-pro | gemini-ultra = gemini-pro
+    prompt: string
+    temperature: float = 0.2
+  outputs:
+    code: string
+    explanation: string
+    language: string
+
+- action: summarize
+  inputs:
+    max_length: int = 500
+    model: gemini-pro | gemini-ultra = gemini-pro
+    style: brief | detailed | bullet_points = brief
+    text: string
+  outputs:
+    original_length: int
+    summary: string
+    summary_length: int
+
+- action: translate
+  inputs:
+    model: gemini-pro | gemini-ultra = gemini-pro
+    source_language: string
+    target_language: string
+    text: string
+  outputs:
+    detected_source_language: string
+    translated_text: string
+
+- action: extract_structured
+  inputs:
+    model: gemini-pro | gemini-ultra = gemini-pro
+    schema: extract_schema
+    text: string
+  outputs:
+    confidence: float
+    data: extracted_data
+
+- object: gemini_model
+  class:
+    model_id: string
+    name: string
+    version: string
+    input_token_limit: int
+    output_token_limit: int
+    supported_generation_methods: list[string]
+
+- object: gemini_safety_setting
+  class:
+    category: string
+    threshold: string
+
+- object: gemini_safety_rating
+  class:
+    category: string
+    probability: string
+    blocked: boolean
+
+- object: gemini_usage
+  class:
+    prompt_token_count: int
+    candidates_token_count: int
+    total_token_count: int
+
+- object: gemini_chat_message
+  class:
+    role: string
+    content: string
+
+- object: gemini_embedding
+  class:
+    values: list[float]
+    dimensions: int
+
+- object: gemini_parameter_range
+  class:
+    min: float
+    max: float
+    default: float
+
+- object: extract_schema
+  class:
+    fields: list[extract_schema_field]
+
+- object: extract_schema_field
+  class:
+    name: string
+    type: string
+    description: string
+    required: boolean
+
+- object: extracted_data
+  class:
+    values: map[string, any]
+
+- object: model
+  id: [model_id]
+  schema:
+    - created_at: date = now()
+    - description: string? #max(1000)
+    - display_name: string? #max(255)
+    - input_token_limit: int? #min(1)
+    - model_id: string #unique #max(255)
+    - output_token_limit: int? #min(1)
+    - supported_generation_methods: string? # json list
+    - updated_at: date = now()
+    - version: string? #max(50)
+
+- object: safety_setting
+  id: [model_id, category]
+  schema:
+    - category: string #max(100)
+    - model_id: id -> google_gemini_model.id
+    - threshold: string #max(100)
+
+- object: safety_rating
+  schema:
+    - blocked: boolean = false
+    - category: string #max(100)
+    - created_at: date = now()
+    - probability: string #max(100)
+
+- object: chat_message
+  id: [conversation_id, created_at]
+  schema:
+    - content: string
+    - conversation_id: id -> google_gemini_conversation.id
+    - created_at: date = now()
+    - role: string #max(50)
+
+- object: conversation
+  id: [user_id, created_at]
+  schema:
+    - created_at: date = now()
+    - model_id: id -> google_gemini_model.id
+    - status: active | archived | deleted = active
+    - title: string? #max(200)
+    - updated_at: date = now()
+    - user_id: string #max(255)
+
+- object: embedding
+  id: [model_id, content_hash]
+  schema:
+    - content_hash: string #max(128)
+    - created_at: date = now()
+    - dimensions: int? #min(1)
+    - embedding: string? # json list of floats
+    - model_id: id -> google_gemini_model.id
+    - task_type: retrieval_query | retrieval_document | semantic_similarity | classification | clustering
+
+- object: usage
+  schema:
+    - candidates_token_count: int? #min(0)
+    - created_at: date = now()
+    - model_id: id -> google_gemini_model.id
+    - prompt_token_count: int? #min(0)
+    - total_token_count: int? #min(0)
+
+- object: parameter_range
+  id: [model_id, parameter_name]
+  schema:
+    - max_value: decimal?
+    - min_value: decimal?
+    - model_id: id -> google_gemini_model.id
+    - parameter_name: string #max(100)
+
+- object: gemini_model
+  schema:
+    - model_id: string
+
+    - name: string
+    - version: string
+    - input_token_limit: int
+    - output_token_limit: int
+    - supported_generation_methods: list[string]
+
+- object: gemini_safety_setting
+  schema:
+    - category: string
+    - threshold: string
+
+- object: gemini_safety_rating
+  schema:
+    - category: string
+    - probability: string
+    - blocked: boolean
+
+- object: gemini_usage
+  schema:
+    - prompt_token_count: int
+    - candidates_token_count: int
+    - total_token_count: int
+
+- object: gemini_chat_message
+  schema:
+    - role: string
+    - content: string
+
+- object: gemini_embedding
+  schema:
+    - values: list[float]
+    - dimensions: int
+
+- object: gemini_parameter_range
+  schema:
+    - min: float
+    - max: float
+    - default: float
+
+- object: extract_schema
+  schema:
+    - fields: list[extract_schema_field]
+
+- object: extract_schema_field
+  schema:
+    - name: string
+    - type: string
+    - description: string
+    - required: boolean
+
+- object: extracted_data
+  schema:
+    - values: map[string, any]

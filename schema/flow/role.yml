@@ -1,4 +1,4 @@
-- name: create
+- action: create
   inputs:
     description: string
     name: string #required
@@ -7,7 +7,7 @@
     role_id: string
     success: boolean
 
-- name: update
+- action: update
   inputs:
     description: string
     name: string
@@ -16,13 +16,13 @@
   outputs:
     success: boolean
 
-- name: delete
+- action: delete
   inputs:
     role_id: string #required
   outputs:
     success: boolean
 
-- name: list
+- action: list
   inputs:
     limit: int = 100
     offset: int = 0
@@ -30,7 +30,7 @@
     roles: list[role_info]
     total: int
 
-- name: get
+- action: get
   inputs:
     role_id: string #required
   outputs:
@@ -39,7 +39,7 @@
     permissions: list[role_permission]
     user_count: int
 
-- name: check_permission
+- action: check_permission
   inputs:
     method: string #required
     resource: string #required
@@ -47,7 +47,7 @@
   outputs:
     allowed: boolean
 
-- name: add_permission
+- action: add_permission
   inputs:
     method: string #required
     conditions: role_permission_conditions
@@ -56,7 +56,7 @@
   outputs:
     success: boolean
 
-- name: remove_permission
+- action: remove_permission
   inputs:
     method: string #required
     resource: string #required
@@ -64,7 +64,7 @@
   outputs:
     success: boolean
 
-- name: clone
+- action: clone
   inputs:
     new_name: string #required
     source_id: string #required
@@ -72,7 +72,7 @@
     role_id: string
     success: boolean
 
-- name: role
+- object: role
   class:
     role_id: string
     name: string
@@ -81,19 +81,19 @@
     user_count: int
     created_at: date
 
-- name: role_permission
+- object: role_permission
   class:
     method: string
     resource: string
     conditions: role_permission_conditions
 
-- name: role_info
+- object: role_info
   class:
     role_id: string
     name: string
     description: string
     user_count: int
 
-- name: role_permission_conditions
+- object: role_permission_conditions
   class:
     conditions: map[string, any]

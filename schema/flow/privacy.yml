@@ -1,4 +1,4 @@
-- name: record_consent
+- action: record_consent
   inputs:
     consent_type: marketing | analytics | functional | necessary #required
     granted: boolean #required
@@ -13,7 +13,7 @@
     timestamp: int
     user_id: string
 
-- name: revoke_consent
+- action: revoke_consent
   inputs:
     consent_type: marketing | analytics | functional | necessary #required
     reason: string
@@ -24,7 +24,7 @@
     success: boolean
     user_id: string
 
-- name: get_consent_status
+- action: get_consent_status
   inputs:
     consent_type: marketing | analytics | functional | necessary
     user_id: string #required
@@ -32,7 +32,7 @@
     consents: list[privacy_consent]
     user_id: string
 
-- name: update_consent
+- action: update_consent
   inputs:
     consent_id: string #required
     granted: boolean #required
@@ -41,7 +41,7 @@
     consent_id: string
     success: boolean
 
-- name: export_data
+- action: export_data
   inputs:
     exclude_sections: list[string]
     format: json | csv | xml = json
@@ -54,7 +54,7 @@
     status: string
     user_id: string
 
-- name: get_export_status
+- action: get_export_status
   inputs:
     export_id: string #required
   outputs:
@@ -64,7 +64,7 @@
     export_id: string
     status: pending | processing | completed | failed
 
-- name: delete_data
+- action: delete_data
   inputs:
     delete_type: soft | hard = soft
     reason: string #required
@@ -77,7 +77,7 @@
     success: boolean
     user_id: string
 
-- name: get_deletion_status
+- action: get_deletion_status
   inputs:
     deletion_id: string #required
   outputs:
@@ -87,7 +87,7 @@
     status: pending | processing | completed | failed
     user_id: string
 
-- name: cancel_deletion
+- action: cancel_deletion
   inputs:
     deletion_id: string #required
   outputs:
@@ -95,7 +95,7 @@
     deletion_id: string
     success: boolean
 
-- name: anonymize_data
+- action: anonymize_data
   inputs:
     retain_sections: list[string]
     user_id: string #required
@@ -104,7 +104,7 @@
     success: boolean
     user_id: string
 
-- name: list_consent_history
+- action: list_consent_history
   inputs:
     consent_type: marketing | analytics | functional | necessary
     end_date: int
@@ -116,7 +116,7 @@
     total: int
     user_id: string
 
-- name: record_data_access
+- action: record_data_access
   inputs:
     access_type: read | write | delete #required
     accessor_id: string #required
@@ -128,7 +128,7 @@
     success: boolean
     timestamp: int
 
-- name: get_access_log
+- action: get_access_log
   inputs:
     end_date: int
     limit: int = 100
@@ -139,7 +139,7 @@
     total: int
     user_id: string
 
-- name: create_policy_version
+- action: create_policy_version
   inputs:
     content: string #required
     effective_date: int #required
@@ -150,7 +150,7 @@
     success: boolean
     version: string
 
-- name: get_active_policy
+- action: get_active_policy
   inputs:
     policy_type: privacy | terms | cookie = privacy
   outputs:
@@ -159,7 +159,7 @@
     policy_id: string
     version: string
 
-- name: record_policy_acceptance
+- action: record_policy_acceptance
   inputs:
     ip_address: string
     policy_id: string #required
@@ -171,7 +171,7 @@
     timestamp: int
     user_id: string
 
-- name: verify_rtbf_eligibility
+- action: verify_rtbf_eligibility
   inputs:
     user_id: string #required
   outputs:
@@ -180,7 +180,7 @@
     reasons: list[string]
     user_id: string
 
-- name: consent
+- object: consent
   class:
     consent_id: string
     user_id: string
@@ -191,7 +191,7 @@
     ip_address: string
     user_agent: string
 
-- name: privacy_consent
+- object: privacy_consent
   class:
     consent_id: string
     consent_type: string
@@ -199,7 +199,7 @@
     version: string
     timestamp: date
 
-- name: privacy_consent_history
+- object: privacy_consent_history
   class:
     consent_id: string
     consent_type: string
@@ -208,7 +208,7 @@
     method: string
     timestamp: date
 
-- name: privacy_data_access
+- object: privacy_data_access
   class:
     access_id: string
     accessor_id: string

@@ -1,25 +1,25 @@
-- name: debug
+- action: debug
   inputs:
     context: log_context
     message: string #required
   outputs:
     success: boolean
 
-- name: info
+- action: info
   inputs:
     context: log_context
     message: string #required
   outputs:
     success: boolean
 
-- name: warn
+- action: warn
   inputs:
     context: log_context
     message: string #required
   outputs:
     success: boolean
 
-- name: error
+- action: error
   inputs:
     context: log_context
     error: log_error
@@ -27,14 +27,14 @@
   outputs:
     success: boolean
 
-- name: structured
+- action: structured
   inputs:
     data: log_data #required
     level: debug | info | warn | error #required
   outputs:
     success: boolean
 
-- name: log_entry
+- object: log_entry
   class:
     level: string
     message: string
@@ -42,20 +42,20 @@
     context: log_context
     error: log_error
 
-- name: log_context
+- object: log_context
   class:
     request_id: string
     user_id: string
     trace_id: string
     span_id: string
 
-- name: log_error
+- object: log_error
   class:
     message: string
     stack_trace: string
     code: string
 
-- name: log_data
+- object: log_data
   class:
     key: string
     value: any

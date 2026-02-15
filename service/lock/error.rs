@@ -20,8 +20,8 @@ pub enum LockError {
     #[error("Maximum locks per owner exceeded: {max}")]
     MaxLocksExceeded { max: usize },
 
-    #[error("Storage error: {0}")]
-    StorageError(String),
+    #[error("Cache error: {0}")]
+    CacheError(String),
 
     #[error("Internal error: {0}")]
     Internal(String),

@@ -1,4 +1,4 @@
-- name: table
+- webobject: table
   attributes:
     - is_bleed: boolean = false
     - is_dense: boolean = false

@@ -10,17 +10,11 @@ use serde::{Deserialize, Serialize};
 use crate::error::ServerError;
 use crate::extractors::Auth;
 use crate::state::AppState;
-use harana_components_blob::{BlobInfo, BlobMetadata, BlobStore, ListOptions, PutOptions};
-
-// ============================================================================
-// Request / Response types
-// ============================================================================
+use harana_components_blob::{BlobInfo, BlobMetadata, BlobService, ListOptions, PutOptions};
 
 #[derive(Debug, Deserialize)]
 pub struct DownloadParams {
-    /// Optional: override the Content-Disposition filename.
     pub filename: Option<String>,
-    /// If true, return as inline instead of attachment.
     #[serde(default)]
     pub inline: bool,
 }
@@ -86,7 +80,7 @@ pub async fn upload(
     path: Option<Path<String>>,
     mut multipart: Multipart,
 ) -> Result<Json<UploadResponse>, ServerError> {
-    let blob = state.blob_store()?;
+    let blob = state.blob_service()?;
     let prefix = path.map(|p| p.0).unwrap_or_default();
     let mut files = Vec::new();
 
@@ -153,7 +147,7 @@ pub async fn download(
     Path(path): Path<String>,
     Query(params): Query<DownloadParams>,
 ) -> Result<Response, ServerError> {
-    let blob = state.blob_store()?;
+    let blob = state.blob_service()?;
     let key = user_key(&auth.user_id, &path);
 
     let (data, metadata) = blob.get_with_metadata(&key).await.map_err(|e| match e {
@@ -193,7 +187,7 @@ pub async fn head(
     auth: Auth,
     Path(path): Path<String>,
 ) -> Result<Response, ServerError> {
-    let blob = state.blob_store()?;
+    let blob = state.blob_service()?;
     let key = user_key(&auth.user_id, &path);
 
     let info = blob.head(&key).await.map_err(|e| match e {
@@ -221,7 +215,7 @@ pub async fn delete(
     auth: Auth,
     Path(path): Path<String>,
 ) -> Result<Json<DeleteResponse>, ServerError> {
-    let blob = state.blob_store()?;
+    let blob = state.blob_service()?;
     let key = user_key(&auth.user_id, &path);
 
     blob.delete(&key).await.map_err(|e| match e {
@@ -240,7 +234,7 @@ pub async fn list(
     auth: Auth,
     Query(params): Query<ListParams>,
 ) -> Result<Json<ListBlobResponse>, ServerError> {
-    let blob = state.blob_store()?;
+    let blob = state.blob_service()?;
 
     // Scope listing to the user's namespace.
     let user_prefix = format!("users/{}/", auth.user_id);

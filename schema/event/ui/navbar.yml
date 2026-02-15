@@ -1,4 +1,4 @@
-- name: navbar_item_clicked
+- event: navbar_item_clicked
   schema:
     navbar_id: id #required
     item_id: id #required
@@ -6,26 +6,26 @@
     item_href: string?
     clicked_at: date = now()
 
-- name: navbar_item_hovered
+- event: navbar_item_hovered
   schema:
     navbar_id: id #required
     item_id: id #required
     item_label: string?
     hovered_at: date = now()
 
-- name: navbar_section_expanded
+- event: navbar_section_expanded
   schema:
     navbar_id: id #required
     section_id: id #required
     expanded_at: date = now()
 
-- name: navbar_section_collapsed
+- event: navbar_section_collapsed
   schema:
     navbar_id: id #required
     section_id: id #required
     collapsed_at: date = now()
 
-- name: navbar_current_item_changed
+- event: navbar_current_item_changed
   schema:
     navbar_id: id #required
     old_item_id: id?

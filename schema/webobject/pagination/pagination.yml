@@ -1,4 +1,4 @@
-- name: pagination
+- webobject: pagination
   attributes:
     - aria_label: string = page navigation #max(200)
     - next_href: string? #max(500)

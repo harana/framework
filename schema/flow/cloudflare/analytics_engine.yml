@@ -1,4 +1,4 @@
-- name: write_data_point
+- action: write_data_point
   inputs:
     binding: string #required
     blobs: list[string]
@@ -7,7 +7,7 @@
   outputs:
     success: boolean
 
-- name: query
+- action: query
   inputs:
     binding: string #required
     query: string #required

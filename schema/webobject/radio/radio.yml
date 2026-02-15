@@ -1,13 +1,13 @@
-- name: radio
+- webobject: radio
   id: [group_id, value]
   attributes:
     - color: dark_zinc | dark_white | dark | zinc | white | red | orange | amber | yellow | lime | green | emerald | teal | cyan | sky | blue | indigo | violet | purple | fuchsia | pink | rose = dark_zinc
     - description: string? #max(500)
-    - group_id: id #required -> ui_radio_group.id
+    - group_id: id -> ui_radio_group.id
     - is_disabled: boolean = false
-    - label: string #required #max(200)
+    - label: string #max(200)
     - order: int = 0 #min(0)
-    - value: string #required #max(200)
+    - value: string #max(200)
   events:
     - blur
     - focus

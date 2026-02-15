@@ -1,9 +1,9 @@
-- name: table_row
+- webobject: table_row
   id: [table_id, name]
   attributes:
     - href: string? #max(500)
     - order: int = 0 #min(0)
-    - table_id: id #required -> ui_table.id
+    - table_id: id -> ui_table.id
     - target: _self | _blank | _parent | _top = _self
     - title: string? #max(200)
   events:

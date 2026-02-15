@@ -1,4 +1,4 @@
-- name: create_load_balancer
+- action: create_load_balancer
   inputs:
     customer_owned_ipv4_pool: string
     ip_address_type: ipv4 | dualstack
@@ -14,14 +14,14 @@
     load_balancers: list[load_balancer]
     success: boolean
 
-- name: delete_load_balancer
+- action: delete_load_balancer
   inputs:
     load_balancer_arn: string #required
     region: string
   outputs:
     success: boolean
 
-- name: describe_load_balancers
+- action: describe_load_balancers
   inputs:
     load_balancer_arns: list[string]
     marker: string
@@ -32,7 +32,7 @@
     load_balancers: list[load_balancer]
     next_marker: string
 
-- name: modify_load_balancer_attributes
+- action: modify_load_balancer_attributes
   inputs:
     attributes: list[load_balancer_attribute] #required
     load_balancer_arn: string #required
@@ -41,14 +41,14 @@
     attributes: list[load_balancer_attribute]
     success: boolean
 
-- name: describe_load_balancer_attributes
+- action: describe_load_balancer_attributes
   inputs:
     load_balancer_arn: string #required
     region: string
   outputs:
     attributes: list[load_balancer_attribute]
 
-- name: set_security_groups
+- action: set_security_groups
   inputs:
     load_balancer_arn: string #required
     region: string
@@ -57,7 +57,7 @@
     security_group_ids: list[string]
     success: boolean
 
-- name: set_subnets
+- action: set_subnets
   inputs:
     ip_address_type: ipv4 | dualstack
     load_balancer_arn: string #required
@@ -69,7 +69,7 @@
     ip_address_type: string
     success: boolean
 
-- name: set_ip_address_type
+- action: set_ip_address_type
   inputs:
     ip_address_type: ipv4 | dualstack #required
     load_balancer_arn: string #required
@@ -78,7 +78,7 @@
     ip_address_type: string
     success: boolean
 
-- name: create_target_group
+- action: create_target_group
   inputs:
     health_check_enabled: boolean = true
     health_check_interval_seconds: int = 30
@@ -102,14 +102,14 @@
     target_groups: list[target_group]
     success: boolean
 
-- name: delete_target_group
+- action: delete_target_group
   inputs:
     region: string
     target_group_arn: string #required
   outputs:
     success: boolean
 
-- name: describe_target_groups
+- action: describe_target_groups
   inputs:
     load_balancer_arn: string
     marker: string
@@ -121,7 +121,7 @@
     next_marker: string
     target_groups: list[target_group]
 
-- name: modify_target_group
+- action: modify_target_group
   inputs:
     health_check_enabled: boolean
     health_check_interval_seconds: int
@@ -138,7 +138,7 @@
     target_groups: list[target_group]
     success: boolean
 
-- name: modify_target_group_attributes
+- action: modify_target_group_attributes
   inputs:
     attributes: list[target_group_attribute] #required
     region: string
@@ -147,14 +147,14 @@
     attributes: list[target_group_attribute]
     success: boolean
 
-- name: describe_target_group_attributes
+- action: describe_target_group_attributes
   inputs:
     region: string
     target_group_arn: string #required
   outputs:
     attributes: list[target_group_attribute]
 
-- name: register_targets
+- action: register_targets
   inputs:
     region: string
     target_group_arn: string #required
@@ -162,7 +162,7 @@
   outputs:
     success: boolean
 
-- name: deregister_targets
+- action: deregister_targets
   inputs:
     region: string
     target_group_arn: string #required
@@ -170,7 +170,7 @@
   outputs:
     success: boolean
 
-- name: describe_target_health
+- action: describe_target_health
   inputs:
     region: string
     target_group_arn: string #required
@@ -178,7 +178,7 @@
   outputs:
     target_health_descriptions: list[target_health_description]
 
-- name: create_listener
+- action: create_listener
   inputs:
     alpn_policy: list[string]
     certificates: list[certificate]
@@ -193,14 +193,14 @@
     listeners: list[listener]
     success: boolean
 
-- name: delete_listener
+- action: delete_listener
   inputs:
     listener_arn: string #required
     region: string
   outputs:
     success: boolean
 
-- name: describe_listeners
+- action: describe_listeners
   inputs:
     listener_arns: list[string]
     load_balancer_arn: string
@@ -211,7 +211,7 @@
     listeners: list[listener]
     next_marker: string
 
-- name: modify_listener
+- action: modify_listener
   inputs:
     alpn_policy: list[string]
     certificates: list[certificate]
@@ -225,7 +225,7 @@
     listeners: list[listener]
     success: boolean
 
-- name: create_rule
+- action: create_rule
   inputs:
     actions: list[action] #required
     conditions: list[rule_condition] #required
@@ -237,14 +237,14 @@
     rules: list[rule]
     success: boolean
 
-- name: delete_rule
+- action: delete_rule
   inputs:
     region: string
     rule_arn: string #required
   outputs:
     success: boolean
 
-- name: describe_rules
+- action: describe_rules
   inputs:
     listener_arn: string
     marker: string
@@ -255,7 +255,7 @@
     next_marker: string
     rules: list[rule]
 
-- name: modify_rule
+- action: modify_rule
   inputs:
     actions: list[action]
     conditions: list[rule_condition]
@@ -265,7 +265,7 @@
     rules: list[rule]
     success: boolean
 
-- name: set_rule_priorities
+- action: set_rule_priorities
   inputs:
     region: string
     rule_priorities: list[rule_priority_pair] #required
@@ -273,7 +273,7 @@
     rules: list[rule]
     success: boolean
 
-- name: add_listener_certificates
+- action: add_listener_certificates
   inputs:
     certificates: list[certificate] #required
     listener_arn: string #required
@@ -282,7 +282,7 @@
     certificates: list[certificate]
     success: boolean
 
-- name: remove_listener_certificates
+- action: remove_listener_certificates
   inputs:
     certificates: list[certificate] #required
     listener_arn: string #required
@@ -290,7 +290,7 @@
   outputs:
     success: boolean
 
-- name: describe_listener_certificates
+- action: describe_listener_certificates
   inputs:
     listener_arn: string #required
     marker: string
@@ -300,7 +300,7 @@
     certificates: list[certificate]
     next_marker: string
 
-- name: describe_ssl_policies
+- action: describe_ssl_policies
   inputs:
     load_balancer_type: application | network | gateway
     marker: string
@@ -311,7 +311,7 @@
     next_marker: string
     ssl_policies: list[ssl_policy]
 
-- name: describe_account_limits
+- action: describe_account_limits
   inputs:
     marker: string
     page_size: int = 400
@@ -320,7 +320,7 @@
     limits: list[limit]
     next_marker: string
 
-- name: add_tags
+- action: add_tags
   inputs:
     region: string
     resource_arns: list[string] #required
@@ -328,7 +328,7 @@
   outputs:
     success: boolean
 
-- name: remove_tags
+- action: remove_tags
   inputs:
     region: string
     resource_arns: list[string] #required
@@ -336,7 +336,7 @@
   outputs:
     success: boolean
 
-- name: describe_tags
+- action: describe_tags
   inputs:
     region: string
     resource_arns: list[string] #required

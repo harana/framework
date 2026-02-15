@@ -1,4 +1,4 @@
-- name: from_html
+- action: from_html
   inputs:
     footer_template: string
     header_template: string
@@ -12,7 +12,7 @@
     pdf: bytes
     size: int
 
-- name: from_template
+- action: from_template
   inputs:
     data: pdf_template_data #required
     options: pdf_options
@@ -24,7 +24,7 @@
     pdf: bytes
     size: int
 
-- name: merge
+- action: merge
   inputs:
     documents: list[bytes] #required
     output_name: string
@@ -33,7 +33,7 @@
     pdf: bytes
     size: int
 
-- name: split
+- action: split
   inputs:
     document: bytes #required
     pages: list[integer]
@@ -42,7 +42,7 @@
     documents: list[bytes]
     page_counts: list[integer]
 
-- name: extract_pages
+- action: extract_pages
   inputs:
     document: bytes #required
     end_page: int #required
@@ -52,7 +52,7 @@
     pdf: bytes
     size: int
 
-- name: extract_text
+- action: extract_text
   inputs:
     document: bytes #required
     pages: list[integer]
@@ -61,7 +61,7 @@
     pages: list[pdf_page_text]
     text: string
 
-- name: extract_images
+- action: extract_images
   inputs:
     document: bytes #required
     format: png | jpeg | webp = png
@@ -70,7 +70,7 @@
     count: int
     images: list[pdf_extracted_image]
 
-- name: add_watermark
+- action: add_watermark
   inputs:
     document: bytes #required
     opacity: float = 0.5
@@ -82,7 +82,7 @@
     pdf: bytes
     size: int
 
-- name: compress
+- action: compress
   inputs:
     document: bytes #required
     quality: low | medium | high = medium
@@ -93,7 +93,7 @@
     original_size: int
     pdf: bytes
 
-- name: encrypt
+- action: encrypt
   inputs:
     document: bytes #required
     owner_password: string
@@ -103,7 +103,7 @@
     pdf: bytes
     size: int
 
-- name: decrypt
+- action: decrypt
   inputs:
     document: bytes #required
     password: string #required
@@ -111,7 +111,7 @@
     pdf: bytes
     size: int
 
-- name: get_metadata
+- action: get_metadata
   inputs:
     document: bytes #required
   outputs:
@@ -127,7 +127,7 @@
     subject: string
     title: string
 
-- name: set_metadata
+- action: set_metadata
   inputs:
     author: string
     creator: string
@@ -139,7 +139,7 @@
     pdf: bytes
     success: boolean
 
-- name: rotate_pages
+- action: rotate_pages
   inputs:
     angle: 90 | 180 | 270 #required
     document: bytes #required
@@ -148,7 +148,7 @@
     pdf: bytes
     size: int
 
-- name: add_page_numbers
+- action: add_page_numbers
   inputs:
     alignment: left | center | right = center
     document: bytes #required
@@ -160,7 +160,7 @@
     pdf: bytes
     size: int
 
-- name: to_images
+- action: to_images
   inputs:
     document: bytes #required
     dpi: int = 150
@@ -170,7 +170,7 @@
     count: int
     images: list[bytes]
 
-- name: fill_form
+- action: fill_form
   inputs:
     document: bytes #required
     fields: pdf_form_fields #required
@@ -179,14 +179,14 @@
     pdf: bytes
     size: int
 
-- name: get_form_fields
+- action: get_form_fields
   inputs:
     document: bytes #required
   outputs:
     count: int
     fields: list[pdf_form_field]
 
-- name: pdf_document
+- object: pdf_document
   class:
     content: bytes
     page_count: int
@@ -196,29 +196,29 @@
     orientation: string
     page_size: string
 
-- name: pdf_margin
+- object: pdf_margin
   class:
     top: float
     right: float
     bottom: float
     left: float
 
-- name: pdf_options
+- object: pdf_options
   class:
     scale: float
     print_background: boolean
     prefer_css_page_size: boolean
 
-- name: pdf_template_data
+- object: pdf_template_data
   class:
     values: map[string, any]
 
-- name: pdf_page_text
+- object: pdf_page_text
   class:
     page_number: int
     text: string
 
-- name: pdf_extracted_image
+- object: pdf_extracted_image
   class:
     page_number: int
     image: bytes
@@ -226,23 +226,23 @@
     width: int
     height: int
 
-- name: pdf_permissions
+- object: pdf_permissions
   class:
     print: boolean
     copy: boolean
     modify: boolean
     annotate: boolean
 
-- name: pdf_form_fields
+- object: pdf_form_fields
   class:
     fields: list[pdf_form_field_value]
 
-- name: pdf_form_field_value
+- object: pdf_form_field_value
   class:
     name: string
     value: string
 
-- name: pdf_form_field
+- object: pdf_form_field
   class:
     name: string
     type: string

@@ -1,8 +1,8 @@
-- name: year_calendar
+- webobject: year_calendar
   attributes:
     - add_event_label: string = "add event" #max(50)
-    - current_year_datetime: string #required #max(20)
-    - current_year: string #required #max(20)
+    - current_year_datetime: string #max(20)
+    - current_year: string #max(20)
     - months: [calendar_month] #required
     - selected_view: string = "year" #max(20)
     - today_label: string = "today" #max(20)

@@ -1,11 +1,11 @@
-- name: listbox_option
+- webobject: listbox_option
   id: [listbox_id, value]
   attributes:
     - avatar_initials: string? #max(3)
     - avatar_src: string? #max(500)
     - description: string? #max(500)
     - icon: string? #max(100)
-    - label: string #required #max(200)
-    - listbox_id: id #required -> ui_listbox.id
+    - label: string #max(200)
+    - listbox_id: id -> ui_listbox.id
     - order: int = 0 #min(0)
-    - value: string #required #max(200)
+    - value: string #max(200)

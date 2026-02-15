@@ -1,11 +1,11 @@
-- name: address
+- object: address
   id: [entity_id, entity_type, type]
   schema:
     - city: string? #max(200)
     - country: string? #max(100)
     - created_at: date = now()
     - entity_id: id #required
-    - entity_type: string #required #max(100)
+    - entity_type: string #max(100)
     - is_primary: boolean = false
     - is_verified: boolean = false
     - label: string? #max(100)
@@ -16,10 +16,10 @@
     - updated_at: date = now()
     - verified_at: date?
 
-- name: address_validation_log
+- object: address_validation_log
   id: [address_id, validated_at]
   schema:
-    - address_id: id #required -> address.id
+    - address_id: id -> address.id
     - errors: string? # json array of errors
     - is_valid: boolean = false
     - provider: string? #max(100)

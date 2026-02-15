@@ -1,4 +1,4 @@
-- name: get
+- action: get
   inputs:
     key: string #required
     namespace: string = "default"
@@ -6,7 +6,7 @@
     found: boolean
     value: any
 
-- name: set
+- action: set
   inputs:
     key: string #required
     namespace: string = "default"
@@ -15,35 +15,35 @@
   outputs:
     success: boolean
 
-- name: delete
+- action: delete
   inputs:
     key: string #required
     namespace: string = "default"
   outputs:
     success: boolean
 
-- name: exists
+- action: exists
   inputs:
     key: string #required
     namespace: string = "default"
   outputs:
     exists: boolean
 
-- name: clear
+- action: clear
   inputs:
     namespace: string = "default"
     pattern: string
   outputs:
     keys_deleted: int
 
-- name: get_many
+- action: get_many
   inputs:
     keys: list[string] #required
     namespace: string = "default"
   outputs:
     values: cache_values
 
-- name: set_many
+- action: set_many
   inputs:
     entries: cache_entries #required
     namespace: string = "default"
@@ -51,7 +51,7 @@
   outputs:
     success: boolean
 
-- name: increment
+- action: increment
   inputs:
     amount: int = 1
     key: string #required
@@ -59,7 +59,7 @@
   outputs:
     value: int
 
-- name: decrement
+- action: decrement
   inputs:
     amount: int = 1
     key: string #required
@@ -67,7 +67,7 @@
   outputs:
     value: int
 
-- name: ttl
+- action: ttl
   inputs:
     key: string #required
     namespace: string = "default"
@@ -75,7 +75,7 @@
     expires_at: date
     ttl: int
 
-- name: cache_entry
+- object: cache_entry
   class:
     key: string
     value: any
@@ -83,10 +83,10 @@
     ttl: int
     expires_at: date
 
-- name: cache_values
+- object: cache_values
   class:
     values: map[string, any]
 
-- name: cache_entries
+- object: cache_entries
   class:
     entries: map[string, any]

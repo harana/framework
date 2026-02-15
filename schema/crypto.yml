@@ -1,4 +1,4 @@
-- name: encryption_key
+- object: encryption_key
   id: [key_id]
   schema:
     - algorithm: aes_256_gcm | aes_256_cbc | rsa | ed25519 | ecdsa = aes_256_gcm
@@ -6,14 +6,14 @@
     - created_by: id? -> user.id
     - expires_at: date?
     - is_active: boolean = true
-    - key_id: string #required #unique #max(200)
-    - key_size: int #required #min(128)
+    - key_id: string #unique #max(200)
+    - key_size: int #min(128)
     - key_type: symmetric | asymmetric = symmetric
     - last_rotated_at: date?
     - updated_at: date = now()
     - usage: encrypt | sign | both = encrypt
 
-- name: key_pair
+- object: key_pair
   id: [key_id]
   schema:
     - algorithm: rsa | ed25519 | ecdsa = rsa
@@ -21,17 +21,17 @@
     - created_by: id? -> user.id
     - expires_at: date?
     - is_active: boolean = true
-    - key_id: string #required #unique #max(200)
-    - key_size: int #required #min(256)
+    - key_id: string #unique #max(200)
+    - key_size: int #min(256)
     - public_key_fingerprint: string? #max(128)
     - updated_at: date = now()
 
-- name: crypto_operation_log
+- object: crypto_operation_log
   id: [key_id, created_at]
   schema:
-    - algorithm: string #required #max(50)
+    - algorithm: string #max(50)
     - created_at: date = now()
-    - key_id: string #required #max(200)
+    - key_id: string #max(200)
     - operation: hash | hmac | encrypt | decrypt | sign | verify | generate_key = encrypt
     - status: success | failed = success
     - user_id: id? -> user.id

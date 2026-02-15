@@ -1,0 +1,149 @@
+- action: record_metric
+  inputs:
+    name: string
+    tags: map[string, string]
+    timestamp: date
+    value: float
+  outputs:
+    success: boolean
+
+- action: increment_counter
+  inputs:
+    amount: float = 1
+    name: string
+    tags: map[string, string]
+  outputs:
+    value: float
+
+- action: set_gauge
+  inputs:
+    name: string
+    tags: map[string, string]
+    value: float
+  outputs:
+    success: boolean
+
+- action: record_histogram
+  inputs:
+    buckets: list[float]
+    name: string
+    tags: map[string, string]
+    value: float
+  outputs:
+    success: boolean
+
+- action: start_timer
+  inputs:
+    name: string
+    tags: map[string, string]
+  outputs:
+    timer_id: string
+
+- action: stop_timer
+  inputs:
+    timer_id: string
+  outputs:
+    duration_ms: float
+    success: boolean
+
+- action: query_metrics
+  inputs:
+    aggregation: sum | avg | min | max | count = avg
+    end_time: date
+    interval: string = "1m"
+    name: string
+    start_time: date
+    tags: map[string, string]
+  outputs:
+    datapoints: list[metric_datapoint]
+    total: int
+
+- action: get_metric_summary
+  inputs:
+    name: string
+    period: string = "1h"
+    tags: map[string, string]
+  outputs:
+    avg: float
+    count: int
+    max: float
+    min: float
+    p50: float
+    p95: float
+    p99: float
+    sum: float
+
+- action: list_metrics
+  inputs:
+    limit: int = 100
+    prefix: string
+  outputs:
+    metrics: list[metric_info]
+    total: int
+
+- action: delete_metric
+  inputs:
+    before: date
+    name: string
+    tags: map[string, string]
+  outputs:
+    deleted_count: int
+    success: boolean
+
+- object: metric
+  class:
+    name: string
+    value: float
+    tags: map[string, string]
+    timestamp: date
+    type: string
+
+- object: datapoint
+  class:
+    timestamp: date
+    value: float
+
+- object: info
+  class:
+    name: string
+    type: string
+    description: string
+    tags: list[string]
+
+- object: metric
+  schema:
+    - description: string? #max(500)
+    - labels: string?
+    - type: counter | gauge | histogram | summary = gauge
+    - unit: string? #max(50)
+
+- object: value
+  id: [metric_id, timestamp, labels]
+  schema:
+    - labels: string?
+    - metric_id: id -> metric.id
+    - timestamp: date = now()
+    - value: decimal
+
+- object: alert
+  schema:
+    - comparison: gt | gte | lt | lte | eq | neq = gt
+    - created_at: date = now()
+    - is_active: boolean = true
+    - last_triggered_at: date?
+    - metric_id: id -> metric.id
+    - notification_channel: string? #max(100)
+    - threshold: decimal
+    - updated_at: date = now()
+
+- object: datapoint
+  schema:
+    - timestamp: date
+    - value: float
+
+- object: info
+  schema:
+    - name: string
+    - type: string
+    - description: string
+    - tags: list[string]

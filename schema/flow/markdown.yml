@@ -1,4 +1,4 @@
-- name: to_html
+- action: to_html
   inputs:
     data: string #required
     gfm: boolean = true
@@ -7,7 +7,7 @@
   outputs:
     html: string
 
-- name: from_html
+- action: from_html
   inputs:
     bullet_style: string = "-"
     code_block_style: fenced | indented = fenced
@@ -16,19 +16,19 @@
   outputs:
     markdown: string
 
-- name: extract_frontmatter
+- action: extract_frontmatter
   inputs:
     data: string #required
   outputs:
     content: string
     frontmatter: markdown_frontmatter
 
-- name: markdown_document
+- object: markdown_document
   class:
     content: string
     frontmatter: markdown_frontmatter
     html: string
 
-- name: markdown_frontmatter
+- object: markdown_frontmatter
   class:
     data: map[string, any]

@@ -1,6 +1,6 @@
-- name: meetings
+- webobject: meetings
   attributes:
-    - current_month: string #required #max(50)
+    - current_month: string #max(50)
     - days: [calendar_day] #required
     - meetings: [calendar_meeting] #required
     - selected_date: string? #max(20)

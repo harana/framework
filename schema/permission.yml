@@ -1,25 +1,25 @@
-- name: permission
+- object: permission
   schema:
     - method: create | read | update | delete | execute | manage = read
     - description: string? #max(500)
-    - resource: string #required #max(100)
+    - resource: string #max(100)
 
-- name: role
+- object: role
   schema:
     - created_at: date = now()
     - description: string? #max(500)
     - is_system: boolean = false
     - updated_at: date = now()
 
-- name: role_permission
+- object: role_permission
   id: [role_id, permission_id]
   schema:
-    - permission_id: id #required -> permission.id
-    - role_id: id #required -> role.id
-- name: user_role
+    - permission_id: id -> permission.id
+    - role_id: id -> role.id
+- object: user_role
   id: [user_id, role_id]
   schema:
     - assigned_at: date = now()
     - assigned_by: id? -> user.id
-    - role_id: id #required -> role.id
-    - user_id: id #required -> user.id
+    - role_id: id -> role.id
+    - user_id: id -> user.id

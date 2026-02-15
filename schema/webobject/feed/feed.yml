@@ -1,4 +1,4 @@
-- name: feed
+- webobject: feed
   attributes:
     - show_comment_form: boolean = false
     - variant: simple | with_comments = simple

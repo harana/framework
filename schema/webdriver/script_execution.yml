@@ -1,4 +1,4 @@
-- name: webdriver_script_execution
+- object: webdriver_script_execution
   id: [session_id, executed_at]
   schema:
     - arguments: string? # json array
@@ -8,5 +8,5 @@
     - executed_at: date = now()
     - result: string? # json result
     - script: string #required
-    - session_id: id #required -> web_driver_session.id
+    - session_id: id -> web_driver_session.id
     - status: success | failed | timeout = success

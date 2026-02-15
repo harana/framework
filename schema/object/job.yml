@@ -1,4 +1,4 @@
-- name: job
+- object: job
   id: [name, queue, created_at]
   schema:
     - completed_at: date?
@@ -16,20 +16,20 @@
     - timeout_seconds: int = 300 #min(1)
     - updated_at: date = now()
 
-- name: job_schedule
+- object: job_schedule
   schema:
-    - cron_expression: string #required #max(100)
+    - cron_expression: string #max(100)
     - is_active: boolean = true
-    - job_name: string #required #max(200)
+    - job_name: string #max(200)
     - last_run_at: date?
     - next_run_at: date?
     - payload: string?
     - timezone: string = utc #max(50)
 
-- name: job_log
+- object: job_log
   id: [job_id, created_at]
   schema:
     - created_at: date = now()
-    - job_id: id #required -> job.id
+    - job_id: id -> job.id
     - level: debug | info | warning | error = info
-    - message: string #required #max(5000)
+    - message: string #max(5000)

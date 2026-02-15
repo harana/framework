@@ -1,10 +1,10 @@
 # Calendar event - used for displaying events on day/week/month views
-- name: calendar_event
+- object: calendar_event
   schema:
     - id: string #required
-    - name: string #required #max(200)
+    - name: string #max(200)
     - datetime: string #required
-    - time_display: string #required #max(20)
+    - time_display: string #max(20)
     - href: string? #max(500)
     - location: string? #max(200)
     - color: string = "blue" #max(20)
@@ -13,17 +13,17 @@
     - day_column: integer?
 
 # Calendar meeting - used for meetings list with attendee images
-- name: calendar_meeting
+- object: calendar_meeting
   schema:
     - id: string #required
-    - name: string #required #max(200)
+    - name: string #max(200)
     - image_url: string? #max(500)
     - datetime: string #required
-    - datetime_display: string #required #max(100)
+    - datetime_display: string #max(100)
     - location: string? #max(200)
 
 # Calendar day - used for day cells in month/week/day views
-- name: calendar_day
+- object: calendar_day
   schema:
     - date: string #required
     - day_number: integer #required
@@ -35,21 +35,21 @@
     - events: [calendar_event]
 
 # Calendar view option - dropdown menu items for view selection
-- name: calendar_view_option
+- object: calendar_view_option
   schema:
     - id: string #required
-    - label: string #required #max(50)
+    - label: string #max(50)
     - href: string? #max(500)
     - is_active: boolean = false
 
 # Calendar month - used for year view with month sections
-- name: calendar_month
+- object: calendar_month
   schema:
-    - name: string #required #max(20)
+    - name: string #max(20)
     - days: [calendar_day] #required
 
 # Time slot - hour markers on the time axis
-- name: time_slot
+- object: time_slot
   schema:
-    - label: string #required #max(10)
+    - label: string #max(10)
     - hour: integer #required

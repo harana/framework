@@ -1,4 +1,4 @@
-- name: validate
+- action: validate
   inputs:
     address: address #required
     country: string
@@ -6,7 +6,7 @@
     errors: list[address_validation_error]
     valid: boolean
 
-- name: normalize
+- action: normalize
   inputs:
     address: address #required
     country: string
@@ -14,7 +14,7 @@
   outputs:
     address: address
 
-- name: parse
+- action: parse
   inputs:
     address: string #required
     country: string
@@ -25,7 +25,7 @@
     state: string
     street:  string
 
-- name: autocomplete
+- action: autocomplete
   inputs:
     country: string
     limit: int = 5
@@ -34,7 +34,7 @@
   outputs:
     suggestions: list[address_suggestion]
 
-- name: address
+- object: address
   class:
     street: string
     city: string
@@ -42,13 +42,13 @@
     postal_code: string
     country: string
 
-- name: address_validation_error
+- object: address_validation_error
   class:
     field: string
     code: string
     message: string
 
-- name: address_suggestion
+- object: address_suggestion
   class:
     description: string
     place_id: string

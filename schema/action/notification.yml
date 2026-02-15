@@ -1,0 +1,150 @@
+- action: send_push
+  inputs:
+    user_id: string
+    title: string
+    body: string
+    data: map[string, any]
+    badge: int
+    sound: string
+    priority: string = "normal"
+  outputs:
+    notification_id: string
+    success: boolean
+
+- action: send_sms
+  inputs:
+    phone_number: string
+    message: string
+    sender_id: string
+  outputs:
+    message_id: string
+    success: boolean
+
+- action: send_in_app
+  inputs:
+    user_id: string
+    title: string
+    message: string
+    notification_type: info | warning | error | success = info
+    action_url: string
+    data: map[string, any]
+  outputs:
+    notification_id: string
+    success: boolean
+
+- action: send_bulk
+  inputs:
+    user_ids: list[string]
+    title: string
+    body: string
+    channel: push | sms | in_app = push
+    data: map[string, any]
+  outputs:
+    total: int
+    successful: int
+    failed: int
+
+- action: status
+  inputs:
+    notification_id: string
+  outputs:
+    status: string
+    sent_at: date
+    delivered_at: date
+    read_at: date
+    error: string
+
+- action: mark_as_read
+  inputs:
+    notification_id: string
+  outputs:
+    success: boolean
+
+- action: list
+  inputs:
+    user_id: string
+    unread_only: boolean = false
+    limit: int = 100
+    offset: int = 0
+  outputs:
+    notifications: list[notification]
+    total: int
+    unread_count: int
+
+- action: delete
+  inputs:
+    notification_id: string
+  outputs:
+    success: boolean
+
+- action: register_device
+  inputs:
+    user_id: string
+    device_token: string
+    platform: ios | android | web
+  outputs:
+    success: boolean
+
+- action: unregister_device
+  inputs:
+    device_token: string
+  outputs:
+    success: boolean
+
+- object: notification
+  class:
+    notification_id: string
+    user_id: string
+    title: string
+    body: string
+    notification_type: string
+    channel: string
+    status: string
+    sent_at: date
+    delivered_at: date
+    read_at: date
+    action_url: string
+    data: map[string, any]
+
+- object: device_registration
+  class:
+    device_token: string
+    user_id: string
+    platform: string
+    registered_at: date
+
+- object: notification
+  id: [user_id, created_at]
+  schema:
+    - action_url: string? #url
+    - body: string #max(1000)
+    - created_at: date = now()
+    - is_read: boolean = false
+    - read_at: date?
+    - title: string #max(200)
+    - type: info | warning | error | success = info
+    - user_id: id -> user.id
+
+- object: preference
+  id: [user_id, notification_type, channel]
+  schema:
+    - channel: email | sms | push | in_app = email
+    - is_enabled: boolean = true
+    - notification_type: string #max(100)
+    - user_id: id -> user.id
+
+- object: push_subscription
+  id: [user_id, device_token]
+  schema:
+    - created_at: date = now()
+    - device_token: string #max(500)
+    - is_active: boolean = true
+    - updated_at: date = now()
+    - user_id: id -> user.id
+
+- object: device_registration
+  schema:
+    - device_token: string
+    - user_id: string
+    - platform: string
+    - registered_at: date

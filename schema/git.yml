@@ -1,43 +1,43 @@
-- name: git_repository
+- object: git_repository
   id: [full_name]
   schema:
     - created_at: date = now()
     - default_branch: string = main #max(200)
     - description: string? #max(1000)
-    - full_name: string #required #unique #max(500)
+    - full_name: string #unique #max(500)
     - is_private: boolean = false
     - provider: github | gitlab | bitbucket | local = github
     - updated_at: date = now()
     - url: string? #url
-- name: git_branch
+- object: git_branch
   id: [repository_id, name]
   schema:
     - created_at: date = now()
     - is_protected: boolean = false
-    - name: string #required #max(200)
-    - repository_id: id #required -> git_repository.id
+    - name: string #max(200)
+    - repository_id: id -> git_repository.id
     - sha: string? #max(64)
 
-- name: git_commit
+- object: git_commit
   id: [repository_id, sha]
   schema:
     - author_email: string? #max(255)
     - author_name: string? #max(200)
     - committed_at: date = now()
     - message: string? #max(5000)
-    - repository_id: id #required -> git_repository.id
-    - sha: string #required #max(64)
+    - repository_id: id -> git_repository.id
+    - sha: string #max(64)
 
-- name: git_tag
+- object: git_tag
   id: [repository_id, name]
   schema:
     - created_at: date = now()
     - message: string? #max(2000)
-    - name: string #required #max(200)
-    - repository_id: id #required -> git_repository.id
-    - sha: string #required #max(64)
+    - name: string #max(200)
+    - repository_id: id -> git_repository.id
+    - sha: string #max(64)
 
-- name: github_repository
+- object: github_repository
   schema:
     - repo_id: int
     - name: string
@@ -50,19 +50,19 @@
     - created_at: date
     - updated_at: date
 
-- name: author
+- object: author
   schema:
     - name: string
     - email: string
     - date: date
 
-- name: committer
+- object: committer
   schema:
     - name: string
     - email: string
     - date: date
 
-- name: commit
+- object: commit
   schema:
     - sha: string
     - message: string
@@ -70,7 +70,7 @@
     - author: author
     - committer: committer
 
-- name: file_content
+- object: file_content
   schema:
     - name: string
     - path: string
@@ -80,14 +80,14 @@
     - content: string
     - encoding: string
 
-- name: webhook_config
+- object: webhook_config
   schema:
     - url: string
     - content_type: string
     - secret: string
     - insecure_ssl: string
 
-- name: github_issue
+- object: github_issue
   schema:
     - issue_number: int
     - title: string
@@ -100,7 +100,7 @@
     - created_at: date
     - updated_at: date
 
-- name: github_pull_request
+- object: github_pull_request
   schema:
     - pr_number: int
     - title: string
@@ -114,13 +114,13 @@
     - created_at: date
     - updated_at: date
 
-- name: github_branch
+- object: github_branch
   schema:
     - name: string
     - sha: string
     - protected: boolean
 
-- name: github_commit
+- object: github_commit
   schema:
     - sha: string
     - message: string
@@ -129,7 +129,7 @@
     - committer: committer
     - created_at: date
 
-- name: github_release
+- object: github_release
   schema:
     - release_id: int
     - tag_name: string

@@ -1,18 +1,18 @@
-- name: switch_toggled_on
+- event: switch_toggled_on
   schema:
     switch_id: id #required
     switch_name: string?
     switch_value: string?
     toggled_at: date = now()
 
-- name: switch_toggled_off
+- event: switch_toggled_off
   schema:
     switch_id: id #required
     switch_name: string?
     switch_value: string?
     toggled_at: date = now()
 
-- name: switch_changed
+- event: switch_changed
   schema:
     switch_id: id #required
     switch_name: string?
@@ -20,7 +20,7 @@
     is_checked: boolean #required
     changed_at: date = now()
 
-- name: switch_group_changed
+- event: switch_group_changed
   schema:
     group_id: id #required
     group_name: string?

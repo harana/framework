@@ -1,4 +1,4 @@
-- name: image
+- object: image
   schema:
     - blob_id: id? -> blob_object.id
     - color_space: string? #max(20)
@@ -7,32 +7,32 @@
     - created_by: id? -> user.id
     - format: jpeg | png | webp | avif | tiff | gif = jpeg
     - has_alpha: boolean = false
-    - height: int #required #min(1)
+    - height: int #min(1)
     - orientation: int = 1 #min(1) #max(8)
-    - size: int #required #min(0)
+    - size: int #min(0)
     - updated_at: date = now()
-    - width: int #required #min(1)
+    - width: int #min(1)
 
-- name: image_variant
+- object: image_variant
   id: [image_id, variant_type]
   schema:
     - blob_id: id? -> blob_object.id
     - created_at: date = now()
     - format: jpeg | png | webp | avif = webp
-    - height: int #required #min(1)
-    - image_id: id #required -> image.id
+    - height: int #min(1)
+    - image_id: id -> image.id
     - quality: int = 80 #min(1) #max(100)
-    - size: int #required #min(0)
+    - size: int #min(0)
     - variant_type: thumbnail | small | medium | large | original = original
-    - width: int #required #min(1)
+    - width: int #min(1)
 
-- name: image_operation
+- object: image_operation
   id: [image_id, created_at]
   schema:
     - completed_at: date?
     - created_at: date = now()
     - error_message: string? #max(1000)
-    - image_id: id #required -> image.id
+    - image_id: id -> image.id
     - operation: resize | crop | compress | rotate | flip | blur | sharpen | convert | watermark | thumbnail = resize
     - parameters: string? # json
     - status: pending | running | completed | failed = pending

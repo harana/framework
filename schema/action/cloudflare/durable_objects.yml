@@ -1,0 +1,199 @@
+- action: id_from_name
+  inputs:
+    name: string
+    namespace: string
+  outputs:
+    id: string
+
+- action: id_from_string
+  inputs:
+    id: string
+    namespace: string
+  outputs:
+    id: string
+
+- action: new_unique_id
+  inputs:
+    jurisdiction: string
+    namespace: string
+  outputs:
+    id: string
+
+- action: get_stub
+  inputs:
+    id: string
+    namespace: string
+  outputs:
+    stub: durable_object_stub
+
+- action: fetch
+  inputs:
+    body: any
+    headers: headers
+    id: string
+    method: get | post | put | patch | delete | head | options = get
+    namespace: string
+    url: string
+  outputs:
+    body: any
+    headers: headers
+    status_code: int
+
+- action: storage_get
+  inputs:
+    key: string
+  outputs:
+    found: boolean
+    value: any
+
+- action: storage_get_multiple
+  inputs:
+    keys: list[string]
+  outputs:
+    values: any
+
+- action: storage_put
+  inputs:
+    key: string
+    value: any
+  outputs:
+    success: boolean
+
+- action: storage_put_multiple
+  inputs:
+    entries: any
+  outputs:
+    success: boolean
+
+- action: storage_delete
+  inputs:
+    key: string
+  outputs:
+    deleted: boolean
+
+- action: storage_delete_multiple
+  inputs:
+    keys: list[string]
+  outputs:
+    deleted_count: int
+
+- action: storage_delete_all
+  outputs:
+    success: boolean
+
+- action: storage_list
+  inputs:
+    end: string
+    limit: int
+    prefix: string
+    reverse: boolean = false
+    start: string
+  outputs:
+    entries: any
+
+- action: storage_transaction
+  inputs:
+    closure: any
+  outputs:
+    result: any
+
+- action: sql_exec
+  inputs:
+    params: list[any]
+    sql: string
+  outputs:
+    changes: int
+    results: list[any]
+    rows_read: int
+    rows_written: int
+
+- action: set_alarm
+  inputs:
+    scheduled_time: date
+  outputs:
+    success: boolean
+
+- action: get_alarm
+  outputs:
+    scheduled_time: date
+
+- action: delete_alarm
+  outputs:
+    success: boolean
+
+- action: accept_websocket
+  inputs:
+    tags: list[string]
+  outputs:
+    success: boolean
+
+- action: get_websockets
+  inputs:
+    tag: string
+  outputs:
+    websockets: list[web_socket]
+
+- action: set_websocket_auto_response
+  inputs:
+    request: string
+    response: string
+  outputs:
+    success: boolean
+
+- action: hibernate_websocket
+  inputs:
+    websocket: web_socket
+  outputs:
+    success: boolean
+
+- object: namespace
+  id: [account_id, namespace_name]
+  schema:
+    - account_id: string #max(50)
+    - class_name: string #max(255)
+    - created_at: date = now()
+    - namespace_id: string? #unique #max(255)
+    - namespace_name: string #unique #max(255)
+    - script_name: string? #max(255)
+    - updated_at: date = now()
+
+- object: instance
+  id: [namespace_id, object_id]
+  schema:
+    - created_at: date = now()
+    - has_storage: boolean = false
+    - jurisdiction: string? #max(50)
+    - namespace_id: id -> cf_durable_object_namespace.id
+    - object_id: string #unique #max(255)
+    - object_name: string? #max(255)
+    - updated_at: date = now()
+
+- object: storage_entry
+  id: [instance_id, key]
+  schema:
+    - created_at: date = now()
+    - instance_id: id -> cf_durable_object_instance.id
+    - key: string #max(2048)
+    - updated_at: date = now()
+    - value: string? # json
+
+- object: alarm
+  id: [instance_id]
+  schema:
+    - created_at: date = now()
+    - instance_id: id -> cf_durable_object_instance.id
+    - scheduled_time: date
+    - status: scheduled | triggered | cancelled = scheduled
+    - updated_at: date = now()
+
+- object: websocket
+  id: [instance_id, websocket_id]
+  schema:
+    - accepted_at: date = now()
+    - auto_response_request: string? #max(500)
+    - auto_response_value: string? #max(500)
+    - instance_id: id -> cf_durable_object_instance.id
+    - is_hibernated: boolean = false
+    - status: open | closed = open
+    - tags: string? # json list
+    - websocket_id: string #unique #max(255)

@@ -1,11 +1,11 @@
-- name: parse
+- action: parse
   inputs:
     data: string #required
     fragment: boolean = false
   outputs:
     result: html_dom
 
-- name: sanitize
+- action: sanitize
   inputs:
     allowed_attributes: html_allowed_attributes
     allowed_tags: list[string]
@@ -14,7 +14,7 @@
   outputs:
     html: string
 
-- name: extract_text
+- action: extract_text
   inputs:
     data: string #required
     preserve_whitespace: boolean = false
@@ -22,7 +22,7 @@
   outputs:
     text: string
 
-- name: css_select
+- action: css_select
   inputs:
     attribute: string
     data: string #required
@@ -30,7 +30,7 @@
   outputs:
     results: list[any]
 
-- name: minify
+- action: minify
   inputs:
     collapse_whitespace: boolean = true
     data: string #required
@@ -40,7 +40,7 @@
   outputs:
     html: string
 
-- name: html_document
+- object: html_document
   class:
     content: string
     title: string
@@ -48,24 +48,24 @@
     head: html_element
     body: html_element
 
-- name: html_dom
+- object: html_dom
   class:
     document_type: string
     root: html_element
 
-- name: html_element
+- object: html_element
   class:
     tag_name: string
     attributes: map[string, string]
     children: list[html_node]
     text_content: string
 
-- name: html_node
+- object: html_node
   class:
     node_type: string
     value: any
 
-- name: html_allowed_attributes
+- object: html_allowed_attributes
   class:
     global: list[string]
     per_tag: map[string, list[string]]

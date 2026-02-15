@@ -1,11 +1,11 @@
-- name: read
+- action: read
   inputs:
     mode: text | binary = text
     path: string #required
   outputs:
     content: string | bytes
 
-- name: write
+- action: write
   inputs:
     content: string | bytes #required
     mode: text | binary = text
@@ -14,13 +14,13 @@
   outputs:
     success: boolean
 
-- name: delete
+- action: delete
   inputs:
     path: string #required
   outputs:
     success: boolean
 
-- name: copy
+- action: copy
   inputs:
     from: string #required
     overwrite: boolean = false
@@ -28,7 +28,7 @@
   outputs:
     success: boolean
 
-- name: move
+- action: move
   inputs:
     from: string #required
     overwrite: boolean = false
@@ -36,13 +36,13 @@
   outputs:
     success: boolean
 
-- name: exists
+- action: exists
   inputs:
     path: string #required
   outputs:
     exists: boolean
 
-- name: info
+- action: info
   inputs:
     path: string #required
   outputs:
@@ -52,7 +52,7 @@
     permissions: string
     size: int
 
-- name: list_directory
+- action: list_directory
   inputs:
     path: string #required
     pattern: string = "*"
@@ -60,21 +60,21 @@
   outputs:
     files: list[string]
 
-- name: create_directory
+- action: create_directory
   inputs:
     path: string #required
     recursive: boolean = true
   outputs:
     success: boolean
 
-- name: delete_directory
+- action: delete_directory
   inputs:
     path: string #required
     recursive: boolean = false
   outputs:
     success: boolean
 
-- name: file
+- object: file
   class:
     path: string
     name: string

@@ -1,0 +1,176 @@
+- action: validate
+  inputs:
+    data: form_data
+    form_id: string
+    strict: boolean = true
+  outputs:
+    errors: list[form_validation_error]
+    valid: boolean
+
+- action: submit
+  inputs:
+    data: form_data
+    form_id: string
+    validate: boolean = true
+  outputs:
+    errors: list[form_validation_error]
+    submission_id: string
+    success: boolean
+
+- action: get
+  inputs:
+    form_id: string
+  outputs:
+    fields: list[form_field]
+    metadata: form_metadata
+    validation_rules: form_validation_rules
+
+- action: get_submission
+  inputs:
+    submission_id: string
+  outputs:
+    data: form_data
+    form_id: string
+    status: string
+    submitted_at: date
+
+- action: list_submissions
+  inputs:
+    end_date: date
+    form_id: string
+    limit: int = 100
+    offset: int = 0
+    start_date: date
+    status: string
+  outputs:
+    submissions: list[form_submission_info]
+    total: int
+
+- action: update_submission
+  inputs:
+    data: form_data
+    submission_id: string
+    validate: boolean = true
+  outputs:
+    errors: list[form_validation_error]
+    success: boolean
+
+- action: delete_submission
+  inputs:
+    submission_id: string
+  outputs:
+    success: boolean
+
+- action: export_submissions
+  inputs:
+    end_date: date
+    form_id: string
+    format: csv | json | xlsx = csv
+    start_date: date
+  outputs:
+    content: bytes
+    count: int
+    filename: string
+
+- object: submission
+  class:
+    submission_id: string
+    form_id: string
+    data: form_data
+    status: string
+    submitted_at: date
+    updated_at: date
+
+- object: data
+  class:
+    values: map[string, any]
+
+- object: validation_error
+  class:
+    field: string
+    message: string
+    code: string
+
+- object: field
+  class:
+    name: string
+    type: string
+    label: string
+    required: boolean
+    options: list[string]
+
+- object: metadata
+  class:
+    title: string
+    description: string
+    version: string
+
+- object: validation_rules
+  class:
+    rules: map[string, any]
+
+- object: submission_info
+  class:
+    submission_id: string
+    form_id: string
+    status: string
+    submitted_at: date
+
+- object: form
+  id: [slug]
+  schema:
+    - created_at: date = now()
+    - description: string? #max(1000)
+    - is_active: boolean = true
+    - slug: string #unique #lowercase
+    - updated_at: date = now()
+
+- object: field
+  id: [form_id, name]
+  schema:
+    - default_value: string?
+    - form_id: id -> form.id
+    - is_required: boolean = false
+    - label: string #max(200)
+    - options: string?
+    - placeholder: string? #max(200)
+    - sort_order: int = 0
+    - type: text | email | number | date | select | checkbox | radio | textarea | file = text
+    - validation_rules: string?
+
+- object: submission
+  id: [form_id, created_at, submitted_by]
+  schema:
+    - created_at: date = now()
+    - data: string
+    - ip_address: string? #max(45)
+    - status: pending | reviewed | approved | rejected = pending
+    - submitted_by: id? -> user.id
+    - user_agent: string? #max(500)
+
+- object: data
+  schema:
+    - values: map[string, any]
+
+- object: validation_error
+  schema:
+    - field: string
+    - message: string
+    - code: string
+
+- object: metadata
+  schema:
+    - title: string
+    - description: string
+    - version: string
+
+- object: validation_rules
+  schema:
+    - rules: map[string, any]
+
+- object: submission_info
+  schema:
+    - submission_id: string
+    - form_id: string
+    - status: string
+    - submitted_at: date

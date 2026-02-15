@@ -1,4 +1,4 @@
-- name: create_schedule
+- action: create_schedule
   inputs:
     cron_expression: string #required
     description: string
@@ -12,7 +12,7 @@
     schedule_id: string
     success: boolean
 
-- name: update_schedule
+- action: update_schedule
   inputs:
     cron_expression: string
     description: string
@@ -26,14 +26,14 @@
     schedule_id: string
     success: boolean
 
-- name: delete_schedule
+- action: delete_schedule
   inputs:
     schedule_id: string #required
   outputs:
     schedule_id: string
     success: boolean
 
-- name: enable_schedule
+- action: enable_schedule
   inputs:
     schedule_id: string #required
   outputs:
@@ -42,7 +42,7 @@
     schedule_id: string
     success: boolean
 
-- name: disable_schedule
+- action: disable_schedule
   inputs:
     schedule_id: string #required
   outputs:
@@ -50,7 +50,7 @@
     schedule_id: string
     success: boolean
 
-- name: get_schedule
+- action: get_schedule
   inputs:
     schedule_id: string #required
   outputs:
@@ -64,7 +64,7 @@
     schedule_id: string
     timezone: string
 
-- name: list_schedules
+- action: list_schedules
   inputs:
     enabled: boolean
     limit: int = 100
@@ -74,7 +74,7 @@
     schedules: list[schedule_info]
     total: int
 
-- name: trigger_schedule
+- action: trigger_schedule
   inputs:
     schedule_id: string #required
   outputs:
@@ -83,7 +83,7 @@
     success: boolean
     triggered_at: int
 
-- name: get_next_run
+- action: get_next_run
   inputs:
     count: int = 1
     schedule_id: string #required
@@ -91,7 +91,7 @@
     next_runs: list[integer]
     schedule_id: string
 
-- name: validate_cron
+- action: validate_cron
   inputs:
     cron_expression: string #required
     timezone: string = utc
@@ -100,7 +100,7 @@
     next_run: int
     valid: boolean
 
-- name: create_one_time
+- action: create_one_time
   inputs:
     description: string
     metadata: schedule_metadata
@@ -112,7 +112,7 @@
     schedule_id: string
     success: boolean
 
-- name: pause_schedule
+- action: pause_schedule
   inputs:
     resume_at: int
     schedule_id: string #required
@@ -122,7 +122,7 @@
     schedule_id: string
     success: boolean
 
-- name: resume_schedule
+- action: resume_schedule
   inputs:
     schedule_id: string #required
   outputs:
@@ -131,7 +131,7 @@
     schedule_id: string
     success: boolean
 
-- name: get_schedule_history
+- action: get_schedule_history
   inputs:
     end_date: int
     limit: int = 100
@@ -142,7 +142,7 @@
     schedule_id: string
     total: int
 
-- name: get_schedule_stats
+- action: get_schedule_stats
   inputs:
     end_date: int
     schedule_id: string #required
@@ -155,7 +155,7 @@
     successful_executions: int
     total_executions: int
 
-- name: bulk_enable
+- action: bulk_enable
   inputs:
     schedule_ids: list[string] #required
   outputs:
@@ -163,7 +163,7 @@
     results: list[schedule_bulk_result]
     successful: int
 
-- name: bulk_disable
+- action: bulk_disable
   inputs:
     schedule_ids: list[string] #required
   outputs:
@@ -171,7 +171,7 @@
     results: list[schedule_bulk_result]
     successful: int
 
-- name: create_interval
+- action: create_interval
   inputs:
     description: string
     enabled: boolean = true
@@ -184,7 +184,7 @@
     schedule_id: string
     success: boolean
 
-- name: update_action
+- action: update_action
   inputs:
     action_config: schedule_action_config #required
     action_type: webhook | function | job #required
@@ -193,7 +193,7 @@
     schedule_id: string
     success: boolean
 
-- name: schedule
+- object: schedule
   class:
     schedule_id: string
     name: string
@@ -204,11 +204,11 @@
     last_run: date
     metadata: schedule_metadata
 
-- name: schedule_metadata
+- object: schedule_metadata
   class:
     values: map[string, any]
 
-- name: schedule_info
+- object: schedule_info
   class:
     schedule_id: string
     name: string
@@ -217,7 +217,7 @@
     next_run: int
     last_run: int
 
-- name: schedule_execution
+- object: schedule_execution
   class:
     execution_id: string
     schedule_id: string
@@ -227,13 +227,13 @@
     duration_ms: int
     error: string
 
-- name: schedule_bulk_result
+- object: schedule_bulk_result
   class:
     schedule_id: string
     success: boolean
     error: string
 
-- name: schedule_action_config
+- object: schedule_action_config
   class:
     url: string
     method: string

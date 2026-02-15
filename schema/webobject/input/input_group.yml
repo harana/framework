@@ -1,4 +1,4 @@
-- name: input_group
+- webobject: input_group
   attributes:
     - icon: string? #max(100)
-    - input_id: id #required -> ui_input.id
+    - input_id: id -> ui_input.id

@@ -1,17 +1,17 @@
-- name: description_list_item_clicked
+- event: description_list_item_clicked
   schema:
     list_id: id #required
     item_term: string?
     item_details: string?
     clicked_at: date = now()
 
-- name: description_list_item_expanded
+- event: description_list_item_expanded
   schema:
     list_id: id #required
     item_term: string?
     expanded_at: date = now()
 
-- name: description_list_item_collapsed
+- event: description_list_item_collapsed
   schema:
     list_id: id #required
     item_term: string?

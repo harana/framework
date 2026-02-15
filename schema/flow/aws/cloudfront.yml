@@ -1,4 +1,4 @@
-- name: create_distribution
+- action: create_distribution
   inputs:
     origin_domain_name: string #required
     origin_id: string #required
@@ -21,7 +21,7 @@
     status: string
     success: boolean
 
-- name: get_distribution
+- action: get_distribution
   inputs:
     distribution_id: string #required
   outputs:
@@ -37,7 +37,7 @@
     price_class: string
     last_modified_time: date
 
-- name: update_distribution
+- action: update_distribution
   inputs:
     distribution_id: string #required
     if_match: string #required
@@ -53,14 +53,14 @@
     status: string
     success: boolean
 
-- name: delete_distribution
+- action: delete_distribution
   inputs:
     distribution_id: string #required
     if_match: string #required
   outputs:
     success: boolean
 
-- name: list_distributions
+- action: list_distributions
   inputs:
     max_items: int = 100
     marker: string
@@ -69,7 +69,7 @@
     next_marker: string
     is_truncated: boolean
 
-- name: create_invalidation
+- action: create_invalidation
   inputs:
     distribution_id: string #required
     paths: list[string] #required
@@ -80,7 +80,7 @@
     create_time: date
     success: boolean
 
-- name: get_invalidation
+- action: get_invalidation
   inputs:
     distribution_id: string #required
     invalidation_id: string #required
@@ -90,7 +90,7 @@
     create_time: date
     paths: list[string]
 
-- name: list_invalidations
+- action: list_invalidations
   inputs:
     distribution_id: string #required
     max_items: int = 100
@@ -100,7 +100,7 @@
     next_marker: string
     is_truncated: boolean
 
-- name: create_cache_policy
+- action: create_cache_policy
   inputs:
     name: string #required
     default_ttl: int = 86400
@@ -113,7 +113,7 @@
     etag: string
     success: boolean
 
-- name: get_cache_policy
+- action: get_cache_policy
   inputs:
     cache_policy_id: string #required
   outputs:
@@ -125,14 +125,14 @@
     parameters_in_cache_key: cache_key_parameters
     etag: string
 
-- name: delete_cache_policy
+- action: delete_cache_policy
   inputs:
     cache_policy_id: string #required
     if_match: string #required
   outputs:
     success: boolean
 
-- name: list_cache_policies
+- action: list_cache_policies
   inputs:
     type: managed | custom = custom
     max_items: int = 100
@@ -141,7 +141,7 @@
     cache_policies: list[cache_policy]
     next_marker: string
 
-- name: create_origin_request_policy
+- action: create_origin_request_policy
   inputs:
     name: string #required
     headers_config: headers_config
@@ -153,7 +153,7 @@
     etag: string
     success: boolean
 
-- name: create_response_headers_policy
+- action: create_response_headers_policy
   inputs:
     name: string #required
     cors_config: cors_config
@@ -165,7 +165,7 @@
     etag: string
     success: boolean
 
-- name: create_function
+- action: create_function
   inputs:
     name: string #required
     runtime: cloudfront-js-1.0 | cloudfront-js-2.0 = cloudfront-js-2.0
@@ -178,7 +178,7 @@
     status: string
     success: boolean
 
-- name: publish_function
+- action: publish_function
   inputs:
     name: string #required
     if_match: string #required
@@ -187,21 +187,21 @@
     status: string
     success: boolean
 
-- name: get_distribution_config
+- action: get_distribution_config
   inputs:
     distribution_id: string #required
   outputs:
     distribution_config: distribution_config
     etag: string
 
-- name: tag_resource
+- action: tag_resource
   inputs:
     resource_arn: string #required
     tags: cloud_front_tags #required
   outputs:
     success: boolean
 
-- name: list_tags_for_resource
+- action: list_tags_for_resource
   inputs:
     resource_arn: string #required
   outputs:

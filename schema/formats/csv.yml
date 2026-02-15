@@ -1,4 +1,4 @@
-- name: csv_document
+- object: csv_document
   schema:
     - column_count: int = 0 #min(0)
     - created_at: date = now()
@@ -10,41 +10,41 @@
     - source_path: string? #max(2000)
     - updated_at: date = now()
 
-- name: csv_column_schema
+- object: csv_column_schema
   id: [document_id, name]
   schema:
-    - document_id: id #required -> csv_document.id
+    - document_id: id -> csv_document.id
     - is_required: boolean = false
-    - name: string #required #max(255)
+    - name: string #max(255)
     - pattern: string? #max(500)
     - sort_order: int = 0
     - type: string | int | float | bool | date = string
 
-- name: csv_validation_result
+- object: csv_validation_result
   id: [document_id, validated_at]
   schema:
-    - document_id: id #required -> csv_document.id
+    - document_id: id -> csv_document.id
     - error_count: int = 0 #min(0)
     - errors: string? # json array
     - is_valid: boolean = false
     - validated_at: date = now()
 
-- name: csv_row
+- object: csv_row
   schema:
     - values: map[string, string]
 
-- name: csv_transform_operation
+- object: csv_transform_operation
   schema:
     - operation: string
     - column: string
     - parameters: map[string, any]
 
-- name: csv_schema
+- object: csv_schema
   schema:
     - columns: list[csv_column_schema]
     - allow_extra_columns: boolean
 
-- name: csv_validation_error
+- object: csv_validation_error
   schema:
     - row: int
     - column: string

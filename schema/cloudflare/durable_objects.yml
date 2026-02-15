@@ -1,50 +1,50 @@
-- name: cloudflare_durable_object_namespace
+- object: cloudflare_durable_object_namespace
   id: [account_id, namespace_name]
   schema:
-    - account_id: string #required #max(50)
-    - class_name: string #required #max(255)
+    - account_id: string #max(50)
+    - class_name: string #max(255)
     - created_at: date = now()
     - namespace_id: string? #unique #max(255)
-    - namespace_name: string #required #unique #max(255)
+    - namespace_name: string #unique #max(255)
     - script_name: string? #max(255)
     - updated_at: date = now()
 
-- name: cloudflare_durable_object_instance
+- object: cloudflare_durable_object_instance
   id: [namespace_id, object_id]
   schema:
     - created_at: date = now()
     - has_storage: boolean = false
     - jurisdiction: string? #max(50)
-    - namespace_id: id #required -> cf_durable_object_namespace.id
-    - object_id: string #required #unique #max(255)
+    - namespace_id: id -> cf_durable_object_namespace.id
+    - object_id: string #unique #max(255)
     - object_name: string? #max(255)
     - updated_at: date = now()
 
-- name: cloudflare_durable_object_storage_entry
+- object: cloudflare_durable_object_storage_entry
   id: [instance_id, key]
   schema:
     - created_at: date = now()
-    - instance_id: id #required -> cf_durable_object_instance.id
-    - key: string #required #max(2048)
+    - instance_id: id -> cf_durable_object_instance.id
+    - key: string #max(2048)
     - updated_at: date = now()
     - value: string? # json
-- name: cloudflare_durable_object_alarm
+- object: cloudflare_durable_object_alarm
   id: [instance_id]
   schema:
     - created_at: date = now()
-    - instance_id: id #required -> cf_durable_object_instance.id
+    - instance_id: id -> cf_durable_object_instance.id
     - scheduled_time: date #required
     - status: scheduled | triggered | cancelled = scheduled
     - updated_at: date = now()
 
-- name: cloudflare_durable_object_websocket
+- object: cloudflare_durable_object_websocket
   id: [instance_id, websocket_id]
   schema:
     - accepted_at: date = now()
     - auto_response_request: string? #max(500)
     - auto_response_value: string? #max(500)
-    - instance_id: id #required -> cf_durable_object_instance.id
+    - instance_id: id -> cf_durable_object_instance.id
     - is_hibernated: boolean = false
     - status: open | closed = open
     - tags: string? # json list
-    - websocket_id: string #required #unique #max(255)
+    - websocket_id: string #unique #max(255)

@@ -1,18 +1,18 @@
-- name: listbox_opened
+- event: listbox_opened
   schema:
     listbox_id: id #required
     listbox_name: string?
     options_count: int? #min(0)
     opened_at: date = now()
 
-- name: listbox_closed
+- event: listbox_closed
   schema:
     listbox_id: id #required
     listbox_name: string?
     close_reason: selection | blur | escape = blur
     closed_at: date = now()
 
-- name: listbox_option_selected
+- event: listbox_option_selected
   schema:
     listbox_id: id #required
     listbox_name: string?
@@ -20,14 +20,14 @@
     option_label: string?
     selected_at: date = now()
 
-- name: listbox_option_highlighted
+- event: listbox_option_highlighted
   schema:
     listbox_id: id #required
     option_value: string?
     option_label: string?
     highlighted_at: date = now()
 
-- name: listbox_searched
+- event: listbox_searched
   schema:
     listbox_id: id #required
     listbox_name: string?

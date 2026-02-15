@@ -1,5 +1,5 @@
-- name: navbar_spacer
+- webobject: navbar_spacer
   id: [navbar_id, name]
   attributes:
-    - navbar_id: id #required -> ui_navbar.id
+    - navbar_id: id -> ui_navbar.id
     - order: int = 0 #min(0)

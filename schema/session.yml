@@ -1,4 +1,4 @@
-- name: session
+- object: session
   id: [token]
   schema:
     - created_at: date = now()
@@ -6,32 +6,32 @@
     - ip_address: string? #max(45)
     - is_active: boolean = true
     - last_activity_at: date = now()
-    - token: string #required #unique #max(500)
+    - token: string #unique #max(500)
     - user_agent: string? #max(500)
-    - user_id: id #required -> user.id
-- name: refresh_token
+    - user_id: id -> user.id
+- object: refresh_token
   id: [token]
   schema:
     - created_at: date = now()
     - expires_at: date #required
     - is_revoked: boolean = false
     - revoked_at: date?
-    - session_id: id #required -> session.id
-    - token: string #required #unique #max(500)
+    - session_id: id -> session.id
+    - token: string #unique #max(500)
 
-- name: session_activity
+- object: session_activity
   id: [session_id, action, created_at]
   schema:
-    - method: string #required #max(100)
+    - method: string #max(100)
     - created_at: date = now()
     - ip_address: string? #max(45)
     - metadata: string?
-    - session_id: id #required -> session.id
-- name: session_data
+    - session_id: id -> session.id
+- object: session_data
   schema:
     - values: map[string, any]
 
-- name: session_info
+- object: session_info
   schema:
     - session_id: string
     - user_id: string

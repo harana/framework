@@ -1,4 +1,4 @@
-- name: register
+- action: register
   inputs:
     active: boolean = true
     description: string
@@ -10,7 +10,7 @@
     success: boolean
     webhook_id: string
 
-- name: update
+- action: update
   inputs:
     active: boolean
     description: string
@@ -21,13 +21,13 @@
   outputs:
     success: boolean
 
-- name: unregister
+- action: unregister
   inputs:
     webhook_id: string #required
   outputs:
     success: boolean
 
-- name: trigger
+- action: trigger
   inputs:
     event: string #required
     payload: any #required
@@ -36,7 +36,7 @@
     success: boolean
     triggered_count: int
 
-- name: get
+- action: get
   inputs:
     webhook_id: string #required
   outputs:
@@ -46,7 +46,7 @@
     events: list[string]
     url: string
 
-- name: lists
+- action: lists
   inputs:
     active_only: boolean = false
     event: string
@@ -56,7 +56,7 @@
     total: int
     webhooks: list[webhook]
 
-- name: test
+- action: test
   inputs:
     payload: any
     webhook_id: string #required
@@ -66,7 +66,7 @@
     status_code: int
     success: boolean
 
-- name: get_deliveries
+- action: get_deliveries
   inputs:
     limit: int = 50
     offset: int = 0
@@ -76,14 +76,14 @@
     deliveries: list[webhook_delivery]
     total: int
 
-- name: retry_delivery
+- action: retry_delivery
   inputs:
     delivery_id: string #required
   outputs:
     status_code: int
     success: boolean
 
-- name: verify_signature
+- action: verify_signature
   inputs:
     algorithm: sha256 | sha512 = sha256
     payload: string #required
@@ -92,14 +92,14 @@
   outputs:
     valid: boolean
 
-- name: rotate_secret
+- action: rotate_secret
   inputs:
     webhook_id: string #required
   outputs:
     new_secret: string
     success: boolean
 
-- name: webhook
+- object: webhook
   class:
     webhook_id: string
     url: string
@@ -109,7 +109,7 @@
     description: string
     created_at: date
 
-- name: webhook_delivery
+- object: webhook_delivery
   class:
     delivery_id: string
     webhook_id: string

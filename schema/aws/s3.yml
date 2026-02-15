@@ -1,9 +1,9 @@
-- name: aws_s3_bucket
+- object: aws_s3_bucket
   id: [account_id, bucket_name]
   schema:
-    - account_id: string #required #max(20)
+    - account_id: string #max(20)
     - acl: private | public_read | public_read_write | authenticated_read = private
-    - bucket_name: string #required #unique #max(63)
+    - bucket_name: string #unique #max(63)
     - cors_enabled: boolean = false
     - created_at: date = now()
     - encryption_algorithm: none | aes256 | aws_kms = none
@@ -15,15 +15,15 @@
     - tags: string? # json
     - updated_at: date = now()
 
-- name: aws_s3_object
+- object: aws_s3_object
   id: [bucket_id, key]
   schema:
-    - bucket_id: id #required -> aws_s3_bucket.id
+    - bucket_id: id -> aws_s3_bucket.id
     - content_type: string? #max(255)
     - created_at: date = now()
     - etag: string? #max(255)
     - is_delete_marker: boolean = false
-    - key: string #required #max(1024)
+    - key: string #max(1024)
     - last_modified: date?
     - metadata: string? # json
     - size: int? #min(0)
@@ -32,23 +32,23 @@
     - updated_at: date = now()
     - version_id: string? #max(255)
 
-- name: aws_s3_bucket_policy
+- object: aws_s3_bucket_policy
   id: [bucket_id]
   schema:
-    - bucket_id: id #required -> aws_s3_bucket.id
+    - bucket_id: id -> aws_s3_bucket.id
     - created_at: date = now()
     - policy_document: string #required
     - updated_at: date = now()
 
-- name: aws_s3_multipart_upload
+- object: aws_s3_multipart_upload
   id: [bucket_id, key, upload_id]
   schema:
-    - bucket_id: id #required -> aws_s3_bucket.id
+    - bucket_id: id -> aws_s3_bucket.id
     - completed_at: date?
     - content_type: string? #max(255)
     - created_at: date = now()
-    - key: string #required #max(1024)
+    - key: string #max(1024)
     - metadata: string? # json
     - status: initiated | in_progress | completed | aborted = initiated
     - storage_class: string? #max(50)
-    - upload_id: string #required #unique #max(255)
+    - upload_id: string #unique #max(255)

@@ -1,4 +1,4 @@
-- name: random_seed
+- object: random_seed
   schema:
     - algorithm: string = default #max(50)
     - created_at: date = now()

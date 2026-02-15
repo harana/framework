@@ -1,4 +1,4 @@
-- name: emit_event
+- action: emit_event
   inputs:
     channel: string #required
     event_type: string #required
@@ -8,7 +8,7 @@
     event_id: string
     success: boolean
 
-- name: subscribe_channel
+- action: subscribe_channel
   inputs:
     channel: string #required
     event_types: list[string]
@@ -17,13 +17,13 @@
     subscription_id: string
     success: boolean
 
-- name: unsubscribe_channel
+- action: unsubscribe_channel
   inputs:
     subscription_id: string #required
   outputs:
     success: boolean
 
-- name: broadcast_event
+- action: broadcast_event
   inputs:
     event_type: string #required
     exclude_channels: list[string]
@@ -33,7 +33,7 @@
     event_id: string
     recipients: int
 
-- name: get_event
+- action: get_event
   inputs:
     event_id: string #required
   outputs:
@@ -43,7 +43,7 @@
     metadata: event_metadata
     payload: any
 
-- name: list_events
+- action: list_events
   inputs:
     channel: string #required
     end_time: date
@@ -54,14 +54,14 @@
     events: list[event_record]
     total: int
 
-- name: acknowledge_event
+- action: acknowledge_event
   inputs:
     event_id: string #required
     subscription_id: string #required
   outputs:
     success: boolean
 
-- name: replay_events
+- action: replay_events
   inputs:
     channel: string #required
     end_time: date
@@ -71,7 +71,7 @@
     events_replayed: int
     success: boolean
 
-- name: event
+- object: event
   class:
     event_id: string
     event_type: string
@@ -80,11 +80,11 @@
     metadata: event_metadata
     created_at: date
 
-- name: event_metadata
+- object: event_metadata
   class:
     values: map[string, any]
 
-- name: event_record
+- object: event_record
   class:
     event_id: string
     event_type: string

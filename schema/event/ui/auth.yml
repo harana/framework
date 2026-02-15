@@ -1,4 +1,4 @@
-- name: login_attempted
+- event: login_attempted
   schema:
     login_method: email | username | phone | oauth = email
     provider: string?
@@ -6,27 +6,27 @@
     failure_reason: string?
     attempted_at: date = now()
 
-- name: logout_clicked
+- event: logout_clicked
   schema:
     user_id: id?
     session_id: id?
     logout_type: manual | timeout | forced = manual
     clicked_at: date = now()
 
-- name: password_reset_requested
+- event: password_reset_requested
   schema:
     identifier: string #required
     identifier_type: email | phone | username = email
     requested_at: date = now()
 
-- name: signup_initiated
+- event: signup_initiated
   schema:
     signup_method: email | phone | oauth = email
     provider: string?
     referral_source: string?
     initiated_at: date = now()
 
-- name: oauth_provider_selected
+- event: oauth_provider_selected
   schema:
     provider: google | github | facebook | apple | microsoft | twitter | linkedin #required
     context: login | signup | link = login

@@ -1,4 +1,4 @@
-- name: markdown_document
+- object: markdown_document
   schema:
     - content: string #required
     - created_at: date = now()
@@ -9,6 +9,6 @@
     - title: string? #max(500)
     - updated_at: date = now()
 
-- name: markdown_frontmatter
+- object: markdown_frontmatter
   schema:
     - data: map[string, any]

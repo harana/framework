@@ -1,4 +1,4 @@
-- name: field
+- webobject: field
   attributes:
     - description: string? #max(500)
     - error_message: string? #max(500)

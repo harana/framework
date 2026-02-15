@@ -1,34 +1,34 @@
-- name: approval_request
+- object: approval_request
   schema:
     - created_at: date = now()
     - description: string? #max(2000)
     - due_date: date?
     - metadata: string?
     - priority: low | normal | high | urgent = normal
-    - request_type: string #required #max(100)
-    - requester_id: id #required -> user.id
-    - resource_id: string #required #max(200)
-    - resource_type: string #required #max(100)
+    - request_type: string #max(100)
+    - requester_id: id -> user.id
+    - resource_id: string #max(200)
+    - resource_type: string #max(100)
     - status: pending | approved | rejected | cancelled | expired = pending
-    - title: string #required #max(500)
+    - title: string #max(500)
     - updated_at: date = now()
 
-- name: approval_approver
+- object: approval_approver
   id: [request_id, approver_id]
   schema:
-    - approver_id: id #required -> user.id
+    - approver_id: id -> user.id
     - comment: string? #max(2000)
     - decided_at: date?
     - is_required: boolean = true
     - reason: string? #max(2000)
-    - request_id: id #required -> approval_request.id
+    - request_id: id -> approval_request.id
     - status: pending | approved | rejected = pending
 
-- name: approval_history
+- object: approval_history
   id: [request_id, created_at]
   schema:
     - action: created | approved | rejected | cancelled | expired | approver_added | approver_removed = created
     - actor_id: id? -> user.id
     - comment: string? #max(2000)
     - created_at: date = now()
-    - request_id: id #required -> approval_request.id
+    - request_id: id -> approval_request.id

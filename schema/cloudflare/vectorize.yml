@@ -1,32 +1,32 @@
-- name: cloudflare_vectorize_index
+- object: cloudflare_vectorize_index
   id: [account_id, index_name]
   schema:
-    - account_id: string #required #max(50)
-    - binding: string #required #max(255)
-    - configured_dimensions: int #required #min(1)
+    - account_id: string #max(50)
+    - binding: string #max(255)
+    - configured_dimensions: int #min(1)
     - created_at: date = now()
     - description: string? #max(500)
-    - index_name: string #required #unique #max(255)
+    - index_name: string #unique #max(255)
     - metric: cosine | euclidean | dot_product = cosine
     - updated_at: date = now()
     - vectors_count: int = 0 #min(0)
 
-- name: cloudflare_vectorize_vector
+- object: cloudflare_vectorize_vector
   id: [index_id, vector_id]
   schema:
     - created_at: date = now()
-    - index_id: id #required -> cf_vectorize_index.id
+    - index_id: id -> cf_vectorize_index.id
     - metadata: string? # json
     - namespace: string? #max(255)
     - updated_at: date = now()
     - values: string? # json list of floats
-    - vector_id: string #required #max(255)
+    - vector_id: string #max(255)
 
-- name: cloudflare_vectorize_metadata_index
+- object: cloudflare_vectorize_metadata_index
   id: [index_id, property_name]
   schema:
     - created_at: date = now()
-    - index_id: id #required -> cf_vectorize_index.id
-    - property_name: string #required #max(255)
+    - index_id: id -> cf_vectorize_index.id
+    - property_name: string #max(255)
     - type: string | number | boolean = string
 

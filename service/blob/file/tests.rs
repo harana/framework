@@ -1,10 +1,11 @@
 use super::*;
-use crate::store::{BlobMetadata, BlobStore, ListOptions, PutOptions};
+use crate::model::{BlobMetadata, ListOptions, PutOptions};
+use crate::service::BlobService;
 use tempfile::TempDir;
 
-async fn make_store() -> (FileBlobStore, TempDir) {
+async fn make_store() -> (FileBlobService, TempDir) {
     let dir = TempDir::new().unwrap();
-    let store = FileBlobStore::new(dir.path()).await.unwrap();
+    let store = FileBlobService::new(dir.path()).await.unwrap();
     (store, dir)
 }
 

@@ -1,0 +1,99 @@
+- action: lookup
+  inputs:
+    ip: string
+  outputs:
+    city: string
+    country: string
+    latitude: float
+    longitude: float
+    region: string
+    timezone: string
+
+- action: distance
+  inputs:
+    from_lat: float
+    from_lon: float
+    to_lat: float
+    to_lon: float
+    unit: km | mi | M = km
+  outputs:
+    distance: float
+
+- action: geocode
+  inputs:
+    address: string
+  outputs:
+    city: string
+    country: string
+    latitude: float
+    longitude: float
+    region: string
+
+- action: reverse_geocode
+  inputs:
+    latitude: float
+    longitude: float
+  outputs:
+    address: geo_address
+    formatted_address: string
+
+- object: geo_location
+  class:
+    ip: string
+    latitude: float
+    longitude: float
+    city: string
+    region: string
+    country: string
+    timezone: string
+
+- object: geo_address
+  class:
+    street: string
+    city: string
+    region: string
+    postal_code: string
+    country: string
+
+- object: lookup
+  id: [ip_address]
+  schema:
+    - city: string? #max(200)
+    - country: string? #max(100)
+    - created_at: date = now()
+    - ip_address: string #max(45)
+    - latitude: decimal?
+    - longitude: decimal?
+    - region: string? #max(200)
+    - timezone: string? #max(50)
+
+- object: cache
+  id: [ip_address]
+  schema:
+    - city: string? #max(200)
+    - country: string? #max(100)
+    - expires_at: date?
+    - ip_address: string #max(45)
+    - latitude: decimal?
+    - longitude: decimal?
+    - looked_up_at: date = now()
+    - region: string? #max(200)
+    - timezone: string? #max(50)
+
+- object: geo_location
+  schema:
+    - ip: string
+    - latitude: float
+    - longitude: float
+    - city: string
+    - region: string
+    - country: string
+    - timezone: string
+
+- object: geo_address
+  schema:
+    - street: string
+    - city: string
+    - region: string
+    - postal_code: string
+    - country: string

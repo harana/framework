@@ -1,11 +1,11 @@
-- name: cloudflare_ai_model_run
+- event: cloudflare_ai_model_run
   schema:
     binding: string #required
     model: string #required
     stream: boolean = false
     run_at: date = now()
 
-- name: cloudflare_ai_text_generated
+- event: cloudflare_ai_text_generated
   schema:
     binding: string #required
     model: string #required
@@ -14,21 +14,21 @@
     stream: boolean = false
     generated_at: date = now()
 
-- name: cloudflare_ai_text_embedded
+- event: cloudflare_ai_text_embedded
   schema:
     binding: string #required
     model: string #required
-    text_count: int #required #min(1)
+    text_count: int #min(1)
     embedded_at: date = now()
 
-- name: cloudflare_ai_text_classified
+- event: cloudflare_ai_text_classified
   schema:
     binding: string #required
     model: string #required
     label_count: int?
     classified_at: date = now()
 
-- name: cloudflare_ai_translation_run
+- event: cloudflare_ai_translation_run
   schema:
     binding: string #required
     model: string #required
@@ -36,21 +36,21 @@
     target_lang: string #required
     translated_at: date = now()
 
-- name: cloudflare_ai_image_classified
+- event: cloudflare_ai_image_classified
   schema:
     binding: string #required
     model: string #required
     label_count: int?
     classified_at: date = now()
 
-- name: cloudflare_ai_object_detected
+- event: cloudflare_ai_object_detected
   schema:
     binding: string #required
     model: string #required
     detection_count: int?
     detected_at: date = now()
 
-- name: cloudflare_ai_image_generated
+- event: cloudflare_ai_image_generated
   schema:
     binding: string #required
     model: string #required
@@ -58,7 +58,7 @@
     height: int?
     generated_at: date = now()
 
-- name: cloudflare_ai_speech_recognized
+- event: cloudflare_ai_speech_recognized
   schema:
     binding: string #required
     model: string #required
@@ -66,26 +66,26 @@
     source_lang: string?
     recognized_at: date = now()
 
-- name: cloudflare_ai_speech_synthesized
+- event: cloudflare_ai_speech_synthesized
   schema:
     binding: string #required
     model: string #required
     synthesized_at: date = now()
 
-- name: cloudflare_ai_text_summarized
+- event: cloudflare_ai_text_summarized
   schema:
     binding: string #required
     model: string #required
     max_length: int?
     summarized_at: date = now()
 
-- name: cloudflare_ai_image_described
+- event: cloudflare_ai_image_described
   schema:
     binding: string #required
     model: string #required
     described_at: date = now()
 
-- name: cloudflare_ai_model_error
+- event: cloudflare_ai_model_error
   schema:
     binding: string #required
     model: string #required

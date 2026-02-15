@@ -1,14 +1,14 @@
-- name: file_document
+- object: file_document
   schema:
     - content_type: string? #max(100)
     - created_at: date = now()
     - is_directory: boolean = false
     - modified_at: date?
-    - path: string #required #max(2000)
+    - path: string #max(2000)
     - permissions: string? #max(20)
     - size: int = 0 #min(0)
 
-- name: file
+- object: file
   schema:
     - path: string
     - name: string

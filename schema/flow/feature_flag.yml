@@ -1,4 +1,4 @@
-- name: create_flag
+- action: create_flag
   inputs:
     default_variation: int = 0
     description: string
@@ -12,7 +12,7 @@
     key: string
     success: boolean
 
-- name: update_flag
+- action: update_flag
   inputs:
     description: string
     enabled: boolean
@@ -24,7 +24,7 @@
     flag_id: string
     success: boolean
 
-- name: toggle_flag
+- action: toggle_flag
   inputs:
     enabled: boolean #required
     flag_id: string #required
@@ -33,13 +33,13 @@
     flag_id: string
     success: boolean
 
-- name: delete_flag
+- action: delete_flag
   inputs:
     flag_id: string #required
   outputs:
     success: boolean
 
-- name: get_flag
+- action: get_flag
   inputs:
     flag_id: string #required
   outputs:
@@ -52,7 +52,7 @@
     updated_at: int
     variations: list[flag_variation]
 
-- name: list_flags
+- action: list_flags
   inputs:
     enabled: boolean
     limit: int = 100
@@ -62,7 +62,7 @@
     flags: list[feature_flag]
     total: int
 
-- name: evaluate_flag
+- action: evaluate_flag
   inputs:
     context: flag_evaluation_context
     flag_id: string #required
@@ -73,7 +73,7 @@
     reason: string
     variation: flag_variation
 
-- name: create_targeting_rule
+- action: create_targeting_rule
   inputs:
     conditions: list[flag_rule_condition] #required
     flag_id: string #required
@@ -85,7 +85,7 @@
     rule_id: string
     success: boolean
 
-- name: update_targeting_rule
+- action: update_targeting_rule
   inputs:
     conditions: list[flag_rule_condition]
     name: string
@@ -96,13 +96,13 @@
     rule_id: string
     success: boolean
 
-- name: delete_targeting_rule
+- action: delete_targeting_rule
   inputs:
     rule_id: string #required
   outputs:
     success: boolean
 
-- name: create_rollout
+- action: create_rollout
   inputs:
     flag_id: string #required
     percentages: map[string, integer] #required
@@ -112,7 +112,7 @@
     rollout_id: string
     success: boolean
 
-- name: update_rollout
+- action: update_rollout
   inputs:
     percentages: map[string, integer] #required
     rollout_id: string #required
@@ -120,7 +120,7 @@
     rollout_id: string
     success: boolean
 
-- name: get_evaluation_count
+- action: get_evaluation_count
   inputs:
     end_date: int
     flag_id: string #required
@@ -130,7 +130,7 @@
     total_evaluations: int
     variation_counts: map[string, integer]
 
-- name: create_environment
+- action: create_environment
   inputs:
     description: string
     key: string #required
@@ -140,7 +140,7 @@
     key: string
     success: boolean
 
-- name: clone_flag
+- action: clone_flag
   inputs:
     flag_id: string #required
     source_environment: string #required
@@ -149,7 +149,7 @@
     flag_id: string
     success: boolean
 
-- name: archive_flag
+- action: archive_flag
   inputs:
     flag_id: string #required
   outputs:
@@ -157,7 +157,7 @@
     flag_id: string
     success: boolean
 
-- name: restore_flag
+- action: restore_flag
   inputs:
     flag_id: string #required
   outputs:
@@ -165,7 +165,7 @@
     flag_id: string
     success: boolean
 
-- name: feature_flag
+- object: feature_flag
   class:
     flag_id: string
     key: string
@@ -178,18 +178,18 @@
     created_at: date
     updated_at: date
 
-- name: flag_variation
+- object: flag_variation
   class:
     name: string
     value: any
     description: string
 
-- name: flag_evaluation_context
+- object: flag_evaluation_context
   class:
     user_id: string
     attributes: map[string, any]
 
-- name: flag_rule_condition
+- object: flag_rule_condition
   class:
     attribute: string
     operator: string

@@ -1,12 +1,12 @@
-- name: tab_item
+- webobject: tab_item
   id: [tabs_id, name]
   attributes:
     - badge: string? #max(50)
     - href: string? #max(500)
     - icon: string? #max(100)
     - is_current: boolean = false
-    - label: string #required #max(100)
+    - label: string #max(100)
     - order: int = 0 #min(0)
-    - tabs_id: id #required -> ui_tabs.id
+    - tabs_id: id -> ui_tabs.id
   events:
     - click

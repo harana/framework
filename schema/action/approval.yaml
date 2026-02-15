@@ -1,0 +1,200 @@
+- name: Create Approval Request
+  action: create_request
+  inputs:
+    approvers: List[String]
+    description: string
+    due_date: datetime
+    metadata: Map[string, any]
+    priority: low | normal | high | urgent = normal
+    request_type: string
+    resource_id: string
+    resource_type: string
+    title: string
+  outputs:
+    request_id: string
+    status: string
+    success: boolean
+
+- name: Get Approval Request
+  action: get_request
+  inputs:
+    request_id: string
+  outputs:
+    approvers: List[ApproverInfo]
+    created_at: datetime
+    description: string
+    due_date: datetime
+    request_id: string
+    requester_id: string
+    resource_id: string
+    resource_type: string
+    status: pending | approved | rejected | cancelled | expired
+    title: string
+    updated_at: datetime
+
+- name: List Approval Requests
+  action: List_requests
+  inputs:
+    approver_id: string
+    limit: integer = 100
+    offset: integer = 0
+    requester_id: string
+    resource_type: string
+    status: pending | approved | rejected | cancelled | expired
+  outputs:
+    requests: List[ApprovalRequestInfo]
+    total: integer
+
+- name: Approve Request
+  action: approve
+  inputs:
+    approver_id: string
+    comment: string
+    request_id: string
+  outputs:
+    approved_at: datetime
+    request_id: string
+    status: string
+    success: boolean
+
+- name: Reject Request
+  action: reject
+  inputs:
+    approver_id: string
+    reason: string
+    request_id: string
+  outputs:
+    rejected_at: datetime
+    request_id: string
+    status: string
+    success: boolean
+
+- name: Cancel Approval Request
+  action: cancel
+  inputs:
+    reason: string
+    request_id: string
+  outputs:
+    cancelled_at: datetime
+    request_id: string
+    success: boolean
+
+- name: Add Approver To Request
+  action: add_approver
+  inputs:
+    approver_id: string
+    request_id: string
+    required: boolean = true
+  outputs:
+    success: boolean
+
+- name: Remove Approver From Request
+  action: remove_approver
+  inputs:
+    approver_id: string
+    request_id: string
+  outputs:
+    success: boolean
+
+- name: Get Approval History
+  action: get_history
+  inputs:
+    limit: integer = 100
+    request_id: string
+  outputs:
+    events: List[ApprovalEvent]
+    total: integer
+
+- name: Escalate Approval Request
+  action: escalate
+  inputs:
+    escalate_to: List[String]
+    reason: string
+    request_id: string
+  outputs:
+    escalated_at: datetime
+    success: boolean
+
+- name: Delegate Approval
+  action: delegate
+  inputs:
+    approver_id: string
+    delegate_to: string
+    request_id: string
+  outputs:
+    delegated_at: datetime
+    success: boolean
+
+- name: ApprovalRequest
+  class:
+    request_id: string
+    title: string
+    description: string
+    requester_id: string
+    approvers: List[ApproverInfo]
+    status: string
+    resource_type: string
+    resource_id: string
+    due_date: datetime
+    created_at: datetime
+    updated_at: datetime
+
+- name: ApproverInfo
+  class:
+    approver_id: string
+    status: string
+    responded_at: datetime
+    comment: string
+    required: boolean
+
+- name: ApprovalRequestInfo
+  class:
+    request_id: string
+    title: string
+    status: string
+    requester_id: string
+    created_at: datetime
+    due_date: datetime
+
+- name: ApprovalEvent
+  class:
+    event_id: string
+    event_type: string
+    actor_id: string
+    timestamp: datetime
+    details: Map[string, any]
+
+- name: request
+  schema:
+    - created_at: date = now()
+    - description: string? #max(2000)
+    - due_date: date?
+    - metadata: string?
+    - priority: low | normal | high | urgent = normal
+    - request_type: string #max(100)
+    - requester_id: id -> user.id
+    - resource_id: string #max(200)
+    - resource_type: string #max(100)
+    - status: pending | approved | rejected | cancelled | expired = pending
+    - title: string #max(500)
+    - updated_at: date = now()
+
+- name: approver
+  id: [request_id, approver_id]
+  schema:
+    - approver_id: id -> user.id
+    - comment: string? #max(2000)
+    - decided_at: date?
+    - is_required: boolean = true
+    - reason: string? #max(2000)
+    - request_id: id -> approval_request.id
+    - status: pending | approved | rejected = pending
+
+- name: history
+  id: [request_id, created_at]
+  schema:
+    - action: created | approved | rejected | cancelled | expired | approver_added | approver_removed = created
+    - actor_id: id? -> user.id
+    - comment: string? #max(2000)
+    - created_at: date = now()
+    - request_id: id -> approval_request.id

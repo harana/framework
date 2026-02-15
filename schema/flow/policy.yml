@@ -1,8 +1,8 @@
-- name: create
+- action: create
   inputs:
     conditions: policy_conditions #required
     description: string
-    effect: string #required # allow or deny
+    effect: string # allow or deny
     name: string #required
     resources: list[string] #required
     actions: list[string] #required
@@ -10,7 +10,7 @@
     policy_id: string
     success: boolean
 
-- name: update
+- action: update
   inputs:
     conditions: policy_conditions
     description: string
@@ -22,13 +22,13 @@
   outputs:
     success: boolean
 
-- name: delete
+- action: delete
   inputs:
     policy_id: string #required
   outputs:
     success: boolean
 
-- name: get
+- action: get
   inputs:
     policy_id: string #required
   outputs:
@@ -39,7 +39,7 @@
     name: string
     resources: list[string]
 
-- name: list_policies
+- action: list_policies
   inputs:
     limit: int = 100
     offset: int = 0
@@ -47,35 +47,35 @@
     policies: list[policy_info]
     total: int
 
-- name: attach_to_user
+- action: attach_to_user
   inputs:
     policy_id: string #required
     user_id: string #required
   outputs:
     success: boolean
 
-- name: detach_from_user
+- action: detach_from_user
   inputs:
     policy_id: string #required
     user_id: string #required
   outputs:
     success: boolean
 
-- name: attach_to_role
+- action: attach_to_role
   inputs:
     policy_id: string #required
     role_id: string #required
   outputs:
     success: boolean
 
-- name: detach_from_role
+- action: detach_from_role
   inputs:
     policy_id: string #required
     role_id: string #required
   outputs:
     success: boolean
 
-- name: evaluate
+- action: evaluate
   inputs:
     method: string #required
     context: policy_evaluation_context
@@ -86,7 +86,7 @@
     evaluated_conditions: policy_evaluated_conditions
     reason: string
 
-- name: policy
+- object: policy
   class:
     policy_id: string
     name: string
@@ -96,21 +96,21 @@
     resources: list[string]
     conditions: policy_conditions
 
-- name: policy_conditions
+- object: policy_conditions
   class:
     conditions: map[string, any]
 
-- name: policy_info
+- object: policy_info
   class:
     policy_id: string
     name: string
     description: string
     effect: string
 
-- name: policy_evaluation_context
+- object: policy_evaluation_context
   class:
     values: map[string, any]
 
-- name: policy_evaluated_conditions
+- object: policy_evaluated_conditions
   class:
     results: map[string, boolean]

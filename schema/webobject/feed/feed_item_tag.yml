@@ -1,10 +1,10 @@
-- name: feed_item_tag
+- webobject: feed_item_tag
   id: [feed_item_id, name]
   attributes:
     - color: red | orange | yellow | green | blue | indigo | purple | pink | gray = gray
-    - feed_item_id: id #required -> ui_feed_item.id
+    - feed_item_id: id -> ui_feed_item.id
     - href: string? #max(500)
-    - label: string #required #max(100)
+    - label: string #max(100)
     - order: int = 0 #min(0)
   events:
     - click

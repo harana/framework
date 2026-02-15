@@ -1,0 +1,32 @@
+- object: deploy_ecs
+  schema:
+    - assign_public_ip: boolean = true
+    - auto_rollback: boolean = true
+    - cluster: string #max(255)
+    - container_name: string #max(255)
+    - cpu: string = 512 #max(20)
+    - deployment: deploy_ecs_deployment?
+    - desired_count: int = 2 #min(0)
+    - enabled: boolean = true
+    - health_check_grace_period: int = 60 #min(0)
+    - image: string #max(500)
+    - launch_type: fargate | ec2 = fargate
+    - load_balancer: deploy_ecs_load_balancer?
+    - memory: string = 1024 #max(20)
+    - network_mode: string = awsvpc #max(20)
+    - region: string #max(50)
+    - security_groups: list[string]
+    - service: string #max(255)
+    - subnets: list[string]
+    - task_definition: string #max(255)
+    - wait_for_stable: boolean = true
+
+- object: deploy_ecs_deployment
+  schema:
+    - maximum_percent: int = 200 #min(100) #max(400)
+    - minimum_healthy_percent: int = 100 #min(0) #max(100)
+
+- object: deploy_ecs_load_balancer
+  schema:
+    - container_port: int #min(1) #max(65535)
+    - target_group_arn: string #max(500)

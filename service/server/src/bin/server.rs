@@ -1,4 +1,4 @@
-use harana_components_cache::MemoryCacheStore;
+use harana_components_cache::MemoryCacheService;
 use harana_components_http_server::{HttpServer, ServerConfig};
 use std::sync::Arc;
 
@@ -11,7 +11,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let config = ServerConfig::default();
 
     // Create cache backend (in-memory for standalone)
-    let cache = Arc::new(MemoryCacheStore::new());
+    let cache = Arc::new(MemoryCacheService::new());
 
     tracing::info!("Starting Harana HTTP server...");
     tracing::info!("Features enabled:");

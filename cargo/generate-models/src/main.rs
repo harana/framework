@@ -23,14 +23,14 @@ struct GenerateModels {
 #[derive(Subcommand)]
 enum Commands {
     Generate {
-        #[arg(short, long, default_value = "core/schema/data")]
+        #[arg(short, long, default_value = "schema")]
         schema_dir: PathBuf,
 
-        #[arg(short, long, default_value = "generated/rust")]
+        #[arg(short, long, default_value = "models")]
         rust_output: PathBuf,
 
-        #[arg(short, long, default_value = "generated/python")]
-        python_output: PathBuf,
+        #[arg(short, long)]
+        python_output: Option<PathBuf>,
 
         #[arg(long)]
         rust_only: bool,
@@ -68,11 +68,13 @@ fn main() -> Result<()> {
                 println!("✅ Rust code generated in: {}", rust_output.display());
             }
 
-            // Generate Python code
-            if !rust_only {
-                println!("🐍 Generating Python code...");
-                generators::python::generate(&models, &python_output)?;
-                println!("✅ Python code generated in: {}", python_output.display());
+            // Generate Python code (only when --python-output is specified)
+            if let Some(ref py_out) = python_output {
+                if !rust_only {
+                    println!("🐍 Generating Python code...");
+                    generators::python::generate(&models, py_out)?;
+                    println!("✅ Python code generated in: {}", py_out.display());
+                }
             }
 
             println!("🎉 Code generation complete!");

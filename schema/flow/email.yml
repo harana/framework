@@ -1,4 +1,4 @@
-- name: send
+- action: send
   inputs:
     attachments: list[email_attachment]
     bcc: list[string]
@@ -13,7 +13,7 @@
     message_id: string
     success: boolean
 
-- name: send_template
+- action: send_template
   inputs:
     attachments: list[email_attachment]
     bcc: list[string]
@@ -27,7 +27,7 @@
     message_id: string
     success: boolean
 
-- name: validate_email
+- action: validate_email
   inputs:
     check_mx: boolean = false
     check_smtp: boolean = false
@@ -36,7 +36,7 @@
     reason: string
     valid: boolean
 
-- name: status
+- action: status
   inputs:
     message_id: string #required
   outputs:
@@ -46,7 +46,7 @@
     opened_at: date
     status: queued | sent | delivered | bounced | failed
 
-- name: send_bulk
+- action: send_bulk
   inputs:
     body: string #required
     content_type: text | html = text
@@ -59,7 +59,7 @@
     successful: int
     total: int
 
-- name: create_template
+- action: create_template
   inputs:
     body: string #required
     content_type: text | html = html
@@ -70,13 +70,13 @@
     success: boolean
     template_id: string
 
-- name: delete_template
+- action: delete_template
   inputs:
     template_id: string #required
   outputs:
     success: boolean
 
-- name: list_templates
+- action: list_templates
   inputs:
     limit: int = 100
     offset: int = 0
@@ -84,7 +84,7 @@
     templates: list[email_template]
     total: int
 
-- name: email_message
+- object: email_message
   class:
     message_id: string
     from: string
@@ -97,20 +97,20 @@
     attachments: list[email_attachment]
     status: string
 
-- name: email_attachment
+- object: email_attachment
   class:
     filename: string
     content_type: string
     content: bytes
     size: int
 
-- name: email_recipient
+- object: email_recipient
   class:
     email: string
     name: string
     variables: map[string, string]
 
-- name: email_template
+- object: email_template
   class:
     template_id: string
     name: string

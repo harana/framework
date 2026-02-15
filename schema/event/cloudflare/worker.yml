@@ -1,4 +1,4 @@
-- name: cloudflare_worker_fetch_invoked
+- event: cloudflare_worker_fetch_invoked
   schema:
     service_binding: string #required
     url: string #required
@@ -6,7 +6,7 @@
     status_code: int?
     invoked_at: date = now()
 
-- name: cloudflare_worker_route_matched
+- event: cloudflare_worker_route_matched
   schema:
     route_pattern: string #required
     url: string #required
@@ -14,14 +14,14 @@
     service_binding: string?
     matched_at: date = now()
 
-- name: cloudflare_worker_cron_triggered
+- event: cloudflare_worker_cron_triggered
   schema:
     service_binding: string #required
     cron: string #required
     scheduled_time: date?
     triggered_at: date = now()
 
-- name: cloudflare_worker_error_occurred
+- event: cloudflare_worker_error_occurred
   schema:
     service_binding: string?
     url: string?
@@ -30,7 +30,7 @@
     status_code: int?
     occurred_at: date = now()
 
-- name: cloudflare_worker_version_deployed
+- event: cloudflare_worker_version_deployed
   schema:
     binding: string #required
     version_id: string #required
@@ -38,7 +38,7 @@
     version_message: string?
     deployed_at: date = now()
 
-- name: cloudflare_service_binding_fetch_invoked
+- event: cloudflare_service_binding_fetch_invoked
   schema:
     service: string #required
     url: string #required

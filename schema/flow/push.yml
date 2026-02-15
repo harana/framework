@@ -1,4 +1,4 @@
-- name: send_apns
+- action: send_apns
   inputs:
     alert: string #required
     badge: int
@@ -19,7 +19,7 @@
     error: string
     success: boolean
 
-- name: send_web_push
+- action: send_web_push
   inputs:
     actions: list[push_action]
     badge: string
@@ -41,7 +41,7 @@
     error: string
     success: boolean
 
-- name: send_fcm
+- action: send_fcm
   inputs:
     body: string #required
     channel_id: string
@@ -62,7 +62,7 @@
     message_id: string
     success: boolean
 
-- name: send_multicast_push
+- action: send_multicast_push
   inputs:
     body: string #required
     data: map[string, any]
@@ -75,7 +75,7 @@
     successful: int
     total: int
 
-- name: send_topic_push
+- action: send_topic_push
   inputs:
     body: string #required
     data: map[string, any]
@@ -86,7 +86,7 @@
     message_id: string
     success: boolean
 
-- name: subscribe_to_topic
+- action: subscribe_to_topic
   inputs:
     platform: apns | web | fcm #required
     tokens: list[string] #required
@@ -95,7 +95,7 @@
     failed_tokens: list[string]
     success: boolean
 
-- name: unsubscribe_from_topic
+- action: unsubscribe_from_topic
   inputs:
     platform: apns | web | fcm #required
     tokens: list[string] #required
@@ -104,7 +104,7 @@
     failed_tokens: list[string]
     success: boolean
 
-- name: validate_push_token
+- action: validate_push_token
   inputs:
     platform: apns | web | fcm #required
     token: string #required
@@ -112,7 +112,7 @@
     error: string
     valid: boolean
 
-- name: push_notification
+- object: push_notification
   class:
     title: string
     body: string
@@ -122,23 +122,23 @@
     badge: int
     sound: string
 
-- name: push_action
+- object: push_action
   class:
     method: string
     title: string
     icon: string
 
-- name: push_subscription
+- object: push_subscription
   class:
     endpoint: string
     keys: push_subscription_keys
 
-- name: push_subscription_keys
+- object: push_subscription_keys
   class:
     p256dh: string
     auth: string
 
-- name: push_failure
+- object: push_failure
   class:
     token: string
     error: string

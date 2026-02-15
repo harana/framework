@@ -1,0 +1,22 @@
+- object: deploy_azure_blob
+  schema:
+    - cdn: deploy_azure_blob_cdn?
+    - container: string #max(255)
+    - content_type_mapping: map[string, string]
+    - credentials_env: deploy_azure_blob_credentials?
+    - destination_prefix: string? #max(500)
+    - enabled: boolean = true
+    - public_access: string? #max(50)
+    - source_dir: string #max(2000)
+    - storage_account: string #max(255)
+
+- object: deploy_azure_blob_cdn
+  schema:
+    - enabled: boolean = true
+    - endpoint: string #max(255)
+    - profile: string #max(255)
+    - purge_content: boolean = true
+
+- object: deploy_azure_blob_credentials
+  schema:
+    - azure_storage_connection_string: string #max(200)

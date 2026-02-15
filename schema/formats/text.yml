@@ -1,4 +1,4 @@
-- name: text_template
+- object: text_template
   schema:
     - content: string #required
     - created_at: date = now()
@@ -7,12 +7,12 @@
     - is_active: boolean = true
     - updated_at: date = now()
     - variables: string? # json array
-- name: text_string
+- object: text_string
   schema:
     - content: string
     - length: int
     - encoding: string
 
-- name: template_data
+- object: template_data
   schema:
     - values: map[string, any]

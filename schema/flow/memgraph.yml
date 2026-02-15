@@ -1,4 +1,4 @@
-- name: create_node
+- action: create_node
   inputs:
     labels: list[string]
     properties: node_properties
@@ -6,7 +6,7 @@
     node_id: string
     success: boolean
 
-- name: create_relationship
+- action: create_relationship
   inputs:
     from_node_id: string #required
     properties: relationship_properties
@@ -16,7 +16,7 @@
     relationship_id: string
     success: boolean
 
-- name: find_nodes
+- action: find_nodes
   inputs:
     labels: list[string]
     limit: int
@@ -26,34 +26,34 @@
     count: int
     nodes: list[graph_node]
 
-- name: find_node
+- action: find_node
   inputs:
     node_id: string #required
   outputs:
     found: boolean
     node: graph_node
 
-- name: update_node
+- action: update_node
   inputs:
     node_id: string #required
     properties: node_properties #required
   outputs:
     success: boolean
 
-- name: delete_node
+- action: delete_node
   inputs:
     detach: boolean = true
     node_id: string #required
   outputs:
     success: boolean
 
-- name: delete_relationship
+- action: delete_relationship
   inputs:
     relationship_id: string #required
   outputs:
     success: boolean
 
-- name: execute_query
+- action: execute_query
   inputs:
     parameters: map[string, any]
     query: string #required
@@ -61,7 +61,7 @@
     records: list[map[string, any]]
     summary: query_summary
 
-- name: shortest_path
+- action: shortest_path
   inputs:
     from_node_id: string #required
     max_depth: int
@@ -72,7 +72,7 @@
     length: int
     path: list[graph_path_element]
 
-- name: find_paths
+- action: find_paths
   inputs:
     from_node_id: string #required
     limit: int = 100
@@ -83,7 +83,7 @@
     count: int
     paths: list[graph_path]
 
-- name: get_neighbors
+- action: get_neighbors
   inputs:
     depth: int = 1
     direction: incoming | outgoing | both = both
@@ -92,7 +92,7 @@
   outputs:
     neighbors: list[graph_node]
 
-- name: get_degree
+- action: get_degree
   inputs:
     direction: incoming | outgoing | both = both
     node_id: string #required
@@ -100,28 +100,28 @@
   outputs:
     degree: int
 
-- name: create_index
+- action: create_index
   inputs:
     label: string #required
     property: string #required
   outputs:
     success: boolean
 
-- name: drop_index
+- action: drop_index
   inputs:
     label: string #required
     property: string #required
   outputs:
     success: boolean
 
-- name: get_stats
+- action: get_stats
   inputs: {}
   outputs:
     node_count: int
     relationship_count: int
     stats: graph_stats
 
-- name: run_algorithm
+- action: run_algorithm
   inputs:
     algorithm: pagerank | betweenness | closeness | degree_centrality #required
     parameters: map[string, any]
@@ -129,7 +129,7 @@
     results: list[algorithm_result]
     success: boolean
 
-- name: match_pattern
+- action: match_pattern
   inputs:
     limit: int
     parameters: map[string, any]
@@ -139,13 +139,13 @@
     count: int
     results: list[map[string, any]]
 
-- name: graph_node
+- object: graph_node
   class:
     node_id: string
     labels: list[string]
     properties: map[string, any]
 
-- name: query_summary
+- object: query_summary
   class:
     nodes_created: int
     nodes_deleted: int
@@ -153,24 +153,24 @@
     relationships_deleted: int
     properties_set: int
 
-- name: graph_path_element
+- object: graph_path_element
   class:
     node_id: string
     relationship_id: string
     relationship_type: string
 
-- name: graph_path
+- object: graph_path
   class:
     elements: list[graph_path_element]
     length: int
 
-- name: graph_stats
+- object: graph_stats
   class:
     labels: map[string, integer]
     relationship_types: map[string, integer]
     indexes: list[string]
 
-- name: algorithm_result
+- object: algorithm_result
   class:
     node_id: string
     score: float

@@ -1,4 +1,4 @@
-- name: http_client
+- object: http_client
   schema:
     - base_url: string? #url
     - created_at: date = now()
@@ -9,7 +9,7 @@
     - timeout_seconds: int = 30 #min(1)
     - updated_at: date = now()
 
-- name: http_request_log
+- object: http_request_log
   id: [client_id, created_at]
   schema:
     - client_id: id? -> http_client.id
@@ -22,4 +22,4 @@
     - response_body: string?
     - response_headers: string?
     - status_code: int?
-    - url: string #required #max(2000)
+    - url: string #max(2000)

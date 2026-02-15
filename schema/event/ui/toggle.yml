@@ -1,4 +1,4 @@
-- name: toggle_switched
+- event: toggle_switched
   schema:
     toggle_id: id #required
     toggle_name: string?
@@ -6,7 +6,7 @@
     new_state: boolean #required
     switched_at: date = now()
 
-- name: checkbox_checked
+- event: checkbox_checked
   schema:
     checkbox_id: id #required
     checkbox_name: string?
@@ -14,7 +14,7 @@
     form_id: id?
     checked_at: date = now()
 
-- name: checkbox_unchecked
+- event: checkbox_unchecked
   schema:
     checkbox_id: id #required
     checkbox_name: string?
@@ -22,7 +22,7 @@
     form_id: id?
     unchecked_at: date = now()
 
-- name: radio_selected
+- event: radio_selected
   schema:
     radio_group_id: id #required
     radio_id: id #required
@@ -32,14 +32,14 @@
     form_id: id?
     selected_at: date = now()
 
-- name: switch_enabled
+- event: switch_enabled
   schema:
     switch_id: id #required
     switch_name: string?
     switch_label: string?
     enabled_at: date = now()
 
-- name: switch_disabled
+- event: switch_disabled
   schema:
     switch_id: id #required
     switch_name: string?

@@ -1,0 +1,141 @@
+- action: forward
+  inputs:
+    address: string
+    country: string
+    limit: int = 1
+  outputs:
+    latitude: float
+    longitude: float
+    results: list[geo_result]
+
+- action: reverse
+  inputs:
+    language: string
+    latitude: float
+    longitude: float
+  outputs:
+    address: geo_address
+    formatted_address: string
+
+- action: distance
+  inputs:
+    from: coordinates
+    to: coordinates
+    unit: km | miles | meters = km
+  outputs:
+    distance: float
+    unit: string
+
+- action: route
+  inputs:
+    avoid: list[string]
+    from: coordinates
+    mode: driving | walking | cycling | transit = driving
+    to: coordinates
+    waypoints: list[coordinates]
+  outputs:
+    distance: float
+    duration: int
+    polyline: string
+    steps: list[route_step]
+
+- action: timezone
+  inputs:
+    latitude: float
+    longitude: float
+    timestamp: int
+  outputs:
+    dst_offset: int
+    id: string
+    name: string
+    offset: int
+
+- object: coordinates
+  class:
+    latitude: float
+    longitude: float
+    altitude: float
+    accuracy: float
+
+- object: geo_result
+  class:
+    latitude: float
+    longitude: float
+    formatted_address: string
+    confidence: float
+
+- object: geo_address
+  class:
+    street: string
+    city: string
+    region: string
+    postal_code: string
+    country: string
+
+- object: route_step
+  class:
+    instruction: string
+    distance: float
+    duration: int
+    start_location: coordinates
+    end_location: coordinates
+
+- object: point
+  schema:
+    - accuracy: decimal? #min(0)
+    - altitude: decimal?
+    - created_at: date = now()
+    - label: string? #max(200)
+    - latitude: decimal
+    - longitude: decimal
+    - metadata: string?
+
+- object: route
+  id: [from_point_id, to_point_id, mode]
+  schema:
+    - calculated_at: date = now()
+    - distance: decimal? #min(0)
+    - duration_seconds: int? #min(0)
+    - from_point_id: id -> geolocation_point.id
+    - mode: driving | walking | cycling | transit = driving
+    - polyline: string?
+    - to_point_id: id -> geolocation_point.id
+
+- object: fence
+  schema:
+    - center_latitude: decimal
+    - center_longitude: decimal
+    - created_at: date = now()
+    - is_active: boolean = true
+    - radius_meters: decimal #min(0)
+    - updated_at: date = now()
+
+- object: coordinates
+  schema:
+    - latitude: float
+    - longitude: float
+    - altitude: float
+    - accuracy: float
+
+- object: geo_result
+  schema:
+    - latitude: float
+    - longitude: float
+    - formatted_address: string
+    - confidence: float
+
+- object: geo_address
+  schema:
+    - street: string
+    - city: string
+    - region: string
+    - postal_code: string
+    - country: string
+
+- object: route_step
+  schema:
+    - instruction: string
+    - distance: float
+    - duration: int
+    - start_location: coordinates
+    - end_location: coordinates

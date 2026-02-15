@@ -1,13 +1,19 @@
 mod error;
 pub mod memory;
-mod store;
+mod service;
 
 #[cfg(feature = "kv")]
 pub mod kv;
 
+#[cfg(feature = "mongodb")]
+pub mod mongodb;
+
 pub use error::{CacheError, CacheResult};
-pub use memory::MemoryCacheStore;
-pub use store::{CacheStore, GetOptions, KeyEntry, ListOptions, ListResponse, PutOptions};
+pub use memory::MemoryCacheService;
+pub use service::CacheService;
 
 #[cfg(feature = "kv")]
-pub use kv::KvCacheStore;
+pub use kv::KvCacheService;
+
+#[cfg(feature = "mongodb")]
+pub use mongodb::MongoCacheService;

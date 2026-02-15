@@ -1,23 +1,23 @@
-- name: card_clicked
+- event: card_clicked
   schema:
     card_id: id #required
     card_title: string?
     card_type: string?
     clicked_at: date = now()
 
-- name: card_expanded
+- event: card_expanded
   schema:
     card_id: id #required
     card_title: string?
     expanded_at: date = now()
 
-- name: card_collapsed
+- event: card_collapsed
   schema:
     card_id: id #required
     card_title: string?
     collapsed_at: date = now()
 
-- name: card_action_clicked
+- event: card_action_clicked
   schema:
     card_id: id #required
     action_id: id #required
@@ -25,7 +25,7 @@
     action_type: primary | secondary | menu = primary
     clicked_at: date = now()
 
-- name: card_dismissed
+- event: card_dismissed
   schema:
     card_id: id #required
     card_title: string?

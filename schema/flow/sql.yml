@@ -1,4 +1,4 @@
-- name: execute
+- action: execute
   inputs:
     database: string
     parameters: list[any]
@@ -8,7 +8,7 @@
     last_insert_id: string
     success: boolean
 
-- name: select
+- action: select
   inputs:
     database: string
     limit: int
@@ -20,7 +20,7 @@
     count: int
     rows: list[sql_row]
 
-- name: insert
+- action: insert
   inputs:
     database: string
     parameters: list[any]
@@ -30,7 +30,7 @@
     last_insert_id: string
     success: boolean
 
-- name: update
+- action: update
   inputs:
     database: string
     parameters: list[any]
@@ -39,7 +39,7 @@
     affected_rows: int
     success: boolean
 
-- name: delete
+- action: delete
   inputs:
     database: string
     parameters: list[any]
@@ -48,7 +48,7 @@
     affected_rows: int
     success: boolean
 
-- name: batch
+- action: batch
   inputs:
     database: string
     queries: list[sql_batch_query] #required
@@ -58,7 +58,7 @@
     success: boolean
     success_count: int
 
-- name: begin_transaction
+- action: begin_transaction
   inputs:
     database: string
     isolation_level: read_uncommitted | read_committed | repeatable_read | serializable
@@ -66,21 +66,21 @@
     success: boolean
     transaction_id: string
 
-- name: commit
+- action: commit
   inputs:
     database: string
     transaction_id: string #required
   outputs:
     success: boolean
 
-- name: rollback
+- action: rollback
   inputs:
     database: string
     transaction_id: string #required
   outputs:
     success: boolean
 
-- name: call_procedure
+- action: call_procedure
   inputs:
     database: string
     parameters: list[any]
@@ -90,7 +90,7 @@
     result_sets: list[sql_result_set]
     success: boolean
 
-- name: get_schema
+- action: get_schema
   inputs:
     database: string
     table_name: string #required
@@ -99,14 +99,14 @@
     indexes: list[sql_index_info]
     primary_key: list[string]
 
-- name: list_tables
+- action: list_tables
   inputs:
     database: string
     schema: string
   outputs:
     tables: list[string]
 
-- name: create_table
+- action: create_table
   inputs:
     columns: list[sql_column_definition] #required
     database: string
@@ -115,7 +115,7 @@
   outputs:
     success: boolean
 
-- name: drop_table
+- action: drop_table
   inputs:
     database: string
     if_exists: boolean = true
@@ -123,14 +123,14 @@
   outputs:
     success: boolean
 
-- name: truncate_table
+- action: truncate_table
   inputs:
     database: string
     table_name: string #required
   outputs:
     success: boolean
 
-- name: create_index
+- action: create_index
   inputs:
     columns: list[string] #required
     database: string
@@ -140,7 +140,7 @@
   outputs:
     success: boolean
 
-- name: drop_index
+- action: drop_index
   inputs:
     database: string
     if_exists: boolean = true
@@ -149,7 +149,7 @@
   outputs:
     success: boolean
 
-- name: bulk_insert
+- action: bulk_insert
   inputs:
     columns: list[string] #required
     database: string
@@ -159,7 +159,7 @@
     affected_rows: int
     success: boolean
 
-- name: prepared_statement
+- action: prepared_statement
   inputs:
     database: string
     parameters: list[any]
@@ -169,7 +169,7 @@
     rows: list[sql_row]
     success: boolean
 
-- name: sql_query
+- object: sql_query
   class:
     query: string
     parameters: list[any]
@@ -177,31 +177,31 @@
     affected_rows: int
     rows: list[sql_row]
 
-- name: sql_row
+- object: sql_row
   class:
     values: map[string, any]
 
-- name: sql_batch_query
+- object: sql_batch_query
   class:
     query: string
     parameters: list[any]
 
-- name: sql_batch_result
+- object: sql_batch_result
   class:
     success: boolean
     affected_rows: int
     error: string
 
-- name: sql_output_parameters
+- object: sql_output_parameters
   class:
     values: map[string, any]
 
-- name: sql_result_set
+- object: sql_result_set
   class:
     columns: list[string]
     rows: list[sql_row]
 
-- name: sql_column_info
+- object: sql_column_info
   class:
     name: string
     data_type: string
@@ -209,13 +209,13 @@
     default_value: string
     max_length: int
 
-- name: sql_index_info
+- object: sql_index_info
   class:
     name: string
     columns: list[string]
     unique: boolean
 
-- name: sql_column_definition
+- object: sql_column_definition
   class:
     name: string
     data_type: string

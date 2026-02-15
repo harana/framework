@@ -1,25 +1,25 @@
-- name: slack_workspace
+- object: slack_workspace
   schema:
     - access_token: string? #max(500) #encrypted
     - created_at: date = now()
     - is_active: boolean = true
-    - team_id: string #required #unique #max(100)
+    - team_id: string #unique #max(100)
     - team_name: string? #max(200)
     - updated_at: date = now()
 
-- name: slack_channel
+- object: slack_channel
   id: [workspace_id, channel_id]
   schema:
-    - channel_id: string #required #max(100)
+    - channel_id: string #max(100)
     - is_archived: boolean = false
     - is_private: boolean = false
-    - name: string #required #max(200)
+    - name: string #max(200)
     - num_members: int = 0 #min(0)
     - purpose: string? #max(500)
     - topic: string? #max(500)
-    - workspace_id: id #required -> slack_workspace.id
+    - workspace_id: id -> slack_workspace.id
 
-- name: slack_user
+- object: slack_user
   id: [workspace_id, user_id]
   schema:
     - email: string? #email #max(255)
@@ -28,15 +28,15 @@
     - name: string? #max(200)
     - real_name: string? #max(200)
     - timezone: string? #max(50)
-    - user_id: string #required #max(100)
-    - workspace_id: id #required -> slack_workspace.id
+    - user_id: string #max(100)
+    - workspace_id: id -> slack_workspace.id
 
-- name: slack_message_log
+- object: slack_message_log
   id: [channel_id, message_ts]
   schema:
-    - channel_id: string #required #max(100)
+    - channel_id: string #max(100)
     - created_at: date = now()
-    - message_ts: string #required #max(50)
+    - message_ts: string #max(50)
     - status: sent | updated | deleted | failed = sent
     - text: string? #max(5000)
     - thread_ts: string? #max(50)

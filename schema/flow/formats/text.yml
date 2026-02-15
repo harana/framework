@@ -1,4 +1,4 @@
-- name: template
+- action: template
   inputs:
     data: template_data #required
     engine: handlebars | mustache | tera = handlebars
@@ -6,7 +6,7 @@
   outputs:
     result: string
 
-- name: regex_match
+- action: regex_match
   inputs:
     flags: string
     pattern: string #required
@@ -14,7 +14,7 @@
   outputs:
     matches: list[string]
 
-- name: regex_replace
+- action: regex_replace
   inputs:
     flags: string
     pattern: string #required
@@ -23,7 +23,7 @@
   outputs:
     result: string
 
-- name: split
+- action: split
   inputs:
     delimiter: string #required
     limit: int
@@ -31,14 +31,14 @@
   outputs:
     parts: list[string]
 
-- name: join
+- action: join
   inputs:
     items: list[string] #required
     separator: string = ""
   outputs:
     result: string
 
-- name: trim
+- action: trim
   inputs:
     characters: string
     mode: both | start | end = both
@@ -46,14 +46,14 @@
   outputs:
     result: string
 
-- name: case_convert
+- action: case_convert
   inputs:
     format: upper | lower | camel | pascal | snake | kebab #required
     text: string #required
   outputs:
     result: string
 
-- name: truncate
+- action: truncate
   inputs:
     length: int #required
     suffix: string = "..."
@@ -61,7 +61,7 @@
   outputs:
     result: string
 
-- name: slugify
+- action: slugify
   inputs:
     lowercase: boolean = true
     separator: string = "-"
@@ -69,12 +69,12 @@
   outputs:
     slug: string
 
-- name: text_string
+- object: text_string
   class:
     content: string
     length: int
     encoding: string
 
-- name: template_data
+- object: template_data
   class:
     values: map[string, any]

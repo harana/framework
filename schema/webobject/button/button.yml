@@ -1,4 +1,4 @@
-- name: button
+- webobject: button
   attributes:
     - color: dark_zinc | light | dark_white | dark | zinc | white | red | orange | amber | yellow | lime | green | emerald | teal | cyan | sky | blue | indigo | violet | purple | fuchsia | pink | rose = dark_zinc
     - href: string? #max(500)
@@ -6,7 +6,7 @@
     - is_disabled: boolean = false
     - is_outline: boolean = false
     - is_plain: boolean = false
-    - label: string #required #max(100)
+    - label: string #max(100)
     - type: button | submit | reset = button
   events:
     - click

@@ -1,21 +1,21 @@
-- name: route
+- object: route
   schema:
     - created_at: date = now()
     - description: string? #max(500)
     - is_active: boolean = true
     - method: get | post | put | patch | delete | head | options = get
     - middleware: string?
-    - path: string #required #max(500)
+    - path: string #max(500)
     - rate_limit: int? #min(1)
     - updated_at: date = now()
 
-- name: route_group
+- object: route_group
   schema:
     - middleware: string?
-    - prefix: string #required #max(200)
+    - prefix: string #max(200)
 
-- name: route_group_assignment
+- object: route_group_assignment
   id: [route_id, group_id]
   schema:
-    - group_id: id #required -> route_group.id
-    - route_id: id #required -> route.id
+    - group_id: id -> route_group.id
+    - route_id: id -> route.id

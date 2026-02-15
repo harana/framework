@@ -1,4 +1,4 @@
-- name: excel_workbook
+- object: excel_workbook
   schema:
     - blob_id: id? -> blob_object.id
     - created_at: date = now()
@@ -8,10 +8,10 @@
     - size: int = 0 #min(0)
     - updated_at: date = now()
 
-- name: excel_sheet
+- object: excel_sheet
   id: [workbook_id, name]
   schema:
     - column_count: int = 0 #min(0)
-    - name: string #required #max(200)
+    - name: string #max(200)
     - row_count: int = 0 #min(0)
-    - workbook_id: id #required -> excel_workbook.id
+    - workbook_id: id -> excel_workbook.id

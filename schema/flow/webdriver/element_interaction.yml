@@ -1,29 +1,29 @@
-- name: click
+- action: click
   inputs:
-    element_id: string #required    session_id: string #required  outputs:
+    element_id: string    session_id: string  outputs:
     success: boolean
 
-- name: send_keys
+- action: send_keys
   inputs:
-    element_id: string #required    keys: string #required    session_id: string #required  outputs:
+    element_id: string    keys: string    session_id: string  outputs:
     success: boolean
 
-- name: clear
+- action: clear
   inputs:
-    element_id: string #required    session_id: string #required  outputs:
+    element_id: string    session_id: string  outputs:
     success: boolean
 
-- name: focus
+- action: focus
   inputs:
-    element_id: string #required    session_id: string #required  outputs:
+    element_id: string    session_id: string  outputs:
     success: boolean
 
-- name: scroll_into_view
+- action: scroll_into_view
   inputs:
-    element_id: string #required    session_id: string #required  outputs:
+    element_id: string    session_id: string  outputs:
     success: boolean
 
-- name: drag_to
+- action: drag_to
   inputs:
-    session_id: string #required    source_element_id: string #required    target_element_id: string #required  outputs:
+    session_id: string    source_element_id: string    target_element_id: string  outputs:
     success: boolean

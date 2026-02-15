@@ -1,0 +1,31 @@
+- object: deploy_s3
+  schema:
+    - acl: string? #max(50)
+    - bucket: string #max(255)
+    - cache_control: string? #max(200)
+    - cloudfront: deploy_s3_cloudfront?
+    - content_encoding: string? #max(50)
+    - credentials_env: deploy_aws_credentials?
+    - destination_prefix: string? #max(500)
+    - enabled: boolean = true
+    - metadata: map[string, string]
+    - region: string #max(50)
+    - source_dir: string #max(2000)
+    - sync: deploy_s3_sync?
+
+- object: deploy_s3_cloudfront
+  schema:
+    - distribution_id: string #max(200)
+    - enabled: boolean = true
+    - invalidate_paths: list[string]
+    - wait_for_invalidation: boolean = true
+
+- object: deploy_s3_sync
+  schema:
+    - delete: boolean = true
+    - exclude: list[string]
+
+- object: deploy_aws_credentials
+  schema:
+    - aws_access_key_id: string #max(200)
+    - aws_secret_access_key: string #max(200)

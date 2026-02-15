@@ -1,4 +1,4 @@
-- name: convert
+- action: convert
   inputs:
     color: string #required
     from_format: hex | rgb | hsl | hsv | cmyk = hex
@@ -7,7 +7,7 @@
     color: string
     components: color_components
 
-- name: parse
+- action: parse
   inputs:
     color: string #required
   outputs:
@@ -17,7 +17,7 @@
     rgb: rgb_color
     valid: boolean
 
-- name: generate_palette
+- action: generate_palette
   inputs:
     base_color: string #required
     count: int = 5
@@ -26,35 +26,35 @@
     colors: list[string]
     palette_type: string
 
-- name: lighten
+- action: lighten
   inputs:
     amount: float #required
     color: string #required
   outputs:
     color: string
 
-- name: darken
+- action: darken
   inputs:
     amount: float #required
     color: string #required
   outputs:
     color: string
 
-- name: saturate
+- action: saturate
   inputs:
     amount: float #required
     color: string #required
   outputs:
     color: string
 
-- name: desaturate
+- action: desaturate
   inputs:
     amount: float #required
     color: string #required
   outputs:
     color: string
 
-- name: mix
+- action: mix
   inputs:
     color1: string #required
     color2: string #required
@@ -62,7 +62,7 @@
   outputs:
     color: string
 
-- name: contrast_ratio
+- action: contrast_ratio
   inputs:
     color1: string #required
     color2: string #required
@@ -71,7 +71,7 @@
     wcag_aa: boolean
     wcag_aaa: boolean
 
-- name: accessible_text_color
+- action: accessible_text_color
   inputs:
     background_color: string #required
     prefer_white: boolean = true
@@ -79,13 +79,13 @@
     contrast_ratio: float
     text_color: string
 
-- name: invert
+- action: invert
   inputs:
     color: string #required
   outputs:
     color: string
 
-- name: gradient
+- action: gradient
   inputs:
     end_color: string #required
     start_color: string #required
@@ -93,7 +93,7 @@
   outputs:
     colors: list[string]
 
-- name: luminance
+- action: luminance
   inputs:
     color: string #required
   outputs:
@@ -101,7 +101,7 @@
     is_light: boolean
     luminance: float
 
-- name: validate
+- action: validate
   inputs:
     color: string #required
     format: hex | rgb | hsl | hsv | cmyk
@@ -109,7 +109,7 @@
     detected_format: string
     valid: boolean
 
-- name: random
+- action: random
   inputs:
     format: hex | rgb | hsl = hex
     hue: red | orange | yellow | green | blue | purple | pink | monochrome
@@ -117,7 +117,7 @@
   outputs:
     color: string
 
-- name: color
+- object: color
   class:
     hex: string
     rgb: rgb_color
@@ -125,32 +125,32 @@
     hsv: hsv_color
     cmyk: cmyk_color
 
-- name: rgb_color
+- object: rgb_color
   class:
     r: int
     g: int
     b: int
 
-- name: hsl_color
+- object: hsl_color
   class:
     h: int
     s: float
     l: float
 
-- name: hsv_color
+- object: hsv_color
   class:
     h: int
     s: float
     v: float
 
-- name: cmyk_color
+- object: cmyk_color
   class:
     c: float
     m: float
     y: float
     k: float
 
-- name: color_components
+- object: color_components
   class:
     red: int
     green: int

@@ -1,18 +1,18 @@
-- name: dropdown_opened
+- event: dropdown_opened
   schema:
     dropdown_id: id #required
     dropdown_name: string?
     options_count: int? #min(0)
     opened_at: date = now()
 
-- name: dropdown_closed
+- event: dropdown_closed
   schema:
     dropdown_id: id #required
     dropdown_name: string?
     close_reason: selection | blur | escape | click_outside = blur
     closed_at: date = now()
 
-- name: option_selected
+- event: option_selected
   schema:
     dropdown_id: id #required
     dropdown_name: string?
@@ -21,7 +21,7 @@
     option_index: int? #min(0)
     selected_at: date = now()
 
-- name: option_deselected
+- event: option_deselected
   schema:
     dropdown_id: id #required
     dropdown_name: string?
@@ -29,7 +29,7 @@
     option_label: string?
     deselected_at: date = now()
 
-- name: search_filtered
+- event: search_filtered
   schema:
     dropdown_id: id #required
     dropdown_name: string?
@@ -37,7 +37,7 @@
     results_count: int? #min(0)
     filtered_at: date = now()
 
-- name: combobox_typed
+- event: combobox_typed
   schema:
     combobox_id: id #required
     combobox_name: string?

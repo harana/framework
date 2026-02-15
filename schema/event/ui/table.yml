@@ -1,4 +1,4 @@
-- name: row_selected
+- event: row_selected
   schema:
     table_id: id #required
     row_id: id #required
@@ -7,28 +7,28 @@
     selection_type: single | multi = single
     selected_at: date = now()
 
-- name: row_deselected
+- event: row_deselected
   schema:
     table_id: id #required
     row_id: id #required
     row_index: int? #min(0)
     deselected_at: date = now()
 
-- name: row_expanded
+- event: row_expanded
   schema:
     table_id: id #required
     row_id: id #required
     row_index: int? #min(0)
     expanded_at: date = now()
 
-- name: row_collapsed
+- event: row_collapsed
   schema:
     table_id: id #required
     row_id: id #required
     row_index: int? #min(0)
     collapsed_at: date = now()
 
-- name: column_sorted
+- event: column_sorted
   schema:
     table_id: id #required
     column_id: id #required
@@ -36,7 +36,7 @@
     sort_direction: asc | desc | none = asc
     sorted_at: date = now()
 
-- name: column_resized
+- event: column_resized
   schema:
     table_id: id #required
     column_id: id #required
@@ -45,36 +45,36 @@
     new_width: int? #min(0)
     resized_at: date = now()
 
-- name: bulk_selection_toggled
+- event: bulk_selection_toggled
   schema:
     table_id: id #required
     new_state: selected | deselected #required
     rows_affected: int? #min(0)
     toggled_at: date = now()
 
-- name: select_all_clicked
+- event: select_all_clicked
   schema:
     table_id: id #required
     total_rows: int? #min(0)
     selected_rows: int? #min(0)
     clicked_at: date = now()
 
-- name: pagination_changed
+- event: pagination_changed
   schema:
     table_id: id #required
     from_page: int? #min(1)
-    to_page: int #required #min(1)
+    to_page: int #min(1)
     total_pages: int? #min(1)
     changed_at: date = now()
 
-- name: page_size_changed
+- event: page_size_changed
   schema:
     table_id: id #required
     old_page_size: int? #min(1)
-    new_page_size: int #required #min(1)
+    new_page_size: int #min(1)
     changed_at: date = now()
 
-- name: row_clicked
+- event: row_clicked
   schema:
     table_id: id #required
     row_id: id #required
@@ -82,7 +82,7 @@
     row_data_key: string?
     clicked_at: date = now()
 
-- name: cell_edited
+- event: cell_edited
   schema:
     table_id: id #required
     row_id: id #required

@@ -1,0 +1,147 @@
+- action: create
+  inputs:
+    data: session_data
+    ttl: int = 3600
+    user_id: string
+  outputs:
+    expires_at: date
+    session_id: string
+
+- action: get
+  inputs:
+    session_id: string
+  outputs:
+    created_at: date
+    data: session_data
+    expires_at: date
+    found: boolean
+    user_id: string
+
+- action: update
+  inputs:
+    data: session_data
+    merge: boolean = true
+    session_id: string
+  outputs:
+    success: boolean
+
+- action: destroy
+  inputs:
+    session_id: string
+  outputs:
+    success: boolean
+
+- action: refresh
+  inputs:
+    session_id: string
+    ttl: int
+  outputs:
+    expires_at: date
+    success: boolean
+
+- action: get_value
+  inputs:
+    key: string
+    session_id: string
+  outputs:
+    found: boolean
+    value: any
+
+- action: set_value
+  inputs:
+    key: string
+    session_id: string
+    value: any
+  outputs:
+    success: boolean
+
+- action: delete_value
+  inputs:
+    key: string
+    session_id: string
+  outputs:
+    success: boolean
+
+- action: list_users
+  inputs:
+    user_id: string
+  outputs:
+    sessions: list[session_info]
+    total: int
+
+- action: destroy_users
+  inputs:
+    except_id: string
+    user_id: string
+  outputs:
+    destroyed_count: int
+    success: boolean
+
+- action: validate
+  inputs:
+    session_id: string
+  outputs:
+    expires_at: date
+    user_id: string
+    valid: boolean
+
+- object: session
+  class:
+    session_id: string
+    user_id: string
+    data: session_data
+    created_at: date
+    expires_at: date
+
+- object: data
+  class:
+    values: map[string, any]
+
+- object: info
+  class:
+    session_id: string
+    user_id: string
+    created_at: date
+    expires_at: date
+
+- object: session
+  id: [token]
+  schema:
+    - created_at: date = now()
+    - data: string?
+    - ip_address: string? #max(45)
+    - is_active: boolean = true
+    - last_activity_at: date = now()
+    - token: string #unique #max(500)
+    - user_agent: string? #max(500)
+    - user_id: id -> user.id
+
+- object: refresh_token
+  id: [token]
+  schema:
+    - created_at: date = now()
+    - expires_at: date
+    - is_revoked: boolean = false
+    - revoked_at: date?
+    - session_id: id -> session.id
+    - token: string #unique #max(500)
+
+- object: activity
+  id: [session_id, action, created_at]
+  schema:
+    - method: string #max(100)
+    - created_at: date = now()
+    - ip_address: string? #max(45)
+    - metadata: string?
+    - session_id: id -> session.id
+
+- object: data
+  schema:
+    - values: map[string, any]
+
+- object: info
+  schema:
+    - session_id: string
+    - user_id: string
+    - created_at: date
+    - expires_at: date

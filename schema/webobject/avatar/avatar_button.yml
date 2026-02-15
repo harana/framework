@@ -1,4 +1,4 @@
-- name: avatar_button
+- webobject: avatar_button
   attributes:
     - alt: string? #max(200)
     - href: string? #max(500)

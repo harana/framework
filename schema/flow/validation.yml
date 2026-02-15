@@ -1,4 +1,4 @@
-- name: schema
+- action: schema
   inputs:
     data: any #required
     schema: validation_schema #required
@@ -7,7 +7,7 @@
     errors: list[validation_error]
     valid: boolean
 
-- name: field
+- action: field
   inputs:
     field_name: string
     rules: list[string] #required
@@ -16,14 +16,14 @@
     errors: list[string]
     valid: boolean
 
-- name: email_format
+- action: email_format
   inputs:
     email: string #required
   outputs:
     reason: string
     valid: boolean
 
-- name: url
+- action: url
   inputs:
     allowed_schemes: list[string]
     url: string #required
@@ -31,7 +31,7 @@
     reason: string
     valid: boolean
 
-- name: phone
+- action: phone
   inputs:
     country_code: string
     phone: string #required
@@ -40,7 +40,7 @@
     formatted: string
     valid: boolean
 
-- name: date
+- action: date
   inputs:
     date: string #required
     format: string = "iso8601"
@@ -49,7 +49,7 @@
     reason: string
     valid: boolean
 
-- name: json
+- action: json
   inputs:
     json_string: string #required
   outputs:
@@ -57,7 +57,7 @@
     parsed: any
     valid: boolean
 
-- name: credit_card
+- action: credit_card
   inputs:
     number: string #required
     luhn: boolean = true
@@ -66,7 +66,7 @@
     last_four: string
     valid: boolean
 
-- name: uuid
+- action: uuid
   inputs:
     uuid: string #required
     version: int
@@ -74,7 +74,7 @@
     valid: boolean
     version: int
 
-- name: ip
+- action: ip
   inputs:
     ip: string #required
     version: 4 | 6 | any = any
@@ -83,7 +83,7 @@
     valid: boolean
     version: int
 
-- name: password
+- action: password
   inputs:
     min_length: int = 8
     password: string #required
@@ -96,7 +96,7 @@
     suggestions: list[string]
     valid: boolean
 
-- name: sanitize_html
+- action: sanitize_html
   inputs:
     allowed_attributes: html_allowed_attributes
     allowed_tags: list[string]
@@ -105,26 +105,26 @@
     removed_count: int
     sanitized: string
 
-- name: validation_result
+- object: validation_result
   class:
     valid: boolean
     errors: list[validation_error]
     field_name: string
     value: any
 
-- name: validation_schema
+- object: validation_schema
   class:
     type: string
     properties: map[string, any]
     required: list[string]
 
-- name: validation_error
+- object: validation_error
   class:
     path: string
     message: string
     code: string
 
-- name: html_allowed_attributes
+- object: html_allowed_attributes
   class:
     global: list[string]
     per_tag: map[string, list[string]]

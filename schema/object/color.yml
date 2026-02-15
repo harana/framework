@@ -1,12 +1,12 @@
-- name: color
+- object: color
   id: [hex]
   schema:
     - created_at: date = now()
     - format: hex | rgb | hsl | hsv | cmyk = hex
-    - hex: string #required #unique #max(9)
+    - hex: string #unique #max(9)
     - label: string? #max(100)
 
-- name: color_palette
+- object: color_palette
   schema:
     - created_at: date = now()
     - created_by: id? -> user.id
@@ -15,9 +15,9 @@
     - palette_type: complementary | analogous | triadic | tetradic | split_complementary | monochromatic | custom = custom
     - updated_at: date = now()
 
-- name: color_palette_entry
+- object: color_palette_entry
   id: [palette_id, color_id]
   schema:
-    - color_id: id #required -> color.id
-    - palette_id: id #required -> color_palette.id
+    - color_id: id -> color.id
+    - palette_id: id -> color_palette.id
     - sort_order: int = 0

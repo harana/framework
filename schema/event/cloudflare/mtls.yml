@@ -1,4 +1,4 @@
-- name: cloudflare_mtls_fetch_invoked
+- event: cloudflare_mtls_fetch_invoked
   schema:
     certificate_binding: string #required
     url: string #required
@@ -6,7 +6,7 @@
     status_code: int?
     invoked_at: date = now()
 
-- name: cloudflare_mtls_fetch_failed
+- event: cloudflare_mtls_fetch_failed
   schema:
     certificate_binding: string #required
     url: string #required

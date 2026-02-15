@@ -1,4 +1,4 @@
-- name: input_cleared
+- event: input_cleared
   schema:
     input_id: id #required
     input_name: string?
@@ -6,7 +6,7 @@
     previous_value: string?
     cleared_at: date = now()
 
-- name: textarea_resized
+- event: textarea_resized
   schema:
     textarea_id: id #required
     textarea_name: string?
@@ -16,10 +16,10 @@
     new_height: int? #min(0)
     resized_at: date = now()
 
-- name: character_limit_reached
+- event: character_limit_reached
   schema:
     input_id: id #required
     input_name: string?
-    character_limit: int #required #min(1)
-    current_length: int #required #min(0)
+    character_limit: int #min(1)
+    current_length: int #min(0)
     reached_at: date = now()

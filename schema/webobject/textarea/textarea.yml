@@ -1,4 +1,4 @@
-- name: textarea
+- webobject: textarea
   attributes:
     - aria_label: string? #max(200)
     - auto_focus: boolean = false

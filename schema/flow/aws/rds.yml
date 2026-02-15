@@ -1,4 +1,4 @@
-- name: create_db_instance
+- action: create_db_instance
   inputs:
     allocated_storage: int
     auto_minor_version_upgrade: boolean = true
@@ -57,7 +57,7 @@
     db_instance: db_instance
     success: boolean
 
-- name: delete_db_instance
+- action: delete_db_instance
   inputs:
     db_instance_identifier: string #required
     delete_automated_backups: boolean = true
@@ -68,7 +68,7 @@
     db_instance: db_instance
     success: boolean
 
-- name: describe_db_instances
+- action: describe_db_instances
   inputs:
     db_instance_identifier: string
     filters: list[rds_filter]
@@ -79,7 +79,7 @@
     db_instances: list[db_instance]
     marker: string
 
-- name: modify_db_instance
+- action: modify_db_instance
   inputs:
     allocated_storage: int
     allow_major_version_upgrade: boolean = false
@@ -136,7 +136,7 @@
     db_instance: db_instance
     success: boolean
 
-- name: start_db_instance
+- action: start_db_instance
   inputs:
     db_instance_identifier: string #required
     region: string
@@ -144,7 +144,7 @@
     db_instance: db_instance
     success: boolean
 
-- name: stop_db_instance
+- action: stop_db_instance
   inputs:
     db_instance_identifier: string #required
     db_snapshot_identifier: string
@@ -153,7 +153,7 @@
     db_instance: db_instance
     success: boolean
 
-- name: reboot_db_instance
+- action: reboot_db_instance
   inputs:
     db_instance_identifier: string #required
     force_failover: boolean = false
@@ -162,7 +162,7 @@
     db_instance: db_instance
     success: boolean
 
-- name: create_db_cluster
+- action: create_db_cluster
   inputs:
     allocated_storage: int
     auto_minor_version_upgrade: boolean = true
@@ -217,7 +217,7 @@
     db_cluster: db_cluster
     success: boolean
 
-- name: delete_db_cluster
+- action: delete_db_cluster
   inputs:
     db_cluster_identifier: string #required
     delete_automated_backups: boolean = true
@@ -228,7 +228,7 @@
     db_cluster: db_cluster
     success: boolean
 
-- name: describe_db_clusters
+- action: describe_db_clusters
   inputs:
     db_cluster_identifier: string
     filters: list[rds_filter]
@@ -240,7 +240,7 @@
     db_clusters: list[db_cluster]
     marker: string
 
-- name: modify_db_cluster
+- action: modify_db_cluster
   inputs:
     allocated_storage: int
     allow_major_version_upgrade: boolean = false
@@ -286,7 +286,7 @@
     db_cluster: db_cluster
     success: boolean
 
-- name: start_db_cluster
+- action: start_db_cluster
   inputs:
     db_cluster_identifier: string #required
     region: string
@@ -294,7 +294,7 @@
     db_cluster: db_cluster
     success: boolean
 
-- name: stop_db_cluster
+- action: stop_db_cluster
   inputs:
     db_cluster_identifier: string #required
     region: string
@@ -302,7 +302,7 @@
     db_cluster: db_cluster
     success: boolean
 
-- name: failover_db_cluster
+- action: failover_db_cluster
   inputs:
     db_cluster_identifier: string #required
     region: string
@@ -311,7 +311,7 @@
     db_cluster: db_cluster
     success: boolean
 
-- name: create_db_snapshot
+- action: create_db_snapshot
   inputs:
     db_instance_identifier: string #required
     db_snapshot_identifier: string #required
@@ -321,7 +321,7 @@
     db_snapshot: db_snapshot
     success: boolean
 
-- name: delete_db_snapshot
+- action: delete_db_snapshot
   inputs:
     db_snapshot_identifier: string #required
     region: string
@@ -329,7 +329,7 @@
     db_snapshot: db_snapshot
     success: boolean
 
-- name: describe_db_snapshots
+- action: describe_db_snapshots
   inputs:
     db_instance_identifier: string
     db_snapshot_identifier: string
@@ -345,7 +345,7 @@
     db_snapshots: list[db_snapshot]
     marker: string
 
-- name: copy_db_snapshot
+- action: copy_db_snapshot
   inputs:
     copy_option_group: boolean = false
     copy_tags: boolean = false
@@ -361,7 +361,7 @@
     db_snapshot: db_snapshot
     success: boolean
 
-- name: restore_db_instance_from_db_snapshot
+- action: restore_db_instance_from_db_snapshot
   inputs:
     auto_minor_version_upgrade: boolean
     availability_zone: string
@@ -400,7 +400,7 @@
     db_instance: db_instance
     success: boolean
 
-- name: restore_db_instance_to_point_in_time
+- action: restore_db_instance_to_point_in_time
   inputs:
     auto_minor_version_upgrade: boolean
     availability_zone: string
@@ -444,7 +444,7 @@
     db_instance: db_instance
     success: boolean
 
-- name: create_db_cluster_snapshot
+- action: create_db_cluster_snapshot
   inputs:
     db_cluster_identifier: string #required
     db_cluster_snapshot_identifier: string #required
@@ -454,7 +454,7 @@
     db_cluster_snapshot: db_cluster_snapshot
     success: boolean
 
-- name: delete_db_cluster_snapshot
+- action: delete_db_cluster_snapshot
   inputs:
     db_cluster_snapshot_identifier: string #required
     region: string
@@ -462,7 +462,7 @@
     db_cluster_snapshot: db_cluster_snapshot
     success: boolean
 
-- name: describe_db_cluster_snapshots
+- action: describe_db_cluster_snapshots
   inputs:
     db_cluster_identifier: string
     db_cluster_snapshot_identifier: string
@@ -477,7 +477,7 @@
     db_cluster_snapshots: list[db_cluster_snapshot]
     marker: string
 
-- name: copy_db_cluster_snapshot
+- action: copy_db_cluster_snapshot
   inputs:
     copy_tags: boolean = false
     kms_key_id: string
@@ -491,7 +491,7 @@
     db_cluster_snapshot: db_cluster_snapshot
     success: boolean
 
-- name: restore_db_cluster_from_snapshot
+- action: restore_db_cluster_from_snapshot
   inputs:
     availability_zones: list[string]
     backtrack_window: int
@@ -526,7 +526,7 @@
     db_cluster: db_cluster
     success: boolean
 
-- name: restore_db_cluster_to_point_in_time
+- action: restore_db_cluster_to_point_in_time
   inputs:
     backtrack_window: int
     copy_tags_to_snapshot: boolean
@@ -560,7 +560,7 @@
     db_cluster: db_cluster
     success: boolean
 
-- name: create_db_subnet_group
+- action: create_db_subnet_group
   inputs:
     db_subnet_group_description: string #required
     db_subnet_group_name: string #required
@@ -571,14 +571,14 @@
     db_subnet_group: db_subnet_group
     success: boolean
 
-- name: delete_db_subnet_group
+- action: delete_db_subnet_group
   inputs:
     db_subnet_group_name: string #required
     region: string
   outputs:
     success: boolean
 
-- name: describe_db_subnet_groups
+- action: describe_db_subnet_groups
   inputs:
     db_subnet_group_name: string
     filters: list[rds_filter]
@@ -589,7 +589,7 @@
     db_subnet_groups: list[db_subnet_group]
     marker: string
 
-- name: modify_db_subnet_group
+- action: modify_db_subnet_group
   inputs:
     db_subnet_group_description: string
     db_subnet_group_name: string #required
@@ -599,7 +599,7 @@
     db_subnet_group: db_subnet_group
     success: boolean
 
-- name: create_db_parameter_group
+- action: create_db_parameter_group
   inputs:
     db_parameter_group_family: string #required
     db_parameter_group_name: string #required
@@ -610,14 +610,14 @@
     db_parameter_group: db_parameter_group
     success: boolean
 
-- name: delete_db_parameter_group
+- action: delete_db_parameter_group
   inputs:
     db_parameter_group_name: string #required
     region: string
   outputs:
     success: boolean
 
-- name: describe_db_parameter_groups
+- action: describe_db_parameter_groups
   inputs:
     db_parameter_group_name: string
     filters: list[rds_filter]
@@ -628,7 +628,7 @@
     db_parameter_groups: list[db_parameter_group]
     marker: string
 
-- name: modify_db_parameter_group
+- action: modify_db_parameter_group
   inputs:
     db_parameter_group_name: string #required
     parameters: list[parameter] #required
@@ -637,7 +637,7 @@
     db_parameter_group_name: string
     success: boolean
 
-- name: reset_db_parameter_group
+- action: reset_db_parameter_group
   inputs:
     db_parameter_group_name: string #required
     parameters: list[parameter]
@@ -647,7 +647,7 @@
     db_parameter_group_name: string
     success: boolean
 
-- name: describe_db_parameters
+- action: describe_db_parameters
   inputs:
     db_parameter_group_name: string #required
     filters: list[rds_filter]
@@ -659,7 +659,7 @@
     marker: string
     parameters: list[parameter]
 
-- name: create_db_cluster_parameter_group
+- action: create_db_cluster_parameter_group
   inputs:
     db_cluster_parameter_group_name: string #required
     db_parameter_group_family: string #required
@@ -670,14 +670,14 @@
     db_cluster_parameter_group: db_cluster_parameter_group
     success: boolean
 
-- name: delete_db_cluster_parameter_group
+- action: delete_db_cluster_parameter_group
   inputs:
     db_cluster_parameter_group_name: string #required
     region: string
   outputs:
     success: boolean
 
-- name: describe_db_cluster_parameter_groups
+- action: describe_db_cluster_parameter_groups
   inputs:
     db_cluster_parameter_group_name: string
     filters: list[rds_filter]
@@ -688,7 +688,7 @@
     db_cluster_parameter_groups: list[db_cluster_parameter_group]
     marker: string
 
-- name: modify_db_cluster_parameter_group
+- action: modify_db_cluster_parameter_group
   inputs:
     db_cluster_parameter_group_name: string #required
     parameters: list[parameter] #required
@@ -697,7 +697,7 @@
     db_cluster_parameter_group_name: string
     success: boolean
 
-- name: create_option_group
+- action: create_option_group
   inputs:
     engine_name: string #required
     major_engine_version: string #required
@@ -709,14 +709,14 @@
     option_group: option_group
     success: boolean
 
-- name: delete_option_group
+- action: delete_option_group
   inputs:
     option_group_name: string #required
     region: string
   outputs:
     success: boolean
 
-- name: describe_option_groups
+- action: describe_option_groups
   inputs:
     engine_name: string
     filters: list[rds_filter]
@@ -729,7 +729,7 @@
     marker: string
     option_groups_list: list[option_group]
 
-- name: modify_option_group
+- action: modify_option_group
   inputs:
     apply_immediately: boolean = false
     option_group_name: string #required
@@ -740,7 +740,7 @@
     option_group: option_group
     success: boolean
 
-- name: create_db_instance_read_replica
+- action: create_db_instance_read_replica
   inputs:
     auto_minor_version_upgrade: boolean
     availability_zone: string
@@ -783,7 +783,7 @@
     db_instance: db_instance
     success: boolean
 
-- name: promote_read_replica
+- action: promote_read_replica
   inputs:
     backup_retention_period: int
     db_instance_identifier: string #required
@@ -793,7 +793,7 @@
     db_instance: db_instance
     success: boolean
 
-- name: promote_read_replica_db_cluster
+- action: promote_read_replica_db_cluster
   inputs:
     db_cluster_identifier: string #required
     region: string
@@ -801,7 +801,7 @@
     db_cluster: db_cluster
     success: boolean
 
-- name: describe_db_engine_versions
+- action: describe_db_engine_versions
   inputs:
     db_parameter_group_family: string
     default_only: boolean = false
@@ -818,7 +818,7 @@
     db_engine_versions: list[db_engine_version]
     marker: string
 
-- name: describe_orderable_db_instance_options
+- action: describe_orderable_db_instance_options
   inputs:
     availability_zone_group: string
     db_instance_class: string
@@ -834,7 +834,7 @@
     marker: string
     orderable_db_instance_options: list[orderable_db_instance_option]
 
-- name: add_tags_to_resource
+- action: add_tags_to_resource
   inputs:
     region: string
     resource_name: string #required
@@ -842,7 +842,7 @@
   outputs:
     success: boolean
 
-- name: remove_tags_from_resource
+- action: remove_tags_from_resource
   inputs:
     region: string
     resource_name: string #required
@@ -850,7 +850,7 @@
   outputs:
     success: boolean
 
-- name: list_tags_for_resource
+- action: list_tags_for_resource
   inputs:
     filters: list[rds_filter]
     region: string

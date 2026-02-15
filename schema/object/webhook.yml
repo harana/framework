@@ -1,17 +1,17 @@
-- name: webhook
+- object: webhook
   schema:
     - created_at: date = now()
     - description: string? #max(500)
     - is_active: boolean = true
     - secret: string? #max(500) #encrypted
     - updated_at: date = now()
-    - url: string #required #url
+    - url: string #url
 
-- name: webhook_delivery
+- object: webhook_delivery
   id: [webhook_id, event_type, created_at]
   schema:
     - created_at: date = now()
-    - event_type: string #required #max(100)
+    - event_type: string #max(100)
     - payload: string #required
     - request_headers: string?
     - response_body: string?
@@ -19,9 +19,9 @@
     - response_headers: string?
     - retry_count: int = 0 #min(0)
     - status: pending | delivered | failed = pending
-    - webhook_id: id #required -> webhook.id
+    - webhook_id: id -> webhook.id
 
-- name: webhook_event
+- object: webhook_event
   schema:
     - description: string? #max(500)
     - is_active: boolean = true

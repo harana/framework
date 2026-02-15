@@ -1,10 +1,10 @@
-- name: description_list_item
+- webobject: description_list_item
   id: [list_id, term]
   attributes:
-    - details: string #required #max(1000)
-    - list_id: id #required -> ui_description_list.id
+    - details: string #max(1000)
+    - list_id: id -> ui_description_list.id
     - order: int = 0 #min(0)
-    - term: string #required #max(200)
+    - term: string #max(200)
   events:
     - click
     - collapse

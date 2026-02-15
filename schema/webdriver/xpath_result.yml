@@ -1,10 +1,10 @@
-- name: webdriver_xpath_result
+- object: webdriver_xpath_result
   id: [session_id, xpath, queried_at]
   schema:
     - element_count: int = 0 #min(0)
     - error_message: string? #max(2000)
     - queried_at: date = now()
     - results: string? # json array of element data
-    - session_id: id #required -> web_driver_session.id
+    - session_id: id -> web_driver_session.id
     - status: success | failed | not_found | timeout = success
-    - xpath: string #required #max(4000)
+    - xpath: string #max(4000)

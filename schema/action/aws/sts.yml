@@ -1,0 +1,158 @@
+- action: assume_role
+  inputs:
+    duration_seconds: int = 3600
+    external_id: string
+    policy: string
+    policy_arns: list[sts_policy_arn]
+    region: string
+    role_arn: string
+    role_session_name: string
+    serial_number: string
+    source_identity: string
+    tags: tags
+    token_code: string
+    transitive_tag_keys: list[string]
+  outputs:
+    access_key_id: string
+    assumed_role_user: assumed_role_user
+    credentials: sts_credentials
+    expiration: date
+    packed_policy_size: int
+    secret_access_key: string
+    session_token: string
+    source_identity: string
+    success: boolean
+
+- action: assume_role_with_saml
+  inputs:
+    duration_seconds: int = 3600
+    policy: string
+    policy_arns: list[sts_policy_arn]
+    principal_arn: string
+    region: string
+    role_arn: string
+    saml_assertion: string
+  outputs:
+    access_key_id: string
+    assumed_role_user: assumed_role_user
+    audience: string
+    credentials: sts_credentials
+    expiration: date
+    issuer: string
+    name_qualifier: string
+    packed_policy_size: int
+    secret_access_key: string
+    session_token: string
+    subject: string
+    subject_type: string
+    success: boolean
+
+- action: assume_role_with_web_identity
+  inputs:
+    duration_seconds: int = 3600
+    policy: string
+    policy_arns: list[sts_policy_arn]
+    provider_id: string
+    region: string
+    role_arn: string
+    role_session_name: string
+    web_identity_token: string
+  outputs:
+    access_key_id: string
+    assumed_role_user: assumed_role_user
+    audience: string
+    credentials: sts_credentials
+    expiration: date
+    packed_policy_size: int
+    provider: string
+    secret_access_key: string
+    session_token: string
+    source_identity: string
+    subject_from_web_identity_token: string
+    success: boolean
+
+- action: decode_authorization_message
+  inputs:
+    encoded_message: string
+    region: string
+  outputs:
+    decoded_message: string
+    success: boolean
+
+- action: get_caller_identity
+  inputs:
+    region: string
+  outputs:
+    account: string
+    arn: string
+    user_id: string
+
+- action: get_session_token
+  inputs:
+    duration_seconds: int = 3600
+    region: string
+    serial_number: string
+    token_code: string
+  outputs:
+    access_key_id: string
+    credentials: sts_credentials
+    expiration: date
+    secret_access_key: string
+    session_token: string
+    success: boolean
+
+- action: get_federation_token
+  inputs:
+    duration_seconds: int = 3600
+    name: string
+    policy: string
+    policy_arns: list[sts_policy_arn]
+    region: string
+    tags: tags
+  outputs:
+    access_key_id: string
+    credentials: sts_credentials
+    expiration: date
+    federated_user: federated_user
+    packed_policy_size: int
+    secret_access_key: string
+    session_token: string
+    success: boolean
+
+- action: get_access_key_info
+  inputs:
+    access_key_id: string
+    region: string
+  outputs:
+    account: string
+    success: boolean
+
+- object: assumed_role_session
+  id: [account_id, role_arn, role_session_name]
+  schema:
+    - access_key_id: string? #max(128)
+    - account_id: string #max(20)
+    - assumed_role_arn: string? #max(255)
+    - assumed_role_id: string? #max(255)
+    - created_at: date = now()
+    - expiration: date
+    - method: assume_role | assume_role_with_saml | assume_role_with_web_identity = assume_role
+    - packed_policy_size: int? #min(0) #max(100)
+    - region: string? #max(50)
+    - role_arn: string #max(255)
+    - role_session_name: string #max(64)
+    - source_identity: string? #max(64)
+
+- object: federation_token
+  id: [account_id, federated_user_arn]
+  schema:
+    - access_key_id: string? #max(128)
+    - account_id: string #max(20)
+    - created_at: date = now()
+    - expiration: date
+    - federated_user_arn: string #max(255)
+    - federated_user_id: string? #max(255)
+
+    - name: string #max(32)
+    - packed_policy_size: int? #min(0) #max(100)
+    - region: string? #max(50)

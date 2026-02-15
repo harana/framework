@@ -1,0 +1,291 @@
+- action: start
+  inputs:
+    context: workflow_context
+    input: any
+    workflow_id: string
+  outputs:
+    execution_id: string
+    status: string
+    success: boolean
+
+- action: pause
+  inputs:
+    execution_id: string
+    reason: string
+  outputs:
+    success: boolean
+
+- action: resume
+  inputs:
+    execution_id: string
+    input: any
+  outputs:
+    success: boolean
+
+- action: cancel
+  inputs:
+    execution_id: string
+    reason: string
+  outputs:
+    success: boolean
+
+- action: get_status
+  inputs:
+    execution_id: string
+  outputs:
+    completed_at: date
+    current_step: string
+    error: string
+    progress: float
+    started_at: date
+    status: pending | running | paused | completed | failed | cancelled
+
+- action: get_result
+  inputs:
+    execution_id: string
+  outputs:
+    completed: boolean
+    error: string
+    output: any
+
+- action: list_executions
+  inputs:
+    end_date: date
+    limit: int = 100
+    offset: int = 0
+    start_date: date
+    status: string
+    workflow_id: string
+  outputs:
+    executions: list[workflow_execution_info]
+    total: int
+
+- action: signal
+  inputs:
+    execution_id: string
+    payload: any
+    signal_name: string
+  outputs:
+    success: boolean
+
+- action: wait_for_event
+  inputs:
+    event_name: string
+    execution_id: string
+    timeout: int = 3600
+  outputs:
+    payload: any
+    received: boolean
+    timed_out: boolean
+
+- action: history
+  inputs:
+    execution_id: string
+  outputs:
+    events: list[workflow_history_event]
+    total: int
+
+- action: retry_step
+  inputs:
+    execution_id: string
+    step_id: string
+  outputs:
+    success: boolean
+
+- action: skip_step
+  inputs:
+    execution_id: string
+    output: any
+    step_id: string
+  outputs:
+    success: boolean
+
+- action: terminate_all
+  inputs:
+    reason: string
+    workflow_id: string
+  outputs:
+    success: boolean
+    terminated_count: int
+
+- object: workflow_execution
+  class:
+    execution_id: string
+    workflow_id: string
+    status: string
+    current_step: string
+    input: any
+    output: any
+    started_at: date
+    completed_at: date
+    error: string
+
+- object: workflow_context
+  class:
+    values: map[string, any]
+
+- object: workflow_execution_info
+  class:
+    execution_id: string
+    workflow_id: string
+    status: string
+    started_at: date
+    completed_at: date
+
+- object: workflow_history_event
+  class:
+    event_id: string
+    event_type: string
+    step_id: string
+    timestamp: date
+    data: any
+
+- object: workflow
+  schema:
+    - created_at: date = now()
+    - description: string? #max(1000)
+    - is_active: boolean = true
+    - trigger_type: manual | scheduled | event | webhook = manual
+    - updated_at: date = now()
+    - version: int = 1 #min(1)
+
+- object: workflow_step
+  id: [workflow_id, name]
+  schema:
+    - method: string #max(200)
+    - condition: string?
+    - on_failure: continue | stop | retry = stop
+    - retry_count: int = 0 #min(0)
+    - sort_order: int = 0
+    - timeout_seconds: int = 300 #min(1)
+    - workflow_id: id -> workflow.id
+
+- object: workflow_execution
+  id: [workflow_id, created_at]
+  schema:
+    - completed_at: date?
+    - created_at: date = now()
+    - input: string?
+    - output: string?
+    - started_at: date?
+    - status: pending | running | completed | failed | cancelled = pending
+    - triggered_by: id? -> user.id
+    - workflow_id: id -> workflow.id
+
+- object: workflow_step_execution
+  id: [execution_id, step_id]
+  schema:
+    - completed_at: date?
+    - error_message: string? #max(2000)
+    - input: string?
+    - output: string?
+    - started_at: date?
+    - status: pending | running | completed | failed | skipped = pending
+    - step_id: id -> workflow_step.id
+
+- object: workflow_context
+  schema:
+    - values: map[string, any]
+
+- object: workflow_execution_info
+  schema:
+    - completed_at: date?
+    - execution_id: string
+    - started_at: date
+    - status: string
+    - workflow_id: string
+
+- object: workflow_history_event
+  schema:
+    - data: any
+    - event_id: string
+    - event_type: string
+    - step_id: string
+    - timestamp: date
+
+- object: workflow_signal
+  schema:
+    - payload: any
+    - received_at: date = now()
+    - signal_name: string
+
+- object: workflow_runtime_execution
+  schema:
+    - completed_at: date?
+    - context: map[string, any]
+    - current_step: string
+    - error: string?
+    - execution_id: string
+    - input: any
+    - output: any
+    - pause_reason: string?
+    - progress: float = 0.0
+    - started_at: date = now()
+    - status: pending | running | paused | completed | failed | cancelled = pending
+    - workflow_id: string
+
+- object: workflow_cancel_output
+  schema:
+    - success: boolean
+
+- object: workflow_get_result_output
+  schema:
+    - completed: boolean
+    - error: string?
+    - output: string?
+
+- object: workflow_get_status_output
+  schema:
+    - completed_at: string?
+    - current_step: string
+    - error: string?
+    - progress: float
+    - started_at: string
+    - status: string
+
+- object: workflow_history_output
+  schema:
+    - events: list[map[string, any]]
+    - total: int
+
+- object: workflow_list_executions_output
+  schema:
+    - executions: list[map[string, any]]
+    - total: int
+
+- object: workflow_pause_output
+  schema:
+    - success: boolean
+
+- object: workflow_resume_output
+  schema:
+    - success: boolean
+
+- object: workflow_retry_step_output
+  schema:
+    - success: boolean
+
+- object: workflow_signal_output
+  schema:
+    - success: boolean
+
+- object: workflow_skip_step_output
+  schema:
+    - success: boolean
+
+- object: workflow_start_output
+  schema:
+    - execution_id: string
+    - status: string
+    - success: boolean
+
+- object: workflow_terminate_all_output
+  schema:
+    - success: boolean
+    - terminated_count: int
+
+- object: workflow_wait_for_event_output
+  schema:
+    - payload: string?
+    - received: boolean
+    - timed_out: boolean

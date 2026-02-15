@@ -1,28 +1,28 @@
-- name: notification
+- object: notification
   id: [user_id, created_at]
   schema:
     - action_url: string? #url
-    - body: string #required #max(1000)
+    - body: string #max(1000)
     - created_at: date = now()
     - is_read: boolean = false
     - read_at: date?
-    - title: string #required #max(200)
+    - title: string #max(200)
     - type: info | warning | error | success = info
-    - user_id: id #required -> user.id
+    - user_id: id -> user.id
 
-- name: notification_preference
+- object: notification_preference
   id: [user_id, notification_type, channel]
   schema:
     - channel: email | sms | push | in_app = email
     - is_enabled: boolean = true
-    - notification_type: string #required #max(100)
-    - user_id: id #required -> user.id
+    - notification_type: string #max(100)
+    - user_id: id -> user.id
 
-- name: push_subscription
+- object: push_subscription
   id: [user_id, device_token]
   schema:
     - created_at: date = now()
-    - device_token: string #required #max(500)
+    - device_token: string #max(500)
     - is_active: boolean = true
     - updated_at: date = now()
-    - user_id: id #required -> user.id
+    - user_id: id -> user.id

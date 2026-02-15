@@ -1,0 +1,268 @@
+# This file is auto-generated. Do not edit manually.
+
+from datetime import datetime
+from typing import Optional, List
+from enum import Enum
+from pydantic import BaseModel, Field, validator, field_validator
+
+class ClientConnection(BaseModel):
+    """
+    client_connection
+    
+    ID fields: id
+    """
+
+    client_type: str = Field(default="http")
+    connection_retry_attempts: int = Field(default=3)
+    connection_retry_delay_ms: int = Field(default=1000)
+    connection_string: Optional[str] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    database: Optional[str] = None
+    host: str
+    is_active: bool = Field(default=True)
+    max_connections: int = Field(default=10)
+    metadata: Optional[str] = None
+    min_connections: int = Field(default=1)
+    password: Optional[str] = None
+    port: int
+    ssl_cert_path: Optional[str] = None
+    timeout_seconds: int = Field(default=30)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    use_ssl: bool = Field(default=False)
+    username: Optional[str] = None
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class ClientPool(BaseModel):
+    """
+    client_pool
+    
+    ID fields: id
+    """
+
+    active_connections: int = Field(default=0)
+    connection_id: str = Field(description="Reference: client_connection.id")
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    idle_connections: int = Field(default=0)
+    idle_timeout_seconds: int = Field(default=300)
+    is_healthy: bool = Field(default=True)
+    max_wait_time_ms: int = Field(default=5000)
+    pool_size: int
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    wait_queue_size: int = Field(default=0)
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class ClientQuery(BaseModel):
+    """
+    client_query
+    
+    ID fields: connection_id, executed_at, query_hash
+    """
+
+    bytes_returned: Optional[int] = None
+    connection_id: str = Field(description="Reference: client_connection.id")
+    duration_ms: Optional[int] = None
+    error_message: Optional[str] = None
+    executed_at: datetime = Field(default_factory=datetime.utcnow)
+    executed_by: Optional[str] = Field(default=None, description="Reference: user.id")
+    parameters: Optional[str] = None
+    query_hash: Optional[str] = None
+    query_text: Optional[str] = None
+    query_type: str = Field(default="select")
+    rows_affected: Optional[int] = None
+    status: str = Field(default="success")
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class ClientHealthCheck(BaseModel):
+    """
+    client_health_check
+    
+    ID fields: connection_id, checked_at
+    """
+
+    checked_at: datetime = Field(default_factory=datetime.utcnow)
+    connection_id: str = Field(description="Reference: client_connection.id")
+    error_message: Optional[str] = None
+    is_healthy: bool = Field(default=True)
+    metadata: Optional[str] = None
+    response_time_ms: Optional[int] = None
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class ClientConfig(BaseModel):
+    """
+    client_config
+    
+    ID fields: connection_id, key
+    """
+
+    connection_id: str = Field(description="Reference: client_connection.id")
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    description: Optional[str] = None
+    is_encrypted: bool = Field(default=False)
+    is_required: bool = Field(default=False)
+    key: str
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    value: str
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class GetOutput(BaseModel):
+    """
+    get_output
+    
+    ID fields: id
+    """
+
+    body: str
+    headers: str
+    status_code: int
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class PostOutput(BaseModel):
+    """
+    post_output
+    
+    ID fields: id
+    """
+
+    body: str
+    headers: str
+    status_code: int
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class PutOutput(BaseModel):
+    """
+    put_output
+    
+    ID fields: id
+    """
+
+    body: str
+    headers: str
+    status_code: int
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class PatchOutput(BaseModel):
+    """
+    patch_output
+    
+    ID fields: id
+    """
+
+    body: str
+    headers: str
+    status_code: int
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class DeleteOutput(BaseModel):
+    """
+    delete_output
+    
+    ID fields: id
+    """
+
+    body: str
+    headers: str
+    status_code: int
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class DownloadOutput(BaseModel):
+    """
+    download_output
+    
+    ID fields: id
+    """
+
+    content: str
+    content_type: str
+    size: int
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class UploadOutput(BaseModel):
+    """
+    upload_output
+    
+    ID fields: id
+    """
+
+    body: str
+    status_code: int
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class GraphqlQueryOutput(BaseModel):
+    """
+    graphql_query_output
+    
+    ID fields: id
+    """
+
+    data: str
+    errors: List[str]
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class GraphqlError(BaseModel):
+    """
+    graphql_error
+    
+    ID fields: id
+    """
+
+    message: str
+    path: List[str]
+    locations: List[str]
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class GraphqlErrorLocation(BaseModel):
+    """
+    graphql_error_location
+    
+    ID fields: id
+    """
+
+    line: int
+    column: int
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+

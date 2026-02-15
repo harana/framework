@@ -1,6 +1,6 @@
-- name: switch_group_item
+- webobject: switch_group_item
   id: [group_id, switch_id]
   attributes:
-    - group_id: id #required -> ui_switch_group.id
+    - group_id: id -> ui_switch_group.id
     - order: int = 0 #min(0)
-    - switch_id: id #required -> ui_switch.id
+    - switch_id: id -> ui_switch.id

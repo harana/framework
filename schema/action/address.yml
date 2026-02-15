@@ -1,0 +1,94 @@
+- action: validate
+  inputs:
+    address: address
+    country: string
+  outputs:
+    errors: list[address_validation_error]
+    valid: boolean
+
+- action: normalize
+  inputs:
+    address: address
+    country: string
+    format: string = "standard"
+  outputs:
+    address: address
+
+- action: parse
+  inputs:
+    address: string
+    country: string
+  outputs:
+    city: string
+    country: string
+    postal_code: string
+    state: string
+    street:  string
+
+- action: autocomplete
+  inputs:
+    country: string
+    limit: int = 5
+    query: string
+    types: list[string]
+  outputs:
+    suggestions: list[address_suggestion]
+
+- object: address
+  class:
+    street: string
+    city: string
+    state: string
+    postal_code: string
+    country: string
+
+- object: validation_error
+  class:
+    field: string
+    code: string
+    message: string
+
+- object: suggestion
+  class:
+    description: string
+    place_id: string
+    address: address
+
+- object: address
+  id: [entity_id, entity_type, type]
+  schema:
+    - city: string? #max(200)
+    - country: string? #max(100)
+    - created_at: date = now()
+    - entity_id: id
+    - entity_type: string #max(100)
+    - is_primary: boolean = false
+    - is_verified: boolean = false
+    - label: string? #max(100)
+    - postal_code: string? #max(20)
+    - state: string? #max(200)
+    - street: string? #max(500)
+    - type: home | work | shipping | billing | other = home
+    - updated_at: date = now()
+    - verified_at: date?
+
+- object: validation_log
+  id: [address_id, validated_at]
+  schema:
+    - address_id: id -> address.id
+    - errors: string? #jsonarray of errors
+    - is_valid: boolean = false
+    - provider: string? #max(100)
+    - validated_at: date = now()
+
+- object: validation_error
+  schema:
+    - field: string
+    - code: string
+    - message: string
+
+- object: suggestion
+  schema:
+    - description: string
+    - place_id: string
+    - address: address

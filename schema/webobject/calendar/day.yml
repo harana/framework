@@ -1,19 +1,19 @@
-- name: day_calendar
+- webobject: day_calendar
   attributes:
     - add_event_label: string = "add event" #max(50)
-    - current_day_datetime: string #required #max(20)
-    - current_day_display_long: string #required #max(50)
-    - current_day_display_short: string #required #max(20)
+    - current_day_datetime: string #max(20)
+    - current_day_display_long: string #max(50)
+    - current_day_display_short: string #max(20)
     - events: [calendar_event]
     - mini_calendar_days: [calendar_day]
-    - mini_calendar_month_display: string #required #max(50)
+    - mini_calendar_month_display: string #max(50)
     - selected_view: string = "day" #max(20)
     - time_slots: [time_slot]
     - today_label: string = "today" #max(20)
     - view_options: [calendar_view_option]
     - week_days: [calendar_day]
     - weekday_labels: [string]
-    - weekday_name: string #required #max(20)
+    - weekday_name: string #max(20)
   events:
     - previous_day
     - next_day

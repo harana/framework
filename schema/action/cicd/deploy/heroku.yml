@@ -1,0 +1,14 @@
+- object: deploy_heroku
+  schema:
+    - addons: list[string]
+    - app_name: string #max(255)
+    - buildpacks: list[string]
+    - config_vars: map[string, string]
+    - enabled: boolean = true
+    - post_deploy: list[string]
+    - pre_deploy: list[string]
+    - region: us | eu = us
+    - rollback_on_failure: boolean = true
+    - run_migrations: boolean = true
+    - scale: map[string, int]
+    - stack: string? #max(100)

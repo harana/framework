@@ -1,8 +1,8 @@
-- name: aws_vpc
+- object: aws_vpc
   id: [account_id, vpc_id]
   schema:
-    - account_id: string #required #max(20)
-    - cidr_block: string #required #max(50)
+    - account_id: string #max(20)
+    - cidr_block: string #max(50)
     - created_at: date = now()
     - enable_dns_hostnames: boolean = true
     - enable_dns_support: boolean = true
@@ -14,15 +14,15 @@
     - state: pending | available = pending
     - tags: string? # json
     - updated_at: date = now()
-    - vpc_id: string #required #unique #max(30)
+    - vpc_id: string #unique #max(30)
 
-- name: aws_vpc_subnet
+- object: aws_vpc_subnet
   id: [vpc_id, subnet_id]
   schema:
     - availability_zone: string? #max(100)
     - availability_zone_id: string? #max(100)
     - available_ip_address_count: int? #min(0)
-    - cidr_block: string #required #max(50)
+    - cidr_block: string #max(50)
     - created_at: date = now()
     - default_for_az: boolean = false
     - ipv6_cidr_block: string? #max(50)
@@ -30,37 +30,37 @@
     - owner_id: string? #max(20)
     - state: pending | available = pending
     - subnet_arn: string? #max(255)
-    - subnet_id: string #required #unique #max(30)
+    - subnet_id: string #unique #max(30)
     - tags: string? # json
     - updated_at: date = now()
-    - vpc_id: id #required -> aws_vpc.id
+    - vpc_id: id -> aws_vpc.id
 
-- name: aws_vpc_internet_gateway
+- object: aws_vpc_internet_gateway
   id: [account_id, internet_gateway_id]
   schema:
-    - account_id: string #required #max(20)
+    - account_id: string #max(20)
     - created_at: date = now()
-    - internet_gateway_id: string #required #unique #max(30)
+    - internet_gateway_id: string #unique #max(30)
     - owner_id: string? #max(20)
     - tags: string? # json
     - updated_at: date = now()
 
-- name: aws_vpc_internet_gateway_attachment
+- object: aws_vpc_internet_gateway_attachment
   id: [internet_gateway_id, vpc_id]
   schema:
     - created_at: date = now()
-    - internet_gateway_id: id #required -> aws_vpc_internet_gateway.id
+    - internet_gateway_id: id -> aws_vpc_internet_gateway.id
     - state: attaching | attached | detaching | detached = attaching
-    - vpc_id: id #required -> aws_vpc.id
+    - vpc_id: id -> aws_vpc.id
 
-- name: aws_vpc_nat_gateway
+- object: aws_vpc_nat_gateway
   id: [account_id, nat_gateway_id]
   schema:
-    - account_id: string #required #max(20)
+    - account_id: string #max(20)
     - allocation_id: string? #max(30)
     - connectivity_type: public | private = public
     - created_at: date = now()
-    - nat_gateway_id: string #required #unique #max(30)
+    - nat_gateway_id: string #unique #max(30)
     - public_ip: string? #max(45)
     - private_ip: string? #max(45)
     - state: pending | failed | available | deleting | deleted = pending
@@ -69,17 +69,17 @@
     - updated_at: date = now()
     - vpc_id: string? #max(30)
 
-- name: aws_vpc_route_table
+- object: aws_vpc_route_table
   id: [vpc_id, route_table_id]
   schema:
     - created_at: date = now()
     - owner_id: string? #max(20)
-    - route_table_id: string #required #unique #max(30)
+    - route_table_id: string #unique #max(30)
     - tags: string? # json
     - updated_at: date = now()
-    - vpc_id: id #required -> aws_vpc.id
+    - vpc_id: id -> aws_vpc.id
 
-- name: aws_vpc_route
+- object: aws_vpc_route
   id: [route_table_id, destination_cidr_block]
   schema:
     - created_at: date = now()
@@ -90,30 +90,30 @@
     - nat_gateway_id: string? #max(30)
     - network_interface_id: string? #max(30)
     - origin: create_route_table | create_route | enable_vgw_route_propagation = create_route
-    - route_table_id: id #required -> aws_vpc_route_table.id
+    - route_table_id: id -> aws_vpc_route_table.id
     - state: active | blackhole = active
     - transit_gateway_id: string? #max(30)
     - vpc_peering_connection_id: string? #max(30)
 
-- name: aws_vpc_network_acl
+- object: aws_vpc_network_acl
   id: [vpc_id, network_acl_id]
   schema:
     - created_at: date = now()
     - is_default: boolean = false
-    - network_acl_id: string #required #unique #max(30)
+    - network_acl_id: string #unique #max(30)
     - owner_id: string? #max(20)
     - tags: string? # json
     - updated_at: date = now()
-    - vpc_id: id #required -> aws_vpc.id
+    - vpc_id: id -> aws_vpc.id
 
-- name: aws_vpc_peering_connection
+- object: aws_vpc_peering_connection
   id: [account_id, vpc_peering_connection_id]
   schema:
     - accepter_vpc_id: string? #max(30)
-    - account_id: string #required #max(20)
+    - account_id: string #max(20)
     - created_at: date = now()
     - requester_vpc_id: string? #max(30)
     - status: initiating_request | pending_acceptance | active | deleted | rejected | failed | expired | provisioning | deleting = initiating_request
     - tags: string? # json
     - updated_at: date = now()
-    - vpc_peering_connection_id: string #required #unique #max(30)
+    - vpc_peering_connection_id: string #unique #max(30)

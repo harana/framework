@@ -1,47 +1,47 @@
-- name: cloudflare_workflow
+- object: cloudflare_workflow
   id: [account_id, workflow_name]
   schema:
-    - account_id: string #required #max(50)
-    - binding: string #required #max(255)
+    - account_id: string #max(50)
+    - binding: string #max(255)
     - class_name: string? #max(255)
     - created_at: date = now()
     - script_name: string? #max(255)
     - updated_at: date = now()
-    - workflow_name: string #required #unique #max(255)
+    - workflow_name: string #unique #max(255)
 
-- name: cloudflare_workflow_instance
+- object: cloudflare_workflow_instance
   id: [workflow_id, instance_id]
   schema:
     - created_at: date = now()
     - error: string?
-    - instance_id: string #required #unique #max(255)
+    - instance_id: string #unique #max(255)
     - output: string? # json
     - params: string? # json
     - status: queued | running | paused | errored | terminated | complete | waiting | waiting_for_pause | unknown = queued
     - updated_at: date = now()
-    - workflow_id: id #required -> cf_workflow.id
+    - workflow_id: id -> cf_workflow.id
 
-- name: cloudflare_workflow_step
+- object: cloudflare_workflow_step
   id: [instance_id, step_name]
   schema:
     - completed_at: date?
     - created_at: date = now()
-    - instance_id: id #required -> cf_workflow_instance.id
+    - instance_id: id -> cf_workflow_instance.id
     - result: string? # json
     - retries_backoff: constant | linear | exponential = constant
     - retries_delay: string? #max(50)
     - retries_limit: int? #min(0)
     - started_at: date?
     - status: pending | running | completed | failed | sleeping | waiting_for_event = pending
-    - step_name: string #required #max(255)
+    - step_name: string #max(255)
     - step_type: do | sleep | sleep_until | wait_for_event = do
     - timeout: string? #max(50)
 
-- name: cloudflare_workflow_event
+- object: cloudflare_workflow_event
   id: [instance_id, event_type, sent_at]
   schema:
-    - event_type: string #required #max(255)
-    - instance_id: id #required -> cf_workflow_instance.id
+    - event_type: string #max(255)
+    - instance_id: id -> cf_workflow_instance.id
     - payload: string? # json
     - sent_at: date = now()
 

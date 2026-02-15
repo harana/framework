@@ -1,0 +1,560 @@
+- action: create_repo
+  inputs:
+    auto_init: boolean = false
+    description: string
+    gitignore_template: string
+    homepage: string
+    license_template: string
+    name: string
+    private: boolean = false
+  outputs:
+    full_name: string
+    repo_id: int
+    success: boolean
+    url: string
+
+- action: get_repo
+  inputs:
+    owner: string
+    repo: string
+  outputs:
+    created_at: int
+    default_branch: string
+    description: string
+    fork: boolean
+    full_name: string
+    name: string
+    private: boolean
+    repo_id: int
+    updated_at: int
+    url: string
+
+- action: update_repo
+  inputs:
+    description: string
+    has_issues: boolean
+    has_projects: boolean
+    has_wiki: boolean
+    homepage: string
+    name: string
+    owner: string
+    private: boolean
+    repo: string
+  outputs:
+    success: boolean
+
+- action: delete_repo
+  inputs:
+    owner: string
+    repo: string
+  outputs:
+    success: boolean
+
+- action: list_repos
+  inputs:
+    direction: asc | desc = desc
+    per_page: int = 30
+    sort: created | updated | pushed | full_name = full_name
+    type: all | owner | public | private | member = owner
+  outputs:
+    repositories: list[github_repository]
+    total_count: int
+
+- action: create_issue
+  inputs:
+    assignees: list[string]
+    body: string
+    labels: list[string]
+    milestone: int
+    owner: string
+    repo: string
+    title: string
+  outputs:
+    issue_number: int
+    success: boolean
+    url: string
+
+- action: update_issue
+  inputs:
+    assignees: list[string]
+    body: string
+    issue_number: int
+    labels: list[string]
+    owner: string
+    repo: string
+    state: open | closed
+    title: string
+  outputs:
+    success: boolean
+
+- action: close_issue
+  inputs:
+    issue_number: int
+    owner: string
+    repo: string
+  outputs:
+    success: boolean
+
+- action: list_issues
+  inputs:
+    direction: asc | desc = desc
+    labels: list[string]
+    owner: string
+    per_page: int = 30
+    repo: string
+    sort: created | updated | comments = created
+    state: open | closed | all = open
+  outputs:
+    issues: list[github_issue]
+    total_count: int
+
+- action: create_pull_request
+  inputs:
+    base: string
+    body: string
+    draft: boolean = false
+    head: string
+    owner: string
+    repo: string
+    title: string
+  outputs:
+    pr_number: int
+    success: boolean
+    url: string
+
+- action: update_pull_request
+  inputs:
+    body: string
+    owner: string
+    pr_number: int
+    repo: string
+    state: open | closed
+    title: string
+  outputs:
+    success: boolean
+
+- action: merge_pull_request
+  inputs:
+    commit_message: string
+    commit_title: string
+    merge_method: merge | squash | rebase = merge
+    owner: string
+    pr_number: int
+    repo: string
+  outputs:
+    merged: boolean
+    sha: string
+    success: boolean
+
+- action: list_pull_requests
+  inputs:
+    direction: asc | desc = desc
+    owner: string
+    per_page: int = 30
+    repo: string
+    sort: created | updated | popularity | long_running = created
+    state: open | closed | all = open
+  outputs:
+    pull_requests: list[github_pull_request]
+    total_count: int
+
+- action: create_branch
+  inputs:
+    branch: string
+    owner: string
+    repo: string
+    sha: string
+  outputs:
+    ref: string
+    success: boolean
+
+- action: delete_branch
+  inputs:
+    branch: string
+    owner: string
+    repo: string
+  outputs:
+    success: boolean
+
+- action: list_branches
+  inputs:
+    owner: string
+    per_page: int = 30
+    protected: boolean
+    repo: string
+  outputs:
+    branches: list[github_branch]
+
+- action: get_commit
+  inputs:
+    owner: string
+    repo: string
+    sha: string
+  outputs:
+    author: author
+    committer: committer
+    created_at: int
+    message: string
+    sha: string
+    url: string
+
+- action: list_commits
+  inputs:
+    author: string
+    owner: string
+    path: string
+    per_page: int = 30
+    repo: string
+    sha: string
+    since: int
+    until: int
+  outputs:
+    commits: list[github_commit]
+
+- action: create_release
+  inputs:
+    body: string
+    draft: boolean = false
+    name: string
+    owner: string
+    prerelease: boolean = false
+    repo: string
+    tag_name: string
+    target_commitish: string
+  outputs:
+    release_id: int
+    success: boolean
+    upload_url: string
+    url: string
+
+- action: get_release
+  inputs:
+    owner: string
+    release_id: int
+    repo: string
+  outputs:
+    body: string
+    created_at: int
+    draft: boolean
+    name: string
+    prerelease: boolean
+    published_at: int
+    release_id: int
+    tag_name: string
+
+- action: list_releases
+  inputs:
+    owner: string
+    per_page: int = 30
+    repo: string
+  outputs:
+    releases: list[github_release]
+
+- action: create_webhook
+  inputs:
+    active: boolean = true
+    config: webhook_config
+    events: list[string]
+    owner: string
+    repo: string
+  outputs:
+    success: boolean
+    webhook_id: int
+
+- action: delete_webhook
+  inputs:
+    owner: string
+    repo: string
+    webhook_id: int
+  outputs:
+    success: boolean
+
+- action: get_file_contents
+  inputs:
+    owner: string
+    path: string
+    ref: string
+    repo: string
+  outputs:
+    content: string
+    encoding: string
+    sha: string
+    size: int
+
+- action: create_or_update_file
+  inputs:
+    branch: string
+    content: string
+    message: string
+    owner: string
+    path: string
+    repo: string
+    sha: string
+  outputs:
+    commit: commit
+    content: file_content
+    success: boolean
+
+- action: delete_file
+  inputs:
+    branch: string
+    message: string
+    owner: string
+    path: string
+    repo: string
+    sha: string
+  outputs:
+    commit: commit
+    success: boolean
+
+- object: github_repository
+  class:
+    repo_id: int
+    name: string
+    full_name: string
+    description: string
+    url: string
+    private: boolean
+    default_branch: string
+    fork: boolean
+    created_at: date
+    updated_at: date
+
+- object: author
+  class:
+    name: string
+    email: string
+    date: date
+
+- object: committer
+  class:
+    name: string
+    email: string
+    date: date
+
+- object: commit
+  class:
+    sha: string
+    message: string
+    url: string
+    author: author
+    committer: committer
+
+- object: file_content
+  class:
+    name: string
+    path: string
+    sha: string
+    size: int
+    url: string
+    content: string
+    encoding: string
+
+- object: webhook_config
+  class:
+    url: string
+    content_type: string
+    secret: string
+    insecure_ssl: string
+
+- object: github_issue
+  class:
+    issue_number: int
+    title: string
+    body: string
+    state: string
+    labels: list[string]
+    assignees: list[string]
+    milestone: int
+    url: string
+    created_at: date
+    updated_at: date
+
+- object: github_pull_request
+  class:
+    pr_number: int
+    title: string
+    body: string
+    state: string
+    head: string
+    base: string
+    draft: boolean
+    merged: boolean
+    url: string
+    created_at: date
+    updated_at: date
+
+- object: github_branch
+  class:
+    name: string
+    sha: string
+    protected: boolean
+
+- object: github_commit
+  class:
+    sha: string
+    message: string
+    url: string
+    author: author
+    committer: committer
+    created_at: date
+
+- object: github_release
+  class:
+    release_id: int
+    tag_name: string
+    name: string
+    body: string
+    draft: boolean
+    prerelease: boolean
+    created_at: date
+    published_at: date
+    url: string
+
+- object: repository
+  id: [full_name]
+  schema:
+    - created_at: date = now()
+    - default_branch: string = main #max(200)
+    - description: string? #max(1000)
+    - full_name: string #unique #max(500)
+    - is_private: boolean = false
+    - provider: github | gitlab | bitbucket | local = github
+    - updated_at: date = now()
+    - url: string? #url
+
+- object: branch
+  id: [repository_id, name]
+  schema:
+    - created_at: date = now()
+    - is_protected: boolean = false
+
+    - name: string #max(200)
+    - repository_id: id -> git_repository.id
+    - sha: string? #max(64)
+
+- object: commit
+  id: [repository_id, sha]
+  schema:
+    - author_email: string? #max(255)
+    - author_name: string? #max(200)
+    - committed_at: date = now()
+    - message: string? #max(5000)
+    - repository_id: id -> git_repository.id
+    - sha: string #max(64)
+
+- object: tag
+  id: [repository_id, name]
+  schema:
+    - created_at: date = now()
+    - message: string? #max(2000)
+
+    - name: string #max(200)
+    - repository_id: id -> git_repository.id
+    - sha: string #max(64)
+
+- object: github_repository
+  schema:
+    - repo_id: int
+
+    - name: string
+    - full_name: string
+    - description: string
+    - url: string
+    - private: boolean
+    - default_branch: string
+    - fork: boolean
+    - created_at: date
+    - updated_at: date
+
+- object: author
+  schema:
+    - name: string
+    - email: string
+    - date: date
+
+- object: committer
+  schema:
+    - name: string
+    - email: string
+    - date: date
+
+- object: commit
+  schema:
+    - sha: string
+    - message: string
+    - url: string
+    - author: author
+    - committer: committer
+
+- object: file_content
+  schema:
+    - name: string
+    - path: string
+    - sha: string
+    - size: int
+    - url: string
+    - content: string
+    - encoding: string
+
+- object: webhook_config
+  schema:
+    - url: string
+    - content_type: string
+    - secret: string
+    - insecure_ssl: string
+
+- object: github_issue
+  schema:
+    - issue_number: int
+    - title: string
+    - body: string
+    - state: string
+    - labels: list[string]
+    - assignees: list[string]
+    - milestone: int
+    - url: string
+    - created_at: date
+    - updated_at: date
+
+- object: github_pull_request
+  schema:
+    - pr_number: int
+    - title: string
+    - body: string
+    - state: string
+    - head: string
+    - base: string
+    - draft: boolean
+    - merged: boolean
+    - url: string
+    - created_at: date
+    - updated_at: date
+
+- object: github_branch
+  schema:
+    - name: string
+    - sha: string
+    - protected: boolean
+
+- object: github_commit
+  schema:
+    - sha: string
+    - message: string
+    - url: string
+    - author: author
+    - committer: committer
+    - created_at: date
+
+- object: github_release
+  schema:
+    - release_id: int
+    - tag_name: string
+
+    - name: string
+    - body: string
+    - draft: boolean
+    - prerelease: boolean
+    - created_at: date
+    - published_at: date
+    - url: string

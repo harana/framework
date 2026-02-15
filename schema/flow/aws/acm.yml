@@ -1,4 +1,4 @@
-- name: request_certificate
+- action: request_certificate
   inputs:
     domain_name: string #required
     subject_alternative_names: list[string]
@@ -11,7 +11,7 @@
     domain_validation_options: list[domain_validation_option]
     success: boolean
 
-- name: import_certificate
+- action: import_certificate
   inputs:
     certificate: string #required
     certificate_chain: string
@@ -22,19 +22,19 @@
     certificate_arn: string
     success: boolean
 
-- name: delete_certificate
+- action: delete_certificate
   inputs:
     certificate_arn: string #required
   outputs:
     success: boolean
 
-- name: describe_certificate
+- action: describe_certificate
   inputs:
     certificate_arn: string #required
   outputs:
     certificate: certificate
 
-- name: list_certificates
+- action: list_certificates
   inputs:
     certificate_statuses: list[string]
     includes: certificate_filters
@@ -44,40 +44,40 @@
     certificates: list[certificate_summary]
     next_token: string
 
-- name: get_certificate
+- action: get_certificate
   inputs:
     certificate_arn: string #required
   outputs:
     certificate: string
     certificate_chain: string
 
-- name: add_tags
+- action: add_tags
   inputs:
     certificate_arn: string #required
     tags: acm_tags #required
   outputs:
     success: boolean
 
-- name: remove_tags
+- action: remove_tags
   inputs:
     certificate_arn: string #required
     tag_keys: list[string] #required
   outputs:
     success: boolean
 
-- name: list_tags
+- action: list_tags
   inputs:
     certificate_arn: string #required
   outputs:
     tags: acm_tags
 
-- name: renew_certificate
+- action: renew_certificate
   inputs:
     certificate_arn: string #required
   outputs:
     success: boolean
 
-- name: export_certificate
+- action: export_certificate
   inputs:
     certificate_arn: string #required
     passphrase: bytes #required
@@ -86,7 +86,7 @@
     certificate_chain: string
     private_key: string
 
-- name: resend_validation_email
+- action: resend_validation_email
   inputs:
     certificate_arn: string #required
     domain: string #required
@@ -94,20 +94,20 @@
   outputs:
     success: boolean
 
-- name: update_certificate_options
+- action: update_certificate_options
   inputs:
     certificate_arn: string #required
     options: certificate_options #required
   outputs:
     success: boolean
 
-- name: get_account_configuration
+- action: get_account_configuration
   inputs:
     expiry_events: expiry_events_configuration
   outputs:
     configuration: account_configuration
 
-- name: put_account_configuration
+- action: put_account_configuration
   inputs:
     expiry_events: expiry_events_configuration #required
     idempotency_token: string

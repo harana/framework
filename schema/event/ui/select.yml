@@ -1,18 +1,18 @@
-- name: select_opened
+- event: select_opened
   schema:
     select_id: id #required
     select_name: string?
     options_count: int? #min(0)
     opened_at: date = now()
 
-- name: select_closed
+- event: select_closed
   schema:
     select_id: id #required
     select_name: string?
     close_reason: selection | blur | escape = blur
     closed_at: date = now()
 
-- name: select_option_selected
+- event: select_option_selected
   schema:
     select_id: id #required
     select_name: string?
@@ -20,7 +20,7 @@
     option_label: string?
     selected_at: date = now()
 
-- name: select_value_changed
+- event: select_value_changed
   schema:
     select_id: id #required
     select_name: string?
@@ -28,13 +28,13 @@
     new_value: string #required
     changed_at: date = now()
 
-- name: select_focused
+- event: select_focused
   schema:
     select_id: id #required
     select_name: string?
     focused_at: date = now()
 
-- name: select_blurred
+- event: select_blurred
   schema:
     select_id: id #required
     select_name: string?

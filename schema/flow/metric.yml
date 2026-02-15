@@ -1,4 +1,4 @@
-- name: record_metric
+- action: record_metric
   inputs:
     name: string #required
     tags: map[string, string]
@@ -7,7 +7,7 @@
   outputs:
     success: boolean
 
-- name: increment_counter
+- action: increment_counter
   inputs:
     amount: float = 1
     name: string #required
@@ -15,7 +15,7 @@
   outputs:
     value: float
 
-- name: set_gauge
+- action: set_gauge
   inputs:
     name: string #required
     tags: map[string, string]
@@ -23,7 +23,7 @@
   outputs:
     success: boolean
 
-- name: record_histogram
+- action: record_histogram
   inputs:
     buckets: list[float]
     name: string #required
@@ -32,21 +32,21 @@
   outputs:
     success: boolean
 
-- name: start_timer
+- action: start_timer
   inputs:
     name: string #required
     tags: map[string, string]
   outputs:
     timer_id: string
 
-- name: stop_timer
+- action: stop_timer
   inputs:
     timer_id: string #required
   outputs:
     duration_ms: float
     success: boolean
 
-- name: query_metrics
+- action: query_metrics
   inputs:
     aggregation: sum | avg | min | max | count = avg
     end_time: date
@@ -58,7 +58,7 @@
     datapoints: list[metric_datapoint]
     total: int
 
-- name: get_metric_summary
+- action: get_metric_summary
   inputs:
     name: string #required
     period: string = "1h"
@@ -73,7 +73,7 @@
     p99: float
     sum: float
 
-- name: list_metrics
+- action: list_metrics
   inputs:
     limit: int = 100
     prefix: string
@@ -81,7 +81,7 @@
     metrics: list[metric_info]
     total: int
 
-- name: delete_metric
+- action: delete_metric
   inputs:
     before: date
     name: string #required
@@ -90,7 +90,7 @@
     deleted_count: int
     success: boolean
 
-- name: metric
+- object: metric
   class:
     name: string
     value: float
@@ -98,12 +98,12 @@
     timestamp: date
     type: string
 
-- name: metric_datapoint
+- object: metric_datapoint
   class:
     timestamp: date
     value: float
 
-- name: metric_info
+- object: metric_info
   class:
     name: string
     type: string

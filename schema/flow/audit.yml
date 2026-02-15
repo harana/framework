@@ -1,4 +1,4 @@
-- name: log_event
+- action: log_event
   inputs:
     method: string #required
     actor_id: string #required
@@ -15,7 +15,7 @@
     success: boolean
     timestamp: date
 
-- name: query_logs
+- action: query_logs
   inputs:
     method: string
     actor_id: string
@@ -33,7 +33,7 @@
     logs: list[audit_event]
     total: int
 
-- name: get_event
+- action: get_event
   inputs:
     audit_id: string #required
   outputs:
@@ -50,7 +50,7 @@
     timestamp: date
     user_agent: string
 
-- name: get_actor_activity
+- action: get_actor_activity
   inputs:
     actor_id: string #required
     end_time: date
@@ -62,7 +62,7 @@
     last_activity: date
     total: int
 
-- name: get_resource_history
+- action: get_resource_history
   inputs:
     end_time: date
     limit: int = 100
@@ -75,7 +75,7 @@
     last_modified: date
     total: int
 
-- name: export_logs
+- action: export_logs
   inputs:
     end_time: date #required
     filters: audit_filter
@@ -89,7 +89,7 @@
     file_size: int
     record_count: int
 
-- name: create_alert
+- action: create_alert
   inputs:
     conditions: audit_alert_condition #required
     description: string
@@ -100,13 +100,13 @@
     alert_id: string
     success: boolean
 
-- name: delete_alert
+- action: delete_alert
   inputs:
     alert_id: string #required
   outputs:
     success: boolean
 
-- name: list_alerts
+- action: list_alerts
   inputs:
     enabled: boolean
     limit: int = 100
@@ -114,7 +114,7 @@
     alerts: list[audit_alert]
     total: int
 
-- name: get_statistics
+- action: get_statistics
   inputs:
     end_time: date #required
     group_by: action | resource_type | actor_id | outcome | hour | day = day
@@ -125,7 +125,7 @@
     unique_actors: int
     unique_resources: int
 
-- name: set_retention_policy
+- action: set_retention_policy
   inputs:
     archive_to_cold_storage: boolean = false
     cold_storage_after_days: int
@@ -134,7 +134,7 @@
     policy_id: string
     success: boolean
 
-- name: get_retention_policy
+- action: get_retention_policy
   inputs: {}
   outputs:
     archive_to_cold_storage: boolean
@@ -142,7 +142,7 @@
     policy_id: string
     retention_days: int
 
-- name: verify_integrity
+- action: verify_integrity
   inputs:
     end_time: date #required
     start_time: date #required
@@ -152,7 +152,7 @@
     verification_hash: string
     verified: boolean
 
-- name: audit_event
+- object: audit_event
   class:
     audit_id: string
     method: string
@@ -167,7 +167,7 @@
     details: map[string, any]
     metadata: map[string, any]
 
-- name: audit_activity
+- object: audit_activity
   class:
     audit_id: string
     method: string
@@ -176,7 +176,7 @@
     outcome: string
     timestamp: date
 
-- name: audit_filter
+- object: audit_filter
   class:
     method: string
     actor_id: string
@@ -184,13 +184,13 @@
     outcome: string
     resource_type: string
 
-- name: audit_alert_condition
+- object: audit_alert_condition
   class:
     field: string
     operator: string
     value: string
 
-- name: audit_alert
+- object: audit_alert
   class:
     alert_id: string
     name: string
@@ -199,7 +199,7 @@
     enabled: boolean
     notification_channels: list[string]
 
-- name: audit_statistic
+- object: audit_statistic
   class:
     key: string
     count: int

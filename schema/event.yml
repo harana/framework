@@ -1,5 +1,5 @@
 
-- name: event
+- object: event
   schema:
     - event_id: string
     - event_type: string
@@ -8,11 +8,11 @@
     - metadata: event_metadata
     - created_at: date
 
-- name: event_metadata
+- object: event_metadata
   schema:
     - values: map[string, any]
 
-- name: event_record
+- object: event_record
   schema:
     - event_id: string
     - event_type: string

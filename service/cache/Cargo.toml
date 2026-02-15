@@ -9,11 +9,15 @@ path = "lib.rs"
 [features]
 default = []
 kv = ["worker", "wasm-bindgen"]
+mongodb = ["dep:mongodb", "dep:futures", "dep:regex"]
 
 [dependencies]
 async-trait.workspace = true
 base64.workspace = true
 dashmap.workspace = true
+futures = { workspace = true, optional = true }
+mongodb = { workspace = true, optional = true }
+regex = { workspace = true, optional = true }
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true

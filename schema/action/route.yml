@@ -1,0 +1,188 @@
+- action: redirect
+  inputs:
+    preserve_query: boolean = true
+    status_code: int = 302
+    url: string
+  outputs:
+    success: boolean
+
+- action: forward
+  inputs:
+    headers: map[string, string]
+    preserve_host: boolean = false
+    target_url: string
+    timeout: int = 30
+  outputs:
+    body: any
+    headers: map[string, string]
+    status_code: int
+
+- action: rewrite_path
+  inputs:
+    pattern: string
+    replacement: string
+  outputs:
+    new_path: string
+    success: boolean
+
+- action: add_headers
+  inputs:
+    headers: map[string, string]
+  outputs:
+    success: boolean
+
+- action: remove_headers
+  inputs:
+    headers: list[string]
+  outputs:
+    success: boolean
+
+- action: set_status
+  inputs:
+    message: string
+    status_code: int
+  outputs:
+    success: boolean
+
+- action: json_response
+  inputs:
+    body: any
+    headers: map[string, string]
+    status_code: int = 200
+  outputs:
+    success: boolean
+
+- action: html_response
+  inputs:
+    body: string
+    headers: map[string, string]
+    status_code: int = 200
+  outputs:
+    success: boolean
+
+- action: rate_limit
+  inputs:
+    key: string
+    limit: int
+    window_seconds: int = 60
+  outputs:
+    allowed: boolean
+    remaining: int
+    reset_at: date
+
+- action: match_route
+  inputs:
+    method: string
+    path: string
+    pattern: string
+  outputs:
+    matched: boolean
+    params: map[string, string]
+
+- action: proxy_websocket
+  inputs:
+    headers: map[string, string]
+    target_url: string
+  outputs:
+    success: boolean
+
+- object: route
+  class:
+    path: string
+    method: string
+    handler: string
+    middleware: list[string]
+    params: map[string, string]
+
+- object: route
+  schema:
+    - auth: route_auth_options?
+    - created_at: date = now()
+    - description: string? #max(500)
+    - download: route_download_options?
+    - handler: handler | template(id) | download(string) | upload(string) | flow(id) | proxy | redirect | static | web_socket | sse = handler
+    - is_active: boolean = true
+    - method: get | post | put | patch | delete | head | options = get
+    - middleware: string?
+    - path: string #max(500)
+    - rate_limit: int? #min(1)
+    - sse: route_sse_options?
+    - updated_at: date = now()
+    - upload: route_upload_options?
+    - websocket: route_web_socket_options?
+
+- object: group
+  schema:
+    - middleware: string?
+    - prefix: string #max(200)
+
+- object: group_assignment
+  id: [route_id, group_id]
+  schema:
+    - group_id: id -> route_group.id
+    - route_id: id -> route.id
+
+- object: auth_options
+  schema:
+    - allow_anonymous_fallback: boolean = false
+    - auth_required: boolean = true
+    - auth_type: jwt | session | api_key | any = any
+    - max_token_age: int? #min(1)
+    - required_permissions: string?
+    - required_roles: string?
+    - required_scopes: string?
+
+- object: upload_options
+  schema:
+    - allowed_extensions: string?
+    - allowed_mime_types: string?
+    - is_public: boolean = false
+    - max_file_size: int = 104857600 #min(1)
+    - max_files: int = 10 #min(1) #max(100)
+    - overwrite_existing: boolean = false
+    - storage_id: id -> blob_storage.id
+    - storage_path: string? #max(1000)
+    - strip_exif: boolean = false
+
+- object: download_options
+  schema:
+    - cache_control: string? #max(200)
+    - content_disposition: inline | attachment = attachment
+    - require_signed_url: boolean = false
+    - signed_url_ttl: int = 3600 #min(1)
+    - storage_id: id -> blob_storage.id
+    - storage_path: string? #max(1000)
+
+- object: websocket_options
+  schema:
+    - allowed_origins: string?
+    - heartbeat_interval: int = 30 #min(1)
+    - idle_timeout: int = 300 #min(1)
+    - max_connections: int? #min(1)
+    - max_frame_size: int = 65536 #min(1)
+    - max_message_size: int = 1048576 #min(1)
+    - protocol: string? #max(200)
+
+- object: sse_options
+  schema:
+    - channel: string? #max(500)
+    - heartbeat_interval: int = 15 #min(1)
+    - idle_timeout: int = 300 #min(1)
+    - max_connections: int? #min(1)
+    - retry_timeout: int = 3000 #min(1)
+
+- object: transfer_log
+  id: [route_id, created_at, user_id]
+  schema:
+    - blob_key: string #max(1000)
+    - bytes_transferred: int #min(0)
+    - created_at: date = now()
+    - direction: upload | download = upload
+    - duration_ms: int? #min(0)
+    - file_name: string? #max(255)
+    - ip_address: string? #max(45)
+    - mime_type: string? #max(100)
+    - route_id: id -> route.id
+    - status: success | failed | rejected | timeout = success
+    - user_agent: string? #max(500)
+    - user_id: id? -> user.id

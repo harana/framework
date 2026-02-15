@@ -1,4 +1,4 @@
-- name: webdriver_element_interaction
+- object: webdriver_element_interaction
   id: [session_id, performed_at]
   schema:
     - action: click | send_keys | clear | submit | focus | scroll_into_view | drag_to = click
@@ -7,6 +7,6 @@
     - input_value: string? #max(5000)
     - performed_at: date = now()
     - selector_type: id | name | class_name | css | x_path | tag | link_text | partial_link_text = css
-    - selector_value: string #required #max(2000)
-    - session_id: id #required -> web_driver_session.id
+    - selector_value: string #max(2000)
+    - session_id: id -> web_driver_session.id
     - status: success | failed | element_not_found | stale_element | timeout = success

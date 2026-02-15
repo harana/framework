@@ -1,4 +1,4 @@
-- name: stacked_layout
+- webobject: stacked_layout
   attributes:
-    - navbar_id: id #required -> ui_navbar.id
-    - sidebar_id: id #required -> ui_sidebar.id
+    - navbar_id: id -> ui_navbar.id
+    - sidebar_id: id -> ui_sidebar.id

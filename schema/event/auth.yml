@@ -1,4 +1,4 @@
-- name: auth_registration_started
+- event: auth_registration_started
   schema:
     user_id: id?
     email: string #required
@@ -7,7 +7,7 @@
     user_agent: string?
     started_at: date = now()
 
-- name: auth_registration_completed
+- event: auth_registration_completed
   schema:
     user_id: id #required
     email: string #required
@@ -17,7 +17,7 @@
     user_agent: string?
     completed_at: date = now()
 
-- name: auth_registration_failed
+- event: auth_registration_failed
   schema:
     email: string #required
     reason: invalid_email | email_exists | passkey_creation_failed | timeout | user_cancelled | invalid_attestation | other = other
@@ -26,7 +26,7 @@
     user_agent: string?
     failed_at: date = now()
 
-- name: auth_login_started
+- event: auth_login_started
   schema:
     user_id: id?
     email: string?
@@ -35,7 +35,7 @@
     user_agent: string?
     started_at: date = now()
 
-- name: auth_login_completed
+- event: auth_login_completed
   schema:
     user_id: id #required
     email: string?
@@ -45,7 +45,7 @@
     user_agent: string?
     completed_at: date = now()
 
-- name: auth_login_failed
+- event: auth_login_failed
   schema:
     user_id: id?
     email: string?
@@ -55,7 +55,7 @@
     user_agent: string?
     failed_at: date = now()
 
-- name: auth_logout
+- event: auth_logout
   schema:
     user_id: id #required
     session_id: id #required
@@ -64,7 +64,7 @@
     user_agent: string?
     logged_out_at: date = now()
 
-- name: auth_passkey_created
+- event: auth_passkey_created
   schema:
     user_id: id #required
     passkey_credential_id: string #required
@@ -75,7 +75,7 @@
     user_agent: string?
     created_at: date = now()
 
-- name: auth_passkey_removed
+- event: auth_passkey_removed
   schema:
     user_id: id #required
     passkey_credential_id: string #required
@@ -85,7 +85,7 @@
     client_ip: string?
     removed_at: date = now()
 
-- name: auth_passkey_used
+- event: auth_passkey_used
   schema:
     user_id: id #required
     passkey_credential_id: string #required
@@ -95,7 +95,7 @@
     user_agent: string?
     used_at: date = now()
 
-- name: auth_session_created
+- event: auth_session_created
   schema:
     user_id: id #required
     session_id: id #required
@@ -104,14 +104,14 @@
     user_agent: string?
     created_at: date = now()
 
-- name: auth_session_expired
+- event: auth_session_expired
   schema:
     user_id: id #required
     session_id: id #required
     reason: timeout | max_age | inactivity = timeout
     expired_at: date = now()
 
-- name: auth_session_revoked
+- event: auth_session_revoked
   schema:
     user_id: id #required
     session_id: id #required
@@ -120,7 +120,7 @@
     client_ip: string?
     revoked_at: date = now()
 
-- name: auth_challenge_created
+- event: auth_challenge_created
   schema:
     user_id: id?
     challenge_id: id #required
@@ -129,7 +129,7 @@
     client_ip: string?
     created_at: date = now()
 
-- name: auth_challenge_completed
+- event: auth_challenge_completed
   schema:
     user_id: id?
     challenge_id: id #required
@@ -138,7 +138,7 @@
     client_ip: string?
     completed_at: date = now()
 
-- name: auth_account_locked
+- event: auth_account_locked
   schema:
     user_id: id #required
     reason: failed_attempts | suspicious_activity | admin_action | policy_violation = failed_attempts
@@ -147,14 +147,14 @@
     locked_by: system | admin = system
     locked_at: date = now()
 
-- name: auth_account_unlocked
+- event: auth_account_unlocked
   schema:
     user_id: id #required
     reason: timeout_expired | admin_action | user_verification = timeout_expired
     unlocked_by: system | admin | user = system
     unlocked_at: date = now()
 
-- name: auth_reauthentication_required
+- event: auth_reauthentication_required
   schema:
     user_id: id #required
     session_id: id #required
@@ -162,7 +162,7 @@
     action_requested: string?
     required_at: date = now()
 
-- name: auth_reauthentication_completed
+- event: auth_reauthentication_completed
   schema:
     user_id: id #required
     session_id: id #required

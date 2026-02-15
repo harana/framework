@@ -1,9 +1,10 @@
 use super::*;
-use crate::store::{CacheStore, PutOptions};
+use crate::service::CacheService;
+use crate::model::PutOptions;
 
 #[tokio::test]
 async fn test_put_and_get_text() {
-    let cache = MemoryCacheStore::new();
+    let cache = MemoryCacheService::new();
     cache.put("key1", "value1", PutOptions::new()).await.unwrap();
     let val = cache.get_text("key1").await.unwrap();
     assert_eq!(val, Some("value1".to_string()));
@@ -11,7 +12,7 @@ async fn test_put_and_get_text() {
 
 #[tokio::test]
 async fn test_delete() {
-    let cache = MemoryCacheStore::new();
+    let cache = MemoryCacheService::new();
     cache.put("key1", "value1", PutOptions::new()).await.unwrap();
     cache.delete("key1").await.unwrap();
     let val = cache.get_text("key1").await.unwrap();
@@ -20,7 +21,7 @@ async fn test_delete() {
 
 #[tokio::test]
 async fn test_ttl_expiry() {
-    let cache = MemoryCacheStore::new();
+    let cache = MemoryCacheService::new();
     // TTL of 0 seconds should expire immediately.
     cache
         .put("ephemeral", "gone", PutOptions::new().with_ttl(0))
@@ -34,7 +35,7 @@ async fn test_ttl_expiry() {
 
 #[tokio::test]
 async fn test_put_and_get_json() {
-    let cache = MemoryCacheStore::new();
+    let cache = MemoryCacheService::new();
     let data = serde_json::json!({"hello": "world"});
     cache.put_json("json_key", &data, PutOptions::new()).await.unwrap();
     let val: Option<serde_json::Value> = cache.get_json("json_key").await.unwrap();

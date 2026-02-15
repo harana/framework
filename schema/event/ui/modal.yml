@@ -1,4 +1,4 @@
-- name: modal_opened
+- event: modal_opened
   schema:
     modal_id: id #required
     modal_name: string?
@@ -6,7 +6,7 @@
     trigger_source: string?
     opened_at: date = now()
 
-- name: modal_closed
+- event: modal_closed
   schema:
     modal_id: id #required
     modal_name: string?
@@ -14,28 +14,28 @@
     time_open_ms: int? #min(0)
     closed_at: date = now()
 
-- name: modal_dismissed
+- event: modal_dismissed
   schema:
     modal_id: id #required
     modal_name: string?
     dismiss_method: escape | backdrop | swipe | timeout = escape
     dismissed_at: date = now()
 
-- name: confirmation_accepted
+- event: confirmation_accepted
   schema:
     modal_id: id #required
     modal_name: string?
     confirmation_type: delete | submit | save | discard | proceed = proceed
     accepted_at: date = now()
 
-- name: confirmation_rejected
+- event: confirmation_rejected
   schema:
     modal_id: id #required
     modal_name: string?
     confirmation_type: delete | submit | save | discard | proceed = proceed
     rejected_at: date = now()
 
-- name: modal_backdrop_clicked
+- event: modal_backdrop_clicked
   schema:
     modal_id: id #required
     modal_name: string?

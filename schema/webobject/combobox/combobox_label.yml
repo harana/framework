@@ -3,5 +3,5 @@ type: ui_component
 id:
   - identifier
 attributes:
-  option_id: id #required -> combobox_option.id
+  option_id: id -> combobox_option.id
   text: string #required

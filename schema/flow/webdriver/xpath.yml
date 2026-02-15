@@ -1,136 +1,136 @@
-- name: xpath_find
+- action: xpath_find
   inputs:
-    session_id: string #required    xpath: string #required  outputs:
+    session_id: string    xpath: string  outputs:
     element: web_driver_element
     found: boolean
 
-- name: xpath_find_all
+- action: xpath_find_all
   inputs:
-    session_id: string #required    xpath: string #required  outputs:
+    session_id: string    xpath: string  outputs:
     elements: list[web_driver_element]
     total: int
 
-- name: xpath_find_multiple
+- action: xpath_find_multiple
   inputs:
-    session_id: string #required    xpaths: map[string] #required  outputs:
+    session_id: string    xpaths: map[string]  outputs:
     results: map[x_path_query_result]
     total_found: int
     total_queries: int
 
-- name: xpath_find_multiple_children
+- action: xpath_find_multiple_children
   inputs:
-    parent_element_id: string #required    session_id: string #required    xpaths: map[string] #required  outputs:
+    parent_element_id: string    session_id: string    xpaths: map[string]  outputs:
     results: map[x_path_query_result]
     total_found: int
     total_queries: int
 
-- name: xpath_extract_texts
+- action: xpath_extract_texts
   inputs:
-    session_id: string #required    xpaths: map[string] #required  outputs:
+    session_id: string    xpaths: map[string]  outputs:
     results: map[x_path_text_result]
     total_extracted: int
     total_queries: int
 
-- name: xpath_extract_attrs
+- action: xpath_extract_attrs
   inputs:
-    attribute: string #required    session_id: string #required    xpaths: map[string] #required  outputs:
+    attribute: string    session_id: string    xpaths: map[string]  outputs:
     results: map[x_path_attribute_result]
     total_extracted: int
     total_queries: int
 
-- name: xpath_test_multiple
+- action: xpath_test_multiple
   inputs:
-    session_id: string #required    xpaths: map[string] #required  outputs:
+    session_id: string    xpaths: map[string]  outputs:
     all_found: boolean
     results: map[x_path_test_result]
     total_found: int
     total_missing: int
     total_queries: int
 
-- name: xpath_wait_multiple
+- action: xpath_wait_multiple
   inputs:
     interval_ms: int = 500 #min(50)    require_all: boolean = true
-    session_id: string #required    timeout_ms: int = 10000 #min(0)    xpaths: map[string] #required  outputs:
+    session_id: string    timeout_ms: int = 10000 #min(0)    xpaths: map[string]  outputs:
     all_found: boolean
     results: map[x_path_query_result]
     total_found: int
     total_queries: int
     wait_ms: int
 
-- name: xpath_set_collection
+- action: xpath_set_collection
   inputs:
     name: string #required
-    session_id: string #required    xpaths: list[x_path_entry] #required  outputs:
+    session_id: string    xpaths: list[x_path_entry]  outputs:
     entry_count: int
     success: boolean
 
-- name: xpath_get_collection
+- action: xpath_get_collection
   inputs:
     name: string #required
-    session_id: string #required  outputs:
+    session_id: string  outputs:
     entries: list[x_path_entry]
     entry_count: int
     found: boolean
 
-- name: xpath_execute_collection
+- action: xpath_execute_collection
   inputs:
     name: string #required
-    session_id: string #required  outputs:
+    session_id: string  outputs:
     results: map[x_path_query_result]
     total_found: int
     total_queries: int
 
-- name: xpath_delete_collection
+- action: xpath_delete_collection
   inputs:
     name: string #required
-    session_id: string #required  outputs:
+    session_id: string  outputs:
     success: boolean
 
-- name: xpath_list_collections
+- action: xpath_list_collections
   inputs:
-    session_id: string #required  outputs:
+    session_id: string  outputs:
     collections: list[x_path_collection]
     total: int
 
-- name: xpath_count
+- action: xpath_count
   inputs:
-    session_id: string #required    xpath: string #required  outputs:
+    session_id: string    xpath: string  outputs:
     count: int
 
-- name: xpath_count_multiple
+- action: xpath_count_multiple
   inputs:
-    session_id: string #required    xpaths: map[string] #required  outputs:
+    session_id: string    xpaths: map[string]  outputs:
     results: map[x_path_count_result]
     total_elements: int
     total_queries: int
 
-- name: xpath_click_multiple
+- action: xpath_click_multiple
   inputs:
     click_all_matches: boolean = false
-    session_id: string #required    xpaths: map[string] #required  outputs:
+    session_id: string    xpaths: map[string]  outputs:
     results: map[x_path_action_result]
     total_clicked: int
     total_queries: int
 
-- name: xpath_send_keys_multiple
+- action: xpath_send_keys_multiple
   inputs:
-    inputs: list[x_path_keys_input] #required    session_id: string #required  outputs:
+    inputs: list[x_path_keys_input]    session_id: string  outputs:
     results: map[x_path_action_result]
     total_queries: int
     total_sent: int
 
-- name: x_path_entry
+- object: x_path_entry
   schema:
     - description: string
     - label: string
     - xpath: string
 
-- name: x_path_collection
+- object: x_path_collection
   schema:
     - entry_count: int
     - name: string
 
-- name: x_path_text_result
+- object: x_path_text_result
   schema:
     - error: string
     - found: boolean
@@ -138,7 +138,7 @@
     - total: int
     - xpath: string
 
-- name: x_path_attribute_result
+- object: x_path_attribute_result
   schema:
     - attribute: string
     - error: string
@@ -147,25 +147,25 @@
     - values: list[string]
     - xpath: string
 
-- name: x_path_test_result
+- object: x_path_test_result
   schema:
     - count: int
     - found: boolean
     - xpath: string
 
-- name: x_path_count_result
+- object: x_path_count_result
   schema:
     - count: int
     - xpath: string
 
-- name: x_path_action_result
+- object: x_path_action_result
   schema:
     - affected: int
     - error: string
     - success: boolean
     - xpath: string
 
-- name: x_path_keys_input
+- object: x_path_keys_input
   schema:
     - keys: string
     - xpath: string

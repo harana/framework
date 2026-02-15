@@ -1,4 +1,4 @@
-- name: create_meeting
+- action: create_meeting
   inputs:
     agenda: string
     duration: int = 60
@@ -16,7 +16,7 @@
     start_url: string
     success: boolean
 
-- name: get_meeting
+- action: get_meeting
   inputs:
     meeting_id: string #required
   outputs:
@@ -32,7 +32,7 @@
     topic: string
     type: int
 
-- name: update_meeting
+- action: update_meeting
   inputs:
     agenda: string
     duration: int
@@ -46,7 +46,7 @@
   outputs:
     success: boolean
 
-- name: delete_meeting
+- action: delete_meeting
   inputs:
     meeting_id: string #required
     occurrence_id: string
@@ -54,7 +54,7 @@
   outputs:
     success: boolean
 
-- name: list_meetings
+- action: list_meetings
   inputs:
     next_page_token: string
     page_size: int = 30
@@ -65,7 +65,7 @@
     next_page_token: string
     total_records: int
 
-- name: add_registrant
+- action: add_registrant
   inputs:
     custom_questions: list[zoom_custom_question]
     email: string #required
@@ -78,7 +78,7 @@
     registrant_id: string
     success: boolean
 
-- name: list_registrants
+- action: list_registrants
   inputs:
     meeting_id: string #required
     next_page_token: string
@@ -89,7 +89,7 @@
     registrants: list[zoom_registrant]
     total_records: int
 
-- name: update_registrant_status
+- action: update_registrant_status
   inputs:
     method: approve | deny | cancel #required
     meeting_id: string #required
@@ -97,7 +97,7 @@
   outputs:
     success: boolean
 
-- name: get_participants
+- action: get_participants
   inputs:
     meeting_id: string #required
     next_page_token: string
@@ -108,7 +108,7 @@
     participants: list[zoom_participant]
     total_records: int
 
-- name: create_webinar
+- action: create_webinar
   inputs:
     agenda: string
     duration: int = 60
@@ -125,7 +125,7 @@
     success: boolean
     webinar_id: string
 
-- name: get_webinar
+- action: get_webinar
   inputs:
     webinar_id: string #required
   outputs:
@@ -139,14 +139,14 @@
     type: int
     webinar_id: string
 
-- name: delete_webinar
+- action: delete_webinar
   inputs:
     occurrence_id: string
     webinar_id: string #required
   outputs:
     success: boolean
 
-- name: get_user
+- action: get_user
   inputs:
     user_id: string = "me"
   outputs:
@@ -159,7 +159,7 @@
     type: int
     user_id: string
 
-- name: list_users
+- action: list_users
   inputs:
     next_page_token: string
     page_size: int = 30
@@ -170,7 +170,7 @@
     total_records: int
     users: list[zoom_user]
 
-- name: get_recording
+- action: get_recording
   inputs:
     meeting_id: string #required
   outputs:
@@ -179,14 +179,14 @@
     recording_files: list[zoom_recording_file]
     share_url: string
 
-- name: delete_recording
+- action: delete_recording
   inputs:
     method: trash | delete = trash
     meeting_id: string #required
   outputs:
     success: boolean
 
-- name: list_recordings
+- action: list_recordings
   inputs:
     from_date: date
     next_page_token: string
@@ -198,20 +198,20 @@
     recordings: list[zoom_recording]
     total_records: int
 
-- name: end_meeting
+- action: end_meeting
   inputs:
     meeting_id: string #required
   outputs:
     success: boolean
 
-- name: send_invitation
+- action: send_invitation
   inputs:
     emails: list[string] #required
     meeting_id: string #required
   outputs:
     success: boolean
 
-- name: zoom_meeting
+- object: zoom_meeting
   class:
     meeting_id: string
     topic: string
@@ -225,7 +225,7 @@
     host_id: string
     status: string
 
-- name: zoom_recurrence
+- object: zoom_recurrence
   class:
     type: daily | weekly | monthly
     repeat_interval: int
@@ -236,7 +236,7 @@
     end_times: int
     end_date_time: date
 
-- name: zoom_meeting_settings
+- object: zoom_meeting_settings
   class:
     host_video: boolean
     participant_video: boolean
@@ -250,7 +250,7 @@
     auto_recording: string
     waiting_room: boolean
 
-- name: zoom_webinar_settings
+- object: zoom_webinar_settings
   class:
     host_video: boolean
     panelists_video: boolean
@@ -264,12 +264,12 @@
     show_share_button: boolean
     allow_multiple_devices: boolean
 
-- name: zoom_custom_question
+- object: zoom_custom_question
   class:
     title: string
     value: string
 
-- name: zoom_registrant
+- object: zoom_registrant
   class:
     id: string
     email: string
@@ -279,12 +279,12 @@
     create_time: date
     join_url: string
 
-- name: zoom_registrant_id
+- object: zoom_registrant_id
   class:
     id: string
     email: string
 
-- name: zoom_participant
+- object: zoom_participant
   class:
     id: string
     user_id: string
@@ -296,7 +296,7 @@
     attentiveness_score: string
     status: string
 
-- name: zoom_user
+- object: zoom_user
   class:
     id: string
     email: string
@@ -307,7 +307,7 @@
     created_at: date
     timezone: string
 
-- name: zoom_recording_file
+- object: zoom_recording_file
   class:
     id: string
     meeting_id: string
@@ -319,7 +319,7 @@
     play_url: string
     status: string
 
-- name: zoom_recording
+- object: zoom_recording
   class:
     id: string
     meeting_id: string

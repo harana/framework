@@ -1,4 +1,4 @@
-- name: redirect
+- action: redirect
   inputs:
     preserve_query: boolean = true
     status_code: int = 302
@@ -6,7 +6,7 @@
   outputs:
     success: boolean
 
-- name: forward
+- action: forward
   inputs:
     headers: map[string, string]
     preserve_host: boolean = false
@@ -17,7 +17,7 @@
     headers: map[string, string]
     status_code: int
 
-- name: rewrite_path
+- action: rewrite_path
   inputs:
     pattern: string #required
     replacement: string #required
@@ -25,26 +25,26 @@
     new_path: string
     success: boolean
 
-- name: add_headers
+- action: add_headers
   inputs:
     headers: map[string, string] #required
   outputs:
     success: boolean
 
-- name: remove_headers
+- action: remove_headers
   inputs:
     headers: list[string] #required
   outputs:
     success: boolean
 
-- name: set_status
+- action: set_status
   inputs:
     message: string
     status_code: int #required
   outputs:
     success: boolean
 
-- name: json_response
+- action: json_response
   inputs:
     body: any #required
     headers: map[string, string]
@@ -52,7 +52,7 @@
   outputs:
     success: boolean
 
-- name: html_response
+- action: html_response
   inputs:
     body: string #required
     headers: map[string, string]
@@ -60,7 +60,7 @@
   outputs:
     success: boolean
 
-- name: rate_limit
+- action: rate_limit
   inputs:
     key: string #required
     limit: int #required
@@ -70,7 +70,7 @@
     remaining: int
     reset_at: date
 
-- name: match_route
+- action: match_route
   inputs:
     method: string
     path: string #required
@@ -79,14 +79,14 @@
     matched: boolean
     params: map[string, string]
 
-- name: proxy_websocket
+- action: proxy_websocket
   inputs:
     headers: map[string, string]
     target_url: string #required
   outputs:
     success: boolean
 
-- name: route
+- object: route
   class:
     path: string
     method: string

@@ -1,24 +1,24 @@
-- name: teams_team
+- object: teams_team
   id: [team_id]
   schema:
     - created_at: date = now()
     - description: string? #max(500)
-    - display_name: string #required #max(200)
+    - display_name: string #max(200)
     - is_archived: boolean = false
-    - team_id: string #required #unique #max(200)
+    - team_id: string #unique #max(200)
     - visibility: public | private = private
     - web_url: string? #url
-- name: teams_channel
+- object: teams_channel
   id: [team_id, channel_id]
   schema:
-    - channel_id: string #required #max(200)
+    - channel_id: string #max(200)
     - created_at: date = now()
     - description: string? #max(500)
-    - display_name: string #required #max(200)
+    - display_name: string #max(200)
     - membership_type: standard | private | shared = standard
-    - team_id: id #required -> teams_team.id
+    - team_id: id -> teams_team.id
     - web_url: string? #url
-- name: teams_member
+- object: teams_member
   id: [team_id, user_id]
   schema:
     - display_name: string? #max(200)
@@ -26,23 +26,23 @@
     - joined_at: date = now()
     - membership_id: string? #max(200)
     - roles: string? # json array
-    - team_id: id #required -> teams_team.id
-    - user_id: string #required #max(200)
+    - team_id: id -> teams_team.id
+    - user_id: string #max(200)
 
-- name: teams_message
+- object: teams_message
   id: [channel_id, message_id]
   schema:
-    - channel_id: string #required #max(200)
+    - channel_id: string #max(200)
     - content: string? #max(10000)
     - content_type: text | html = text
     - created_at: date = now()
     - importance: normal | high | urgent = normal
-    - message_id: string #required #max(200)
+    - message_id: string #max(200)
     - sender_id: string? #max(200)
     - thread_id: string? #max(200)
     - updated_at: date = now()
 
-- name: teams_meeting
+- object: teams_meeting
   id: [meeting_id]
   schema:
     - body: string? #max(2000)
@@ -51,41 +51,41 @@
     - is_online: boolean = true
     - join_url: string? #url
     - location: string? #max(200)
-    - meeting_id: string #required #unique #max(200)
+    - meeting_id: string #unique #max(200)
     - organizer_id: string? #max(200)
     - start_time: date?
-    - subject: string #required #max(500)
+    - subject: string #max(500)
     - updated_at: date = now()
 
-- name: teams_adaptive_card
+- object: teams_adaptive_card
   schema:
-    - body: string #required # json card body
+    - body: string # json card body
     - created_at: date = now()
     - description: string? #max(500)
     - is_active: boolean = true
     - schema_version: string = 1.4 #max(10)
     - updated_at: date = now()
 
-- name: teams_user
+- object: teams_user
   schema:
     - user_id: string
     - display_name: string
     - email: string
 
-- name: teams_attachment
+- object: teams_attachment
   schema:
     - id: string
     - content_type: string
     - content_url: string
     - name: string
 
-- name: teams_mention
+- object: teams_mention
   schema:
     - id: string
     - mentioned_id: string
     - mentioned_text: string
 
-- name: teams_attendee
+- object: teams_attendee
   schema:
     - email: string
     - display_name: string

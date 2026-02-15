@@ -1,4 +1,4 @@
-- name: parse
+- action: parse
   inputs:
     url: string #required
   outputs:
@@ -9,7 +9,7 @@
     protocol: string
     query: map[string, string]
 
-- name: build
+- action: build
   inputs:
     fragment: string
     host: string #required
@@ -20,21 +20,21 @@
   outputs:
     url: string
 
-- name: encode
+- action: encode
   inputs:
     component: boolean = true
     data: string #required
   outputs:
     encoded: string
 
-- name: decode
+- action: decode
   inputs:
     component: boolean = true
     data: string #required
   outputs:
     decoded: string
 
-- name: shorten
+- action: shorten
   inputs:
     custom_alias: string
     expiration: string
@@ -42,13 +42,13 @@
   outputs:
     short_url: string
 
-- name: expand
+- action: expand
   inputs:
     url: string #required
   outputs:
     original_url: string
 
-- name: validate
+- action: validate
   inputs:
     allowed_protocols: list[string]
     require_tld: boolean = true
@@ -57,7 +57,7 @@
     errors: list[string]
     valid: boolean
 
-- name: url
+- object: url
   class:
     url: string
     protocol: string

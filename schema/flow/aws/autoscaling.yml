@@ -1,4 +1,4 @@
-- name: create_auto_scaling_group
+- action: create_auto_scaling_group
   inputs:
     auto_scaling_group_name: string #required
     availability_zones: list[string]
@@ -32,7 +32,7 @@
   outputs:
     success: boolean
 
-- name: delete_auto_scaling_group
+- action: delete_auto_scaling_group
   inputs:
     auto_scaling_group_name: string #required
     force_delete: boolean = false
@@ -40,7 +40,7 @@
   outputs:
     success: boolean
 
-- name: describe_auto_scaling_groups
+- action: describe_auto_scaling_groups
   inputs:
     auto_scaling_group_names: list[string]
     filters: list[auto_scaling_filter]
@@ -51,7 +51,7 @@
     auto_scaling_groups: list[auto_scaling_group]
     next_token: string
 
-- name: update_auto_scaling_group
+- action: update_auto_scaling_group
   inputs:
     auto_scaling_group_name: string #required
     availability_zones: list[string]
@@ -79,7 +79,7 @@
   outputs:
     success: boolean
 
-- name: set_desired_capacity
+- action: set_desired_capacity
   inputs:
     auto_scaling_group_name: string #required
     desired_capacity: int #required
@@ -88,7 +88,7 @@
   outputs:
     success: boolean
 
-- name: attach_instances
+- action: attach_instances
   inputs:
     auto_scaling_group_name: string #required
     instance_ids: list[string] #required
@@ -96,7 +96,7 @@
   outputs:
     success: boolean
 
-- name: detach_instances
+- action: detach_instances
   inputs:
     auto_scaling_group_name: string #required
     instance_ids: list[string] #required
@@ -106,7 +106,7 @@
     activities: list[activity]
     success: boolean
 
-- name: enter_standby
+- action: enter_standby
   inputs:
     auto_scaling_group_name: string #required
     instance_ids: list[string]
@@ -116,7 +116,7 @@
     activities: list[activity]
     success: boolean
 
-- name: exit_standby
+- action: exit_standby
   inputs:
     auto_scaling_group_name: string #required
     instance_ids: list[string]
@@ -125,7 +125,7 @@
     activities: list[activity]
     success: boolean
 
-- name: set_instance_health
+- action: set_instance_health
   inputs:
     health_status: healthy | unhealthy #required
     instance_id: string #required
@@ -134,7 +134,7 @@
   outputs:
     success: boolean
 
-- name: set_instance_protection
+- action: set_instance_protection
   inputs:
     auto_scaling_group_name: string #required
     instance_ids: list[string] #required
@@ -143,7 +143,7 @@
   outputs:
     success: boolean
 
-- name: terminate_instance_in_auto_scaling_group
+- action: terminate_instance_in_auto_scaling_group
   inputs:
     instance_id: string #required
     region: string
@@ -152,7 +152,7 @@
     activity: activity
     success: boolean
 
-- name: describe_auto_scaling_instances
+- action: describe_auto_scaling_instances
   inputs:
     instance_ids: list[string]
     max_records: int = 50
@@ -162,7 +162,7 @@
     auto_scaling_instances: list[auto_scaling_instance_details]
     next_token: string
 
-- name: create_launch_configuration
+- action: create_launch_configuration
   inputs:
     associate_public_ip_address: boolean
     block_device_mappings: list[block_device_mapping]
@@ -187,14 +187,14 @@
   outputs:
     success: boolean
 
-- name: delete_launch_configuration
+- action: delete_launch_configuration
   inputs:
     launch_configuration_name: string #required
     region: string
   outputs:
     success: boolean
 
-- name: describe_launch_configurations
+- action: describe_launch_configurations
   inputs:
     launch_configuration_names: list[string]
     max_records: int = 100
@@ -204,7 +204,7 @@
     launch_configurations: list[launch_configuration]
     next_token: string
 
-- name: put_scaling_policy
+- action: put_scaling_policy
   inputs:
     adjustment_type: change_in_capacity | exact_capacity | percent_change_in_capacity
     auto_scaling_group_name: string #required
@@ -226,7 +226,7 @@
     policy_arn: string
     success: boolean
 
-- name: delete_policy
+- action: delete_policy
   inputs:
     auto_scaling_group_name: string
     policy_name: string #required
@@ -234,7 +234,7 @@
   outputs:
     success: boolean
 
-- name: describe_policies
+- action: describe_policies
   inputs:
     auto_scaling_group_name: string
     max_records: int = 100
@@ -246,7 +246,7 @@
     next_token: string
     scaling_policies: list[scaling_policy]
 
-- name: execute_policy
+- action: execute_policy
   inputs:
     auto_scaling_group_name: string
     breach_threshold: number
@@ -257,7 +257,7 @@
   outputs:
     success: boolean
 
-- name: put_scheduled_update_group_action
+- action: put_scheduled_update_group_action
   inputs:
     auto_scaling_group_name: string #required
     desired_capacity: int
@@ -273,7 +273,7 @@
   outputs:
     success: boolean
 
-- name: delete_scheduled_action
+- action: delete_scheduled_action
   inputs:
     auto_scaling_group_name: string #required
     region: string
@@ -281,7 +281,7 @@
   outputs:
     success: boolean
 
-- name: describe_scheduled_actions
+- action: describe_scheduled_actions
   inputs:
     auto_scaling_group_name: string
     end_time: date
@@ -294,7 +294,7 @@
     next_token: string
     scheduled_update_group_actions: list[scheduled_update_group_action]
 
-- name: batch_delete_scheduled_action
+- action: batch_delete_scheduled_action
   inputs:
     auto_scaling_group_name: string #required
     region: string
@@ -303,7 +303,7 @@
     failed_scheduled_actions: list[failed_scheduled_update_group_action_request]
     success: boolean
 
-- name: batch_put_scheduled_update_group_action
+- action: batch_put_scheduled_update_group_action
   inputs:
     auto_scaling_group_name: string #required
     region: string
@@ -312,7 +312,7 @@
     failed_scheduled_update_group_actions: list[failed_scheduled_update_group_action_request]
     success: boolean
 
-- name: put_lifecycle_hook
+- action: put_lifecycle_hook
   inputs:
     auto_scaling_group_name: string #required
     default_result: continue | abandon = abandon
@@ -326,7 +326,7 @@
   outputs:
     success: boolean
 
-- name: delete_lifecycle_hook
+- action: delete_lifecycle_hook
   inputs:
     auto_scaling_group_name: string #required
     lifecycle_hook_name: string #required
@@ -334,7 +334,7 @@
   outputs:
     success: boolean
 
-- name: describe_lifecycle_hooks
+- action: describe_lifecycle_hooks
   inputs:
     auto_scaling_group_name: string #required
     lifecycle_hook_names: list[string]
@@ -342,13 +342,13 @@
   outputs:
     lifecycle_hooks: list[lifecycle_hook]
 
-- name: describe_lifecycle_hook_types
+- action: describe_lifecycle_hook_types
   inputs:
     region: string
   outputs:
     lifecycle_hook_types: list[string]
 
-- name: complete_lifecycle_action
+- action: complete_lifecycle_action
   inputs:
     auto_scaling_group_name: string #required
     instance_id: string
@@ -359,7 +359,7 @@
   outputs:
     success: boolean
 
-- name: record_lifecycle_action_heartbeat
+- action: record_lifecycle_action_heartbeat
   inputs:
     auto_scaling_group_name: string #required
     instance_id: string
@@ -369,7 +369,7 @@
   outputs:
     success: boolean
 
-- name: put_notification_configuration
+- action: put_notification_configuration
   inputs:
     auto_scaling_group_name: string #required
     notification_types: list[string] #required
@@ -378,7 +378,7 @@
   outputs:
     success: boolean
 
-- name: delete_notification_configuration
+- action: delete_notification_configuration
   inputs:
     auto_scaling_group_name: string #required
     region: string
@@ -386,7 +386,7 @@
   outputs:
     success: boolean
 
-- name: describe_notification_configurations
+- action: describe_notification_configurations
   inputs:
     auto_scaling_group_names: list[string]
     max_records: int = 100
@@ -396,13 +396,13 @@
     next_token: string
     notification_configurations: list[notification_configuration]
 
-- name: describe_auto_scaling_notification_types
+- action: describe_auto_scaling_notification_types
   inputs:
     region: string
   outputs:
     auto_scaling_notification_types: list[string]
 
-- name: attach_load_balancers
+- action: attach_load_balancers
   inputs:
     auto_scaling_group_name: string #required
     load_balancer_names: list[string] #required
@@ -410,7 +410,7 @@
   outputs:
     success: boolean
 
-- name: detach_load_balancers
+- action: detach_load_balancers
   inputs:
     auto_scaling_group_name: string #required
     load_balancer_names: list[string] #required
@@ -418,7 +418,7 @@
   outputs:
     success: boolean
 
-- name: describe_load_balancers
+- action: describe_load_balancers
   inputs:
     auto_scaling_group_name: string #required
     max_records: int = 100
@@ -428,7 +428,7 @@
     load_balancers: list[load_balancer_state]
     next_token: string
 
-- name: attach_load_balancer_target_groups
+- action: attach_load_balancer_target_groups
   inputs:
     auto_scaling_group_name: string #required
     region: string
@@ -436,7 +436,7 @@
   outputs:
     success: boolean
 
-- name: detach_load_balancer_target_groups
+- action: detach_load_balancer_target_groups
   inputs:
     auto_scaling_group_name: string #required
     region: string
@@ -444,7 +444,7 @@
   outputs:
     success: boolean
 
-- name: describe_load_balancer_target_groups
+- action: describe_load_balancer_target_groups
   inputs:
     auto_scaling_group_name: string #required
     max_records: int = 100
@@ -454,7 +454,7 @@
     load_balancer_target_groups: list[load_balancer_target_group_state]
     next_token: string
 
-- name: attach_traffic_sources
+- action: attach_traffic_sources
   inputs:
     auto_scaling_group_name: string #required
     region: string
@@ -462,7 +462,7 @@
   outputs:
     success: boolean
 
-- name: detach_traffic_sources
+- action: detach_traffic_sources
   inputs:
     auto_scaling_group_name: string #required
     region: string
@@ -470,7 +470,7 @@
   outputs:
     success: boolean
 
-- name: describe_traffic_sources
+- action: describe_traffic_sources
   inputs:
     auto_scaling_group_name: string #required
     max_records: int = 100
@@ -481,7 +481,7 @@
     next_token: string
     traffic_sources: list[traffic_source_state]
 
-- name: describe_scaling_activities
+- action: describe_scaling_activities
   inputs:
     activity_ids: list[string]
     auto_scaling_group_name: string
@@ -493,13 +493,13 @@
     activities: list[activity]
     next_token: string
 
-- name: describe_scaling_process_types
+- action: describe_scaling_process_types
   inputs:
     region: string
   outputs:
     processes: list[process_type]
 
-- name: suspend_processes
+- action: suspend_processes
   inputs:
     auto_scaling_group_name: string #required
     region: string
@@ -507,7 +507,7 @@
   outputs:
     success: boolean
 
-- name: resume_processes
+- action: resume_processes
   inputs:
     auto_scaling_group_name: string #required
     region: string
@@ -515,7 +515,7 @@
   outputs:
     success: boolean
 
-- name: start_instance_refresh
+- action: start_instance_refresh
   inputs:
     auto_scaling_group_name: string #required
     desired_configuration: desired_configuration
@@ -526,7 +526,7 @@
     instance_refresh_id: string
     success: boolean
 
-- name: cancel_instance_refresh
+- action: cancel_instance_refresh
   inputs:
     auto_scaling_group_name: string #required
     region: string
@@ -534,7 +534,7 @@
     instance_refresh_id: string
     success: boolean
 
-- name: describe_instance_refreshes
+- action: describe_instance_refreshes
   inputs:
     auto_scaling_group_name: string #required
     instance_refresh_ids: list[string]
@@ -545,7 +545,7 @@
     instance_refreshes: list[instance_refresh]
     next_token: string
 
-- name: rollback_instance_refresh
+- action: rollback_instance_refresh
   inputs:
     auto_scaling_group_name: string #required
     region: string
@@ -553,7 +553,7 @@
     instance_refresh_id: string
     success: boolean
 
-- name: put_warm_pool
+- action: put_warm_pool
   inputs:
     auto_scaling_group_name: string #required
     instance_reuse_policy: instance_reuse_policy
@@ -564,7 +564,7 @@
   outputs:
     success: boolean
 
-- name: delete_warm_pool
+- action: delete_warm_pool
   inputs:
     auto_scaling_group_name: string #required
     force_delete: boolean = false
@@ -572,7 +572,7 @@
   outputs:
     success: boolean
 
-- name: describe_warm_pool
+- action: describe_warm_pool
   inputs:
     auto_scaling_group_name: string #required
     max_records: int = 100
@@ -583,7 +583,7 @@
     next_token: string
     warm_pool_configuration: warm_pool_configuration
 
-- name: describe_account_limits
+- action: describe_account_limits
   inputs:
     region: string
   outputs:
@@ -592,26 +592,26 @@
     number_of_auto_scaling_groups: int
     number_of_launch_configurations: int
 
-- name: describe_adjustment_types
+- action: describe_adjustment_types
   inputs:
     region: string
   outputs:
     adjustment_types: list[adjustment_type]
 
-- name: describe_termination_policy_types
+- action: describe_termination_policy_types
   inputs:
     region: string
   outputs:
     termination_policy_types: list[string]
 
-- name: describe_metric_collection_types
+- action: describe_metric_collection_types
   inputs:
     region: string
   outputs:
     granularities: list[metric_granularity_type]
     metrics: list[metric_collection_type]
 
-- name: enable_metrics_collection
+- action: enable_metrics_collection
   inputs:
     auto_scaling_group_name: string #required
     granularity: string #required
@@ -620,7 +620,7 @@
   outputs:
     success: boolean
 
-- name: disable_metrics_collection
+- action: disable_metrics_collection
   inputs:
     auto_scaling_group_name: string #required
     metrics: list[string]
@@ -628,7 +628,7 @@
   outputs:
     success: boolean
 
-- name: get_predictive_scaling_forecast
+- action: get_predictive_scaling_forecast
   inputs:
     auto_scaling_group_name: string #required
     end_time: date #required
@@ -640,21 +640,21 @@
     load_forecast: list[load_forecast]
     update_time: date
 
-- name: create_or_update_tags
+- action: create_or_update_tags
   inputs:
     region: string
     tags: list[auto_scaling_tag] #required
   outputs:
     success: boolean
 
-- name: delete_tags
+- action: delete_tags
   inputs:
     region: string
     tags: list[auto_scaling_tag] #required
   outputs:
     success: boolean
 
-- name: describe_tags
+- action: describe_tags
   inputs:
     filters: list[auto_scaling_filter]
     max_records: int = 100

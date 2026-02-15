@@ -1,4 +1,4 @@
-- name: all
+- action: all
   inputs:
     fail_fast: boolean = true
     max_concurrency: int
@@ -10,7 +10,7 @@
     results: list[parallel_result]
     success: boolean
 
-- name: race
+- action: race
   inputs:
     tasks: list[parallel_task] #required
     timeout: int
@@ -19,7 +19,7 @@
     success: boolean
     winner_index: int
 
-- name: any
+- action: any
   inputs:
     tasks: list[parallel_task] #required
     timeout: int
@@ -28,7 +28,7 @@
     success: boolean
     success_index: int
 
-- name: all_settled
+- action: all_settled
   inputs:
     max_concurrency: int
     tasks: list[parallel_task] #required
@@ -38,7 +38,7 @@
     rejected: int
     results: list[parallel_settled_result]
 
-- name: map
+- action: map
   inputs:
     handler: string #required
     items: list[any] #required
@@ -48,7 +48,7 @@
     results: list[any]
     success: boolean
 
-- name: filter
+- action: filter
   inputs:
     handler: string #required
     items: list[any] #required
@@ -57,7 +57,7 @@
     count: int
     results: list[any]
 
-- name: reduce
+- action: reduce
   inputs:
     handler: string #required
     initial_value: any
@@ -66,7 +66,7 @@
   outputs:
     result: any
 
-- name: retry
+- action: retry
   inputs:
     backoff_multiplier: float = 2.0
     delay_ms: int = 1000
@@ -77,7 +77,7 @@
     result: any
     success: boolean
 
-- name: timeout
+- action: timeout
   inputs:
     task: parallel_task #required
     timeout_ms: int #required
@@ -86,7 +86,7 @@
     success: boolean
     timed_out: boolean
 
-- name: batch
+- action: batch
   inputs:
     batch_size: int = 10
     handler: string #required
@@ -97,7 +97,7 @@
     results: list[any]
     success: boolean
 
-- name: semaphore
+- action: semaphore
   inputs:
     max_concurrent: int #required
     tasks: list[parallel_task] #required
@@ -106,14 +106,14 @@
     failed: int
     results: list[parallel_result]
 
-- name: parallel_task
+- object: parallel_task
   class:
     id: string
     handler: string
     input: any
     timeout: int
 
-- name: parallel_result
+- object: parallel_result
   class:
     task_id: string
     success: boolean
@@ -121,7 +121,7 @@
     error: string
     duration_ms: int
 
-- name: parallel_settled_result
+- object: parallel_settled_result
   class:
     task_id: string
     status: fulfilled | rejected
@@ -129,7 +129,7 @@
     reason: string
     duration_ms: int
 
-- name: parallel_error
+- object: parallel_error
   class:
     task_id: string
     index: int

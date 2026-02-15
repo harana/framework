@@ -1,6 +1,6 @@
-- name: checkbox_group_item
+- webobject: checkbox_group_item
   id: [group_id, checkbox_id]
   attributes:
-    - checkbox_id: id #required -> ui_checkbox.id
-    - group_id: id #required -> ui_checkbox_group.id
+    - checkbox_id: id -> ui_checkbox.id
+    - group_id: id -> ui_checkbox_group.id
     - order: int = 0 #min(0)

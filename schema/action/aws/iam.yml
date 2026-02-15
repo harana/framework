@@ -1,0 +1,394 @@
+- action: create_user
+  inputs:
+    path: string = /
+    permissions_boundary: string
+    tags: iam_tags
+    user_name: string
+  outputs:
+    arn: string
+    create_date: date
+    success: boolean
+    user_id: string
+    user_name: string
+
+- action: delete_user
+  inputs:
+    user_name: string
+  outputs:
+    success: boolean
+
+- action: get_user
+  inputs:
+    user_name: string
+  outputs:
+    arn: string
+    create_date: date
+    password_last_used: date
+    path: string
+    permissions_boundary: permissions_boundary
+    tags: list[iam_tag]
+    user_id: string
+    user_name: string
+
+- action: list_users
+  inputs:
+    max_items: int = 100
+    path_prefix: string = /
+  outputs:
+    is_truncated: boolean
+    marker: string
+    users: list[iam_user]
+
+- action: update_user
+  inputs:
+    new_path: string
+    new_user_name: string
+    user_name: string
+  outputs:
+    success: boolean
+
+- action: create_group
+  inputs:
+    group_name: string
+    path: string = /
+  outputs:
+    arn: string
+    create_date: date
+    group_id: string
+    group_name: string
+    success: boolean
+
+- action: delete_group
+  inputs:
+    group_name: string
+  outputs:
+    success: boolean
+
+- action: list_groups
+  inputs:
+    max_items: int = 100
+    path_prefix: string = /
+  outputs:
+    groups: list[iam_group]
+    is_truncated: boolean
+    marker: string
+
+- action: add_user_to_group
+  inputs:
+    group_name: string
+    user_name: string
+  outputs:
+    success: boolean
+
+- action: remove_user_from_group
+  inputs:
+    group_name: string
+    user_name: string
+  outputs:
+    success: boolean
+
+- action: list_groups_for_user
+  inputs:
+    max_items: int = 100
+    user_name: string
+  outputs:
+    groups: list[iam_group]
+    is_truncated: boolean
+    marker: string
+
+- action: create_role
+  inputs:
+    assume_role_policy_document: string
+    description: string
+    max_session_duration: int = 3600
+    path: string = /
+    permissions_boundary: string
+    role_name: string
+    tags: iam_tags
+  outputs:
+    arn: string
+    create_date: date
+    role_id: string
+    role_name: string
+    success: boolean
+
+- action: delete_role
+  inputs:
+    role_name: string
+  outputs:
+    success: boolean
+
+- action: get_role
+  inputs:
+    role_name: string
+  outputs:
+    arn: string
+    assume_role_policy_document: string
+    create_date: date
+    description: string
+    max_session_duration: int
+    path: string
+    permissions_boundary: permissions_boundary
+    role_id: string
+    role_name: string
+    tags: list[iam_tag]
+
+- action: list_roles
+  inputs:
+    max_items: int = 100
+    path_prefix: string = /
+  outputs:
+    is_truncated: boolean
+    marker: string
+    roles: list[iam_role]
+
+- action: create_policy
+  inputs:
+    description: string
+    path: string = /
+    policy_document: string
+    policy_name: string
+    tags: iam_tags
+  outputs:
+    arn: string
+    create_date: date
+    policy_id: string
+    policy_name: string
+    success: boolean
+
+- action: delete_policy
+  inputs:
+    policy_arn: string
+  outputs:
+    success: boolean
+
+- action: get_policy
+  inputs:
+    policy_arn: string
+  outputs:
+    arn: string
+    attachment_count: int
+    create_date: date
+    default_version_id: string
+    description: string
+    is_attachable: boolean
+    path: string
+    permissions_boundary_usage_count: int
+    policy_id: string
+    policy_name: string
+    tags: list[iam_tag]
+    update_date: date
+
+- action: list_policies
+  inputs:
+    max_items: int = 100
+    only_attached: boolean = false
+    path_prefix: string = /
+    scope: all | aws | local = all
+  outputs:
+    is_truncated: boolean
+    marker: string
+    policies: list[iam_policy]
+
+- action: attach_user_policy
+  inputs:
+    policy_arn: string
+    user_name: string
+  outputs:
+    success: boolean
+
+- action: detach_user_policy
+  inputs:
+    policy_arn: string
+    user_name: string
+  outputs:
+    success: boolean
+
+- action: attach_group_policy
+  inputs:
+    group_name: string
+    policy_arn: string
+  outputs:
+    success: boolean
+
+- action: detach_group_policy
+  inputs:
+    group_name: string
+    policy_arn: string
+  outputs:
+    success: boolean
+
+- action: attach_role_policy
+  inputs:
+    policy_arn: string
+    role_name: string
+  outputs:
+    success: boolean
+
+- action: detach_role_policy
+  inputs:
+    policy_arn: string
+    role_name: string
+  outputs:
+    success: boolean
+
+- action: put_user_policy
+  inputs:
+    policy_document: string
+    policy_name: string
+    user_name: string
+  outputs:
+    success: boolean
+
+- action: put_group_policy
+  inputs:
+    group_name: string
+    policy_document: string
+    policy_name: string
+  outputs:
+    success: boolean
+
+- action: put_role_policy
+  inputs:
+    policy_document: string
+    policy_name: string
+    role_name: string
+  outputs:
+    success: boolean
+
+- action: create_access_key
+  inputs:
+    user_name: string
+  outputs:
+    access_key_id: string
+    create_date: date
+    secret_access_key: string
+    status: string
+    success: boolean
+
+- action: delete_access_key
+  inputs:
+    access_key_id: string
+    user_name: string
+  outputs:
+    success: boolean
+
+- action: list_access_keys
+  inputs:
+    max_items: int = 100
+    user_name: string
+  outputs:
+    access_key_metadata: list[access_key_metadata]
+    is_truncated: boolean
+    marker: string
+
+- action: update_access_key
+  inputs:
+    access_key_id: string
+    status: active | inactive
+    user_name: string
+  outputs:
+    success: boolean
+
+- action: get_account_summary
+  inputs: {}
+  outputs:
+    summary_map: account_summary
+
+- action: generate_credential_report
+  inputs: {}
+  outputs:
+    state: string
+    success: boolean
+
+- action: get_credential_report
+  inputs: {}
+  outputs:
+    content: string
+    generated_time: date
+    report_format: string
+
+- object: user
+  id: [account_id, user_name]
+  schema:
+    - account_id: string #max(20)
+    - arn: string? #max(255)
+    - created_at: date = now()
+    - password_last_used: date?
+    - path: string = / #max(512)
+    - permissions_boundary_arn: string? #max(255)
+    - tags: string? # json
+    - updated_at: date = now()
+    - user_id: string? #unique #max(128)
+    - user_name: string #unique #max(64)
+
+- object: group
+  id: [account_id, group_name]
+  schema:
+    - account_id: string #max(20)
+    - arn: string? #max(255)
+    - created_at: date = now()
+    - group_id: string? #unique #max(128)
+    - group_name: string #unique #max(128)
+    - path: string = / #max(512)
+    - updated_at: date = now()
+
+- object: group_membership
+  id: [group_id, user_id]
+  schema:
+    - created_at: date = now()
+    - group_id: id -> aws_iam_group.id
+    - user_id: id -> aws_iamuser.id
+
+- object: role
+  id: [account_id, role_name]
+  schema:
+    - account_id: string #max(20)
+    - arn: string? #max(255)
+    - assume_role_policy_document: string?
+    - created_at: date = now()
+    - description: string? #max(500)
+    - max_session_duration: int = 3600 #min(3600) #max(43200)
+    - path: string = / #max(512)
+    - permissions_boundary_arn: string? #max(255)
+    - role_id: string? #unique #max(128)
+    - role_name: string #unique #max(64)
+    - tags: string? # json
+    - updated_at: date = now()
+
+- object: policy
+  id: [account_id, policy_arn]
+  schema:
+    - account_id: string #max(20)
+    - arn: string? #max(255)
+    - attachment_count: int = 0 #min(0)
+    - created_at: date = now()
+    - default_version_id: string? #max(10)
+    - description: string? #max(500)
+    - is_attachable: boolean = true
+    - path: string = / #max(512)
+    - policy_arn: string #unique #max(255)
+    - policy_id: string? #unique #max(128)
+    - policy_name: string #max(128)
+    - tags: string? # json
+    - updated_at: date = now()
+
+- object: policy_attachment
+  id: [policy_id, entity_type, entity_name]
+  schema:
+    - attached_at: date = now()
+    - entity_name: string #max(128)
+    - entity_type: user | group | role
+    - policy_id: id -> aws_iam_policy.id
+
+- object: access_key
+  id: [user_id, access_key_id]
+  schema:
+    - access_key_id: string #unique #max(128)
+    - created_at: date = now()
+    - last_used_at: date?
+    - last_used_region: string? #max(50)
+    - last_used_service: string? #max(100)
+    - status: active | inactive = active
+    - updated_at: date = now()
+    - user_id: id -> aws_iamuser.id

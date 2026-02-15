@@ -1,11 +1,11 @@
-- name: passkey_credential
+- object: passkey_credential
   id: [credential_id]
   schema:
     - aaguid: string? #max(100)
     - backed_up: boolean = false
     - counter: int = 0 #min(0)
     - created_at: date = now()
-    - credential_id: string #required #unique #max(500)
+    - credential_id: string #unique #max(500)
     - device_type: string? #max(50)
     - friendly_name: string? #max(200)
     - is_active: boolean = true
@@ -13,28 +13,28 @@
     - public_key_fingerprint: string? #max(128)
     - transports: string? # j_s_o_n array
     - updated_at: date = now()
-    - user_id: id #required -> user.id
-- name: passkey_challenge
+    - user_id: id -> user.id
+- object: passkey_challenge
   id: [challenge]
   schema:
-    - challenge: string #required #unique #max(500)
+    - challenge: string #unique #max(500)
     - created_at: date = now()
     - expires_at: date #required
-    - rp_id: string #required #max(255)
+    - rp_id: string #max(255)
     - type: registration | authentication = registration
     - used: boolean = false
     - user_id: string? #max(200)
 
-- name: passkey_auth_log
+- object: passkey_auth_log
   id: [credential_id, authenticated_at]
   schema:
     - authenticated_at: date = now()
-    - credential_id: string #required #max(500)
+    - credential_id: string #max(500)
     - ip_address: string? #max(45)
     - success: boolean = true
     - user_agent: string? #max(500)
-    - user_id: id #required -> user.id
-- name: passkey
+    - user_id: id -> user.id
+- object: passkey
   schema:
     - passkey_id: string
     - credential_id: string
@@ -47,20 +47,20 @@
     - created_at: date
     - last_used_at: date
 
-- name: passkey_authenticator_selection
+- object: passkey_authenticator_selection
   schema:
     - authenticator_attachment: string
     - resident_key: string
     - require_resident_key: boolean
     - user_verification: string
 
-- name: passkey_credential_descriptor
+- object: passkey_credential_descriptor
   schema:
     - id: string
     - type: string
     - transports: list[string]
 
-- name: passkey_registration_options
+- object: passkey_registration_options
   schema:
     - rp: passkey_relying_party
     - user: passkey_user
@@ -69,35 +69,35 @@
     - timeout: int
     - attestation: string
 
-- name: passkey_relying_party
+- object: passkey_relying_party
   schema:
     - id: string
     - name: string
 
-- name: passkey_user
+- object: passkey_user
   schema:
     - id: string
     - name: string
     - display_name: string
 
-- name: passkey_cred_param
+- object: passkey_cred_param
   schema:
     - type: string
     - alg: int
 
-- name: passkey_registration_response
+- object: passkey_registration_response
   schema:
     - id: string
     - raw_id: string
     - response: passkey_authenticator_attestation_response
     - type: string
 
-- name: passkey_authenticator_attestation_response
+- object: passkey_authenticator_attestation_response
   schema:
     - client_data_json: string
     - attestation_object: string
 
-- name: passkey_authentication_options
+- object: passkey_authentication_options
   schema:
     - challenge: string
     - timeout: int
@@ -105,21 +105,21 @@
     - allow_credentials: list[passkey_credential_descriptor]
     - user_verification: string
 
-- name: passkey_authentication_response
+- object: passkey_authentication_response
   schema:
     - id: string
     - raw_id: string
     - response: passkey_authenticator_assertion_response
     - type: string
 
-- name: passkey_authenticator_assertion_response
+- object: passkey_authenticator_assertion_response
   schema:
     - client_data_json: string
     - authenticator_data: string
     - signature: string
     - user_handle: string
 
-- name: passkey_info
+- object: passkey_info
   schema:
     - passkey_id: string
     - credential_id: string

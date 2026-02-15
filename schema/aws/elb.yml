@@ -1,14 +1,14 @@
-- name: aws_elb_load_balancer
+- object: aws_elb_load_balancer
   id: [account_id, load_balancer_arn]
   schema:
-    - account_id: string #required #max(20)
+    - account_id: string #max(20)
     - availability_zones: string? # json
     - canonical_hosted_zone_id: string? #max(30)
     - created_at: date = now()
     - dns_name: string? #max(255)
     - ip_address_type: ipv4 | dualstack = ipv4
-    - load_balancer_arn: string #required #unique #max(255)
-    - name: string #required #max(32)
+    - load_balancer_arn: string #unique #max(255)
+    - name: string #max(32)
     - region: string? #max(50)
     - scheme: internet_facing | internal = internet_facing
     - security_groups: string? # json list
@@ -19,10 +19,10 @@
     - updated_at: date = now()
     - vpc_id: string? #max(30)
 
-- name: aws_elb_target_group
+- object: aws_elb_target_group
   id: [account_id, target_group_arn]
   schema:
-    - account_id: string #required #max(20)
+    - account_id: string #max(20)
     - created_at: date = now()
     - health_check_enabled: boolean = true
     - health_check_interval_seconds: int = 30 #min(5) #max(300)
@@ -33,39 +33,39 @@
     - healthy_threshold_count: int = 5 #min(2) #max(10)
     - ip_address_type: ipv4 | ipv6 = ipv4
     - load_balancer_arns: string? # json list
-    - name: string #required #max(32)
+    - name: string #max(32)
     - port: int? #min(1) #max(65535)
     - protocol: http | https | tcp | tls | udp | tcp_udp | geneve = http
     - protocol_version: http1 | http2 | grpc = http1
     - region: string? #max(50)
     - tags: string? # json
-    - target_group_arn: string #required #unique #max(255)
+    - target_group_arn: string #unique #max(255)
     - target_type: instance | ip | lambda | alb = instance
     - unhealthy_threshold_count: int = 2 #min(2) #max(10)
     - updated_at: date = now()
     - vpc_id: string? #max(30)
 
-- name: aws_elb_listener
+- object: aws_elb_listener
   id: [load_balancer_id, listener_arn]
   schema:
     - certificates: string? # json list
     - created_at: date = now()
     - default_actions: string? # json
-    - listener_arn: string #required #unique #max(255)
-    - load_balancer_id: id #required -> aws_elb_load_balancer.id
-    - port: int #required #min(1) #max(65535)
+    - listener_arn: string #unique #max(255)
+    - load_balancer_id: id -> aws_elb_load_balancer.id
+    - port: int #min(1) #max(65535)
     - protocol: http | https | tcp | tls | udp | tcp_udp | geneve = http
     - ssl_policy: string? #max(100)
     - updated_at: date = now()
 
-- name: aws_elb_listener_rule
+- object: aws_elb_listener_rule
   id: [listener_id, rule_arn]
   schema:
     - actions: string? # json
     - conditions: string? # json
     - created_at: date = now()
     - is_default: boolean = false
-    - listener_id: id #required -> aws_elb_listener.id
+    - listener_id: id -> aws_elb_listener.id
     - priority: int? #min(1)
-    - rule_arn: string #required #unique #max(255)
+    - rule_arn: string #unique #max(255)
     - updated_at: date = now()

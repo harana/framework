@@ -1,26 +1,26 @@
-- name: transform_job
+- object: transform_job
   schema:
     - completed_at: date?
     - created_at: date = now()
     - error_message: string? #max(1000)
-    - input_format: string #required #max(50)
+    - input_format: string #max(50)
     - input_size: int? #min(0)
-    - output_format: string #required #max(50)
+    - output_format: string #max(50)
     - output_size: int? #min(0)
     - status: pending | running | completed | failed = pending
     - transform_type: json_to_xml | xml_to_json | csv_to_json | json_to_csv | yaml_to_json | json_to_yaml | markdown_to_html | base64_encode | base64_decode | url_encode | url_decode | html_encode | html_decode = json_to_xml
 
-- name: transform_result
+- object: transform_result
   schema:
     - input_format: string
     - output_format: string
     - data: any
 
-- name: transform_json_object
+- object: transform_json_object
   schema:
     - data: map[string, any]
 
-- name: markdown_options
+- object: markdown_options
   schema:
     - gfm: boolean
     - breaks: boolean

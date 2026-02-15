@@ -1,0 +1,184 @@
+- action: resize
+  inputs:
+    fit: cover | contain | fill | inside | outside = cover
+    format: jpeg | png | webp | avif | tiff
+    height: int
+    maintain_aspect_ratio: boolean = true
+    source: string
+    width: int
+  outputs:
+    height: int
+    image: string
+    size: int
+    width: int
+
+- action: crop
+  inputs:
+    height: int
+    source: string
+    width: int
+    x: int
+    y: int
+  outputs:
+    height: int
+    image: string
+    width: int
+
+- action: compress
+  inputs:
+    format: jpeg | png | webp | avif = webp
+    progressive: boolean = false
+    quality: int = 80
+    source: string
+  outputs:
+    compression_ratio: float
+    image: string
+    size: int
+
+- action: rotate
+  inputs:
+    angle: int
+    background: string = transparent
+    source: string
+  outputs:
+    height: int
+    image: string
+    width: int
+
+- action: thumbnail
+  inputs:
+    fit: cover | contain | fill = cover
+    format: jpeg | png | webp
+    size: int = 150
+    source: string
+  outputs:
+    height: int
+    image: string
+    width: int
+
+- action: blur
+  inputs:
+    sigma: float = 5.0
+    source: string
+  outputs:
+    image: string
+
+- action: greyscale
+  inputs:
+    source: string
+  outputs:
+    image: string
+
+- action: flip
+  inputs:
+    direction: horizontal | vertical
+    source: string
+  outputs:
+    image: string
+
+- action: sharpen
+  inputs:
+    sigma: float = 1.0
+    source: string
+  outputs:
+    image: string
+
+- action: brightness
+  inputs:
+    brightness: float
+    source: string
+  outputs:
+    image: string
+
+- action: contrast
+  inputs:
+    contrast: float
+    source: string
+  outputs:
+    image: string
+
+- action: tint
+  inputs:
+    color: string
+    source: string
+  outputs:
+    image: string
+
+- action: get_metadata
+  inputs:
+    source: string
+  outputs:
+    color_space: string
+    format: string
+    has_alpha: boolean
+    height: int
+    orientation: int
+    size: int
+    width: int
+
+- action: convert_format
+  inputs:
+    format: jpeg | png | webp | avif | tiff | gif
+    quality: int = 80
+    source: string
+  outputs:
+    format: string
+    image: string
+    size: int
+
+- action: watermark
+  inputs:
+    opacity: float = 0.5
+    position: top-left | top-right | bottom-left | bottom-right | center = bottom-right
+    source: string
+    watermark: string
+  outputs:
+    image: string
+
+- object: image
+  class:
+    source: string
+    width: int
+    height: int
+    format: string
+    size: int
+    content_type: string
+
+- object: image
+  schema:
+    - blob_id: id? -> blob_object.id
+    - color_space: string? #max(20)
+    - content_type: string? #max(100)
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - format: jpeg | png | webp | avif | tiff | gif = jpeg
+    - has_alpha: boolean = false
+    - height: int #min(1)
+    - orientation: int = 1 #min(1) #max(8)
+    - size: int #min(0)
+    - updated_at: date = now()
+    - width: int #min(1)
+
+- object: variant
+  id: [image_id, variant_type]
+  schema:
+    - blob_id: id? -> blob_object.id
+    - created_at: date = now()
+    - format: jpeg | png | webp | avif = webp
+    - height: int #min(1)
+    - image_id: id -> image.id
+    - quality: int = 80 #min(1) #max(100)
+    - size: int #min(0)
+    - variant_type: thumbnail | small | medium | large | original = original
+    - width: int #min(1)
+
+- object: operation
+  id: [image_id, created_at]
+  schema:
+    - completed_at: date?
+    - created_at: date = now()
+    - error_message: string? #max(1000)
+    - image_id: id -> image.id
+    - operation: resize | crop | compress | rotate | flip | blur | sharpen | convert | watermark | thumbnail = resize
+    - parameters: string? # json
+    - status: pending | running | completed | failed = pending

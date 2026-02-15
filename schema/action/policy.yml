@@ -1,0 +1,169 @@
+- action: create
+  inputs:
+    conditions: policy_conditions
+    description: string
+    effect: string # allow or deny
+    name: string
+    resources: list[string]
+    actions: list[string]
+  outputs:
+    policy_id: string
+    success: boolean
+
+- action: update
+  inputs:
+    conditions: policy_conditions
+    description: string
+    effect: string
+    name: string
+    policy_id: string
+    resources: list[string]
+    actions: list[string]
+  outputs:
+    success: boolean
+
+- action: delete
+  inputs:
+    policy_id: string
+  outputs:
+    success: boolean
+
+- action: get
+  inputs:
+    policy_id: string
+  outputs:
+    actions: list[string]
+    conditions: policy_conditions
+    description: string
+    effect: string
+    name: string
+    resources: list[string]
+
+- action: list_policies
+  inputs:
+    limit: int = 100
+    offset: int = 0
+  outputs:
+    policies: list[policy_info]
+    total: int
+
+- action: attach_to_user
+  inputs:
+    policy_id: string
+    user_id: string
+  outputs:
+    success: boolean
+
+- action: detach_from_user
+  inputs:
+    policy_id: string
+    user_id: string
+  outputs:
+    success: boolean
+
+- action: attach_to_role
+  inputs:
+    policy_id: string
+    role_id: string
+  outputs:
+    success: boolean
+
+- action: detach_from_role
+  inputs:
+    policy_id: string
+    role_id: string
+  outputs:
+    success: boolean
+
+- action: evaluate
+  inputs:
+    method: string
+    context: policy_evaluation_context
+    policy_id: string
+    resource: string
+  outputs:
+    allowed: boolean
+    evaluated_conditions: policy_evaluated_conditions
+    reason: string
+
+- object: policy
+  class:
+    policy_id: string
+    name: string
+    description: string
+    effect: string
+    actions: list[string]
+    resources: list[string]
+    conditions: policy_conditions
+
+- object: conditions
+  class:
+    conditions: map[string, any]
+
+- object: info
+  class:
+    policy_id: string
+    name: string
+    description: string
+    effect: string
+
+- object: evaluation_context
+  class:
+    values: map[string, any]
+
+- object: evaluated_conditions
+  class:
+    results: map[string, boolean]
+
+- object: policy
+  schema:
+    - actions: string #jsonarray
+    - conditions: string? # json conditions
+    - created_at: date = now()
+    - description: string? #max(500)
+    - effect: allow | deny = allow
+    - is_active: boolean = true
+
+    - name: string #unique #max(200)
+    - resources: string #jsonarray
+    - updated_at: date = now()
+
+- object: attachment
+  id: [policy_id, entity_id, entity_type]
+  schema:
+    - attached_at: date = now()
+    - attached_by: id? -> user.id
+    - entity_id: id
+    - entity_type: user | role | group = user
+    - policy_id: id -> policy.id
+
+- object: evaluation_log
+  id: [policy_id, evaluated_at]
+  schema:
+    - action: string #max(200)
+    - allowed: boolean = false
+    - evaluated_at: date = now()
+    - policy_id: id -> policy.id
+    - reason: string? #max(500)
+    - resource: string #max(200)
+    - user_id: id? -> user.id
+
+- object: conditions
+  schema:
+    - conditions: map[string, any]
+
+- object: info
+  schema:
+    - policy_id: string
+
+    - name: string
+    - description: string
+    - effect: string
+
+- object: evaluation_context
+  schema:
+    - values: map[string, any]
+
+- object: evaluated_conditions
+  schema:
+    - results: map[string, boolean]

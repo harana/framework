@@ -1,4 +1,4 @@
-- name: avatar
+- webobject: avatar
   attributes:
     - alt: string? #max(200)
     - initials: string? #max(3)

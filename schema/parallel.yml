@@ -1,4 +1,4 @@
-- name: parallel_execution
+- object: parallel_execution
   schema:
     - completed_at: date?
     - completed_count: int = 0 #min(0)
@@ -10,18 +10,18 @@
     - timeout_ms: int? #min(1)
     - total_count: int = 0 #min(0)
 
-- name: parallel_task
+- object: parallel_task
   id: [execution_id, task_index]
   schema:
     - completed_at: date?
     - error_message: string? #max(2000)
-    - execution_id: id #required -> parallel_execution.id
+    - execution_id: id -> parallel_execution.id
     - result: string?
     - started_at: date?
     - status: pending | running | fulfilled | rejected = pending
-    - task_index: int #required #min(0)
+    - task_index: int #min(0)
 
-- name: parallel_result
+- object: parallel_result
   schema:
     - task_id: string
     - success: boolean
@@ -29,7 +29,7 @@
     - error: string
     - duration_ms: int
 
-- name: parallel_settled_result
+- object: parallel_settled_result
   schema:
     - task_id: string
     - status: fulfilled | rejected
@@ -37,7 +37,7 @@
     - reason: string
     - duration_ms: int
 
-- name: parallel_error
+- object: parallel_error
   schema:
     - task_id: string
     - index: int

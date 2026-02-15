@@ -1,11 +1,11 @@
-- name: aws_ecs_cluster
+- object: aws_ecs_cluster
   id: [account_id, cluster_name]
   schema:
-    - account_id: string #required #max(20)
+    - account_id: string #max(20)
     - active_services_count: int = 0 #min(0)
     - capacity_providers: string? # json list
     - cluster_arn: string? #max(255)
-    - cluster_name: string #required #unique #max(255)
+    - cluster_name: string #unique #max(255)
     - created_at: date = now()
     - pending_tasks_count: int = 0 #min(0)
     - region: string? #max(50)
@@ -16,10 +16,10 @@
     - tags: string? # json
     - updated_at: date = now()
 
-- name: aws_ecs_service
+- object: aws_ecs_service
   id: [cluster_id, service_name]
   schema:
-    - cluster_id: id #required -> aws_ecs_cluster.id
+    - cluster_id: id -> aws_ecs_cluster.id
     - created_at: date = now()
     - desired_count: int = 1 #min(0)
     - launch_type: ec2 | fargate | external = fargate
@@ -30,35 +30,35 @@
     - running_count: int = 0 #min(0)
     - scheduling_strategy: replica | daemon = replica
     - service_arn: string? #max(255)
-    - service_name: string #required #max(255)
+    - service_name: string #max(255)
     - status: active | draining | inactive = active
     - tags: string? # json
     - task_definition: string? #max(255)
     - updated_at: date = now()
 
-- name: aws_ecs_task_definition
+- object: aws_ecs_task_definition
   id: [account_id, family, revision]
   schema:
-    - account_id: string #required #max(20)
+    - account_id: string #max(20)
     - container_definitions: string? # json
     - cpu: string? #max(20)
     - created_at: date = now()
     - execution_role_arn: string? #max(255)
-    - family: string #required #max(255)
+    - family: string #max(255)
     - memory: string? #max(20)
     - network_mode: none | bridge | awsvpc | host = awsvpc
     - region: string? #max(50)
     - requires_compatibilities: string? # json list
-    - revision: int #required #min(1)
+    - revision: int #min(1)
     - status: active | inactive = active
     - tags: string? # json
     - task_definition_arn: string? #max(255)
     - task_role_arn: string? #max(255)
 
-- name: aws_ecs_task
+- object: aws_ecs_task
   id: [cluster_id, task_arn]
   schema:
-    - cluster_id: id #required -> aws_ecs_cluster.id
+    - cluster_id: id -> aws_ecs_cluster.id
     - connectivity: connected | disconnected = connected
     - container_instance_arn: string? #max(255)
     - cpu: string? #max(20)
@@ -73,6 +73,6 @@
     - stopped_at: date?
     - stopped_reason: string? #max(500)
     - tags: string? # json
-    - task_arn: string #required #max(255)
+    - task_arn: string #max(255)
     - task_definition_arn: string? #max(255)
     - updated_at: date = now()

@@ -1,4 +1,4 @@
-- name: html_document
+- object: html_document
   schema:
     - charset: string = utf-8 #max(20)
     - created_at: date = now()
@@ -9,24 +9,24 @@
     - title: string? #max(500)
     - updated_at: date = now()
 
-- name: html_dom
+- object: html_dom
   schema:
     - document_type: string
     - root: html_element
 
-- name: html_element
+- object: html_element
   schema:
     - tag_name: string
     - attributes: map[string, string]
     - children: list[html_node]
     - text_content: string
 
-- name: html_node
+- object: html_node
   schema:
     - node_type: string
     - value: any
 
-- name: html_allowed_attributes
+- object: html_allowed_attributes
   schema:
     - global: list[string]
     - per_tag: map[string, list[string]]

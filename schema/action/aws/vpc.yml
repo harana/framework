@@ -1,0 +1,747 @@
+- action: create_vpc
+  inputs:
+    cidr_block: string
+    enable_dns_hostnames: boolean = true
+    enable_dns_support: boolean = true
+    instance_tenancy: default | dedicated | host = default
+    ipv6_cidr_block: string
+    region: string
+    tags: vpc_tags
+  outputs:
+    cidr_block: string
+    dhcp_options_id: string
+    instance_tenancy: string
+    ipv6_cidr_block: string
+    is_default: boolean
+    owner_id: string
+    state: string
+    success: boolean
+    vpc_id: string
+
+- action: delete_vpc
+  inputs:
+    region: string
+    vpc_id: string
+  outputs:
+    success: boolean
+
+- action: describe_vpcs
+  inputs:
+    filters: list[vpc_filter]
+    region: string
+    vpc_ids: list[string]
+  outputs:
+    vpcs: list[vpc]
+
+- action: modify_vpc_attribute
+  inputs:
+    enable_dns_hostnames: boolean
+    enable_dns_support: boolean
+    region: string
+    vpc_id: string
+  outputs:
+    success: boolean
+
+- action: create_subnet
+  inputs:
+    availability_zone: string
+    availability_zone_id: string
+    cidr_block: string
+    ipv6_cidr_block: string
+    map_public_ip_on_launch: boolean = false
+    region: string
+    tags: vpc_tags
+    vpc_id: string
+  outputs:
+    availability_zone: string
+    availability_zone_id: string
+    available_ip_address_count: int
+    cidr_block: string
+    default_for_az: boolean
+    map_public_ip_on_launch: boolean
+    owner_id: string
+    state: string
+    subnet_arn: string
+    subnet_id: string
+    success: boolean
+    vpc_id: string
+
+- action: delete_subnet
+  inputs:
+    region: string
+    subnet_id: string
+  outputs:
+    success: boolean
+
+- action: describe_subnets
+  inputs:
+    filters: list[vpc_filter]
+    region: string
+    subnet_ids: list[string]
+  outputs:
+    subnets: list[subnet]
+
+- action: modify_subnet_attribute
+  inputs:
+    assign_ipv6_address_on_creation: boolean
+    map_public_ip_on_launch: boolean
+    region: string
+    subnet_id: string
+  outputs:
+    success: boolean
+
+- action: create_internet_gateway
+  inputs:
+    region: string
+    tags: vpc_tags
+  outputs:
+    attachments: list[internet_gateway_attachment]
+    internet_gateway_id: string
+    owner_id: string
+    success: boolean
+
+- action: delete_internet_gateway
+  inputs:
+    internet_gateway_id: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: attach_internet_gateway
+  inputs:
+    internet_gateway_id: string
+    region: string
+    vpc_id: string
+  outputs:
+    success: boolean
+
+- action: detach_internet_gateway
+  inputs:
+    internet_gateway_id: string
+    region: string
+    vpc_id: string
+  outputs:
+    success: boolean
+
+- action: describe_internet_gateways
+  inputs:
+    filters: list[vpc_filter]
+    internet_gateway_ids: list[string]
+    region: string
+  outputs:
+    internet_gateways: list[internet_gateway]
+
+- action: create_nat_gateway
+  inputs:
+    allocation_id: string
+    connectivity_type: public | private = public
+    region: string
+    subnet_id: string
+    tags: vpc_tags
+  outputs:
+    connectivity_type: string
+    create_time: date
+    nat_gateway_addresses: list[nat_gateway_address]
+    nat_gateway_id: string
+    state: string
+    subnet_id: string
+    success: boolean
+    vpc_id: string
+
+- action: delete_nat_gateway
+  inputs:
+    nat_gateway_id: string
+    region: string
+  outputs:
+    nat_gateway_id: string
+    success: boolean
+
+- action: describe_nat_gateways
+  inputs:
+    filters: list[vpc_filter]
+    nat_gateway_ids: list[string]
+    region: string
+  outputs:
+    nat_gateways: list[nat_gateway]
+
+- action: create_route_table
+  inputs:
+    region: string
+    tags: vpc_tags
+    vpc_id: string
+  outputs:
+    associations: list[route_table_association]
+    owner_id: string
+    propagating_vgws: list[propagating_vgw]
+    route_table_id: string
+    routes: list[route]
+    success: boolean
+    vpc_id: string
+
+- action: delete_route_table
+  inputs:
+    region: string
+    route_table_id: string
+  outputs:
+    success: boolean
+
+- action: describe_route_tables
+  inputs:
+    filters: list[vpc_filter]
+    region: string
+    route_table_ids: list[string]
+  outputs:
+    route_tables: list[route_table]
+
+- action: create_route
+  inputs:
+    carrier_gateway_id: string
+    destination_cidr_block: string
+    destination_ipv6_cidr_block: string
+    egress_only_internet_gateway_id: string
+    gateway_id: string
+    instance_id: string
+    nat_gateway_id: string
+    network_interface_id: string
+    region: string
+    route_table_id: string
+    transit_gateway_id: string
+    vpc_endpoint_id: string
+    vpc_peering_connection_id: string
+  outputs:
+    success: boolean
+
+- action: delete_route
+  inputs:
+    destination_cidr_block: string
+    destination_ipv6_cidr_block: string
+    region: string
+    route_table_id: string
+  outputs:
+    success: boolean
+
+- action: replace_route
+  inputs:
+    carrier_gateway_id: string
+    destination_cidr_block: string
+    destination_ipv6_cidr_block: string
+    gateway_id: string
+    instance_id: string
+    nat_gateway_id: string
+    network_interface_id: string
+    region: string
+    route_table_id: string
+    transit_gateway_id: string
+    vpc_endpoint_id: string
+    vpc_peering_connection_id: string
+  outputs:
+    success: boolean
+
+- action: associate_route_table
+  inputs:
+    gateway_id: string
+    region: string
+    route_table_id: string
+    subnet_id: string
+  outputs:
+    association_id: string
+    association_state: string
+    success: boolean
+
+- action: disassociate_route_table
+  inputs:
+    association_id: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: create_security_group
+  inputs:
+    description: string
+    group_name: string
+    region: string
+    tags: vpc_tags
+    vpc_id: string
+  outputs:
+    group_id: string
+    success: boolean
+
+- action: delete_security_group
+  inputs:
+    group_id: string
+    group_name: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: describe_security_groups
+  inputs:
+    filters: list[vpc_filter]
+    group_ids: list[string]
+    group_names: list[string]
+    region: string
+  outputs:
+    security_groups: list[security_group]
+
+- action: authorize_security_group_ingress
+  inputs:
+    cidr_ip: string
+    from_port: int
+    group_id: string
+    ip_permissions: list[ip_permission]
+    ip_protocol: string
+    region: string
+    source_security_group_name: string
+    source_security_group_owner_id: string
+    to_port: int
+  outputs:
+    security_group_rules: list[security_group_rule]
+    success: boolean
+
+- action: authorize_security_group_egress
+  inputs:
+    cidr_ip: string
+    from_port: int
+    group_id: string
+    ip_permissions: list[ip_permission]
+    ip_protocol: string
+    region: string
+    to_port: int
+  outputs:
+    security_group_rules: list[security_group_rule]
+    success: boolean
+
+- action: revoke_security_group_ingress
+  inputs:
+    cidr_ip: string
+    from_port: int
+    group_id: string
+    ip_permissions: list[ip_permission]
+    ip_protocol: string
+    region: string
+    security_group_rule_ids: list[string]
+    source_security_group_name: string
+    source_security_group_owner_id: string
+    to_port: int
+  outputs:
+    success: boolean
+
+- action: revoke_security_group_egress
+  inputs:
+    cidr_ip: string
+    from_port: int
+    group_id: string
+    ip_permissions: list[ip_permission]
+    ip_protocol: string
+    region: string
+    security_group_rule_ids: list[string]
+    to_port: int
+  outputs:
+    success: boolean
+
+- action: create_network_acl
+  inputs:
+    region: string
+    tags: vpc_tags
+    vpc_id: string
+  outputs:
+    associations: list[network_acl_association]
+    entries: list[network_acl_entry]
+    is_default: boolean
+    network_acl_id: string
+    owner_id: string
+    success: boolean
+    vpc_id: string
+
+- action: delete_network_acl
+  inputs:
+    network_acl_id: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: describe_network_acls
+  inputs:
+    filters: list[vpc_filter]
+    network_acl_ids: list[string]
+    region: string
+  outputs:
+    network_acls: list[network_acl]
+
+- action: create_network_acl_entry
+  inputs:
+    cidr_block: string
+    egress: boolean
+    icmp_code: int
+    icmp_type: int
+    ipv6_cidr_block: string
+    network_acl_id: string
+    port_range_from: int
+    port_range_to: int
+    protocol: string
+    region: string
+    rule_method: allow | deny
+    rule_number: int
+  outputs:
+    success: boolean
+
+- action: delete_network_acl_entry
+  inputs:
+    egress: boolean
+    network_acl_id: string
+    region: string
+    rule_number: int
+  outputs:
+    success: boolean
+
+- action: replace_network_acl_association
+  inputs:
+    association_id: string
+    network_acl_id: string
+    region: string
+  outputs:
+    new_association_id: string
+    success: boolean
+
+- action: allocate_address
+  inputs:
+    domain: vpc | standard = vpc
+    network_border_group: string
+    public_ipv4_pool: string
+    region: string
+    tags: vpc_tags
+  outputs:
+    allocation_id: string
+    domain: string
+    network_border_group: string
+    public_ip: string
+    public_ipv4_pool: string
+    success: boolean
+
+- action: release_address
+  inputs:
+    allocation_id: string
+    public_ip: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: associate_address
+  inputs:
+    allocation_id: string
+    allow_reassociation: boolean = false
+    instance_id: string
+    network_interface_id: string
+    private_ip_address: string
+    public_ip: string
+    region: string
+  outputs:
+    association_id: string
+    success: boolean
+
+- action: disassociate_address
+  inputs:
+    association_id: string
+    public_ip: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: describe_addresses
+  inputs:
+    allocation_ids: list[string]
+    filters: list[vpc_filter]
+    public_ips: list[string]
+    region: string
+  outputs:
+    addresses: list[elastic_ip]
+
+- action: create_vpc_peering_connection
+  inputs:
+    peer_owner_id: string
+    peer_region: string
+    peer_vpc_id: string
+    region: string
+    tags: vpc_tags
+    vpc_id: string
+  outputs:
+    accepter_vpc_info: vpc_info
+    expiration_time: date
+    requester_vpc_info: vpc_info
+    status: peering_connection_status
+    success: boolean
+    vpc_peering_connection_id: string
+
+- action: accept_vpc_peering_connection
+  inputs:
+    region: string
+    vpc_peering_connection_id: string
+  outputs:
+    accepter_vpc_info: vpc_info
+    requester_vpc_info: vpc_info
+    status: peering_connection_status
+    success: boolean
+    vpc_peering_connection_id: string
+
+- action: delete_vpc_peering_connection
+  inputs:
+    region: string
+    vpc_peering_connection_id: string
+  outputs:
+    success: boolean
+
+- action: reject_vpc_peering_connection
+  inputs:
+    region: string
+    vpc_peering_connection_id: string
+  outputs:
+    success: boolean
+
+- action: describe_vpc_peering_connections
+  inputs:
+    filters: list[vpc_filter]
+    region: string
+    vpc_peering_connection_ids: list[string]
+  outputs:
+    vpc_peering_connections: list[vpc_peering_connection]
+
+- action: create_vpc_endpoint
+  inputs:
+    policy_document: string
+    private_dns_enabled: boolean = true
+    region: string
+    route_table_ids: list[string]
+    security_group_ids: list[string]
+    service_name: string
+    subnet_ids: list[string]
+    tags: vpc_tags
+    vpc_endpoint_type: interface | gateway | gateway_load_balancer = gateway
+    vpc_id: string
+  outputs:
+    creation_timestamp: date
+    dns_entries: list[dns_entry]
+    groups: list[security_group_identifier]
+    network_interface_ids: list[string]
+    owner_id: string
+    policy_document: string
+    private_dns_enabled: boolean
+    requester_managed: boolean
+    route_table_ids: list[string]
+    service_name: string
+    state: string
+    subnet_ids: list[string]
+    success: boolean
+    vpc_endpoint_id: string
+    vpc_endpoint_type: string
+    vpc_id: string
+
+- action: delete_vpc_endpoints
+  inputs:
+    region: string
+    vpc_endpoint_ids: list[string]
+  outputs:
+    unsuccessful: list[unsuccessful_item]
+    success: boolean
+
+- action: describe_vpc_endpoints
+  inputs:
+    filters: list[vpc_filter]
+    region: string
+    vpc_endpoint_ids: list[string]
+  outputs:
+    vpc_endpoints: list[vpc_endpoint]
+
+- action: modify_vpc_endpoint
+  inputs:
+    add_route_table_ids: list[string]
+    add_security_group_ids: list[string]
+    add_subnet_ids: list[string]
+    policy_document: string
+    private_dns_enabled: boolean
+    region: string
+    remove_route_table_ids: list[string]
+    remove_security_group_ids: list[string]
+    remove_subnet_ids: list[string]
+    reset_policy: boolean = false
+    vpc_endpoint_id: string
+  outputs:
+    success: boolean
+
+- action: create_dhcp_options
+  inputs:
+    dhcp_configurations: list[dhcp_configuration]
+    region: string
+    tags: vpc_tags
+  outputs:
+    dhcp_configurations: list[dhcp_configuration]
+    dhcp_options_id: string
+    owner_id: string
+    success: boolean
+
+- action: delete_dhcp_options
+  inputs:
+    dhcp_options_id: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: describe_dhcp_options
+  inputs:
+    dhcp_options_ids: list[string]
+    filters: list[vpc_filter]
+    region: string
+  outputs:
+    dhcp_options: list[dhcp_options]
+
+- action: associate_dhcp_options
+  inputs:
+    dhcp_options_id: string
+    region: string
+    vpc_id: string
+  outputs:
+    success: boolean
+
+- action: create_egress_only_internet_gateway
+  inputs:
+    region: string
+    tags: vpc_tags
+    vpc_id: string
+  outputs:
+    attachments: list[internet_gateway_attachment]
+    egress_only_internet_gateway_id: string
+    success: boolean
+
+- action: delete_egress_only_internet_gateway
+  inputs:
+    egress_only_internet_gateway_id: string
+    region: string
+  outputs:
+    success: boolean
+
+- action: describe_egress_only_internet_gateways
+  inputs:
+    egress_only_internet_gateway_ids: list[string]
+    filters: list[vpc_filter]
+    region: string
+  outputs:
+    egress_only_internet_gateways: list[egress_only_internet_gateway]
+
+- object: vpc
+  id: [account_id, vpc_id]
+  schema:
+    - account_id: string #max(20)
+    - cidr_block: string #max(50)
+    - created_at: date = now()
+    - enable_dns_hostnames: boolean = true
+    - enable_dns_support: boolean = true
+    - instance_tenancy: default | dedicated | host = default
+    - ipv6_cidr_block: string? #max(50)
+    - is_default: boolean = false
+    - owner_id: string? #max(20)
+    - region: string? #max(50)
+    - state: pending | available = pending
+    - tags: string? # json
+    - updated_at: date = now()
+    - vpc_id: string #unique #max(30)
+
+- object: subnet
+  id: [vpc_id, subnet_id]
+  schema:
+    - availability_zone: string? #max(100)
+    - availability_zone_id: string? #max(100)
+    - available_ip_address_count: int? #min(0)
+    - cidr_block: string #max(50)
+    - created_at: date = now()
+    - default_for_az: boolean = false
+    - ipv6_cidr_block: string? #max(50)
+    - map_public_ip_on_launch: boolean = false
+    - owner_id: string? #max(20)
+    - state: pending | available = pending
+    - subnet_arn: string? #max(255)
+    - subnet_id: string #unique #max(30)
+    - tags: string? # json
+    - updated_at: date = now()
+    - vpc_id: id -> aws_vpc.id
+
+- object: internet_gateway
+  id: [account_id, internet_gateway_id]
+  schema:
+    - account_id: string #max(20)
+    - created_at: date = now()
+    - internet_gateway_id: string #unique #max(30)
+    - owner_id: string? #max(20)
+    - tags: string? # json
+    - updated_at: date = now()
+
+- object: internet_gateway_attachment
+  id: [internet_gateway_id, vpc_id]
+  schema:
+    - created_at: date = now()
+    - internet_gateway_id: id -> aws_vpc_internet_gateway.id
+    - state: attaching | attached | detaching | detached = attaching
+    - vpc_id: id -> aws_vpc.id
+
+- object: nat_gateway
+  id: [account_id, nat_gateway_id]
+  schema:
+    - account_id: string #max(20)
+    - allocation_id: string? #max(30)
+    - connectivity_type: public | private = public
+    - created_at: date = now()
+    - nat_gateway_id: string #unique #max(30)
+    - public_ip: string? #max(45)
+    - private_ip: string? #max(45)
+    - state: pending | failed | available | deleting | deleted = pending
+    - subnet_id: string? #max(30)
+    - tags: string? # json
+    - updated_at: date = now()
+    - vpc_id: string? #max(30)
+
+- object: route_table
+  id: [vpc_id, route_table_id]
+  schema:
+    - created_at: date = now()
+    - owner_id: string? #max(20)
+    - route_table_id: string #unique #max(30)
+    - tags: string? # json
+    - updated_at: date = now()
+    - vpc_id: id -> aws_vpc.id
+
+- object: route
+  id: [route_table_id, destination_cidr_block]
+  schema:
+    - created_at: date = now()
+    - destination_cidr_block: string? #max(50)
+    - destination_ipv6_cidr_block: string? #max(50)
+    - gateway_id: string? #max(30)
+    - instance_id: string? #max(20)
+    - nat_gateway_id: string? #max(30)
+    - network_interface_id: string? #max(30)
+    - origin: create_route_table | create_route | enable_vgw_route_propagation = create_route
+    - route_table_id: id -> aws_vpc_route_table.id
+    - state: active | blackhole = active
+    - transit_gateway_id: string? #max(30)
+    - vpc_peering_connection_id: string? #max(30)
+
+- object: network_acl
+  id: [vpc_id, network_acl_id]
+  schema:
+    - created_at: date = now()
+    - is_default: boolean = false
+    - network_acl_id: string #unique #max(30)
+    - owner_id: string? #max(20)
+    - tags: string? # json
+    - updated_at: date = now()
+    - vpc_id: id -> aws_vpc.id
+
+- object: peering_connection
+  id: [account_id, vpc_peering_connection_id]
+  schema:
+    - accepter_vpc_id: string? #max(30)
+    - account_id: string #max(20)
+    - created_at: date = now()
+    - requester_vpc_id: string? #max(30)
+    - status: initiating_request | pending_acceptance | active | deleted | rejected | failed | expired | provisioning | deleting = initiating_request
+    - tags: string? # json
+    - updated_at: date = now()
+    - vpc_peering_connection_id: string #unique #max(30)

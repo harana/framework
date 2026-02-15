@@ -1,6 +1,6 @@
-- name: dropdown_section
+- webobject: dropdown_section
   id: [dropdown_id, name]
   attributes:
-    - dropdown_id: id #required -> ui_dropdown.id
+    - dropdown_id: id -> ui_dropdown.id
     - heading: string? #max(100)
     - order: int = 0 #min(0)

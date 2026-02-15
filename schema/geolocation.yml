@@ -1,4 +1,4 @@
-- name: geolocation_point
+- object: geolocation_point
   schema:
     - accuracy: decimal? #min(0)
     - altitude: decimal?
@@ -8,40 +8,40 @@
     - longitude: decimal #required
     - metadata: string?
 
-- name: geolocation_route
+- object: geolocation_route
   id: [from_point_id, to_point_id, mode]
   schema:
     - calculated_at: date = now()
     - distance: decimal? #min(0)
     - duration_seconds: int? #min(0)
-    - from_point_id: id #required -> geolocation_point.id
+    - from_point_id: id -> geolocation_point.id
     - mode: driving | walking | cycling | transit = driving
     - polyline: string?
-    - to_point_id: id #required -> geolocation_point.id
-- name: geolocation_fence
+    - to_point_id: id -> geolocation_point.id
+- object: geolocation_fence
   schema:
     - center_latitude: decimal #required
     - center_longitude: decimal #required
     - created_at: date = now()
     - is_active: boolean = true
-    - radius_meters: decimal #required #min(0)
+    - radius_meters: decimal #min(0)
     - updated_at: date = now()
 
-- name: coordinates
+- object: coordinates
   schema:
     - latitude: float
     - longitude: float
     - altitude: float
     - accuracy: float
 
-- name: geo_result
+- object: geo_result
   schema:
     - latitude: float
     - longitude: float
     - formatted_address: string
     - confidence: float
 
-- name: geo_address
+- object: geo_address
   schema:
     - street: string
     - city: string
@@ -49,7 +49,7 @@
     - postal_code: string
     - country: string
 
-- name: route_step
+- object: route_step
   schema:
     - instruction: string
     - distance: float

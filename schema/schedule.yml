@@ -1,4 +1,4 @@
-- name: schedule
+- object: schedule
   schema:
     - action_config: map[string, any]
     - action_type: string
@@ -11,7 +11,7 @@
     - last_run_at: date?
     - max_executions: int?
     - metadata: map[string, any]
-    - name: string #required #unique #max(200)
+    - name: string #unique #max(200)
     - next_run_at: date?
     - owner_id: string?
     - resume_at: date?
@@ -25,29 +25,29 @@
     - updated_at: date = now()
     - version: int = 1 #min(1)
 
-- name: schedule_status
+- object: schedule_status
   schema:
     - value: active | paused | disabled | completed | expired = active
 
-- name: schedule_type
+- object: schedule_type
   schema:
     - value: cron | interval | one_time = cron
 
-- name: schedule_execution_history
+- object: schedule_execution_history
   schema:
     - completed_at: date?
     - created_at: date = now()
     - duration_ms: int? #min(0)
     - error: string?
-    - job_id: id #required -> job.id
+    - job_id: id -> job.id
     - retry_attempt: int = 0 #min(0)
-    - schedule_id: id #required -> schedule.id
+    - schedule_id: id -> schedule.id
     - scheduled_at: date #required
     - started_at: date?
     - status: pending | running | completed | failed | cancelled | timed_out | retrying = pending
     - worker_id: string?
 
-- name: schedule_retry_config
+- object: schedule_retry_config
   schema:
     - initial_delay_secs: int = 10 #min(1)
     - jitter: boolean = true
@@ -56,11 +56,11 @@
     - multiplier: float = 2.0
     - strategy: fixed | linear | exponential = exponential
 
-- name: schedule_backoff_strategy
+- object: schedule_backoff_strategy
   schema:
     - value: fixed | linear | exponential = exponential
 
-- name: schedule_query
+- object: schedule_query
   schema:
     - due_before: date?
     - limit: int?
@@ -71,7 +71,7 @@
     - status: active | paused | disabled | completed | expired?
     - tags: list[string]?
 
-- name: schedule_stats
+- object: schedule_stats
   schema:
     - average_duration_ms: float?
     - failed_executions: int = 0
@@ -80,7 +80,7 @@
     - successful_executions: int = 0
     - total_executions: int = 0
 
-- name: schedule_scheduler_config
+- object: schedule_scheduler_config
   schema:
     - auto_create_jobs: boolean = true
     - batch_size: int = 100 #min(1)
@@ -92,7 +92,7 @@
     - stale_check_interval_secs: int = 60 #min(1)
     - stale_threshold_secs: int = 600 #min(1)
     - worker_id: string #required
-- name: schedule_info
+- object: schedule_info
   schema:
     - cron_expression: string?
     - enabled: boolean

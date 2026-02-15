@@ -1,4 +1,4 @@
-- name: gzip_compress
+- action: gzip_compress
   inputs:
     data: bytes #required
     level: int = 6
@@ -8,14 +8,14 @@
     compression_ratio: float
     original_size: int
 
-- name: gzip_decompress
+- action: gzip_decompress
   inputs:
     data: bytes #required
   outputs:
     decompressed: bytes
     size: int
 
-- name: zstd_compress
+- action: zstd_compress
   inputs:
     data: bytes #required
     level: int = 3
@@ -25,14 +25,14 @@
     compression_ratio: float
     original_size: int
 
-- name: zstd_decompress
+- action: zstd_decompress
   inputs:
     data: bytes #required
   outputs:
     decompressed: bytes
     size: int
 
-- name: brotli_compress
+- action: brotli_compress
   inputs:
     data: bytes #required
     quality: int = 4
@@ -42,14 +42,14 @@
     compression_ratio: float
     original_size: int
 
-- name: brotli_decompress
+- action: brotli_decompress
   inputs:
     data: bytes #required
   outputs:
     decompressed: bytes
     size: int
 
-- name: lz4_compress
+- action: lz4_compress
   inputs:
     data: bytes #required
     high_compression: boolean = false
@@ -59,14 +59,14 @@
     compression_ratio: float
     original_size: int
 
-- name: lz4_decompress
+- action: lz4_decompress
   inputs:
     data: bytes #required
   outputs:
     decompressed: bytes
     size: int
 
-- name: deflate_compress
+- action: deflate_compress
   inputs:
     data: bytes #required
     level: int = 6
@@ -76,14 +76,14 @@
     compression_ratio: float
     original_size: int
 
-- name: deflate_decompress
+- action: deflate_decompress
   inputs:
     data: bytes #required
   outputs:
     decompressed: bytes
     size: int
 
-- name: auto_compress
+- action: auto_compress
   inputs:
     algorithm: gzip | zstd | brotli | lz4 | deflate = gzip
     data: bytes #required
@@ -95,7 +95,7 @@
     compression_ratio: float
     original_size: int
 
-- name: auto_decompress
+- action: auto_decompress
   inputs:
     data: bytes #required
   outputs:
@@ -103,7 +103,7 @@
     decompressed: bytes
     size: int
 
-- name: stream_compress
+- action: stream_compress
   inputs:
     algorithm: gzip | zstd | brotli = gzip
     chunk: bytes #required
@@ -114,7 +114,7 @@
     total_input: int
     total_output: int
 
-- name: stream_decompress
+- action: stream_decompress
   inputs:
     algorithm: gzip | zstd | brotli = gzip
     chunk: bytes #required
@@ -125,7 +125,7 @@
     total_input: int
     total_output: int
 
-- name: compressed_data
+- object: compressed_data
   class:
     algorithm: string
     original_size: int

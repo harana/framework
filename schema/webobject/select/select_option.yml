@@ -1,8 +1,8 @@
-- name: select_option
+- webobject: select_option
   id: [select_id, value]
   attributes:
     - is_disabled: boolean = false
-    - label: string #required #max(200)
+    - label: string #max(200)
     - order: int = 0 #min(0)
-    - select_id: id #required -> ui_select.id
-    - value: string #required #max(200)
+    - select_id: id -> ui_select.id
+    - value: string #max(200)

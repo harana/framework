@@ -1,4 +1,4 @@
-- name: create_user
+- action: create_user
   inputs:
     path: string = /
     permissions_boundary: string
@@ -11,13 +11,13 @@
     user_id: string
     user_name: string
 
-- name: delete_user
+- action: delete_user
   inputs:
     user_name: string #required
   outputs:
     success: boolean
 
-- name: get_user
+- action: get_user
   inputs:
     user_name: string
   outputs:
@@ -30,7 +30,7 @@
     user_id: string
     user_name: string
 
-- name: list_users
+- action: list_users
   inputs:
     max_items: int = 100
     path_prefix: string = /
@@ -39,7 +39,7 @@
     marker: string
     users: list[iam_user]
 
-- name: update_user
+- action: update_user
   inputs:
     new_path: string
     new_user_name: string
@@ -47,7 +47,7 @@
   outputs:
     success: boolean
 
-- name: create_group
+- action: create_group
   inputs:
     group_name: string #required
     path: string = /
@@ -58,13 +58,13 @@
     group_name: string
     success: boolean
 
-- name: delete_group
+- action: delete_group
   inputs:
     group_name: string #required
   outputs:
     success: boolean
 
-- name: list_groups
+- action: list_groups
   inputs:
     max_items: int = 100
     path_prefix: string = /
@@ -73,21 +73,21 @@
     is_truncated: boolean
     marker: string
 
-- name: add_user_to_group
+- action: add_user_to_group
   inputs:
     group_name: string #required
     user_name: string #required
   outputs:
     success: boolean
 
-- name: remove_user_from_group
+- action: remove_user_from_group
   inputs:
     group_name: string #required
     user_name: string #required
   outputs:
     success: boolean
 
-- name: list_groups_for_user
+- action: list_groups_for_user
   inputs:
     max_items: int = 100
     user_name: string #required
@@ -96,7 +96,7 @@
     is_truncated: boolean
     marker: string
 
-- name: create_role
+- action: create_role
   inputs:
     assume_role_policy_document: string #required
     description: string
@@ -112,13 +112,13 @@
     role_name: string
     success: boolean
 
-- name: delete_role
+- action: delete_role
   inputs:
     role_name: string #required
   outputs:
     success: boolean
 
-- name: get_role
+- action: get_role
   inputs:
     role_name: string #required
   outputs:
@@ -133,7 +133,7 @@
     role_name: string
     tags: list[iam_tag]
 
-- name: list_roles
+- action: list_roles
   inputs:
     max_items: int = 100
     path_prefix: string = /
@@ -142,7 +142,7 @@
     marker: string
     roles: list[iam_role]
 
-- name: create_policy
+- action: create_policy
   inputs:
     description: string
     path: string = /
@@ -156,13 +156,13 @@
     policy_name: string
     success: boolean
 
-- name: delete_policy
+- action: delete_policy
   inputs:
     policy_arn: string #required
   outputs:
     success: boolean
 
-- name: get_policy
+- action: get_policy
   inputs:
     policy_arn: string #required
   outputs:
@@ -179,7 +179,7 @@
     tags: list[iam_tag]
     update_date: date
 
-- name: list_policies
+- action: list_policies
   inputs:
     max_items: int = 100
     only_attached: boolean = false
@@ -190,49 +190,49 @@
     marker: string
     policies: list[iam_policy]
 
-- name: attach_user_policy
+- action: attach_user_policy
   inputs:
     policy_arn: string #required
     user_name: string #required
   outputs:
     success: boolean
 
-- name: detach_user_policy
+- action: detach_user_policy
   inputs:
     policy_arn: string #required
     user_name: string #required
   outputs:
     success: boolean
 
-- name: attach_group_policy
+- action: attach_group_policy
   inputs:
     group_name: string #required
     policy_arn: string #required
   outputs:
     success: boolean
 
-- name: detach_group_policy
+- action: detach_group_policy
   inputs:
     group_name: string #required
     policy_arn: string #required
   outputs:
     success: boolean
 
-- name: attach_role_policy
+- action: attach_role_policy
   inputs:
     policy_arn: string #required
     role_name: string #required
   outputs:
     success: boolean
 
-- name: detach_role_policy
+- action: detach_role_policy
   inputs:
     policy_arn: string #required
     role_name: string #required
   outputs:
     success: boolean
 
-- name: put_user_policy
+- action: put_user_policy
   inputs:
     policy_document: string #required
     policy_name: string #required
@@ -240,7 +240,7 @@
   outputs:
     success: boolean
 
-- name: put_group_policy
+- action: put_group_policy
   inputs:
     group_name: string #required
     policy_document: string #required
@@ -248,7 +248,7 @@
   outputs:
     success: boolean
 
-- name: put_role_policy
+- action: put_role_policy
   inputs:
     policy_document: string #required
     policy_name: string #required
@@ -256,7 +256,7 @@
   outputs:
     success: boolean
 
-- name: create_access_key
+- action: create_access_key
   inputs:
     user_name: string
   outputs:
@@ -266,14 +266,14 @@
     status: string
     success: boolean
 
-- name: delete_access_key
+- action: delete_access_key
   inputs:
     access_key_id: string #required
     user_name: string
   outputs:
     success: boolean
 
-- name: list_access_keys
+- action: list_access_keys
   inputs:
     max_items: int = 100
     user_name: string
@@ -282,7 +282,7 @@
     is_truncated: boolean
     marker: string
 
-- name: update_access_key
+- action: update_access_key
   inputs:
     access_key_id: string #required
     status: active | inactive #required
@@ -290,18 +290,18 @@
   outputs:
     success: boolean
 
-- name: get_account_summary
+- action: get_account_summary
   inputs: {}
   outputs:
     summary_map: account_summary
 
-- name: generate_credential_report
+- action: generate_credential_report
   inputs: {}
   outputs:
     state: string
     success: boolean
 
-- name: get_credential_report
+- action: get_credential_report
   inputs: {}
   outputs:
     content: string

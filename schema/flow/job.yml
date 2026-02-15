@@ -1,4 +1,4 @@
-- name: schedule
+- action: schedule
   inputs:
     cron: string
     handler: string #required
@@ -10,13 +10,13 @@
     job_id: string
     scheduled_at: date
 
-- name: cancel
+- action: cancel
   inputs:
     job_id: string #required
   outputs:
     success: boolean
 
-- name: get_status
+- action: get_status
   inputs:
     job_id: string #required
   outputs:
@@ -27,7 +27,7 @@
     started_at: date
     status: pending | running | completed | failed | cancelled
 
-- name: retry
+- action: retry
   inputs:
     delay_seconds: int = 0
     job_id: string #required
@@ -35,7 +35,7 @@
     new_id: string
     success: boolean
 
-- name: lists
+- action: lists
   inputs:
     end_date: date
     handler: string
@@ -47,19 +47,19 @@
     jobs: list[job_info]
     total: int
 
-- name: pause
+- action: pause
   inputs:
     job_id: string #required
   outputs:
     success: boolean
 
-- name: resume
+- action: resume
   inputs:
     job_id: string #required
   outputs:
     success: boolean
 
-- name: get_result
+- action: get_result
   inputs:
     job_id: string #required
     timeout: int = 0
@@ -68,7 +68,7 @@
     error: string
     result: any
 
-- name: update_progress
+- action: update_progress
   inputs:
     job_id: string #required
     message: string
@@ -76,13 +76,13 @@
   outputs:
     success: boolean
 
-- name: delete
+- action: delete
   inputs:
     job_id: string #required
   outputs:
     success: boolean
 
-- name: job
+- object: job
   class:
     job_id: string
     name: string
@@ -97,7 +97,7 @@
     result: any
     error: string
 
-- name: job_info
+- object: job_info
   class:
     job_id: string
     name: string

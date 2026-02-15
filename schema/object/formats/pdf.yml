@@ -1,4 +1,4 @@
-- name: pdf_document
+- object: pdf_document
   schema:
     - author: string? #max(200)
     - blob_id: id? -> blob_object.id
@@ -15,7 +15,7 @@
     - title: string? #max(500)
     - updated_at: date = now()
 
-- name: pdf_template
+- object: pdf_template
   schema:
     - content_template: string #required
     - created_at: date = now()
@@ -27,7 +27,7 @@
     - page_size: a4 | letter | legal | a3 | a5 = a4
     - updated_at: date = now()
 
-- name: pdf_generation_log
+- object: pdf_generation_log
   id: [created_at]
   schema:
     - completed_at: date?

@@ -1,4 +1,4 @@
-- name: switch_group
+- webobject: switch_group
   attributes:
     - aria_label: string? #max(200)
   events:

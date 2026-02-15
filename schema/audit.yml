@@ -1,19 +1,19 @@
-- name: audit_event
+- object: audit_event
   id: [actor_id, resource_id, created_at]
   schema:
-    - action: string #required #max(200)
-    - actor_id: string #required #max(200)
+    - action: string #max(200)
+    - actor_id: string #max(200)
     - actor_type: user | service | system = user
     - created_at: date = now()
     - details: string?
     - ip_address: string? #max(45)
     - metadata: string?
     - outcome: success | failure | partial = success
-    - resource_id: string #required #max(200)
-    - resource_type: string #required #max(100)
+    - resource_id: string #max(200)
+    - resource_type: string #max(100)
     - user_agent: string? #max(500)
 
-- name: audit_alert
+- object: audit_alert
   schema:
     - action_pattern: string? #max(500)
     - actor_pattern: string? #max(500)
@@ -25,7 +25,7 @@
     - resource_pattern: string? #max(500)
     - updated_at: date = now()
 
-- name: audit_export
+- object: audit_export
   id: [created_at]
   schema:
     - completed_at: date?
@@ -39,7 +39,7 @@
     - start_time: date #required
     - status: pending | processing | completed | failed = pending
 
-- name: audit_activity
+- object: audit_activity
   schema:
     - audit_id: string
     - method: string
@@ -48,7 +48,7 @@
     - outcome: string
     - timestamp: date
 
-- name: audit_filter
+- object: audit_filter
   schema:
     - method: string
     - actor_id: string
@@ -56,13 +56,13 @@
     - outcome: string
     - resource_type: string
 
-- name: audit_alert_condition
+- object: audit_alert_condition
   schema:
     - field: string
     - operator: string
     - value: string
 
-- name: audit_statistic
+- object: audit_statistic
   schema:
     - key: string
     - count: int

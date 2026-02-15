@@ -1,9 +1,9 @@
-- name: file
+- object: file
   id: [full_path]
   schema:
     - created_at: date = now()
-    - path: string #required #max(2000)
-    - full_path: string #required #unique #max(4000)
+    - path: string #max(2000)
+    - full_path: string #unique #max(4000)
     - parent_id: id? -> file.id
     - type: file | directory = file
     - extension: string? #max(50)
@@ -24,52 +24,52 @@
     - accessed_at: date?
     - updated_at: date = now()
 
-- name: file_version
+- object: file_version
   id: [file_id, version_number]
   schema:
-    - file_id: id #required -> file.id
-    - version_number: int #required #min(1)
-    - size: int #required #min(0)
-    - content_hash: string #required #max(128)
+    - file_id: id -> file.id
+    - version_number: int #min(1)
+    - size: int #min(0)
+    - content_hash: string #max(128)
     - blob_id: id? -> blob_object.id
     - comment: string? #max(500)
     - created_at: date = now()
     - created_by: id? -> user.id
     - is_current: boolean = true
 
-- name: file_metadata
+- object: file_metadata
   id: [file_id, key]
   schema:
-    - file_id: id #required -> file.id
-    - key: string #required #max(255)
+    - file_id: id -> file.id
+    - key: string #max(255)
     - value: string #required
     - value_type: string | int | float | bool | date | json = string
     - source: user | system | extracted | indexed = user
     - created_at: date = now()
     - updated_at: date = now()
 
-- name: file_tag
+- object: file_tag
   schema:
     - color: string? #max(7) # hex color
     - description: string? #max(500)
     - created_at: date = now()
     - created_by: id? -> user.id
 
-- name: file_tag_association
+- object: file_tag_association
   id: [file_id, tag_id]
   schema:
-    - file_id: id #required -> file.id
-    - tag_id: id #required -> file_tag.id
+    - file_id: id -> file.id
+    - tag_id: id -> file_tag.id
     - created_at: date = now()
     - created_by: id? -> user.id
 
-- name: file_share
+- object: file_share
   id: [share_token]
   schema:
-    - file_id: id #required -> file.id
-    - shared_by: id #required -> user.id
+    - file_id: id -> file.id
+    - shared_by: id -> user.id
     - shared_with: id? -> user.id # null = public share
-    - share_token: string #required #unique #max(255)
+    - share_token: string #unique #max(255)
     - permissions: read | write | delete = read
     - password: string? #max(255)
     - download_limit: int? #min(1)
@@ -79,10 +79,10 @@
     - created_at: date = now()
     - accessed_at: date?
 
-- name: file_operation
+- object: file_operation
   id: [file_id, operation, performed_at]
   schema:
-    - file_id: id #required -> file.id
+    - file_id: id -> file.id
     - operation: create | read | update | delete | copy | move | rename | upload | download | compress | decompress | convert = read
     - status: pending | in_progress | completed | failed | cancelled = pending
     - source_path: string? #max(4000)
@@ -95,7 +95,7 @@
     - performed_by: id? -> user.id
     - completed_at: date?
 
-- name: file_format
+- object: file_format
   id: [format_type]
   schema:
     - format_type: csv | docx | ical | ipynb | json | md | parquet | pbix | pdf | pptx | qif | rtf | txt | vcard | warc | xlsx | yaml | zip = txt
@@ -115,10 +115,10 @@
     - created_at: date = now()
     - updated_at: date = now()
 
-- name: file_index
+- object: file_index
   id: [file_id, index_type]
   schema:
-    - file_id: id #required -> file.id
+    - file_id: id -> file.id
     - index_type: fulltext | metadata | ocr | embedding = fulltext
     - content: string? # indexed content
     - content_vector: string? # json array for embeddings
@@ -127,10 +127,10 @@
     - index_version: string? #max(50)
     - is_current: boolean = true
 
-- name: file_watch
+- object: file_watch
   id: [path, pattern, watch_type]
   schema:
-    - path: string #required #max(4000)
+    - path: string #max(4000)
     - pattern: string? #max(255) # glob pattern
     - watch_type: create | modify | delete | all = all
     - is_recursive: boolean = true
@@ -141,10 +141,10 @@
     - created_by: id? -> user.id
     - last_triggered_at: date?
 
-- name: file_crawl
+- object: file_crawl
   id: [root_path, started_at]
   schema:
-    - root_path: string #required #max(4000)
+    - root_path: string #max(4000)
     - pattern: string? #max(255) # glob pattern
     - exclude_pattern: string? #max(255)
     - max_depth: int? #min(0)

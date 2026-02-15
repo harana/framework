@@ -1,13 +1,13 @@
-- name: email_template
+- object: email_template
   schema:
     - body_html: string #required
     - body_text: string?
     - created_at: date = now()
     - is_active: boolean = true
-    - subject: string #required #max(500)
+    - subject: string #max(500)
     - updated_at: date = now()
 
-- name: email
+- object: email
   id: [from_address, to_address, created_at]
   schema:
     - bcc: string? #email
@@ -15,21 +15,21 @@
     - body_text: string?
     - cc: string? #email
     - created_at: date = now()
-    - from_address: string #required #email
+    - from_address: string #email
     - reply_to: string? #email
     - sent_at: date?
     - status: pending | sent | failed | bounced = pending
-    - subject: string #required #max(500)
+    - subject: string #max(500)
     - template_id: id? -> email_template.id
-    - to_address: string #required #email
+    - to_address: string #email
     - updated_at: date = now()
 
-- name: email_attachment
+- object: email_attachment
   id: [email_id, file_name]
   schema:
-    - content_type: string #required #max(100)
-    - email_id: id #required -> email.id
-- name: email_message
+    - content_type: string #max(100)
+    - email_id: id -> email.id
+- object: email_message
   schema:
     - message_id: string
     - from: string
@@ -42,7 +42,7 @@
     - attachments: list[email_attachment]
     - status: string
 
-- name: email_recipient
+- object: email_recipient
   schema:
     - email: string
     - name: string

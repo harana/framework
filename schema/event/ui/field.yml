@@ -1,4 +1,4 @@
-- name: field_focused
+- event: field_focused
   schema:
     field_id: id #required
     field_name: string?
@@ -6,7 +6,7 @@
     form_id: id?
     focused_at: date = now()
 
-- name: field_blurred
+- event: field_blurred
   schema:
     field_id: id #required
     field_name: string?
@@ -15,7 +15,7 @@
     had_value: boolean = false
     blurred_at: date = now()
 
-- name: field_changed
+- event: field_changed
   schema:
     field_id: id #required
     field_name: string?

@@ -1,7 +1,7 @@
-- name: link
+- webobject: link
   attributes:
-    - href: string #required #max(500)
-    - label: string #required #max(200)
+    - href: string #max(500)
+    - label: string #max(200)
     - target: _self | _blank | _parent | _top = _self
   events:
     - click

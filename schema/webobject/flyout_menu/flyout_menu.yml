@@ -1,8 +1,8 @@
-- name: flyout_menu
+- webobject: flyout_menu
   attributes:
     - anchor: bottom | bottom_end | bottom_start | left | left_end | left_start | right | right_end | right_start | top | top_end | top_start = bottom
     - is_open: boolean = false
-    - label: string #required #max(200)
+    - label: string #max(200)
     - size: sm | md | lg = md
   events:
     - close

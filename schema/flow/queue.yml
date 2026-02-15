@@ -1,4 +1,4 @@
-- name: enqueue
+- action: enqueue
   inputs:
     deduplication_id: string
     delay_seconds: int = 0
@@ -9,7 +9,7 @@
     message_id: string
     success: boolean
 
-- name: dequeue
+- action: dequeue
   inputs:
     queue_name: string #required
     visibility_timeout: int = 30
@@ -20,21 +20,21 @@
     message_id: string
     receipt_handle: string
 
-- name: peek
+- action: peek
   inputs:
     count: int = 1
     queue_name: string #required
   outputs:
     messages: list[queue_peek_message]
 
-- name: acknowledge
+- action: acknowledge
   inputs:
     queue_name: string #required
     receipt_handle: string #required
   outputs:
     success: boolean
 
-- name: nack
+- action: nack
   inputs:
     delay_seconds: int = 0
     queue_name: string #required
@@ -42,7 +42,7 @@
   outputs:
     success: boolean
 
-- name: get_queue_stats
+- action: get_queue_stats
   inputs:
     queue_name: string #required
   outputs:
@@ -51,14 +51,14 @@
     message_count: int
     oldest_message_age: int
 
-- name: purge_queue
+- action: purge_queue
   inputs:
     queue_name: string #required
   outputs:
     messages_deleted: int
     success: boolean
 
-- name: create_queue
+- action: create_queue
   inputs:
     max_message_size: int = 262144
     message_retention: int = 345600
@@ -68,20 +68,20 @@
     queue_url: string
     success: boolean
 
-- name: delete_queue
+- action: delete_queue
   inputs:
     queue_name: string #required
   outputs:
     success: boolean
 
-- name: list_queues
+- action: list_queues
   inputs:
     prefix: string
   outputs:
     queues: list[string]
     total: int
 
-- name: move_to_dlq
+- action: move_to_dlq
   inputs:
     queue_name: string #required
     reason: string
@@ -89,7 +89,7 @@
   outputs:
     success: boolean
 
-- name: queue_message
+- object: queue_message
   class:
     message_id: string
     queue_name: string
@@ -99,7 +99,7 @@
     receipt_handle: string
     visible_at: date
 
-- name: queue_peek_message
+- object: queue_peek_message
   class:
     message_id: string
     message: any

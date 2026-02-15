@@ -1,4 +1,4 @@
-- name: create_bucket
+- action: create_bucket
   inputs:
     acl: private | public-read | public-read-write | authenticated-read = private
     bucket: string #required
@@ -9,20 +9,20 @@
     location: string
     success: boolean
 
-- name: delete_bucket
+- action: delete_bucket
   inputs:
     bucket: string #required
     region: string
   outputs:
     success: boolean
 
-- name: list_buckets
+- action: list_buckets
   inputs:
     region: string
   outputs:
     buckets: list[s3_bucket]
 
-- name: put_object
+- action: put_object
   inputs:
     acl: private | public-read | public-read-write | authenticated-read
     bucket: string #required
@@ -39,7 +39,7 @@
     success: boolean
     version_id: string
 
-- name: get_object
+- action: get_object
   inputs:
     bucket: string #required
     key: string #required
@@ -55,7 +55,7 @@
     storage_class: string
     version_id: string
 
-- name: delete_object
+- action: delete_object
   inputs:
     bucket: string #required
     key: string #required
@@ -65,7 +65,7 @@
     success: boolean
     version_id: string
 
-- name: delete_objects
+- action: delete_objects
   inputs:
     bucket: string #required
     keys: list[string] #required
@@ -75,7 +75,7 @@
     errors: list[s3_error]
     success: boolean
 
-- name: list_objects
+- action: list_objects
   inputs:
     bucket: string #required
     continuation_token: string
@@ -92,7 +92,7 @@
     next_continuation_token: string
     prefix: string
 
-- name: copy_object
+- action: copy_object
   inputs:
     destination_bucket: string #required
     destination_key: string #required
@@ -109,7 +109,7 @@
     success: boolean
     version_id: string
 
-- name: head_object
+- action: head_object
   inputs:
     bucket: string #required
     key: string #required
@@ -125,7 +125,7 @@
     storage_class: string
     version_id: string
 
-- name: get_presigned_url
+- action: get_presigned_url
   inputs:
     bucket: string #required
     expires_in: int = 3600
@@ -136,7 +136,7 @@
     expires_at: date
     url: string
 
-- name: put_bucket_policy
+- action: put_bucket_policy
   inputs:
     bucket: string #required
     policy: string #required
@@ -144,21 +144,21 @@
   outputs:
     success: boolean
 
-- name: get_bucket_policy
+- action: get_bucket_policy
   inputs:
     bucket: string #required
     region: string
   outputs:
     policy: string
 
-- name: delete_bucket_policy
+- action: delete_bucket_policy
   inputs:
     bucket: string #required
     region: string
   outputs:
     success: boolean
 
-- name: put_bucket_versioning
+- action: put_bucket_versioning
   inputs:
     bucket: string #required
     region: string
@@ -166,7 +166,7 @@
   outputs:
     success: boolean
 
-- name: get_bucket_versioning
+- action: get_bucket_versioning
   inputs:
     bucket: string #required
     region: string
@@ -174,7 +174,7 @@
     mfa_delete: string
     status: string
 
-- name: put_bucket_encryption
+- action: put_bucket_encryption
   inputs:
     bucket: string #required
     kms_master_key_id: string
@@ -183,14 +183,14 @@
   outputs:
     success: boolean
 
-- name: get_bucket_encryption
+- action: get_bucket_encryption
   inputs:
     bucket: string #required
     region: string
   outputs:
     rules: list[encryption_rule]
 
-- name: put_bucket_cors
+- action: put_bucket_cors
   inputs:
     bucket: string #required
     cors_rules: list[cors_rule] #required
@@ -198,21 +198,21 @@
   outputs:
     success: boolean
 
-- name: get_bucket_cors
+- action: get_bucket_cors
   inputs:
     bucket: string #required
     region: string
   outputs:
     cors_rules: list[cors_rule]
 
-- name: delete_bucket_cors
+- action: delete_bucket_cors
   inputs:
     bucket: string #required
     region: string
   outputs:
     success: boolean
 
-- name: put_bucket_lifecycle
+- action: put_bucket_lifecycle
   inputs:
     bucket: string #required
     lifecycle_rules: list[lifecycle_rule] #required
@@ -220,14 +220,14 @@
   outputs:
     success: boolean
 
-- name: get_bucket_lifecycle
+- action: get_bucket_lifecycle
   inputs:
     bucket: string #required
     region: string
   outputs:
     rules: list[lifecycle_rule]
 
-- name: put_object_tagging
+- action: put_object_tagging
   inputs:
     bucket: string #required
     key: string #required
@@ -238,7 +238,7 @@
     success: boolean
     version_id: string
 
-- name: get_object_tagging
+- action: get_object_tagging
   inputs:
     bucket: string #required
     key: string #required
@@ -248,7 +248,7 @@
     tags: s3_tags
     version_id: string
 
-- name: create_multipart_upload
+- action: create_multipart_upload
   inputs:
     bucket: string #required
     content_type: string
@@ -260,7 +260,7 @@
     success: boolean
     upload_id: string
 
-- name: upload_part
+- action: upload_part
   inputs:
     body: bytes #required
     bucket: string #required
@@ -272,7 +272,7 @@
     etag: string
     success: boolean
 
-- name: complete_multipart_upload
+- action: complete_multipart_upload
   inputs:
     bucket: string #required
     key: string #required
@@ -286,7 +286,7 @@
     location: string
     success: boolean
 
-- name: abort_multipart_upload
+- action: abort_multipart_upload
   inputs:
     bucket: string #required
     key: string #required

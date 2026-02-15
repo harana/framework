@@ -1,4 +1,4 @@
-- name: create_function
+- action: create_function
   inputs:
     architectures: list[x86_64 | arm64]
     code: function_code #required
@@ -61,7 +61,7 @@
     version: string
     vpc_config: vpc_config_response
 
-- name: delete_function
+- action: delete_function
   inputs:
     function_name: string #required
     qualifier: string
@@ -69,7 +69,7 @@
   outputs:
     success: boolean
 
-- name: get_function
+- action: get_function
   inputs:
     function_name: string #required
     qualifier: string
@@ -80,7 +80,7 @@
     configuration: function_configuration
     tags: lambda_tags
 
-- name: list_functions
+- action: list_functions
   inputs:
     function_version: all
     marker: string
@@ -91,7 +91,7 @@
     functions: list[function_configuration]
     next_marker: string
 
-- name: update_function_code
+- action: update_function_code
   inputs:
     architectures: list[x86_64 | arm64]
     dry_run: boolean = false
@@ -123,7 +123,7 @@
     success: boolean
     version: string
 
-- name: update_function_configuration
+- action: update_function_configuration
   inputs:
     dead_letter_config: dead_letter_config
     description: string
@@ -178,7 +178,7 @@
     version: string
     vpc_config: vpc_config_response
 
-- name: invoke
+- action: invoke
   inputs:
     client_context: string
     function_name: string #required
@@ -195,7 +195,7 @@
     status_code: int
     success: boolean
 
-- name: invoke_async
+- action: invoke_async
   inputs:
     function_name: string #required
     invoke_args: bytes #required
@@ -204,7 +204,7 @@
     status: int
     success: boolean
 
-- name: publish_version
+- action: publish_version
   inputs:
     code_sha256: string
     description: string
@@ -232,7 +232,7 @@
     timeout: int
     version: string
 
-- name: list_versions_by_function
+- action: list_versions_by_function
   inputs:
     function_name: string #required
     marker: string
@@ -242,7 +242,7 @@
     next_marker: string
     versions: list[function_configuration]
 
-- name: create_alias
+- action: create_alias
   inputs:
     description: string
     function_name: string #required
@@ -259,7 +259,7 @@
     routing_config: alias_routing_configuration
     success: boolean
 
-- name: delete_alias
+- action: delete_alias
   inputs:
     function_name: string #required
     name: string #required
@@ -267,7 +267,7 @@
   outputs:
     success: boolean
 
-- name: get_alias
+- action: get_alias
   inputs:
     function_name: string #required
     name: string #required
@@ -280,7 +280,7 @@
     revision_id: string
     routing_config: alias_routing_configuration
 
-- name: list_aliases
+- action: list_aliases
   inputs:
     function_name: string #required
     function_version: string
@@ -291,7 +291,7 @@
     aliases: list[alias_configuration]
     next_marker: string
 
-- name: update_alias
+- action: update_alias
   inputs:
     description: string
     function_name: string #required
@@ -309,7 +309,7 @@
     routing_config: alias_routing_configuration
     success: boolean
 
-- name: create_event_source_mapping
+- action: create_event_source_mapping
   inputs:
     amazon_managed_kafka_event_source_config: amazon_managed_kafka_event_source_config
     batch_size: int
@@ -365,7 +365,7 @@
     tumbling_window_in_seconds: int
     uuid: string
 
-- name: delete_event_source_mapping
+- action: delete_event_source_mapping
   inputs:
     region: string
     uuid: string #required
@@ -376,7 +376,7 @@
     success: boolean
     uuid: string
 
-- name: get_event_source_mapping
+- action: get_event_source_mapping
   inputs:
     region: string
     uuid: string #required
@@ -405,7 +405,7 @@
     tumbling_window_in_seconds: int
     uuid: string
 
-- name: list_event_source_mappings
+- action: list_event_source_mappings
   inputs:
     event_source_arn: string
     function_name: string
@@ -416,7 +416,7 @@
     event_source_mappings: list[event_source_mapping_configuration]
     next_marker: string
 
-- name: update_event_source_mapping
+- action: update_event_source_mapping
   inputs:
     batch_size: int
     bisect_batch_on_function_error: boolean
@@ -455,7 +455,7 @@
     tumbling_window_in_seconds: int
     uuid: string
 
-- name: add_permission
+- action: add_permission
   inputs:
     method: string #required
     event_source_token: string
@@ -473,7 +473,7 @@
     statement: string
     success: boolean
 
-- name: remove_permission
+- action: remove_permission
   inputs:
     function_name: string #required
     qualifier: string
@@ -483,7 +483,7 @@
   outputs:
     success: boolean
 
-- name: get_policy
+- action: get_policy
   inputs:
     function_name: string #required
     qualifier: string
@@ -492,7 +492,7 @@
     policy: string
     revision_id: string
 
-- name: create_function_url_config
+- action: create_function_url_config
   inputs:
     auth_type: none | AWS_IAM #required
     cors: cors
@@ -509,7 +509,7 @@
     invoke_mode: string
     success: boolean
 
-- name: delete_function_url_config
+- action: delete_function_url_config
   inputs:
     function_name: string #required
     qualifier: string
@@ -517,7 +517,7 @@
   outputs:
     success: boolean
 
-- name: get_function_url_config
+- action: get_function_url_config
   inputs:
     function_name: string #required
     qualifier: string
@@ -531,7 +531,7 @@
     invoke_mode: string
     last_modified_time: string
 
-- name: update_function_url_config
+- action: update_function_url_config
   inputs:
     auth_type: none | AWS_IAM
     cors: cors
@@ -549,7 +549,7 @@
     last_modified_time: string
     success: boolean
 
-- name: list_function_url_configs
+- action: list_function_url_configs
   inputs:
     function_name: string #required
     marker: string
@@ -559,7 +559,7 @@
     function_url_configs: list[function_url_config]
     next_marker: string
 
-- name: put_function_concurrency
+- action: put_function_concurrency
   inputs:
     function_name: string #required
     region: string
@@ -568,21 +568,21 @@
     reserved_concurrent_executions: int
     success: boolean
 
-- name: delete_function_concurrency
+- action: delete_function_concurrency
   inputs:
     function_name: string #required
     region: string
   outputs:
     success: boolean
 
-- name: get_function_concurrency
+- action: get_function_concurrency
   inputs:
     function_name: string #required
     region: string
   outputs:
     reserved_concurrent_executions: int
 
-- name: put_provisioned_concurrency_config
+- action: put_provisioned_concurrency_config
   inputs:
     function_name: string #required
     provisioned_concurrent_executions: int #required
@@ -597,7 +597,7 @@
     status_reason: string
     success: boolean
 
-- name: delete_provisioned_concurrency_config
+- action: delete_provisioned_concurrency_config
   inputs:
     function_name: string #required
     qualifier: string #required
@@ -605,7 +605,7 @@
   outputs:
     success: boolean
 
-- name: get_provisioned_concurrency_config
+- action: get_provisioned_concurrency_config
   inputs:
     function_name: string #required
     qualifier: string #required
@@ -618,7 +618,7 @@
     status: string
     status_reason: string
 
-- name: list_provisioned_concurrency_configs
+- action: list_provisioned_concurrency_configs
   inputs:
     function_name: string #required
     marker: string
@@ -628,7 +628,7 @@
     next_marker: string
     provisioned_concurrency_configs: list[provisioned_concurrency_config_list_item]
 
-- name: publish_layer_version
+- action: publish_layer_version
   inputs:
     compatible_architectures: list[x86_64 | arm64]
     compatible_runtimes: list[string]
@@ -649,7 +649,7 @@
     success: boolean
     version: int
 
-- name: delete_layer_version
+- action: delete_layer_version
   inputs:
     layer_name: string #required
     region: string
@@ -657,7 +657,7 @@
   outputs:
     success: boolean
 
-- name: get_layer_version
+- action: get_layer_version
   inputs:
     layer_name: string #required
     region: string
@@ -673,7 +673,7 @@
     license_info: string
     version: int
 
-- name: list_layers
+- action: list_layers
   inputs:
     compatible_architecture: x8664 | arm64
     compatible_runtime: string
@@ -684,7 +684,7 @@
     layers: list[layers_list_item]
     next_marker: string
 
-- name: list_layer_versions
+- action: list_layer_versions
   inputs:
     compatible_architecture: x8664 | arm64
     compatible_runtime: string
@@ -696,7 +696,7 @@
     layer_versions: list[layer_versions_list_item]
     next_marker: string
 
-- name: add_layer_version_permission
+- action: add_layer_version_permission
   inputs:
     method: string #required
     layer_name: string #required
@@ -711,7 +711,7 @@
     statement: string
     success: boolean
 
-- name: remove_layer_version_permission
+- action: remove_layer_version_permission
   inputs:
     layer_name: string #required
     region: string
@@ -721,7 +721,7 @@
   outputs:
     success: boolean
 
-- name: get_layer_version_policy
+- action: get_layer_version_policy
   inputs:
     layer_name: string #required
     region: string
@@ -730,7 +730,7 @@
     policy: string
     revision_id: string
 
-- name: tag_resource
+- action: tag_resource
   inputs:
     region: string
     resource: string #required
@@ -738,7 +738,7 @@
   outputs:
     success: boolean
 
-- name: untag_resource
+- action: untag_resource
   inputs:
     region: string
     resource: string #required
@@ -746,7 +746,7 @@
   outputs:
     success: boolean
 
-- name: list_tags
+- action: list_tags
   inputs:
     region: string
     resource: string #required

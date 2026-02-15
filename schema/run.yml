@@ -1,8 +1,8 @@
-- name: run_process
+- object: run_process
   id: [process_id]
   schema:
     - args: string? # j_s_o_n array
-    - command: string #required #max(2000)
+    - command: string #max(2000)
     - cpu_usage: decimal? #min(0)
     - environment: string? # j_s_o_n map
     - exit_code: int?
@@ -14,15 +14,15 @@
     - stopped_at: date?
     - working_directory: string? #max(2000)
 
-- name: run_process_log
+- object: run_process_log
   id: [process_id, created_at]
   schema:
-    - content: string #required #max(10000)
+    - content: string #max(10000)
     - created_at: date = now()
-    - process_id: id #required -> run_process.id
+    - process_id: id -> run_process.id
     - stream: stdout | stderr = stdout
 
-- name: process_status
+- object: process_status
   schema:
     - process_id: int
     - running: boolean
@@ -31,7 +31,7 @@
     - memory_usage: int
     - uptime: int
 
-- name: process_info
+- object: process_info
   schema:
     - process_id: int
     - name: string

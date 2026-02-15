@@ -1,4 +1,4 @@
-- name: fetch
+- action: fetch
   inputs:
     body: any
     certificate_binding: string #required

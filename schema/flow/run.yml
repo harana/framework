@@ -1,4 +1,4 @@
-- name: start
+- action: start
   inputs:
     command: string #required
     args: list[string]
@@ -10,7 +10,7 @@
     started: boolean
     error: string
 
-- name: stop
+- action: stop
   inputs:
     process_id: int #required
     force: boolean = false
@@ -20,7 +20,7 @@
     exit_code: int
     error: string
 
-- name: kill
+- action: kill
   inputs:
     process_id: int #required
     signal: string = "sigterm"
@@ -28,21 +28,21 @@
     killed: boolean
     error: string
 
-- name: status
+- action: status
   inputs:
     process_id: int #required
   outputs:
     status: process_status
     error: string
 
-- name: list
+- action: list
   inputs:
     filter: string
     user: string
   outputs:
     processes: list[process_info]
 
-- name: wait
+- action: wait
   inputs:
     process_id: int #required
     timeout: int = 60
@@ -51,7 +51,7 @@
     exit_code: int
     error: string
 
-- name: output
+- action: output
   inputs:
     process_id: int #required
     stream: string = "stdout"
@@ -59,7 +59,7 @@
     output: string
     error: string
 
-- name: process_status
+- object: process_status
   class:
     process_id: int
     running: boolean
@@ -68,7 +68,7 @@
     memory_usage: int
     uptime: int
 
-- name: process_info
+- object: process_info
   class:
     process_id: int
     name: string

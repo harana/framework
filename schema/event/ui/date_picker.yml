@@ -1,4 +1,4 @@
-- name: date_selected
+- event: date_selected
   schema:
     picker_id: id #required
     picker_name: string?
@@ -6,7 +6,7 @@
     previous_date: date?
     selected_at: date = now()
 
-- name: date_range_selected
+- event: date_range_selected
   schema:
     picker_id: id #required
     picker_name: string?
@@ -16,7 +16,7 @@
     previous_end: date?
     selected_at: date = now()
 
-- name: time_selected
+- event: time_selected
   schema:
     picker_id: id #required
     picker_name: string?
@@ -24,15 +24,15 @@
     previous_time: time?
     selected_at: date = now()
 
-- name: calendar_month_changed
+- event: calendar_month_changed
   schema:
     calendar_id: id #required
     from_month: int? #min(1) #max(12)
-    to_month: int #required #min(1) #max(12)
+    to_month: int #min(1) #max(12)
     year: int #required
     changed_at: date = now()
 
-- name: calendar_year_changed
+- event: calendar_year_changed
   schema:
     calendar_id: id #required
     from_year: int?

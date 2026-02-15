@@ -1,0 +1,20 @@
+- object: deploy_cloudflare
+  schema:
+    - account_id_env: string #max(200)
+    - api_token_env: string #max(200)
+    - directory: string? #max(2000)
+    - enabled: boolean = true
+    - environment: production | preview = production
+    - project_name: string #max(255)
+    - route: string? #max(500)
+    - workers: list[deploy_cloudflare_worker]
+    - zone_id: string? #max(200)
+
+- object: deploy_cloudflare_worker
+  schema:
+    - compatibility_date: string? #max(20)
+    - entry_point: string #max(2000)
+
+    - name: string #max(255)
+    - routes: list[string]
+    - vars: map[string, string]

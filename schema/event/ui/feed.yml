@@ -1,4 +1,4 @@
-- name: feed_item_liked
+- event: feed_item_liked
   schema:
     feed_id: id #required
     item_id: id #required
@@ -6,7 +6,7 @@
     user_id: id?
     liked_at: date = now()
 
-- name: feed_item_commented
+- event: feed_item_commented
   schema:
     feed_id: id #required
     item_id: id #required
@@ -15,7 +15,7 @@
     user_id: id?
     commented_at: date = now()
 
-- name: feed_item_shared
+- event: feed_item_shared
   schema:
     feed_id: id #required
     item_id: id #required
@@ -24,7 +24,7 @@
     user_id: id?
     shared_at: date = now()
 
-- name: feed_scrolled
+- event: feed_scrolled
   schema:
     feed_id: id #required
     scroll_direction: up | down = down
@@ -32,7 +32,7 @@
     items_viewed: int? #min(0)
     scrolled_at: date = now()
 
-- name: load_more_clicked
+- event: load_more_clicked
   schema:
     feed_id: id #required
     current_count: int? #min(0)

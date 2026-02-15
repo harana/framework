@@ -1,4 +1,4 @@
-- name: create_payment_intent
+- action: create_payment_intent
   inputs:
     amount: int #required
     capture_method: automatic | manual = automatic
@@ -14,7 +14,7 @@
     payment_intent_id: string
     status: string
 
-- name: confirm_payment_intent
+- action: confirm_payment_intent
   inputs:
     payment_intent_id: string #required
     payment_method: string
@@ -23,7 +23,7 @@
     status: string
     success: boolean
 
-- name: capture_payment_intent
+- action: capture_payment_intent
   inputs:
     amount_to_capture: int
     payment_intent_id: string #required
@@ -32,7 +32,7 @@
     payment_intent_id: string
     status: string
 
-- name: cancel_payment_intent
+- action: cancel_payment_intent
   inputs:
     cancellation_reason: duplicate | fraudulent | requested_by_customer | abandoned
     payment_intent_id: string #required
@@ -41,7 +41,7 @@
     status: string
     success: boolean
 
-- name: create_customer
+- action: create_customer
   inputs:
     description: string
     email: string
@@ -54,7 +54,7 @@
     customer_id: string
     email: string
 
-- name: update_customer
+- action: update_customer
   inputs:
     customer_id: string #required
     description: string
@@ -66,14 +66,14 @@
     customer_id: string
     success: boolean
 
-- name: delete_customer
+- action: delete_customer
   inputs:
     customer_id: string #required
   outputs:
     customer_id: string
     deleted: boolean
 
-- name: get_customer
+- action: get_customer
   inputs:
     customer_id: string #required
   outputs:
@@ -84,7 +84,7 @@
     name: string
     phone: string
 
-- name: create_subscription
+- action: create_subscription
   inputs:
     customer_id: string #required
     metadata: map[string, string]
@@ -96,7 +96,7 @@
     status: string
     subscription_id: string
 
-- name: cancel_subscription
+- action: cancel_subscription
   inputs:
     cancel_at_period_end: boolean = false
     subscription_id: string #required
@@ -105,7 +105,7 @@
     status: string
     subscription_id: string
 
-- name: create_refund
+- action: create_refund
   inputs:
     amount: int
     metadata: map[string, string]
@@ -116,7 +116,7 @@
     refund_id: string
     status: string
 
-- name: create_price
+- action: create_price
   inputs:
     currency: string #required
     metadata: map[string, string]
@@ -129,7 +129,7 @@
     price_id: string
     unit_amount: int
 
-- name: create_product
+- action: create_product
   inputs:
     active: boolean = true
     description: string
@@ -141,7 +141,7 @@
     name: string
     product_id: string
 
-- name: create_checkout_session
+- action: create_checkout_session
   inputs:
     cancel_url: string #required
     customer_email: string
@@ -154,7 +154,7 @@
     session_id: string
     url: string
 
-- name: retrieve_payment_intent
+- action: retrieve_payment_intent
   inputs:
     payment_intent_id: string #required
   outputs:
@@ -165,7 +165,7 @@
     payment_intent_id: string
     status: string
 
-- name: list_customers
+- action: list_customers
   inputs:
     ending_before: string
     limit: int = 10
@@ -174,7 +174,7 @@
     customers: list[stripe_customer]
     has_more: boolean
 
-- name: create_payment_method
+- action: create_payment_method
   inputs:
     billing_details: stripe_billing_details
     card: stripe_card
@@ -184,7 +184,7 @@
     payment_method_id: string
     type: string
 
-- name: attach_payment_method
+- action: attach_payment_method
   inputs:
     customer_id: string #required
     payment_method_id: string #required
@@ -193,7 +193,7 @@
     payment_method_id: string
     success: boolean
 
-- name: stripe_payment_intent
+- object: stripe_payment_intent
   class:
     payment_intent_id: string
     amount: int
@@ -204,12 +204,12 @@
     client_secret: string
     created: date
 
-- name: stripe_line_item
+- object: stripe_line_item
   class:
     price_id: string
     quantity: int
 
-- name: stripe_customer
+- object: stripe_customer
   class:
     customer_id: string
     email: string
@@ -218,14 +218,14 @@
     created: date
     metadata: map[string, string]
 
-- name: stripe_billing_details
+- object: stripe_billing_details
   class:
     name: string
     email: string
     phone: string
     address: stripe_address
 
-- name: stripe_address
+- object: stripe_address
   class:
     line1: string
     line2: string
@@ -234,7 +234,7 @@
     postal_code: string
     country: string
 
-- name: stripe_card
+- object: stripe_card
   class:
     number: string
     exp_month: int

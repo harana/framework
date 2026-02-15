@@ -1,0 +1,20 @@
+- object: distributed_lock
+  schema:
+    - acquired_at: date = now()
+    - created_at: date = now()
+    - expires_at: date
+    - fencing_token: int #min(0)
+    - id: string
+    - metadata: string?
+    - owner_id: string
+    - updated_at: date = now()
+    - version: int = 1 #min(1)
+
+- object: lock_config
+  schema:
+    - default_ttl_seconds: int = 30 #min(1)
+    - enable_lock_ordering: boolean = true
+    - max_locks_per_owner: int = 10 #min(1)
+    - retry_interval_ms: int = 100 #min(1)
+    - stale_threshold_seconds: int = 300 #min(1)
+    - wait_timeout_ms: int = 10000 #min(1)

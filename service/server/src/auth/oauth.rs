@@ -1,6 +1,6 @@
 use crate::config::{OAuthConfig, OAuthProvider, OAuthProviderKind};
 use crate::error::ServerError;
-use harana_components_cache::{CacheStore, PutOptions};
+use harana_components_cache::{CacheService, PutOptions};
 use openidconnect::core::{
     CoreClient, CoreGenderClaim, CoreIdTokenClaims, CoreIdTokenVerifier, CoreProviderMetadata, CoreResponseType,
 };
@@ -117,11 +117,11 @@ fn discovery_cache_key(provider: &str) -> String {
 pub struct OAuthManager {
     config: OAuthConfig,
     providers: HashMap<String, OAuthProvider>,
-    cache: Arc<dyn CacheStore>,
+    cache: Arc<dyn CacheService>,
 }
 
 impl OAuthManager {
-    pub fn new(config: OAuthConfig, cache: Arc<dyn CacheStore>) -> Self {
+    pub fn new(config: OAuthConfig, cache: Arc<dyn CacheService>) -> Self {
         let providers: HashMap<String, OAuthProvider> =
             config.providers.iter().map(|p| (p.name.clone(), p.clone())).collect();
 

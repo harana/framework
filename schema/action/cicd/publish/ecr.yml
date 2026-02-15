@@ -1,0 +1,14 @@
+- object: publish_ecr
+  schema:
+    - access_key_env: string #max(200)
+    - create_repository: boolean = false
+    - enabled: boolean = true
+    - image: string #max(500)
+    - image_scanning: boolean = true
+    - image_tag_mutability: mutable | immutable = mutable
+    - lifecycle_policy: string? #max(5000)
+    - region: string #max(50)
+    - registry_id: string? #max(200)
+    - repository: string #max(500)
+    - secret_key_env: string #max(200)
+    - tags: list[string]

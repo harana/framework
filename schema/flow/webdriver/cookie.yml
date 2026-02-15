@@ -1,27 +1,27 @@
-- name: get_all_cookies
+- action: get_all_cookies
   inputs:
-    session_id: string #required  outputs:
+    session_id: string  outputs:
     cookies: list[web_driver_cookie]
     total: int
 
-- name: get_named_cookie
+- action: get_named_cookie
   inputs:
     name: string #required
-    session_id: string #required  outputs:
+    session_id: string  outputs:
     cookie: web_driver_cookie
 
-- name: add_cookie
+- action: add_cookie
   inputs:
-    cookie: web_driver_cookie #required    session_id: string #required  outputs:
+    cookie: web_driver_cookie    session_id: string  outputs:
     success: boolean
 
-- name: delete_cookie
+- action: delete_cookie
   inputs:
     name: string #required
-    session_id: string #required  outputs:
+    session_id: string  outputs:
     success: boolean
 
-- name: delete_all_cookies
+- action: delete_all_cookies
   inputs:
-    session_id: string #required  outputs:
+    session_id: string  outputs:
     success: boolean

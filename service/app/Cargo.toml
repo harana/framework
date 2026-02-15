@@ -1,0 +1,34 @@
+[package]
+name = "harana-components-app"
+version = "0.1.0"
+edition = "2021"
+authors = ["Harana Team"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/harana/framework"
+description = "Base application class for Harana framework applications"
+
+[dependencies]
+anyhow.workspace = true
+async-trait.workspace = true
+axum.workspace = true
+serde = { workspace = true }
+serde_json.workspace = true
+serde_yaml.workspace = true
+tokio = { workspace = true }
+tracing.workspace = true
+tracing-subscriber = { workspace = true }
+
+# Harana framework dependencies
+harana-components-cache = { path = "../cache" }
+harana-components-http-server = { path = "../server", optional = true }
+harana-actions-workflow = { path = "../workflow", optional = true }
+harana-components-events = { path = "../event", optional = true }
+harana-components-schedule = { path = "../schedule", optional = true }
+
+[features]
+default = ["http"]
+http = ["dep:harana-components-http-server"]
+workflow = ["dep:harana-actions-workflow"]
+events = ["dep:harana-components-events"]
+scheduler = ["dep:harana-components-schedule"]
+full = ["http", "workflow", "events", "scheduler"]

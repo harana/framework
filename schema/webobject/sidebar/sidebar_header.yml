@@ -1,4 +1,4 @@
-- name: sidebar_header
+- webobject: sidebar_header
   id: [sidebar_id]
   attributes:
-    - sidebar_id: id #required -> ui_sidebar.id
+    - sidebar_id: id -> ui_sidebar.id

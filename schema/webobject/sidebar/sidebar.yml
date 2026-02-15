@@ -1,4 +1,4 @@
-- name: sidebar
+- webobject: sidebar
   events:
     - collapse
     - expand

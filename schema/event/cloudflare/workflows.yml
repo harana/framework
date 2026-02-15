@@ -1,73 +1,73 @@
-- name: cloudflare_workflow_instance_created
+- event: cloudflare_workflow_instance_created
   schema:
     binding: string #required
     instance_id: string #required
     created_at: date = now()
 
-- name: cloudflare_workflow_instance_batch_created
+- event: cloudflare_workflow_instance_batch_created
   schema:
     binding: string #required
-    instance_count: int #required #min(1)
+    instance_count: int #min(1)
     created_at: date = now()
 
-- name: cloudflare_workflow_instance_status_changed
+- event: cloudflare_workflow_instance_status_changed
   schema:
     binding: string #required
     instance_id: string #required
     status: queued | running | paused | errored | terminated | complete | waiting | waiting_for_pause | unknown
     changed_at: date = now()
 
-- name: cloudflare_workflow_instance_paused
+- event: cloudflare_workflow_instance_paused
   schema:
     binding: string #required
     instance_id: string #required
     paused_at: date = now()
 
-- name: cloudflare_workflow_instance_resumed
+- event: cloudflare_workflow_instance_resumed
   schema:
     binding: string #required
     instance_id: string #required
     resumed_at: date = now()
 
-- name: cloudflare_workflow_instance_restarted
+- event: cloudflare_workflow_instance_restarted
   schema:
     binding: string #required
     instance_id: string #required
     restarted_at: date = now()
 
-- name: cloudflare_workflow_instance_terminated
+- event: cloudflare_workflow_instance_terminated
   schema:
     binding: string #required
     instance_id: string #required
     terminated_at: date = now()
 
-- name: cloudflare_workflow_instance_completed
+- event: cloudflare_workflow_instance_completed
   schema:
     binding: string #required
     instance_id: string #required
     completed_at: date = now()
 
-- name: cloudflare_workflow_instance_errored
+- event: cloudflare_workflow_instance_errored
   schema:
     binding: string #required
     instance_id: string #required
     error_message: string?
     errored_at: date = now()
 
-- name: cloudflare_workflow_event_sent
+- event: cloudflare_workflow_event_sent
   schema:
     binding: string #required
     instance_id: string #required
     event_type: string #required
     sent_at: date = now()
 
-- name: cloudflare_workflow_step_executed
+- event: cloudflare_workflow_step_executed
   schema:
     step_name: string #required
     retries_limit: int?
     executed_at: date = now()
 
-- name: cloudflare_workflow_step_failed
+- event: cloudflare_workflow_step_failed
   schema:
     step_name: string #required
     error_message: string?

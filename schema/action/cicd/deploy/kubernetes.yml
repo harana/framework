@@ -1,0 +1,48 @@
+- object: deploy_kubernetes
+  schema:
+    - context: string #max(255)
+    - enabled: boolean = true
+    - health_check: deploy_kubernetes_health_check?
+    - helm: deploy_kubernetes_helm?
+    - image: string #max(500)
+    - kubectl: deploy_kubernetes_kubectl?
+    - kustomize: deploy_kubernetes_kustomize?
+    - manifests: list[string]
+    - namespace: string = default #max(255)
+    - post_deploy: list[string]
+    - pre_deploy: list[string]
+    - replicas: int = 3 #min(0)
+    - rolling_update: deploy_kubernetes_rolling_update?
+    - strategy: rolling_update | recreate | blue_green | canary = rolling_update
+
+- object: deploy_kubernetes_rolling_update
+  schema:
+    - max_surge: int = 1 #min(0)
+    - max_unavailable: int = 0 #min(0)
+
+- object: deploy_kubernetes_helm
+  schema:
+    - chart: string #max(2000)
+    - enabled: boolean = false
+    - release_name: string #max(255)
+    - set: list[string]
+    - timeout: int = 600 #min(0)
+    - values_file: string? #max(2000)
+    - wait: boolean = true
+
+- object: deploy_kubernetes_kubectl
+  schema:
+    - apply_options: list[string]
+    - version: string? #max(20)
+
+- object: deploy_kubernetes_kustomize
+  schema:
+    - dir: string #max(2000)
+    - enabled: boolean = false
+
+- object: deploy_kubernetes_health_check
+  schema:
+    - enabled: boolean = true
+    - endpoint: string #max(500)
+    - interval: int = 10 #min(1)
+    - timeout: int = 30 #min(1)

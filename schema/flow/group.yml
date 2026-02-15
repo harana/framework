@@ -1,4 +1,4 @@
-- name: create
+- action: create
   inputs:
     description: string
     name: string #required
@@ -6,7 +6,7 @@
     group_id: string
     success: boolean
 
-- name: update
+- action: update
   inputs:
     description: string
     group_id: string #required
@@ -14,13 +14,13 @@
   outputs:
     success: boolean
 
-- name: delete
+- action: delete
   inputs:
     group_id: string #required
   outputs:
     success: boolean
 
-- name: get
+- action: get
   inputs:
     group_id: string #required
   outputs:
@@ -29,7 +29,7 @@
     name: string
     roles: list[group_role_info]
 
-- name: lists
+- action: lists
   inputs:
     limit: int = 100
     offset: int = 0
@@ -37,21 +37,21 @@
     groups: list[group_info]
     total: int
 
-- name: add_user_to
+- action: add_user_to
   inputs:
     group_id: string #required
     user_id: string #required
   outputs:
     success: boolean
 
-- name: remove_user_from
+- action: remove_user_from
   inputs:
     group_id: string #required
     user_id: string #required
   outputs:
     success: boolean
 
-- name: list_members
+- action: list_members
   inputs:
     group_id: string #required
     limit: int = 100
@@ -60,28 +60,28 @@
     members: list[group_member]
     total: int
 
-- name: assign_role_to
+- action: assign_role_to
   inputs:
     group_id: string #required
     role_id: string #required
   outputs:
     success: boolean
 
-- name: remove_role_from
+- action: remove_role_from
   inputs:
     group_id: string #required
     role_id: string #required
   outputs:
     success: boolean
 
-- name: list_roles
+- action: list_roles
   inputs:
     group_id: string #required
   outputs:
     roles: list[group_role_info]
     total: int
 
-- name: check_permission
+- action: check_permission
   inputs:
     method: string #required
     group_id: string #required
@@ -90,7 +90,7 @@
     allowed: boolean
     reason: string
 
-- name: group
+- object: group
   class:
     group_id: string
     name: string
@@ -99,7 +99,7 @@
     roles: list[group_role]
     created_at: date
 
-- name: group_role
+- object: group_role
   class:
     role_id: string
     name: string

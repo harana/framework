@@ -1,11 +1,11 @@
-- name: radio_selected
+- event: radio_selected
   schema:
     group_id: id #required
     radio_value: string #required
     radio_label: string?
     selected_at: date = now()
 
-- name: radio_group_changed
+- event: radio_group_changed
   schema:
     group_id: id #required
     group_name: string?
@@ -14,13 +14,13 @@
     new_label: string?
     changed_at: date = now()
 
-- name: radio_focused
+- event: radio_focused
   schema:
     group_id: id #required
     radio_value: string?
     focused_at: date = now()
 
-- name: radio_blurred
+- event: radio_blurred
   schema:
     group_id: id #required
     radio_value: string?

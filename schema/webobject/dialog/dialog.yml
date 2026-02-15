@@ -1,9 +1,9 @@
-- name: dialog
+- webobject: dialog
   attributes:
     - description: string? #max(500)
     - is_open: boolean = false
     - size: xs | sm | md | lg | xl | 2xl | 3xl | 4xl | 5xl = lg
-    - title: string #required #max(200)
+    - title: string #max(200)
   events:
     - cancel
     - close

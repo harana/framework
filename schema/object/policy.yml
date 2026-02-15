@@ -1,31 +1,31 @@
-- name: policy
+- object: policy
   schema:
-    - actions: string #required # json array
+    - actions: string # json array
     - conditions: string? # json conditions
     - created_at: date = now()
     - description: string? #max(500)
     - effect: allow | deny = allow
     - is_active: boolean = true
-    - name: string #required #unique #max(200)
-    - resources: string #required # json array
+    - name: string #unique #max(200)
+    - resources: string # json array
     - updated_at: date = now()
 
-- name: policy_attachment
+- object: policy_attachment
   id: [policy_id, entity_id, entity_type]
   schema:
     - attached_at: date = now()
     - attached_by: id? -> user.id
     - entity_id: id #required
     - entity_type: user | role | group = user
-    - policy_id: id #required -> policy.id
+    - policy_id: id -> policy.id
 
-- name: policy_evaluation_log
+- object: policy_evaluation_log
   id: [policy_id, evaluated_at]
   schema:
-    - action: string #required #max(200)
+    - action: string #max(200)
     - allowed: boolean = false
     - evaluated_at: date = now()
-    - policy_id: id #required -> policy.id
+    - policy_id: id -> policy.id
     - reason: string? #max(500)
-    - resource: string #required #max(200)
+    - resource: string #max(200)
     - user_id: id? -> user.id

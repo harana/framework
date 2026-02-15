@@ -1,4 +1,4 @@
-- name: compression_job
+- object: compression_job
   schema:
     - algorithm: gzip | zstd | brotli | lz4 | deflate = gzip
     - completed_at: date?
@@ -12,7 +12,7 @@
     - status: pending | running | completed | failed = pending
     - updated_at: date = now()
 
-- name: compressed_data
+- object: compressed_data
   schema:
     - algorithm: string
     - original_size: int

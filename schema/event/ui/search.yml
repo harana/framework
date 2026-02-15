@@ -1,4 +1,4 @@
-- name: search_initiated
+- event: search_initiated
   schema:
     search_id: id #required
     search_query: string #required
@@ -6,21 +6,21 @@
     search_context: string?
     initiated_at: date = now()
 
-- name: search_cleared
+- event: search_cleared
   schema:
     search_id: id #required
     previous_query: string?
     cleared_at: date = now()
 
-- name: search_results_shown
+- event: search_results_shown
   schema:
     search_id: id #required
     search_query: string #required
-    results_count: int #required #min(0)
+    results_count: int #min(0)
     search_duration_ms: int? #min(0)
     shown_at: date = now()
 
-- name: search_result_selected
+- event: search_result_selected
   schema:
     search_id: id #required
     result_id: id #required
@@ -29,7 +29,7 @@
     search_query: string?
     selected_at: date = now()
 
-- name: search_empty_state
+- event: search_empty_state
   schema:
     search_id: id #required
     search_query: string #required

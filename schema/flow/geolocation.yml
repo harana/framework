@@ -1,4 +1,4 @@
-- name: forward
+- action: forward
   inputs:
     address: string #required
     country: string
@@ -8,7 +8,7 @@
     longitude: float
     results: list[geo_result]
 
-- name: reverse
+- action: reverse
   inputs:
     language: string
     latitude: float #required
@@ -17,7 +17,7 @@
     address: geo_address
     formatted_address: string
 
-- name: distance
+- action: distance
   inputs:
     from: coordinates #required
     to: coordinates #required
@@ -26,7 +26,7 @@
     distance: float
     unit: string
 
-- name: route
+- action: route
   inputs:
     avoid: list[string]
     from: coordinates #required
@@ -39,7 +39,7 @@
     polyline: string
     steps: list[route_step]
 
-- name: timezone
+- action: timezone
   inputs:
     latitude: float #required
     longitude: float #required
@@ -50,21 +50,21 @@
     name: string
     offset: int
 
-- name: coordinates
+- object: coordinates
   class:
     latitude: float
     longitude: float
     altitude: float
     accuracy: float
 
-- name: geo_result
+- object: geo_result
   class:
     latitude: float
     longitude: float
     formatted_address: string
     confidence: float
 
-- name: geo_address
+- object: geo_address
   class:
     street: string
     city: string
@@ -72,7 +72,7 @@
     postal_code: string
     country: string
 
-- name: route_step
+- object: route_step
   class:
     instruction: string
     distance: float

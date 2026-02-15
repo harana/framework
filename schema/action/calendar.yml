@@ -1,0 +1,284 @@
+- action: create_event
+  inputs:
+    all_day: boolean = false
+    attendees: list[string]
+    calendar_id: string = "primary"
+    description: string
+    end_time: date
+    location: string
+    recurrence: string
+    reminders: list[calendar_reminder]
+    start_time: date
+    timezone: string = "utc"
+    title: string
+  outputs:
+    event_id: string
+    html_link: string
+    success: boolean
+
+- action: update_event
+  inputs:
+    attendees: list[string]
+    calendar_id: string = "primary"
+    description: string
+    end_time: date
+    event_id: string
+    location: string
+    recurrence: string
+    reminders: list[calendar_reminder]
+    start_time: date
+    timezone: string
+    title: string
+  outputs:
+    event_id: string
+    success: boolean
+
+- action: delete_event
+  inputs:
+    calendar_id: string = "primary"
+    event_id: string
+    send_updates: none | all | external_only = all
+  outputs:
+    success: boolean
+
+- action: get_event
+  inputs:
+    calendar_id: string = "primary"
+    event_id: string
+  outputs:
+    attendees: list[calendar_attendee]
+    description: string
+    end_time: date
+    event_id: string
+    html_link: string
+    location: string
+    start_time: date
+    status: string
+    title: string
+
+- action: list_events
+  inputs:
+    calendar_id: string = "primary"
+    end_time: date
+    max_results: int = 100
+    order_by: start_time | updated = start_time
+    query: string
+    single_events: boolean = true
+    start_time: date
+  outputs:
+    events: list[calendar_event]
+    next_page_token: string
+    total: int
+
+- action: create_calendar
+  inputs:
+    color: string
+    description: string
+    name: string
+    timezone: string = "utc"
+  outputs:
+    calendar_id: string
+    success: boolean
+
+- action: delete_calendar
+  inputs:
+    calendar_id: string
+  outputs:
+    success: boolean
+
+- action: list_calendars
+  inputs:
+    max_results: int = 100
+    show_hidden: boolean = false
+  outputs:
+    calendars: list[calendar]
+    total: int
+
+- action: check_availability
+  inputs:
+    calendar_ids: list[string]
+    end_time: date
+    start_time: date
+    timezone: string = "utc"
+  outputs:
+    busy_periods: list[calendar_time_period]
+    free_periods: list[calendar_time_period]
+
+- action: add_attendee
+  inputs:
+    calendar_id: string = "primary"
+    email: string
+    event_id: string
+    optional: boolean = false
+    send_updates: none | all | external_only = all
+  outputs:
+    success: boolean
+
+- action: remove_attendee
+  inputs:
+    calendar_id: string = "primary"
+    email: string
+    event_id: string
+    send_updates: none | all | external_only = all
+  outputs:
+    success: boolean
+
+- action: respond_to_invitation
+  inputs:
+    calendar_id: string = "primary"
+    comment: string
+    event_id: string
+    response: accepted | declined | tentative
+  outputs:
+    success: boolean
+
+- action: find_available_slots
+  inputs:
+    attendees: list[string]
+    duration_minutes: int
+    end_time: date
+    start_time: date
+    timezone: string = "utc"
+    working_hours_only: boolean = true
+  outputs:
+    available_slots: list[calendar_time_slot]
+    total: int
+
+- object: event
+  class:
+    event_id: string
+    calendar_id: string
+    title: string
+    description: string
+    start_time: date
+    end_time: date
+    timezone: string
+    location: string
+    attendees: list[calendar_attendee]
+    recurrence: string
+    status: string
+
+- object: calendar
+  class:
+    calendar_id: string
+    name: string
+    description: string
+    color: string
+    timezone: string
+    primary: boolean
+
+- object: attendee
+  class:
+    email: string
+    name: string
+    response_status: string
+    optional: boolean
+
+- object: reminder
+  class:
+    method: string
+    minutes: int
+
+- object: time_period
+  class:
+    start_time: date
+    end_time: date
+    calendar_id: string
+
+- object: time_slot
+  class:
+    start_time: date
+    end_time: date
+    duration_minutes: int
+
+# Calendar event - used for displaying events on day/week/month views
+- object: event
+  schema:
+    - id: string
+
+    - name: string #max(200)
+    - datetime: string
+    - time_display: string #max(20)
+    - href: string? #max(500)
+    - location: string? #max(200)
+    - color: string = "blue" #max(20)
+    - grid_row_start: integer?
+    - grid_row_span: integer?
+    - day_column: integer?
+
+# Calendar meeting - used for meetings list with attendee images
+- object: meeting
+  schema:
+    - id: string
+
+    - name: string #max(200)
+    - image_url: string? #max(500)
+    - datetime: string
+    - datetime_display: string #max(100)
+    - location: string? #max(200)
+
+# Calendar day - used for day cells in month/week/day views
+- object: day
+  schema:
+    - date: string
+    - day_number: integer
+    - weekday_short: string? #max(3)
+    - weekday_long: string? #max(10)
+    - is_current_month: boolean = false
+    - is_today: boolean = false
+    - is_selected: boolean = false
+    - events: [calendar_event]
+
+# Calendar view option - dropdown menu items for view selection
+- object: view_option
+  schema:
+    - id: string
+    - label: string #max(50)
+    - href: string? #max(500)
+    - is_active: boolean = false
+
+# Calendar month - used for year view with month sections
+- object: month
+  schema:
+    - name: string #max(20)
+    - days: [calendar_day]
+# Time slot - hour markers on the time axis
+- object: time_slot
+  schema:
+    - label: string #max(10)
+    - hour: integer
+
+- object: calendar
+  schema:
+    - calendar_id: string
+
+    - name: string
+    - description: string
+    - color: string
+    - timezone: string
+    - primary: boolean
+
+- object: attendee
+  schema:
+    - email: string
+
+    - name: string
+    - response_status: string
+    - optional: boolean
+
+- object: reminder
+  schema:
+    - method: string
+    - minutes: int
+
+- object: time_period
+  schema:
+    - start_time: date
+    - end_time: date
+    - calendar_id: string
+
+- object: time_slot
+  schema:
+    - start_time: date
+    - end_time: date
+    - duration_minutes: int

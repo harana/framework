@@ -3,20 +3,18 @@ use std::collections::HashMap;
 use worker::Env;
 
 use crate::error::{BlobError, BlobResult};
-use crate::store::{BlobInfo, BlobMetadata, BlobStore, ListOptions, ListResponse, PutOptions};
+use crate::model::{BlobInfo, BlobMetadata, ListOptions, ListResponse, PutOptions};
+use crate::service::BlobService;
 
-/// A blob store backed by Cloudflare R2.
-pub struct R2BlobStore {
+pub struct R2BlobService {
     env: Env,
     bucket_name: String,
 }
 
-// `worker::Env` is Send + Sync via unsafe impl in workers-rs.
-unsafe impl Send for R2BlobStore {}
-unsafe impl Sync for R2BlobStore {}
+unsafe impl Send for R2BlobService {}
+unsafe impl Sync for R2BlobService {}
 
-impl R2BlobStore {
-    /// Create a new `R2BlobStore` from a `worker::Env` and the R2 binding name.
+impl R2BlobService {
     pub fn new(env: Env, bucket_name: impl Into<String>) -> Self {
         Self {
             env,
@@ -65,7 +63,7 @@ impl R2BlobStore {
 }
 
 #[async_trait]
-impl BlobStore for R2BlobStore {
+impl BlobService for R2BlobService {
     async fn put(&self, key: &str, data: &[u8], options: PutOptions) -> BlobResult<BlobInfo> {
         if options.if_not_exists {
             // Check existence first.

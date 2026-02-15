@@ -1,4 +1,4 @@
-- name: zoom_meeting
+- object: zoom_meeting
   id: [meeting_id]
   schema:
     - agenda: string? #max(2000)
@@ -6,41 +6,41 @@
     - duration: int = 60 #min(1)
     - host_id: string? #max(200)
     - join_url: string? #url
-    - meeting_id: string #required #unique #max(200)
+    - meeting_id: string #unique #max(200)
     - password: string? #max(100)
     - start_time: date?
     - start_url: string? #url
     - status: waiting | started | finished = waiting
     - timezone: string? #max(50)
-    - topic: string #required #max(500)
+    - topic: string #max(500)
     - type: instant | scheduled | recurring_fixed | recurring_unfixed = scheduled
     - updated_at: date = now()
 
-- name: zoom_meeting_registrant
+- object: zoom_meeting_registrant
   id: [meeting_id, registrant_id]
   schema:
-    - email: string #required #email #max(255)
-    - first_name: string #required #max(100)
+    - email: string #email #max(255)
+    - first_name: string #max(100)
     - join_url: string? #url
     - last_name: string? #max(100)
-    - meeting_id: id #required -> zoom_meeting.id
+    - meeting_id: id -> zoom_meeting.id
     - phone: string? #max(20)
     - registered_at: date = now()
-    - registrant_id: string #required #max(200)
+    - registrant_id: string #max(200)
     - status: pending | approved | denied | cancelled = approved
 
-- name: zoom_meeting_participant
+- object: zoom_meeting_participant
   id: [meeting_id, user_id, join_time]
   schema:
     - duration_seconds: int? #min(0)
     - email: string? #email #max(255)
     - join_time: date = now()
     - leave_time: date?
-    - meeting_id: id #required -> zoom_meeting.id
+    - meeting_id: id -> zoom_meeting.id
     - name: string? #max(200)
     - user_id: string? #max(200)
 
-- name: zoom_webinar
+- object: zoom_webinar
   id: [webinar_id]
   schema:
     - agenda: string? #max(2000)
@@ -50,31 +50,31 @@
     - join_url: string? #url
     - start_time: date?
     - timezone: string? #max(50)
-    - topic: string #required #max(500)
+    - topic: string #max(500)
     - type: webinar | recurring_webinar_fixed | recurring_webinar_unfixed = webinar
     - updated_at: date = now()
-    - webinar_id: string #required #unique #max(200)
+    - webinar_id: string #unique #max(200)
 
-- name: zoom_user
+- object: zoom_user
   id: [user_id]
   schema:
     - created_at: date = now()
-    - email: string #required #email #max(255)
+    - email: string #email #max(255)
     - first_name: string? #max(100)
     - last_name: string? #max(100)
     - status: active | inactive | pending = active
     - timezone: string? #max(50)
     - type: int = 1 #min(1) #max(3)
-    - user_id: string #required #unique #max(200)
+    - user_id: string #unique #max(200)
 
-- name: zoom_recording
+- object: zoom_recording
   id: [meeting_id, recording_id]
   schema:
     - download_url: string? #url
     - duration_seconds: int? #min(0)
     - file_size: int? #min(0)
     - file_type: mp4 | m4a | transcript | chat | cc = mp4
-    - meeting_id: id #required -> zoom_meeting.id
-    - recording_id: string #required #max(200)
+    - meeting_id: id -> zoom_meeting.id
+    - recording_id: string #max(200)
     - share_url: string? #url
     - status: completed | processing | failed = completed

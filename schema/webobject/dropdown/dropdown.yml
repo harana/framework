@@ -1,4 +1,4 @@
-- name: dropdown
+- webobject: dropdown
   events:
     - close
     - open

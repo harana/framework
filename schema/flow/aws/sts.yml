@@ -1,4 +1,4 @@
-- name: assume_role
+- action: assume_role
   inputs:
     duration_seconds: int = 3600
     external_id: string
@@ -23,7 +23,7 @@
     source_identity: string
     success: boolean
 
-- name: assume_role_with_saml
+- action: assume_role_with_saml
   inputs:
     duration_seconds: int = 3600
     policy: string
@@ -47,7 +47,7 @@
     subject_type: string
     success: boolean
 
-- name: assume_role_with_web_identity
+- action: assume_role_with_web_identity
   inputs:
     duration_seconds: int = 3600
     policy: string
@@ -71,7 +71,7 @@
     subject_from_web_identity_token: string
     success: boolean
 
-- name: decode_authorization_message
+- action: decode_authorization_message
   inputs:
     encoded_message: string #required
     region: string
@@ -79,7 +79,7 @@
     decoded_message: string
     success: boolean
 
-- name: get_caller_identity
+- action: get_caller_identity
   inputs:
     region: string
   outputs:
@@ -87,7 +87,7 @@
     arn: string
     user_id: string
 
-- name: get_session_token
+- action: get_session_token
   inputs:
     duration_seconds: int = 3600
     region: string
@@ -101,7 +101,7 @@
     session_token: string
     success: boolean
 
-- name: get_federation_token
+- action: get_federation_token
   inputs:
     duration_seconds: int = 3600
     name: string #required
@@ -119,7 +119,7 @@
     session_token: string
     success: boolean
 
-- name: get_access_key_info
+- action: get_access_key_info
   inputs:
     access_key_id: string #required
     region: string

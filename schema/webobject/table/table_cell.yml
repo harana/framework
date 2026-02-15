@@ -1,11 +1,11 @@
-- name: table_cell
+- webobject: table_cell
   id: [row_id, column_order]
   attributes:
     - alignment: left | center | right = left
     - column_order: int = 0 #min(0)
-    - content: string #required #max(1000)
+    - content: string #max(1000)
     - is_bold: boolean = false
     - is_muted: boolean = false
-    - row_id: id #required -> ui_table_row.id
+    - row_id: id -> ui_table_row.id
   events:
     - edit

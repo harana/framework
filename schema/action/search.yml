@@ -1,0 +1,263 @@
+- action: query
+  inputs:
+    fields: list[string]
+    filters: search_filters
+    highlight: boolean = false
+    index: string
+    limit: int = 10
+    offset: int = 0
+    query: string
+    sort: list[search_sort_field]
+  outputs:
+    hits: list[search_hit]
+    took_ms: int
+    total: int
+
+- action: index_document
+  inputs:
+    document: search_document_data
+    document_id: string
+    index: string
+    refresh: boolean = false
+  outputs:
+    success: boolean
+    version: int
+
+- action: bulk_index
+  inputs:
+    documents: list[search_document_data]
+    index: string
+    refresh: boolean = false
+  outputs:
+    errors: list[search_index_error]
+    failed: int
+    indexed: int
+
+- action: get_document
+  inputs:
+    document_id: string
+    index: string
+  outputs:
+    document: search_document_data
+    found: boolean
+    version: int
+
+- action: update_document
+  inputs:
+    document: search_document_data
+    document_id: string
+    index: string
+    upsert: boolean = false
+  outputs:
+    success: boolean
+    version: int
+
+- action: delete_document
+  inputs:
+    document_id: string
+    index: string
+    refresh: boolean = false
+  outputs:
+    success: boolean
+
+- action: delete_by_query
+  inputs:
+    index: string
+    query: search_query
+    refresh: boolean = false
+  outputs:
+    deleted: int
+    success: boolean
+
+- action: create_index
+  inputs:
+    index: string
+    mappings: search_mappings
+    settings: search_index_settings
+  outputs:
+    success: boolean
+
+- action: delete_index
+  inputs:
+    index: string
+  outputs:
+    success: boolean
+
+- action: list_indexes
+  inputs:
+    pattern: string = "*"
+  outputs:
+    indexes: list[search_index_info]
+    total: int
+
+- action: get_index_stats
+  inputs:
+    index: string
+  outputs:
+    document_count: int
+    mappings: search_mappings
+    size_bytes: int
+
+- action: suggest
+  inputs:
+    field: string
+    index: string
+    size: int = 5
+    text: string
+  outputs:
+    suggestions: list[string]
+
+- object: document
+  class:
+    document_id: string
+    index: string
+    document: search_document_data
+    score: float
+    version: int
+
+- object: document_data
+  class:
+    fields: map[string, any]
+
+- object: filters
+  class:
+    conditions: map[string, any]
+
+- object: sort_field
+  class:
+    field: string
+    order: string
+
+- object: hit
+  class:
+    document_id: string
+    score: float
+    source: search_document_data
+    highlight: map[string, list[string]]
+
+- object: index_error
+  class:
+    document_id: string
+    error: string
+    status: int
+
+- object: query
+  class:
+    query: map[string, any]
+
+- object: mappings
+  class:
+    properties: map[string, search_field_mapping]
+
+- object: field_mapping
+  class:
+    type: string
+    analyzer: string
+    index: boolean
+
+- object: index_settings
+  class:
+    number_of_shards: int
+    number_of_replicas: int
+
+- object: index_info
+  class:
+    name: string
+    document_count: int
+    size_bytes: int
+    status: string
+
+- object: index
+  schema:
+    - created_at: date = now()
+    - is_active: boolean = true
+    - settings: string?
+    - updated_at: date = now()
+
+- object: field
+  id: [index_id, name]
+  schema:
+    - boost: decimal = 1.0 #min(0)
+    - index_id: id -> search_index.id
+    - is_facet: boolean = false
+    - is_filterable: boolean = true
+    - is_searchable: boolean = true
+    - is_sortable: boolean = false
+    - type: text | keyword | number | date | boolean | geo = text
+
+- object: synonym
+  id: [index_id, term]
+  schema:
+    - index_id: id -> search_index.id
+    - synonyms: string #max(1000)
+    - term: string #max(200)
+
+- object: query_log
+  id: [index_id, query, created_at]
+  schema:
+    - created_at: date = now()
+    - index_id: id -> search_index.id
+    - query: string #max(1000)
+    - response_time_ms: int? #min(0)
+    - results_count: int = 0 #min(0)
+    - user_id: id? -> user.id
+
+- object: document
+  schema:
+    - document_id: string
+    - index: string
+    - document: search_document_data
+    - score: float
+    - version: int
+
+- object: document_data
+  schema:
+    - fields: map[string, any]
+
+- object: filters
+  schema:
+    - conditions: map[string, any]
+
+- object: sort_field
+  schema:
+    - field: string
+    - order: string
+
+- object: hit
+  schema:
+    - document_id: string
+    - score: float
+    - source: search_document_data
+    - highlight: map[string, list[string]]
+
+- object: index_error
+  schema:
+    - document_id: string
+    - error: string
+    - status: int
+
+- object: query
+  schema:
+    - query: map[string, any]
+
+- object: mappings
+  schema:
+    - properties: map[string, search_field_mapping]
+
+- object: field_mapping
+  schema:
+    - type: string
+    - analyzer: string
+    - index: boolean
+
+- object: index_settings
+  schema:
+    - number_of_shards: int
+    - number_of_replicas: int
+
+- object: index_info
+  schema:
+    - name: string
+    - document_count: int
+    - size_bytes: int
+    - status: string

@@ -1,4 +1,4 @@
-- name: web_driver_capabilities
+- object: web_driver_capabilities
   schema:
     - accept_insecure_certs: boolean
     - browser_name: string
@@ -11,7 +11,7 @@
     - window_height: int
     - window_width: int
 
-- name: web_driver_proxy
+- object: web_driver_proxy
   schema:
     - auto_detect: boolean
     - ftp_proxy: string
@@ -20,7 +20,7 @@
     - proxy_type: string
     - ssl_proxy: string
 
-- name: web_driver_element
+- object: web_driver_element
   schema:
     - class_name: string
     - element_id: string
@@ -29,7 +29,7 @@
     - text: string
     - value: string
 
-- name: web_driver_cookie
+- object: web_driver_cookie
   schema:
     - domain: string
     - expiry: int
@@ -40,7 +40,7 @@
     - secure: boolean
     - value: string
 
-- name: web_driver_action
+- object: web_driver_action
   schema:
     - action_type: key_down | key_up | click | double_click | right_click | mouse_down | mouse_up | move_to | move_by | pause
     - duration_ms: int
@@ -49,7 +49,7 @@
     - x: int
     - y: int
 
-- name: x_path_query_result
+- object: x_path_query_result
   schema:
     - elements: list[web_driver_element]
     - error: string
@@ -57,14 +57,14 @@
     - total: int
     - xpath: string
 
-- name: element_rect
+- object: element_rect
   schema:
     - height: float
     - width: float
     - x: float
     - y: float
 
-- name: window_rect
+- object: window_rect
   schema:
     - height: int
     - width: int

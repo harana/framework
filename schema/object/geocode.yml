@@ -1,4 +1,4 @@
-- name: geocode_result
+- object: geocode_result
   id: [query, provider]
   schema:
     - city: string? #max(200)
@@ -10,17 +10,17 @@
     - longitude: decimal #required
     - postal_code: string? #max(20)
     - provider: string = default #max(100)
-    - query: string #required #max(500)
+    - query: string #max(500)
     - region: string? #max(200)
     - street: string? #max(500)
     - type: forward | reverse = forward
 
-- name: geocode_cache
+- object: geocode_cache
   id: [query_hash]
   schema:
     - created_at: date = now()
     - expires_at: date?
     - latitude: decimal #required
     - longitude: decimal #required
-    - query_hash: string #required #unique #max(128)
+    - query_hash: string #unique #max(128)
     - response: string #required

@@ -7,7 +7,7 @@ edition.workspace = true
 path = "lib.rs"
 
 [dependencies]
-harana-components-storage = { path = "../storage" }
+harana-components-cache = { path = "../cache" }
 async-trait.workspace = true
 serde.workspace = true
 serde_json.workspace = true

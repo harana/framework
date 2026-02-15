@@ -1,11 +1,11 @@
-- name: github_repository
+- object: github_repository
   id: [full_name]
   schema:
     - created_at: date = now()
     - default_branch: string = main #max(200)
     - description: string? #max(1000)
     - fork: boolean = false
-    - full_name: string #required #unique #max(500)
+    - full_name: string #unique #max(500)
     - has_issues: boolean = true
     - has_wiki: boolean = true
     - homepage: string? #url
@@ -13,60 +13,60 @@
     - repo_id: int?
     - updated_at: date = now()
     - url: string? #url
-- name: github_issue
+- object: github_issue
   id: [repository_id, issue_number]
   schema:
     - assignees: string? # j_s_o_n array
     - body: string?
     - closed_at: date?
     - created_at: date = now()
-    - issue_number: int #required #min(1)
+    - issue_number: int #min(1)
     - labels: string? # j_s_o_n array
-    - repository_id: id #required -> git_hub_repository.id
+    - repository_id: id -> git_hub_repository.id
     - state: open | closed = open
-    - title: string #required #max(500)
+    - title: string #max(500)
     - updated_at: date = now()
     - url: string? #url
-- name: github_pull_request
+- object: github_pull_request
   id: [repository_id, pr_number]
   schema:
-    - base_branch: string #required #max(200)
+    - base_branch: string #max(200)
     - body: string?
     - closed_at: date?
     - created_at: date = now()
-    - head_branch: string #required #max(200)
+    - head_branch: string #max(200)
     - is_draft: boolean = false
     - merged_at: date?
-    - pr_number: int #required #min(1)
-    - repository_id: id #required -> git_hub_repository.id
+    - pr_number: int #min(1)
+    - repository_id: id -> git_hub_repository.id
     - state: open | closed | merged = open
-    - title: string #required #max(500)
+    - title: string #max(500)
     - updated_at: date = now()
     - url: string? #url
-- name: github_webhook
+- object: github_webhook
   id: [repository_id, hook_id]
   schema:
     - created_at: date = now()
-    - events: string #required # j_s_o_n array
+    - events: string # j_s_o_n array
     - hook_id: int #required
     - is_active: boolean = true
-    - repository_id: id #required -> git_hub_repository.id
+    - repository_id: id -> git_hub_repository.id
     - secret: string? #max(255) #encrypted
     - updated_at: date = now()
-    - url: string #required #url
-- name: author
+    - url: string #url
+- object: author
   schema:
     - name: string
     - email: string
     - date: date
 
-- name: committer
+- object: committer
   schema:
     - name: string
     - email: string
     - date: date
 
-- name: commit
+- object: commit
   schema:
     - sha: string
     - message: string
@@ -74,7 +74,7 @@
     - author: author
     - committer: committer
 
-- name: file_content
+- object: file_content
   schema:
     - name: string
     - path: string
@@ -84,20 +84,20 @@
     - content: string
     - encoding: string
 
-- name: webhook_config
+- object: webhook_config
   schema:
     - url: string
     - content_type: string
     - secret: string
     - insecure_ssl: string
 
-- name: github_branch
+- object: github_branch
   schema:
     - name: string
     - sha: string
     - protected: boolean
 
-- name: github_commit
+- object: github_commit
   schema:
     - sha: string
     - message: string
@@ -106,7 +106,7 @@
     - committer: committer
     - created_at: date
 
-- name: github_release
+- object: github_release
   schema:
     - release_id: int
     - tag_name: string

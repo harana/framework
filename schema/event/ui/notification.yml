@@ -1,4 +1,4 @@
-- name: notification_shown
+- event: notification_shown
   schema:
     notification_id: id #required
     notification_type: info | success | warning | error = info
@@ -7,7 +7,7 @@
     duration_ms: int? #min(0)
     shown_at: date = now()
 
-- name: notification_dismissed
+- event: notification_dismissed
   schema:
     notification_id: id #required
     notification_type: info | success | warning | error = info
@@ -15,14 +15,14 @@
     time_visible_ms: int? #min(0)
     dismissed_at: date = now()
 
-- name: notification_clicked
+- event: notification_clicked
   schema:
     notification_id: id #required
     notification_type: info | success | warning | error = info
     notification_title: string?
     clicked_at: date = now()
 
-- name: notification_action_clicked
+- event: notification_action_clicked
   schema:
     notification_id: id #required
     action_id: id #required
@@ -30,7 +30,7 @@
     action_type: primary | secondary | dismiss = primary
     clicked_at: date = now()
 
-- name: toast_expired
+- event: toast_expired
   schema:
     toast_id: id #required
     toast_type: info | success | warning | error = info

@@ -2,6 +2,6 @@ name: combobox_option
 type: ui_component
 id: [combobox_id]
 attributes:
-  combobox_id: id #required -> combobox.id
+  combobox_id: id -> combobox.id
   value: string #required
   is_disabled: bool = false

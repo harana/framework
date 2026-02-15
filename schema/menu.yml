@@ -1,4 +1,4 @@
-- name: menu_item
+- object: menu_item
   id: [menu_id, slug]
   schema:
     - created_at: date = now()
@@ -6,24 +6,24 @@
     - href: string? #max(500)
     - icon: string? #max(100)
     - is_active: boolean = true
-    - label: string #required #max(200)
+    - label: string #max(200)
     - menu_id: id #required
     - order: int = 0 #min(0)
     - parent_id: id? -> menu_item.id
-    - slug: string #required #unique #lowercase
+    - slug: string #unique #lowercase
     - target: self | blank | parent | top = self
     - updated_at: date = now()
 
-- name: menu_item_action
+- object: menu_item_action
   id: [menu_item_id, slug]
   schema:
     - created_at: date = now()
     - href: string? #max(500)
     - icon: string? #max(100)
     - is_active: boolean = true
-    - label: string #required #max(200)
-    - menu_item_id: id #required -> menu_item.id
+    - label: string #max(200)
+    - menu_item_id: id -> menu_item.id
     - order: int = 0 #min(0)
-    - slug: string #required #unique #lowercase
+    - slug: string #unique #lowercase
     - target: self | blank | parent | top = self
     - updated_at: date = now()

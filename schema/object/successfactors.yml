@@ -1,74 +1,74 @@
-- name: sf_employee
+- object: sf_employee
   id: [user_id]
   schema:
     - created_at: date = now()
     - department: string? #max(200)
-    - email: string #required #email #max(255)
-    - first_name: string #required #max(100)
+    - email: string #email #max(255)
+    - first_name: string #max(100)
     - hire_date: date?
     - job_title: string? #max(200)
-    - last_name: string #required #max(100)
+    - last_name: string #max(100)
     - manager_id: string? #max(200)
     - status: active | inactive | terminated = active
     - updated_at: date = now()
-    - user_id: string #required #unique #max(200)
+    - user_id: string #unique #max(200)
 
-- name: sf_job_info
+- object: sf_job_info
   id: [employee_id, effective_start_date]
   schema:
     - cost_center: string? #max(100)
     - department: string? #max(200)
     - division: string? #max(200)
     - effective_start_date: date #required
-    - employee_id: id #required -> sf_employee.id
+    - employee_id: id -> sf_employee.id
     - employment_type: string? #max(100)
     - job_code: string? #max(100)
     - job_title: string? #max(200)
     - location: string? #max(200)
     - manager_id: string? #max(200)
 
-- name: sf_compensation
+- object: sf_compensation
   id: [employee_id, effective_start_date]
   schema:
     - bonus_target: decimal? #min(0)
     - currency: string? #max(3)
     - effective_start_date: date #required
-    - employee_id: id #required -> sf_employee.id
+    - employee_id: id -> sf_employee.id
     - frequency: string? #max(50)
     - pay_grade: string? #max(50)
     - pay_type: string? #max(50)
     - salary: decimal? #min(0)
 
-- name: sf_time_off_request
+- object: sf_time_off_request
   id: [request_id]
   schema:
     - comment: string? #max(1000)
     - created_at: date = now()
     - duration_hours: decimal? #min(0)
     - duration_type: full_day | half_day | hours = full_day
-    - employee_id: id #required -> sf_employee.id
+    - employee_id: id -> sf_employee.id
     - end_date: date #required
-    - request_id: string #required #unique #max(200)
+    - request_id: string #unique #max(200)
     - start_date: date #required
     - status: pending | approved | rejected | cancelled = pending
-    - time_type: string #required #max(100)
+    - time_type: string #max(100)
     - updated_at: date = now()
 
-- name: sf_time_off_balance
+- object: sf_time_off_balance
   id: [employee_id, time_type]
   schema:
     - as_of_date: date = now()
     - balance: decimal = 0
-    - employee_id: id #required -> sf_employee.id
-    - time_type: string #required #max(100)
+    - employee_id: id -> sf_employee.id
+    - time_type: string #max(100)
     - unit: days | hours = days
 
-- name: sf_department
+- object: sf_department
   id: [department_id]
   schema:
     - cost_center: string? #max(100)
-    - department_id: string #required #unique #max(200)
+    - department_id: string #unique #max(200)
     - description: string? #max(500)
     - head_id: string? #max(200)
-    - name: string #required #max(200)
+    - name: string #max(200)
     - parent_id: string? #max(200)

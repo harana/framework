@@ -1,4 +1,4 @@
-- name: send_push
+- action: send_push
   inputs:
     user_id: string #required
     title: string #required
@@ -11,7 +11,7 @@
     notification_id: string
     success: boolean
 
-- name: send_sms
+- action: send_sms
   inputs:
     phone_number: string #required
     message: string #required
@@ -20,7 +20,7 @@
     message_id: string
     success: boolean
 
-- name: send_in_app
+- action: send_in_app
   inputs:
     user_id: string #required
     title: string #required
@@ -32,7 +32,7 @@
     notification_id: string
     success: boolean
 
-- name: send_bulk
+- action: send_bulk
   inputs:
     user_ids: list[string] #required
     title: string #required
@@ -44,7 +44,7 @@
     successful: int
     failed: int
 
-- name: status
+- action: status
   inputs:
     notification_id: string #required
   outputs:
@@ -54,13 +54,13 @@
     read_at: date
     error: string
 
-- name: mark_as_read
+- action: mark_as_read
   inputs:
     notification_id: string #required
   outputs:
     success: boolean
 
-- name: list
+- action: list
   inputs:
     user_id: string #required
     unread_only: boolean = false
@@ -71,13 +71,13 @@
     total: int
     unread_count: int
 
-- name: delete
+- action: delete
   inputs:
     notification_id: string #required
   outputs:
     success: boolean
 
-- name: register_device
+- action: register_device
   inputs:
     user_id: string #required
     device_token: string #required
@@ -85,13 +85,13 @@
   outputs:
     success: boolean
 
-- name: unregister_device
+- action: unregister_device
   inputs:
     device_token: string #required
   outputs:
     success: boolean
 
-- name: notification
+- object: notification
   class:
     notification_id: string
     user_id: string
@@ -106,7 +106,7 @@
     action_url: string
     data: map[string, any]
 
-- name: device_registration
+- object: device_registration
   class:
     device_token: string
     user_id: string

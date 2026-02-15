@@ -1,0 +1,145 @@
+- object: task_backoff_strategy
+  schema:
+    - value: fixed | linear | exponential = exponential
+
+- object: task_priority
+  schema:
+    - value: low | normal | high | critical = normal
+
+- object: task_status
+  schema:
+    - value: pending | scheduled | running | completed | failed | cancelled | timed_out | retrying | paused = pending
+
+- object: task_retry_config
+  schema:
+    - backoff_strategy: fixed | linear | exponential = exponential
+    - max_delay_secs: int = 3600 #min(1)
+    - max_retries: int = 3 #min(0)
+    - no_retry_on_errors: list[string]?
+    - retry_delay_secs: int = 5 #min(1)
+    - retry_on_errors: list[string]?
+
+- object: task
+  schema:
+    - completed_at: date?
+    - correlation_id: string?
+    - created_at: date = now()
+    - description: string?
+    - duration_ms: int? #min(0)
+    - error: string?
+    - error_details: string?
+    - id: string
+    - lock_expires_at: date?
+    - lock_token: string?
+    - metadata: map[string, any]
+    - name: string
+    - owner_id: string?
+    - parent_task_id: string?
+    - payload: map[string, any]
+    - priority: low | normal | high | critical = normal
+    - progress: int? #min(0) #max(100)
+    - progress_message: string?
+    - queue: string
+    - result: any?
+    - retry_attempt: int = 0 #min(0)
+    - retry_at: date?
+    - retry_config: task_retry_config
+    - schedule_id: string?
+    - scheduled_at: date?
+    - started_at: date?
+    - status: pending | scheduled | running | completed | failed | cancelled | timed_out | retrying | paused = pending
+    - tags: list[string]
+    - task_type: string
+    - timeout_secs: int = 300 #min(1)
+    - updated_at: date = now()
+    - version: int = 1 #min(1)
+    - worker_id: string?
+
+- object: task_execution_history
+  schema:
+    - attempt: int = 0 #min(0)
+    - completed_at: date?
+    - correlation_id: string?
+    - created_at: date = now()
+    - duration_ms: int? #min(0)
+    - error: string?
+    - error_details: string?
+    - id: string
+    - queue: string
+    - result: any?
+    - schedule_id: string?
+    - started_at: date?
+    - status: pending | scheduled | running | completed | failed | cancelled | timed_out | retrying | paused = pending
+    - task_id: string
+    - task_name: string
+    - task_type: string
+    - worker_id: string?
+
+- object: task_query
+  schema:
+    - correlation_id: string?
+    - created_after: date?
+    - created_before: date?
+    - limit: int?
+    - offset: int?
+    - owner_id: string?
+    - parent_task_id: string?
+    - priority: low | normal | high | critical?
+    - queue: string?
+    - schedule_id: string?
+    - scheduled_after: date?
+    - scheduled_before: date?
+    - search: string?
+    - status: pending | scheduled | running | completed | failed | cancelled | timed_out | retrying | paused?
+    - tags: list[string]?
+    - task_type: string?
+    - worker_id: string?
+
+- object: task_queue_stats
+  schema:
+    - average_duration_ms: float?
+    - average_wait_time_ms: float?
+    - cancelled: int = 0 #min(0)
+    - completed: int = 0 #min(0)
+    - failed: int = 0 #min(0)
+    - pending: int = 0 #min(0)
+    - retrying: int = 0 #min(0)
+    - running: int = 0 #min(0)
+    - scheduled: int = 0 #min(0)
+    - timed_out: int = 0 #min(0)
+    - total: int = 0 #min(0)
+
+- object: task_worker_config
+  schema:
+    - auto_retry: boolean = true
+    - batch_size: int = 10 #min(1)
+    - cleanup_interval_secs: int = 3600 #min(1)
+    - history_retention_days: int = 30 #min(1)
+    - lock_duration_secs: int = 300 #min(1)
+    - max_concurrent_tasks: int = 10 #min(1)
+    - poll_interval_ms: int = 1000 #min(1)
+    - process_scheduled: boolean = true
+    - queues: list[string]
+    - stale_check_interval_secs: int = 60 #min(1)
+    - stale_threshold_secs: int = 600 #min(1)
+    - worker_id: string
+
+- object: task_scheduled_config
+  schema:
+    - description: string?
+    - name: string
+    - owner_id: string?
+    - payload: map[string, any]
+    - priority: low | normal | high | critical = normal
+    - queue: string
+    - tags: list[string]
+    - task_type: string
+    - timeout_secs: int = 300 #min(1)
+
+- object: task_manager_config
+  schema:
+    - enable_scheduler: boolean = true
+    - enable_worker: boolean = true
+    - lock_config: lock_config
+    - scheduler_config: schedule_scheduler_config
+    - worker_config: task_worker_config

@@ -1,4 +1,4 @@
-- name: run
+- action: run
   inputs:
     binding: string #required
     model: string #required
@@ -7,7 +7,7 @@
   outputs:
     response: any
 
-- name: text_generation
+- action: text_generation
   inputs:
     binding: string #required
     frequency_penalty: float
@@ -24,7 +24,7 @@
   outputs:
     response: string
 
-- name: text_embeddings
+- action: text_embeddings
   inputs:
     binding: string #required
     model: string #required
@@ -33,7 +33,7 @@
     data: list[list[float]]
     shape: list[int]
 
-- name: text_classification
+- action: text_classification
   inputs:
     binding: string #required
     model: string #required
@@ -41,7 +41,7 @@
   outputs:
     labels: list[workers_ai_classification]
 
-- name: translation
+- action: translation
   inputs:
     binding: string #required
     model: string #required
@@ -51,7 +51,7 @@
   outputs:
     translated_text: string
 
-- name: image_classification
+- action: image_classification
   inputs:
     binding: string #required
     image: bytes #required
@@ -59,7 +59,7 @@
   outputs:
     labels: list[workers_ai_classification]
 
-- name: object_detection
+- action: object_detection
   inputs:
     binding: string #required
     image: bytes #required
@@ -67,7 +67,7 @@
   outputs:
     detections: list[workers_ai_detection]
 
-- name: text_to_image
+- action: text_to_image
   inputs:
     binding: string #required
     guidance: float = 7.5
@@ -79,7 +79,7 @@
   outputs:
     image: bytes
 
-- name: speech_recognition
+- action: speech_recognition
   inputs:
     audio: bytes #required
     binding: string #required
@@ -91,7 +91,7 @@
     word_count: int
     words: list[workers_ai_word]
 
-- name: text_to_speech
+- action: text_to_speech
   inputs:
     binding: string #required
     model: string #required
@@ -99,7 +99,7 @@
   outputs:
     audio: bytes
 
-- name: summarization
+- action: summarization
   inputs:
     binding: string #required
     input_text: string #required
@@ -108,7 +108,7 @@
   outputs:
     summary: string
 
-- name: image_to_text
+- action: image_to_text
   inputs:
     binding: string #required
     image: bytes #required

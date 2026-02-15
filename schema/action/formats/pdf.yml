@@ -1,0 +1,346 @@
+- action: from_html
+  inputs:
+    footer_template: string
+    header_template: string
+    html: string
+    margin: pdf_margin
+    options: pdf_options
+    orientation: portrait | landscape = portrait
+    page_size: a4 | letter | legal | a3 | a5 = a4
+  outputs:
+    page_count: int
+    pdf: bytes
+    size: int
+
+- action: from_template
+  inputs:
+    data: pdf_template_data
+    options: pdf_options
+    orientation: portrait | landscape = portrait
+    page_size: a4 | letter | legal | a3 | a5 = a4
+    template_id: string
+  outputs:
+    page_count: int
+    pdf: bytes
+    size: int
+
+- action: merge
+  inputs:
+    documents: list[bytes]
+    output_name: string
+  outputs:
+    page_count: int
+    pdf: bytes
+    size: int
+
+- action: split
+  inputs:
+    document: bytes
+    pages: list[integer]
+    ranges: list[string]
+  outputs:
+    documents: list[bytes]
+    page_counts: list[integer]
+
+- action: extract_pages
+  inputs:
+    document: bytes
+    end_page: int
+    start_page: int
+  outputs:
+    page_count: int
+    pdf: bytes
+    size: int
+
+- action: extract_text
+  inputs:
+    document: bytes
+    pages: list[integer]
+    preserve_layout: boolean = false
+  outputs:
+    pages: list[pdf_page_text]
+    text: string
+
+- action: extract_images
+  inputs:
+    document: bytes
+    format: png | jpeg | webp = png
+    pages: list[integer]
+  outputs:
+    count: int
+    images: list[pdf_extracted_image]
+
+- action: add_watermark
+  inputs:
+    document: bytes
+    opacity: float = 0.5
+    pages: list[integer]
+    position: center | top | bottom | diagonal = diagonal
+    watermark_image: bytes
+    watermark_text: string
+  outputs:
+    pdf: bytes
+    size: int
+
+- action: compress
+  inputs:
+    document: bytes
+    quality: low | medium | high = medium
+    remove_metadata: boolean = false
+  outputs:
+    compressed_size: int
+    compression_ratio: float
+    original_size: int
+    pdf: bytes
+
+- action: encrypt
+  inputs:
+    document: bytes
+    owner_password: string
+    permissions: pdf_permissions
+    user_password: string
+  outputs:
+    pdf: bytes
+    size: int
+
+- action: decrypt
+  inputs:
+    document: bytes
+    password: string
+  outputs:
+    pdf: bytes
+    size: int
+
+- action: get_metadata
+  inputs:
+    document: bytes
+  outputs:
+    author: string
+    creation_date: date
+    creator: string
+    encrypted: boolean
+    keywords: list[string]
+    modification_date: date
+    page_count: int
+    producer: string
+    size: int
+    subject: string
+    title: string
+
+- action: set_metadata
+  inputs:
+    author: string
+    creator: string
+    document: bytes
+    keywords: list[string]
+    subject: string
+    title: string
+  outputs:
+    pdf: bytes
+    success: boolean
+
+- action: rotate_pages
+  inputs:
+    angle: 90 | 180 | 270
+    document: bytes
+    pages: list[integer]
+  outputs:
+    pdf: bytes
+    size: int
+
+- action: add_page_numbers
+  inputs:
+    alignment: left | center | right = center
+    document: bytes
+    font_size: int = 12
+    format: string = "{page} of {total}"
+    position: top | bottom = bottom
+    start_page: int = 1
+  outputs:
+    pdf: bytes
+    size: int
+
+- action: to_images
+  inputs:
+    document: bytes
+    dpi: int = 150
+    format: png | jpeg | webp = png
+    pages: list[integer]
+  outputs:
+    count: int
+    images: list[bytes]
+
+- action: fill_form
+  inputs:
+    document: bytes
+    fields: pdf_form_fields
+    flatten: boolean = false
+  outputs:
+    pdf: bytes
+    size: int
+
+- action: get_form_fields
+  inputs:
+    document: bytes
+  outputs:
+    count: int
+    fields: list[pdf_form_field]
+
+- object: pdf_document
+  class:
+    content: bytes
+    page_count: int
+    size: int
+    title: string
+    author: string
+    orientation: string
+    page_size: string
+
+- object: pdf_margin
+  class:
+    top: float
+    right: float
+    bottom: float
+    left: float
+
+- object: pdf_options
+  class:
+    scale: float
+    print_background: boolean
+    prefer_css_page_size: boolean
+
+- object: pdf_template_data
+  class:
+    values: map[string, any]
+
+- object: pdf_page_text
+  class:
+    page_number: int
+    text: string
+
+- object: pdf_extracted_image
+  class:
+    page_number: int
+    image: bytes
+    format: string
+    width: int
+    height: int
+
+- object: pdf_permissions
+  class:
+    print: boolean
+    copy: boolean
+    modify: boolean
+    annotate: boolean
+
+- object: pdf_form_fields
+  class:
+    fields: list[pdf_form_field_value]
+
+- object: pdf_form_field_value
+  class:
+    name: string
+    value: string
+
+- object: pdf_form_field
+  class:
+    name: string
+    type: string
+    value: string
+    required: boolean
+    options: list[string]
+
+- object: pdf_document
+  schema:
+    - author: string? #max(200)
+    - blob_id: id? -> blob_object.id
+    - created_at: date = now()
+    - created_by: id? -> user.id
+    - creator: string? #max(200)
+    - is_encrypted: boolean = false
+    - keywords: string? # json array
+    - modification_date: date?
+    - page_count: int = 0 #min(0)
+    - producer: string? #max(200)
+    - size: int = 0 #min(0)
+    - subject: string? #max(500)
+    - title: string? #max(500)
+    - updated_at: date = now()
+
+- object: pdf_template
+  schema:
+    - content_template: string
+    - created_at: date = now()
+    - description: string? #max(500)
+    - footer_template: string?
+    - header_template: string?
+    - is_active: boolean = true
+    - orientation: portrait | landscape = portrait
+    - page_size: a4 | letter | legal | a3 | a5 = a4
+    - updated_at: date = now()
+
+- object: pdf_generation_log
+  id: [created_at]
+  schema:
+    - completed_at: date?
+    - created_at: date = now()
+    - error_message: string? #max(1000)
+    - output_size: int? #min(0)
+    - page_count: int? #min(0)
+    - source: html | template | merge | split = html
+    - status: pending | running | completed | failed = pending
+    - template_id: id? -> pdf_template.id
+
+- object: pdf_margin
+  schema:
+    - top: float
+    - right: float
+    - bottom: float
+    - left: float
+
+- object: pdf_options
+  schema:
+    - scale: float
+    - print_background: boolean
+    - prefer_css_page_size: boolean
+
+- object: pdf_template_data
+  schema:
+    - values: map[string, any]
+
+- object: pdf_page_text
+  schema:
+    - page_number: int
+    - text: string
+
+- object: pdf_extracted_image
+  schema:
+    - page_number: int
+    - image: bytes
+    - format: string
+    - width: int
+    - height: int
+
+- object: pdf_permissions
+  schema:
+    - print: boolean
+    - copy: boolean
+    - modify: boolean
+    - annotate: boolean
+
+- object: pdf_form_fields
+  schema:
+    - fields: list[pdf_form_field_value]
+
+- object: pdf_form_field_value
+  schema:
+    - name: string
+    - value: string
+
+- object: pdf_form_field
+  schema:
+    - name: string
+    - type: string
+    - value: string
+    - required: boolean
+    - options: list[string]

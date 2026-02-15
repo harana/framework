@@ -1,0 +1,38 @@
+- action: write_data_point
+  inputs:
+    binding: string
+    blobs: list[string]
+    doubles: list[float]
+    indexes: list[string]
+  outputs:
+    success: boolean
+
+- action: query
+  inputs:
+    binding: string
+    query: string
+    time_end: date
+    time_start: date
+  outputs:
+    data: list[any]
+    rows: int
+
+- object: dataset
+  id: [account_id, dataset_name]
+  schema:
+    - account_id: string #max(50)
+    - binding: string #max(255)
+    - created_at: date = now()
+    - dataset_name: string #unique #max(255)
+    - updated_at: date = now()
+
+- object: data_point
+  id: [dataset_id, timestamp]
+  schema:
+    - blobs: string? # json list
+    - created_at: date = now()
+    - dataset_id: id -> cf_analytics_engine_dataset.id
+    - doubles: string? # json list
+    - indexes: string? # json list
+    - timestamp: date = now()
+

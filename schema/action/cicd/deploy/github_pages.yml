@@ -1,0 +1,18 @@
+- object: deploy_github_pages
+  schema:
+    - branch: string = gh-pages #max(200)
+    - cname: string? #max(500)
+    - commit_message: string? #max(1000)
+    - enabled: boolean = true
+    - force: boolean = false
+    - keep_history: boolean = true
+    - repository: string #max(500)
+    - source_dir: string #max(2000)
+    - token_env: string #max(200)
+    - user: deploy_github_pages_user?
+
+- object: deploy_github_pages_user
+  schema:
+    - email: string #email
+
+    - name: string #max(200)

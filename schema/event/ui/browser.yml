@@ -1,50 +1,50 @@
-- name: browser_visibility_hidden
+- event: browser_visibility_hidden
   schema:
     session_id: id #required
     page_url: string #required
     hidden_at: date = now()
 
-- name: browser_visibility_visible
+- event: browser_visibility_visible
   schema:
     session_id: id #required
     page_url: string #required
     hidden_duration_ms: int? #min(0)
     visible_at: date = now()
 
-- name: browser_page_hide
+- event: browser_page_hide
   schema:
     session_id: id #required
     page_url: string #required
     persisted: boolean = false
     hidden_at: date = now()
 
-- name: browser_page_show
+- event: browser_page_show
   schema:
     session_id: id #required
     page_url: string #required
     persisted: boolean = false
     shown_at: date = now()
 
-- name: browser_before_unload
+- event: browser_before_unload
   schema:
     session_id: id #required
     page_url: string #required
     triggered_at: date = now()
 
-- name: browser_online
+- event: browser_online
   schema:
     session_id: id #required
     page_url: string #required
     offline_duration_ms: int? #min(0)
     online_at: date = now()
 
-- name: browser_offline
+- event: browser_offline
   schema:
     session_id: id #required
     page_url: string #required
     offline_at: date = now()
 
-- name: browser_exception
+- event: browser_exception
   schema:
     session_id: id #required
     page_url: string #required
@@ -56,7 +56,7 @@
     column_number: int? #min(0)
     occurred_at: date = now()
 
-- name: browser_promise_rejection
+- event: browser_promise_rejection
   schema:
     session_id: id #required
     page_url: string #required
@@ -65,40 +65,40 @@
     stack_trace: string?
     occurred_at: date = now()
 
-- name: browser_lcp
+- event: browser_lcp
   schema:
     session_id: id #required
     page_url: string #required
-    value_ms: float #required #min(0)
+    value_ms: float #min(0)
     element: string?
     element_id: string?
     rating: good | needs_improvement | poor = good
     recorded_at: date = now()
 
-- name: browser_fid
+- event: browser_fid
   schema:
     session_id: id #required
     page_url: string #required
-    value_ms: float #required #min(0)
+    value_ms: float #min(0)
     event_type: string?
     event_target: string?
     rating: good | needs_improvement | poor = good
     recorded_at: date = now()
 
-- name: browser_cls
+- event: browser_cls
   schema:
     session_id: id #required
     page_url: string #required
-    value: float #required #min(0)
+    value: float #min(0)
     sources: string?
     rating: good | needs_improvement | poor = good
     recorded_at: date = now()
 
-- name: browser_long_task
+- event: browser_long_task
   schema:
     session_id: id #required
     page_url: string #required
-    duration_ms: float #required #min(0)
+    duration_ms: float #min(0)
     start_time_ms: float? #min(0)
     attribution: string?
     container_type: string?
@@ -106,17 +106,17 @@
     container_name: string?
     occurred_at: date = now()
 
-- name: browser_resize
+- event: browser_resize
   schema:
     session_id: id #required
     page_url: string #required
-    width: int #required #min(0)
-    height: int #required #min(0)
+    width: int #min(0)
+    height: int #min(0)
     previous_width: int? #min(0)
     previous_height: int? #min(0)
     resized_at: date = now()
 
-- name: browser_orientation_change
+- event: browser_orientation_change
   schema:
     session_id: id #required
     page_url: string #required
@@ -125,7 +125,7 @@
     previous_orientation: portrait | landscape?
     changed_at: date = now()
 
-- name: browser_fullscreen_enter
+- event: browser_fullscreen_enter
   schema:
     session_id: id #required
     page_url: string #required
@@ -133,14 +133,14 @@
     element_id: string?
     entered_at: date = now()
 
-- name: browser_fullscreen_exit
+- event: browser_fullscreen_exit
   schema:
     session_id: id #required
     page_url: string #required
     duration_ms: int? #min(0)
     exited_at: date = now()
 
-- name: browser_storage_change
+- event: browser_storage_change
   schema:
     session_id: id #required
     page_url: string #required
@@ -150,48 +150,48 @@
     new_value: string?
     changed_at: date = now()
 
-- name: browser_focus_gained
+- event: browser_focus_gained
   schema:
     session_id: id #required
     page_url: string #required
     blur_duration_ms: int? #min(0)
     focused_at: date = now()
 
-- name: browser_focus_lost
+- event: browser_focus_lost
   schema:
     session_id: id #required
     page_url: string #required
     lost_at: date = now()
 
-- name: browser_idle_start
+- event: browser_idle_start
   schema:
     session_id: id #required
     page_url: string #required
     idle_threshold_ms: int? #min(0)
     started_at: date = now()
 
-- name: browser_idle_end
+- event: browser_idle_end
   schema:
     session_id: id #required
     page_url: string #required
     idle_duration_ms: int? #min(0)
     ended_at: date = now()
 
-- name: browser_back
+- event: browser_back
   schema:
     session_id: id #required
     page_url: string #required
     previous_url: string?
     navigated_at: date = now()
 
-- name: browser_forward
+- event: browser_forward
   schema:
     session_id: id #required
     page_url: string #required
     next_url: string?
     navigated_at: date = now()
 
-- name: browser_scroll_depth_25
+- event: browser_scroll_depth_25
   schema:
     session_id: id #required
     page_url: string #required
@@ -199,7 +199,7 @@
     page_height: int? #min(0)
     reached_at: date = now()
 
-- name: browser_scroll_depth_50
+- event: browser_scroll_depth_50
   schema:
     session_id: id #required
     page_url: string #required
@@ -207,7 +207,7 @@
     page_height: int? #min(0)
     reached_at: date = now()
 
-- name: browser_scroll_depth_75
+- event: browser_scroll_depth_75
   schema:
     session_id: id #required
     page_url: string #required
@@ -215,7 +215,7 @@
     page_height: int? #min(0)
     reached_at: date = now()
 
-- name: browser_scroll_depth_100
+- event: browser_scroll_depth_100
   schema:
     session_id: id #required
     page_url: string #required
@@ -223,7 +223,7 @@
     page_height: int? #min(0)
     reached_at: date = now()
 
-- name: browser_element_visible
+- event: browser_element_visible
   schema:
     session_id: id #required
     page_url: string #required
@@ -233,19 +233,19 @@
     visibility_ratio: float? #min(0) #max(1)
     visible_at: date = now()
 
-- name: browser_rage_click
+- event: browser_rage_click
   schema:
     session_id: id #required
     page_url: string #required
     element: string?
     element_id: string?
     element_class: string?
-    click_count: int #required #min(2)
+    click_count: int #min(2)
     x: int? #min(0)
     y: int? #min(0)
     detected_at: date = now()
 
-- name: browser_media_play
+- event: browser_media_play
   schema:
     session_id: id #required
     page_url: string #required
@@ -257,7 +257,7 @@
     current_time_seconds: float? #min(0)
     played_at: date = now()
 
-- name: browser_media_pause
+- event: browser_media_pause
   schema:
     session_id: id #required
     page_url: string #required
@@ -269,7 +269,7 @@
     current_time_seconds: float? #min(0)
     paused_at: date = now()
 
-- name: browser_media_ended
+- event: browser_media_ended
   schema:
     session_id: id #required
     page_url: string #required
@@ -281,7 +281,7 @@
     watch_duration_seconds: float? #min(0)
     ended_at: date = now()
 
-- name: browser_media_progress
+- event: browser_media_progress
   schema:
     session_id: id #required
     page_url: string #required

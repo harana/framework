@@ -1,4 +1,4 @@
-- name: get
+- action: get
   inputs:
     cache_ttl: int
     key: string #required
@@ -9,7 +9,7 @@
     metadata: any
     value: any
 
-- name: get_with_metadata
+- action: get_with_metadata
   inputs:
     cache_ttl: int
     key: string #required
@@ -20,7 +20,7 @@
     metadata: any
     value: any
 
-- name: put
+- action: put
   inputs:
     expiration: int
     expiration_ttl: int
@@ -31,7 +31,7 @@
   outputs:
     success: boolean
 
-- name: put_with_metadata
+- action: put_with_metadata
   inputs:
     expiration: int
     expiration_ttl: int
@@ -42,14 +42,14 @@
   outputs:
     success: boolean
 
-- name: delete
+- action: delete
   inputs:
     key: string #required
     namespace: string #required
   outputs:
     success: boolean
 
-- name: list
+- action: list
   inputs:
     cursor: string
     limit: int = 1000

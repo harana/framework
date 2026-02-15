@@ -1,18 +1,18 @@
-- name: cloudflare_analytics_engine_dataset
+- object: cloudflare_analytics_engine_dataset
   id: [account_id, dataset_name]
   schema:
-    - account_id: string #required #max(50)
-    - binding: string #required #max(255)
+    - account_id: string #max(50)
+    - binding: string #max(255)
     - created_at: date = now()
-    - dataset_name: string #required #unique #max(255)
+    - dataset_name: string #unique #max(255)
     - updated_at: date = now()
 
-- name: cloudflare_analytics_engine_data_point
+- object: cloudflare_analytics_engine_data_point
   id: [dataset_id, timestamp]
   schema:
     - blobs: string? # json list
     - created_at: date = now()
-    - dataset_id: id #required -> cf_analytics_engine_dataset.id
+    - dataset_id: id -> cf_analytics_engine_dataset.id
     - doubles: string? # json list
     - indexes: string? # json list
     - timestamp: date = now()

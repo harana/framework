@@ -1,21 +1,21 @@
-- name: cf_d1_database
+- object: cf_d1_database
   id: [account_id, database_name]
   schema:
-    - account_id: string #required #max(50)
+    - account_id: string #max(50)
     - created_at: date = now()
     - database_id: string? #unique #max(255)
-    - database_name: string #required #unique #max(255)
+    - database_name: string #unique #max(255)
     - file_size: int = 0 #min(0)
     - num_tables: int = 0 #min(0)
     - region: string? #max(50)
     - updated_at: date = now()
     - version: string? #max(50)
 
-- name: cf_d1_query_log
+- object: cf_d1_query_log
   id: [database_id, executed_at]
   schema:
     - changes: int = 0 #min(0)
-    - database_id: id #required -> cf_d1_database.id
+    - database_id: id -> cf_d1_database.id
     - duration_ms: float? #min(0)
     - executed_at: date = now()
     - last_row_id: int?

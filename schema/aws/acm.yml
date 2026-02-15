@@ -1,11 +1,11 @@
-- name: aws_acm_certificate
+- object: aws_acm_certificate
   id: [account_id, certificate_arn]
   schema:
-    - account_id: string #required #max(20)
-    - certificate_arn: string #required #unique #max(255)
+    - account_id: string #max(20)
+    - certificate_arn: string #unique #max(255)
     - certificate_authority_arn: string? #max(255)
     - created_at: date = now()
-    - domain_name: string #required #max(253)
+    - domain_name: string #max(253)
     - failure_reason: string? #max(255)
     - imported_at: date?
     - in_use_by: string? # json list of ar_ns
@@ -26,11 +26,11 @@
     - updated_at: date = now()
     - validation_method: dns | email = dns
 
-- name: aws_acm_domain_validation
+- object: aws_acm_domain_validation
   id: [certificate_id, domain_name]
   schema:
-    - certificate_id: id #required -> aws_acm_certificate.id
-    - domain_name: string #required #max(253)
+    - certificate_id: id -> aws_acm_certificate.id
+    - domain_name: string #max(253)
     - resource_record_name: string? #max(253)
     - resource_record_type: string? #max(10)
     - resource_record_value: string? #max(500)

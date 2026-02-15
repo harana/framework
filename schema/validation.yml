@@ -1,4 +1,4 @@
-- name: validation_rule
+- object: validation_rule
   schema:
     - created_at: date = now()
     - description: string? #max(500)
@@ -8,50 +8,50 @@
     - updated_at: date = now()
     - value: string? #max(500)
 
-- name: validation_rule_set
+- object: validation_rule_set
   schema:
     - created_at: date = now()
     - description: string? #max(500)
     - is_active: boolean = true
     - updated_at: date = now()
 
-- name: validation_rule_set_assignment
+- object: validation_rule_set_assignment
   id: [rule_set_id, rule_id]
   schema:
-    - rule_id: id #required -> validation_rule.id
-    - rule_set_id: id #required -> validation_rule_set.id
+    - rule_id: id -> validation_rule.id
+    - rule_set_id: id -> validation_rule_set.id
     - sort_order: int = 0
 
-- name: validation_error_log
+- object: validation_error_log
   id: [field_name, created_at, rule_id]
   schema:
     - created_at: date = now()
-    - field_name: string #required #max(100)
+    - field_name: string #max(100)
     - input_value: string? #max(1000)
     - rule_id: id? -> validation_rule.id
     - rule_set_id: id? -> validation_rule_set.id
-    - violation_message: string #required #max(500)
+    - violation_message: string #max(500)
 
-- name: validation_result
+- object: validation_result
   schema:
     - valid: boolean
     - errors: list[validation_error]
     - field_name: string
     - value: any
 
-- name: validation_schema
+- object: validation_schema
   schema:
     - type: string
     - properties: map[string, any]
     - required: list[string]
 
-- name: validation_error
+- object: validation_error
   schema:
     - path: string
     - message: string
     - code: string
 
-- name: html_allowed_attributes
+- object: html_allowed_attributes
   schema:
     - global: list[string]
     - per_tag: map[string, list[string]]

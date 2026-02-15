@@ -1,17 +1,17 @@
-- name: json_to_xml
+- action: json_to_xml
   inputs:
     data: transform_json_object #required
     root_element: string = "root"
   outputs:
     xml: string
 
-- name: xml_to_json
+- action: xml_to_json
   inputs:
     data: string #required
   outputs:
     json: transform_json_object
 
-- name: csv_to_json
+- action: csv_to_json
   inputs:
     data: string #required
     delimiter: string = ","
@@ -19,7 +19,7 @@
   outputs:
     json: list[transform_json_object]
 
-- name: json_to_csv
+- action: json_to_csv
   inputs:
     data: list[transform_json_object] #required
     delimiter: string = ","
@@ -27,72 +27,72 @@
   outputs:
     csv: string
 
-- name: yaml_to_json
+- action: yaml_to_json
   inputs:
     data: string #required
   outputs:
     json: transform_json_object
 
-- name: json_to_yaml
+- action: json_to_yaml
   inputs:
     data: transform_json_object #required
   outputs:
     yaml: string
 
-- name: base64_encode
+- action: base64_encode
   inputs:
     data: string #required
   outputs:
     encoded: string
 
-- name: base64_decode
+- action: base64_decode
   inputs:
     data: string #required
   outputs:
     decoded: string
 
-- name: url_encode
+- action: url_encode
   inputs:
     data: string #required
   outputs:
     encoded: string
 
-- name: url_decode
+- action: url_decode
   inputs:
     data: string #required
   outputs:
     decoded: string
 
-- name: html_encode
+- action: html_encode
   inputs:
     data: string #required
   outputs:
     encoded: string
 
-- name: html_decode
+- action: html_decode
   inputs:
     data: string #required
   outputs:
     decoded: string
 
-- name: markdown_to_html
+- action: markdown_to_html
   inputs:
     data: string #required
     options: markdown_options
   outputs:
     html: string
 
-- name: transform_result
+- object: transform_result
   class:
     input_format: string
     output_format: string
     data: any
 
-- name: transform_json_object
+- object: transform_json_object
   class:
     data: map[string, any]
 
-- name: markdown_options
+- object: markdown_options
   class:
     gfm: boolean
     breaks: boolean

@@ -1,9 +1,9 @@
-- name: log_entry
+- object: log_entry
   id: [source, created_at]
   schema:
     - created_at: date = now()
     - level: debug | info | warn | error = info
-    - message: string #required #max(5000)
+    - message: string #max(5000)
     - metadata: string?
     - request_id: string? #max(200)
     - source: string? #max(200)
@@ -11,19 +11,19 @@
     - trace_id: string? #max(64)
     - user_id: id? -> user.id
 
-- name: log_error
+- object: log_error
   id: [log_entry_id]
   schema:
     - code: string? #max(100)
-    - log_entry_id: id #required -> log_entry.id
-    - message: string #required #max(2000)
+    - log_entry_id: id -> log_entry.id
+    - message: string #max(2000)
     - stack_trace: string?
 
-- name: log_config
+- object: log_config
   id: [source]
   schema:
     - is_enabled: boolean = true
     - level: debug | info | warn | error = info
     - max_retention_days: int = 30 #min(1)
-    - source: string #required #unique #max(200)
+    - source: string #unique #max(200)
     - updated_at: date = now()

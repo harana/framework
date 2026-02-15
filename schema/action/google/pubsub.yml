@@ -1,0 +1,413 @@
+- action: create_topic
+  inputs:
+    labels: pub_sub_labels
+    message_retention_duration: string
+    project_id: string
+    schema_settings: pub_sub_schema_settings
+    topic_id: string
+  outputs:
+    success: boolean
+    topic_name: string
+
+- action: delete_topic
+  inputs:
+    project_id: string
+    topic_id: string
+  outputs:
+    success: boolean
+
+- action: get_topic
+  inputs:
+    project_id: string
+    topic_id: string
+  outputs:
+    labels: pub_sub_labels
+    message_retention_duration: string
+    schema_settings: pub_sub_schema_settings
+    topic_name: string
+
+- action: list_topics
+  inputs:
+    page_size: int = 100
+    page_token: string
+    project_id: string
+  outputs:
+    next_page_token: string
+    topics: list[pub_sub_topic]
+
+- action: publish
+  inputs:
+    attributes: pub_sub_message_attributes
+    data: string
+    ordering_key: string
+    project_id: string
+    topic_id: string
+  outputs:
+    message_id: string
+    success: boolean
+
+- action: publish_batch
+  inputs:
+    messages: list[pub_sub_publish_message]
+    project_id: string
+    topic_id: string
+  outputs:
+    failure_count: int
+    message_ids: list[string]
+    success_count: int
+
+- action: create_subscription
+  inputs:
+    ack_deadline_seconds: int = 10
+    dead_letter_policy: dead_letter_policy
+    enable_message_ordering: boolean = false
+    filter: string
+    message_retention_duration: string
+    project_id: string
+    push_config: push_config
+    retain_acked_messages: boolean = false
+    retry_policy: retry_policy
+    subscription_id: string
+    topic_id: string
+  outputs:
+    subscription_name: string
+    success: boolean
+
+- action: delete_subscription
+  inputs:
+    project_id: string
+    subscription_id: string
+  outputs:
+    success: boolean
+
+- action: get_subscription
+  inputs:
+    project_id: string
+    subscription_id: string
+  outputs:
+    ack_deadline_seconds: int
+    labels: pub_sub_labels
+    message_retention_duration: string
+    push_config: push_config
+    subscription_name: string
+    topic: string
+
+- action: list_subscriptions
+  inputs:
+    page_size: int = 100
+    page_token: string
+    project_id: string
+  outputs:
+    next_page_token: string
+    subscriptions: list[pub_sub_subscription]
+
+- action: pull
+  inputs:
+    max_messages: int = 10
+    project_id: string
+    return_immediately: boolean = false
+    subscription_id: string
+  outputs:
+    count: int
+    messages: list[pub_sub_received_message]
+
+- action: acknowledge
+  inputs:
+    ack_ids: list[string]
+    project_id: string
+    subscription_id: string
+  outputs:
+    success: boolean
+
+- action: modify_ack_deadline
+  inputs:
+    ack_deadline_seconds: int
+    ack_ids: list[string]
+    project_id: string
+    subscription_id: string
+  outputs:
+    success: boolean
+
+- action: seek
+  inputs:
+    project_id: string
+    snapshot: string
+    subscription_id: string
+    time: date
+  outputs:
+    success: boolean
+
+- action: create_snapshot
+  inputs:
+    labels: pub_sub_labels
+    project_id: string
+    snapshot_id: string
+    subscription_id: string
+  outputs:
+    expire_time: date
+    snapshot_name: string
+    success: boolean
+    topic: string
+
+- action: delete_snapshot
+  inputs:
+    project_id: string
+    snapshot_id: string
+  outputs:
+    success: boolean
+
+- action: list_topic_subscriptions
+  inputs:
+    page_size: int = 100
+    page_token: string
+    project_id: string
+    topic_id: string
+  outputs:
+    next_page_token: string
+    subscriptions: list[string]
+
+- action: update_topic
+  inputs:
+    labels: pub_sub_labels
+    message_retention_duration: string
+    project_id: string
+    topic_id: string
+  outputs:
+    success: boolean
+
+- action: update_subscription
+  inputs:
+    ack_deadline_seconds: int
+    labels: pub_sub_labels
+    message_retention_duration: string
+    project_id: string
+    push_config: push_config
+    subscription_id: string
+  outputs:
+    success: boolean
+
+- object: pub_sub_message
+  class:
+    message_id: string
+    data: string
+    attributes: pub_sub_message_attributes
+    publish_time: date
+    ordering_key: string
+
+- object: pub_sub_labels
+  class:
+    labels: list[pub_sub_label]
+
+- object: pub_sub_label
+  class:
+    key: string
+    value: string
+
+- object: pub_sub_schema_settings
+  class:
+    schema: string
+    encoding: string
+
+- object: pub_sub_topic
+  class:
+    name: string
+    labels: pub_sub_labels
+    message_retention_duration: string
+
+- object: pub_sub_message_attributes
+  class:
+    attributes: list[pub_sub_message_attribute]
+
+- object: pub_sub_message_attribute
+  class:
+    key: string
+    value: string
+
+- object: pub_sub_publish_message
+  class:
+    data: string
+    attributes: pub_sub_message_attributes
+    ordering_key: string
+
+- object: dead_letter_policy
+  class:
+    dead_letter_topic: string
+    max_delivery_attempts: int
+
+- object: push_config
+  class:
+    push_endpoint: string
+    attributes: pub_sub_message_attributes
+    oidc_token: oidc_token
+
+- object: oidc_token
+  class:
+    service_account_email: string
+    audience: string
+
+- object: retry_policy
+  class:
+    minimum_backoff: string
+    maximum_backoff: string
+
+- object: pub_sub_subscription
+  class:
+    name: string
+    topic: string
+    ack_deadline_seconds: int
+    message_retention_duration: string
+    labels: pub_sub_labels
+
+- object: pub_sub_received_message
+  class:
+    ack_id: string
+    message: pub_sub_message
+    delivery_attempt: int
+
+- object: topic
+  id: [project_id, topic_id]
+  schema:
+    - created_at: date = now()
+    - labels: string? # json
+    - message_retention_duration: string? #max(100)
+    - project_id: string #max(255)
+    - schema_encoding: string? #max(50)
+    - schema_name: string? #max(255)
+    - topic_id: string #unique #max(255)
+    - updated_at: date = now()
+
+- object: subscription
+  id: [project_id, subscription_id]
+  schema:
+    - ack_deadline_seconds: int = 10 #min(1)
+    - created_at: date = now()
+    - dead_letter_max_delivery_attempts: int? #min(1)
+    - dead_letter_topic: string? #max(255)
+    - enable_message_ordering: boolean = false
+    - filter: string? #max(1000)
+    - labels: string? # json
+    - message_retention_duration: string? #max(100)
+    - project_id: string #max(255)
+    - push_endpoint: string? #url
+    - retain_acked_messages: boolean = false
+    - retry_max_backoff: string? #max(50)
+    - retry_min_backoff: string? #max(50)
+    - subscription_id: string #unique #max(255)
+    - topic_id: id -> google_pubsub_topic.id
+    - updated_at: date = now()
+
+- object: message
+  id: [topic_id, message_id]
+  schema:
+    - attributes: string? # json
+    - data: string
+    - message_id: string #unique #max(255)
+    - ordering_key: string? #max(255)
+    - publish_time: date?
+    - topic_id: id -> google_pubsub_topic.id
+
+- object: received_message
+  id: [subscription_id, ack_id]
+  schema:
+    - ack_id: string #max(255)
+    - delivery_attempt: int? #min(0)
+    - message_id: id -> google_pubsub_message.id
+    - received_at: date = now()
+    - subscription_id: id -> google_pubsub_subscription.id
+
+- object: snapshot
+  id: [project_id, snapshot_id]
+  schema:
+    - created_at: date = now()
+    - expire_time: date?
+    - labels: string? # json
+    - project_id: string #max(255)
+    - snapshot_id: string #unique #max(255)
+    - subscription_id: id -> google_pubsub_subscription.id
+    - topic: string? #max(255)
+
+- object: label
+  id: [resource_id, key]
+  schema:
+    - key: string #max(255)
+    - resource_id: string #max(255)
+    - resource_type: topic | subscription | snapshot
+    - value: string? #max(255)
+
+- object: pub_sub_message
+  schema:
+    - message_id: string
+    - data: string
+    - attributes: pub_sub_message_attributes
+    - publish_time: date
+    - ordering_key: string
+
+- object: pub_sub_labels
+  schema:
+    - labels: list[pub_sub_label]
+
+- object: pub_sub_label
+  schema:
+    - key: string
+    - value: string
+
+- object: pub_sub_schema_settings
+  schema:
+    - schema: string
+    - encoding: string
+
+- object: pub_sub_topic
+  schema:
+    - name: string
+    - labels: pub_sub_labels
+    - message_retention_duration: string
+
+- object: pub_sub_message_attributes
+  schema:
+    - attributes: list[pub_sub_message_attribute]
+
+- object: pub_sub_message_attribute
+  schema:
+    - key: string
+    - value: string
+
+- object: pub_sub_publish_message
+  schema:
+    - data: string
+    - attributes: pub_sub_message_attributes
+    - ordering_key: string
+
+- object: dead_letter_policy
+  schema:
+    - dead_letter_topic: string
+    - max_delivery_attempts: int
+
+- object: push_config
+  schema:
+    - push_endpoint: string
+    - attributes: pub_sub_message_attributes
+    - oidc_token: oidc_token
+
+- object: oidc_token
+  schema:
+    - service_account_email: string
+    - audience: string
+
+- object: retry_policy
+  schema:
+    - minimum_backoff: string
+    - maximum_backoff: string
+
+- object: pub_sub_subscription
+  schema:
+    - name: string
+    - topic: string
+    - ack_deadline_seconds: int
+    - message_retention_duration: string
+    - labels: pub_sub_labels
+
+- object: pub_sub_received_message
+  schema:
+    - ack_id: string
+    - message: pub_sub_message
+    - delivery_attempt: int

@@ -1,4 +1,4 @@
-- name: generate_registration_options
+- action: generate_registration_options
   inputs:
     attestation: none | indirect | direct | enterprise = none
     authenticator_selection: passkey_authenticator_selection
@@ -13,7 +13,7 @@
     challenge: string
     options: passkey_registration_options
 
-- name: verify_registration
+- action: verify_registration
   inputs:
     expected_challenge: string #required
     expected_origin: string #required
@@ -30,7 +30,7 @@
     credential_public_key: bytes
     verified: boolean
 
-- name: generate_authentication_options
+- action: generate_authentication_options
   inputs:
     allow_credentials: list[passkey_credential_descriptor]
     relying_party_id: string #required
@@ -40,7 +40,7 @@
     challenge: string
     options: passkey_authentication_options
 
-- name: verify_authentication
+- action: verify_authentication
   inputs:
     credential_current_counter: int #required
     credential_public_key: bytes #required
@@ -55,7 +55,7 @@
     new_counter: int
     verified: boolean
 
-- name: store_credential
+- action: store_credential
   inputs:
     aaguid: string
     backed_up: boolean
@@ -70,14 +70,14 @@
     passkey_id: string
     success: boolean
 
-- name: get_user_passkeys
+- action: get_user_passkeys
   inputs:
     user_id: string #required
   outputs:
     count: int
     passkeys: list[passkey_info]
 
-- name: get_passkey
+- action: get_passkey
   inputs:
     credential_id: string #required
   outputs:
@@ -93,28 +93,28 @@
     transports: list[string]
     user_id: string
 
-- name: update_counter
+- action: update_counter
   inputs:
     credential_id: string #required
     new_counter: int #required
   outputs:
     success: boolean
 
-- name: delete_passkey
+- action: delete_passkey
   inputs:
     passkey_id: string #required
     user_id: string #required
   outputs:
     success: boolean
 
-- name: update_passkey_name
+- action: update_passkey_name
   inputs:
     friendly_name: string #required
     passkey_id: string #required
   outputs:
     success: boolean
 
-- name: check_support
+- action: check_support
   inputs:
     user_agent: string #required
   outputs:
@@ -122,7 +122,7 @@
     platform_authenticator: boolean
     user_verifying_platform_authenticator: boolean
 
-- name: passkey
+- object: passkey
   class:
     passkey_id: string
     credential_id: string
@@ -135,20 +135,20 @@
     created_at: date
     last_used_at: date
 
-- name: passkey_authenticator_selection
+- object: passkey_authenticator_selection
   class:
     authenticator_attachment: string
     resident_key: string
     require_resident_key: boolean
     user_verification: string
 
-- name: passkey_credential_descriptor
+- object: passkey_credential_descriptor
   class:
     id: string
     type: string
     transports: list[string]
 
-- name: passkey_registration_options
+- object: passkey_registration_options
   class:
     rp: passkey_relying_party
     user: passkey_user
@@ -157,35 +157,35 @@
     timeout: int
     attestation: string
 
-- name: passkey_relying_party
+- object: passkey_relying_party
   class:
     id: string
     name: string
 
-- name: passkey_user
+- object: passkey_user
   class:
     id: string
     name: string
     display_name: string
 
-- name: passkey_cred_param
+- object: passkey_cred_param
   class:
     type: string
     alg: int
 
-- name: passkey_registration_response
+- object: passkey_registration_response
   class:
     id: string
     raw_id: string
     response: passkey_authenticator_attestation_response
     type: string
 
-- name: passkey_authenticator_attestation_response
+- object: passkey_authenticator_attestation_response
   class:
     client_data_json: string
     attestation_object: string
 
-- name: passkey_authentication_options
+- object: passkey_authentication_options
   class:
     challenge: string
     timeout: int
@@ -193,21 +193,21 @@
     allow_credentials: list[passkey_credential_descriptor]
     user_verification: string
 
-- name: passkey_authentication_response
+- object: passkey_authentication_response
   class:
     id: string
     raw_id: string
     response: passkey_authenticator_assertion_response
     type: string
 
-- name: passkey_authenticator_assertion_response
+- object: passkey_authenticator_assertion_response
   class:
     client_data_json: string
     authenticator_data: string
     signature: string
     user_handle: string
 
-- name: passkey_info
+- object: passkey_info
   class:
     passkey_id: string
     credential_id: string
