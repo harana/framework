@@ -1,6 +1,6 @@
 - action: lookup
   inputs:
-    ip: string #required
+    ip: string
   outputs:
     city: string
     country: string
@@ -11,17 +11,17 @@
 
 - action: distance
   inputs:
-    from_lat: float #required
-    from_lon: float #required
-    to_lat: float #required
-    to_lon: float #required
+    from_lat: float
+    from_lon: float
+    to_lat: float
+    to_lon: float
     unit: km | mi | M = km
   outputs:
     distance: float
 
 - action: geocode
   inputs:
-    address: string #required
+    address: string
   outputs:
     city: string
     country: string
@@ -31,14 +31,14 @@
 
 - action: reverse_geocode
   inputs:
-    latitude: float #required
-    longitude: float #required
+    latitude: float
+    longitude: float
   outputs:
     address: geo_address
     formatted_address: string
 
 - object: geo_location
-  class:
+  schema:
     ip: string
     latitude: float
     longitude: float
@@ -48,9 +48,32 @@
     timezone: string
 
 - object: geo_address
-  class:
+  schema:
     street: string
     city: string
     region: string
     postal_code: string
     country: string
+
+- object: geoip_lookup
+  schema:
+    city: string
+    country: string
+    created_at: date = now()
+    ip_address: string
+    latitude: decimal
+    longitude: decimal
+    region: string
+    timezone: string
+
+- object: geoip_cache
+  schema:
+    city: string
+    country: string
+    expires_at: date
+    ip_address: string
+    latitude: decimal
+    longitude: decimal
+    looked_up_at: date = now()
+    region: string
+    timezone: string

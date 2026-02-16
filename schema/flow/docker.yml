@@ -1,37 +1,34 @@
 - action: build
   inputs:
     build_args: map[string, string]
-    context: string #required
+    context: string
     dockerfile: string = "dockerfile"
     no_cache: boolean = false
     platform: string
     pull: boolean = false
-    tags: list[string] #required
+    tags: list[string]
     target: string
   outputs:
     image_id: string
     size: int
-    success: boolean
 
 - action: push
   inputs:
     all_tags: boolean = false
-    image: string #required
+    image: string
     tag: string
   outputs:
     digest: string
-    success: boolean
 
 - action: pull
   inputs:
     all_tags: boolean = false
-    image: string #required
+    image: string
     platform: string
     tag: string = "latest"
   outputs:
     digest: string
     image_id: string
-    success: boolean
 
 - action: list_images
   inputs:
@@ -44,17 +41,13 @@
 - action: remove_image
   inputs:
     force: boolean = false
-    image: string #required
+    image: string
     no_prune: boolean = false
-  outputs:
-    success: boolean
 
 - action: tag
   inputs:
-    source: string #required
-    target: string #required
-  outputs:
-    success: boolean
+    source: string
+    target: string
 
 - action: run
   inputs:
@@ -62,7 +55,7 @@
     detach: boolean = false
     entrypoint: string
     env: map[string, string]
-    image: string #required
+    image: string
     labels: map[string, string]
     name: string
     network: string
@@ -75,35 +68,26 @@
     container_id: string
     exit_code: int
     logs: string
-    success: boolean
 
 - action: start
   inputs:
-    container: string #required
-  outputs:
-    success: boolean
+    container: string
 
 - action: stop
   inputs:
-    container: string #required
+    container: string
     timeout: int = 10
-  outputs:
-    success: boolean
 
 - action: restart
   inputs:
-    container: string #required
+    container: string
     timeout: int = 10
-  outputs:
-    success: boolean
 
 - action: remove_container
   inputs:
-    container: string #required
+    container: string
     force: boolean = false
     volumes: boolean = false
-  outputs:
-    success: boolean
 
 - action: list_containers
   inputs:
@@ -116,7 +100,7 @@
 
 - action: logs
   inputs:
-    container: string #required
+    container: string
     follow: boolean = false
     since: string
     tail: int
@@ -127,8 +111,8 @@
 
 - action: exec
   inputs:
-    command: list[string] #required
-    container: string #required
+    command: list[string]
+    container: string
     detach: boolean = false
     env: map[string, string]
     privileged: boolean = false
@@ -138,11 +122,10 @@
   outputs:
     exit_code: int
     output: string
-    success: boolean
 
 - action: inspect_container
   inputs:
-    container: string #required
+    container: string
   outputs:
     config: docker_container_config
     created: date
@@ -156,17 +139,14 @@
   inputs:
     driver: bridge | host | overlay | macvlan | none = bridge
     labels: map[string, string]
-    name: string #required
+    name: string
     options: map[string, string]
   outputs:
     network_id: string
-    success: boolean
 
 - action: remove_network
   inputs:
-    network: string #required
-  outputs:
-    success: boolean
+    network: string
 
 - action: list_networks
   inputs:
@@ -179,18 +159,14 @@
   inputs:
     driver: string = "local"
     labels: map[string, string]
-    name: string #required
+    name: string
     options: map[string, string]
-  outputs:
-    success: boolean
     volume_name: string
 
 - action: remove_volume
   inputs:
     force: boolean = false
-    volume: string #required
-  outputs:
-    success: boolean
+    volume: string
 
 - action: list_volumes
   inputs:
@@ -201,20 +177,16 @@
 
 - action: login
   inputs:
-    password: string #required
+    password: string
     registry: string
-    username: string #required
-  outputs:
-    success: boolean
+    username: string
 
 - action: logout
   inputs:
     registry: string
-  outputs:
-    success: boolean
 
 - object: docker_image
-  class:
+  schema:
     id: string
     tags: list[string]
     created: date
@@ -222,7 +194,7 @@
     labels: map[string, string]
 
 - object: docker_container
-  class:
+  schema:
     id: string
     name: string
     image: string
@@ -232,7 +204,7 @@
     ports: list[docker_port_mapping]
 
 - object: docker_container_state
-  class:
+  schema:
     status: string
     running: boolean
     paused: boolean
@@ -242,7 +214,7 @@
     finished_at: date
 
 - object: docker_container_config
-  class:
+  schema:
     hostname: string
     user: string
     env: list[string]
@@ -252,31 +224,31 @@
     labels: map[string, string]
 
 - object: docker_network_settings
-  class:
+  schema:
     networks: map[string, docker_network_endpoint]
     ip_address: string
     gateway: string
 
 - object: docker_network_endpoint
-  class:
+  schema:
     network_id: string
     ip_address: string
     gateway: string
 
 - object: docker_port_mapping
-  class:
+  schema:
     container_port: int
     host_port: int
     protocol: string
 
 - object: docker_volume_mount
-  class:
+  schema:
     source: string
     target: string
     read_only: boolean
 
 - object: docker_network
-  class:
+  schema:
     id: string
     name: string
     driver: string
@@ -284,7 +256,7 @@
     created: date
 
 - object: docker_volume
-  class:
+  schema:
     name: string
     driver: string
     mountpoint: string
@@ -292,26 +264,26 @@
     labels: map[string, string]
 
 - object: docker_image_filters
-  class:
+  schema:
     dangling: boolean
     label: list[string]
     reference: list[string]
 
 - object: docker_container_filters
-  class:
+  schema:
     id: list[string]
     name: list[string]
     status: list[string]
     label: list[string]
 
 - object: docker_network_filters
-  class:
+  schema:
     driver: list[string]
     id: list[string]
     name: list[string]
 
 - object: docker_volume_filters
-  class:
+  schema:
     dangling: boolean
     driver: list[string]
     name: list[string]

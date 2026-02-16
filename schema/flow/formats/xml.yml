@@ -1,6 +1,6 @@
 - action: parse
   inputs:
-    data: string #required
+    data: string
     preserve_attributes: boolean = true
     preserve_namespaces: boolean = false
   outputs:
@@ -8,7 +8,7 @@
 
 - action: generate
   inputs:
-    data: xml_object #required
+    data: xml_object
     declaration: boolean = true
     indent: boolean = true
     root_element: string = "root"
@@ -17,43 +17,62 @@
 
 - action: validate
   inputs:
-    data: string #required
-    schema: string #required
+    data: string
+    schema: string
   outputs:
     errors: list[xml_validation_error]
     valid: boolean
 
 - action: xpath_query
   inputs:
-    data: string #required
+    data: string
     namespaces: xml_namespaces
-    query: string #required
+    query: string
   outputs:
     results: list[any]
 
 - object: xml_document
-  class:
+  schema:
     content: string
     root_element: string
     namespaces: xml_namespaces
     encoding: string
 
 - object: xml_object
-  class:
+  schema:
     elements: map[string, any]
     attributes: map[string, string]
 
 - object: xml_validation_error
-  class:
+  schema:
     line: int
     column: int
     message: string
 
 - object: xml_namespaces
-  class:
+  schema:
     namespaces: list[xml_namespace]
 
 - object: xml_namespace
-  class:
+  schema:
     prefix: string
     uri: string
+
+- object: xml_schema
+  schema:
+    content: string
+    created_at: date = now()
+    description: string
+    is_active: boolean = true
+    schema_type: xsd | dtd | relax_ng = xsd
+    updated_at: date = now()
+    version: int = 1
+
+- object: xml_validation_result
+  schema:
+    document_id: string
+    error_count: int = 0
+    errors: string #json
+    is_valid: boolean = false
+    schema_id: string
+    validated_at: date = now()

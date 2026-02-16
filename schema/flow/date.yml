@@ -6,15 +6,15 @@
 
 - action: format
   inputs:
-    date: string #required
-    format: string #required
+    date: string
+    format: string
     timezone: string
   outputs:
     formatted: string
 
 - action: parse
   inputs:
-    date: string #required
+    date: string
     format: string
     timezone: string
   outputs:
@@ -22,54 +22,54 @@
 
 - action: add
   inputs:
-    amount: int #required
-    date: string #required
-    unit: seconds | minutes | hours | days | weeks | months | years #required
+    amount: int
+    date: string
+    unit: seconds | minutes | hours | days | weeks | months | years
   outputs:
     result: string
 
 - action: subtract
   inputs:
-    amount: int #required
-    date: string #required
-    unit: seconds | minutes | hours | days | weeks | months | years #required
+    amount: int
+    date: string
+    unit: seconds | minutes | hours | days | weeks | months | years
   outputs:
     result: string
 
 - action: diff
   inputs:
-    end: string #required
-    start: string #required
+    end: string
+    start: string
     unit: seconds | minutes | hours | days | weeks | months | years = seconds
   outputs:
     difference: float
 
 - action: convert_timezone
   inputs:
-    date: string #required
-    from_timezone: string #required
-    to_timezone: string #required
+    date: string
+    from_timezone: string
+    to_timezone: string
   outputs:
     result: string
 
 - action: start_of
   inputs:
-    date: string #required
-    period: second | minute | hour | day | week | month | year #required
+    date: string
+    period: second | minute | hour | day | week | month | year
     timezone: string
   outputs:
     result: string
 
 - action: end_of
   inputs:
-    date: string #required
-    period: second | minute | hour | day | week | month | year #required
+    date: string
+    period: second | minute | hour | day | week | month | year
     timezone: string
   outputs:
     result: string
 
 - object: date
-  class:
+  schema:
     timestamp: string
     timezone: string
     year: int
@@ -78,3 +78,18 @@
     hour: int
     minute: int
     second: int
+
+- object: date_format
+  schema:
+    created_at: date = now()
+    description: string
+    format_string: string
+    is_active: boolean = true
+    locale: string
+
+- object: timezone
+  schema:
+    abbreviation: string
+    dst_offset: int = 0
+    name: string
+    utc_offset: int = 0

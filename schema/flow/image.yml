@@ -4,7 +4,7 @@
     format: jpeg | png | webp | avif | tiff
     height: int
     maintain_aspect_ratio: boolean = true
-    source: string #required
+    source: string
     width: int
   outputs:
     height: int
@@ -14,11 +14,11 @@
 
 - action: crop
   inputs:
-    height: int #required
-    source: string #required
-    width: int #required
-    x: int #required
-    y: int #required
+    height: int
+    source: string
+    width: int
+    x: int
+    y: int
   outputs:
     height: int
     image: string
@@ -29,7 +29,7 @@
     format: jpeg | png | webp | avif = webp
     progressive: boolean = false
     quality: int = 80
-    source: string #required
+    source: string
   outputs:
     compression_ratio: float
     image: string
@@ -37,9 +37,9 @@
 
 - action: rotate
   inputs:
-    angle: int #required
+    angle: int
     background: string = transparent
-    source: string #required
+    source: string
   outputs:
     height: int
     image: string
@@ -50,7 +50,7 @@
     fit: cover | contain | fill = cover
     format: jpeg | png | webp
     size: int = 150
-    source: string #required
+    source: string
   outputs:
     height: int
     image: string
@@ -59,54 +59,54 @@
 - action: blur
   inputs:
     sigma: float = 5.0
-    source: string #required
+    source: string
   outputs:
     image: string
 
 - action: greyscale
   inputs:
-    source: string #required
+    source: string
   outputs:
     image: string
 
 - action: flip
   inputs:
-    direction: horizontal | vertical #required
-    source: string #required
+    direction: horizontal | vertical
+    source: string
   outputs:
     image: string
 
 - action: sharpen
   inputs:
     sigma: float = 1.0
-    source: string #required
+    source: string
   outputs:
     image: string
 
 - action: brightness
   inputs:
-    brightness: float #required
-    source: string #required
+    brightness: float
+    source: string
   outputs:
     image: string
 
 - action: contrast
   inputs:
-    contrast: float #required
-    source: string #required
+    contrast: float
+    source: string
   outputs:
     image: string
 
 - action: tint
   inputs:
-    color: string #required
-    source: string #required
+    color: string
+    source: string
   outputs:
     image: string
 
 - action: get_metadata
   inputs:
-    source: string #required
+    source: string
   outputs:
     color_space: string
     format: string
@@ -118,9 +118,9 @@
 
 - action: convert_format
   inputs:
-    format: jpeg | png | webp | avif | tiff | gif #required
+    format: jpeg | png | webp | avif | tiff | gif
     quality: int = 80
-    source: string #required
+    source: string
   outputs:
     format: string
     image: string
@@ -130,16 +130,38 @@
   inputs:
     opacity: float = 0.5
     position: top-left | top-right | bottom-left | bottom-right | center = bottom-right
-    source: string #required
-    watermark: string #required
+    source: string
+    watermark: string
   outputs:
     image: string
 
 - object: image
-  class:
+  schema:
     source: string
     width: int
     height: int
     format: string
     size: int
     content_type: string
+
+- object: image_variant
+  schema:
+    blob_id: string
+    created_at: date = now()
+    format: jpeg | png | webp | avif = webp
+    height: int
+    image_id: string
+    quality: int = 80
+    size: int
+    variant_type: thumbnail | small | medium | large | original = original
+    width: int
+
+- object: image_operation
+  schema:
+    completed_at: date
+    created_at: date = now()
+    error_message: string
+    image_id: string
+    operation: resize | crop | compress | rotate | flip | blur | sharpen | convert | watermark | thumbnail = resize
+    parameters: string #json
+    status: pending | running | completed | failed = pending

@@ -4,4 +4,4 @@ id:
   - identifier
 
   list_id: id -> description_list.id
-  text: string #required
+  text: string

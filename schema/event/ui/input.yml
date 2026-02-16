@@ -1,6 +1,6 @@
 - event: input_cleared
   schema:
-    input_id: id #required
+    input_id: id
     input_name: string?
     input_type: text | email | password | number | tel | url | search = text
     previous_value: string?
@@ -8,7 +8,7 @@
 
 - event: textarea_resized
   schema:
-    textarea_id: id #required
+    textarea_id: id
     textarea_name: string?
     old_width: int? #min(0)
     old_height: int? #min(0)
@@ -18,7 +18,7 @@
 
 - event: character_limit_reached
   schema:
-    input_id: id #required
+    input_id: id
     input_name: string?
     character_limit: int #min(1)
     current_length: int #min(0)

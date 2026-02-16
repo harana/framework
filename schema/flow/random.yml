@@ -6,14 +6,14 @@
 
 - action: bytes
   inputs:
-    length: int #required
+    length: int
   outputs:
     bytes: bytes
 
 - action: string
   inputs:
     charset: alphanumeric | alpha | numeric | hex = alphanumeric
-    length: int #required
+    length: int
   outputs:
     string: string
 
@@ -27,18 +27,24 @@
 
 - action: choice
   inputs:
-    items: list[any] #required
+    items: list[any]
   outputs:
     item: any
 
 - action: shuffle
   inputs:
-    items: list[any] #required
+    items: list[any]
   outputs:
     items: list[any]
 
 - object: random_value
-  class:
+  schema:
     seed: int
     value: any
     type: string
+
+- object: random_seed
+  schema:
+    algorithm: string = default
+    created_at: date = now()
+    seed_value: int

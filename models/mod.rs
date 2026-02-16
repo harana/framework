@@ -3,5 +3,4 @@
 pub mod action;
 pub mod config;
 pub mod event;
-pub mod object;
 pub mod webobject;

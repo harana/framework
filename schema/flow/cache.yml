@@ -1,6 +1,6 @@
 - action: get
   inputs:
-    key: string #required
+    key: string
     namespace: string = "default"
   outputs:
     found: boolean
@@ -8,23 +8,19 @@
 
 - action: set
   inputs:
-    key: string #required
+    key: string
     namespace: string = "default"
     ttl: int
-    value: any #required
-  outputs:
-    success: boolean
+    value: any
 
 - action: delete
   inputs:
-    key: string #required
+    key: string
     namespace: string = "default"
-  outputs:
-    success: boolean
 
 - action: exists
   inputs:
-    key: string #required
+    key: string
     namespace: string = "default"
   outputs:
     exists: boolean
@@ -38,23 +34,21 @@
 
 - action: get_many
   inputs:
-    keys: list[string] #required
+    keys: list[string]
     namespace: string = "default"
   outputs:
     values: cache_values
 
 - action: set_many
   inputs:
-    entries: cache_entries #required
+    entries: cache_entries
     namespace: string = "default"
     ttl: int
-  outputs:
-    success: boolean
 
 - action: increment
   inputs:
     amount: int = 1
-    key: string #required
+    key: string
     namespace: string = "default"
   outputs:
     value: int
@@ -62,21 +56,21 @@
 - action: decrement
   inputs:
     amount: int = 1
-    key: string #required
+    key: string
     namespace: string = "default"
   outputs:
     value: int
 
 - action: ttl
   inputs:
-    key: string #required
+    key: string
     namespace: string = "default"
   outputs:
     expires_at: date
     ttl: int
 
 - object: cache_entry
-  class:
+  schema:
     key: string
     value: any
     namespace: string
@@ -84,9 +78,16 @@
     expires_at: date
 
 - object: cache_values
-  class:
+  schema:
     values: map[string, any]
 
 - object: cache_entries
-  class:
+  schema:
     entries: map[string, any]
+
+- object: cache_config
+  schema:
+    default_ttl_seconds: int = 3600
+    is_enabled: boolean = true
+    max_entries: int = 10000
+    strategy: lru | lfu | fifo = lru

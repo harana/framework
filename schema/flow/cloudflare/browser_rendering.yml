@@ -1,37 +1,56 @@
 - action: render
   inputs:
-    binding: string #required
-    url: string #required
+    binding: string
+    url: string
   outputs:
     content: string
     status_code: int
 
 - action: screenshot
   inputs:
-    binding: string #required
+    binding: string
     full_page: boolean = false
     height: int = 768
     type: png | jpeg = png
-    url: string #required
+    url: string
     width: int = 1024
   outputs:
     image: bytes
 
 - action: extract_content
   inputs:
-    binding: string #required
+    binding: string
     selector: string
-    url: string #required
+    url: string
   outputs:
     content: string
     title: string
 
 - action: pdf
   inputs:
-    binding: string #required
+    binding: string
     format: letter | legal | tabloid | ledger | a0 | a1 | a2 | a3 | a4 | a5 | a6 = letter
     landscape: boolean = false
     print_background: boolean = false
-    url: string #required
+    url: string
   outputs:
     pdf: bytes
+
+- object: cf_browser_rendering_session
+  schema:
+    account_id: string
+    binding: string
+    created_at: date = now()
+    session_id: string
+    status: active | closed = active
+    updated_at: date = now()
+
+- object: cf_browser_rendering_result
+  schema:
+    content: string
+    content_type: html | pdf | png | jpeg = html
+    rendered_at: date = now()
+    session_id: string
+    status_code: int
+    title: string
+    url: string

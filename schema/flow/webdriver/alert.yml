@@ -1,19 +1,16 @@
 - action: get_alert_text
   inputs:
-    session_id: string  outputs:
+    session_id: string
+  outputs:
     text: string
 
 - action: accept_alert
   inputs:
-    session_id: string  outputs:
-    success: boolean
-
+    session_id: string
 - action: dismiss_alert
   inputs:
-    session_id: string  outputs:
-    success: boolean
-
+    session_id: string
 - action: send_alert_text
   inputs:
-    keys: string    session_id: string  outputs:
-    success: boolean
+    keys: string
+    session_id: string

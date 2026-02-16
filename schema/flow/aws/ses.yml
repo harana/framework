@@ -3,25 +3,24 @@
     bcc_addresses: list[string]
     cc_addresses: list[string]
     configuration_set_name: string
-    from_address: string #required
+    from_address: string
     html_body: string
     region: string
     reply_to_addresses: list[string]
     return_path: string
-    subject: string #required
+    subject: string
     tags: ses_tags
     text_body: string
-    to_addresses: list[string] #required
+    to_addresses: list[string]
   outputs:
     message_id: string
-    success: boolean
 
 - action: send_raw_email
   inputs:
     configuration_set_name: string
     destinations: list[string]
     from_arn: string
-    raw_message: bytes #required
+    raw_message: bytes
     region: string
     return_path_arn: string
     source: string
@@ -29,62 +28,53 @@
     tags: ses_tags
   outputs:
     message_id: string
-    success: boolean
 
 - action: send_templated_email
   inputs:
     bcc_addresses: list[string]
     cc_addresses: list[string]
     configuration_set_name: string
-    from_address: string #required
+    from_address: string
     region: string
     reply_to_addresses: list[string]
     return_path: string
     tags: ses_tags
-    template_data: string #required
-    template_name: string #required
-    to_addresses: list[string] #required
+    template_data: string
+    template_name: string
+    to_addresses: list[string]
   outputs:
     message_id: string
-    success: boolean
 
 - action: send_bulk_templated_email
   inputs:
     configuration_set_name: string
     default_tags: default_tags
     default_template_data: string
-    destinations: list[bulk_email_destination] #required
-    from_address: string #required
+    destinations: list[bulk_email_destination]
+    from_address: string
     region: string
     reply_to_addresses: list[string]
     return_path: string
-    template_name: string #required
+    template_name: string
   outputs:
     message_ids: list[string]
     status: list[bulk_email_status]
-    success: boolean
 
 - action: verify_email_identity
   inputs:
-    email_address: string #required
+    email_address: string
     region: string
-  outputs:
-    success: boolean
 
 - action: verify_domain_identity
   inputs:
-    domain: string #required
+    domain: string
     region: string
-  outputs:
-    success: boolean
     verification_token: string
 
 - action: delete_identity
   inputs:
-    identity: string #required
+    identity: string
     region: string
-  outputs:
-    success: boolean
 
 - action: list_identities
   inputs:
@@ -97,51 +87,43 @@
 
 - action: get_identity_verification_attributes
   inputs:
-    identities: list[string] #required
+    identities: list[string]
     region: string
   outputs:
     verification_attributes: verification_attributes
 
 - action: set_identity_notification_topic
   inputs:
-    identity: string #required
-    notification_type: bounce | complaint | delivery #required
+    identity: string
+    notification_type: bounce | complaint | delivery
     region: string
     sns_topic: string
-  outputs:
-    success: boolean
 
 - action: create_template
   inputs:
     html_part: string
     region: string
-    subject_part: string #required
-    template_name: string #required
+    subject_part: string
+    template_name: string
     text_part: string
-  outputs:
-    success: boolean
 
 - action: update_template
   inputs:
     html_part: string
     region: string
     subject_part: string
-    template_name: string #required
+    template_name: string
     text_part: string
-  outputs:
-    success: boolean
 
 - action: delete_template
   inputs:
     region: string
-    template_name: string #required
-  outputs:
-    success: boolean
+    template_name: string
 
 - action: get_template
   inputs:
     region: string
-    template_name: string #required
+    template_name: string
   outputs:
     html_part: string
     subject_part: string
@@ -172,17 +154,13 @@
 
 - action: put_configuration_set
   inputs:
-    configuration_set_name: string #required
+    configuration_set_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: delete_configuration_set
   inputs:
-    configuration_set_name: string #required
+    configuration_set_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: list_configuration_sets
   inputs:
@@ -194,48 +172,87 @@
 
 - action: put_identity_policy
   inputs:
-    identity: string #required
-    policy: string #required
-    policy_name: string #required
+    identity: string
+    policy: string
+    policy_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: get_identity_policies
   inputs:
-    identity: string #required
-    policy_names: list[string] #required
+    identity: string
+    policy_names: list[string]
     region: string
   outputs:
     policies: identity_policies
 
 - action: delete_identity_policy
   inputs:
-    identity: string #required
-    policy_name: string #required
+    identity: string
+    policy_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: set_identity_feedback_forwarding
   inputs:
-    forwarding_enabled: boolean #required
-    identity: string #required
+    forwarding_enabled: boolean
+    identity: string
     region: string
-  outputs:
-    success: boolean
 
 - action: set_identity_dkim_enabled
   inputs:
-    dkim_enabled: boolean #required
-    identity: string #required
+    dkim_enabled: boolean
+    identity: string
     region: string
-  outputs:
-    success: boolean
 
 - action: get_identity_dkim_attributes
   inputs:
-    identities: list[string] #required
+    identities: list[string]
     region: string
   outputs:
     dkim_attributes: dkim_attributes
+
+- object: aws_ses_identity
+  schema:
+    account_id: string
+    created_at: date = now()
+    dkim_enabled: boolean = false
+    feedback_forwarding_enabled: boolean = true
+    identity: string
+    identity_type: email_address | domain
+    region: string
+    updated_at: date = now()
+    verification_status: pending | success | failed | temporary_failure | not_started = not_started
+    verification_token: string
+
+- object: aws_ses_template
+  schema:
+    account_id: string
+    created_at: date = now()
+    html_part: string
+    region: string
+    subject_part: string
+    template_name: string
+    text_part: string
+    updated_at: date = now()
+
+- object: aws_ses_configuration_set
+  schema:
+    account_id: string
+    configuration_set_name: string
+    created_at: date = now()
+    region: string
+    updated_at: date = now()
+
+- object: aws_ses_send_log
+  schema:
+    bcc_addresses: string #json
+    cc_addresses: string #json
+    configuration_set_name: string
+    created_at: date = now()
+    from_address: string
+    identity_id: string
+    message_id: string
+    status: queued | sent | delivered | bounced | complained | failed = queued
+    subject: string
+    template_name: string
+    to_addresses: string #json
+    updated_at: date = now()

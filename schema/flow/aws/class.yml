@@ -3,18 +3,18 @@
 # VPC Classes
 
 - object: vpc_tags
-  class:
+  schema:
     type: map
     key: string
     value: string
 
 - object: vpc_filter
-  class:
-    name: string #required
-    values: list[string] #required
+  schema:
+    name: string
+    values: list[string]
 
 - object: vpc
-  class:
+  schema:
     cidr_block: string
     cidr_block_association_set: list[vpc_cidr_block_association]
     dhcp_options_id: string
@@ -27,18 +27,18 @@
     vpc_id: string
 
 - object: vpc_cidr_block_association
-  class:
+  schema:
     association_id: string
     cidr_block: string
     cidr_block_state: vpc_cidr_block_state
 
 - object: vpc_cidr_block_state
-  class:
+  schema:
     state: string
     status_message: string
 
 - object: vpc_ipv6_cidr_block_association
-  class:
+  schema:
     association_id: string
     ipv6_cidr_block: string
     ipv6_cidr_block_state: vpc_cidr_block_state
@@ -46,12 +46,12 @@
     network_border_group: string
 
 - object: tag
-  class:
+  schema:
     key: string
     value: string
 
 - object: subnet
-  class:
+  schema:
     assign_ipv6_address_on_creation: boolean
     availability_zone: string
     availability_zone_id: string
@@ -73,36 +73,36 @@
     vpc_id: string
 
 - object: subnet_ipv6_cidr_block_association
-  class:
+  schema:
     association_id: string
     ipv6_cidr_block: string
     ipv6_cidr_block_state: subnet_cidr_block_state
 
 - object: subnet_cidr_block_state
-  class:
+  schema:
     state: string
     status_message: string
 
 - object: private_dns_name_options_on_launch
-  class:
+  schema:
     enable_resource_name_dns_aaaa_record: boolean
     enable_resource_name_dns_a_record: boolean
     hostname_type: string
 
 - object: internet_gateway
-  class:
+  schema:
     attachments: list[internet_gateway_attachment]
     internet_gateway_id: string
     owner_id: string
     tags: list[tag]
 
 - object: internet_gateway_attachment
-  class:
+  schema:
     state: string
     vpc_id: string
 
 - object: nat_gateway
-  class:
+  schema:
     connectivity_type: string
     create_time: date
     delete_time: date
@@ -117,14 +117,14 @@
     vpc_id: string
 
 - object: nat_gateway_address
-  class:
+  schema:
     allocation_id: string
     network_interface_id: string
     private_ip: string
     public_ip: string
 
 - object: provisioned_bandwidth
-  class:
+  schema:
     provision_time: date
     provisioned: string
     request_time: date
@@ -132,7 +132,7 @@
     status: string
 
 - object: route_table
-  class:
+  schema:
     associations: list[route_table_association]
     owner_id: string
     propagating_vgws: list[propagating_vgw]
@@ -142,7 +142,7 @@
     vpc_id: string
 
 - object: route_table_association
-  class:
+  schema:
     association_state: route_table_association_state
     gateway_id: string
     main: boolean
@@ -151,16 +151,16 @@
     subnet_id: string
 
 - object: route_table_association_state
-  class:
+  schema:
     state: string
     status_message: string
 
 - object: propagating_vgw
-  class:
+  schema:
     gateway_id: string
 
 - object: route
-  class:
+  schema:
     carrier_gateway_id: string
     core_network_arn: string
     destination_cidr_block: string
@@ -179,7 +179,7 @@
     vpc_peering_connection_id: string
 
 - object: security_group
-  class:
+  schema:
     description: string
     group_id: string
     group_name: string
@@ -190,7 +190,7 @@
     vpc_id: string
 
 - object: ip_permission
-  class:
+  schema:
     from_port: int
     ip_protocol: string
     ip_ranges: list[ip_range]
@@ -200,22 +200,22 @@
     user_id_group_pairs: list[user_id_group_pair]
 
 - object: ip_range
-  class:
+  schema:
     cidr_ip: string
     description: string
 
 - object: ipv6_range
-  class:
+  schema:
     cidr_ipv6: string
     description: string
 
 - object: prefix_list_id
-  class:
+  schema:
     description: string
     prefix_list_id: string
 
 - object: user_id_group_pair
-  class:
+  schema:
     description: string
     group_id: string
     group_name: string
@@ -225,7 +225,7 @@
     vpc_peering_connection_id: string
 
 - object: security_group_rule
-  class:
+  schema:
     cidr_ipv4: string
     cidr_ipv6: string
     description: string
@@ -241,7 +241,7 @@
     to_port: int
 
 - object: referenced_security_group
-  class:
+  schema:
     group_id: string
     peering_status: string
     user_id: string
@@ -249,7 +249,7 @@
     vpc_peering_connection_id: string
 
 - object: network_acl
-  class:
+  schema:
     associations: list[network_acl_association]
     entries: list[network_acl_entry]
     is_default: boolean
@@ -259,13 +259,13 @@
     vpc_id: string
 
 - object: network_acl_association
-  class:
+  schema:
     network_acl_association_id: string
     network_acl_id: string
     subnet_id: string
 
 - object: network_acl_entry
-  class:
+  schema:
     cidr_block: string
     egress: boolean
     icmp_type_code: icmp_type_code
@@ -276,17 +276,17 @@
     rule_number: int
 
 - object: icmp_type_code
-  class:
+  schema:
     code: int
     type: int
 
 - object: port_range
-  class:
+  schema:
     from: int
     to: int
 
 - object: elastic_ip
-  class:
+  schema:
     allocation_id: string
     association_id: string
     carrier_ip: string
@@ -303,7 +303,7 @@
     tags: list[tag]
 
 - object: vpc_peering_connection
-  class:
+  schema:
     accepter_vpc_info: vpc_info
     expiration_time: date
     requester_vpc_info: vpc_info
@@ -312,7 +312,7 @@
     vpc_peering_connection_id: string
 
 - object: vpc_info
-  class:
+  schema:
     cidr_block: string
     cidr_block_set: list[cidr_block]
     ipv6_cidr_block_set: list[ipv6_cidr_block]
@@ -322,26 +322,26 @@
     vpc_id: string
 
 - object: cidr_block
-  class:
+  schema:
     cidr_block: string
 
 - object: ipv6_cidr_block
-  class:
+  schema:
     ipv6_cidr_block: string
 
 - object: vpc_peering_connection_options_description
-  class:
+  schema:
     allow_dns_resolution_from_remote_vpc: boolean
     allow_egress_from_local_classic_link_to_remote_vpc: boolean
     allow_egress_from_local_vpc_to_remote_classic_link: boolean
 
 - object: peering_connection_status
-  class:
+  schema:
     code: string
     message: string
 
 - object: vpc_endpoint
-  class:
+  schema:
     creation_timestamp: date
     dns_entries: list[dns_entry]
     dns_options: dns_options
@@ -363,53 +363,53 @@
     vpc_id: string
 
 - object: dns_entry
-  class:
+  schema:
     dns_name: string
     hosted_zone_id: string
 
 - object: dns_options
-  class:
+  schema:
     dns_record_ip_type: string
     private_dns_only_for_inbound_resolver_endpoint: boolean
 
 - object: security_group_identifier
-  class:
+  schema:
     group_id: string
     group_name: string
 
 - object: last_error
-  class:
+  schema:
     code: string
     message: string
 
 - object: unsuccessful_item
-  class:
+  schema:
     error: unsuccessful_item_error
     resource_id: string
 
 - object: unsuccessful_item_error
-  class:
+  schema:
     code: string
     message: string
 
 - object: dhcp_options
-  class:
+  schema:
     dhcp_configurations: list[dhcp_configuration]
     dhcp_options_id: string
     owner_id: string
     tags: list[tag]
 
 - object: dhcp_configuration
-  class:
+  schema:
     key: string
     values: list[attribute_value]
 
 - object: attribute_value
-  class:
+  schema:
     value: string
 
 - object: egress_only_internet_gateway
-  class:
+  schema:
     attachments: list[internet_gateway_attachment]
     egress_only_internet_gateway_id: string
     tags: list[tag]
@@ -417,61 +417,61 @@
 # STS Classes
 
 - object: sts_credentials
-  class:
+  schema:
     access_key_id: string
     secret_access_key: string
     session_token: string
     expiration: date
 
 - object: assumed_role_user
-  class:
+  schema:
     assumed_role_id: string
     arn: string
 
 - object: federated_user
-  class:
+  schema:
     federated_user_id: string
     arn: string
 
 - object: tags
-  class:
+  schema:
     key: string
     value: string
 
 - object: sts_policy_arn
-  class:
+  schema:
     arn: string
 
 # S3 Classes
 
 - object: s3_object
-  class:
+  schema:
     bucket: string
     key: string
     etag: string
     size: int
     content_type: string
-    storage_class: string
+    storage_schema: string
     last_modified: date
     metadata: object_metadata
     version_id: string
 
 - object: s3_bucket
-  class:
+  schema:
     name: string
     creation_date: date
 
 - object: s3_tags
-  class:
+  schema:
     items: list[s3_tag]
 
 - object: s3_tag
-  class:
+  schema:
     key: string
     value: string
 
 - object: object_metadata
-  class:
+  schema:
     content_type: string
     content_encoding: string
     content_language: string
@@ -480,27 +480,27 @@
     custom: map[string, string]
 
 - object: deleted_object
-  class:
+  schema:
     key: string
     version_id: string
     delete_marker: boolean
     delete_marker_version_id: string
 
 - object: s3_error
-  class:
+  schema:
     key: string
     version_id: string
     code: string
     message: string
 
 - object: encryption_rule
-  class:
+  schema:
     sse_algorithm: string
     kms_master_key_id: string
     bucket_key_enabled: boolean
 
 - object: cors_rule
-  class:
+  schema:
     allowed_headers: list[string]
     allowed_methods: list[string]
     allowed_origins: list[string]
@@ -508,7 +508,7 @@
     max_age_seconds: int
 
 - object: lifecycle_rule
-  class:
+  schema:
     id: string
     status: string
     prefix: string
@@ -517,19 +517,19 @@
     transitions: list[lifecycle_transition]
 
 - object: lifecycle_transition
-  class:
+  schema:
     days: int
-    storage_class: string
+    storage_schema: string
 
 - object: completed_part
-  class:
+  schema:
     etag: string
     part_number: int
 
 # IAM Classes
 
 - object: iam_user
-  class:
+  schema:
     user_id: string
     user_name: string
     arn: string
@@ -540,21 +540,21 @@
     tags: list[iam_tag]
 
 - object: iam_tags
-  class:
+  schema:
     items: list[iam_tag]
 
 - object: iam_tag
-  class:
+  schema:
     key: string
     value: string
 
 - object: permissions_boundary
-  class:
+  schema:
     permissions_boundary_type: string
     permissions_boundary_arn: string
 
 - object: iam_group
-  class:
+  schema:
     group_id: string
     group_name: string
     arn: string
@@ -562,7 +562,7 @@
     create_date: date
 
 - object: iam_role
-  class:
+  schema:
     role_id: string
     role_name: string
     arn: string
@@ -573,7 +573,7 @@
     assume_role_policy_document: string
 
 - object: iam_policy
-  class:
+  schema:
     policy_id: string
     policy_name: string
     arn: string
@@ -584,14 +584,14 @@
     is_attachable: boolean
 
 - object: access_key_metadata
-  class:
+  schema:
     access_key_id: string
     user_name: string
     status: string
     create_date: date
 
 - object: account_summary
-  class:
+  schema:
     users: int
     groups: int
     roles: int
@@ -607,7 +607,7 @@
 # EventBridge Classes
 
 - object: event_bridge_rule
-  class:
+  schema:
     name: string
     arn: string
     event_bus_name: string
@@ -618,7 +618,7 @@
     role_arn: string
 
 - object: event_bridge_entry
-  class:
+  schema:
     source: string
     detail_type: string
     detail: string
@@ -628,22 +628,22 @@
     trace_header: string
 
 - object: put_events_result_entry
-  class:
+  schema:
     event_id: string
     error_code: string
     error_message: string
 
 - object: event_bridge_tags
-  class:
+  schema:
     items: list[event_bridge_tag]
 
 - object: event_bridge_tag
-  class:
+  schema:
     key: string
     value: string
 
 - object: event_bridge_target
-  class:
+  schema:
     id: string
     arn: string
     role_arn: string
@@ -652,37 +652,37 @@
     input_transformer: input_transformer
 
 - object: input_transformer
-  class:
+  schema:
     input_paths_map: map[string, string]
     input_template: string
 
 - object: target_failure
-  class:
+  schema:
     target_id: string
     error_code: string
     error_message: string
 
 - object: event_bus
-  class:
+  schema:
     name: string
     arn: string
     policy: string
 
 - object: rule_condition
-  class:
+  schema:
     type: string
     key: string
     value: string
 
 - object: event_destination
-  class:
+  schema:
     arn: string
     filter_arns: list[string]
 
 # ECR Classes
 
 - object: ecr_repository
-  class:
+  schema:
     repository_name: string
     repository_uri: string
     repository_arn: string
@@ -693,25 +693,25 @@
     created_at: date
 
 - object: ecr_tags
-  class:
+  schema:
     items: list[ecr_tag]
 
 - object: ecr_tag
-  class:
+  schema:
     key: string
     value: string
 
 - object: image_filter
-  class:
+  schema:
     tag_status: string
 
 - object: image_id
-  class:
+  schema:
     image_digest: string
     image_tag: string
 
 - object: ecr_image
-  class:
+  schema:
     registry_id: string
     repository_name: string
     image_id: image_id
@@ -719,7 +719,7 @@
     image_manifest_media_type: string
 
 - object: ecr_image_detail
-  class:
+  schema:
     registry_id: string
     repository_name: string
     image_digest: string
@@ -729,18 +729,18 @@
     image_scan_status: image_scan_status
 
 - object: image_failure
-  class:
+  schema:
     image_id: image_id
     failure_code: string
     failure_reason: string
 
 - object: image_scan_status
-  class:
+  schema:
     status: string
     description: string
 
 - object: image_scan_finding
-  class:
+  schema:
     name: string
     description: string
     uri: string
@@ -748,14 +748,14 @@
     attributes: list[scan_finding_attribute]
 
 - object: scan_finding_attribute
-  class:
+  schema:
     key: string
     value: string
 
 # SES Classes
 
 - object: ses_email
-  class:
+  schema:
     message_id: string
     from_address: string
     to_addresses: list[string]
@@ -767,52 +767,52 @@
     configuration_set_name: string
 
 - object: ses_tags
-  class:
+  schema:
     items: list[ses_tag]
 
 - object: ses_tag
-  class:
+  schema:
     name: string
     value: string
 
 - object: default_tags
-  class:
+  schema:
     items: list[ses_tag]
 
 - object: bulk_email_destination
-  class:
+  schema:
     destination: ses_destination
     replacement_tags: list[ses_tag]
     replacement_template_data: string
 
 - object: ses_destination
-  class:
+  schema:
     to_addresses: list[string]
     cc_addresses: list[string]
     bcc_addresses: list[string]
 
 - object: bulk_email_status
-  class:
+  schema:
     status: string
     error: string
     message_id: string
 
 - object: verification_attributes
-  class:
+  schema:
     entries: map[string, verification_attribute_entry]
 
 - object: verification_attribute_entry
-  class:
+  schema:
     verification_status: string
     verification_token: string
 
 - object: ses_template
-  class:
+  schema:
     name: string
     created_timestamp: date
 
 - object: send_data_point
-  class:
+  schema:
     timestamp: date
     delivery_attempts: int
     bounces: int
@@ -820,19 +820,19 @@
     rejects: int
 
 - object: ses_configuration_set
-  class:
+  schema:
     name: string
 
 - object: identity_policies
-  class:
+  schema:
     policies: map[string, string]
 
 - object: dkim_attributes
-  class:
+  schema:
     entries: map[string, dkim_attribute_entry]
 
 - object: dkim_attribute_entry
-  class:
+  schema:
     dkim_enabled: boolean
     dkim_verification_status: string
     dkim_tokens: list[string]
@@ -840,7 +840,7 @@
 # SQS Classes
 
 - object: sqs_message
-  class:
+  schema:
     message_id: string
     queue_url: string
     message_body: string
@@ -849,7 +849,7 @@
     md5_of_body: string
 
 - object: queue_attributes
-  class:
+  schema:
     delay_seconds: string
     maximum_message_size: string
     message_retention_period: string
@@ -863,27 +863,27 @@
     content_based_deduplication: string
 
 - object: sqs_tags
-  class:
+  schema:
     tags: list[sqs_tag]
 
 - object: sqs_tag
-  class:
+  schema:
     key: string
     value: string
 
 - object: message_attributes
-  class:
+  schema:
     attributes: list[message_attribute]
 
 - object: message_attribute
-  class:
+  schema:
     name: string
     data_type: string
     string_value: string
     binary_value: bytes
 
 - object: send_message_batch_entry
-  class:
+  schema:
     id: string
     message_body: string
     delay_seconds: int
@@ -892,7 +892,7 @@
     message_group_id: string
 
 - object: send_message_batch_result
-  class:
+  schema:
     id: string
     message_id: string
     md5_of_message_body: string
@@ -900,35 +900,35 @@
     sequence_number: string
 
 - object: delete_message_batch_entry
-  class:
+  schema:
     id: string
     receipt_handle: string
 
 - object: delete_message_batch_result
-  class:
+  schema:
     id: string
 
 - object: batch_result_error_entry
-  class:
+  schema:
     id: string
     sender_fault: boolean
     code: string
     message: string
 
 - object: change_message_visibility_batch_entry
-  class:
+  schema:
     id: string
     receipt_handle: string
     visibility_timeout: int
 
 - object: change_message_visibility_batch_result
-  class:
+  schema:
     id: string
 
 # CloudFront Classes
 
 - object: cloud_front_distribution
-  class:
+  schema:
     distribution_id: string
     domain_name: string
     arn: string
@@ -936,11 +936,11 @@
     enabled: boolean
     aliases: list[string]
     origins: list[cloud_front_origin]
-    price_class: string
+    price_schema: string
     last_modified_time: date
 
 - object: cloud_front_origin
-  class:
+  schema:
     id: string
     domain_name: string
     origin_path: string
@@ -948,7 +948,7 @@
     connection_timeout: int
 
 - object: cache_behavior
-  class:
+  schema:
     path_pattern: string
     target_origin_id: string
     viewer_protocol_policy: string
@@ -960,7 +960,7 @@
     smooth_streaming: boolean
 
 - object: cache_key_parameters
-  class:
+  schema:
     headers_config: headers_config
     cookies_config: cookies_config
     query_strings_config: query_strings_config
@@ -968,22 +968,22 @@
     enable_accept_encoding_brotli: boolean
 
 - object: headers_config
-  class:
+  schema:
     header_behavior: string
     headers: list[string]
 
 - object: cookies_config
-  class:
+  schema:
     cookie_behavior: string
     cookies: list[string]
 
 - object: query_strings_config
-  class:
+  schema:
     query_string_behavior: string
     query_strings: list[string]
 
 - object: cors_config
-  class:
+  schema:
     access_control_allow_origins: list[string]
     access_control_allow_headers: list[string]
     access_control_allow_methods: list[string]
@@ -992,7 +992,7 @@
     origin_override: boolean
 
 - object: security_headers_config
-  class:
+  schema:
     content_security_policy: string
     content_type_options: string
     frame_options: string
@@ -1001,39 +1001,39 @@
     xss_protection: string
 
 - object: custom_headers_config
-  class:
+  schema:
     items: list[custom_header]
 
 - object: custom_header
-  class:
+  schema:
     header: string
     value: string
     override: boolean
 
 - object: custom_error_response
-  class:
+  schema:
     error_code: int
     response_page_path: string
     response_code: string
     error_caching_min_ttl: int
 
 - object: cloud_front_invalidation
-  class:
+  schema:
     id: string
     status: string
     create_time: date
 
 - object: cloud_front_tags
-  class:
+  schema:
     items: list[cloud_front_tag]
 
 - object: cloud_front_tag
-  class:
+  schema:
     key: string
     value: string
 
 - object: distribution_config
-  class:
+  schema:
     caller_reference: string
     aliases: list[string]
     default_root_object: string
@@ -1043,14 +1043,14 @@
     custom_error_responses: list[custom_error_response]
     comment: string
     logging: boolean
-    price_class: string
+    price_schema: string
     enabled: boolean
     viewer_certificate: string
     restrictions: string
     web_acl_id: string
 
 - object: cache_policy
-  class:
+  schema:
     cache_policy_id: string
     name: string
     default_ttl: int
@@ -1061,7 +1061,7 @@
 # Secrets Manager Classes
 
 - object: aws_secret
-  class:
+  schema:
     arn: string
     name: string
     description: string
@@ -1073,21 +1073,21 @@
     last_rotated_date: date
 
 - object: secrets_tags
-  class:
+  schema:
     items: list[secrets_tag]
 
 - object: secrets_tag
-  class:
+  schema:
     key: string
     value: string
 
 - object: secret_filter
-  class:
+  schema:
     key: string
     values: list[string]
 
 - object: secret_list_entry
-  class:
+  schema:
     arn: string
     name: string
     description: string
@@ -1098,17 +1098,17 @@
     tags: list[secrets_tag]
 
 - object: rotation_rules
-  class:
+  schema:
     automatically_after_days: int
     duration: string
     schedule_expression: string
 
 - object: kms_key_ids
-  class:
+  schema:
     regions: map[string, string]
 
 - object: replication_status
-  class:
+  schema:
     region: string
     kms_key_id: string
     status: string
@@ -1118,7 +1118,7 @@
 # ACM Classes
 
 - object: certificate
-  class:
+  schema:
     certificate_arn: string
     domain_name: string
     subject_alternative_names: list[string]
@@ -1147,7 +1147,7 @@
     options: certificate_options
 
 - object: certificate_summary
-  class:
+  schema:
     certificate_arn: string
     domain_name: string
     subject_alternative_names: list[string]
@@ -1168,7 +1168,7 @@
     revoked_at: date
 
 - object: domain_validation_option
-  class:
+  schema:
     domain_name: string
     validation_domain: string
     validation_status: string
@@ -1177,45 +1177,45 @@
     validation_emails: list[string]
 
 - object: resource_record
-  class:
+  schema:
     name: string
     type: string
     value: string
 
 - object: renewal_summary
-  class:
+  schema:
     renewal_status: string
     domain_validation_options: list[domain_validation_option]
     renewal_status_reason: string
     updated_at: date
 
 - object: key_usage
-  class:
+  schema:
     name: string
 
 - object: extended_key_usage
-  class:
+  schema:
     name: string
     oid: string
 
 - object: certificate_options
-  class:
+  schema:
     certificate_transparency_logging_preference: string
 
 - object: certificate_filters
-  class:
+  schema:
     extended_key_usage: list[string]
     key_usage: list[string]
     key_types: list[string]
 
 - object: expiry_events_configuration
-  class:
+  schema:
     days_before_expiry: int
 
 - object: account_configuration
-  class:
+  schema:
     expiry_events: expiry_events_configuration
 
 - object: acm_tags
-  class:
+  schema:
     tags: map[string, string]

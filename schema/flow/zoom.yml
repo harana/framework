@@ -7,18 +7,17 @@
     settings: zoom_meeting_settings
     start_time: date
     timezone: string
-    topic: string #required
+    topic: string
     type: instant | scheduled | recurring_fixed | recurring_unfixed = scheduled
   outputs:
     join_url: string
     meeting_id: string
     password: string
     start_url: string
-    success: boolean
 
 - action: get_meeting
   inputs:
-    meeting_id: string #required
+    meeting_id: string
   outputs:
     agenda: string
     duration: int
@@ -36,23 +35,19 @@
   inputs:
     agenda: string
     duration: int
-    meeting_id: string #required
+    meeting_id: string
     password: string
     settings: zoom_meeting_settings
     start_time: date
     timezone: string
     topic: string
     type: instant | scheduled | recurring_fixed | recurring_unfixed
-  outputs:
-    success: boolean
 
 - action: delete_meeting
   inputs:
-    meeting_id: string #required
+    meeting_id: string
     occurrence_id: string
     schedule_for_reminder: boolean = false
-  outputs:
-    success: boolean
 
 - action: list_meetings
   inputs:
@@ -68,19 +63,18 @@
 - action: add_registrant
   inputs:
     custom_questions: list[zoom_custom_question]
-    email: string #required
-    first_name: string #required
+    email: string
+    first_name: string
     last_name: string
-    meeting_id: string #required
+    meeting_id: string
     phone: string
   outputs:
     join_url: string
     registrant_id: string
-    success: boolean
 
 - action: list_registrants
   inputs:
-    meeting_id: string #required
+    meeting_id: string
     next_page_token: string
     page_size: int = 30
     status: pending | approved | denied = approved
@@ -91,15 +85,13 @@
 
 - action: update_registrant_status
   inputs:
-    method: approve | deny | cancel #required
-    meeting_id: string #required
-    registrants: list[zoom_registrant_id] #required
-  outputs:
-    success: boolean
+    method: approve | deny | cancel
+    meeting_id: string
+    registrants: list[zoom_registrant_id]
 
 - action: get_participants
   inputs:
-    meeting_id: string #required
+    meeting_id: string
     next_page_token: string
     page_size: int = 30
     type: past | past_one | live = live
@@ -116,18 +108,17 @@
     settings: zoom_webinar_settings
     start_time: date
     timezone: string
-    topic: string #required
+    topic: string
     type: webinar | recurring_webinar_fixed | recurring_webinar_unfixed = webinar
   outputs:
     join_url: string
     password: string
     start_url: string
-    success: boolean
     webinar_id: string
 
 - action: get_webinar
   inputs:
-    webinar_id: string #required
+    webinar_id: string
   outputs:
     agenda: string
     duration: int
@@ -142,9 +133,7 @@
 - action: delete_webinar
   inputs:
     occurrence_id: string
-    webinar_id: string #required
-  outputs:
-    success: boolean
+    webinar_id: string
 
 - action: get_user
   inputs:
@@ -172,7 +161,7 @@
 
 - action: get_recording
   inputs:
-    meeting_id: string #required
+    meeting_id: string
   outputs:
     download_url: string
     duration: int
@@ -182,9 +171,7 @@
 - action: delete_recording
   inputs:
     method: trash | delete = trash
-    meeting_id: string #required
-  outputs:
-    success: boolean
+    meeting_id: string
 
 - action: list_recordings
   inputs:
@@ -200,19 +187,15 @@
 
 - action: end_meeting
   inputs:
-    meeting_id: string #required
-  outputs:
-    success: boolean
+    meeting_id: string
 
 - action: send_invitation
   inputs:
-    emails: list[string] #required
-    meeting_id: string #required
-  outputs:
-    success: boolean
+    emails: list[string]
+    meeting_id: string
 
 - object: zoom_meeting
-  class:
+  schema:
     meeting_id: string
     topic: string
     type: int
@@ -226,7 +209,7 @@
     status: string
 
 - object: zoom_recurrence
-  class:
+  schema:
     type: daily | weekly | monthly
     repeat_interval: int
     weekly_days: string
@@ -237,7 +220,7 @@
     end_date_time: date
 
 - object: zoom_meeting_settings
-  class:
+  schema:
     host_video: boolean
     participant_video: boolean
     join_before_host: boolean
@@ -251,7 +234,7 @@
     waiting_room: boolean
 
 - object: zoom_webinar_settings
-  class:
+  schema:
     host_video: boolean
     panelists_video: boolean
     practice_session: boolean
@@ -265,12 +248,12 @@
     allow_multiple_devices: boolean
 
 - object: zoom_custom_question
-  class:
+  schema:
     title: string
     value: string
 
 - object: zoom_registrant
-  class:
+  schema:
     id: string
     email: string
     first_name: string
@@ -280,12 +263,12 @@
     join_url: string
 
 - object: zoom_registrant_id
-  class:
+  schema:
     id: string
     email: string
 
 - object: zoom_participant
-  class:
+  schema:
     id: string
     user_id: string
     name: string
@@ -297,7 +280,7 @@
     status: string
 
 - object: zoom_user
-  class:
+  schema:
     id: string
     email: string
     first_name: string
@@ -308,7 +291,7 @@
     timezone: string
 
 - object: zoom_recording_file
-  class:
+  schema:
     id: string
     meeting_id: string
     recording_start: date
@@ -320,7 +303,7 @@
     status: string
 
 - object: zoom_recording
-  class:
+  schema:
     id: string
     meeting_id: string
     topic: string
@@ -330,3 +313,39 @@
     total_size: int
     recording_count: int
     recording_files: list[zoom_recording_file]
+
+- object: zoom_meeting_registrant
+  schema:
+    email: string
+    first_name: string
+    join_url: string
+    last_name: string
+    meeting_id: string
+    phone: string
+    registered_at: date = now()
+    registrant_id: string
+    status: pending | approved | denied | cancelled = approved
+
+- object: zoom_meeting_participant
+  schema:
+    duration_seconds: int
+    email: string
+    join_time: date = now()
+    leave_time: date
+    meeting_id: string
+    name: string
+    user_id: string
+
+- object: zoom_webinar
+  schema:
+    agenda: string
+    created_at: date = now()
+    duration: int = 60
+    host_id: string
+    join_url: string
+    start_time: date
+    timezone: string
+    topic: string
+    type: webinar | recurring_webinar_fixed | recurring_webinar_unfixed = webinar
+    updated_at: date = now()
+    webinar_id: string

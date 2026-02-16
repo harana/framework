@@ -3,4 +3,4 @@ type: ui_component
 id:
   - identifier
 
-  text: string #required
+  text: string

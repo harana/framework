@@ -2,16 +2,15 @@
   inputs:
     attachments: list[email_attachment]
     bcc: list[string]
-    body: string #required
+    body: string
     cc: list[string]
     content_type: text | html = text
     from: string
     reply_to: string
-    subject: string #required
-    to: list[string] #required
+    subject: string
+    to: list[string]
   outputs:
     message_id: string
-    success: boolean
 
 - action: send_template
   inputs:
@@ -20,25 +19,24 @@
     cc: list[string]
     from: string
     reply_to: string
-    template_id: string #required
-    to: list[string] #required
+    template_id: string
+    to: list[string]
     variables: map[string, string]
   outputs:
     message_id: string
-    success: boolean
 
 - action: validate_email
   inputs:
     check_mx: boolean = false
     check_smtp: boolean = false
-    email: string #required
+    email: string
   outputs:
     reason: string
     valid: boolean
 
 - action: status
   inputs:
-    message_id: string #required
+    message_id: string
   outputs:
     clicked_at: date
     delivered_at: date
@@ -48,11 +46,11 @@
 
 - action: send_bulk
   inputs:
-    body: string #required
+    body: string
     content_type: text | html = text
     from: string
-    recipients: list[email_recipient] #required
-    subject: string #required
+    recipients: list[email_recipient]
+    subject: string
   outputs:
     failed: int
     message_ids: list[string]
@@ -61,20 +59,16 @@
 
 - action: create_template
   inputs:
-    body: string #required
+    body: string
     content_type: text | html = html
-    name: string #required
-    subject: string #required
+    name: string
+    subject: string
     variables: list[string]
-  outputs:
-    success: boolean
     template_id: string
 
 - action: delete_template
   inputs:
-    template_id: string #required
-  outputs:
-    success: boolean
+    template_id: string
 
 - action: list_templates
   inputs:
@@ -85,7 +79,7 @@
     total: int
 
 - object: email_message
-  class:
+  schema:
     message_id: string
     from: string
     to: list[string]
@@ -98,23 +92,39 @@
     status: string
 
 - object: email_attachment
-  class:
+  schema:
     filename: string
     content_type: string
     content: bytes
     size: int
 
 - object: email_recipient
-  class:
+  schema:
     email: string
     name: string
     variables: map[string, string]
 
 - object: email_template
-  class:
+  schema:
     template_id: string
     name: string
     subject: string
     body: string
     content_type: string
     variables: list[string]
+
+- object: email
+  schema:
+    bcc: string
+    body_html: string
+    body_text: string
+    cc: string
+    created_at: date = now()
+    from_address: string
+    reply_to: string
+    sent_at: date
+    status: pending | sent | failed | bounced = pending
+    subject: string
+    template_id: string
+    to_address: string
+    updated_at: date = now()

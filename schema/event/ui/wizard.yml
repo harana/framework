@@ -1,7 +1,7 @@
 - event: step_completed
   schema:
-    wizard_id: id #required
-    step_id: id #required
+    wizard_id: id
+    step_id: id
     step_number: int #min(1)
     step_name: string?
     total_steps: int? #min(1)
@@ -9,8 +9,8 @@
 
 - event: step_skipped
   schema:
-    wizard_id: id #required
-    step_id: id #required
+    wizard_id: id
+    step_id: id
     step_number: int #min(1)
     step_name: string?
     skip_reason: string?
@@ -18,7 +18,7 @@
 
 - event: step_navigated
   schema:
-    wizard_id: id #required
+    wizard_id: id
     from_step: int #min(1)
     to_step: int #min(1)
     navigation_type: next | previous | jump = next
@@ -26,7 +26,7 @@
 
 - event: wizard_completed
   schema:
-    wizard_id: id #required
+    wizard_id: id
     wizard_name: string?
     total_steps: int? #min(1)
     steps_skipped: int? #min(0)
@@ -35,7 +35,7 @@
 
 - event: wizard_cancelled
   schema:
-    wizard_id: id #required
+    wizard_id: id
     wizard_name: string?
     cancelled_at_step: int? #min(1)
     total_steps: int? #min(1)

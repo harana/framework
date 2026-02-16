@@ -1,16 +1,15 @@
 - action: create_schedule
   inputs:
-    cron_expression: string #required
+    cron_expression: string
     description: string
     enabled: boolean = true
     metadata: schedule_metadata
-    name: string #required
+    name: string
     timezone: string = utc
   outputs:
     name: string
     next_run: int
     schedule_id: string
-    success: boolean
 
 - action: update_schedule
   inputs:
@@ -19,40 +18,36 @@
     enabled: boolean
     metadata: schedule_metadata
     name: string
-    schedule_id: string #required
+    schedule_id: string
     timezone: string
   outputs:
     next_run: int
     schedule_id: string
-    success: boolean
 
 - action: delete_schedule
   inputs:
-    schedule_id: string #required
+    schedule_id: string
   outputs:
     schedule_id: string
-    success: boolean
 
 - action: enable_schedule
   inputs:
-    schedule_id: string #required
+    schedule_id: string
   outputs:
     enabled: boolean
     next_run: int
     schedule_id: string
-    success: boolean
 
 - action: disable_schedule
   inputs:
-    schedule_id: string #required
+    schedule_id: string
   outputs:
     enabled: boolean
     schedule_id: string
-    success: boolean
 
 - action: get_schedule
   inputs:
-    schedule_id: string #required
+    schedule_id: string
   outputs:
     created_at: int
     cron_expression: string
@@ -76,24 +71,23 @@
 
 - action: trigger_schedule
   inputs:
-    schedule_id: string #required
+    schedule_id: string
   outputs:
     execution_id: string
     schedule_id: string
-    success: boolean
     triggered_at: int
 
 - action: get_next_run
   inputs:
     count: int = 1
-    schedule_id: string #required
+    schedule_id: string
   outputs:
     next_runs: list[integer]
     schedule_id: string
 
 - action: validate_cron
   inputs:
-    cron_expression: string #required
+    cron_expression: string
     timezone: string = utc
   outputs:
     error: string
@@ -104,38 +98,35 @@
   inputs:
     description: string
     metadata: schedule_metadata
-    name: string #required
-    run_at: int #required
+    name: string
+    run_at: int
     timezone: string = utc
   outputs:
     run_at: int
     schedule_id: string
-    success: boolean
 
 - action: pause_schedule
   inputs:
     resume_at: int
-    schedule_id: string #required
+    schedule_id: string
   outputs:
     paused: boolean
     resume_at: int
     schedule_id: string
-    success: boolean
 
 - action: resume_schedule
   inputs:
-    schedule_id: string #required
+    schedule_id: string
   outputs:
     next_run: int
     paused: boolean
     schedule_id: string
-    success: boolean
 
 - action: get_schedule_history
   inputs:
     end_date: int
     limit: int = 100
-    schedule_id: string #required
+    schedule_id: string
     start_date: int
   outputs:
     executions: list[schedule_execution]
@@ -145,7 +136,7 @@
 - action: get_schedule_stats
   inputs:
     end_date: int
-    schedule_id: string #required
+    schedule_id: string
     start_date: int
   outputs:
     average_duration: float
@@ -157,7 +148,7 @@
 
 - action: bulk_enable
   inputs:
-    schedule_ids: list[string] #required
+    schedule_ids: list[string]
   outputs:
     failed: int
     results: list[schedule_bulk_result]
@@ -165,7 +156,7 @@
 
 - action: bulk_disable
   inputs:
-    schedule_ids: list[string] #required
+    schedule_ids: list[string]
   outputs:
     failed: int
     results: list[schedule_bulk_result]
@@ -176,25 +167,23 @@
     description: string
     enabled: boolean = true
     end_time: int
-    interval_seconds: int #required
-    name: string #required
+    interval_seconds: int
+    name: string
     start_time: int
   outputs:
     next_run: int
     schedule_id: string
-    success: boolean
 
 - action: update_action
   inputs:
-    action_config: schedule_action_config #required
-    action_type: webhook | function | job #required
-    schedule_id: string #required
+    action_config: schedule_action_config
+    action_type: webhook | function | job
+    schedule_id: string
   outputs:
     schedule_id: string
-    success: boolean
 
 - object: schedule
-  class:
+  schema:
     schedule_id: string
     name: string
     cron_expression: string
@@ -205,11 +194,11 @@
     metadata: schedule_metadata
 
 - object: schedule_metadata
-  class:
+  schema:
     values: map[string, any]
 
 - object: schedule_info
-  class:
+  schema:
     schedule_id: string
     name: string
     cron_expression: string
@@ -218,7 +207,7 @@
     last_run: int
 
 - object: schedule_execution
-  class:
+  schema:
     execution_id: string
     schedule_id: string
     started_at: int
@@ -228,13 +217,12 @@
     error: string
 
 - object: schedule_bulk_result
-  class:
+  schema:
     schedule_id: string
-    success: boolean
     error: string
 
 - object: schedule_action_config
-  class:
+  schema:
     url: string
     method: string
     headers: map[string, string]

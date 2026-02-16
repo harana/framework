@@ -1,9 +1,0 @@
-- object: uuid_registry
-  id: [value]
-  schema:
-    - created_at: date = now()
-    - entity_id: string? #max(200)
-    - entity_type: string? #max(100)
-    - value: string #unique #max(36)
-    - variant: string? #max(20)
-    - version: int? #min(1) #max(7)

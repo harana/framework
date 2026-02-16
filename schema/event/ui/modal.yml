@@ -1,6 +1,6 @@
 - event: modal_opened
   schema:
-    modal_id: id #required
+    modal_id: id
     modal_name: string?
     modal_type: dialog | alert | confirm | drawer | fullscreen = dialog
     trigger_source: string?
@@ -8,7 +8,7 @@
 
 - event: modal_closed
   schema:
-    modal_id: id #required
+    modal_id: id
     modal_name: string?
     close_reason: button | escape | backdrop | action = button
     time_open_ms: int? #min(0)
@@ -16,28 +16,28 @@
 
 - event: modal_dismissed
   schema:
-    modal_id: id #required
+    modal_id: id
     modal_name: string?
     dismiss_method: escape | backdrop | swipe | timeout = escape
     dismissed_at: date = now()
 
 - event: confirmation_accepted
   schema:
-    modal_id: id #required
+    modal_id: id
     modal_name: string?
     confirmation_type: delete | submit | save | discard | proceed = proceed
     accepted_at: date = now()
 
 - event: confirmation_rejected
   schema:
-    modal_id: id #required
+    modal_id: id
     modal_name: string?
     confirmation_type: delete | submit | save | discard | proceed = proceed
     rejected_at: date = now()
 
 - event: modal_backdrop_clicked
   schema:
-    modal_id: id #required
+    modal_id: id
     modal_name: string?
     closes_modal: boolean = true
     clicked_at: date = now()

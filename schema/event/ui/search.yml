@@ -1,29 +1,29 @@
 - event: search_initiated
   schema:
-    search_id: id #required
-    search_query: string #required
+    search_id: id
+    search_query: string
     search_type: global | local | filter = global
     search_context: string?
     initiated_at: date = now()
 
 - event: search_cleared
   schema:
-    search_id: id #required
+    search_id: id
     previous_query: string?
     cleared_at: date = now()
 
 - event: search_results_shown
   schema:
-    search_id: id #required
-    search_query: string #required
+    search_id: id
+    search_query: string
     results_count: int #min(0)
     search_duration_ms: int? #min(0)
     shown_at: date = now()
 
 - event: search_result_selected
   schema:
-    search_id: id #required
-    result_id: id #required
+    search_id: id
+    result_id: id
     result_index: int? #min(0)
     result_type: string?
     search_query: string?
@@ -31,7 +31,7 @@
 
 - event: search_empty_state
   schema:
-    search_id: id #required
-    search_query: string #required
+    search_id: id
+    search_query: string
     suggestions_shown: boolean = false
     shown_at: date = now()

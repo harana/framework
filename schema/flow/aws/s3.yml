@@ -1,20 +1,17 @@
 - action: create_bucket
   inputs:
     acl: private | public-read | public-read-write | authenticated-read = private
-    bucket: string #required
+    bucket: string
     region: string
     tags: s3_tags
   outputs:
     bucket: string
     location: string
-    success: boolean
 
 - action: delete_bucket
   inputs:
-    bucket: string #required
+    bucket: string
     region: string
-  outputs:
-    success: boolean
 
 - action: list_buckets
   inputs:
@@ -25,24 +22,23 @@
 - action: put_object
   inputs:
     acl: private | public-read | public-read-write | authenticated-read
-    bucket: string #required
-    content: bytes #required
+    bucket: string
+    content: bytes
     content_type: string
-    key: string #required
+    key: string
     metadata: object_metadata
     region: string
     server_side_encryption: aes256 | aws:kms
-    storage_class: standard | REDUCED_REDUNDANCY | STANDARD_IA | ONEZONE_IA | INTELLIGENT_TIERING | glacier | DEEP_ARCHIVE
+    storage_schema: standard | REDUCED_REDUNDANCY | STANDARD_IA | ONEZONE_IA | INTELLIGENT_TIERING | glacier | DEEP_ARCHIVE
     tags: s3_tags
   outputs:
     etag: string
-    success: boolean
     version_id: string
 
 - action: get_object
   inputs:
-    bucket: string #required
-    key: string #required
+    bucket: string
+    key: string
     region: string
     version_id: string
   outputs:
@@ -52,32 +48,29 @@
     last_modified: date
     metadata: object_metadata
     size: int
-    storage_class: string
+    storage_schema: string
     version_id: string
 
 - action: delete_object
   inputs:
-    bucket: string #required
-    key: string #required
+    bucket: string
+    key: string
     region: string
     version_id: string
-  outputs:
-    success: boolean
     version_id: string
 
 - action: delete_objects
   inputs:
-    bucket: string #required
-    keys: list[string] #required
+    bucket: string
+    keys: list[string]
     region: string
   outputs:
     deleted: list[deleted_object]
     errors: list[s3_error]
-    success: boolean
 
 - action: list_objects
   inputs:
-    bucket: string #required
+    bucket: string
     continuation_token: string
     delimiter: string
     max_keys: int = 1000
@@ -94,25 +87,24 @@
 
 - action: copy_object
   inputs:
-    destination_bucket: string #required
-    destination_key: string #required
+    destination_bucket: string
+    destination_key: string
     metadata: object_metadata
     metadata_directive: copy | replace = copy
     region: string
-    source_bucket: string #required
-    source_key: string #required
+    source_bucket: string
+    source_key: string
     source_version_id: string
-    storage_class: string
+    storage_schema: string
     tags: s3_tags
   outputs:
     etag: string
-    success: boolean
     version_id: string
 
 - action: head_object
   inputs:
-    bucket: string #required
-    key: string #required
+    bucket: string
+    key: string
     region: string
     version_id: string
   outputs:
@@ -122,14 +114,14 @@
     exists: boolean
     last_modified: date
     metadata: object_metadata
-    storage_class: string
+    storage_schema: string
     version_id: string
 
 - action: get_presigned_url
   inputs:
-    bucket: string #required
+    bucket: string
     expires_in: int = 3600
-    key: string #required
+    key: string
     operation: get_object | put_object = get_object
     region: string
   outputs:
@@ -138,37 +130,31 @@
 
 - action: put_bucket_policy
   inputs:
-    bucket: string #required
-    policy: string #required
+    bucket: string
+    policy: string
     region: string
-  outputs:
-    success: boolean
 
 - action: get_bucket_policy
   inputs:
-    bucket: string #required
+    bucket: string
     region: string
   outputs:
     policy: string
 
 - action: delete_bucket_policy
   inputs:
-    bucket: string #required
+    bucket: string
     region: string
-  outputs:
-    success: boolean
 
 - action: put_bucket_versioning
   inputs:
-    bucket: string #required
+    bucket: string
     region: string
-    status: enabled | suspended #required
-  outputs:
-    success: boolean
+    status: enabled | suspended
 
 - action: get_bucket_versioning
   inputs:
-    bucket: string #required
+    bucket: string
     region: string
   outputs:
     mfa_delete: string
@@ -176,72 +162,62 @@
 
 - action: put_bucket_encryption
   inputs:
-    bucket: string #required
+    bucket: string
     kms_master_key_id: string
     region: string
-    sse_algorithm: aes256 | aws:kms #required
-  outputs:
-    success: boolean
+    sse_algorithm: aes256 | aws:kms
 
 - action: get_bucket_encryption
   inputs:
-    bucket: string #required
+    bucket: string
     region: string
   outputs:
     rules: list[encryption_rule]
 
 - action: put_bucket_cors
   inputs:
-    bucket: string #required
-    cors_rules: list[cors_rule] #required
+    bucket: string
+    cors_rules: list[cors_rule]
     region: string
-  outputs:
-    success: boolean
 
 - action: get_bucket_cors
   inputs:
-    bucket: string #required
+    bucket: string
     region: string
   outputs:
     cors_rules: list[cors_rule]
 
 - action: delete_bucket_cors
   inputs:
-    bucket: string #required
+    bucket: string
     region: string
-  outputs:
-    success: boolean
 
 - action: put_bucket_lifecycle
   inputs:
-    bucket: string #required
-    lifecycle_rules: list[lifecycle_rule] #required
+    bucket: string
+    lifecycle_rules: list[lifecycle_rule]
     region: string
-  outputs:
-    success: boolean
 
 - action: get_bucket_lifecycle
   inputs:
-    bucket: string #required
+    bucket: string
     region: string
   outputs:
     rules: list[lifecycle_rule]
 
 - action: put_object_tagging
   inputs:
-    bucket: string #required
-    key: string #required
+    bucket: string
+    key: string
     region: string
-    tags: s3_tags #required
+    tags: s3_tags
     version_id: string
-  outputs:
-    success: boolean
     version_id: string
 
 - action: get_object_tagging
   inputs:
-    bucket: string #required
-    key: string #required
+    bucket: string
+    key: string
     region: string
     version_id: string
   outputs:
@@ -250,47 +226,92 @@
 
 - action: create_multipart_upload
   inputs:
-    bucket: string #required
+    bucket: string
     content_type: string
-    key: string #required
+    key: string
     metadata: object_metadata
     region: string
-    storage_class: string
-  outputs:
-    success: boolean
+    storage_schema: string
     upload_id: string
 
 - action: upload_part
   inputs:
-    body: bytes #required
-    bucket: string #required
-    key: string #required
-    part_number: int #required
+    body: bytes
+    bucket: string
+    key: string
+    part_number: int
     region: string
-    upload_id: string #required
+    upload_id: string
   outputs:
     etag: string
-    success: boolean
 
 - action: complete_multipart_upload
   inputs:
-    bucket: string #required
-    key: string #required
-    parts: list[completed_part] #required
+    bucket: string
+    key: string
+    parts: list[completed_part]
     region: string
-    upload_id: string #required
+    upload_id: string
   outputs:
     bucket: string
     etag: string
     key: string
     location: string
-    success: boolean
 
 - action: abort_multipart_upload
   inputs:
-    bucket: string #required
-    key: string #required
+    bucket: string
+    key: string
     region: string
-    upload_id: string #required
-  outputs:
-    success: boolean
+    upload_id: string
+
+- object: aws_s3_bucket
+  schema:
+    account_id: string
+    acl: private | public_read | public_read_write | authenticated_read = private
+    bucket_name: string
+    cors_enabled: boolean = false
+    created_at: date = now()
+    encryption_algorithm: none | aes256 | aws_kms = none
+    is_versioned: boolean = false
+    kms_key_id: string
+    lifecycle_rules_count: int = 0
+    location: string
+    region: string
+    tags: string #json
+    updated_at: date = now()
+
+- object: aws_s3_object
+  schema:
+    bucket_id: string
+    content_type: string
+    created_at: date = now()
+    etag: string
+    is_delete_marker: boolean = false
+    key: string
+    last_modified: date
+    metadata: string #json
+    size: int
+    storage_schema: standard | reduced_redundancy | standard_ia | onezone_ia | intelligent_tiering | glacier | deep_archive = standard
+    tags: string #json
+    updated_at: date = now()
+    version_id: string
+
+- object: aws_s3_bucket_policy
+  schema:
+    bucket_id: string
+    created_at: date = now()
+    policy_document: string
+    updated_at: date = now()
+
+- object: aws_s3_multipart_upload
+  schema:
+    bucket_id: string
+    completed_at: date
+    content_type: string
+    created_at: date = now()
+    key: string
+    metadata: string #json
+    status: initiated | in_progress | completed | aborted = initiated
+    storage_schema: string
+    upload_id: string

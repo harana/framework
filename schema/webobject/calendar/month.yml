@@ -3,7 +3,7 @@
     - add_event_label: string = "add event" #max(50)
     - current_month_datetime: string #max(20)
     - current_month_display: string #max(50)
-    - days: [calendar_day] #required
+    - days: [calendar_day]
     - selected_view: string = "month" #max(20)
     - title: string #max(100)
     - today_label: string = "today" #max(20)

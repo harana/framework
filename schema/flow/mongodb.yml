@@ -1,28 +1,26 @@
 - action: insert
   inputs:
-    collection: string #required
-    database: string #required
-    document: mongo_document_data #required
+    collection: string
+    database: string
+    document: mongo_document_data
   outputs:
     inserted_id: string
-    success: boolean
 
 - action: insert_many
   inputs:
-    collection: string #required
-    database: string #required
-    documents: list[mongo_document_data] #required
+    collection: string
+    database: string
+    documents: list[mongo_document_data]
     ordered: boolean = true
   outputs:
     inserted_count: int
     inserted_ids: list[string]
-    success: boolean
 
 - action: find_one
   inputs:
-    collection: string #required
-    database: string #required
-    filter: mongo_filter #required
+    collection: string
+    database: string
+    filter: mongo_filter
     projection: mongo_projection
   outputs:
     document: mongo_document_data
@@ -30,8 +28,8 @@
 
 - action: find
   inputs:
-    collection: string #required
-    database: string #required
+    collection: string
+    database: string
     filter: mongo_filter = {}
     limit: int
     projection: mongo_projection
@@ -43,161 +41,188 @@
 
 - action: update_one
   inputs:
-    collection: string #required
-    database: string #required
-    filter: mongo_filter #required
-    update: mongo_update #required
+    collection: string
+    database: string
+    filter: mongo_filter
+    update: mongo_update
     upsert: boolean = false
   outputs:
     matched_count: int
     modified_count: int
-    success: boolean
     upserted_id: string
 
 - action: update_many
   inputs:
-    collection: string #required
-    database: string #required
-    filter: mongo_filter #required
-    update: mongo_update #required
+    collection: string
+    database: string
+    filter: mongo_filter
+    update: mongo_update
     upsert: boolean = false
   outputs:
     matched_count: int
     modified_count: int
-    success: boolean
     upserted_id: string
 
 - action: replace_one
   inputs:
-    collection: string #required
-    database: string #required
-    filter: mongo_filter #required
-    replacement: mongo_document_data #required
+    collection: string
+    database: string
+    filter: mongo_filter
+    replacement: mongo_document_data
     upsert: boolean = false
   outputs:
     matched_count: int
     modified_count: int
-    success: boolean
     upserted_id: string
 
 - action: delete_one
   inputs:
-    collection: string #required
-    database: string #required
-    filter: mongo_filter #required
+    collection: string
+    database: string
+    filter: mongo_filter
   outputs:
     deleted_count: int
-    success: boolean
 
 - action: delete_many
   inputs:
-    collection: string #required
-    database: string #required
-    filter: mongo_filter #required
+    collection: string
+    database: string
+    filter: mongo_filter
   outputs:
     deleted_count: int
-    success: boolean
 
 - action: count
   inputs:
-    collection: string #required
-    database: string #required
+    collection: string
+    database: string
     filter: mongo_filter = {}
   outputs:
     count: int
 
 - action: aggregate
   inputs:
-    collection: string #required
-    database: string #required
-    pipeline: list[mongo_pipeline_stage] #required
+    collection: string
+    database: string
+    pipeline: list[mongo_pipeline_stage]
   outputs:
     documents: list[mongo_document_data]
 
 - action: create_index
   inputs:
-    collection: string #required
-    database: string #required
-    keys: mongo_index_keys #required
+    collection: string
+    database: string
+    keys: mongo_index_keys
     name: string
     unique: boolean = false
   outputs:
     index_name: string
-    success: boolean
 
 - action: drop_index
   inputs:
-    collection: string #required
-    database: string #required
-    index_name: string #required
-  outputs:
-    success: boolean
+    collection: string
+    database: string
+    index_name: string
 
 - action: list_collections
   inputs:
-    database: string #required
+    database: string
   outputs:
     collections: list[string]
 
 - action: drop_collection
   inputs:
-    collection: string #required
-    database: string #required
-  outputs:
-    success: boolean
+    collection: string
+    database: string
 
 - action: bulk_write
   inputs:
-    collection: string #required
-    database: string #required
-    operations: list[mongo_bulk_operation] #required
+    collection: string
+    database: string
+    operations: list[mongo_bulk_operation]
     ordered: boolean = true
   outputs:
     deleted_count: int
     inserted_count: int
     matched_count: int
     modified_count: int
-    success: boolean
     upserted_count: int
 
 - object: mongo_document
-  class:
+  schema:
     _id: string
     collection: string
     database: string
     document: mongo_document_data
 
 - object: mongo_document_data
-  class:
+  schema:
     data: map[string, any]
 
 - object: mongo_filter
-  class:
+  schema:
     conditions: map[string, any]
 
 - object: mongo_projection
-  class:
+  schema:
     fields: map[string, integer]
 
 - object: mongo_sort
-  class:
+  schema:
     fields: map[string, integer]
 
 - object: mongo_update
-  class:
+  schema:
     operators: map[string, any]
 
 - object: mongo_pipeline_stage
-  class:
+  schema:
     stage: map[string, any]
 
 - object: mongo_index_keys
-  class:
+  schema:
     fields: map[string, integer]
 
 - object: mongo_bulk_operation
-  class:
+  schema:
     operation_type: string
     filter: mongo_filter
     document: mongo_document_data
     update: mongo_update
+
+- object: mongodb_connection
+  schema:
+    connection_string: string
+    created_at: date = now()
+    database: string
+    host: string
+    is_active: boolean = true
+    port: int = 27017
+    updated_at: date = now()
+    use_ssl: boolean = false
+
+- object: mongodb_collection
+  schema:
+    connection_id: string
+    created_at: date = now()
+    document_count: int = 0
+    name: string
+    size: int = 0
+
+- object: mongodb_index
+  schema:
+    collection_id: string
+    created_at: date = now()
+    is_unique: boolean = false
+    keys: string #json
+    name: string
+
+- object: mongodb_query_log
+  schema:
+    collection_id: string
+    documents_affected: int = 0
+    duration_ms: int
+    error_message: string
+    executed_at: date = now()
+    operation: insert | find | update | delete | aggregate | bulk_write = find
+    status: success | failed | timeout = success
+    user_id: string

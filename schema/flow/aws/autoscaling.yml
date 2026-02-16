@@ -1,6 +1,6 @@
 - action: create_auto_scaling_group
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     availability_zones: list[string]
     capacity_rebalance: boolean = false
     context: string
@@ -17,8 +17,8 @@
     lifecycle_hook_specification_list: list[lifecycle_hook_specification]
     load_balancer_names: list[string]
     max_instance_lifetime: int
-    max_size: int #required
-    min_size: int #required
+    max_size: int
+    min_size: int
     mixed_instances_policy: mixed_instances_policy
     new_instances_protected_from_scale_in: boolean = false
     placement_group: string
@@ -29,16 +29,12 @@
     termination_policies: list[string]
     traffic_sources: list[traffic_source_identifier]
     vpc_zone_identifier: string
-  outputs:
-    success: boolean
 
 - action: delete_auto_scaling_group
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     force_delete: boolean = false
     region: string
-  outputs:
-    success: boolean
 
 - action: describe_auto_scaling_groups
   inputs:
@@ -53,7 +49,7 @@
 
 - action: update_auto_scaling_group
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     availability_zones: list[string]
     capacity_rebalance: boolean
     context: string
@@ -76,81 +72,67 @@
     service_linked_role_arn: string
     termination_policies: list[string]
     vpc_zone_identifier: string
-  outputs:
-    success: boolean
 
 - action: set_desired_capacity
   inputs:
-    auto_scaling_group_name: string #required
-    desired_capacity: int #required
+    auto_scaling_group_name: string
+    desired_capacity: int
     honor_cooldown: boolean = false
     region: string
-  outputs:
-    success: boolean
 
 - action: attach_instances
   inputs:
-    auto_scaling_group_name: string #required
-    instance_ids: list[string] #required
+    auto_scaling_group_name: string
+    instance_ids: list[string]
     region: string
-  outputs:
-    success: boolean
 
 - action: detach_instances
   inputs:
-    auto_scaling_group_name: string #required
-    instance_ids: list[string] #required
+    auto_scaling_group_name: string
+    instance_ids: list[string]
     region: string
-    should_decrement_desired_capacity: boolean #required
+    should_decrement_desired_capacity: boolean
   outputs:
     activities: list[activity]
-    success: boolean
 
 - action: enter_standby
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     instance_ids: list[string]
     region: string
-    should_decrement_desired_capacity: boolean #required
+    should_decrement_desired_capacity: boolean
   outputs:
     activities: list[activity]
-    success: boolean
 
 - action: exit_standby
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     instance_ids: list[string]
     region: string
   outputs:
     activities: list[activity]
-    success: boolean
 
 - action: set_instance_health
   inputs:
-    health_status: healthy | unhealthy #required
-    instance_id: string #required
+    health_status: healthy | unhealthy
+    instance_id: string
     region: string
     should_respect_grace_period: boolean = false
-  outputs:
-    success: boolean
 
 - action: set_instance_protection
   inputs:
-    auto_scaling_group_name: string #required
-    instance_ids: list[string] #required
-    protected_from_scale_in: boolean #required
+    auto_scaling_group_name: string
+    instance_ids: list[string]
+    protected_from_scale_in: boolean
     region: string
-  outputs:
-    success: boolean
 
 - action: terminate_instance_in_auto_scaling_group
   inputs:
-    instance_id: string #required
+    instance_id: string
     region: string
-    should_decrement_desired_capacity: boolean #required
+    should_decrement_desired_capacity: boolean
   outputs:
     activity: activity
-    success: boolean
 
 - action: describe_auto_scaling_instances
   inputs:
@@ -176,7 +158,7 @@
     instance_type: string
     kernel_id: string
     key_name: string
-    launch_configuration_name: string #required
+    launch_configuration_name: string
     metadata_options: instance_metadata_options
     placement_tenancy: string
     ramdisk_id: string
@@ -184,15 +166,11 @@
     security_groups: list[string]
     spot_price: string
     user_data: string
-  outputs:
-    success: boolean
 
 - action: delete_launch_configuration
   inputs:
-    launch_configuration_name: string #required
+    launch_configuration_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: describe_launch_configurations
   inputs:
@@ -207,14 +185,14 @@
 - action: put_scaling_policy
   inputs:
     adjustment_type: change_in_capacity | exact_capacity | percent_change_in_capacity
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     cooldown: int
     enabled: boolean = true
     estimated_instance_warmup: int
     metric_aggregation_type: minimum | maximum | average
     min_adjustment_magnitude: int
     min_adjustment_step: int
-    policy_name: string #required
+    policy_name: string
     policy_type: simple_scaling | step_scaling | target_tracking_scaling | predictive_scaling = simple_scaling
     predictive_scaling_configuration: predictive_scaling_configuration
     region: string
@@ -224,15 +202,12 @@
   outputs:
     alarms: list[alarm]
     policy_arn: string
-    success: boolean
 
 - action: delete_policy
   inputs:
     auto_scaling_group_name: string
-    policy_name: string #required
+    policy_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: describe_policies
   inputs:
@@ -252,34 +227,28 @@
     breach_threshold: number
     honor_cooldown: boolean = false
     metric_value: number
-    policy_name: string #required
+    policy_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: put_scheduled_update_group_action
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     desired_capacity: int
     end_time: date
     max_size: int
     min_size: int
     recurrence: string
     region: string
-    scheduled_action_name: string #required
+    scheduled_action_name: string
     start_time: date
     time: date
     time_zone: string
-  outputs:
-    success: boolean
 
 - action: delete_scheduled_action
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     region: string
-    scheduled_action_name: string #required
-  outputs:
-    success: boolean
+    scheduled_action_name: string
 
 - action: describe_scheduled_actions
   inputs:
@@ -296,47 +265,41 @@
 
 - action: batch_delete_scheduled_action
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     region: string
-    scheduled_action_names: list[string] #required
+    scheduled_action_names: list[string]
   outputs:
     failed_scheduled_actions: list[failed_scheduled_update_group_action_request]
-    success: boolean
 
 - action: batch_put_scheduled_update_group_action
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     region: string
-    scheduled_update_group_actions: list[scheduled_update_group_action_request] #required
+    scheduled_update_group_actions: list[scheduled_update_group_action_request]
   outputs:
     failed_scheduled_update_group_actions: list[failed_scheduled_update_group_action_request]
-    success: boolean
 
 - action: put_lifecycle_hook
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     default_result: continue | abandon = abandon
     heartbeat_timeout: int = 3600
-    lifecycle_hook_name: string #required
+    lifecycle_hook_name: string
     lifecycle_transition: autoscaling:EC2_INSTANCE_LAUNCHING | autoscaling:EC2_INSTANCE_TERMINATING
     notification_metadata: string
     notification_target_arn: string
     region: string
     role_arn: string
-  outputs:
-    success: boolean
 
 - action: delete_lifecycle_hook
   inputs:
-    auto_scaling_group_name: string #required
-    lifecycle_hook_name: string #required
+    auto_scaling_group_name: string
+    lifecycle_hook_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: describe_lifecycle_hooks
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     lifecycle_hook_names: list[string]
     region: string
   outputs:
@@ -350,41 +313,33 @@
 
 - action: complete_lifecycle_action
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     instance_id: string
-    lifecycle_action_result: continue | abandon #required
+    lifecycle_action_result: continue | abandon
     lifecycle_action_token: string
-    lifecycle_hook_name: string #required
+    lifecycle_hook_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: record_lifecycle_action_heartbeat
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     instance_id: string
     lifecycle_action_token: string
-    lifecycle_hook_name: string #required
+    lifecycle_hook_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: put_notification_configuration
   inputs:
-    auto_scaling_group_name: string #required
-    notification_types: list[string] #required
+    auto_scaling_group_name: string
+    notification_types: list[string]
     region: string
-    topic_arn: string #required
-  outputs:
-    success: boolean
+    topic_arn: string
 
 - action: delete_notification_configuration
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     region: string
-    topic_arn: string #required
-  outputs:
-    success: boolean
+    topic_arn: string
 
 - action: describe_notification_configurations
   inputs:
@@ -404,23 +359,19 @@
 
 - action: attach_load_balancers
   inputs:
-    auto_scaling_group_name: string #required
-    load_balancer_names: list[string] #required
+    auto_scaling_group_name: string
+    load_balancer_names: list[string]
     region: string
-  outputs:
-    success: boolean
 
 - action: detach_load_balancers
   inputs:
-    auto_scaling_group_name: string #required
-    load_balancer_names: list[string] #required
+    auto_scaling_group_name: string
+    load_balancer_names: list[string]
     region: string
-  outputs:
-    success: boolean
 
 - action: describe_load_balancers
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     max_records: int = 100
     next_token: string
     region: string
@@ -430,23 +381,19 @@
 
 - action: attach_load_balancer_target_groups
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     region: string
-    target_group_arns: list[string] #required
-  outputs:
-    success: boolean
+    target_group_arns: list[string]
 
 - action: detach_load_balancer_target_groups
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     region: string
-    target_group_arns: list[string] #required
-  outputs:
-    success: boolean
+    target_group_arns: list[string]
 
 - action: describe_load_balancer_target_groups
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     max_records: int = 100
     next_token: string
     region: string
@@ -456,23 +403,19 @@
 
 - action: attach_traffic_sources
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     region: string
-    traffic_sources: list[traffic_source_identifier] #required
-  outputs:
-    success: boolean
+    traffic_sources: list[traffic_source_identifier]
 
 - action: detach_traffic_sources
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     region: string
-    traffic_sources: list[traffic_source_identifier] #required
-  outputs:
-    success: boolean
+    traffic_sources: list[traffic_source_identifier]
 
 - action: describe_traffic_sources
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     max_records: int = 100
     next_token: string
     region: string
@@ -501,42 +444,36 @@
 
 - action: suspend_processes
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     region: string
     scaling_processes: list[string]
-  outputs:
-    success: boolean
 
 - action: resume_processes
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     region: string
     scaling_processes: list[string]
-  outputs:
-    success: boolean
 
 - action: start_instance_refresh
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     desired_configuration: desired_configuration
     preferences: refresh_preferences
     region: string
     strategy: rolling | blue_green = rolling
   outputs:
     instance_refresh_id: string
-    success: boolean
 
 - action: cancel_instance_refresh
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     region: string
   outputs:
     instance_refresh_id: string
-    success: boolean
 
 - action: describe_instance_refreshes
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     instance_refresh_ids: list[string]
     max_records: int = 100
     next_token: string
@@ -547,34 +484,29 @@
 
 - action: rollback_instance_refresh
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     region: string
   outputs:
     instance_refresh_id: string
-    success: boolean
 
 - action: put_warm_pool
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     instance_reuse_policy: instance_reuse_policy
     max_group_prepared_capacity: int
     min_size: int = 0
     pool_state: stopped | running | hibernated = stopped
     region: string
-  outputs:
-    success: boolean
 
 - action: delete_warm_pool
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     force_delete: boolean = false
     region: string
-  outputs:
-    success: boolean
 
 - action: describe_warm_pool
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     max_records: int = 100
     next_token: string
     region: string
@@ -613,28 +545,24 @@
 
 - action: enable_metrics_collection
   inputs:
-    auto_scaling_group_name: string #required
-    granularity: string #required
+    auto_scaling_group_name: string
+    granularity: string
     metrics: list[string]
     region: string
-  outputs:
-    success: boolean
 
 - action: disable_metrics_collection
   inputs:
-    auto_scaling_group_name: string #required
+    auto_scaling_group_name: string
     metrics: list[string]
     region: string
-  outputs:
-    success: boolean
 
 - action: get_predictive_scaling_forecast
   inputs:
-    auto_scaling_group_name: string #required
-    end_time: date #required
-    policy_name: string #required
+    auto_scaling_group_name: string
+    end_time: date
+    policy_name: string
     region: string
-    start_time: date #required
+    start_time: date
   outputs:
     capacity_forecast: capacity_forecast
     load_forecast: list[load_forecast]
@@ -643,16 +571,12 @@
 - action: create_or_update_tags
   inputs:
     region: string
-    tags: list[auto_scaling_tag] #required
-  outputs:
-    success: boolean
+    tags: list[auto_scaling_tag]
 
 - action: delete_tags
   inputs:
     region: string
-    tags: list[auto_scaling_tag] #required
-  outputs:
-    success: boolean
+    tags: list[auto_scaling_tag]
 
 - action: describe_tags
   inputs:
@@ -663,3 +587,93 @@
   outputs:
     next_token: string
     tags: list[tag_description]
+
+- object: aws_autoscaling_group
+  schema:
+    account_id: string
+    auto_scaling_group_arn: string
+    auto_scaling_group_name: string
+    availability_zones: string #json
+    capacity_rebalance: boolean = false
+    created_at: date = now()
+    default_cooldown: int = 300
+    desired_capacity: int = 0
+    health_check_grace_period: int = 300
+    health_check_type: ec2 | elb = ec2
+    launch_configuration_name: string
+    launch_template_id: string
+    launch_template_version: string
+    max_instance_lifetime: int
+    max_size: int
+    min_size: int
+    new_instances_protected_from_scale_in: boolean = false
+    placement_group: string
+    region: string
+    service_linked_role_arn: string
+    status: string
+    tags: string #json
+    target_group_arns: string #json
+    termination_policies: string #json
+    updated_at: date = now()
+    vpc_zone_identifier: string
+
+- object: aws_autoscaling_launch_configuration
+  schema:
+    account_id: string
+    associate_public_ip_address: boolean = false
+    created_at: date = now()
+    ebs_optimized: boolean = false
+    iam_instance_profile: string
+    image_id: string
+    instance_monitoring_enabled: boolean = false
+    instance_type: string
+    kernel_id: string
+    key_name: string
+    launch_configuration_arn: string
+    launch_configuration_name: string
+    region: string
+    security_groups: string #json
+    spot_price: string
+
+- object: aws_autoscaling_policy
+  schema:
+    adjustment_type: change_in_capacity | exact_capacity | percent_change_in_capacity = change_in_capacity
+    auto_scaling_group_id: string
+    cooldown: int
+    created_at: date = now()
+    enabled: boolean = true
+    estimated_instance_warmup: int
+    metric_aggregation_type: string
+    min_adjustment_magnitude: int
+    policy_arn: string
+    policy_name: string
+    policy_type: simple_scaling | step_scaling | target_tracking_scaling | predictive_scaling = simple_scaling
+    scaling_adjustment: int
+    target_tracking_configuration: string #json
+    updated_at: date = now()
+
+- object: aws_autoscaling_scheduled_action
+  schema:
+    auto_scaling_group_id: string
+    created_at: date = now()
+    desired_capacity: int
+    end_time: date
+    max_size: int
+    min_size: int
+    recurrence: string
+    scheduled_action_arn: string
+    scheduled_action_name: string
+    start_time: date
+    time_zone: string
+
+- object: aws_autoscaling_lifecycle_hook
+  schema:
+    auto_scaling_group_id: string
+    created_at: date = now()
+    default_result: continue | abandon = continue
+    heartbeat_timeout: int = 3600
+    lifecycle_hook_name: string
+    lifecycle_transition: autoscaling:EC2_INSTANCE_LAUNCHING | autoscaling:EC2_INSTANCE_TERMINATING
+    notification_metadata: string
+    notification_target_arn: string
+    role_arn: string

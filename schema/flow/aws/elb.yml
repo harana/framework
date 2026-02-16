@@ -2,7 +2,7 @@
   inputs:
     customer_owned_ipv4_pool: string
     ip_address_type: ipv4 | dualstack
-    name: string #required
+    name: string
     region: string
     scheme: internet-facing | internal = internet-facing
     security_groups: list[string]
@@ -12,14 +12,11 @@
     type: application | network | gateway = application
   outputs:
     load_balancers: list[load_balancer]
-    success: boolean
 
 - action: delete_load_balancer
   inputs:
-    load_balancer_arn: string #required
+    load_balancer_arn: string
     region: string
-  outputs:
-    success: boolean
 
 - action: describe_load_balancers
   inputs:
@@ -34,49 +31,45 @@
 
 - action: modify_load_balancer_attributes
   inputs:
-    attributes: list[load_balancer_attribute] #required
-    load_balancer_arn: string #required
+    attributes: list[load_balancer_attribute]
+    load_balancer_arn: string
     region: string
   outputs:
     attributes: list[load_balancer_attribute]
-    success: boolean
 
 - action: describe_load_balancer_attributes
   inputs:
-    load_balancer_arn: string #required
+    load_balancer_arn: string
     region: string
   outputs:
     attributes: list[load_balancer_attribute]
 
 - action: set_security_groups
   inputs:
-    load_balancer_arn: string #required
+    load_balancer_arn: string
     region: string
-    security_groups: list[string] #required
+    security_groups: list[string]
   outputs:
     security_group_ids: list[string]
-    success: boolean
 
 - action: set_subnets
   inputs:
     ip_address_type: ipv4 | dualstack
-    load_balancer_arn: string #required
+    load_balancer_arn: string
     region: string
     subnet_mappings: list[subnet_mapping]
     subnets: list[string]
   outputs:
     availability_zones: list[availability_zone]
     ip_address_type: string
-    success: boolean
 
 - action: set_ip_address_type
   inputs:
-    ip_address_type: ipv4 | dualstack #required
-    load_balancer_arn: string #required
+    ip_address_type: ipv4 | dualstack
+    load_balancer_arn: string
     region: string
   outputs:
     ip_address_type: string
-    success: boolean
 
 - action: create_target_group
   inputs:
@@ -89,7 +82,7 @@
     healthy_threshold_count: int = 5
     ip_address_type: ipv4 | ipv6
     matcher: matcher
-    name: string #required
+    name: string
     port: int
     protocol: http | https | tcp | tls | udp | TCP_UDP | geneve
     protocol_version: http1 | http2 | grpc
@@ -100,14 +93,11 @@
     vpc_id: string
   outputs:
     target_groups: list[target_group]
-    success: boolean
 
 - action: delete_target_group
   inputs:
     region: string
-    target_group_arn: string #required
-  outputs:
-    success: boolean
+    target_group_arn: string
 
 - action: describe_target_groups
   inputs:
@@ -132,48 +122,42 @@
     healthy_threshold_count: int
     matcher: matcher
     region: string
-    target_group_arn: string #required
+    target_group_arn: string
     unhealthy_threshold_count: int
   outputs:
     target_groups: list[target_group]
-    success: boolean
 
 - action: modify_target_group_attributes
   inputs:
-    attributes: list[target_group_attribute] #required
+    attributes: list[target_group_attribute]
     region: string
-    target_group_arn: string #required
+    target_group_arn: string
   outputs:
     attributes: list[target_group_attribute]
-    success: boolean
 
 - action: describe_target_group_attributes
   inputs:
     region: string
-    target_group_arn: string #required
+    target_group_arn: string
   outputs:
     attributes: list[target_group_attribute]
 
 - action: register_targets
   inputs:
     region: string
-    target_group_arn: string #required
-    targets: list[target_description] #required
-  outputs:
-    success: boolean
+    target_group_arn: string
+    targets: list[target_description]
 
 - action: deregister_targets
   inputs:
     region: string
-    target_group_arn: string #required
-    targets: list[target_description] #required
-  outputs:
-    success: boolean
+    target_group_arn: string
+    targets: list[target_description]
 
 - action: describe_target_health
   inputs:
     region: string
-    target_group_arn: string #required
+    target_group_arn: string
     targets: list[target_description]
   outputs:
     target_health_descriptions: list[target_health_description]
@@ -182,8 +166,8 @@
   inputs:
     alpn_policy: list[string]
     certificates: list[certificate]
-    default_actions: list[action] #required
-    load_balancer_arn: string #required
+    default_actions: list[action]
+    load_balancer_arn: string
     port: int
     protocol: http | https | tcp | tls | udp | TCP_UDP | geneve
     region: string
@@ -191,14 +175,11 @@
     tags: elb_tags
   outputs:
     listeners: list[listener]
-    success: boolean
 
 - action: delete_listener
   inputs:
-    listener_arn: string #required
+    listener_arn: string
     region: string
-  outputs:
-    success: boolean
 
 - action: describe_listeners
   inputs:
@@ -216,33 +197,29 @@
     alpn_policy: list[string]
     certificates: list[certificate]
     default_actions: list[action]
-    listener_arn: string #required
+    listener_arn: string
     port: int
     protocol: http | https | tcp | tls | udp | TCP_UDP | geneve
     region: string
     ssl_policy: string
   outputs:
     listeners: list[listener]
-    success: boolean
 
 - action: create_rule
   inputs:
-    actions: list[action] #required
-    conditions: list[rule_condition] #required
-    listener_arn: string #required
-    priority: int #required
+    actions: list[action]
+    conditions: list[rule_condition]
+    listener_arn: string
+    priority: int
     region: string
     tags: elb_tags
   outputs:
     rules: list[rule]
-    success: boolean
 
 - action: delete_rule
   inputs:
     region: string
-    rule_arn: string #required
-  outputs:
-    success: boolean
+    rule_arn: string
 
 - action: describe_rules
   inputs:
@@ -260,39 +237,34 @@
     actions: list[action]
     conditions: list[rule_condition]
     region: string
-    rule_arn: string #required
+    rule_arn: string
   outputs:
     rules: list[rule]
-    success: boolean
 
 - action: set_rule_priorities
   inputs:
     region: string
-    rule_priorities: list[rule_priority_pair] #required
+    rule_priorities: list[rule_priority_pair]
   outputs:
     rules: list[rule]
-    success: boolean
 
 - action: add_listener_certificates
   inputs:
-    certificates: list[certificate] #required
-    listener_arn: string #required
+    certificates: list[certificate]
+    listener_arn: string
     region: string
   outputs:
     certificates: list[certificate]
-    success: boolean
 
 - action: remove_listener_certificates
   inputs:
-    certificates: list[certificate] #required
-    listener_arn: string #required
+    certificates: list[certificate]
+    listener_arn: string
     region: string
-  outputs:
-    success: boolean
 
 - action: describe_listener_certificates
   inputs:
-    listener_arn: string #required
+    listener_arn: string
     marker: string
     page_size: int = 400
     region: string
@@ -323,22 +295,86 @@
 - action: add_tags
   inputs:
     region: string
-    resource_arns: list[string] #required
-    tags: elb_tags #required
-  outputs:
-    success: boolean
+    resource_arns: list[string]
+    tags: elb_tags
 
 - action: remove_tags
   inputs:
     region: string
-    resource_arns: list[string] #required
-    tag_keys: list[string] #required
-  outputs:
-    success: boolean
+    resource_arns: list[string]
+    tag_keys: list[string]
 
 - action: describe_tags
   inputs:
     region: string
-    resource_arns: list[string] #required
+    resource_arns: list[string]
   outputs:
     tag_descriptions: list[tag_description]
+
+- object: aws_elb_load_balancer
+  schema:
+    account_id: string
+    availability_zones: string #json
+    canonical_hosted_zone_id: string
+    created_at: date = now()
+    dns_name: string
+    ip_address_type: ipv4 | dualstack = ipv4
+    load_balancer_arn: string
+    name: string
+    region: string
+    scheme: internet_facing | internal = internet_facing
+    security_groups: string #json
+    state: active | provisioning | active_impaired | failed = provisioning
+    subnets: string #json
+    tags: string #json
+    type: application | network | gateway = application
+    updated_at: date = now()
+    vpc_id: string
+
+- object: aws_elb_target_group
+  schema:
+    account_id: string
+    created_at: date = now()
+    health_check_enabled: boolean = true
+    health_check_interval_seconds: int = 30
+    health_check_path: string
+    health_check_port: string
+    health_check_protocol: http | https | tcp | tls = http
+    health_check_timeout_seconds: int
+    healthy_threshold_count: int = 5
+    ip_address_type: ipv4 | ipv6 = ipv4
+    load_balancer_arns: string #json
+    name: string
+    port: int
+    protocol: http | https | tcp | tls | udp | tcp_udp | geneve = http
+    protocol_version: http1 | http2 | grpc = http1
+    region: string
+    tags: string #json
+    target_group_arn: string
+    target_type: instance | ip | lambda | alb = instance
+    unhealthy_threshold_count: int = 2
+    updated_at: date = now()
+    vpc_id: string
+
+- object: aws_elb_listener
+  schema:
+    certificates: string #json
+    created_at: date = now()
+    default_actions: string #json
+    listener_arn: string
+    load_balancer_id: string
+    port: int
+    protocol: http | https | tcp | tls | udp | tcp_udp | geneve = http
+    ssl_policy: string
+    updated_at: date = now()
+
+- object: aws_elb_listener_rule
+  schema:
+    actions: string #json
+    conditions: string #json
+    created_at: date = now()
+    is_default: boolean = false
+    listener_id: string
+    priority: int
+    rule_arn: string
+    updated_at: date = now()

@@ -1,0 +1,29 @@
+- object: user
+  id: [id]
+  schema:
+    - id: Id
+    - email: string #email #unique #max(255)
+    - username: string #min(3) #max(50)
+    - password_hash: string #max(255)
+    - first_name: string? #max(100)
+    - last_name: string? #max(100)
+    - is_active: Boolean = true
+    - is_verified: Boolean = false
+    - role: admin | user | guest = user
+    - created_at: date = now()
+    - updated_at: date?
+    - last_login_at: date?
+
+- object: user_profile
+  id: [user_id]
+  schema:
+    - user_id: Id -> user.id
+    - bio: string? #max(500)
+    - avatar_url: string? #url
+    - phone: string? #max(20)
+    - website: string? #url
+    - location: string? #max(200)
+    - timezone: string? #max(50)
+    - language: string? #max(10)
+    - created_at: date = now()
+    - updated_at: date?

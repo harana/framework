@@ -1,32 +1,30 @@
 - action: create
   inputs:
-    binding: string #required
+    binding: string
     id: string
     params: any
   outputs:
     id: string
-    success: boolean
 
 - action: create_batch
   inputs:
-    binding: string #required
-    instances: list[workflow_create_options] #required
+    binding: string
+    instances: list[workflow_create_options]
   outputs:
     instances: list[workflow_instance_info]
-    success: boolean
 
 - action: get
   inputs:
-    binding: string #required
-    id: string #required
+    binding: string
+    id: string
   outputs:
     id: string
     status: workflow_instance_status
 
 - action: status
   inputs:
-    binding: string #required
-    id: string #required
+    binding: string
+    id: string
   outputs:
     error: workflow_error
     output: any
@@ -34,45 +32,35 @@
 
 - action: pause
   inputs:
-    binding: string #required
-    id: string #required
-  outputs:
-    success: boolean
+    binding: string
+    id: string
 
 - action: resume
   inputs:
-    binding: string #required
-    id: string #required
-  outputs:
-    success: boolean
+    binding: string
+    id: string
 
 - action: restart
   inputs:
-    binding: string #required
-    id: string #required
-  outputs:
-    success: boolean
+    binding: string
+    id: string
 
 - action: terminate
   inputs:
-    binding: string #required
-    id: string #required
-  outputs:
-    success: boolean
+    binding: string
+    id: string
 
 - action: send_event
   inputs:
-    binding: string #required
-    id: string #required
+    binding: string
+    id: string
     payload: any
-    type: string #required
-  outputs:
-    success: boolean
+    type: string
 
 - action: step_do
   inputs:
-    callback: any #required
-    name: string #required
+    callback: any
+    name: string
     retries_backoff: constant | linear | exponential
     retries_delay: string
     retries_limit: int
@@ -82,23 +70,62 @@
 
 - action: step_sleep
   inputs:
-    duration: string #required
-    name: string #required
-  outputs:
-    success: boolean
+    duration: string
+    name: string
 
 - action: step_sleep_until
   inputs:
-    name: string #required
-    timestamp: date #required
-  outputs:
-    success: boolean
+    name: string
+    timestamp: date
 
 - action: step_wait_for_event
   inputs:
-    name: string #required
+    name: string
     timeout: string = "24 hours"
-    type: string #required
+    type: string
   outputs:
     payload: any
     type: string
+
+- object: cf_workflow
+  schema:
+    account_id: string
+    binding: string
+    class_name: string
+    created_at: date = now()
+    script_name: string
+    updated_at: date = now()
+    workflow_name: string
+
+- object: cf_workflow_instance
+  schema:
+    created_at: date = now()
+    error: string
+    instance_id: string
+    output: string #json
+    params: string #json
+    status: queued | running | paused | errored | terminated | complete | waiting | waiting_for_pause | unknown = queued
+    updated_at: date = now()
+    workflow_id: string
+
+- object: cf_workflow_step
+  schema:
+    completed_at: date
+    created_at: date = now()
+    instance_id: string
+    result: string #json
+    retries_backoff: constant | linear | exponential = constant
+    retries_delay: string
+    retries_limit: int
+    started_at: date
+    status: pending | running | completed | failed | sleeping | waiting_for_event = pending
+    step_name: string
+    step_type: do | sleep | sleep_until | wait_for_event = do
+    timeout: string
+
+- object: cf_workflow_event
+  schema:
+    event_type: string
+    instance_id: string
+    payload: string #json
+    sent_at: date = now()

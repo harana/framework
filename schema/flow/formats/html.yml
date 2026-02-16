@@ -1,6 +1,6 @@
 - action: parse
   inputs:
-    data: string #required
+    data: string
     fragment: boolean = false
   outputs:
     result: html_dom
@@ -9,14 +9,14 @@
   inputs:
     allowed_attributes: html_allowed_attributes
     allowed_tags: list[string]
-    data: string #required
+    data: string
     strip_comments: boolean = true
   outputs:
     html: string
 
 - action: extract_text
   inputs:
-    data: string #required
+    data: string
     preserve_whitespace: boolean = false
     separator: string = " "
   outputs:
@@ -25,15 +25,15 @@
 - action: css_select
   inputs:
     attribute: string
-    data: string #required
-    selector: string #required
+    data: string
+    selector: string
   outputs:
     results: list[any]
 
 - action: minify
   inputs:
     collapse_whitespace: boolean = true
-    data: string #required
+    data: string
     minify_css: boolean = true
     minify_js: boolean = true
     remove_comments: boolean = true
@@ -41,7 +41,7 @@
     html: string
 
 - object: html_document
-  class:
+  schema:
     content: string
     title: string
     charset: string
@@ -49,23 +49,23 @@
     body: html_element
 
 - object: html_dom
-  class:
+  schema:
     document_type: string
     root: html_element
 
 - object: html_element
-  class:
+  schema:
     tag_name: string
     attributes: map[string, string]
     children: list[html_node]
     text_content: string
 
 - object: html_node
-  class:
+  schema:
     node_type: string
     value: any
 
 - object: html_allowed_attributes
-  class:
+  schema:
     global: list[string]
     per_tag: map[string, list[string]]

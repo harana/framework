@@ -1,9 +1,9 @@
 - action: create_payment_intent
   inputs:
-    amount: int #required
+    amount: int
     capture_method: automatic | manual = automatic
     confirm: boolean = false
-    currency: string #required
+    currency: string
     customer_id: string
     description: string
     metadata: map[string, string]
@@ -16,17 +16,16 @@
 
 - action: confirm_payment_intent
   inputs:
-    payment_intent_id: string #required
+    payment_intent_id: string
     payment_method: string
   outputs:
     payment_intent_id: string
     status: string
-    success: boolean
 
 - action: capture_payment_intent
   inputs:
     amount_to_capture: int
-    payment_intent_id: string #required
+    payment_intent_id: string
   outputs:
     amount_captured: int
     payment_intent_id: string
@@ -35,11 +34,10 @@
 - action: cancel_payment_intent
   inputs:
     cancellation_reason: duplicate | fraudulent | requested_by_customer | abandoned
-    payment_intent_id: string #required
+    payment_intent_id: string
   outputs:
     payment_intent_id: string
     status: string
-    success: boolean
 
 - action: create_customer
   inputs:
@@ -56,7 +54,7 @@
 
 - action: update_customer
   inputs:
-    customer_id: string #required
+    customer_id: string
     description: string
     email: string
     metadata: map[string, string]
@@ -64,18 +62,17 @@
     phone: string
   outputs:
     customer_id: string
-    success: boolean
 
 - action: delete_customer
   inputs:
-    customer_id: string #required
+    customer_id: string
   outputs:
     customer_id: string
     deleted: boolean
 
 - action: get_customer
   inputs:
-    customer_id: string #required
+    customer_id: string
   outputs:
     created: int
     customer_id: string
@@ -86,9 +83,9 @@
 
 - action: create_subscription
   inputs:
-    customer_id: string #required
+    customer_id: string
     metadata: map[string, string]
-    price_id: string #required
+    price_id: string
     quantity: int = 1
     trial_period_days: int
   outputs:
@@ -99,7 +96,7 @@
 - action: cancel_subscription
   inputs:
     cancel_at_period_end: boolean = false
-    subscription_id: string #required
+    subscription_id: string
   outputs:
     canceled_at: int
     status: string
@@ -109,7 +106,7 @@
   inputs:
     amount: int
     metadata: map[string, string]
-    payment_intent_id: string #required
+    payment_intent_id: string
     reason: duplicate | fraudulent | requested_by_customer
   outputs:
     amount: int
@@ -118,12 +115,12 @@
 
 - action: create_price
   inputs:
-    currency: string #required
+    currency: string
     metadata: map[string, string]
-    product_id: string #required
+    product_id: string
     recurring_interval: day | week | month | year
     recurring_interval_count: int = 1
-    unit_amount: int #required
+    unit_amount: int
   outputs:
     currency: string
     price_id: string
@@ -135,7 +132,7 @@
     description: string
     images: list[string]
     metadata: map[string, string]
-    name: string #required
+    name: string
   outputs:
     created: int
     name: string
@@ -143,20 +140,20 @@
 
 - action: create_checkout_session
   inputs:
-    cancel_url: string #required
+    cancel_url: string
     customer_email: string
     customer_id: string
-    line_items: list[stripe_line_item] #required
+    line_items: list[stripe_line_item]
     metadata: map[string, string]
-    mode: payment | subscription | setup #required
-    success_url: string #required
+    mode: payment | subscription | setup
+    success_url: string
   outputs:
     session_id: string
     url: string
 
 - action: retrieve_payment_intent
   inputs:
-    payment_intent_id: string #required
+    payment_intent_id: string
   outputs:
     amount: int
     currency: string
@@ -178,7 +175,7 @@
   inputs:
     billing_details: stripe_billing_details
     card: stripe_card
-    type: card | bank_account | us_bank_account #required
+    type: card | bank_account | us_bank_account
   outputs:
     created: int
     payment_method_id: string
@@ -186,15 +183,14 @@
 
 - action: attach_payment_method
   inputs:
-    customer_id: string #required
-    payment_method_id: string #required
+    customer_id: string
+    payment_method_id: string
   outputs:
     customer_id: string
     payment_method_id: string
-    success: boolean
 
 - object: stripe_payment_intent
-  class:
+  schema:
     payment_intent_id: string
     amount: int
     currency: string
@@ -205,12 +201,12 @@
     created: date
 
 - object: stripe_line_item
-  class:
+  schema:
     price_id: string
     quantity: int
 
 - object: stripe_customer
-  class:
+  schema:
     customer_id: string
     email: string
     name: string
@@ -219,14 +215,14 @@
     metadata: map[string, string]
 
 - object: stripe_billing_details
-  class:
+  schema:
     name: string
     email: string
     phone: string
     address: stripe_address
 
 - object: stripe_address
-  class:
+  schema:
     line1: string
     line2: string
     city: string
@@ -235,8 +231,64 @@
     country: string
 
 - object: stripe_card
-  class:
+  schema:
     number: string
     exp_month: int
     exp_year: int
     cvc: string
+
+- object: stripe_subscription
+  schema:
+    cancel_at_period_end: boolean = false
+    cancelled_at: date
+    created_at: date = now()
+    current_period_end: date
+    current_period_start: date
+    customer_id: string
+    metadata: string #json
+    price_id: string
+    quantity: int = 1
+    status: active | past_due | cancelled | incomplete | trialing | unpaid = active
+    subscription_id: string
+    trial_end: date
+    updated_at: date = now()
+
+- object: stripe_product
+  schema:
+    created_at: date = now()
+    description: string
+    is_active: boolean = true
+    metadata: string #json
+    name: string
+    product_id: string
+    updated_at: date = now()
+
+- object: stripe_price
+  schema:
+    created_at: date = now()
+    currency: string
+    is_active: boolean = true
+    price_id: string
+    product_id: string
+    recurring_interval: day | week | month | year
+    recurring_interval_count: int = 1
+    unit_amount: int
+
+- object: stripe_refund
+  schema:
+    amount: int
+    created_at: date = now()
+    metadata: string #json
+    payment_intent_id: string
+    reason: duplicate | fraudulent | requested_by_customer
+    refund_id: string
+    status: pending | succeeded | failed | cancelled = pending
+
+- object: stripe_webhook_event
+  schema:
+    created_at: date = now()
+    event_id: string
+    event_type: string
+    payload: string
+    processed_at: date
+    status: pending | processed | failed = pending

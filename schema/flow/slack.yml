@@ -2,85 +2,71 @@
   inputs:
     attachments: list[slack_attachment]
     blocks: list[slack_block]
-    channel_id: string #required
+    channel_id: string
     icon_emoji: string
     icon_url: string
-    text: string #required
+    text: string
     thread_ts: string
     username: string
   outputs:
     channel_id: string
     message_ts: string
-    success: boolean
 
 - action: update_message
   inputs:
     attachments: list[slack_attachment]
     blocks: list[slack_block]
-    channel_id: string #required
-    text: string #required
-    timestamp: string #required
+    channel_id: string
+    text: string
+    timestamp: string
   outputs:
     message_ts: string
-    success: boolean
 
 - action: delete_message
   inputs:
-    channel_id: string #required
-    timestamp: string #required
-  outputs:
-    success: boolean
+    channel_id: string
+    timestamp: string
 
 - action: send_dm
   inputs:
     attachments: list[slack_attachment]
     blocks: list[slack_block]
-    text: string #required
-    user_id: string #required
+    text: string
+    user_id: string
   outputs:
     channel_id: string
     message_ts: string
-    success: boolean
 
 - action: create_channel
   inputs:
     description: string
     is_private: boolean = false
-    name: string #required
+    name: string
   outputs:
     channel_id: string
     name: string
-    success: boolean
 
 - action: archive_channel
   inputs:
-    channel_id: string #required
-  outputs:
-    success: boolean
+    channel_id: string
 
 - action: unarchive_channel
   inputs:
-    channel_id: string #required
-  outputs:
-    success: boolean
+    channel_id: string
 
 - action: invite_users
   inputs:
-    channel_id: string #required
-    user_ids: list[string] #required
-  outputs:
-    success: boolean
+    channel_id: string
+    user_ids: list[string]
 
 - action: kick_user
   inputs:
-    channel_id: string #required
-    user_id: string #required
-  outputs:
-    success: boolean
+    channel_id: string
+    user_id: string
 
 - action: get_channel_info
   inputs:
-    channel_id: string #required
+    channel_id: string
   outputs:
     channel_id: string
     is_archived: boolean
@@ -100,7 +86,7 @@
 
 - action: get_user_info
   inputs:
-    user_id: string #required
+    user_id: string
   outputs:
     email: string
     is_admin: boolean
@@ -118,19 +104,15 @@
 
 - action: add_reaction
   inputs:
-    channel_id: string #required
-    emoji: string #required
-    timestamp: string #required
-  outputs:
-    success: boolean
+    channel_id: string
+    emoji: string
+    timestamp: string
 
 - action: remove_reaction
   inputs:
-    channel_id: string #required
-    emoji: string #required
-    timestamp: string #required
-  outputs:
-    success: boolean
+    channel_id: string
+    emoji: string
+    timestamp: string
 
 - action: upload_file
   inputs:
@@ -142,38 +124,29 @@
     title: string
   outputs:
     file_id: string
-    success: boolean
 
 - action: pin_message
   inputs:
-    channel_id: string #required
-    timestamp: string #required
-  outputs:
-    success: boolean
+    channel_id: string
+    timestamp: string
 
 - action: unpin_message
   inputs:
-    channel_id: string #required
-    timestamp: string #required
-  outputs:
-    success: boolean
+    channel_id: string
+    timestamp: string
 
 - action: set_channel_topic
   inputs:
-    channel_id: string #required
-    topic: string #required
-  outputs:
-    success: boolean
+    channel_id: string
+    topic: string
 
 - action: set_channel_purpose
   inputs:
-    channel_id: string #required
-    purpose: string #required
-  outputs:
-    success: boolean
+    channel_id: string
+    purpose: string
 
 - object: slack_message
-  class:
+  schema:
     message_ts: string
     channel_id: string
     text: string
@@ -183,20 +156,20 @@
     attachments: list[slack_attachment]
 
 - object: slack_block
-  class:
+  schema:
     type: string
     block_id: string
     text: slack_text_object
     elements: list[any]
 
 - object: slack_text_object
-  class:
+  schema:
     type: string
     text: string
     emoji: boolean
 
 - object: slack_attachment
-  class:
+  schema:
     fallback: string
     color: string
     pretext: string
@@ -206,13 +179,13 @@
     fields: list[slack_attachment_field]
 
 - object: slack_attachment_field
-  class:
+  schema:
     title: string
     value: string
     short: boolean
 
 - object: slack_channel
-  class:
+  schema:
     channel_id: string
     name: string
     is_private: boolean
@@ -222,7 +195,7 @@
     purpose: string
 
 - object: slack_user
-  class:
+  schema:
     user_id: string
     name: string
     real_name: string
@@ -230,3 +203,22 @@
     is_admin: boolean
     is_bot: boolean
     timezone: string
+
+- object: slack_workspace
+  schema:
+    access_token: string
+    created_at: date = now()
+    is_active: boolean = true
+    team_id: string
+    team_name: string
+    updated_at: date = now()
+
+- object: slack_message_log
+  schema:
+    channel_id: string
+    created_at: date = now()
+    message_ts: string
+    status: sent | updated | deleted | failed = sent
+    text: string
+    thread_ts: string
+    user_id: string

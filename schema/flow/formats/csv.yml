@@ -1,6 +1,6 @@
 - action: parse
   inputs:
-    data: string #required
+    data: string
     delimiter: string = ","
     has_headers: boolean = true
     headers: list[string]
@@ -10,7 +10,7 @@
 
 - action: generate
   inputs:
-    data: list[csv_row] #required
+    data: list[csv_row]
     delimiter: string = ","
     headers: list[string]
     include_headers: boolean = true
@@ -19,52 +19,60 @@
 
 - action: transform
   inputs:
-    data: string #required
+    data: string
     delimiter: string = ","
-    operations: list[csv_transform_operation] #required
+    operations: list[csv_transform_operation]
   outputs:
     csv: string
 
 - action: validate
   inputs:
-    data: string #required
+    data: string
     delimiter: string = ","
-    schema: csv_schema #required
+    schema: csv_schema
   outputs:
     errors: list[csv_validation_error]
     valid: boolean
 
 - object: csv_document
-  class:
+  schema:
     headers: list[string]
     rows: list[csv_row]
     delimiter: string
     row_count: int
 
 - object: csv_row
-  class:
+  schema:
     values: map[string, string]
 
 - object: csv_transform_operation
-  class:
+  schema:
     operation: string
     column: string
     parameters: map[string, any]
 
 - object: csv_schema
-  class:
+  schema:
     columns: list[csv_column_schema]
     allow_extra_columns: boolean
 
 - object: csv_column_schema
-  class:
+  schema:
     name: string
     type: string
     required: boolean
     pattern: string
 
 - object: csv_validation_error
-  class:
+  schema:
     row: int
     column: string
     message: string
+
+- object: csv_validation_result
+  schema:
+    document_id: string
+    error_count: int = 0
+    errors: string #json
+    is_valid: boolean = false
+    validated_at: date = now()

@@ -3,7 +3,7 @@
     - add_event_label: string = "add event" #max(50)
     - current_week_datetime: string #max(20)
     - current_week_display: string #max(50)
-    - days: [calendar_day] #required
+    - days: [calendar_day]
     - events: [calendar_event]
     - selected_view: string = "week" #max(20)
     - time_slots: [time_slot]

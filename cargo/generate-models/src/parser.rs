@@ -99,13 +99,18 @@ fn parse_schema_file(content: &str, file_name: &str, category: SchemaCategory) -
 
     for entry in &entries {
         match category {
-            SchemaCategory::Action => {
-                if let Some(parsed) = parse_action_entry(entry)? {
+            SchemaCategory::Flow => {
+                if let Some(parsed) = parse_flow_entry(entry)? {
                     models.push(parsed);
                 }
             }
-            SchemaCategory::Config | SchemaCategory::Event | SchemaCategory::Object => {
-                if let Some(parsed) = parse_struct_entry(entry)? {
+            SchemaCategory::Config => {
+                if let Some(parsed) = parse_config_entry(entry)? {
+                    models.push(Model::Struct(parsed));
+                }
+            }
+            SchemaCategory::Event => {
+                if let Some(parsed) = parse_event_entry(entry)? {
                     models.push(Model::Struct(parsed));
                 }
             }
@@ -121,41 +126,55 @@ fn parse_schema_file(content: &str, file_name: &str, category: SchemaCategory) -
 }
 
 // ---------------------------------------------------------------------------
-// Action parsing
+// Flow parsing (action methods + object classes)
 // ---------------------------------------------------------------------------
 
-fn parse_action_entry(yaml: &Value) -> Result<Option<Model>> {
+fn parse_flow_entry(yaml: &Value) -> Result<Option<Model>> {
     let obj = match yaml.as_mapping() {
         Some(m) => m,
         None => return Ok(None),
     };
 
-    let name = obj
-        .get(&Value::String("name".to_string()))
-        .and_then(|v| v.as_str())
-        .context("Action entry missing 'name' field")?
-        .to_string();
+    // Check if this is an action method (has "action" key)
+    if let Some(action_val) = obj.get(&Value::String("action".to_string())) {
+        let name = action_val
+            .as_str()
+            .context("Flow 'action' field must be a string")?
+            .to_string();
 
-    // Check if this is a class definition
-    if let Some(class_val) = obj.get(&Value::String("class".to_string())) {
-        let fields = parse_action_fields_from_mapping(class_val)?;
-        return Ok(Some(Model::ActionClass(ActionClass { name, fields })));
+        let inputs = if let Some(inputs_val) = obj.get(&Value::String("inputs".to_string())) {
+            parse_action_fields_from_mapping(inputs_val)?
+        } else {
+            Vec::new()
+        };
+
+        let outputs = if let Some(outputs_val) = obj.get(&Value::String("outputs".to_string())) {
+            parse_action_fields_from_mapping(outputs_val)?
+        } else {
+            Vec::new()
+        };
+
+        return Ok(Some(Model::ActionMethod(ActionMethod { name, inputs, outputs })));
     }
 
-    // Otherwise it's an action method with inputs/outputs
-    let inputs = if let Some(inputs_val) = obj.get(&Value::String("inputs".to_string())) {
-        parse_action_fields_from_mapping(inputs_val)?
-    } else {
-        Vec::new()
-    };
+    // Check if this is an object class definition (has "object" key with "class" or "schema")
+    if let Some(object_val) = obj.get(&Value::String("object".to_string())) {
+        let name = object_val
+            .as_str()
+            .context("Flow 'object' field must be a string")?
+            .to_string();
 
-    let outputs = if let Some(outputs_val) = obj.get(&Value::String("outputs".to_string())) {
-        parse_action_fields_from_mapping(outputs_val)?
-    } else {
-        Vec::new()
-    };
+        let fields_val = obj
+            .get(&Value::String("class".to_string()))
+            .or_else(|| obj.get(&Value::String("schema".to_string())));
 
-    Ok(Some(Model::ActionMethod(ActionMethod { name, inputs, outputs })))
+        if let Some(fv) = fields_val {
+            let fields = parse_action_fields_from_mapping(fv)?;
+            return Ok(Some(Model::ActionClass(ActionClass { name, fields })));
+        }
+    }
+
+    Ok(None)
 }
 
 fn parse_action_fields_from_mapping(yaml: &Value) -> Result<Vec<ActionField>> {
@@ -235,25 +254,25 @@ fn parse_action_field_definition(def: &str) -> Result<(FieldType, Option<String>
 }
 
 // ---------------------------------------------------------------------------
-// Struct parsing (config / event / object)
+// Config parsing (uses "config:" key)
 // ---------------------------------------------------------------------------
 
-fn parse_struct_entry(yaml: &Value) -> Result<Option<StructModel>> {
+fn parse_config_entry(yaml: &Value) -> Result<Option<StructModel>> {
     let obj = match yaml.as_mapping() {
         Some(m) => m,
         None => return Ok(None),
     };
 
     let name = obj
-        .get(&Value::String("name".to_string()))
+        .get(&Value::String("config".to_string()))
         .and_then(|v| v.as_str())
-        .context("Model missing 'name' field")?
+        .context("Config entry missing 'config' field")?
         .to_string();
 
     let id = if let Some(id_field) = obj.get(&Value::String("id".to_string())) {
         id_field
             .as_sequence()
-            .context("Model 'id' field must be an array")?
+            .context("Config 'id' field must be an array")?
             .iter()
             .filter_map(|v| v.as_str().map(String::from))
             .collect()
@@ -261,6 +280,45 @@ fn parse_struct_entry(yaml: &Value) -> Result<Option<StructModel>> {
         vec!["id".to_string()]
     };
 
+    let fields = parse_schema_fields(obj)?;
+
+    Ok(Some(StructModel { name, id, fields }))
+}
+
+// ---------------------------------------------------------------------------
+// Event parsing (uses "event:" key)
+// ---------------------------------------------------------------------------
+
+fn parse_event_entry(yaml: &Value) -> Result<Option<StructModel>> {
+    let obj = match yaml.as_mapping() {
+        Some(m) => m,
+        None => return Ok(None),
+    };
+
+    let name = obj
+        .get(&Value::String("event".to_string()))
+        .and_then(|v| v.as_str())
+        .context("Event entry missing 'event' field")?
+        .to_string();
+
+    let id = if let Some(id_field) = obj.get(&Value::String("id".to_string())) {
+        id_field
+            .as_sequence()
+            .context("Event 'id' field must be an array")?
+            .iter()
+            .filter_map(|v| v.as_str().map(String::from))
+            .collect()
+    } else {
+        vec!["id".to_string()]
+    };
+
+    let fields = parse_schema_fields(obj)?;
+
+    Ok(Some(StructModel { name, id, fields }))
+}
+
+/// Shared helper to parse the "schema" block from a config/event entry.
+fn parse_schema_fields(obj: &serde_yaml::Mapping) -> Result<Vec<Field>> {
     let schema_val = obj.get(&Value::String("schema".to_string()));
 
     let mut fields = Vec::new();
@@ -308,7 +366,7 @@ fn parse_struct_entry(yaml: &Value) -> Result<Option<StructModel>> {
         }
     }
 
-    Ok(Some(StructModel { name, id, fields }))
+    Ok(fields)
 }
 
 // ---------------------------------------------------------------------------
@@ -322,9 +380,9 @@ fn parse_webobject_entry(yaml: &Value) -> Result<Option<WebObjectModel>> {
     };
 
     let name = obj
-        .get(&Value::String("name".to_string()))
+        .get(&Value::String("webobject".to_string()))
         .and_then(|v| v.as_str())
-        .context("WebObject missing 'name' field")?
+        .context("WebObject missing 'webobject' field")?
         .to_string();
 
     let mut attributes = Vec::new();

@@ -1,6 +1,6 @@
 - action: start
   inputs:
-    command: string #required
+    command: string
     args: list[string]
     working_directory: string
     environment: map[string, string]
@@ -12,7 +12,7 @@
 
 - action: stop
   inputs:
-    process_id: int #required
+    process_id: int
     force: boolean = false
     timeout: int = 30
   outputs:
@@ -22,7 +22,7 @@
 
 - action: kill
   inputs:
-    process_id: int #required
+    process_id: int
     signal: string = "sigterm"
   outputs:
     killed: boolean
@@ -30,7 +30,7 @@
 
 - action: status
   inputs:
-    process_id: int #required
+    process_id: int
   outputs:
     status: process_status
     error: string
@@ -44,7 +44,7 @@
 
 - action: wait
   inputs:
-    process_id: int #required
+    process_id: int
     timeout: int = 60
   outputs:
     completed: boolean
@@ -53,14 +53,14 @@
 
 - action: output
   inputs:
-    process_id: int #required
+    process_id: int
     stream: string = "stdout"
   outputs:
     output: string
     error: string
 
 - object: process_status
-  class:
+  schema:
     process_id: int
     running: boolean
     exit_code: int
@@ -69,7 +69,7 @@
     uptime: int
 
 - object: process_info
-  class:
+  schema:
     process_id: int
     name: string
     command: string
@@ -78,3 +78,25 @@
     memory_usage: int
     status: string
     uptime: int
+
+- object: run_process
+  schema:
+    args: string #json
+    command: string
+    cpu_usage: decimal
+    environment: string #json
+    exit_code: int
+    is_detached: boolean = false
+    memory_usage: int
+    process_id: int
+    started_at: date = now()
+    status: pending | running | completed | failed | killed = pending
+    stopped_at: date
+    working_directory: string
+
+- object: run_process_log
+  schema:
+    content: string
+    created_at: date = now()
+    process_id: string
+    stream: stdout | stderr = stdout

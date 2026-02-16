@@ -2,7 +2,7 @@
   inputs:
     max_output_tokens: int = 1024
     model: gemini-pro | gemini-pro-vision | gemini-ultra = gemini-pro
-    prompt: string #required
+    prompt: string
     safety_settings: list[gemini_safety_setting]
     stop_sequences: list[string]
     temperature: float = 0.7
@@ -17,7 +17,7 @@
 - action: chat
   inputs:
     max_output_tokens: int = 1024
-    messages: list[gemini_chat_message] #required
+    messages: list[gemini_chat_message]
     model: gemini-pro | gemini-ultra = gemini-pro
     safety_settings: list[gemini_safety_setting]
     temperature: float = 0.7
@@ -35,7 +35,7 @@
     images: list[bytes]
     max_output_tokens: int = 1024
     model: gemini-pro-vision | gemini-ultra-vision = gemini-pro-vision
-    prompt: string #required
+    prompt: string
     temperature: float = 0.4
     videos: list[bytes]
   outputs:
@@ -48,15 +48,14 @@
   inputs:
     max_output_tokens: int = 1024
     model: gemini-pro | gemini-ultra = gemini-pro
-    prompt: string #required
+    prompt: string
     temperature: float = 0.7
   outputs:
     stream_id: string
-    success: boolean
 
 - action: embed_content
   inputs:
-    content: string #required
+    content: string
     model: embedding-001 = embedding-001
     task_type: retrieval_query | retrieval_document | semantic_similarity | classification | clustering
   outputs:
@@ -65,7 +64,7 @@
 
 - action: batch_embed
   inputs:
-    contents: list[string] #required
+    contents: list[string]
     model: embedding-001 = embedding-001
     task_type: retrieval_query | retrieval_document | semantic_similarity | classification | clustering
   outputs:
@@ -74,7 +73,7 @@
 
 - action: count_tokens
   inputs:
-    content: string #required
+    content: string
     model: gemini-pro | gemini-pro-vision | gemini-ultra = gemini-pro
   outputs:
     total_tokens: int
@@ -89,7 +88,7 @@
 
 - action: get_model
   inputs:
-    model: string #required
+    model: string
   outputs:
     description: string
     display_name: string
@@ -103,7 +102,7 @@
 
 - action: analyze_image
   inputs:
-    image: bytes #required
+    image: bytes
     model: gemini-pro-vision | gemini-ultra-vision = gemini-pro-vision
     prompt: string = "describe this image in detail"
     temperature: float = 0.4
@@ -116,7 +115,7 @@
     language: string
     max_output_tokens: int = 2048
     model: gemini-pro | gemini-ultra = gemini-pro
-    prompt: string #required
+    prompt: string
     temperature: float = 0.2
   outputs:
     code: string
@@ -128,7 +127,7 @@
     max_length: int = 500
     model: gemini-pro | gemini-ultra = gemini-pro
     style: brief | detailed | bullet_points = brief
-    text: string #required
+    text: string
   outputs:
     original_length: int
     summary: string
@@ -138,8 +137,8 @@
   inputs:
     model: gemini-pro | gemini-ultra = gemini-pro
     source_language: string
-    target_language: string #required
-    text: string #required
+    target_language: string
+    text: string
   outputs:
     detected_source_language: string
     translated_text: string
@@ -147,14 +146,14 @@
 - action: extract_structured
   inputs:
     model: gemini-pro | gemini-ultra = gemini-pro
-    schema: extract_schema #required
-    text: string #required
+    schema: extract_schema
+    text: string
   outputs:
     confidence: float
     data: extracted_data
 
 - object: gemini_model
-  class:
+  schema:
     model_id: string
     name: string
     version: string
@@ -163,49 +162,114 @@
     supported_generation_methods: list[string]
 
 - object: gemini_safety_setting
-  class:
+  schema:
     category: string
     threshold: string
 
 - object: gemini_safety_rating
-  class:
+  schema:
     category: string
     probability: string
     blocked: boolean
 
 - object: gemini_usage
-  class:
+  schema:
     prompt_token_count: int
     candidates_token_count: int
     total_token_count: int
 
 - object: gemini_chat_message
-  class:
+  schema:
     role: string
     content: string
 
 - object: gemini_embedding
-  class:
+  schema:
     values: list[float]
     dimensions: int
 
 - object: gemini_parameter_range
-  class:
+  schema:
     min: float
     max: float
     default: float
 
 - object: extract_schema
-  class:
+  schema:
     fields: list[extract_schema_field]
 
 - object: extract_schema_field
-  class:
+  schema:
     name: string
     type: string
     description: string
     required: boolean
 
 - object: extracted_data
-  class:
+  schema:
     values: map[string, any]
+
+- object: google_gemini_model
+  schema:
+    created_at: date = now()
+    description: string
+    display_name: string
+    input_token_limit: int
+    model_id: string
+    output_token_limit: int
+    supported_generation_methods: string #json
+    updated_at: date = now()
+    version: string
+
+- object: google_gemini_safety_setting
+  schema:
+    category: string
+    model_id: string
+    threshold: string
+
+- object: google_gemini_safety_rating
+  schema:
+    blocked: boolean = false
+    category: string
+    created_at: date = now()
+    probability: string
+
+- object: google_gemini_chat_message
+  schema:
+    content: string
+    conversation_id: string
+    created_at: date = now()
+    role: string
+
+- object: google_gemini_conversation
+  schema:
+    created_at: date = now()
+    model_id: string
+    status: active | archived | deleted = active
+    title: string
+    updated_at: date = now()
+    user_id: string
+
+- object: google_gemini_embedding
+  schema:
+    content_hash: string
+    created_at: date = now()
+    dimensions: int
+    embedding: string #json
+    model_id: string
+    task_type: retrieval_query | retrieval_document | semantic_similarity | classification | clustering
+
+- object: google_gemini_usage
+  schema:
+    candidates_token_count: int
+    created_at: date = now()
+    model_id: string
+    prompt_token_count: int
+    total_token_count: int
+
+- object: google_gemini_parameter_range
+  schema:
+    max_value: decimal
+    min_value: decimal
+    model_id: string
+    parameter_name: string

@@ -1,6 +1,6 @@
 - event: button_clicked
   schema:
-    button_id: id #required
+    button_id: id
     button_name: string?
     button_type: submit | button | reset = button
     button_variant: primary | secondary | tertiary | danger | ghost = primary
@@ -8,21 +8,21 @@
 
 - event: button_double_clicked
   schema:
-    button_id: id #required
+    button_id: id
     button_name: string?
     button_type: submit | button | reset = button
     double_clicked_at: date = now()
 
 - event: button_long_pressed
   schema:
-    button_id: id #required
+    button_id: id
     button_name: string?
     press_duration_ms: int? #min(0)
     long_pressed_at: date = now()
 
 - event: button_disabled_clicked
   schema:
-    button_id: id #required
+    button_id: id
     button_name: string?
     disabled_reason: string?
     clicked_at: date = now()

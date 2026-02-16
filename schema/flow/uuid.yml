@@ -14,7 +14,7 @@
 
 - action: validate
   inputs:
-    uuid: string #required
+    uuid: string
     version: int
   outputs:
     valid: boolean
@@ -22,15 +22,24 @@
 
 - action: parse
   inputs:
-    uuid: string #required
+    uuid: string
   outputs:
     timestamp: int
     variant: string
     version: int
 
 - object: uuid
-  class:
+  schema:
     value: string
     version: int
     variant: string
     timestamp: int
+
+- object: uuid_registry
+  schema:
+    created_at: date = now()
+    entity_id: string
+    entity_type: string
+    value: string
+    variant: string
+    version: int

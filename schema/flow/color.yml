@@ -1,15 +1,15 @@
 - action: convert
   inputs:
-    color: string #required
+    color: string
     from_format: hex | rgb | hsl | hsv | cmyk = hex
-    to_format: hex | rgb | hsl | hsv | cmyk #required
+    to_format: hex | rgb | hsl | hsv | cmyk
   outputs:
     color: string
     components: color_components
 
 - action: parse
   inputs:
-    color: string #required
+    color: string
   outputs:
     format: string
     hex: string
@@ -19,53 +19,53 @@
 
 - action: generate_palette
   inputs:
-    base_color: string #required
+    base_color: string
     count: int = 5
-    palette_type: complementary | analogous | triadic | tetradic | split_complementary | monochromatic #required
+    palette_type: complementary | analogous | triadic | tetradic | split_complementary | monochromatic
   outputs:
     colors: list[string]
     palette_type: string
 
 - action: lighten
   inputs:
-    amount: float #required
-    color: string #required
+    amount: float
+    color: string
   outputs:
     color: string
 
 - action: darken
   inputs:
-    amount: float #required
-    color: string #required
+    amount: float
+    color: string
   outputs:
     color: string
 
 - action: saturate
   inputs:
-    amount: float #required
-    color: string #required
+    amount: float
+    color: string
   outputs:
     color: string
 
 - action: desaturate
   inputs:
-    amount: float #required
-    color: string #required
+    amount: float
+    color: string
   outputs:
     color: string
 
 - action: mix
   inputs:
-    color1: string #required
-    color2: string #required
+    color1: string
+    color2: string
     weight: float = 0.5
   outputs:
     color: string
 
 - action: contrast_ratio
   inputs:
-    color1: string #required
-    color2: string #required
+    color1: string
+    color2: string
   outputs:
     ratio: float
     wcag_aa: boolean
@@ -73,7 +73,7 @@
 
 - action: accessible_text_color
   inputs:
-    background_color: string #required
+    background_color: string
     prefer_white: boolean = true
   outputs:
     contrast_ratio: float
@@ -81,21 +81,21 @@
 
 - action: invert
   inputs:
-    color: string #required
+    color: string
   outputs:
     color: string
 
 - action: gradient
   inputs:
-    end_color: string #required
-    start_color: string #required
+    end_color: string
+    start_color: string
     steps: int = 5
   outputs:
     colors: list[string]
 
 - action: luminance
   inputs:
-    color: string #required
+    color: string
   outputs:
     is_dark: boolean
     is_light: boolean
@@ -103,7 +103,7 @@
 
 - action: validate
   inputs:
-    color: string #required
+    color: string
     format: hex | rgb | hsl | hsv | cmyk
   outputs:
     detected_format: string
@@ -118,7 +118,7 @@
     color: string
 
 - object: color
-  class:
+  schema:
     hex: string
     rgb: rgb_color
     hsl: hsl_color
@@ -126,33 +126,48 @@
     cmyk: cmyk_color
 
 - object: rgb_color
-  class:
+  schema:
     r: int
     g: int
     b: int
 
 - object: hsl_color
-  class:
+  schema:
     h: int
     s: float
     l: float
 
 - object: hsv_color
-  class:
+  schema:
     h: int
     s: float
     v: float
 
 - object: cmyk_color
-  class:
+  schema:
     c: float
     m: float
     y: float
     k: float
 
 - object: color_components
-  class:
+  schema:
     red: int
     green: int
     blue: int
     alpha: float
+
+- object: color_palette
+  schema:
+    created_at: date = now()
+    created_by: string
+    description: string
+    is_active: boolean = true
+    palette_type: complementary | analogous | triadic | tetradic | split_complementary | monochromatic | custom = custom
+    updated_at: date = now()
+
+- object: color_palette_entry
+  schema:
+    color_id: string
+    palette_id: string
+    sort_order: int = 0

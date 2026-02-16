@@ -1,15 +1,14 @@
 - action: put_events
   inputs:
-    entries: list[event_bridge_entry] #required
+    entries: list[event_bridge_entry]
     endpoint_id: string
   outputs:
     failed_entry_count: int
     entries: list[put_events_result_entry]
-    success: boolean
 
 - action: create_rule
   inputs:
-    name: string #required
+    name: string
     event_bus_name: string = "default"
     schedule_expression: string
     event_pattern: string
@@ -19,19 +18,16 @@
     tags: event_bridge_tags
   outputs:
     rule_arn: string
-    success: boolean
 
 - action: delete_rule
   inputs:
-    name: string #required
+    name: string
     event_bus_name: string = "default"
     force: boolean = false
-  outputs:
-    success: boolean
 
 - action: describe_rule
   inputs:
-    name: string #required
+    name: string
     event_bus_name: string = "default"
   outputs:
     name: string
@@ -56,42 +52,36 @@
 
 - action: enable_rule
   inputs:
-    name: string #required
+    name: string
     event_bus_name: string = "default"
-  outputs:
-    success: boolean
 
 - action: disable_rule
   inputs:
-    name: string #required
+    name: string
     event_bus_name: string = "default"
-  outputs:
-    success: boolean
 
 - action: put_targets
   inputs:
-    rule: string #required
+    rule: string
     event_bus_name: string = "default"
-    targets: list[event_bridge_target] #required
+    targets: list[event_bridge_target]
   outputs:
     failed_entry_count: int
     failed_entries: list[target_failure]
-    success: boolean
 
 - action: remove_targets
   inputs:
-    rule: string #required
+    rule: string
     event_bus_name: string = "default"
-    ids: list[string] #required
+    ids: list[string]
     force: boolean = false
   outputs:
     failed_entry_count: int
     failed_entries: list[target_failure]
-    success: boolean
 
 - action: list_targets_by_rule
   inputs:
-    rule: string #required
+    rule: string
     event_bus_name: string = "default"
     limit: int = 100
     next_token: string
@@ -101,18 +91,15 @@
 
 - action: create_event_bus
   inputs:
-    name: string #required
+    name: string
     event_source_name: string
     tags: event_bridge_tags
   outputs:
     event_bus_arn: string
-    success: boolean
 
 - action: delete_event_bus
   inputs:
-    name: string #required
-  outputs:
-    success: boolean
+    name: string
 
 - action: describe_event_bus
   inputs:
@@ -135,24 +122,20 @@
   inputs:
     event_bus_name: string = "default"
     method: string = "events:put_events"
-    principal: string #required
-    statement_id: string #required
+    principal: string
+    statement_id: string
     condition: rule_condition
-  outputs:
-    success: boolean
 
 - action: remove_permission
   inputs:
     event_bus_name: string = "default"
-    statement_id: string #required
+    statement_id: string
     remove_all_permissions: boolean = false
-  outputs:
-    success: boolean
 
 - action: create_archive
   inputs:
-    archive_name: string #required
-    event_source_arn: string #required
+    archive_name: string
+    event_source_arn: string
     description: string
     event_pattern: string
     retention_days: int
@@ -161,17 +144,14 @@
     state: string
     state_reason: string
     creation_time: date
-    success: boolean
 
 - action: delete_archive
   inputs:
-    archive_name: string #required
-  outputs:
-    success: boolean
+    archive_name: string
 
 - action: describe_archive
   inputs:
-    archive_name: string #required
+    archive_name: string
   outputs:
     archive_arn: string
     archive_name: string
@@ -186,30 +166,28 @@
 
 - action: start_replay
   inputs:
-    replay_name: string #required
-    event_source_arn: string #required
+    replay_name: string
+    event_source_arn: string
     destination: event_destination  
-    event_start_time: date #required
-    event_end_time: date #required
+    event_start_time: date
+    event_end_time: date
     description: string
   outputs:
     replay_arn: string
     state: string
     state_reason: string
     replay_start_time: date
-    success: boolean
 
 - action: cancel_replay
   inputs:
-    replay_name: string #required
+    replay_name: string
   outputs:
     state: string
     state_reason: string
-    success: boolean
 
 - action: describe_replay 
   inputs:
-    replay_name: string #required
+    replay_name: string
   outputs:
     replay_name: string
     replay_arn: string
@@ -225,7 +203,75 @@
 
 - action: test_event_pattern
   inputs:
-    event_pattern: string #required
-    event: string #required
+    event_pattern: string
+    event: string
   outputs:
     result: boolean
+
+- object: aws_eventbridge_event_bus
+  schema:
+    account_id: string
+    arn: string
+    created_at: date = now()
+    name: string
+    policy: string
+    region: string
+    tags: string #json
+    updated_at: date = now()
+
+- object: aws_eventbridge_rule
+  schema:
+    created_at: date = now()
+    description: string
+    event_bus_id: string
+    event_pattern: string
+    name: string
+    role_arn: string
+    rule_arn: string
+    schedule_expression: string
+    state: enabled | disabled = enabled
+    tags: string #json
+    updated_at: date = now()
+
+- object: aws_eventbridge_target
+  schema:
+    arn: string
+    created_at: date = now()
+    input: string
+    input_path: string
+    input_transformer: string #json
+    role_arn: string
+    rule_id: string
+    target_id: string
+    updated_at: date = now()
+
+- object: aws_eventbridge_archive
+  schema:
+    account_id: string
+    archive_arn: string
+    archive_name: string
+    created_at: date = now()
+    description: string
+    event_count: int = 0
+    event_pattern: string
+    event_source_arn: string
+    region: string
+    retention_days: int
+    size_bytes: int = 0
+    state: enabled | disabled | creating | updating | create_failed | update_failed = creating
+    updated_at: date = now()
+
+- object: aws_eventbridge_replay
+  schema:
+    account_id: string
+    description: string
+    event_end_time: date
+    event_source_arn: string
+    event_start_time: date
+    region: string
+    replay_arn: string
+    replay_end_time: date
+    replay_name: string
+    replay_start_time: date
+    state: starting | running | cancelling | completed | cancelled | failed = starting
+    state_reason: string

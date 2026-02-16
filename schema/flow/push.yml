@@ -1,29 +1,28 @@
 - action: send_apns
   inputs:
-    alert: string #required
+    alert: string
     badge: int
     body: string
     category: string
     collapse_id: string
     custom_data: map[string, any]
-    device_token: string #required
+    device_token: string
     expiration: int
     priority: 5 | 10 = 10
     sound: string
     subtitle: string
     thread_id: string
     title: string
-    topic: string #required
+    topic: string
   outputs:
     apns_id: string
     error: string
-    success: boolean
 
 - action: send_web_push
   inputs:
     actions: list[push_action]
     badge: string
-    body: string #required
+    body: string
     data: map[string, any]
     dir: auto | ltr | rtl = auto
     icon: string
@@ -32,18 +31,17 @@
     renotify: boolean = false
     require_intermethod: boolean = false
     silent: boolean = false
-    subscription: push_subscription #required
+    subscription: push_subscription
     tag: string
     timestamp: int
-    title: string #required
+    title: string
     vibrate: list[integer]
   outputs:
     error: string
-    success: boolean
 
 - action: send_fcm
   inputs:
-    body: string #required
+    body: string
     channel_id: string
     click_method: string
     collapse_key: string
@@ -52,23 +50,22 @@
     icon: string
     image: string
     priority: min | low | default | high | max = default
-    registration_token: string #required
+    registration_token: string
     sound: string
     tag: string
     time_to_live: int
-    title: string #required
+    title: string
   outputs:
     error: string
     message_id: string
-    success: boolean
 
 - action: send_multicast_push
   inputs:
-    body: string #required
+    body: string
     data: map[string, any]
-    platform: apns | web | fcm #required
-    title: string #required
-    tokens: list[string] #required
+    platform: apns | web | fcm
+    title: string
+    tokens: list[string]
   outputs:
     failed: int
     failures: list[push_failure]
@@ -77,43 +74,40 @@
 
 - action: send_topic_push
   inputs:
-    body: string #required
+    body: string
     data: map[string, any]
-    platform: apns | web | fcm #required
-    title: string #required
-    topic: string #required
+    platform: apns | web | fcm
+    title: string
+    topic: string
   outputs:
     message_id: string
-    success: boolean
 
 - action: subscribe_to_topic
   inputs:
-    platform: apns | web | fcm #required
-    tokens: list[string] #required
-    topic: string #required
+    platform: apns | web | fcm
+    tokens: list[string]
+    topic: string
   outputs:
     failed_tokens: list[string]
-    success: boolean
 
 - action: unsubscribe_from_topic
   inputs:
-    platform: apns | web | fcm #required
-    tokens: list[string] #required
-    topic: string #required
+    platform: apns | web | fcm
+    tokens: list[string]
+    topic: string
   outputs:
     failed_tokens: list[string]
-    success: boolean
 
 - action: validate_push_token
   inputs:
-    platform: apns | web | fcm #required
-    token: string #required
+    platform: apns | web | fcm
+    token: string
   outputs:
     error: string
     valid: boolean
 
 - object: push_notification
-  class:
+  schema:
     title: string
     body: string
     platform: string
@@ -123,22 +117,58 @@
     sound: string
 
 - object: push_action
-  class:
+  schema:
     method: string
     title: string
     icon: string
 
 - object: push_subscription
-  class:
+  schema:
     endpoint: string
     keys: push_subscription_keys
 
 - object: push_subscription_keys
-  class:
+  schema:
     p256dh: string
     auth: string
 
 - object: push_failure
-  class:
+  schema:
     token: string
     error: string
+
+- object: push_device
+  schema:
+    created_at: date = now()
+    device_token: string
+    is_active: boolean = true
+    platform: apns | web | fcm = fcm
+    updated_at: date = now()
+    user_agent: string
+    user_id: string
+
+- object: push_topic
+  schema:
+    created_at: date = now()
+    description: string
+    is_active: boolean = true
+    name: string
+    platform: apns | web | fcm = fcm
+
+- object: push_topic_subscription
+  schema:
+    device_id: string
+    subscribed_at: date = now()
+    topic_id: string
+
+- object: push_notification_log
+  schema:
+    body: string
+    device_id: string
+    error_message: string
+    message_id: string
+    platform: apns | web | fcm = fcm
+    sent_at: date = now()
+    status: pending | sent | delivered | failed = pending
+    title: string
+    topic_id: string

@@ -1,9 +1,9 @@
 - event: slider_changed
   schema:
-    slider_id: id #required
+    slider_id: id
     slider_name: string?
     old_value: float?
-    new_value: float #required
+    new_value: float
     min_value: float?
     max_value: float?
     step: float?
@@ -11,26 +11,26 @@
 
 - event: slider_drag_started
   schema:
-    slider_id: id #required
+    slider_id: id
     slider_name: string?
-    start_value: float #required
+    start_value: float
     started_at: date = now()
 
 - event: slider_drag_ended
   schema:
-    slider_id: id #required
+    slider_id: id
     slider_name: string?
     start_value: float?
-    end_value: float #required
+    end_value: float
     drag_duration_ms: int? #min(0)
     ended_at: date = now()
 
 - event: range_adjusted
   schema:
-    slider_id: id #required
+    slider_id: id
     slider_name: string?
     old_min: float?
     old_max: float?
-    new_min: float #required
-    new_max: float #required
+    new_min: float
+    new_max: float
     adjusted_at: date = now()

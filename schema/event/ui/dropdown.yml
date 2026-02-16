@@ -1,37 +1,37 @@
 - event: dropdown_opened
   schema:
-    dropdown_id: id #required
+    dropdown_id: id
     dropdown_name: string?
     options_count: int? #min(0)
     opened_at: date = now()
 
 - event: dropdown_closed
   schema:
-    dropdown_id: id #required
+    dropdown_id: id
     dropdown_name: string?
     close_reason: selection | blur | escape | click_outside = blur
     closed_at: date = now()
 
 - event: option_selected
   schema:
-    dropdown_id: id #required
+    dropdown_id: id
     dropdown_name: string?
-    option_value: string #required
+    option_value: string
     option_label: string?
     option_index: int? #min(0)
     selected_at: date = now()
 
 - event: option_deselected
   schema:
-    dropdown_id: id #required
+    dropdown_id: id
     dropdown_name: string?
-    option_value: string #required
+    option_value: string
     option_label: string?
     deselected_at: date = now()
 
 - event: search_filtered
   schema:
-    dropdown_id: id #required
+    dropdown_id: id
     dropdown_name: string?
     search_query: string?
     results_count: int? #min(0)
@@ -39,7 +39,7 @@
 
 - event: combobox_typed
   schema:
-    combobox_id: id #required
+    combobox_id: id
     combobox_name: string?
     typed_value: string?
     suggestions_shown: int? #min(0)

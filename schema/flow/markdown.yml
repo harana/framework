@@ -1,6 +1,6 @@
 - action: to_html
   inputs:
-    data: string #required
+    data: string
     gfm: boolean = true
     highlight_code: boolean = true
     sanitize: boolean = false
@@ -11,24 +11,24 @@
   inputs:
     bullet_style: string = "-"
     code_block_style: fenced | indented = fenced
-    data: string #required
+    data: string
     heading_style: atx | setext = atx
   outputs:
     markdown: string
 
 - action: extract_frontmatter
   inputs:
-    data: string #required
+    data: string
   outputs:
     content: string
     frontmatter: markdown_frontmatter
 
 - object: markdown_document
-  class:
+  schema:
     content: string
     frontmatter: markdown_frontmatter
     html: string
 
 - object: markdown_frontmatter
-  class:
+  schema:
     data: map[string, any]

@@ -499,7 +499,7 @@
 
 # Output Types
 
-- class: bad_gateway_output
+- schema: bad_gateway_output
   fields:
     - name: status_code
       type: integer
@@ -511,7 +511,7 @@
       type: string
       description: response body
 
-- class: bad_request_output
+- schema: bad_request_output
   fields:
     - name: status_code
       type: integer
@@ -526,7 +526,7 @@
       type: string
       description: response body
 
-- class: binary_output
+- schema: binary_output
   fields:
     - name: data
       type: bytes
@@ -541,7 +541,7 @@
       type: integer
       description: http status code
 
-- class: cors_preflight_output
+- schema: cors_preflight_output
   fields:
     - name: status_code
       type: integer
@@ -550,7 +550,7 @@
       type: hash
       description: cors headers
 
-- class: csv_output
+- schema: csv_output
   fields:
     - name: data
       type: string
@@ -562,19 +562,19 @@
       type: string
       description: suggested filename
 
-- class: delete_cookie_output
+- schema: delete_cookie_output
   fields:
     - name: set_cookie_header
       type: string
       description: set-cookie header value for deletion
 
-- class: empty_output
+- schema: empty_output
   fields:
     - name: status_code
       type: integer
       description: http status code
 
-- class: error_output
+- schema: error_output
   fields:
     - name: status_code
       type: integer
@@ -592,7 +592,7 @@
       type: string
       description: response body
 
-- class: file_download_output
+- schema: file_download_output
   fields:
     - name: data
       type: bytes
@@ -607,7 +607,7 @@
       type: string
       description: content-disposition header value
 
-- class: forbidden_output
+- schema: forbidden_output
   fields:
     - name: status_code
       type: integer
@@ -619,7 +619,7 @@
       type: string
       description: response body
 
-- class: graphql_output
+- schema: graphql_output
   fields:
     - name: data
       type: any
@@ -634,7 +634,7 @@
       type: string
       description: full response body as json
 
-- class: html_output
+- schema: html_output
   fields:
     - name: html
       type: string
@@ -643,7 +643,7 @@
       type: integer
       description: http status code
 
-- class: internal_server_error_output
+- schema: internal_server_error_output
   fields:
     - name: status_code
       type: integer
@@ -655,7 +655,7 @@
       type: string
       description: response body
 
-- class: json_output
+- schema: json_output
   fields:
     - name: data
       type: string
@@ -664,7 +664,7 @@
       type: integer
       description: http status code
 
-- class: not_found_output
+- schema: not_found_output
   fields:
     - name: status_code
       type: integer
@@ -676,7 +676,7 @@
       type: string
       description: response body
 
-- class: paginated_output
+- schema: paginated_output
   fields:
     - name: data
       type: array[any]
@@ -700,7 +700,7 @@
       type: boolean
       description: has previous page
 
-- class: redirect_output
+- schema: redirect_output
   fields:
     - name: url
       type: string
@@ -709,7 +709,7 @@
       type: integer
       description: http redirect status code
 
-- class: render_template_output
+- schema: render_template_output
   fields:
     - name: content
       type: string
@@ -721,7 +721,7 @@
       type: integer
       description: http status code
 
-- class: render_template_file_output
+- schema: render_template_file_output
   fields:
     - name: content
       type: string
@@ -733,7 +733,7 @@
       type: integer
       description: http status code
 
-- class: service_unavailable_output
+- schema: service_unavailable_output
   fields:
     - name: status_code
       type: integer
@@ -748,19 +748,19 @@
       type: string
       description: response body
 
-- class: set_cookie_output
+- schema: set_cookie_output
   fields:
     - name: set_cookie_header
       type: string
       description: set-cookie header value
 
-- class: sse_event_output
+- schema: sse_event_output
   fields:
     - name: event_string
       type: string
       description: formatted sse event string
 
-- class: sse_stream_output
+- schema: sse_stream_output
   fields:
     - name: content_type
       type: string
@@ -769,7 +769,7 @@
       type: string
       description: sse stream content
 
-- class: streaming_output
+- schema: streaming_output
   fields:
     - name: content_type
       type: string
@@ -778,7 +778,7 @@
       type: integer
       description: chunk size
 
-- class: text_output
+- schema: text_output
   fields:
     - name: text
       type: string
@@ -790,7 +790,7 @@
       type: integer
       description: http status code
 
-- class: unauthorized_output
+- schema: unauthorized_output
   fields:
     - name: status_code
       type: integer
@@ -805,7 +805,7 @@
       type: string
       description: response body
 
-- class: xml_output
+- schema: xml_output
   fields:
     - name: xml
       type: string
@@ -813,3 +813,26 @@
     - name: status_code
       type: integer
       description: http status code
+
+- object: response_template
+  schema:
+    body_template: string
+    content_type: string = application/json
+    created_at: date = now()
+    description: string
+    headers: string #json
+    is_active: boolean = true
+    name: string
+    status_code: int = 200
+    updated_at: date = now()
+
+- object: response_log
+  schema:
+    content_type: string
+    created_at: date = now()
+    duration_ms: int
+    request_method: string
+    request_path: string
+    response_size: int
+    status_code: int
+    template_id: string

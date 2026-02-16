@@ -1,52 +1,49 @@
 - action: record_consent
   inputs:
-    consent_type: marketing | analytics | functional | necessary #required
-    granted: boolean #required
+    consent_type: marketing | analytics | functional | necessary
+    granted: boolean
     ip_address: string
     metadata: map[string, any]
     user_agent: string
-    user_id: string #required
-    version: string #required
+    user_id: string
+    version: string
   outputs:
     consent_id: string
-    success: boolean
     timestamp: int
     user_id: string
 
 - action: revoke_consent
   inputs:
-    consent_type: marketing | analytics | functional | necessary #required
+    consent_type: marketing | analytics | functional | necessary
     reason: string
-    user_id: string #required
+    user_id: string
   outputs:
     consent_id: string
     revoked_at: int
-    success: boolean
     user_id: string
 
 - action: get_consent_status
   inputs:
     consent_type: marketing | analytics | functional | necessary
-    user_id: string #required
+    user_id: string
   outputs:
     consents: list[privacy_consent]
     user_id: string
 
 - action: update_consent
   inputs:
-    consent_id: string #required
-    granted: boolean #required
+    consent_id: string
+    granted: boolean
     version: string
   outputs:
     consent_id: string
-    success: boolean
 
 - action: export_data
   inputs:
     exclude_sections: list[string]
     format: json | csv | xml = json
     include_sections: list[string]
-    user_id: string #required
+    user_id: string
   outputs:
     download_url: string
     expires_at: int
@@ -56,7 +53,7 @@
 
 - action: get_export_status
   inputs:
-    export_id: string #required
+    export_id: string
   outputs:
     completed_at: int
     created_at: int
@@ -67,19 +64,18 @@
 - action: delete_data
   inputs:
     delete_type: soft | hard = soft
-    reason: string #required
+    reason: string
     retain_sections: list[string]
-    user_id: string #required
+    user_id: string
   outputs:
     deletion_id: string
     scheduled_at: int
     status: string
-    success: boolean
     user_id: string
 
 - action: get_deletion_status
   inputs:
-    deletion_id: string #required
+    deletion_id: string
   outputs:
     completed_at: int
     deletion_id: string
@@ -89,19 +85,17 @@
 
 - action: cancel_deletion
   inputs:
-    deletion_id: string #required
+    deletion_id: string
   outputs:
     cancelled: boolean
     deletion_id: string
-    success: boolean
 
 - action: anonymize_data
   inputs:
     retain_sections: list[string]
-    user_id: string #required
+    user_id: string
   outputs:
     anonymization_id: string
-    success: boolean
     user_id: string
 
 - action: list_consent_history
@@ -110,7 +104,7 @@
     end_date: int
     limit: int = 100
     start_date: int
-    user_id: string #required
+    user_id: string
   outputs:
     history: list[privacy_consent_history]
     total: int
@@ -118,14 +112,13 @@
 
 - action: record_data_access
   inputs:
-    access_type: read | write | delete #required
-    accessor_id: string #required
+    access_type: read | write | delete
+    accessor_id: string
     purpose: string
-    resource: string #required
-    user_id: string #required
+    resource: string
+    user_id: string
   outputs:
     access_id: string
-    success: boolean
     timestamp: int
 
 - action: get_access_log
@@ -133,7 +126,7 @@
     end_date: int
     limit: int = 100
     start_date: int
-    user_id: string #required
+    user_id: string
   outputs:
     accesses: list[privacy_data_access]
     total: int
@@ -141,13 +134,12 @@
 
 - action: create_policy_version
   inputs:
-    content: string #required
-    effective_date: int #required
-    title: string #required
-    version: string #required
+    content: string
+    effective_date: int
+    title: string
+    version: string
   outputs:
     policy_id: string
-    success: boolean
     version: string
 
 - action: get_active_policy
@@ -162,18 +154,17 @@
 - action: record_policy_acceptance
   inputs:
     ip_address: string
-    policy_id: string #required
+    policy_id: string
     user_agent: string
-    user_id: string #required
+    user_id: string
   outputs:
     acceptance_id: string
-    success: boolean
     timestamp: int
     user_id: string
 
 - action: verify_rtbf_eligibility
   inputs:
-    user_id: string #required
+    user_id: string
   outputs:
     blocking_factors: list[string]
     eligible: boolean
@@ -181,7 +172,7 @@
     user_id: string
 
 - object: consent
-  class:
+  schema:
     consent_id: string
     user_id: string
     consent_type: string
@@ -192,7 +183,7 @@
     user_agent: string
 
 - object: privacy_consent
-  class:
+  schema:
     consent_id: string
     consent_type: string
     granted: boolean
@@ -200,7 +191,7 @@
     timestamp: date
 
 - object: privacy_consent_history
-  class:
+  schema:
     consent_id: string
     consent_type: string
     granted: boolean
@@ -209,10 +200,50 @@
     timestamp: date
 
 - object: privacy_data_access
-  class:
+  schema:
     access_id: string
     accessor_id: string
     access_type: string
     resource: string
     purpose: string
     timestamp: date
+
+- object: privacy_data_export
+  schema:
+    completed_at: date
+    created_at: date = now()
+    download_url: string
+    expires_at: date
+    format: json | csv | xml = json
+    status: pending | processing | completed | failed = pending
+    user_id: string
+
+- object: privacy_data_deletion
+  schema:
+    cancelled_at: date
+    completed_at: date
+    created_at: date = now()
+    delete_type: soft | hard = soft
+    reason: string
+    scheduled_at: date
+    status: pending | processing | completed | failed | cancelled = pending
+    user_id: string
+
+- object: privacy_data_access_log
+  schema:
+    access_type: read | write | delete = read
+    accessed_at: date = now()
+    accessor_id: string
+    purpose: string
+    resource: string
+    user_id: string
+
+- object: privacy_policy_version
+  schema:
+    content: string
+    created_at: date = now()
+    effective_date: date
+    is_active: boolean = false
+    policy_type: privacy | terms | cookie = privacy
+    title: string
+    version: string

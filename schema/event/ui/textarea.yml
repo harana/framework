@@ -1,6 +1,6 @@
 - event: textarea_changed
   schema:
-    textarea_id: id #required
+    textarea_id: id
     textarea_name: string?
     old_value: string?
     new_value: string?
@@ -8,27 +8,27 @@
 
 - event: textarea_focused
   schema:
-    textarea_id: id #required
+    textarea_id: id
     textarea_name: string?
     focused_at: date = now()
 
 - event: textarea_blurred
   schema:
-    textarea_id: id #required
+    textarea_id: id
     textarea_name: string?
     final_value: string?
     blurred_at: date = now()
 
 - event: textarea_input
   schema:
-    textarea_id: id #required
+    textarea_id: id
     textarea_name: string?
     current_value: string?
     input_at: date = now()
 
 - event: textarea_resized
   schema:
-    textarea_id: id #required
+    textarea_id: id
     textarea_name: string?
     old_width: int? #min(0)
     old_height: int? #min(0)
@@ -38,7 +38,7 @@
 
 - event: textarea_character_limit_reached
   schema:
-    textarea_id: id #required
+    textarea_id: id
     textarea_name: string?
     character_limit: int #min(1)
     current_length: int #min(0)

@@ -1,6 +1,6 @@
 - action: read
   inputs:
-    file: string #required
+    file: string
     has_headers: boolean = true
     range: string
     sheet: string
@@ -9,8 +9,8 @@
 
 - action: write
   inputs:
-    data: list[excel_row] #required
-    file: string #required
+    data: list[excel_row]
+    file: string
     headers: list[string]
     include_headers: boolean = true
     sheet: string = "sheet1"
@@ -19,21 +19,21 @@
 
 - action: get_sheets
   inputs:
-    file: string #required
+    file: string
   outputs:
     sheets: list[string]
 
 - action: read_sheet
   inputs:
-    file: string #required
+    file: string
     has_headers: boolean = true
     range: string
-    sheet: string #required
+    sheet: string
   outputs:
     rows: list[excel_row]
 
 - object: excel_workbook
-  class:
+  schema:
     path: string
     sheets: list[string]
     active_sheet: string
@@ -41,5 +41,12 @@
     column_count: int
 
 - object: excel_row
-  class:
+  schema:
     values: map[string, any]
+
+- object: excel_sheet
+  schema:
+    column_count: int = 0
+    name: string
+    row_count: int = 0
+    workbook_id: string

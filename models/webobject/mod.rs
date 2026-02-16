@@ -7,7 +7,6 @@ pub mod bento_grid;
 pub mod button;
 pub mod calendar;
 pub mod checkbox;
-pub mod combobox;
 pub mod description_list;
 pub mod dialog;
 pub mod divider;

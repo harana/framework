@@ -2,36 +2,33 @@
   inputs:
     fail_fast: boolean = true
     max_concurrency: int
-    tasks: list[parallel_task] #required
+    tasks: list[parallel_task]
     timeout: int
   outputs:
     completed: int
     failed: int
     results: list[parallel_result]
-    success: boolean
 
 - action: race
   inputs:
-    tasks: list[parallel_task] #required
+    tasks: list[parallel_task]
     timeout: int
   outputs:
     result: any
-    success: boolean
     winner_index: int
 
 - action: any
   inputs:
-    tasks: list[parallel_task] #required
+    tasks: list[parallel_task]
     timeout: int
   outputs:
     result: any
-    success: boolean
     success_index: int
 
 - action: all_settled
   inputs:
     max_concurrency: int
-    tasks: list[parallel_task] #required
+    tasks: list[parallel_task]
     timeout: int
   outputs:
     fulfilled: int
@@ -40,18 +37,17 @@
 
 - action: map
   inputs:
-    handler: string #required
-    items: list[any] #required
+    handler: string
+    items: list[any]
     max_concurrency: int = 10
   outputs:
     errors: list[parallel_error]
     results: list[any]
-    success: boolean
 
 - action: filter
   inputs:
-    handler: string #required
-    items: list[any] #required
+    handler: string
+    items: list[any]
     max_concurrency: int = 10
   outputs:
     count: int
@@ -59,9 +55,9 @@
 
 - action: reduce
   inputs:
-    handler: string #required
+    handler: string
     initial_value: any
-    items: list[any] #required
+    items: list[any]
     max_concurrency: int = 10
   outputs:
     result: any
@@ -71,58 +67,54 @@
     backoff_multiplier: float = 2.0
     delay_ms: int = 1000
     max_attempts: int = 3
-    task: parallel_task #required
+    task: parallel_task
   outputs:
     attempts: int
     result: any
-    success: boolean
 
 - action: timeout
   inputs:
-    task: parallel_task #required
-    timeout_ms: int #required
+    task: parallel_task
+    timeout_ms: int
   outputs:
     result: any
-    success: boolean
     timed_out: boolean
 
 - action: batch
   inputs:
     batch_size: int = 10
-    handler: string #required
-    items: list[any] #required
+    handler: string
+    items: list[any]
     max_concurrency: int = 1
   outputs:
     batch_count: int
     results: list[any]
-    success: boolean
 
 - action: semaphore
   inputs:
-    max_concurrent: int #required
-    tasks: list[parallel_task] #required
+    max_concurrent: int
+    tasks: list[parallel_task]
   outputs:
     completed: int
     failed: int
     results: list[parallel_result]
 
 - object: parallel_task
-  class:
+  schema:
     id: string
     handler: string
     input: any
     timeout: int
 
 - object: parallel_result
-  class:
+  schema:
     task_id: string
-    success: boolean
     result: any
     error: string
     duration_ms: int
 
 - object: parallel_settled_result
-  class:
+  schema:
     task_id: string
     status: fulfilled | rejected
     value: any
@@ -130,8 +122,20 @@
     duration_ms: int
 
 - object: parallel_error
-  class:
+  schema:
     task_id: string
     index: int
     message: string
     code: string
+
+- object: parallel_execution
+  schema:
+    completed_at: date
+    completed_count: int = 0
+    created_at: date = now()
+    failed_count: int = 0
+    max_concurrency: int
+    status: pending | running | completed | failed | cancelled = pending
+    strategy: all | race | any | all_settled | map | batch = all
+    timeout_ms: int
+    total_count: int = 0

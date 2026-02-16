@@ -1,7 +1,0 @@
-- object: math_expression
-  schema:
-    - created_at: date = now()
-    - description: string? #max(500)
-    - expression: string #max(2000)
-    - result: decimal?
-    - variables: string? # json map

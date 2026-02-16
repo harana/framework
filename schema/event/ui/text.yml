@@ -1,19 +1,19 @@
 - event: text_clicked
   schema:
-    text_id: id #required
+    text_id: id
     text_content: string?
     clicked_at: date = now()
 
 - event: text_link_clicked
   schema:
-    link_id: id #required
+    link_id: id
     link_label: string?
     link_href: string?
     clicked_at: date = now()
 
 - event: text_selected
   schema:
-    text_id: id #required
+    text_id: id
     selected_text: string?
     selection_start: int? #min(0)
     selection_end: int? #min(0)
@@ -21,12 +21,12 @@
 
 - event: text_copied
   schema:
-    text_id: id #required
+    text_id: id
     copied_text: string?
     copied_at: date = now()
 
 - event: code_copied
   schema:
-    code_id: id #required
+    code_id: id
     code_content: string?
     copied_at: date = now()

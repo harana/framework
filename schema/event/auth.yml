@@ -1,7 +1,7 @@
 - event: auth_registration_started
   schema:
     user_id: id?
-    email: string #required
+    email: string
     username: string?
     client_ip: string?
     user_agent: string?
@@ -9,17 +9,17 @@
 
 - event: auth_registration_completed
   schema:
-    user_id: id #required
-    email: string #required
+    user_id: id
+    email: string
     username: string?
-    passkey_credential_id: string #required
+    passkey_credential_id: string
     client_ip: string?
     user_agent: string?
     completed_at: date = now()
 
 - event: auth_registration_failed
   schema:
-    email: string #required
+    email: string
     reason: invalid_email | email_exists | passkey_creation_failed | timeout | user_cancelled | invalid_attestation | other = other
     error_message: string?
     client_ip: string?
@@ -37,10 +37,10 @@
 
 - event: auth_login_completed
   schema:
-    user_id: id #required
+    user_id: id
     email: string?
-    passkey_credential_id: string #required
-    session_id: id #required
+    passkey_credential_id: string
+    session_id: id
     client_ip: string?
     user_agent: string?
     completed_at: date = now()
@@ -57,8 +57,8 @@
 
 - event: auth_logout
   schema:
-    user_id: id #required
-    session_id: id #required
+    user_id: id
+    session_id: id
     reason: user_initiated | session_expired | forced | other = user_initiated
     client_ip: string?
     user_agent: string?
@@ -66,8 +66,8 @@
 
 - event: auth_passkey_created
   schema:
-    user_id: id #required
-    passkey_credential_id: string #required
+    user_id: id
+    passkey_credential_id: string
     passkey_name: string?
     authenticator_type: platform | cross_platform = platform
     discoverable: boolean = true
@@ -77,8 +77,8 @@
 
 - event: auth_passkey_removed
   schema:
-    user_id: id #required
-    passkey_credential_id: string #required
+    user_id: id
+    passkey_credential_id: string
     passkey_name: string?
     removed_by: user | admin | system = user
     reason: user_requested | security | lost_device | other = user_requested
@@ -87,8 +87,8 @@
 
 - event: auth_passkey_used
   schema:
-    user_id: id #required
-    passkey_credential_id: string #required
+    user_id: id
+    passkey_credential_id: string
     passkey_name: string?
     purpose: login | reauthentication | transaction_confirmation = login
     client_ip: string?
@@ -97,24 +97,24 @@
 
 - event: auth_session_created
   schema:
-    user_id: id #required
-    session_id: id #required
-    expires_at: date #required
+    user_id: id
+    session_id: id
+    expires_at: date
     client_ip: string?
     user_agent: string?
     created_at: date = now()
 
 - event: auth_session_expired
   schema:
-    user_id: id #required
-    session_id: id #required
+    user_id: id
+    session_id: id
     reason: timeout | max_age | inactivity = timeout
     expired_at: date = now()
 
 - event: auth_session_revoked
   schema:
-    user_id: id #required
-    session_id: id #required
+    user_id: id
+    session_id: id
     revoked_by: user | admin | system = user
     reason: logout | security | password_change | other = logout
     client_ip: string?
@@ -123,24 +123,24 @@
 - event: auth_challenge_created
   schema:
     user_id: id?
-    challenge_id: id #required
+    challenge_id: id
     challenge_type: registration | authentication = authentication
-    expires_at: date #required
+    expires_at: date
     client_ip: string?
     created_at: date = now()
 
 - event: auth_challenge_completed
   schema:
     user_id: id?
-    challenge_id: id #required
+    challenge_id: id
     challenge_type: registration | authentication = authentication
-    success: boolean #required
+    success: boolean
     client_ip: string?
     completed_at: date = now()
 
 - event: auth_account_locked
   schema:
-    user_id: id #required
+    user_id: id
     reason: failed_attempts | suspicious_activity | admin_action | policy_violation = failed_attempts
     failed_attempts: int? #min(0)
     locked_until: date?
@@ -149,24 +149,24 @@
 
 - event: auth_account_unlocked
   schema:
-    user_id: id #required
+    user_id: id
     reason: timeout_expired | admin_action | user_verification = timeout_expired
     unlocked_by: system | admin | user = system
     unlocked_at: date = now()
 
 - event: auth_reauthentication_required
   schema:
-    user_id: id #required
-    session_id: id #required
+    user_id: id
+    session_id: id
     reason: sensitive_action | session_age | policy = sensitive_action
     action_requested: string?
     required_at: date = now()
 
 - event: auth_reauthentication_completed
   schema:
-    user_id: id #required
-    session_id: id #required
-    passkey_credential_id: string #required
+    user_id: id
+    session_id: id
+    passkey_credential_id: string
     action_requested: string?
     client_ip: string?
     completed_at: date = now()

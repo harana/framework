@@ -193,8 +193,8 @@ fn generate_init_files(tree: &PkgTree, dir: &Path) -> Result<()> {
 
 fn generate_file_content(schema_file: &SchemaFile) -> Result<String> {
     match schema_file.category {
-        SchemaCategory::Action => generate_action_file(schema_file),
-        SchemaCategory::Config | SchemaCategory::Event | SchemaCategory::Object => generate_struct_file(schema_file),
+        SchemaCategory::Flow => generate_action_file(schema_file),
+        SchemaCategory::Config | SchemaCategory::Event => generate_struct_file(schema_file),
         SchemaCategory::WebObject => generate_webobject_file(schema_file),
     }
 }
@@ -223,13 +223,18 @@ fn generate_action_file(schema_file: &SchemaFile) -> Result<String> {
         }
     }
 
-    // Generate dataclasses for input/output types
+    // Generate enums for input fields (since input dataclasses are no longer generated)
     for method in &methods {
-        if !method.inputs.is_empty() {
-            let class_name = to_pascal_case(&format!("{}_input", method.name));
-            output.push_str(&generate_action_dataclass(&class_name, &method.inputs));
-            output.push_str("\n\n");
+        for field in &method.inputs {
+            if let FieldType::Enum(variants) = &field.field_type {
+                output.push_str(&generate_enum(&field.name, variants));
+                output.push_str("\n\n");
+            }
         }
+    }
+
+    // Generate dataclasses for output types only (inputs are method parameters)
+    for method in &methods {
         if !method.outputs.is_empty() {
             let class_name = to_pascal_case(&format!("{}_output", method.name));
             output.push_str(&generate_action_dataclass(&class_name, &method.outputs));
@@ -251,10 +256,33 @@ fn generate_action_file(schema_file: &SchemaFile) -> Result<String> {
         for method in &methods {
             let method_name = to_snake_case(&method.name);
 
-            let input_param = if method.inputs.is_empty() {
+            // Build individual parameters from inputs
+            let params: Vec<String> = method
+                .inputs
+                .iter()
+                .map(|field| {
+                    let field_name = to_snake_case(&field.name);
+                    let field_type = field.field_type.to_python_type(false);
+                    if let Some(default) = &field.default_value {
+                        if default == "true" {
+                            format!("{}: {} = True", field_name, field_type)
+                        } else if default == "false" {
+                            format!("{}: {} = False", field_name, field_type)
+                        } else if default.parse::<i64>().is_ok() || default.parse::<f64>().is_ok() {
+                            format!("{}: {} = {}", field_name, field_type, default)
+                        } else {
+                            format!("{}: {} = \"{}\"", field_name, field_type, default)
+                        }
+                    } else {
+                        format!("{}: {}", field_name, field_type)
+                    }
+                })
+                .collect();
+
+            let params_str = if params.is_empty() {
                 String::new()
             } else {
-                format!(", input: {}", to_pascal_case(&format!("{}_input", method.name)))
+                format!(", {}", params.join(", "))
             };
 
             let output_type = if method.outputs.is_empty() {
@@ -266,7 +294,7 @@ fn generate_action_file(schema_file: &SchemaFile) -> Result<String> {
             output.push_str("    @abstractmethod\n");
             output.push_str(&format!(
                 "    async def {}(self{}) -> {}:\n",
-                method_name, input_param, output_type
+                method_name, params_str, output_type
             ));
             output.push_str("        ...\n\n");
         }

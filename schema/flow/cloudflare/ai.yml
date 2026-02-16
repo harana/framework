@@ -1,19 +1,19 @@
 - action: run
   inputs:
-    binding: string #required
-    model: string #required
-    params: any #required
+    binding: string
+    model: string
+    params: any
     stream: boolean = false
   outputs:
     response: any
 
 - action: text_generation
   inputs:
-    binding: string #required
+    binding: string
     frequency_penalty: float
     max_tokens: int = 256
     messages: list[workers_ai_message]
-    model: string #required
+    model: string
     presence_penalty: float
     prompt: string
     repetition_penalty: float
@@ -26,64 +26,64 @@
 
 - action: text_embeddings
   inputs:
-    binding: string #required
-    model: string #required
-    text: list[string] #required
+    binding: string
+    model: string
+    text: list[string]
   outputs:
     data: list[list[float]]
     shape: list[int]
 
 - action: text_classification
   inputs:
-    binding: string #required
-    model: string #required
-    text: string #required
+    binding: string
+    model: string
+    text: string
   outputs:
     labels: list[workers_ai_classification]
 
 - action: translation
   inputs:
-    binding: string #required
-    model: string #required
-    source_lang: string #required
-    target_lang: string #required
-    text: string #required
+    binding: string
+    model: string
+    source_lang: string
+    target_lang: string
+    text: string
   outputs:
     translated_text: string
 
 - action: image_classification
   inputs:
-    binding: string #required
-    image: bytes #required
-    model: string #required
+    binding: string
+    image: bytes
+    model: string
   outputs:
     labels: list[workers_ai_classification]
 
 - action: object_detection
   inputs:
-    binding: string #required
-    image: bytes #required
-    model: string #required
+    binding: string
+    image: bytes
+    model: string
   outputs:
     detections: list[workers_ai_detection]
 
 - action: text_to_image
   inputs:
-    binding: string #required
+    binding: string
     guidance: float = 7.5
     height: int
-    model: string #required
+    model: string
     num_steps: int = 20
-    prompt: string #required
+    prompt: string
     width: int
   outputs:
     image: bytes
 
 - action: speech_recognition
   inputs:
-    audio: bytes #required
-    binding: string #required
-    model: string #required
+    audio: bytes
+    binding: string
+    model: string
     source_lang: string
   outputs:
     text: string
@@ -93,27 +93,47 @@
 
 - action: text_to_speech
   inputs:
-    binding: string #required
-    model: string #required
-    text: string #required
+    binding: string
+    model: string
+    text: string
   outputs:
     audio: bytes
 
 - action: summarization
   inputs:
-    binding: string #required
-    input_text: string #required
+    binding: string
+    input_text: string
     max_length: int = 1024
-    model: string #required
+    model: string
   outputs:
     summary: string
 
 - action: image_to_text
   inputs:
-    binding: string #required
-    image: bytes #required
+    binding: string
+    image: bytes
     max_tokens: int = 512
-    model: string #required
+    model: string
     prompt: string
   outputs:
     description: string
+
+- object: cf_workers_ai_model
+  schema:
+    account_id: string
+    created_at: date = now()
+    model_name: string
+    task_type: text_generation | text_embeddings | text_classification | translation | image_classification | object_detection | text_to_image | speech_recognition | text_to_speech | summarization | image_to_text
+    updated_at: date = now()
+
+- object: cf_workers_ai_inference
+  schema:
+    binding: string
+    created_at: date = now()
+    duration_ms: int
+    input_tokens: int
+    invoked_at: date = now()
+    model_id: string
+    output_tokens: int
+    status: success | error | timeout = success
+    stream: boolean = false

@@ -3,7 +3,7 @@
     - add_event_label: string = "add event" #max(50)
     - current_year_datetime: string #max(20)
     - current_year: string #max(20)
-    - months: [calendar_month] #required
+    - months: [calendar_month]
     - selected_view: string = "year" #max(20)
     - today_label: string = "today" #max(20)
     - view_options: [calendar_view_option]

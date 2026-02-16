@@ -1,62 +1,70 @@
 - action: round
   inputs:
     precision: int = 0
-    value: float #required
+    value: float
   outputs:
     result: float
 
 - action: floor
   inputs:
-    value: float #required
+    value: float
   outputs:
     result: float
 
 - action: ceil
   inputs:
-    value: float #required
+    value: float
   outputs:
     result: float
 
 - action: abs
   inputs:
-    value: float #required
+    value: float
   outputs:
     result: float
 
 - action: min
   inputs:
-    values: list[float] #required
+    values: list[float]
   outputs:
     result: float
 
 - action: max
   inputs:
-    values: list[float] #required
+    values: list[float]
   outputs:
     result: float
 
 - action: sum
   inputs:
-    values: list[float] #required
+    values: list[float]
   outputs:
     result: float
 
 - action: average
   inputs:
-    values: list[float] #required
+    values: list[float]
   outputs:
     result: float
 
 - action: percentage
   inputs:
     precision: int = 2
-    total: float #required
-    value: float #required
+    total: float
+    value: float
   outputs:
     result: float
 
 - object: number_value
-  class:
+  schema:
     value: float
     precision: int
     formatted: string
+
+- object: math_expression
+  schema:
+    created_at: date = now()
+    description: string
+    expression: string
+    result: decimal
+    variables: string #json

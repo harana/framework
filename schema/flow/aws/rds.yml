@@ -8,8 +8,8 @@
     character_set_name: string
     copy_tags_to_snapshot: boolean = false
     db_cluster_identifier: string
-    db_instance_class: string #required
-    db_instance_identifier: string #required
+    db_instance_schema: string
+    db_instance_identifier: string
     db_name: string
     db_parameter_group_name: string
     db_security_groups: list[string]
@@ -21,7 +21,7 @@
     enable_customer_owned_ip: boolean = false
     enable_iam_database_authentication: boolean = false
     enable_performance_insights: boolean = false
-    engine: string #required
+    engine: string
     engine_version: string
     iops: int
     kms_key_id: string
@@ -55,18 +55,16 @@
     vpc_security_group_ids: list[string]
   outputs:
     db_instance: db_instance
-    success: boolean
 
 - action: delete_db_instance
   inputs:
-    db_instance_identifier: string #required
+    db_instance_identifier: string
     delete_automated_backups: boolean = true
     final_db_snapshot_identifier: string
     region: string
     skip_final_snapshot: boolean = false
   outputs:
     db_instance: db_instance
-    success: boolean
 
 - action: describe_db_instances
   inputs:
@@ -90,8 +88,8 @@
     ca_certificate_identifier: string
     cloudwatch_logs_export_configuration: cloudwatch_logs_export_configuration
     copy_tags_to_snapshot: boolean
-    db_instance_class: string
-    db_instance_identifier: string #required
+    db_instance_schema: string
+    db_instance_identifier: string
     db_parameter_group_name: string
     db_port_number: int
     db_security_groups: list[string]
@@ -134,33 +132,29 @@
     vpc_security_group_ids: list[string]
   outputs:
     db_instance: db_instance
-    success: boolean
 
 - action: start_db_instance
   inputs:
-    db_instance_identifier: string #required
+    db_instance_identifier: string
     region: string
   outputs:
     db_instance: db_instance
-    success: boolean
 
 - action: stop_db_instance
   inputs:
-    db_instance_identifier: string #required
+    db_instance_identifier: string
     db_snapshot_identifier: string
     region: string
   outputs:
     db_instance: db_instance
-    success: boolean
 
 - action: reboot_db_instance
   inputs:
-    db_instance_identifier: string #required
+    db_instance_identifier: string
     force_failover: boolean = false
     region: string
   outputs:
     db_instance: db_instance
-    success: boolean
 
 - action: create_db_cluster
   inputs:
@@ -172,8 +166,8 @@
     character_set_name: string
     copy_tags_to_snapshot: boolean = false
     database_name: string
-    db_cluster_identifier: string #required
-    db_cluster_instance_class: string
+    db_cluster_identifier: string
+    db_cluster_instance_schema: string
     db_cluster_parameter_group_name: string
     db_subnet_group_name: string
     db_system_id: string
@@ -185,7 +179,7 @@
     enable_http_endpoint: boolean = false
     enable_iam_database_authentication: boolean = false
     enable_performance_insights: boolean = false
-    engine: string #required
+    engine: string
     engine_mode: provisioned | serverless
     engine_version: string
     global_cluster_identifier: string
@@ -215,18 +209,16 @@
     vpc_security_group_ids: list[string]
   outputs:
     db_cluster: db_cluster
-    success: boolean
 
 - action: delete_db_cluster
   inputs:
-    db_cluster_identifier: string #required
+    db_cluster_identifier: string
     delete_automated_backups: boolean = true
     final_db_snapshot_identifier: string
     region: string
     skip_final_snapshot: boolean = false
   outputs:
     db_cluster: db_cluster
-    success: boolean
 
 - action: describe_db_clusters
   inputs:
@@ -250,8 +242,8 @@
     backup_retention_period: int
     cloudwatch_logs_export_configuration: cloudwatch_logs_export_configuration
     copy_tags_to_snapshot: boolean
-    db_cluster_identifier: string #required
-    db_cluster_instance_class: string
+    db_cluster_identifier: string
+    db_cluster_instance_schema: string
     db_cluster_parameter_group_name: string
     db_instance_parameter_group_name: string
     deletion_protection: boolean
@@ -284,50 +276,44 @@
     vpc_security_group_ids: list[string]
   outputs:
     db_cluster: db_cluster
-    success: boolean
 
 - action: start_db_cluster
   inputs:
-    db_cluster_identifier: string #required
+    db_cluster_identifier: string
     region: string
   outputs:
     db_cluster: db_cluster
-    success: boolean
 
 - action: stop_db_cluster
   inputs:
-    db_cluster_identifier: string #required
+    db_cluster_identifier: string
     region: string
   outputs:
     db_cluster: db_cluster
-    success: boolean
 
 - action: failover_db_cluster
   inputs:
-    db_cluster_identifier: string #required
+    db_cluster_identifier: string
     region: string
     target_db_instance_identifier: string
   outputs:
     db_cluster: db_cluster
-    success: boolean
 
 - action: create_db_snapshot
   inputs:
-    db_instance_identifier: string #required
-    db_snapshot_identifier: string #required
+    db_instance_identifier: string
+    db_snapshot_identifier: string
     region: string
     tags: rds_tags
   outputs:
     db_snapshot: db_snapshot
-    success: boolean
 
 - action: delete_db_snapshot
   inputs:
-    db_snapshot_identifier: string #required
+    db_snapshot_identifier: string
     region: string
   outputs:
     db_snapshot: db_snapshot
-    success: boolean
 
 - action: describe_db_snapshots
   inputs:
@@ -353,13 +339,12 @@
     option_group_name: string
     pre_signed_url: string
     region: string
-    source_db_snapshot_identifier: string #required
+    source_db_snapshot_identifier: string
     source_region: string
     tags: rds_tags
-    target_db_snapshot_identifier: string #required
+    target_db_snapshot_identifier: string
   outputs:
     db_snapshot: db_snapshot
-    success: boolean
 
 - action: restore_db_instance_from_db_snapshot
   inputs:
@@ -367,11 +352,11 @@
     availability_zone: string
     copy_tags_to_snapshot: boolean
     custom_iam_instance_profile: string
-    db_instance_class: string
-    db_instance_identifier: string #required
+    db_instance_schema: string
+    db_instance_identifier: string
     db_name: string
     db_parameter_group_name: string
-    db_snapshot_identifier: string #required
+    db_snapshot_identifier: string
     db_subnet_group_name: string
     deletion_protection: boolean
     domain: string
@@ -398,7 +383,6 @@
     vpc_security_group_ids: list[string]
   outputs:
     db_instance: db_instance
-    success: boolean
 
 - action: restore_db_instance_to_point_in_time
   inputs:
@@ -406,7 +390,7 @@
     availability_zone: string
     copy_tags_to_snapshot: boolean
     custom_iam_instance_profile: string
-    db_instance_class: string
+    db_instance_schema: string
     db_name: string
     db_parameter_group_name: string
     db_subnet_group_name: string
@@ -434,7 +418,7 @@
     storage_throughput: int
     storage_type: string
     tags: rds_tags
-    target_db_instance_identifier: string #required
+    target_db_instance_identifier: string
     tde_credential_arn: string
     tde_credential_password: string
     use_default_processor_features: boolean
@@ -442,25 +426,22 @@
     vpc_security_group_ids: list[string]
   outputs:
     db_instance: db_instance
-    success: boolean
 
 - action: create_db_cluster_snapshot
   inputs:
-    db_cluster_identifier: string #required
-    db_cluster_snapshot_identifier: string #required
+    db_cluster_identifier: string
+    db_cluster_snapshot_identifier: string
     region: string
     tags: rds_tags
   outputs:
     db_cluster_snapshot: db_cluster_snapshot
-    success: boolean
 
 - action: delete_db_cluster_snapshot
   inputs:
-    db_cluster_snapshot_identifier: string #required
+    db_cluster_snapshot_identifier: string
     region: string
   outputs:
     db_cluster_snapshot: db_cluster_snapshot
-    success: boolean
 
 - action: describe_db_cluster_snapshots
   inputs:
@@ -483,13 +464,12 @@
     kms_key_id: string
     pre_signed_url: string
     region: string
-    source_db_cluster_snapshot_identifier: string #required
+    source_db_cluster_snapshot_identifier: string
     source_region: string
     tags: rds_tags
-    target_db_cluster_snapshot_identifier: string #required
+    target_db_cluster_snapshot_identifier: string
   outputs:
     db_cluster_snapshot: db_cluster_snapshot
-    success: boolean
 
 - action: restore_db_cluster_from_snapshot
   inputs:
@@ -497,8 +477,8 @@
     backtrack_window: int
     copy_tags_to_snapshot: boolean
     database_name: string
-    db_cluster_identifier: string #required
-    db_cluster_instance_class: string
+    db_cluster_identifier: string
+    db_cluster_instance_schema: string
     db_cluster_parameter_group_name: string
     db_subnet_group_name: string
     deletion_protection: boolean
@@ -506,7 +486,7 @@
     domain_iam_role_name: string
     enable_cloudwatch_logs_exports: list[string]
     enable_iam_database_authentication: boolean
-    engine: string #required
+    engine: string
     engine_mode: string
     engine_version: string
     iops: int
@@ -518,20 +498,19 @@
     region: string
     scaling_configuration: scaling_configuration
     serverless_v2_scaling_configuration: serverless_v2_scaling_configuration
-    snapshot_identifier: string #required
+    snapshot_identifier: string
     storage_type: string
     tags: rds_tags
     vpc_security_group_ids: list[string]
   outputs:
     db_cluster: db_cluster
-    success: boolean
 
 - action: restore_db_cluster_to_point_in_time
   inputs:
     backtrack_window: int
     copy_tags_to_snapshot: boolean
-    db_cluster_identifier: string #required
-    db_cluster_instance_class: string
+    db_cluster_identifier: string
+    db_cluster_instance_schema: string
     db_cluster_parameter_group_name: string
     db_subnet_group_name: string
     deletion_protection: boolean
@@ -551,32 +530,28 @@
     restore_type: full-copy | copy-on-write = full-copy
     scaling_configuration: scaling_configuration
     serverless_v2_scaling_configuration: serverless_v2_scaling_configuration
-    source_db_cluster_identifier: string #required
+    source_db_cluster_identifier: string
     storage_type: string
     tags: rds_tags
     use_latest_restorable_time: boolean = false
     vpc_security_group_ids: list[string]
   outputs:
     db_cluster: db_cluster
-    success: boolean
 
 - action: create_db_subnet_group
   inputs:
-    db_subnet_group_description: string #required
-    db_subnet_group_name: string #required
+    db_subnet_group_description: string
+    db_subnet_group_name: string
     region: string
-    subnet_ids: list[string] #required
+    subnet_ids: list[string]
     tags: rds_tags
   outputs:
     db_subnet_group: db_subnet_group
-    success: boolean
 
 - action: delete_db_subnet_group
   inputs:
-    db_subnet_group_name: string #required
+    db_subnet_group_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: describe_db_subnet_groups
   inputs:
@@ -592,30 +567,26 @@
 - action: modify_db_subnet_group
   inputs:
     db_subnet_group_description: string
-    db_subnet_group_name: string #required
+    db_subnet_group_name: string
     region: string
-    subnet_ids: list[string] #required
+    subnet_ids: list[string]
   outputs:
     db_subnet_group: db_subnet_group
-    success: boolean
 
 - action: create_db_parameter_group
   inputs:
-    db_parameter_group_family: string #required
-    db_parameter_group_name: string #required
-    description: string #required
+    db_parameter_group_family: string
+    db_parameter_group_name: string
+    description: string
     region: string
     tags: rds_tags
   outputs:
     db_parameter_group: db_parameter_group
-    success: boolean
 
 - action: delete_db_parameter_group
   inputs:
-    db_parameter_group_name: string #required
+    db_parameter_group_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: describe_db_parameter_groups
   inputs:
@@ -630,26 +601,24 @@
 
 - action: modify_db_parameter_group
   inputs:
-    db_parameter_group_name: string #required
-    parameters: list[parameter] #required
+    db_parameter_group_name: string
+    parameters: list[parameter]
     region: string
   outputs:
     db_parameter_group_name: string
-    success: boolean
 
 - action: reset_db_parameter_group
   inputs:
-    db_parameter_group_name: string #required
+    db_parameter_group_name: string
     parameters: list[parameter]
     region: string
     reset_all_parameters: boolean = false
   outputs:
     db_parameter_group_name: string
-    success: boolean
 
 - action: describe_db_parameters
   inputs:
-    db_parameter_group_name: string #required
+    db_parameter_group_name: string
     filters: list[rds_filter]
     marker: string
     max_records: int = 100
@@ -661,21 +630,18 @@
 
 - action: create_db_cluster_parameter_group
   inputs:
-    db_cluster_parameter_group_name: string #required
-    db_parameter_group_family: string #required
-    description: string #required
+    db_cluster_parameter_group_name: string
+    db_parameter_group_family: string
+    description: string
     region: string
     tags: rds_tags
   outputs:
     db_cluster_parameter_group: db_cluster_parameter_group
-    success: boolean
 
 - action: delete_db_cluster_parameter_group
   inputs:
-    db_cluster_parameter_group_name: string #required
+    db_cluster_parameter_group_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: describe_db_cluster_parameter_groups
   inputs:
@@ -690,31 +656,27 @@
 
 - action: modify_db_cluster_parameter_group
   inputs:
-    db_cluster_parameter_group_name: string #required
-    parameters: list[parameter] #required
+    db_cluster_parameter_group_name: string
+    parameters: list[parameter]
     region: string
   outputs:
     db_cluster_parameter_group_name: string
-    success: boolean
 
 - action: create_option_group
   inputs:
-    engine_name: string #required
-    major_engine_version: string #required
-    option_group_description: string #required
-    option_group_name: string #required
+    engine_name: string
+    major_engine_version: string
+    option_group_description: string
+    option_group_name: string
     region: string
     tags: rds_tags
   outputs:
     option_group: option_group
-    success: boolean
 
 - action: delete_option_group
   inputs:
-    option_group_name: string #required
+    option_group_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: describe_option_groups
   inputs:
@@ -732,13 +694,12 @@
 - action: modify_option_group
   inputs:
     apply_immediately: boolean = false
-    option_group_name: string #required
+    option_group_name: string
     options_to_include: list[option_configuration]
     options_to_remove: list[string]
     region: string
   outputs:
     option_group: option_group
-    success: boolean
 
 - action: create_db_instance_read_replica
   inputs:
@@ -746,8 +707,8 @@
     availability_zone: string
     copy_tags_to_snapshot: boolean
     custom_iam_instance_profile: string
-    db_instance_class: string
-    db_instance_identifier: string #required
+    db_instance_schema: string
+    db_instance_identifier: string
     db_parameter_group_name: string
     db_subnet_group_name: string
     deletion_protection: boolean
@@ -772,7 +733,7 @@
     publicly_accessible: boolean
     region: string
     replica_mode: open-read-only | mounted
-    source_db_instance_identifier: string #required
+    source_db_instance_identifier: string
     source_region: string
     storage_throughput: int
     storage_type: string
@@ -781,25 +742,22 @@
     vpc_security_group_ids: list[string]
   outputs:
     db_instance: db_instance
-    success: boolean
 
 - action: promote_read_replica
   inputs:
     backup_retention_period: int
-    db_instance_identifier: string #required
+    db_instance_identifier: string
     preferred_backup_window: string
     region: string
   outputs:
     db_instance: db_instance
-    success: boolean
 
 - action: promote_read_replica_db_cluster
   inputs:
-    db_cluster_identifier: string #required
+    db_cluster_identifier: string
     region: string
   outputs:
     db_cluster: db_cluster
-    success: boolean
 
 - action: describe_db_engine_versions
   inputs:
@@ -821,8 +779,8 @@
 - action: describe_orderable_db_instance_options
   inputs:
     availability_zone_group: string
-    db_instance_class: string
-    engine: string #required
+    db_instance_schema: string
+    engine: string
     engine_version: string
     filters: list[rds_filter]
     license_model: string
@@ -837,23 +795,120 @@
 - action: add_tags_to_resource
   inputs:
     region: string
-    resource_name: string #required
-    tags: rds_tags #required
-  outputs:
-    success: boolean
+    resource_name: string
+    tags: rds_tags
 
 - action: remove_tags_from_resource
   inputs:
     region: string
-    resource_name: string #required
-    tag_keys: list[string] #required
-  outputs:
-    success: boolean
+    resource_name: string
+    tag_keys: list[string]
 
 - action: list_tags_for_resource
   inputs:
     filters: list[rds_filter]
     region: string
-    resource_name: string #required
+    resource_name: string
   outputs:
     tag_list: list[rds_tag]
+
+- object: aws_rds_instance
+  schema:
+    account_id: string
+    allocated_storage: int
+    auto_minor_version_upgrade: boolean = true
+    availability_zone: string
+    backup_retention_period: int = 1
+    ca_certificate_identifier: string
+    created_at: date = now()
+    db_cluster_identifier: string
+    db_instance_schema: string
+    db_instance_identifier: string
+    db_name: string
+    db_subnet_group_name: string
+    deletion_protection: boolean = false
+    endpoint_address: string
+    endpoint_port: int
+    engine: string
+    engine_version: string
+    iam_auth_enabled: boolean = false
+    iops: int
+    kms_key_id: string
+    master_username: string
+    multi_az: boolean = false
+    performance_insights_enabled: boolean = false
+    port: int
+    publicly_accessible: boolean = false
+    region: string
+    status: available | backing-up | creating | deleting | failed | modifying | rebooting | starting | stopped | stopping | storage_optimization = creating
+    storage_encrypted: boolean = false
+    storage_type: standard | gp2 | gp3 | io1 | io2 = gp2
+    tags: string #json
+    updated_at: date = now()
+
+- object: aws_rds_cluster
+  schema:
+    account_id: string
+    availability_zones: string #json
+    backup_retention_period: int = 1
+    created_at: date = now()
+    database_name: string
+    db_cluster_identifier: string
+    deletion_protection: boolean = false
+    endpoint: string
+    engine: string
+    engine_mode: provisioned | serverless = provisioned
+    engine_version: string
+    iam_auth_enabled: boolean = false
+    kms_key_id: string
+    master_username: string
+    multi_az: boolean = false
+    port: int
+    reader_endpoint: string
+    region: string
+    status: available | creating | deleting | failed | migrating | modifying = creating
+    storage_encrypted: boolean = false
+    tags: string #json
+    updated_at: date = now()
+
+- object: aws_rds_subnet_group
+  schema:
+    account_id: string
+    created_at: date = now()
+    db_subnet_group_description: string
+    db_subnet_group_name: string
+    region: string
+    status: string
+    subnet_ids: string #json
+    tags: string #json
+    updated_at: date = now()
+    vpc_id: string
+
+- object: aws_rds_parameter_group
+  schema:
+    account_id: string
+    created_at: date = now()
+    db_parameter_group_family: string
+    db_parameter_group_name: string
+    description: string
+    region: string
+    tags: string #json
+    updated_at: date = now()
+
+- object: aws_rds_snapshot
+  schema:
+    account_id: string
+    allocated_storage: int
+    availability_zone: string
+    created_at: date = now()
+    db_instance_identifier: string
+    db_snapshot_identifier: string
+    encrypted: boolean = false
+    engine: string
+    engine_version: string
+    kms_key_id: string
+    region: string
+    snapshot_type: automated | manual | shared | public = manual
+    status: available | creating | deleting | failed = creating
+    storage_type: string
+    tags: string #json

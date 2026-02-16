@@ -3,23 +3,23 @@
     attestation: none | indirect | direct | enterprise = none
     authenticator_selection: passkey_authenticator_selection
     exclude_credentials: list[passkey_credential_descriptor]
-    relying_party_id: string #required
-    relying_party_name: string #required
+    relying_party_id: string
+    relying_party_name: string
     timeout: int = 60000
-    user_display_name: string #required
-    user_id: string #required
-    user_name: string #required
+    user_display_name: string
+    user_id: string
+    user_name: string
   outputs:
     challenge: string
     options: passkey_registration_options
 
 - action: verify_registration
   inputs:
-    expected_challenge: string #required
-    expected_origin: string #required
-    expected_rp_id: string #required
+    expected_challenge: string
+    expected_origin: string
+    expected_rp_id: string
     require_user_verification: boolean = true
-    response: passkey_registration_response #required
+    response: passkey_registration_response
   outputs:
     aaguid: string
     attestation_object: bytes
@@ -33,7 +33,7 @@
 - action: generate_authentication_options
   inputs:
     allow_credentials: list[passkey_credential_descriptor]
-    relying_party_id: string #required
+    relying_party_id: string
     timeout: int = 60000
     user_verification: required | preferred | discouraged = preferred
   outputs:
@@ -42,13 +42,13 @@
 
 - action: verify_authentication
   inputs:
-    credential_current_counter: int #required
-    credential_public_key: bytes #required
-    expected_challenge: string #required
-    expected_origin: string #required
-    expected_rp_id: string #required
+    credential_current_counter: int
+    credential_public_key: bytes
+    expected_challenge: string
+    expected_origin: string
+    expected_rp_id: string
     require_user_verification: boolean = true
-    response: passkey_authentication_response #required
+    response: passkey_authentication_response
   outputs:
     credential_backed_up: boolean
     credential_device_type: string
@@ -59,27 +59,26 @@
   inputs:
     aaguid: string
     backed_up: boolean
-    counter: int #required
-    credential_id: string #required
-    credential_public_key: bytes #required
+    counter: int
+    credential_id: string
+    credential_public_key: bytes
     device_type: string
     friendly_name: string
     transports: list[string]
-    user_id: string #required
+    user_id: string
   outputs:
     passkey_id: string
-    success: boolean
 
 - action: get_user_passkeys
   inputs:
-    user_id: string #required
+    user_id: string
   outputs:
     count: int
     passkeys: list[passkey_info]
 
 - action: get_passkey
   inputs:
-    credential_id: string #required
+    credential_id: string
   outputs:
     backed_up: boolean
     counter: int
@@ -95,35 +94,29 @@
 
 - action: update_counter
   inputs:
-    credential_id: string #required
-    new_counter: int #required
-  outputs:
-    success: boolean
+    credential_id: string
+    new_counter: int
 
 - action: delete_passkey
   inputs:
-    passkey_id: string #required
-    user_id: string #required
-  outputs:
-    success: boolean
+    passkey_id: string
+    user_id: string
 
 - action: update_passkey_name
   inputs:
-    friendly_name: string #required
-    passkey_id: string #required
-  outputs:
-    success: boolean
+    friendly_name: string
+    passkey_id: string
 
 - action: check_support
   inputs:
-    user_agent: string #required
+    user_agent: string
   outputs:
     conditional_mediation: boolean
     platform_authenticator: boolean
     user_verifying_platform_authenticator: boolean
 
 - object: passkey
-  class:
+  schema:
     passkey_id: string
     credential_id: string
     user_id: string
@@ -136,20 +129,20 @@
     last_used_at: date
 
 - object: passkey_authenticator_selection
-  class:
+  schema:
     authenticator_attachment: string
     resident_key: string
     require_resident_key: boolean
     user_verification: string
 
 - object: passkey_credential_descriptor
-  class:
+  schema:
     id: string
     type: string
     transports: list[string]
 
 - object: passkey_registration_options
-  class:
+  schema:
     rp: passkey_relying_party
     user: passkey_user
     challenge: string
@@ -158,35 +151,35 @@
     attestation: string
 
 - object: passkey_relying_party
-  class:
+  schema:
     id: string
     name: string
 
 - object: passkey_user
-  class:
+  schema:
     id: string
     name: string
     display_name: string
 
 - object: passkey_cred_param
-  class:
+  schema:
     type: string
     alg: int
 
 - object: passkey_registration_response
-  class:
+  schema:
     id: string
     raw_id: string
     response: passkey_authenticator_attestation_response
     type: string
 
 - object: passkey_authenticator_attestation_response
-  class:
+  schema:
     client_data_json: string
     attestation_object: string
 
 - object: passkey_authentication_options
-  class:
+  schema:
     challenge: string
     timeout: int
     rp_id: string
@@ -194,24 +187,59 @@
     user_verification: string
 
 - object: passkey_authentication_response
-  class:
+  schema:
     id: string
     raw_id: string
     response: passkey_authenticator_assertion_response
     type: string
 
 - object: passkey_authenticator_assertion_response
-  class:
+  schema:
     client_data_json: string
     authenticator_data: string
     signature: string
     user_handle: string
 
 - object: passkey_info
-  class:
+  schema:
     passkey_id: string
     credential_id: string
     friendly_name: string
     device_type: string
     created_at: date
     last_used_at: date
+
+- object: passkey_credential
+  schema:
+    aaguid: string
+    backed_up: boolean = false
+    counter: int = 0
+    created_at: date = now()
+    credential_id: string
+    device_type: string
+    friendly_name: string
+    is_active: boolean = true
+    last_used_at: date
+    public_key_fingerprint: string
+    transports: string #json
+    updated_at: date = now()
+    user_id: string
+
+- object: passkey_challenge
+  schema:
+    challenge: string
+    created_at: date = now()
+    expires_at: date
+    rp_id: string
+    type: registration | authentication = registration
+    used: boolean = false
+    user_id: string
+
+- object: passkey_auth_log
+  schema:
+    authenticated_at: date = now()
+    credential_id: string
+    ip_address: string
+    success: boolean = true
+    user_agent: string
+    user_id: string

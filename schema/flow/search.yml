@@ -3,10 +3,10 @@
     fields: list[string]
     filters: search_filters
     highlight: boolean = false
-    index: string #required
+    index: string
     limit: int = 10
     offset: int = 0
-    query: string #required
+    query: string
     sort: list[search_sort_field]
   outputs:
     hits: list[search_hit]
@@ -15,18 +15,16 @@
 
 - action: index_document
   inputs:
-    document: search_document_data #required
-    document_id: string #required
-    index: string #required
+    document: search_document_data
+    document_id: string
+    index: string
     refresh: boolean = false
-  outputs:
-    success: boolean
     version: int
 
 - action: bulk_index
   inputs:
-    documents: list[search_document_data] #required
-    index: string #required
+    documents: list[search_document_data]
+    index: string
     refresh: boolean = false
   outputs:
     errors: list[search_index_error]
@@ -35,8 +33,8 @@
 
 - action: get_document
   inputs:
-    document_id: string #required
-    index: string #required
+    document_id: string
+    index: string
   outputs:
     document: search_document_data
     found: boolean
@@ -44,44 +42,35 @@
 
 - action: update_document
   inputs:
-    document: search_document_data #required
-    document_id: string #required
-    index: string #required
+    document: search_document_data
+    document_id: string
+    index: string
     upsert: boolean = false
-  outputs:
-    success: boolean
     version: int
 
 - action: delete_document
   inputs:
-    document_id: string #required
-    index: string #required
+    document_id: string
+    index: string
     refresh: boolean = false
-  outputs:
-    success: boolean
 
 - action: delete_by_query
   inputs:
-    index: string #required
-    query: search_query #required
+    index: string
+    query: search_query
     refresh: boolean = false
   outputs:
     deleted: int
-    success: boolean
 
 - action: create_index
   inputs:
-    index: string #required
+    index: string
     mappings: search_mappings
     settings: search_index_settings
-  outputs:
-    success: boolean
 
 - action: delete_index
   inputs:
-    index: string #required
-  outputs:
-    success: boolean
+    index: string
 
 - action: list_indexes
   inputs:
@@ -92,7 +81,7 @@
 
 - action: get_index_stats
   inputs:
-    index: string #required
+    index: string
   outputs:
     document_count: int
     mappings: search_mappings
@@ -100,15 +89,15 @@
 
 - action: suggest
   inputs:
-    field: string #required
-    index: string #required
+    field: string
+    index: string
     size: int = 5
-    text: string #required
+    text: string
   outputs:
     suggestions: list[string]
 
 - object: search_document
-  class:
+  schema:
     document_id: string
     index: string
     document: search_document_data
@@ -116,53 +105,85 @@
     version: int
 
 - object: search_document_data
-  class:
+  schema:
     fields: map[string, any]
 
 - object: search_filters
-  class:
+  schema:
     conditions: map[string, any]
 
 - object: search_sort_field
-  class:
+  schema:
     field: string
     order: string
 
 - object: search_hit
-  class:
+  schema:
     document_id: string
     score: float
     source: search_document_data
     highlight: map[string, list[string]]
 
 - object: search_index_error
-  class:
+  schema:
     document_id: string
     error: string
     status: int
 
 - object: search_query
-  class:
+  schema:
     query: map[string, any]
 
 - object: search_mappings
-  class:
+  schema:
     properties: map[string, search_field_mapping]
 
 - object: search_field_mapping
-  class:
+  schema:
     type: string
     analyzer: string
     index: boolean
 
 - object: search_index_settings
-  class:
+  schema:
     number_of_shards: int
     number_of_replicas: int
 
 - object: search_index_info
-  class:
+  schema:
     name: string
     document_count: int
     size_bytes: int
     status: string
+
+- object: search_index
+  schema:
+    created_at: date = now()
+    is_active: boolean = true
+    settings: string
+    updated_at: date = now()
+
+- object: search_field
+  schema:
+    boost: decimal = 1.0
+    index_id: string
+    is_facet: boolean = false
+    is_filterable: boolean = true
+    is_searchable: boolean = true
+    is_sortable: boolean = false
+    type: text | keyword | number | date | boolean | geo = text
+
+- object: search_synonym
+  schema:
+    index_id: string
+    synonyms: string
+    term: string
+
+- object: search_query_log
+  schema:
+    created_at: date = now()
+    index_id: string
+    query: string
+    response_time_ms: int
+    results_count: int = 0
+    user_id: string

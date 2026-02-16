@@ -5,8 +5,8 @@
     policy: string
     policy_arns: list[sts_policy_arn]
     region: string
-    role_arn: string #required
-    role_session_name: string #required
+    role_arn: string
+    role_session_name: string
     serial_number: string
     source_identity: string
     tags: tags
@@ -21,17 +21,16 @@
     secret_access_key: string
     session_token: string
     source_identity: string
-    success: boolean
 
 - action: assume_role_with_saml
   inputs:
     duration_seconds: int = 3600
     policy: string
     policy_arns: list[sts_policy_arn]
-    principal_arn: string #required
+    principal_arn: string
     region: string
-    role_arn: string #required
-    saml_assertion: string #required
+    role_arn: string
+    saml_assertion: string
   outputs:
     access_key_id: string
     assumed_role_user: assumed_role_user
@@ -45,7 +44,6 @@
     session_token: string
     subject: string
     subject_type: string
-    success: boolean
 
 - action: assume_role_with_web_identity
   inputs:
@@ -54,9 +52,9 @@
     policy_arns: list[sts_policy_arn]
     provider_id: string
     region: string
-    role_arn: string #required
-    role_session_name: string #required
-    web_identity_token: string #required
+    role_arn: string
+    role_session_name: string
+    web_identity_token: string
   outputs:
     access_key_id: string
     assumed_role_user: assumed_role_user
@@ -69,15 +67,13 @@
     session_token: string
     source_identity: string
     subject_from_web_identity_token: string
-    success: boolean
 
 - action: decode_authorization_message
   inputs:
-    encoded_message: string #required
+    encoded_message: string
     region: string
   outputs:
     decoded_message: string
-    success: boolean
 
 - action: get_caller_identity
   inputs:
@@ -99,12 +95,11 @@
     expiration: date
     secret_access_key: string
     session_token: string
-    success: boolean
 
 - action: get_federation_token
   inputs:
     duration_seconds: int = 3600
-    name: string #required
+    name: string
     policy: string
     policy_arns: list[sts_policy_arn]
     region: string
@@ -117,12 +112,37 @@
     packed_policy_size: int
     secret_access_key: string
     session_token: string
-    success: boolean
 
 - action: get_access_key_info
   inputs:
-    access_key_id: string #required
+    access_key_id: string
     region: string
   outputs:
     account: string
-    success: boolean
+
+- object: aws_sts_assumed_role_session
+  schema:
+    access_key_id: string
+    account_id: string
+    assumed_role_arn: string
+    assumed_role_id: string
+    created_at: date = now()
+    expiration: date
+    method: assume_role | assume_role_with_saml | assume_role_with_web_identity = assume_role
+    packed_policy_size: int
+    region: string
+    role_arn: string
+    role_session_name: string
+    source_identity: string
+
+- object: aws_sts_federation_token
+  schema:
+    access_key_id: string
+    account_id: string
+    created_at: date = now()
+    expiration: date
+    federated_user_arn: string
+    federated_user_id: string
+    name: string
+    packed_policy_size: int
+    region: string

@@ -1,38 +1,38 @@
 - event: fieldset_enabled
   schema:
-    fieldset_id: id #required
+    fieldset_id: id
     fieldset_name: string?
     enabled_at: date = now()
 
 - event: fieldset_disabled
   schema:
-    fieldset_id: id #required
+    fieldset_id: id
     fieldset_name: string?
     disabled_at: date = now()
 
 - event: field_focused
   schema:
-    field_id: id #required
+    field_id: id
     field_name: string?
     fieldset_id: id?
     focused_at: date = now()
 
 - event: field_blurred
   schema:
-    field_id: id #required
+    field_id: id
     field_name: string?
     fieldset_id: id?
     blurred_at: date = now()
 
 - event: field_error_shown
   schema:
-    field_id: id #required
+    field_id: id
     field_name: string?
     error_message: string?
     shown_at: date = now()
 
 - event: field_error_cleared
   schema:
-    field_id: id #required
+    field_id: id
     field_name: string?
     cleared_at: date = now()

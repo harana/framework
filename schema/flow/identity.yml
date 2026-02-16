@@ -1,18 +1,17 @@
 - action: authenticate
   inputs:
     mfa_code: string
-    password: string #required
-    username: string #required
+    password: string
+    username: string
   outputs:
     access_token: string
     expires_at: date
     refresh_token: string
-    success: boolean
     user_id: string
 
 - action: verify_token
   inputs:
-    token: string #required
+    token: string
   outputs:
     claims: token_claims
     expires_at: date
@@ -21,7 +20,7 @@
 
 - action: refresh_token
   inputs:
-    refresh_token: string #required
+    refresh_token: string
   outputs:
     access_token: string
     expires_at: date
@@ -29,13 +28,11 @@
 
 - action: revoke_token
   inputs:
-    token: string #required
-  outputs:
-    success: boolean
+    token: string
 
 - action: get_user
   inputs:
-    user_id: string #required
+    user_id: string
   outputs:
     created_at: date
     email: string
@@ -46,13 +43,11 @@
 
 - action: create_user
   inputs:
-    email: string #required
+    email: string
     metadata: user_metadata
-    password: string #required
+    password: string
     roles: list[string]
-    username: string #required
-  outputs:
-    success: boolean
+    username: string
     user_id: string
 
 - action: update_user
@@ -60,38 +55,29 @@
     email: string
     metadata: user_metadata
     roles: list[string]
-    user_id: string #required
-  outputs:
-    success: boolean
+    user_id: string
 
 - action: delete_user
   inputs:
     hard_delete: boolean = false
-    user_id: string #required
-  outputs:
-    success: boolean
+    user_id: string
 
 - action: change_password
   inputs:
-    current_password: string #required
-    new_password: string #required
-    user_id: string #required
-  outputs:
-    success: boolean
+    current_password: string
+    new_password: string
+    user_id: string
 
 - action: request_password_reset
   inputs:
-    email: string #required
+    email: string
   outputs:
     reset_token: string
-    success: boolean
 
 - action: reset_password
   inputs:
-    new_password: string #required
-    reset_token: string #required
-  outputs:
-    success: boolean
+    new_password: string
+    reset_token: string
 
 - action: list_users
   inputs:
@@ -104,7 +90,7 @@
     users: list[user_info]
 
 - object: user
-  class:
+  schema:
     user_id: string
     username: string
     email: string
@@ -114,17 +100,86 @@
     last_login: date
 
 - object: token_claims
-  class:
+  schema:
     claims: map[string, any]
 
 - object: user_metadata
-  class:
+  schema:
     values: map[string, any]
 
 - object: user_info
-  class:
+  schema:
     user_id: string
     username: string
     email: string
     roles: list[string]
     created_at: date
+
+- object: group
+  schema:
+    created_at: date = now()
+    description: string
+    id: string
+    is_active: boolean = true
+    name: string
+    parent_id: string
+    updated_at: date = now()
+
+- object: group_member
+  schema:
+    added_at: date = now()
+    added_by: string
+    group_id: string
+    is_admin: boolean = false
+    user_id: string
+
+- object: group_role
+  schema:
+    assigned_at: date = now()
+    assigned_by: string
+    group_id: string
+    role_id: string
+
+- object: role
+  schema:
+    created_at: date = now()
+    description: string
+    id: string
+    is_system: boolean = false
+    name: string
+    updated_at: date = now()
+
+- object: role_permission
+  schema:
+    granted_at: date = now()
+    granted_by: string
+    permission_id: string
+    role_id: string
+
+- object: user_role
+  schema:
+    assigned_at: date = now()
+    assigned_by: string
+    expires_at: date
+    role_id: string
+    user_id: string
+
+- object: user_profile
+  schema:
+    bio: string
+    date_of_birth: date
+    job_title: string
+    location: string
+    organisation: string
+    updated_at: date = now()
+    user_id: string
+    website: string
+
+- object: user_credential
+  schema:
+    created_at: date = now()
+    credential_type: password | passkey | oauth | api_key = password
+    credential_value: string
+    is_primary: boolean = false
+    updated_at: date = now()
+    user_id: string

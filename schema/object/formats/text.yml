@@ -1,9 +1,0 @@
-- object: text_template
-  schema:
-    - content: string #required
-    - created_at: date = now()
-    - description: string? #max(500)
-    - engine: handlebars | mustache | tera = handlebars
-    - is_active: boolean = true
-    - updated_at: date = now()
-    - variables: string? # json array

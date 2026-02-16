@@ -1,14 +1,14 @@
 - action: create_function
   inputs:
     architectures: list[x86_64 | arm64]
-    code: function_code #required
+    code: function_code
     code_signing_config_arn: string
     dead_letter_config: dead_letter_config
     description: string
     environment: environment
     ephemeral_storage: ephemeral_storage
     file_system_configs: list[file_system_config]
-    function_name: string #required
+    function_name: string
     handler: string
     image_config: image_config
     kms_key_arn: string
@@ -18,7 +18,7 @@
     package_type: zip | image = zip
     publish: boolean = false
     region: string
-    role: string #required
+    role: string
     runtime: string
     snap_start: snap_start
     tags: lambda_tags
@@ -55,7 +55,6 @@
     state: string
     state_reason: string
     state_reason_code: string
-    success: boolean
     timeout: int
     tracing_config: tracing_config_response
     version: string
@@ -63,15 +62,13 @@
 
 - action: delete_function
   inputs:
-    function_name: string #required
+    function_name: string
     qualifier: string
     region: string
-  outputs:
-    success: boolean
 
 - action: get_function
   inputs:
-    function_name: string #required
+    function_name: string
     qualifier: string
     region: string
   outputs:
@@ -95,7 +92,7 @@
   inputs:
     architectures: list[x86_64 | arm64]
     dry_run: boolean = false
-    function_name: string #required
+    function_name: string
     image_uri: string
     publish: boolean = false
     region: string
@@ -120,7 +117,6 @@
     state: string
     state_reason: string
     state_reason_code: string
-    success: boolean
     version: string
 
 - action: update_function_configuration
@@ -130,7 +126,7 @@
     environment: environment
     ephemeral_storage: ephemeral_storage
     file_system_configs: list[file_system_config]
-    function_name: string #required
+    function_name: string
     handler: string
     image_config: image_config
     kms_key_arn: string
@@ -172,7 +168,6 @@
     state: string
     state_reason: string
     state_reason_code: string
-    success: boolean
     timeout: int
     tracing_config: tracing_config_response
     version: string
@@ -181,7 +176,7 @@
 - action: invoke
   inputs:
     client_context: string
-    function_name: string #required
+    function_name: string
     invocation_type: request_response | event | dry_run = request_response
     log_type: none | tail = none
     payload: bytes
@@ -193,22 +188,20 @@
     log_result: string
     payload: bytes
     status_code: int
-    success: boolean
 
 - action: invoke_async
   inputs:
-    function_name: string #required
-    invoke_args: bytes #required
+    function_name: string
+    invoke_args: bytes
     region: string
   outputs:
     status: int
-    success: boolean
 
 - action: publish_version
   inputs:
     code_sha256: string
     description: string
-    function_name: string #required
+    function_name: string
     region: string
     revision_id: string
   outputs:
@@ -228,13 +221,12 @@
     state: string
     state_reason: string
     state_reason_code: string
-    success: boolean
     timeout: int
     version: string
 
 - action: list_versions_by_function
   inputs:
-    function_name: string #required
+    function_name: string
     marker: string
     max_items: int = 50
     region: string
@@ -245,9 +237,9 @@
 - action: create_alias
   inputs:
     description: string
-    function_name: string #required
-    function_version: string #required
-    name: string #required
+    function_name: string
+    function_version: string
+    name: string
     region: string
     routing_config: alias_routing_configuration
   outputs:
@@ -257,20 +249,17 @@
     name: string
     revision_id: string
     routing_config: alias_routing_configuration
-    success: boolean
 
 - action: delete_alias
   inputs:
-    function_name: string #required
-    name: string #required
+    function_name: string
+    name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: get_alias
   inputs:
-    function_name: string #required
-    name: string #required
+    function_name: string
+    name: string
     region: string
   outputs:
     alias_arn: string
@@ -282,7 +271,7 @@
 
 - action: list_aliases
   inputs:
-    function_name: string #required
+    function_name: string
     function_version: string
     marker: string
     max_items: int = 50
@@ -294,9 +283,9 @@
 - action: update_alias
   inputs:
     description: string
-    function_name: string #required
+    function_name: string
     function_version: string
-    name: string #required
+    name: string
     region: string
     revision_id: string
     routing_config: alias_routing_configuration
@@ -307,7 +296,6 @@
     name: string
     revision_id: string
     routing_config: alias_routing_configuration
-    success: boolean
 
 - action: create_event_source_mapping
   inputs:
@@ -319,7 +307,7 @@
     enabled: boolean = true
     event_source_arn: string
     filter_criteria: filter_criteria
-    function_name: string #required
+    function_name: string
     function_response_types: list[report_batch_item_failures]
     maximum_batching_window_in_seconds: int
     maximum_record_age_in_seconds: int
@@ -360,7 +348,6 @@
     starting_position_timestamp: date
     state: string
     state_transition_reason: string
-    success: boolean
     topics: list[string]
     tumbling_window_in_seconds: int
     uuid: string
@@ -368,18 +355,17 @@
 - action: delete_event_source_mapping
   inputs:
     region: string
-    uuid: string #required
+    uuid: string
   outputs:
     event_source_arn: string
     function_arn: string
     state: string
-    success: boolean
     uuid: string
 
 - action: get_event_source_mapping
   inputs:
     region: string
-    uuid: string #required
+    uuid: string
   outputs:
     amazon_managed_kafka_event_source_config: amazon_managed_kafka_event_source_config
     batch_size: int
@@ -434,7 +420,7 @@
     scaling_config: scaling_config
     source_access_configurations: list[source_access_configuration]
     tumbling_window_in_seconds: int
-    uuid: string #required
+    uuid: string
   outputs:
     batch_size: int
     bisect_batch_on_function_error: boolean
@@ -451,41 +437,37 @@
     source_access_configurations: list[source_access_configuration]
     state: string
     state_transition_reason: string
-    success: boolean
     tumbling_window_in_seconds: int
     uuid: string
 
 - action: add_permission
   inputs:
-    method: string #required
+    method: string
     event_source_token: string
-    function_name: string #required
+    function_name: string
     function_url_auth_type: none | AWS_IAM
-    principal: string #required
+    principal: string
     principal_org_id: string
     qualifier: string
     region: string
     revision_id: string
     source_account: string
     source_arn: string
-    statement_id: string #required
+    statement_id: string
   outputs:
     statement: string
-    success: boolean
 
 - action: remove_permission
   inputs:
-    function_name: string #required
+    function_name: string
     qualifier: string
     region: string
     revision_id: string
-    statement_id: string #required
-  outputs:
-    success: boolean
+    statement_id: string
 
 - action: get_policy
   inputs:
-    function_name: string #required
+    function_name: string
     qualifier: string
     region: string
   outputs:
@@ -494,9 +476,9 @@
 
 - action: create_function_url_config
   inputs:
-    auth_type: none | AWS_IAM #required
+    auth_type: none | AWS_IAM
     cors: cors
-    function_name: string #required
+    function_name: string
     invoke_mode: buffered | RESPONSE_STREAM = buffered
     qualifier: string
     region: string
@@ -507,19 +489,16 @@
     function_arn: string
     function_url: string
     invoke_mode: string
-    success: boolean
 
 - action: delete_function_url_config
   inputs:
-    function_name: string #required
+    function_name: string
     qualifier: string
     region: string
-  outputs:
-    success: boolean
 
 - action: get_function_url_config
   inputs:
-    function_name: string #required
+    function_name: string
     qualifier: string
     region: string
   outputs:
@@ -535,7 +514,7 @@
   inputs:
     auth_type: none | AWS_IAM
     cors: cors
-    function_name: string #required
+    function_name: string
     invoke_mode: buffered | RESPONSE_STREAM
     qualifier: string
     region: string
@@ -547,11 +526,10 @@
     function_url: string
     invoke_mode: string
     last_modified_time: string
-    success: boolean
 
 - action: list_function_url_configs
   inputs:
-    function_name: string #required
+    function_name: string
     marker: string
     max_items: int = 50
     region: string
@@ -561,32 +539,29 @@
 
 - action: put_function_concurrency
   inputs:
-    function_name: string #required
+    function_name: string
     region: string
-    reserved_concurrent_executions: int #required
+    reserved_concurrent_executions: int
   outputs:
     reserved_concurrent_executions: int
-    success: boolean
 
 - action: delete_function_concurrency
   inputs:
-    function_name: string #required
+    function_name: string
     region: string
-  outputs:
-    success: boolean
 
 - action: get_function_concurrency
   inputs:
-    function_name: string #required
+    function_name: string
     region: string
   outputs:
     reserved_concurrent_executions: int
 
 - action: put_provisioned_concurrency_config
   inputs:
-    function_name: string #required
-    provisioned_concurrent_executions: int #required
-    qualifier: string #required
+    function_name: string
+    provisioned_concurrent_executions: int
+    qualifier: string
     region: string
   outputs:
     allocated_provisioned_concurrent_executions: int
@@ -595,20 +570,17 @@
     requested_provisioned_concurrent_executions: int
     status: string
     status_reason: string
-    success: boolean
 
 - action: delete_provisioned_concurrency_config
   inputs:
-    function_name: string #required
-    qualifier: string #required
+    function_name: string
+    qualifier: string
     region: string
-  outputs:
-    success: boolean
 
 - action: get_provisioned_concurrency_config
   inputs:
-    function_name: string #required
-    qualifier: string #required
+    function_name: string
+    qualifier: string
     region: string
   outputs:
     allocated_provisioned_concurrent_executions: int
@@ -620,7 +592,7 @@
 
 - action: list_provisioned_concurrency_configs
   inputs:
-    function_name: string #required
+    function_name: string
     marker: string
     max_items: int = 50
     region: string
@@ -632,9 +604,9 @@
   inputs:
     compatible_architectures: list[x86_64 | arm64]
     compatible_runtimes: list[string]
-    content: layer_version_content_input #required
+    content: layer_version_content_input
     description: string
-    layer_name: string #required
+    layer_name: string
     license_info: string
     region: string
   outputs:
@@ -646,22 +618,19 @@
     layer_arn: string
     layer_version_arn: string
     license_info: string
-    success: boolean
     version: int
 
 - action: delete_layer_version
   inputs:
-    layer_name: string #required
+    layer_name: string
     region: string
-    version_number: int #required
-  outputs:
-    success: boolean
+    version_number: int
 
 - action: get_layer_version
   inputs:
-    layer_name: string #required
+    layer_name: string
     region: string
-    version_number: int #required
+    version_number: int
   outputs:
     compatible_architectures: list[string]
     compatible_runtimes: list[string]
@@ -688,7 +657,7 @@
   inputs:
     compatible_architecture: x8664 | arm64
     compatible_runtime: string
-    layer_name: string #required
+    layer_name: string
     marker: string
     max_items: int = 50
     region: string
@@ -698,34 +667,31 @@
 
 - action: add_layer_version_permission
   inputs:
-    method: string #required
-    layer_name: string #required
+    method: string
+    layer_name: string
     organization_id: string
-    principal: string #required
+    principal: string
     region: string
     revision_id: string
-    statement_id: string #required
-    version_number: int #required
+    statement_id: string
+    version_number: int
   outputs:
     revision_id: string
     statement: string
-    success: boolean
 
 - action: remove_layer_version_permission
   inputs:
-    layer_name: string #required
+    layer_name: string
     region: string
     revision_id: string
-    statement_id: string #required
-    version_number: int #required
-  outputs:
-    success: boolean
+    statement_id: string
+    version_number: int
 
 - action: get_layer_version_policy
   inputs:
-    layer_name: string #required
+    layer_name: string
     region: string
-    version_number: int #required
+    version_number: int
   outputs:
     policy: string
     revision_id: string
@@ -733,22 +699,107 @@
 - action: tag_resource
   inputs:
     region: string
-    resource: string #required
-    tags: lambda_tags #required
-  outputs:
-    success: boolean
+    resource: string
+    tags: lambda_tags
 
 - action: untag_resource
   inputs:
     region: string
-    resource: string #required
-    tag_keys: list[string] #required
-  outputs:
-    success: boolean
+    resource: string
+    tag_keys: list[string]
 
 - action: list_tags
   inputs:
     region: string
-    resource: string #required
+    resource: string
   outputs:
     tags: lambda_tags
+
+- object: aws_lambda_function
+  schema:
+    account_id: string
+    architectures: string #json
+    code_sha256: string
+    code_size: int
+    created_at: date = now()
+    dead_letter_arn: string
+    description: string
+    function_arn: string
+    function_name: string
+    handler: string
+    kms_key_arn: string
+    last_modified: date
+    memory_size: int = 128
+    package_type: zip | image = zip
+    region: string
+    role: string
+    runtime: string
+    state: pending | active | inactive | failed = pending
+    tags: string #json
+    timeout: int = 3
+    updated_at: date = now()
+    version: string
+
+- object: aws_lambda_function_version
+  schema:
+    code_sha256: string
+    code_size: int
+    created_at: date = now()
+    description: string
+    function_id: string
+    handler: string
+    memory_size: int
+    runtime: string
+    timeout: int
+    version: string
+
+- object: aws_lambda_alias
+  schema:
+    alias_arn: string
+    alias_name: string
+    created_at: date = now()
+    description: string
+    function_id: string
+    function_version: string
+    routing_config: string #json
+    updated_at: date = now()
+
+- object: aws_lambda_event_source_mapping
+  schema:
+    batch_size: int
+    bisect_batch_on_error: boolean = false
+    created_at: date = now()
+    enabled: boolean = true
+    event_source_arn: string
+    function_id: string
+    last_processing_result: string
+    maximum_batching_window: int
+    maximum_retry_attempts: int
+    state: creating | enabling | enabled | disabling | disabled | updating | deleting = creating
+    updated_at: date = now()
+    uuid: string
+
+- object: aws_lambda_layer
+  schema:
+    account_id: string
+    compatible_architectures: string #json
+    compatible_runtimes: string #json
+    created_at: date = now()
+    description: string
+    layer_arn: string
+    layer_name: string
+    latest_version: int = 1
+    license_info: string
+    region: string
+
+- object: aws_lambda_invocation_log
+  schema:
+    billed_duration_ms: int
+    duration_ms: int
+    error: string
+    function_id: string
+    invocation_type: request_response | event | dry_run = request_response
+    invoked_at: date = now()
+    max_memory_used_mb: int
+    request_id: string
+    status: success | error | throttled | timeout = success

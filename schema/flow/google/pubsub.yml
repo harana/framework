@@ -2,24 +2,20 @@
   inputs:
     labels: pub_sub_labels
     message_retention_duration: string
-    project_id: string #required
+    project_id: string
     schema_settings: pub_sub_schema_settings
-    topic_id: string #required
-  outputs:
-    success: boolean
+    topic_id: string
     topic_name: string
 
 - action: delete_topic
   inputs:
-    project_id: string #required
-    topic_id: string #required
-  outputs:
-    success: boolean
+    project_id: string
+    topic_id: string
 
 - action: get_topic
   inputs:
-    project_id: string #required
-    topic_id: string #required
+    project_id: string
+    topic_id: string
   outputs:
     labels: pub_sub_labels
     message_retention_duration: string
@@ -30,7 +26,7 @@
   inputs:
     page_size: int = 100
     page_token: string
-    project_id: string #required
+    project_id: string
   outputs:
     next_page_token: string
     topics: list[pub_sub_topic]
@@ -38,19 +34,18 @@
 - action: publish
   inputs:
     attributes: pub_sub_message_attributes
-    data: string #required
+    data: string
     ordering_key: string
-    project_id: string #required
-    topic_id: string #required
+    project_id: string
+    topic_id: string
   outputs:
     message_id: string
-    success: boolean
 
 - action: publish_batch
   inputs:
-    messages: list[pub_sub_publish_message] #required
-    project_id: string #required
-    topic_id: string #required
+    messages: list[pub_sub_publish_message]
+    project_id: string
+    topic_id: string
   outputs:
     failure_count: int
     message_ids: list[string]
@@ -63,27 +58,24 @@
     enable_message_ordering: boolean = false
     filter: string
     message_retention_duration: string
-    project_id: string #required
+    project_id: string
     push_config: push_config
     retain_acked_messages: boolean = false
     retry_policy: retry_policy
-    subscription_id: string #required
-    topic_id: string #required
+    subscription_id: string
+    topic_id: string
   outputs:
     subscription_name: string
-    success: boolean
 
 - action: delete_subscription
   inputs:
-    project_id: string #required
-    subscription_id: string #required
-  outputs:
-    success: boolean
+    project_id: string
+    subscription_id: string
 
 - action: get_subscription
   inputs:
-    project_id: string #required
-    subscription_id: string #required
+    project_id: string
+    subscription_id: string
   outputs:
     ack_deadline_seconds: int
     labels: pub_sub_labels
@@ -96,7 +88,7 @@
   inputs:
     page_size: int = 100
     page_token: string
-    project_id: string #required
+    project_id: string
   outputs:
     next_page_token: string
     subscriptions: list[pub_sub_subscription]
@@ -104,64 +96,55 @@
 - action: pull
   inputs:
     max_messages: int = 10
-    project_id: string #required
+    project_id: string
     return_immediately: boolean = false
-    subscription_id: string #required
+    subscription_id: string
   outputs:
     count: int
     messages: list[pub_sub_received_message]
 
 - action: acknowledge
   inputs:
-    ack_ids: list[string] #required
-    project_id: string #required
-    subscription_id: string #required
-  outputs:
-    success: boolean
+    ack_ids: list[string]
+    project_id: string
+    subscription_id: string
 
 - action: modify_ack_deadline
   inputs:
-    ack_deadline_seconds: int #required
-    ack_ids: list[string] #required
-    project_id: string #required
-    subscription_id: string #required
-  outputs:
-    success: boolean
+    ack_deadline_seconds: int
+    ack_ids: list[string]
+    project_id: string
+    subscription_id: string
 
 - action: seek
   inputs:
-    project_id: string #required
+    project_id: string
     snapshot: string
-    subscription_id: string #required
+    subscription_id: string
     time: date
-  outputs:
-    success: boolean
 
 - action: create_snapshot
   inputs:
     labels: pub_sub_labels
-    project_id: string #required
-    snapshot_id: string #required
-    subscription_id: string #required
+    project_id: string
+    snapshot_id: string
+    subscription_id: string
   outputs:
     expire_time: date
     snapshot_name: string
-    success: boolean
     topic: string
 
 - action: delete_snapshot
   inputs:
-    project_id: string #required
-    snapshot_id: string #required
-  outputs:
-    success: boolean
+    project_id: string
+    snapshot_id: string
 
 - action: list_topic_subscriptions
   inputs:
     page_size: int = 100
     page_token: string
-    project_id: string #required
-    topic_id: string #required
+    project_id: string
+    topic_id: string
   outputs:
     next_page_token: string
     subscriptions: list[string]
@@ -170,24 +153,20 @@
   inputs:
     labels: pub_sub_labels
     message_retention_duration: string
-    project_id: string #required
-    topic_id: string #required
-  outputs:
-    success: boolean
+    project_id: string
+    topic_id: string
 
 - action: update_subscription
   inputs:
     ack_deadline_seconds: int
     labels: pub_sub_labels
     message_retention_duration: string
-    project_id: string #required
+    project_id: string
     push_config: push_config
-    subscription_id: string #required
-  outputs:
-    success: boolean
+    subscription_id: string
 
 - object: pub_sub_message
-  class:
+  schema:
     message_id: string
     data: string
     attributes: pub_sub_message_attributes
@@ -195,63 +174,63 @@
     ordering_key: string
 
 - object: pub_sub_labels
-  class:
+  schema:
     labels: list[pub_sub_label]
 
 - object: pub_sub_label
-  class:
+  schema:
     key: string
     value: string
 
 - object: pub_sub_schema_settings
-  class:
+  schema:
     schema: string
     encoding: string
 
 - object: pub_sub_topic
-  class:
+  schema:
     name: string
     labels: pub_sub_labels
     message_retention_duration: string
 
 - object: pub_sub_message_attributes
-  class:
+  schema:
     attributes: list[pub_sub_message_attribute]
 
 - object: pub_sub_message_attribute
-  class:
+  schema:
     key: string
     value: string
 
 - object: pub_sub_publish_message
-  class:
+  schema:
     data: string
     attributes: pub_sub_message_attributes
     ordering_key: string
 
 - object: dead_letter_policy
-  class:
+  schema:
     dead_letter_topic: string
     max_delivery_attempts: int
 
 - object: push_config
-  class:
+  schema:
     push_endpoint: string
     attributes: pub_sub_message_attributes
     oidc_token: oidc_token
 
 - object: oidc_token
-  class:
+  schema:
     service_account_email: string
     audience: string
 
 - object: retry_policy
-  class:
+  schema:
     minimum_backoff: string
     maximum_backoff: string
 
 - object: pub_sub_subscription
-  class:
+  schema:
     name: string
     topic: string
     ack_deadline_seconds: int
@@ -259,7 +238,71 @@
     labels: pub_sub_labels
 
 - object: pub_sub_received_message
-  class:
+  schema:
     ack_id: string
     message: pub_sub_message
     delivery_attempt: int
+
+- object: google_pubsub_topic
+  schema:
+    created_at: date = now()
+    labels: string #json
+    message_retention_duration: string
+    project_id: string
+    schema_encoding: string
+    schema_name: string
+    topic_id: string
+    updated_at: date = now()
+
+- object: google_pubsub_subscription
+  schema:
+    ack_deadline_seconds: int = 10
+    created_at: date = now()
+    dead_letter_max_delivery_attempts: int
+    dead_letter_topic: string
+    enable_message_ordering: boolean = false
+    filter: string
+    labels: string #json
+    message_retention_duration: string
+    project_id: string
+    push_endpoint: string
+    retain_acked_messages: boolean = false
+    retry_max_backoff: string
+    retry_min_backoff: string
+    subscription_id: string
+    topic_id: string
+    updated_at: date = now()
+
+- object: google_pubsub_message
+  schema:
+    attributes: string #json
+    data: string
+    message_id: string
+    ordering_key: string
+    publish_time: date
+    topic_id: string
+
+- object: google_pubsub_received_message
+  schema:
+    ack_id: string
+    delivery_attempt: int
+    message_id: string
+    received_at: date = now()
+    subscription_id: string
+
+- object: google_pubsub_snapshot
+  schema:
+    created_at: date = now()
+    expire_time: date
+    labels: string #json
+    project_id: string
+    snapshot_id: string
+    subscription_id: string
+    topic: string
+
+- object: google_pubsub_label
+  schema:
+    key: string
+    resource_id: string
+    resource_type: topic | subscription | snapshot
+    value: string

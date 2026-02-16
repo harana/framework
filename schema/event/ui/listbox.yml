@@ -1,35 +1,35 @@
 - event: listbox_opened
   schema:
-    listbox_id: id #required
+    listbox_id: id
     listbox_name: string?
     options_count: int? #min(0)
     opened_at: date = now()
 
 - event: listbox_closed
   schema:
-    listbox_id: id #required
+    listbox_id: id
     listbox_name: string?
     close_reason: selection | blur | escape = blur
     closed_at: date = now()
 
 - event: listbox_option_selected
   schema:
-    listbox_id: id #required
+    listbox_id: id
     listbox_name: string?
-    option_value: string #required
+    option_value: string
     option_label: string?
     selected_at: date = now()
 
 - event: listbox_option_highlighted
   schema:
-    listbox_id: id #required
+    listbox_id: id
     option_value: string?
     option_label: string?
     highlighted_at: date = now()
 
 - event: listbox_searched
   schema:
-    listbox_id: id #required
+    listbox_id: id
     listbox_name: string?
     search_query: string?
     results_count: int? #min(0)

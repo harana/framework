@@ -1,6 +1,6 @@
 - action: request_certificate
   inputs:
-    domain_name: string #required
+    domain_name: string
     subject_alternative_names: list[string]
     validation_method: dns | email = dns
     certificate_authority_arn: string
@@ -9,28 +9,24 @@
   outputs:
     certificate_arn: string
     domain_validation_options: list[domain_validation_option]
-    success: boolean
 
 - action: import_certificate
   inputs:
-    certificate: string #required
+    certificate: string
     certificate_chain: string
-    private_key: string #required
+    private_key: string
     certificate_arn: string
     tags: acm_tags
   outputs:
     certificate_arn: string
-    success: boolean
 
 - action: delete_certificate
   inputs:
-    certificate_arn: string #required
-  outputs:
-    success: boolean
+    certificate_arn: string
 
 - action: describe_certificate
   inputs:
-    certificate_arn: string #required
+    certificate_arn: string
   outputs:
     certificate: certificate
 
@@ -46,41 +42,35 @@
 
 - action: get_certificate
   inputs:
-    certificate_arn: string #required
+    certificate_arn: string
   outputs:
     certificate: string
     certificate_chain: string
 
 - action: add_tags
   inputs:
-    certificate_arn: string #required
-    tags: acm_tags #required
-  outputs:
-    success: boolean
+    certificate_arn: string
+    tags: acm_tags
 
 - action: remove_tags
   inputs:
-    certificate_arn: string #required
-    tag_keys: list[string] #required
-  outputs:
-    success: boolean
+    certificate_arn: string
+    tag_keys: list[string]
 
 - action: list_tags
   inputs:
-    certificate_arn: string #required
+    certificate_arn: string
   outputs:
     tags: acm_tags
 
 - action: renew_certificate
   inputs:
-    certificate_arn: string #required
-  outputs:
-    success: boolean
+    certificate_arn: string
 
 - action: export_certificate
   inputs:
-    certificate_arn: string #required
-    passphrase: bytes #required
+    certificate_arn: string
+    passphrase: bytes
   outputs:
     certificate: string
     certificate_chain: string
@@ -88,18 +78,14 @@
 
 - action: resend_validation_email
   inputs:
-    certificate_arn: string #required
-    domain: string #required
-    validation_domain: string #required
-  outputs:
-    success: boolean
+    certificate_arn: string
+    domain: string
+    validation_domain: string
 
 - action: update_certificate_options
   inputs:
-    certificate_arn: string #required
-    options: certificate_options #required
-  outputs:
-    success: boolean
+    certificate_arn: string
+    options: certificate_options
 
 - action: get_account_configuration
   inputs:
@@ -109,7 +95,43 @@
 
 - action: put_account_configuration
   inputs:
-    expiry_events: expiry_events_configuration #required
+    expiry_events: expiry_events_configuration
     idempotency_token: string
-  outputs:
-    success: boolean
+
+- object: aws_acm_certificate
+  schema:
+    account_id: string
+    certificate_arn: string
+    certificate_authority_arn: string
+    created_at: date = now()
+    domain_name: string
+    failure_reason: string
+    imported_at: date
+    in_use_by: string #json
+    issued_at: date
+    issuer: string
+    key_algorithm: RSA_1024 | RSA_2048 | RSA_3072 | RSA_4096 | EC_prime256v1 | EC_secp384r1 | EC_secp521r1 = RSA_2048
+    not_after: date
+    not_before: date
+    region: string
+    renewal_eligibility: eligible | ineligible = ineligible
+    revocation_reason: string
+    revoked_at: date
+    serial: string
+    status: pending_validation | issued | inactive | revoked | expired | validation_timed_out | failed = pending_validation
+    subject_alternative_names: string #json
+    tags: string #json
+    type: imported | amazon_issued | private = amazon_issued
+    updated_at: date = now()
+    validation_method: dns | email = dns
+
+- object: aws_acm_domain_validation
+  schema:
+    certificate_id: string
+    domain_name: string
+    resource_record_name: string
+    resource_record_type: string
+    resource_record_value: string
+    validation_domain: string
+    validation_method: dns | email = dns
+    validation_status: pending_validation | success | failed = pending_validation

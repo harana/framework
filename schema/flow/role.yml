@@ -1,26 +1,21 @@
 - action: create
   inputs:
     description: string
-    name: string #required
-    permissions: list[role_permission] #required
+    name: string
+    permissions: list[role_permission]
   outputs:
     role_id: string
-    success: boolean
 
 - action: update
   inputs:
     description: string
     name: string
     permissions: list[role_permission]
-    role_id: string #required
-  outputs:
-    success: boolean
+    role_id: string
 
 - action: delete
   inputs:
-    role_id: string #required
-  outputs:
-    success: boolean
+    role_id: string
 
 - action: list
   inputs:
@@ -32,7 +27,7 @@
 
 - action: get
   inputs:
-    role_id: string #required
+    role_id: string
   outputs:
     description: string
     name: string
@@ -41,39 +36,34 @@
 
 - action: check_permission
   inputs:
-    method: string #required
-    resource: string #required
-    role_id: string #required
+    method: string
+    resource: string
+    role_id: string
   outputs:
     allowed: boolean
 
 - action: add_permission
   inputs:
-    method: string #required
+    method: string
     conditions: role_permission_conditions
-    resource: string #required
-    role_id: string #required
-  outputs:
-    success: boolean
+    resource: string
+    role_id: string
 
 - action: remove_permission
   inputs:
-    method: string #required
-    resource: string #required
-    role_id: string #required
-  outputs:
-    success: boolean
+    method: string
+    resource: string
+    role_id: string
 
 - action: clone
   inputs:
-    new_name: string #required
-    source_id: string #required
+    new_name: string
+    source_id: string
   outputs:
     role_id: string
-    success: boolean
 
 - object: role
-  class:
+  schema:
     role_id: string
     name: string
     description: string
@@ -82,18 +72,27 @@
     created_at: date
 
 - object: role_permission
-  class:
+  schema:
     method: string
     resource: string
     conditions: role_permission_conditions
 
 - object: role_info
-  class:
+  schema:
     role_id: string
     name: string
     description: string
     user_count: int
 
 - object: role_permission_conditions
-  class:
+  schema:
     conditions: map[string, any]
+
+- object: role_assignment
+  schema:
+    assigned_at: date = now()
+    assigned_by: string
+    entity_id: string
+    entity_type: user | group = user
+    expires_at: date
+    role_id: string

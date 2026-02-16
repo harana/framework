@@ -1,0 +1,177 @@
+- action: create_request
+  inputs:
+    approvers: List[String]
+    description: string
+    due_date: datetime
+    metadata: Map[string, any]
+    priority: low | normal | high | urgent = normal
+    request_type: string
+    resource_id: string
+    resource_type: string
+    title: string
+  outputs:
+    request_id: string
+    status: string
+
+- action: get_request
+  inputs:
+    request_id: string
+  outputs:
+    approvers: List[ApproverInfo]
+    created_at: datetime
+    description: string
+    due_date: datetime
+    request_id: string
+    requester_id: string
+    resource_id: string
+    resource_type: string
+    status: pending | approved | rejected | cancelled | expired
+    title: string
+    updated_at: datetime
+
+- action: List_requests
+  inputs:
+    approver_id: string
+    limit: integer = 100
+    offset: integer = 0
+    requester_id: string
+    resource_type: string
+    status: pending | approved | rejected | cancelled | expired
+  outputs:
+    requests: List[ApprovalRequestInfo]
+    total: integer
+
+- action: approve
+  inputs:
+    approver_id: string
+    comment: string
+    request_id: string
+  outputs:
+    approved_at: datetime
+    request_id: string
+    status: string
+
+- action: reject
+  inputs:
+    approver_id: string
+    reason: string
+    request_id: string
+  outputs:
+    rejected_at: datetime
+    request_id: string
+    status: string
+
+- action: cancel
+  inputs:
+    reason: string
+    request_id: string
+  outputs:
+    cancelled_at: datetime
+    request_id: string
+
+- action: add_approver
+  inputs:
+    approver_id: string
+    request_id: string
+    required: boolean = true
+
+- action: remove_approver
+  inputs:
+    approver_id: string
+    request_id: string
+
+- action: get_history
+  inputs:
+    limit: integer = 100
+    request_id: string
+  outputs:
+    events: List[ApprovalEvent]
+    total: integer
+
+- action: escalate
+  inputs:
+    escalate_to: List[String]
+    reason: string
+    request_id: string
+  outputs:
+    escalated_at: datetime
+
+- action: delegate
+  inputs:
+    approver_id: string
+    delegate_to: string
+    request_id: string
+  outputs:
+    delegated_at: datetime
+
+- name: ApprovalRequest
+  schema:
+    request_id: string
+    title: string
+    description: string
+    requester_id: string
+    approvers: List[ApproverInfo]
+    status: string
+    resource_type: string
+    resource_id: string
+    due_date: datetime
+    created_at: datetime
+    updated_at: datetime
+
+- name: ApproverInfo
+  schema:
+    approver_id: string
+    status: string
+    responded_at: datetime
+    comment: string
+    required: boolean
+
+- name: ApprovalRequestInfo
+  schema:
+    request_id: string
+    title: string
+    status: string
+    requester_id: string
+    created_at: datetime
+    due_date: datetime
+
+- name: ApprovalEvent
+  schema:
+    event_id: string
+    event_type: string
+    actor_id: string
+    timestamp: datetime
+    details: Map[string, any]
+
+- object: approval_request
+  schema:
+    created_at: date = now()
+    description: string
+    due_date: date
+    metadata: string
+    priority: low | normal | high | urgent = normal
+    request_type: string
+    requester_id: string
+    resource_id: string
+    resource_type: string
+    status: pending | approved | rejected | cancelled | expired = pending
+    title: string
+    updated_at: date = now()
+
+- object: approval_approver
+  schema:
+    approver_id: string
+    comment: string
+    decided_at: date
+    is_required: boolean = true
+    reason: string
+    request_id: string
+    status: pending | approved | rejected = pending
+
+- object: approval_history
+  schema:
+    action: created | approved | rejected | cancelled | expired | approver_added | approver_removed = created
+    actor_id: string
+    comment: string
+    created_at: date = now()
+    request_id: string

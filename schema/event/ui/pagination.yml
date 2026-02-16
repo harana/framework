@@ -1,6 +1,6 @@
 - event: page_changed
   schema:
-    pagination_id: id #required
+    pagination_id: id
     from_page: int? #min(1)
     to_page: int #min(1)
     total_pages: int? #min(1)
@@ -8,29 +8,29 @@
 
 - event: previous_page_clicked
   schema:
-    pagination_id: id #required
+    pagination_id: id
     current_page: int #min(1)
     clicked_at: date = now()
 
 - event: next_page_clicked
   schema:
-    pagination_id: id #required
+    pagination_id: id
     current_page: int #min(1)
     clicked_at: date = now()
 
 - event: page_number_clicked
   schema:
-    pagination_id: id #required
+    pagination_id: id
     page_number: int #min(1)
     clicked_at: date = now()
 
 - event: first_page_reached
   schema:
-    pagination_id: id #required
+    pagination_id: id
     reached_at: date = now()
 
 - event: last_page_reached
   schema:
-    pagination_id: id #required
+    pagination_id: id
     total_pages: int #min(1)
     reached_at: date = now()

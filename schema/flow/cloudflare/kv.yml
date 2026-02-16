@@ -1,8 +1,8 @@
 - action: get
   inputs:
     cache_ttl: int
-    key: string #required
-    namespace: string #required
+    key: string
+    namespace: string
     type: text | json | array_buffer | stream = text
   outputs:
     found: boolean
@@ -12,8 +12,8 @@
 - action: get_with_metadata
   inputs:
     cache_ttl: int
-    key: string #required
-    namespace: string #required
+    key: string
+    namespace: string
     type: text | json | array_buffer | stream = text
   outputs:
     found: boolean
@@ -24,38 +24,53 @@
   inputs:
     expiration: int
     expiration_ttl: int
-    key: string #required
+    key: string
     metadata: any
-    namespace: string #required
-    value: any #required
-  outputs:
-    success: boolean
+    namespace: string
+    value: any
 
 - action: put_with_metadata
   inputs:
     expiration: int
     expiration_ttl: int
-    key: string #required
-    metadata: any #required
-    namespace: string #required
-    value: any #required
-  outputs:
-    success: boolean
+    key: string
+    metadata: any
+    namespace: string
+    value: any
 
 - action: delete
   inputs:
-    key: string #required
-    namespace: string #required
-  outputs:
-    success: boolean
+    key: string
+    namespace: string
 
 - action: list
   inputs:
     cursor: string
     limit: int = 1000
-    namespace: string #required
+    namespace: string
     prefix: string
   outputs:
     cursor: string
     keys: list[kv_key]
     list_complete: boolean
+
+- object: cf_kv_namespace
+  schema:
+    account_id: string
+    created_at: date = now()
+    namespace_id: string
+    namespace_name: string
+    updated_at: date = now()
+
+- object: cf_kv_entry
+  schema:
+    cache_ttl: int
+    created_at: date = now()
+    expiration: int
+    expiration_ttl: int
+    key: string
+    metadata: string #json
+    namespace_id: string
+    updated_at: date = now()
+    value: string
+    value_type: text | json | array_buffer | stream = text

@@ -2,15 +2,13 @@
   inputs:
     preserve_query: boolean = true
     status_code: int = 302
-    url: string #required
-  outputs:
-    success: boolean
+    url: string
 
 - action: forward
   inputs:
     headers: map[string, string]
     preserve_host: boolean = false
-    target_url: string #required
+    target_url: string
     timeout: int = 30
   outputs:
     body: any
@@ -19,51 +17,40 @@
 
 - action: rewrite_path
   inputs:
-    pattern: string #required
-    replacement: string #required
+    pattern: string
+    replacement: string
   outputs:
     new_path: string
-    success: boolean
 
 - action: add_headers
   inputs:
-    headers: map[string, string] #required
-  outputs:
-    success: boolean
+    headers: map[string, string]
 
 - action: remove_headers
   inputs:
-    headers: list[string] #required
-  outputs:
-    success: boolean
+    headers: list[string]
 
 - action: set_status
   inputs:
     message: string
-    status_code: int #required
-  outputs:
-    success: boolean
+    status_code: int
 
 - action: json_response
   inputs:
-    body: any #required
+    body: any
     headers: map[string, string]
     status_code: int = 200
-  outputs:
-    success: boolean
 
 - action: html_response
   inputs:
-    body: string #required
+    body: string
     headers: map[string, string]
     status_code: int = 200
-  outputs:
-    success: boolean
 
 - action: rate_limit
   inputs:
-    key: string #required
-    limit: int #required
+    key: string
+    limit: int
     window_seconds: int = 60
   outputs:
     allowed: boolean
@@ -73,8 +60,8 @@
 - action: match_route
   inputs:
     method: string
-    path: string #required
-    pattern: string #required
+    path: string
+    pattern: string
   outputs:
     matched: boolean
     params: map[string, string]
@@ -82,14 +69,22 @@
 - action: proxy_websocket
   inputs:
     headers: map[string, string]
-    target_url: string #required
-  outputs:
-    success: boolean
+    target_url: string
 
 - object: route
-  class:
+  schema:
     path: string
     method: string
     handler: string
     middleware: list[string]
     params: map[string, string]
+
+- object: route_group
+  schema:
+    middleware: string
+    prefix: string
+
+- object: route_group_assignment
+  schema:
+    group_id: string
+    route_id: string

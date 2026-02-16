@@ -1,18 +1,17 @@
 - action: log_event
   inputs:
-    method: string #required
-    actor_id: string #required
+    method: string
+    actor_id: string
     actor_type: user | service | system = user
     details: map[string, any]
     ip_address: string
     metadata: map[string, any]
-    outcome: success | failure | partial #required
-    resource_id: string #required
-    resource_type: string #required
+    outcome: success | failure | partial
+    resource_id: string
+    resource_type: string
     user_agent: string
   outputs:
     audit_id: string
-    success: boolean
     timestamp: date
 
 - action: query_logs
@@ -27,7 +26,7 @@
     resource_id: string
     resource_type: string
     sort_order: asc | desc = desc
-    start_time: date #required
+    start_time: date
   outputs:
     has_more: boolean
     logs: list[audit_event]
@@ -35,7 +34,7 @@
 
 - action: get_event
   inputs:
-    audit_id: string #required
+    audit_id: string
   outputs:
     method: string
     actor_id: string
@@ -52,7 +51,7 @@
 
 - action: get_actor_activity
   inputs:
-    actor_id: string #required
+    actor_id: string
     end_time: date
     limit: int = 100
     start_time: date
@@ -66,8 +65,8 @@
   inputs:
     end_time: date
     limit: int = 100
-    resource_id: string #required
-    resource_type: string #required
+    resource_id: string
+    resource_type: string
     start_time: date
   outputs:
     created_at: date
@@ -77,11 +76,11 @@
 
 - action: export_logs
   inputs:
-    end_time: date #required
+    end_time: date
     filters: audit_filter
     format: json | csv | parquet = json
     include_fields: list[string]
-    start_time: date #required
+    start_time: date
   outputs:
     download_url: string
     expires_at: date
@@ -91,20 +90,17 @@
 
 - action: create_alert
   inputs:
-    conditions: audit_alert_condition #required
+    conditions: audit_alert_condition
     description: string
     enabled: boolean = true
-    name: string #required
-    notification_channels: list[string] #required
+    name: string
+    notification_channels: list[string]
   outputs:
     alert_id: string
-    success: boolean
 
 - action: delete_alert
   inputs:
-    alert_id: string #required
-  outputs:
-    success: boolean
+    alert_id: string
 
 - action: list_alerts
   inputs:
@@ -116,9 +112,9 @@
 
 - action: get_statistics
   inputs:
-    end_time: date #required
+    end_time: date
     group_by: action | resource_type | actor_id | outcome | hour | day = day
-    start_time: date #required
+    start_time: date
   outputs:
     statistics: list[audit_statistic]
     total_events: int
@@ -129,10 +125,9 @@
   inputs:
     archive_to_cold_storage: boolean = false
     cold_storage_after_days: int
-    retention_days: int #required
+    retention_days: int
   outputs:
     policy_id: string
-    success: boolean
 
 - action: get_retention_policy
   inputs: {}
@@ -144,8 +139,8 @@
 
 - action: verify_integrity
   inputs:
-    end_time: date #required
-    start_time: date #required
+    end_time: date
+    start_time: date
   outputs:
     tampered_records: int
     total_records: int
@@ -153,7 +148,7 @@
     verified: boolean
 
 - object: audit_event
-  class:
+  schema:
     audit_id: string
     method: string
     actor_id: string
@@ -168,7 +163,7 @@
     metadata: map[string, any]
 
 - object: audit_activity
-  class:
+  schema:
     audit_id: string
     method: string
     resource_id: string
@@ -177,7 +172,7 @@
     timestamp: date
 
 - object: audit_filter
-  class:
+  schema:
     method: string
     actor_id: string
     actor_type: string
@@ -185,13 +180,13 @@
     resource_type: string
 
 - object: audit_alert_condition
-  class:
+  schema:
     field: string
     operator: string
     value: string
 
 - object: audit_alert
-  class:
+  schema:
     alert_id: string
     name: string
     description: string
@@ -200,7 +195,20 @@
     notification_channels: list[string]
 
 - object: audit_statistic
-  class:
+  schema:
     key: string
     count: int
     percentage: float
+
+- object: audit_export
+  schema:
+    completed_at: date
+    created_at: date = now()
+    download_url: string
+    end_time: date
+    expires_at: date
+    file_size: int
+    format: json | csv | parquet = json
+    record_count: int
+    start_time: date
+    status: pending | processing | completed | failed = pending

@@ -1,28 +1,23 @@
 - action: create
   inputs:
     description: string
-    name: string #required
+    name: string
   outputs:
     group_id: string
-    success: boolean
 
 - action: update
   inputs:
     description: string
-    group_id: string #required
+    group_id: string
     name: string
-  outputs:
-    success: boolean
 
 - action: delete
   inputs:
-    group_id: string #required
-  outputs:
-    success: boolean
+    group_id: string
 
 - action: get
   inputs:
-    group_id: string #required
+    group_id: string
   outputs:
     description: string
     member_count: int
@@ -39,21 +34,17 @@
 
 - action: add_user_to
   inputs:
-    group_id: string #required
-    user_id: string #required
-  outputs:
-    success: boolean
+    group_id: string
+    user_id: string
 
 - action: remove_user_from
   inputs:
-    group_id: string #required
-    user_id: string #required
-  outputs:
-    success: boolean
+    group_id: string
+    user_id: string
 
 - action: list_members
   inputs:
-    group_id: string #required
+    group_id: string
     limit: int = 100
     offset: int = 0
   outputs:
@@ -62,36 +53,32 @@
 
 - action: assign_role_to
   inputs:
-    group_id: string #required
-    role_id: string #required
-  outputs:
-    success: boolean
+    group_id: string
+    role_id: string
 
 - action: remove_role_from
   inputs:
-    group_id: string #required
-    role_id: string #required
-  outputs:
-    success: boolean
+    group_id: string
+    role_id: string
 
 - action: list_roles
   inputs:
-    group_id: string #required
+    group_id: string
   outputs:
     roles: list[group_role_info]
     total: int
 
 - action: check_permission
   inputs:
-    method: string #required
-    group_id: string #required
-    resource: string #required
+    method: string
+    group_id: string
+    resource: string
   outputs:
     allowed: boolean
     reason: string
 
 - object: group
-  class:
+  schema:
     group_id: string
     name: string
     description: string
@@ -100,7 +87,15 @@
     created_at: date
 
 - object: group_role
-  class:
+  schema:
     role_id: string
     name: string
     permissions: list[string]
+
+- object: group_member
+  schema:
+    added_at: date = now()
+    added_by: string
+    group_id: string
+    is_admin: boolean = false
+    user_id: string

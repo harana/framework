@@ -1,62 +1,62 @@
 
 - event: http response sent
-  class: event_route_response_sent
+  schema: event_route_response_sent
   extends: event
   schema:
     event_route: boolean
-    http_method: string #required
+    http_method: string
   set:
     attributes: $all_values
     type: route.response.sent
 
 - event: route matched
-  class: event_route_matched
+  schema: event_route_matched
   extends: event
   schema:
-    handler: string #required
+    handler: string
     matched_at: date = now()
     path_params: string?
-    request_id: id #required
+    request_id: id
     route_name: string?
-    route_pattern: string #required
+    route_pattern: string
   set:
     attributes: $all_values
     type: route.matched
 
 - event: route not found
-  class: event_route_not_found
+  schema: event_route_not_found
   extends: event
   schema:
     method: get | post | put | patch | delete | head | options
     occurred_at: date = now()
-    path: string #required
-    request_id: id #required
+    path: string
+    request_id: id
   set:
     attributes: $all_values
     type: route.not_found
 
 - event: request authenticated
-  class: event_route_request_authenticated
+  schema: event_route_request_authenticated
   extends: event
   schema:
     auth_method: bearer | basic | api_key | session | none = none
     authenticated_at: date = now()
     is_authenticated: boolean = false
-    request_id: id #required
+    request_id: id
     user_id: id?
   set:
     attributes: $all_values
     type: route.request.authenticated
 
 - event: request rate limited
-  class: event_route_request_rate_limited
+  schema: event_route_request_rate_limited
   extends: event
   schema:
     current_count: int #min(0)
     ip_address: string? #ip
     limit: int #min(1)
     limited_at: date = now()
-    request_id: id #required
+    request_id: id
     user_id: id?
     window_seconds: int #min(1)
   set:

@@ -489,7 +489,7 @@ pub struct BrowserElementVisible {
     pub page_url: String,
     pub element: String,
     pub element_id: Option<String>,
-    pub element_class: Option<String>,
+    pub element_schema: Option<String>,
     pub visibility_ratio: Option<f64>,
     #[serde(default = "chrono::Utc::now")]
     pub visible_at: chrono::DateTime<chrono::Utc>,
@@ -508,7 +508,7 @@ pub struct BrowserRageClick {
     pub page_url: String,
     pub element: Option<String>,
     pub element_id: Option<String>,
-    pub element_class: Option<String>,
+    pub element_schema: Option<String>,
     pub click_count: i64,
     pub x: Option<i64>,
     pub y: Option<i64>,

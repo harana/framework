@@ -1,7 +1,7 @@
 - event: file_selected
   schema:
-    upload_id: id #required
-    file_name: string #required
+    upload_id: id
+    file_name: string
     file_size: int? #min(0)
     file_type: string?
     mime_type: string?
@@ -9,23 +9,23 @@
 
 - event: file_removed
   schema:
-    upload_id: id #required
-    file_name: string #required
+    upload_id: id
+    file_name: string
     file_id: id?
     removed_at: date = now()
 
 - event: file_upload_started
   schema:
-    upload_id: id #required
-    file_name: string #required
+    upload_id: id
+    file_name: string
     file_size: int? #min(0)
     file_type: string?
     started_at: date = now()
 
 - event: file_upload_completed
   schema:
-    upload_id: id #required
-    file_name: string #required
+    upload_id: id
+    file_name: string
     file_size: int? #min(0)
     file_id: id?
     upload_duration_ms: int? #min(0)
@@ -33,28 +33,28 @@
 
 - event: file_upload_failed
   schema:
-    upload_id: id #required
-    file_name: string #required
+    upload_id: id
+    file_name: string
     error_code: string?
     error_message: string?
     failed_at: date = now()
 
 - event: drag_entered
   schema:
-    dropzone_id: id #required
+    dropzone_id: id
     dropzone_name: string?
     file_count: int? #min(0)
     entered_at: date = now()
 
 - event: drag_left
   schema:
-    dropzone_id: id #required
+    dropzone_id: id
     dropzone_name: string?
     left_at: date = now()
 
 - event: file_dropped
   schema:
-    dropzone_id: id #required
+    dropzone_id: id
     dropzone_name: string?
     file_count: int #min(1)
     total_size: int? #min(0)

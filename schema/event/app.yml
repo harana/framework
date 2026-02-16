@@ -1,17 +1,17 @@
 - event: app_started
   schema:
-    app_id: id #required
-    app_name: string #required
-    version: string #required
+    app_id: id
+    app_name: string
+    version: string
     environment: development | staging | production = development
-    host: string #required
+    host: string
     port: int #min(1) #max(65535)
     started_at: date = now()
 
 - event: app_stopped
   schema:
-    app_id: id #required
-    app_name: string #required
+    app_id: id
+    app_name: string
     reason: shutdown | crash | restart | sigterm | sigint = shutdown
     exit_code: int? #min(0) #max(255)
     uptime_seconds: int? #min(0)
@@ -19,8 +19,8 @@
 
 - event: app_config_updated
   schema:
-    app_id: id #required
-    config_key: string #required
+    app_id: id
+    config_key: string
     old_value: string?
     new_value: string?
     source: file | env | remote | api = file
@@ -29,7 +29,7 @@
 
 - event: app_config_loaded
   schema:
-    app_id: id #required
+    app_id: id
     config_path: string?
     source: file | env | remote | api = file
     keys_loaded: int? #min(0)
@@ -37,7 +37,7 @@
 
 - event: app_health_check
   schema:
-    app_id: id #required
+    app_id: id
     status: healthy | degraded | unhealthy = healthy
     checks_passed: int? #min(0)
     checks_failed: int? #min(0)
@@ -46,31 +46,31 @@
 
 - event: app_ready
   schema:
-    app_id: id #required
-    app_name: string #required
+    app_id: id
+    app_name: string
     startup_time_ms: int? #min(0)
     ready_at: date = now()
 
 - event: app_shutting_down
   schema:
-    app_id: id #required
+    app_id: id
     reason: shutdown | restart | sigterm | sigint | timeout = shutdown
     grace_period_ms: int? #min(0)
     initiated_at: date = now()
 
 - event: app_error
   schema:
-    app_id: id #required
-    error_type: string #required
-    error_message: string #required
+    app_id: id
+    error_type: string
+    error_message: string
     stack_trace: string?
     severity: debug | info | warning | error | critical = error
     occurred_at: date = now()
 
 - event: app_connection_pool_created
   schema:
-    app_id: id #required
-    pool_name: string #required
+    app_id: id
+    pool_name: string
     pool_type: database | redis | http | custom = database
     min_connections: int? #min(0)
     max_connections: int? #min(1)
@@ -78,8 +78,8 @@
 
 - event: app_connection_pool_exhausted
   schema:
-    app_id: id #required
-    pool_name: string #required
+    app_id: id
+    pool_name: string
     active_connections: int #min(0)
     max_connections: int #min(1)
     waiting_requests: int? #min(0)

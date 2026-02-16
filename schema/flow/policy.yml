@@ -1,14 +1,13 @@
 - action: create
   inputs:
-    conditions: policy_conditions #required
+    conditions: policy_conditions
     description: string
     effect: string # allow or deny
-    name: string #required
-    resources: list[string] #required
-    actions: list[string] #required
+    name: string
+    resources: list[string]
+    actions: list[string]
   outputs:
     policy_id: string
-    success: boolean
 
 - action: update
   inputs:
@@ -16,21 +15,17 @@
     description: string
     effect: string
     name: string
-    policy_id: string #required
+    policy_id: string
     resources: list[string]
     actions: list[string]
-  outputs:
-    success: boolean
 
 - action: delete
   inputs:
-    policy_id: string #required
-  outputs:
-    success: boolean
+    policy_id: string
 
 - action: get
   inputs:
-    policy_id: string #required
+    policy_id: string
   outputs:
     actions: list[string]
     conditions: policy_conditions
@@ -49,45 +44,37 @@
 
 - action: attach_to_user
   inputs:
-    policy_id: string #required
-    user_id: string #required
-  outputs:
-    success: boolean
+    policy_id: string
+    user_id: string
 
 - action: detach_from_user
   inputs:
-    policy_id: string #required
-    user_id: string #required
-  outputs:
-    success: boolean
+    policy_id: string
+    user_id: string
 
 - action: attach_to_role
   inputs:
-    policy_id: string #required
-    role_id: string #required
-  outputs:
-    success: boolean
+    policy_id: string
+    role_id: string
 
 - action: detach_from_role
   inputs:
-    policy_id: string #required
-    role_id: string #required
-  outputs:
-    success: boolean
+    policy_id: string
+    role_id: string
 
 - action: evaluate
   inputs:
-    method: string #required
+    method: string
     context: policy_evaluation_context
-    policy_id: string #required
-    resource: string #required
+    policy_id: string
+    resource: string
   outputs:
     allowed: boolean
     evaluated_conditions: policy_evaluated_conditions
     reason: string
 
 - object: policy
-  class:
+  schema:
     policy_id: string
     name: string
     description: string
@@ -97,20 +84,38 @@
     conditions: policy_conditions
 
 - object: policy_conditions
-  class:
+  schema:
     conditions: map[string, any]
 
 - object: policy_info
-  class:
+  schema:
     policy_id: string
     name: string
     description: string
     effect: string
 
 - object: policy_evaluation_context
-  class:
+  schema:
     values: map[string, any]
 
 - object: policy_evaluated_conditions
-  class:
+  schema:
     results: map[string, boolean]
+
+- object: policy_attachment
+  schema:
+    attached_at: date = now()
+    attached_by: string
+    entity_id: string
+    entity_type: user | role | group = user
+    policy_id: string
+
+- object: policy_evaluation_log
+  schema:
+    action: string
+    allowed: boolean = false
+    evaluated_at: date = now()
+    policy_id: string
+    reason: string
+    resource: string
+    user_id: string

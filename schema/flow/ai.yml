@@ -2,7 +2,7 @@
   inputs:
     max_tokens: int = 1000
     model: string = "default"
-    prompt: string #required
+    prompt: string
     temperature: float = 0.7
   outputs:
     text: string
@@ -11,7 +11,7 @@
 - action: chat_completion
   inputs:
     max_tokens: int = 1000
-    messages: list[ai_chat_message] #required
+    messages: list[ai_chat_message]
     model: string = "default"
     system_prompt: string
     temperature: float = 0.7
@@ -22,7 +22,7 @@
 - action: generate_embeddings
   inputs:
     model: string = "default"
-    text: string #required
+    text: string
   outputs:
     dimensions: int
     embeddings: list[float]
@@ -30,7 +30,7 @@
 - action: generate_image
   inputs:
     model: string = "default"
-    prompt: string #required
+    prompt: string
     quality: standard | hd = standard
     size: string = "1024x1024"
   outputs:
@@ -39,7 +39,7 @@
 
 - action: transcribe_audio
   inputs:
-    audio: bytes #required
+    audio: bytes
     language: string
     model: string = "default"
   outputs:
@@ -48,9 +48,9 @@
 
 - action: classify_text
   inputs:
-    labels: list[string] #required
+    labels: list[string]
     model: string = "default"
-    text: string #required
+    text: string
   outputs:
     confidence: float
     label: string
@@ -60,7 +60,7 @@
   inputs:
     max_length: int = 500
     model: string = "default"
-    text: string #required
+    text: string
   outputs:
     summary: string
 
@@ -68,13 +68,13 @@
   inputs:
     entity_types: list[string]
     model: string = "default"
-    text: string #required
+    text: string
   outputs:
     entities: list[ai_entity]
 
 - action: onnx_load_model
   inputs:
-    model_path: string #required
+    model_path: string
     optimize: boolean = true
   outputs:
     input_shapes: list[ai_tensor_shape]
@@ -83,16 +83,16 @@
 
 - action: onnx_inference
   inputs:
-    input_data: map[string, any] #required
-    model_id: string #required
+    input_data: map[string, any]
+    model_id: string
   outputs:
     inference_time_ms: float
     outputs: map[string, any]
 
 - action: onnx_inference_bytes
   inputs:
-    input_data: map[string, any] #required
-    model_bytes: bytes #required
+    input_data: map[string, any]
+    model_bytes: bytes
     optimize: boolean = true
   outputs:
     inference_time_ms: float
@@ -100,7 +100,7 @@
 
 - action: onnx_model_info
   inputs:
-    model_path: string #required
+    model_path: string
   outputs:
     input_names: list[string]
     input_shapes: list[ai_tensor_shape]
@@ -109,15 +109,13 @@
 
 - action: onnx_unload_model
   inputs:
-    model_id: string #required
-  outputs:
-    success: boolean
+    model_id: string
 
 - action: onnx_classify_image
   inputs:
-    image: bytes #required
+    image: bytes
     labels: list[string]
-    model_id: string #required
+    model_id: string
     top_k: int = 5
   outputs:
     inference_time_ms: float
@@ -126,9 +124,9 @@
 - action: onnx_detect_objects
   inputs:
     confidence_threshold: float = 0.5
-    image: bytes #required
+    image: bytes
     labels: list[string]
-    model_id: string #required
+    model_id: string
     nms_threshold: float = 0.4
   outputs:
     detections: list[ai_object_detection]
@@ -136,15 +134,15 @@
 
 - action: onnx_text_embedding
   inputs:
-    model_id: string #required
-    text: string #required
+    model_id: string
+    text: string
   outputs:
     dimensions: int
     embedding: list[float]
     inference_time_ms: float
 
 - object: ai_model
-  class:
+  schema:
     model_id: string
     name: string
     provider: string
@@ -153,12 +151,12 @@
     capabilities: list[string]
 
 - object: ai_chat_message
-  class:
+  schema:
     role: string
     content: string
 
 - object: ai_entity
-  class:
+  schema:
     text: string
     type: string
     start: int
@@ -166,22 +164,84 @@
     confidence: float
 
 - object: ai_tensor_shape
-  class:
+  schema:
     name: string
     dtype: string
     shape: list[integer]
 
 - object: ai_classification_prediction
-  class:
+  schema:
     label: string
     confidence: float
     index: int
 
 - object: ai_object_detection
-  class:
+  schema:
     label: string
     confidence: float
     x: float
     y: float
     width: float
     height: float
+
+- object: ai_model_config
+  schema:
+    frequency_penalty: decimal = 0
+    max_tokens: int
+    model_id: string
+    presence_penalty: decimal = 0
+    stop_sequences: string
+    temperature: decimal = 1.0
+    top_p: decimal = 1.0
+
+- object: ai_prompt_template
+  schema:
+    created_at: date = now()
+    description: string
+    is_active: boolean = true
+    model_id: string
+    system_prompt: string
+    template: string
+    updated_at: date = now()
+    variables: string
+
+- object: ai_conversation
+  schema:
+    created_at: date = now()
+    metadata: string
+    model_id: string
+    status: active | archived | deleted = active
+    title: string
+    updated_at: date = now()
+    user_id: string
+
+- object: ai_message
+  schema:
+    content: string
+    conversation_id: string
+    created_at: date = now()
+    metadata: string
+    role: system | user | assistant | function | tool = user
+    tokens_used: int
+
+- object: ai_embedding
+  schema:
+    content: string
+    created_at: date = now()
+    dimensions: int
+    metadata: string
+    model_id: string
+    source_id: string
+    source_type: string
+    vector: string
+
+- object: ai_usage
+  schema:
+    completion_tokens: int = 0
+    cost: decimal
+    created_at: date = now()
+    model_id: string
+    prompt_tokens: int = 0
+    request_type: chat | completion | embedding | image | audio = chat
+    total_tokens: int = 0
+    user_id: string

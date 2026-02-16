@@ -1,58 +1,51 @@
 - action: record_metric
   inputs:
-    name: string #required
+    name: string
     tags: map[string, string]
     timestamp: date
-    value: float #required
-  outputs:
-    success: boolean
+    value: float
 
 - action: increment_counter
   inputs:
     amount: float = 1
-    name: string #required
+    name: string
     tags: map[string, string]
   outputs:
     value: float
 
 - action: set_gauge
   inputs:
-    name: string #required
+    name: string
     tags: map[string, string]
-    value: float #required
-  outputs:
-    success: boolean
+    value: float
 
 - action: record_histogram
   inputs:
     buckets: list[float]
-    name: string #required
+    name: string
     tags: map[string, string]
-    value: float #required
-  outputs:
-    success: boolean
+    value: float
 
 - action: start_timer
   inputs:
-    name: string #required
+    name: string
     tags: map[string, string]
   outputs:
     timer_id: string
 
 - action: stop_timer
   inputs:
-    timer_id: string #required
+    timer_id: string
   outputs:
     duration_ms: float
-    success: boolean
 
 - action: query_metrics
   inputs:
     aggregation: sum | avg | min | max | count = avg
     end_time: date
     interval: string = "1m"
-    name: string #required
-    start_time: date #required
+    name: string
+    start_time: date
     tags: map[string, string]
   outputs:
     datapoints: list[metric_datapoint]
@@ -60,7 +53,7 @@
 
 - action: get_metric_summary
   inputs:
-    name: string #required
+    name: string
     period: string = "1h"
     tags: map[string, string]
   outputs:
@@ -84,14 +77,13 @@
 - action: delete_metric
   inputs:
     before: date
-    name: string #required
+    name: string
     tags: map[string, string]
   outputs:
     deleted_count: int
-    success: boolean
 
 - object: metric
-  class:
+  schema:
     name: string
     value: float
     tags: map[string, string]
@@ -99,13 +91,31 @@
     type: string
 
 - object: metric_datapoint
-  class:
+  schema:
     timestamp: date
     value: float
 
 - object: metric_info
-  class:
+  schema:
     name: string
     type: string
     description: string
     tags: list[string]
+
+- object: metric_value
+  schema:
+    labels: string
+    metric_id: string
+    timestamp: date = now()
+    value: decimal
+
+- object: metric_alert
+  schema:
+    comparison: gt | gte | lt | lte | eq | neq = gt
+    created_at: date = now()
+    is_active: boolean = true
+    last_triggered_at: date
+    metric_id: string
+    notification_channel: string
+    threshold: decimal
+    updated_at: date = now()

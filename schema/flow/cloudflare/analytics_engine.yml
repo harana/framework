@@ -1,18 +1,33 @@
 - action: write_data_point
   inputs:
-    binding: string #required
+    binding: string
     blobs: list[string]
     doubles: list[float]
     indexes: list[string]
-  outputs:
-    success: boolean
 
 - action: query
   inputs:
-    binding: string #required
-    query: string #required
+    binding: string
+    query: string
     time_end: date
     time_start: date
   outputs:
     data: list[any]
     rows: int
+
+- object: cf_analytics_engine_dataset
+  schema:
+    account_id: string
+    binding: string
+    created_at: date = now()
+    dataset_name: string
+    updated_at: date = now()
+
+- object: cf_analytics_engine_data_point
+  schema:
+    blobs: string #json
+    created_at: date = now()
+    dataset_id: string
+    doubles: string #json
+    indexes: string #json
+    timestamp: date = now()

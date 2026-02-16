@@ -1,0 +1,12 @@
+- object: script_execution
+  id: [session_id, executed_at]
+  schema:
+    - arguments: string? #json
+    - async: boolean = false
+    - duration_ms: int? #min(0)
+    - error_message: string? #max(2000)
+    - executed_at: date = now()
+    - result: string? #json
+    - script: string
+    - session_id: id -> web_driver_session.id
+    - status: success | failed | timeout = success

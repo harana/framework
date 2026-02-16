@@ -1,7 +1,7 @@
 - action: hash
   inputs:
     algorithm: sha256 | sha512 | md5 | sha1 = sha256
-    data: string #required
+    data: string
     encoding: hex | base64 = hex
   outputs:
     digest: string
@@ -9,18 +9,18 @@
 - action: hmac
   inputs:
     algorithm: sha256 | sha512 = sha256
-    data: string #required
+    data: string
     encoding: hex | base64 = hex
-    key: string #required
+    key: string
   outputs:
     digest: string
 
 - action: encrypt
   inputs:
     algorithm: aes-256-gcm | aes-256-cbc = aes-256-gcm
-    data: string #required
+    data: string
     iv: string
-    key: string #required
+    key: string
   outputs:
     auth_tag: string
     ciphertext: string
@@ -30,9 +30,9 @@
   inputs:
     algorithm: aes-256-gcm | aes-256-cbc = aes-256-gcm
     auth_tag: string
-    ciphertext: string #required
-    iv: string #required
-    key: string #required
+    ciphertext: string
+    iv: string
+    key: string
   outputs:
     plaintext: string
 
@@ -46,17 +46,17 @@
 - action: sign
   inputs:
     algorithm: rsa-sha256 | rsa-sha512 | ed25519 = rsa-sha256
-    data: string #required
-    private_key: string #required
+    data: string
+    private_key: string
   outputs:
     signature: string
 
 - action: verify
   inputs:
     algorithm: rsa-sha256 | rsa-sha512 | ed25519 = rsa-sha256
-    data: string #required
-    public_key: string #required
-    signature: string #required
+    data: string
+    public_key: string
+    signature: string
   outputs:
     valid: boolean
 
@@ -69,8 +69,31 @@
     public_key: string
 
 - object: key_pair
-  class:
+  schema:
     algorithm: string
     private_key: string
     public_key: string
     key_size: int
+
+- object: encryption_key
+  schema:
+    algorithm: aes256_gcm | aes256_cbc | rsa | ed25519 | ecdsa = aes256_gcm
+    created_at: date = now()
+    created_by: string
+    expires_at: date
+    is_active: boolean = true
+    key_id: string
+    key_size: int
+    key_type: symmetric | asymmetric = symmetric
+    last_rotated_at: date
+    updated_at: date = now()
+    usage: encrypt | sign | both = encrypt
+
+- object: crypto_operation_log
+  schema:
+    algorithm: string
+    created_at: date = now()
+    key_id: string
+    operation: hash | hmac | encrypt | decrypt | sign | verify | generate_key = encrypt
+    status: success | failed = success
+    user_id: string

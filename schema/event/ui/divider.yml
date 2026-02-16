@@ -1,5 +1,5 @@
 - event: divider_clicked
   schema:
-    divider_id: id #required
+    divider_id: id
     divider_name: string?
     clicked_at: date = now()

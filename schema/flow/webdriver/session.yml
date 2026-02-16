@@ -3,18 +3,17 @@
     browser: chrome | firefox | edge | safari | opera = chrome
     capabilities: web_driver_capabilities
     headless: boolean = false
-    server_url: string  outputs:
+    server_url: string
+  outputs:
     browser: string
     session_id: string
-    success: boolean
 
 - action: quit
   inputs:
-    session_id: string  outputs:
-    success: boolean
-
+    session_id: string
 - action: status
   inputs:
-    session_id: string  outputs:
+    session_id: string
+  outputs:
     message: string
     ready: boolean

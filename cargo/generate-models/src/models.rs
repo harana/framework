@@ -3,10 +3,9 @@ use serde::{Deserialize, Serialize};
 /// The top-level schema category, determined by the first directory under `schema/`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub enum SchemaCategory {
-    Action,
     Config,
     Event,
-    Object,
+    Flow,
     WebObject,
 }
 
@@ -14,10 +13,9 @@ impl SchemaCategory {
     pub fn from_dir(dir: &str) -> Option<Self> {
         let first = dir.split('/').next().unwrap_or("");
         match first {
-            "action" => Some(Self::Action),
             "config" => Some(Self::Config),
             "event" => Some(Self::Event),
-            "object" => Some(Self::Object),
+            "flow" => Some(Self::Flow),
             "webobject" => Some(Self::WebObject),
             _ => None,
         }
@@ -25,10 +23,9 @@ impl SchemaCategory {
 
     pub fn dir_name(&self) -> &'static str {
         match self {
-            Self::Action => "action",
             Self::Config => "config",
             Self::Event => "event",
-            Self::Object => "object",
+            Self::Flow => "action",
             Self::WebObject => "webobject",
         }
     }

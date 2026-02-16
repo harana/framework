@@ -1,6 +1,6 @@
 - event: notification_shown
   schema:
-    notification_id: id #required
+    notification_id: id
     notification_type: info | success | warning | error = info
     notification_title: string?
     notification_message: string?
@@ -9,7 +9,7 @@
 
 - event: notification_dismissed
   schema:
-    notification_id: id #required
+    notification_id: id
     notification_type: info | success | warning | error = info
     dismiss_method: button | swipe | timeout | action = button
     time_visible_ms: int? #min(0)
@@ -17,22 +17,22 @@
 
 - event: notification_clicked
   schema:
-    notification_id: id #required
+    notification_id: id
     notification_type: info | success | warning | error = info
     notification_title: string?
     clicked_at: date = now()
 
 - event: notification_action_clicked
   schema:
-    notification_id: id #required
-    action_id: id #required
+    notification_id: id
+    action_id: id
     action_label: string?
     action_type: primary | secondary | dismiss = primary
     clicked_at: date = now()
 
 - event: toast_expired
   schema:
-    toast_id: id #required
+    toast_id: id
     toast_type: info | success | warning | error = info
     toast_message: string?
     duration_ms: int? #min(0)

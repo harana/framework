@@ -1,6 +1,6 @@
 - action: check_service
   inputs:
-    service_name: string #required
+    service_name: string
     timeout: int = 5
   outputs:
     details: health_details
@@ -31,7 +31,7 @@
     expected_status: int = 200
     method: get | head = get
     timeout: int = 10
-    url: string #required
+    url: string
   outputs:
     healthy: boolean
     latency_ms: int
@@ -78,7 +78,7 @@
     version: string
 
 - object: health_status
-  class:
+  schema:
     service_name: string
     healthy: boolean
     status: string
@@ -87,21 +87,92 @@
     checked_at: date
 
 - object: health_details
-  class:
+  schema:
     message: string
     error: string
     extra: map[string, any]
 
 - object: health_check
-  class:
+  schema:
     name: string
     healthy: boolean
     latency_ms: int
     error: string
 
 - object: system_metrics
-  class:
+  schema:
     cpu_usage: float
     memory_usage: float
     disk_usage: float
     active_connections: int
+
+- object: healthcheck
+  schema:
+    created_at: date = now()
+    description: string
+    is_active: boolean = true
+    interval_seconds: int = 60
+    name: string
+    timeout_seconds: int = 30
+    type: route | response_time | job_execution | event_rate | custom = route
+    updated_at: date = now()
+
+- object: healthcheck_route
+  schema:
+    expected_status_codes: string = 200
+    expected_body_contains: string
+    headers: string
+    healthcheck_id: string
+    method: get | post | put | patch | delete | head | options = get
+    url: string
+
+- object: healthcheck_response_time
+  schema:
+    healthcheck_id: string
+    route_id: string
+    threshold_ms: int = 1000
+    url: string
+
+- object: healthcheck_job_execution
+  schema:
+    healthcheck_id: string
+    job_name: string
+    max_duration_seconds: int
+    max_failures_percent: decimal
+    queue: string
+
+- object: healthcheck_event_rate
+  schema:
+    comparison: gt | gte | lt | lte | eq | neq = gte
+    event_type: string
+    healthcheck_id: string
+    source: string
+    threshold: decimal
+    window: second | minute | hour | day = minute
+
+- object: healthcheck_custom
+  schema:
+    healthcheck_id: string
+    metric_id: string
+    query: string
+    success_condition: string
+
+- object: healthcheck_result
+  schema:
+    checked_at: date = now()
+    duration_ms: int
+    error_message: string
+    healthcheck_id: string
+    metadata: string
+    status: healthy | degraded | unhealthy = healthy
+
+- object: healthcheck_alert
+  schema:
+    consecutive_failures: int = 3
+    cooldown_seconds: int = 300
+    created_at: date = now()
+    healthcheck_id: string
+    is_active: boolean = true
+    last_triggered_at: date
+    notification_channel: string
+    updated_at: date = now()

@@ -1,64 +1,56 @@
 - action: window
   inputs:
-    session_id: string  outputs:
+    session_id: string
+  outputs:
     handle: string
 
 - action: windows
   inputs:
-    session_id: string  outputs:
+    session_id: string
+  outputs:
     handles: list[string]
     total: int
 
 - action: switch_to_window
   inputs:
-    handle: string    session_id: string  outputs:
-    success: boolean
-
+    handle: string
+    session_id: string
 - action: switch_to_named_window
   inputs:
-    name: string #required
-    session_id: string  outputs:
-    success: boolean
-
+    name: string
+    session_id: string
 - action: set_window_name
   inputs:
-    name: string #required
-    session_id: string  outputs:
-    success: boolean
-
+    name: string
+    session_id: string
 - action: new_tab
   inputs:
-    session_id: string  outputs:
+    session_id: string
+  outputs:
     handle: string
 
 - action: new_window
   inputs:
-    session_id: string  outputs:
+    session_id: string
+  outputs:
     handle: string
 
 - action: close_window
   inputs:
-    session_id: string  outputs:
-    success: boolean
-
+    session_id: string
 - action: maximize_window
   inputs:
-    session_id: string  outputs:
-    success: boolean
-
+    session_id: string
 - action: minimize_window
   inputs:
-    session_id: string  outputs:
-    success: boolean
-
+    session_id: string
 - action: fullscreen_window
   inputs:
-    session_id: string  outputs:
-    success: boolean
-
+    session_id: string
 - action: get_window_rect
   inputs:
-    session_id: string  outputs:
+    session_id: string
+  outputs:
     height: int
     width: int
     x: int
@@ -66,5 +58,5 @@
 
 - action: set_window_rect
   inputs:
-    height: int    session_id: string    width: int    x: int    y: int  outputs:
-    success: boolean
+    height: int    session_id: string
+    width: int    x: int    y: int

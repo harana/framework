@@ -1,7 +1,7 @@
 - action: schema
   inputs:
-    data: any #required
-    schema: validation_schema #required
+    data: any
+    schema: validation_schema
     strict: boolean = true
   outputs:
     errors: list[validation_error]
@@ -10,15 +10,15 @@
 - action: field
   inputs:
     field_name: string
-    rules: list[string] #required
-    value: any #required
+    rules: list[string]
+    value: any
   outputs:
     errors: list[string]
     valid: boolean
 
 - action: email_format
   inputs:
-    email: string #required
+    email: string
   outputs:
     reason: string
     valid: boolean
@@ -26,7 +26,7 @@
 - action: url
   inputs:
     allowed_schemes: list[string]
-    url: string #required
+    url: string
   outputs:
     reason: string
     valid: boolean
@@ -34,7 +34,7 @@
 - action: phone
   inputs:
     country_code: string
-    phone: string #required
+    phone: string
   outputs:
     country: string
     formatted: string
@@ -42,7 +42,7 @@
 
 - action: date
   inputs:
-    date: string #required
+    date: string
     format: string = "iso8601"
   outputs:
     parsed: date
@@ -51,7 +51,7 @@
 
 - action: json
   inputs:
-    json_string: string #required
+    json_string: string
   outputs:
     error: string
     parsed: any
@@ -59,7 +59,7 @@
 
 - action: credit_card
   inputs:
-    number: string #required
+    number: string
     luhn: boolean = true
   outputs:
     card_type: string
@@ -68,7 +68,7 @@
 
 - action: uuid
   inputs:
-    uuid: string #required
+    uuid: string
     version: int
   outputs:
     valid: boolean
@@ -76,7 +76,7 @@
 
 - action: ip
   inputs:
-    ip: string #required
+    ip: string
     version: 4 | 6 | any = any
   outputs:
     is_private: boolean
@@ -86,7 +86,7 @@
 - action: password
   inputs:
     min_length: int = 8
-    password: string #required
+    password: string
     require_lowercase: boolean = true
     require_numbers: boolean = true
     require_symbols: boolean = false
@@ -100,31 +100,63 @@
   inputs:
     allowed_attributes: html_allowed_attributes
     allowed_tags: list[string]
-    html: string #required
+    html: string
   outputs:
     removed_count: int
     sanitized: string
 
 - object: validation_result
-  class:
+  schema:
     valid: boolean
     errors: list[validation_error]
     field_name: string
     value: any
 
 - object: validation_schema
-  class:
+  schema:
     type: string
     properties: map[string, any]
     required: list[string]
 
 - object: validation_error
-  class:
+  schema:
     path: string
     message: string
     code: string
 
 - object: html_allowed_attributes
-  class:
+  schema:
     global: list[string]
     per_tag: map[string, list[string]]
+
+- object: validation_rule
+  schema:
+    created_at: date = now()
+    description: string
+    is_active: boolean = true
+    pattern: string
+    type: required | min | max | email | url | regex | custom = required
+    updated_at: date = now()
+    value: string
+
+- object: validation_rule_set
+  schema:
+    created_at: date = now()
+    description: string
+    is_active: boolean = true
+    updated_at: date = now()
+
+- object: validation_rule_set_assignment
+  schema:
+    rule_id: string
+    rule_set_id: string
+    sort_order: int = 0
+
+- object: validation_error_log
+  schema:
+    created_at: date = now()
+    field_name: string
+    input_value: string
+    rule_id: string
+    rule_set_id: string
+    violation_message: string

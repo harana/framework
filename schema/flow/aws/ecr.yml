@@ -4,22 +4,19 @@
     image_tag_mutability: mutable | immutable = mutable
     kms_key: string
     region: string
-    repository_name: string #required
+    repository_name: string
     scan_on_push: boolean = false
     tags: ecr_tags
   outputs:
     registry_id: string
     repository_arn: string
     repository_uri: string
-    success: boolean
 
 - action: delete_repository
   inputs:
     force: boolean = false
     region: string
-    repository_name: string #required
-  outputs:
-    success: boolean
+    repository_name: string
 
 - action: describe_repositories
   inputs:
@@ -33,7 +30,7 @@
     filter: image_filter
     max_results: int = 100
     region: string
-    repository_name: string #required
+    repository_name: string
   outputs:
     image_ids: list[image_id]
     next_token: string
@@ -42,29 +39,27 @@
   inputs:
     image_ids: list[image_id]
     region: string
-    repository_name: string #required
+    repository_name: string
   outputs:
     image_details: list[ecr_image_detail]
 
 - action: put_image
   inputs:
-    image_manifest: string #required
-    image_tag: string #required
+    image_manifest: string
+    image_tag: string
     region: string
-    repository_name: string #required
+    repository_name: string
   outputs:
     image: ecr_image
-    success: boolean
 
 - action: batch_delete_image
   inputs:
-    image_ids: list[image_id] #required
+    image_ids: list[image_id]
     region: string
-    repository_name: string #required
+    repository_name: string
   outputs:
     failures: list[image_failure]
     image_ids: list[image_id]
-    success: boolean
 
 - action: get_auth_token
   inputs:
@@ -74,42 +69,37 @@
     authorization_token: string
     expires_at: date
     proxy_endpoint: string
-    success: boolean
 
 - action: get_download_url
   inputs:
-    image_digest: string #required
+    image_digest: string
     region: string
-    repository_name: string #required
+    repository_name: string
   outputs:
     download_url: string
-    success: boolean
 
 - action: tag_image
   inputs:
-    image_digest: string #required
-    image_tag: string #required
+    image_digest: string
+    image_tag: string
     region: string
-    repository_name: string #required
-  outputs:
-    success: boolean
+    repository_name: string
 
 - action: set_repository_policy
   inputs:
     force: boolean = false
-    policy_text: string #required
+    policy_text: string
     region: string
-    repository_name: string #required
+    repository_name: string
   outputs:
     policy_text: string
     registry_id: string
     repository_name: string
-    success: boolean
 
 - action: get_repository_policy
   inputs:
     region: string
-    repository_name: string #required
+    repository_name: string
   outputs:
     policy_text: string
     registry_id: string
@@ -118,26 +108,23 @@
 - action: delete_repository_policy
   inputs:
     region: string
-    repository_name: string #required
-  outputs:
-    success: boolean
+    repository_name: string
 
 - action: start_image_scan
   inputs:
-    image_id: image_id #required
+    image_id: image_id
     region: string
-    repository_name: string #required
+    repository_name: string
   outputs:
     image_id: image_id
     scan_status: string
-    success: boolean
 
 - action: describe_scan_findings
   inputs:
-    image_id: image_id #required
+    image_id: image_id
     max_results: int = 100
     region: string
-    repository_name: string #required
+    repository_name: string
   outputs:
     findings: list[image_scan_finding]
     image_scan_status: image_scan_status
@@ -145,21 +132,72 @@
 
 - action: put_lifecycle_policy
   inputs:
-    lifecycle_policy_text: string #required
+    lifecycle_policy_text: string
     region: string
-    repository_name: string #required
+    repository_name: string
   outputs:
     lifecycle_policy_text: string
     registry_id: string
     repository_name: string
-    success: boolean
 
 - action: get_lifecycle_policy
   inputs:
     region: string
-    repository_name: string #required
+    repository_name: string
   outputs:
     last_evaluated_at: date
     lifecycle_policy_text: string
     registry_id: string
     repository_name: string
+
+- object: aws_ecr_repository
+  schema:
+    account_id: string
+    created_at: date = now()
+    encryption_type: aes256 | kms = aes256
+    image_tag_mutability: mutable | immutable = mutable
+    kms_key: string
+    region: string
+    registry_id: string
+    repository_arn: string
+    repository_name: string
+    repository_uri: string
+    scan_on_push: boolean = false
+    tags: string #json
+    updated_at: date = now()
+
+- object: aws_ecr_image
+  schema:
+    created_at: date = now()
+    image_digest: string
+    image_manifest_media_type: string
+    image_pushed_at: date
+    image_size_bytes: int
+    image_tags: string #json
+    last_scan_at: date
+    repository_id: string
+    scan_status: in_progress | complete | failed | unsupported = in_progress
+    vulnerability_count: int = 0
+
+- object: aws_ecr_repository_policy
+  schema:
+    created_at: date = now()
+    policy_text: string
+    repository_id: string
+    updated_at: date = now()
+
+- object: aws_ecr_lifecycle_policy
+  schema:
+    created_at: date = now()
+    last_evaluated_at: date
+    lifecycle_policy_text: string
+    repository_id: string
+    updated_at: date = now()
+
+- object: aws_ecr_image_scan_finding
+  schema:
+    description: string
+    image_id: string
+    name: string
+    severity: informational | low | medium | high | critical | undefined = undefined
+    uri: string

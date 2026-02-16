@@ -2,14 +2,14 @@
   inputs:
     data: session_data
     ttl: int = 3600
-    user_id: string #required
+    user_id: string
   outputs:
     expires_at: date
     session_id: string
 
 - action: get
   inputs:
-    session_id: string #required
+    session_id: string
   outputs:
     created_at: date
     data: session_data
@@ -19,52 +19,43 @@
 
 - action: update
   inputs:
-    data: session_data #required
+    data: session_data
     merge: boolean = true
-    session_id: string #required
-  outputs:
-    success: boolean
+    session_id: string
 
 - action: destroy
   inputs:
-    session_id: string #required
-  outputs:
-    success: boolean
+    session_id: string
 
 - action: refresh
   inputs:
-    session_id: string #required
+    session_id: string
     ttl: int
   outputs:
     expires_at: date
-    success: boolean
 
 - action: get_value
   inputs:
-    key: string #required
-    session_id: string #required
+    key: string
+    session_id: string
   outputs:
     found: boolean
     value: any
 
 - action: set_value
   inputs:
-    key: string #required
-    session_id: string #required
-    value: any #required
-  outputs:
-    success: boolean
+    key: string
+    session_id: string
+    value: any
 
 - action: delete_value
   inputs:
-    key: string #required
-    session_id: string #required
-  outputs:
-    success: boolean
+    key: string
+    session_id: string
 
 - action: list_users
   inputs:
-    user_id: string #required
+    user_id: string
   outputs:
     sessions: list[session_info]
     total: int
@@ -72,21 +63,20 @@
 - action: destroy_users
   inputs:
     except_id: string
-    user_id: string #required
+    user_id: string
   outputs:
     destroyed_count: int
-    success: boolean
 
 - action: validate
   inputs:
-    session_id: string #required
+    session_id: string
   outputs:
     expires_at: date
     user_id: string
     valid: boolean
 
 - object: session
-  class:
+  schema:
     session_id: string
     user_id: string
     data: session_data
@@ -94,12 +84,29 @@
     expires_at: date
 
 - object: session_data
-  class:
+  schema:
     values: map[string, any]
 
 - object: session_info
-  class:
+  schema:
     session_id: string
     user_id: string
     created_at: date
     expires_at: date
+
+- object: refresh_token
+  schema:
+    created_at: date = now()
+    expires_at: date
+    is_revoked: boolean = false
+    revoked_at: date
+    session_id: string
+    token: string
+
+- object: session_activity
+  schema:
+    method: string
+    created_at: date = now()
+    ip_address: string
+    metadata: string
+    session_id: string

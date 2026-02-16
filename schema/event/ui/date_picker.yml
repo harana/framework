@@ -1,40 +1,40 @@
 - event: date_selected
   schema:
-    picker_id: id #required
+    picker_id: id
     picker_name: string?
-    selected_date: date #required
+    selected_date: date
     previous_date: date?
     selected_at: date = now()
 
 - event: date_range_selected
   schema:
-    picker_id: id #required
+    picker_id: id
     picker_name: string?
-    start_date: date #required
-    end_date: date #required
+    start_date: date
+    end_date: date
     previous_start: date?
     previous_end: date?
     selected_at: date = now()
 
 - event: time_selected
   schema:
-    picker_id: id #required
+    picker_id: id
     picker_name: string?
-    selected_time: time #required
+    selected_time: time
     previous_time: time?
     selected_at: date = now()
 
 - event: calendar_month_changed
   schema:
-    calendar_id: id #required
+    calendar_id: id
     from_month: int? #min(1) #max(12)
     to_month: int #min(1) #max(12)
-    year: int #required
+    year: int
     changed_at: date = now()
 
 - event: calendar_year_changed
   schema:
-    calendar_id: id #required
+    calendar_id: id
     from_year: int?
-    to_year: int #required
+    to_year: int
     changed_at: date = now()

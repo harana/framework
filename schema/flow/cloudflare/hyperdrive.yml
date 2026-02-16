@@ -1,9 +1,24 @@
 - action: connect
   inputs:
-    binding: string #required
+    binding: string
   outputs:
     connection_string: string
     host: string
     password: string
     port: int
+    user: string
+
+- object: cf_hyperdrive_config
+  schema:
+    account_id: string
+    binding: string
+    caching_disabled: boolean = false
+    config_id: string
+    config_name: string
+    created_at: date = now()
+    database: string
+    host: string
+    port: int
+    scheme: postgres | mysql = postgres
+    updated_at: date = now()
     user: string

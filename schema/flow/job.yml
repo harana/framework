@@ -1,8 +1,8 @@
 - action: schedule
   inputs:
     cron: string
-    handler: string #required
-    name: string #required
+    handler: string
+    name: string
     payload: any
     priority: low | normal | high = normal
     run_at: date
@@ -12,13 +12,11 @@
 
 - action: cancel
   inputs:
-    job_id: string #required
-  outputs:
-    success: boolean
+    job_id: string
 
 - action: get_status
   inputs:
-    job_id: string #required
+    job_id: string
   outputs:
     completed_at: date
     error: string
@@ -30,10 +28,9 @@
 - action: retry
   inputs:
     delay_seconds: int = 0
-    job_id: string #required
+    job_id: string
   outputs:
     new_id: string
-    success: boolean
 
 - action: lists
   inputs:
@@ -49,19 +46,15 @@
 
 - action: pause
   inputs:
-    job_id: string #required
-  outputs:
-    success: boolean
+    job_id: string
 
 - action: resume
   inputs:
-    job_id: string #required
-  outputs:
-    success: boolean
+    job_id: string
 
 - action: get_result
   inputs:
-    job_id: string #required
+    job_id: string
     timeout: int = 0
   outputs:
     completed: boolean
@@ -70,20 +63,16 @@
 
 - action: update_progress
   inputs:
-    job_id: string #required
+    job_id: string
     message: string
-    progress: float #required
-  outputs:
-    success: boolean
+    progress: float
 
 - action: delete
   inputs:
-    job_id: string #required
-  outputs:
-    success: boolean
+    job_id: string
 
 - object: job
-  class:
+  schema:
     job_id: string
     name: string
     handler: string
@@ -98,7 +87,7 @@
     error: string
 
 - object: job_info
-  class:
+  schema:
     job_id: string
     name: string
     handler: string
@@ -107,3 +96,20 @@
     scheduled_at: date
     started_at: date
     completed_at: date
+
+- object: job_schedule
+  schema:
+    cron_expression: string
+    is_active: boolean = true
+    job_name: string
+    last_run_at: date
+    next_run_at: date
+    payload: string
+    timezone: string = utc
+
+- object: job_log
+  schema:
+    created_at: date = now()
+    job_id: string
+    level: debug | info | warning | error = info
+    message: string

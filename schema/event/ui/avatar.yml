@@ -1,21 +1,21 @@
 - event: avatar_clicked
   schema:
-    avatar_id: id #required
+    avatar_id: id
     user_id: id?
     avatar_type: user | group | placeholder = user
     clicked_at: date = now()
 
 - event: badge_clicked
   schema:
-    badge_id: id #required
+    badge_id: id
     badge_type: status | count | label = label
     badge_value: string?
     clicked_at: date = now()
 
 - event: status_changed
   schema:
-    entity_id: id #required
+    entity_id: id
     entity_type: string?
     old_status: string?
-    new_status: string #required
+    new_status: string
     changed_at: date = now()

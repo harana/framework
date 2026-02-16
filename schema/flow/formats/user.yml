@@ -1,55 +1,48 @@
 - action: check_permission
   inputs:
-    method: string #required
-    resource: string #required
-    user_id: string #required
+    method: string
+    resource: string
+    user_id: string
   outputs:
     allowed: boolean
     reason: string
 
 - action: grant_permission
   inputs:
-    method: string #required
+    method: string
     conditions: user_permission_conditions
     expires_at: date
-    resource: string #required
-    user_id: string #required
+    resource: string
+    user_id: string
   outputs:
     permission_id: string
-    success: boolean
 
 - action: revoke_permission
   inputs:
-    permission_id: string #required
-    user_id: string #required
-  outputs:
-    success: boolean
+    permission_id: string
+    user_id: string
 
 - action: list_permissions
   inputs:
     resource: string
-    user_id: string #required
+    user_id: string
   outputs:
     permissions: list[user_permission_info]
     total: int
 
 - action: assign_role
   inputs:
-    role_id: string #required
-    user_id: string #required
-  outputs:
-    success: boolean
+    role_id: string
+    user_id: string
 
 - action: remove_role
   inputs:
-    role_id: string #required
-    user_id: string #required
-  outputs:
-    success: boolean
+    role_id: string
+    user_id: string
 
 - action: list_roles
   inputs:
-    user_id: string #required
+    user_id: string
   outputs:
     roles: list[user_role_info]
     total: int
@@ -57,13 +50,13 @@
 - action: get_effective_permissions
   inputs:
     resource: string
-    user_id: string #required
+    user_id: string
   outputs:
     permissions: list[effective_permission]
     sources: list[permission_source]
 
 - object: user_permission
-  class:
+  schema:
     permission_id: string
     user_id: string
     method: string
@@ -72,30 +65,30 @@
     expires_at: date
 
 - object: user_permission_conditions
-  class:
+  schema:
     conditions: map[string, any]
 
 - object: user_permission_info
-  class:
+  schema:
     permission_id: string
     method: string
     resource: string
     expires_at: date
 
 - object: user_role_info
-  class:
+  schema:
     role_id: string
     name: string
     assigned_at: date
 
 - object: effective_permission
-  class:
+  schema:
     method: string
     resource: string
     allowed: boolean
 
 - object: permission_source
-  class:
+  schema:
     source_type: string
     source_id: string
     name: string

@@ -1,31 +1,46 @@
 - action: text
   inputs:
-    element_id: string    session_id: string  outputs:
+    element_id: string
+    session_id: string
+  outputs:
     text: string
 
 - action: attr
   inputs:
-    attribute: string    element_id: string    session_id: string  outputs:
+    attribute: string
+    element_id: string
+    session_id: string
+  outputs:
     value: string
 
 - action: prop
   inputs:
-    element_id: string    property: string    session_id: string  outputs:
+    element_id: string
+    property: string
+    session_id: string
+  outputs:
     value: string
 
 - action: css_value
   inputs:
-    element_id: string    property: string    session_id: string  outputs:
+    element_id: string
+    property: string
+    session_id: string
+  outputs:
     value: string
 
 - action: tag_name
   inputs:
-    element_id: string    session_id: string  outputs:
+    element_id: string
+    session_id: string
+  outputs:
     tag_name: string
 
 - action: rect
   inputs:
-    element_id: string    session_id: string  outputs:
+    element_id: string
+    session_id: string
+  outputs:
     height: float
     width: float
     x: float
@@ -33,35 +48,49 @@
 
 - action: inner_html
   inputs:
-    element_id: string    session_id: string  outputs:
+    element_id: string
+    session_id: string
+  outputs:
     html: string
 
 - action: outer_html
   inputs:
-    element_id: string    session_id: string  outputs:
+    element_id: string
+    session_id: string
+  outputs:
     html: string
 
 - action: is_displayed
   inputs:
-    element_id: string    session_id: string  outputs:
+    element_id: string
+    session_id: string
+  outputs:
     displayed: boolean
 
 - action: is_enabled
   inputs:
-    element_id: string    session_id: string  outputs:
+    element_id: string
+    session_id: string
+  outputs:
     enabled: boolean
 
 - action: is_selected
   inputs:
-    element_id: string    session_id: string  outputs:
+    element_id: string
+    session_id: string
+  outputs:
     selected: boolean
 
 - action: is_clickable
   inputs:
-    element_id: string    session_id: string  outputs:
+    element_id: string
+    session_id: string
+  outputs:
     clickable: boolean
 
 - action: is_present
   inputs:
-    element_id: string    session_id: string  outputs:
+    element_id: string
+    session_id: string
+  outputs:
     present: boolean

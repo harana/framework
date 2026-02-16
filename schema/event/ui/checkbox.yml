@@ -1,27 +1,27 @@
 - event: checkbox_checked
   schema:
-    checkbox_id: id #required
+    checkbox_id: id
     checkbox_name: string?
     checkbox_value: string?
     checked_at: date = now()
 
 - event: checkbox_unchecked
   schema:
-    checkbox_id: id #required
+    checkbox_id: id
     checkbox_name: string?
     checkbox_value: string?
     unchecked_at: date = now()
 
 - event: checkbox_indeterminate_changed
   schema:
-    checkbox_id: id #required
+    checkbox_id: id
     checkbox_name: string?
-    is_indeterminate: boolean #required
+    is_indeterminate: boolean
     changed_at: date = now()
 
 - event: checkbox_group_changed
   schema:
-    group_id: id #required
+    group_id: id
     group_name: string?
     selected_values: string?
     selected_count: int? #min(0)

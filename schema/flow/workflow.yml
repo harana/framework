@@ -2,36 +2,29 @@
   inputs:
     context: workflow_context
     input: any
-    workflow_id: string #required
+    workflow_id: string
   outputs:
     execution_id: string
     status: string
-    success: boolean
 
 - action: pause
   inputs:
-    execution_id: string #required
+    execution_id: string
     reason: string
-  outputs:
-    success: boolean
 
 - action: resume
   inputs:
-    execution_id: string #required
+    execution_id: string
     input: any
-  outputs:
-    success: boolean
 
 - action: cancel
   inputs:
-    execution_id: string #required
+    execution_id: string
     reason: string
-  outputs:
-    success: boolean
 
 - action: get_status
   inputs:
-    execution_id: string #required
+    execution_id: string
   outputs:
     completed_at: date
     current_step: string
@@ -42,7 +35,7 @@
 
 - action: get_result
   inputs:
-    execution_id: string #required
+    execution_id: string
   outputs:
     completed: boolean
     error: string
@@ -62,16 +55,14 @@
 
 - action: signal
   inputs:
-    execution_id: string #required
+    execution_id: string
     payload: any
-    signal_name: string #required
-  outputs:
-    success: boolean
+    signal_name: string
 
 - action: wait_for_event
   inputs:
-    event_name: string #required
-    execution_id: string #required
+    event_name: string
+    execution_id: string
     timeout: int = 3600
   outputs:
     payload: any
@@ -80,36 +71,30 @@
 
 - action: history
   inputs:
-    execution_id: string #required
+    execution_id: string
   outputs:
     events: list[workflow_history_event]
     total: int
 
 - action: retry_step
   inputs:
-    execution_id: string #required
-    step_id: string #required
-  outputs:
-    success: boolean
+    execution_id: string
+    step_id: string
 
 - action: skip_step
   inputs:
-    execution_id: string #required
+    execution_id: string
     output: any
-    step_id: string #required
-  outputs:
-    success: boolean
+    step_id: string
 
 - action: terminate_all
   inputs:
     reason: string
-    workflow_id: string #required
-  outputs:
-    success: boolean
+    workflow_id: string
     terminated_count: int
 
 - object: workflow_execution
-  class:
+  schema:
     execution_id: string
     workflow_id: string
     status: string
@@ -121,11 +106,11 @@
     error: string
 
 - object: workflow_context
-  class:
+  schema:
     values: map[string, any]
 
 - object: workflow_execution_info
-  class:
+  schema:
     execution_id: string
     workflow_id: string
     status: string
@@ -133,9 +118,38 @@
     completed_at: date
 
 - object: workflow_history_event
-  class:
+  schema:
     event_id: string
     event_type: string
     step_id: string
     timestamp: date
     data: any
+
+- object: workflow
+  schema:
+    created_at: date = now()
+    description: string
+    is_active: boolean = true
+    trigger_type: manual | scheduled | event | webhook = manual
+    updated_at: date = now()
+    version: int = 1
+
+- object: workflow_step
+  schema:
+    method: string
+    condition: string
+    on_failure: continue | stop | retry = stop
+    retry_count: int = 0
+    sort_order: int = 0
+    timeout_seconds: int = 300
+    workflow_id: string
+
+- object: workflow_step_execution
+  schema:
+    completed_at: date
+    error_message: string
+    input: string
+    output: string
+    started_at: date
+    status: pending | running | completed | failed | skipped = pending
+    step_id: string

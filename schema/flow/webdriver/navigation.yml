@@ -1,34 +1,38 @@
 - action: goto
   inputs:
-    session_id: string    url: string  outputs:
-    success: boolean
+    session_id: string
+    
+    url: string
 
 - action: current_url
   inputs:
-    session_id: string  outputs:
+    session_id: string
+  
+  outputs:
     url: string
 
 - action: title
   inputs:
-    session_id: string  outputs:
+    session_id: string
+  
+  outputs:
     title: string
 
 - action: source
   inputs:
-    session_id: string  outputs:
+    session_id: string
+  
+  outputs:
     source: string
 
 - action: back
   inputs:
-    session_id: string  outputs:
-    success: boolean
+    session_id: string
 
 - action: forward
   inputs:
-    session_id: string  outputs:
-    success: boolean
+    session_id: string
 
 - action: refresh
   inputs:
-    session_id: string  outputs:
-    success: boolean
+    session_id: string

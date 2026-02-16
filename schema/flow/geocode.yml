@@ -1,7 +1,7 @@
 - action: distance
   inputs:
-    from: geo_coordinate #required
-    to: geo_coordinate #required
+    from: geo_coordinate
+    to: geo_coordinate
     unit: km | mi | m = km
   outputs:
     distance: float
@@ -9,7 +9,7 @@
 
 - action: forward
   inputs:
-    address: string #required
+    address: string
     country: string
     limit: int = 5
   outputs:
@@ -19,8 +19,8 @@
 
 - action: reverse
   inputs:
-    latitude: float #required
-    longitude: float #required
+    latitude: float
+    longitude: float
     language: string
   outputs:
     address: geo_address
@@ -28,8 +28,8 @@
 
 - action: route
   inputs:
-    from: geo_coordinate #required
-    to: geo_coordinate #required
+    from: geo_coordinate
+    to: geo_coordinate
     mode: driving | walking | cycling | transit = driving
     waypoints: list[geo_coordinate]
     avoid: list[string]
@@ -41,8 +41,8 @@
 
 - action: timezone
   inputs:
-    latitude: float #required
-    longitude: float #required
+    latitude: float
+    longitude: float
     timestamp: int
   outputs:
     id: string
@@ -51,19 +51,19 @@
     dst_offset: int
 
 - object: geo_coordinate
-  class:
+  schema:
     latitude: float
     longitude: float
 
 - object: geocoding_result
-  class:
+  schema:
     latitude: float
     longitude: float
     formatted_address: string
     confidence: float
 
 - object: geo_address
-  class:
+  schema:
     street: string
     city: string
     county: string
@@ -74,9 +74,34 @@
     longitude: float
 
 - object: route_step
-  class:
+  schema:
     instruction: string
     distance: float
     duration: int
     latitude: float
     longitude: float
+
+- object: geocode_result
+  schema:
+    city: string
+    confidence: decimal
+    country: string
+    created_at: date = now()
+    formatted_address: string
+    latitude: decimal
+    longitude: decimal
+    postal_code: string
+    provider: string = default
+    query: string
+    region: string
+    street: string
+    type: forward | reverse = forward
+
+- object: geocode_cache
+  schema:
+    created_at: date = now()
+    expires_at: date
+    latitude: decimal
+    longitude: decimal
+    query_hash: string
+    response: string

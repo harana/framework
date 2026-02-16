@@ -1,24 +1,24 @@
 - event: feed_item_liked
   schema:
-    feed_id: id #required
-    item_id: id #required
+    feed_id: id
+    item_id: id
     item_type: post | comment | reply = post
     user_id: id?
     liked_at: date = now()
 
 - event: feed_item_commented
   schema:
-    feed_id: id #required
-    item_id: id #required
-    comment_id: id #required
+    feed_id: id
+    item_id: id
+    comment_id: id
     item_type: post | comment | reply = post
     user_id: id?
     commented_at: date = now()
 
 - event: feed_item_shared
   schema:
-    feed_id: id #required
-    item_id: id #required
+    feed_id: id
+    item_id: id
     item_type: post | comment | reply = post
     share_destination: clipboard | email | social | internal = clipboard
     user_id: id?
@@ -26,7 +26,7 @@
 
 - event: feed_scrolled
   schema:
-    feed_id: id #required
+    feed_id: id
     scroll_direction: up | down = down
     scroll_depth_percent: int? #min(0) #max(100)
     items_viewed: int? #min(0)
@@ -34,7 +34,7 @@
 
 - event: load_more_clicked
   schema:
-    feed_id: id #required
+    feed_id: id
     current_count: int? #min(0)
     page_number: int? #min(1)
     clicked_at: date = now()

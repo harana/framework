@@ -1,26 +1,25 @@
 - action: sign_artifact
   inputs:
     algorithm: rsa-sha256 | rsa-sha512 | ecdsa-sha256 | ed25519 = rsa-sha256
-    artifact: bytes #required
+    artifact: bytes
     artifact_path: string
     format: pkcs7 | jws | raw = pkcs7
-    private_key: string #required
+    private_key: string
     metadata: signature_metadata
   outputs:
     signature: string
     signature_format: string
     algorithm: string
     timestamp: date
-    success: boolean
 
 - action: verify_artifact
   inputs:
     algorithm: rsa-sha256 | rsa-sha512 | ecdsa-sha256 | ed25519
-    artifact: bytes #required
+    artifact: bytes
     artifact_path: string
     format: pkcs7 | jws | raw = pkcs7
-    public_key: string #required
-    signature: string #required
+    public_key: string
+    signature: string
   outputs:
     valid: boolean
     signer: string
@@ -30,38 +29,36 @@
 
 - action: sign_code
   inputs:
-    artifact: bytes #required
+    artifact: bytes
     artifact_path: string
-    certificate: string #required
+    certificate: string
     certificate_chain: list[string]
     description: string
     format: authenticode | codesign | jar = authenticode
-    private_key: string #required
+    private_key: string
     timestamp_authority: string
   outputs:
     signed_artifact: bytes
     signature: string
-    success: boolean
     timestamp: date
 
 - action: create_detached
   inputs:
     algorithm: rsa-sha256 | rsa-sha512 | ecdsa-sha256 | ed25519 = rsa-sha256
-    artifact: bytes #required
+    artifact: bytes
     format: pgp | smime | cms = pgp
-    private_key: string #required
+    private_key: string
     armor: boolean = true
   outputs:
     signature: string
-    success: boolean
 
 - action: verify_detached
   inputs:
     algorithm: rsa-sha256 | rsa-sha512 | ecdsa-sha256 | ed25519
-    artifact: bytes #required
+    artifact: bytes
     format: pgp | smime | cms = pgp
-    public_key: string #required
-    signature: string #required
+    public_key: string
+    signature: string
   outputs:
     valid: boolean
     signer: string
@@ -71,20 +68,19 @@
   inputs:
     digest: string
     format: cosign | notary = cosign
-    image: string #required
-    private_key: string #required
+    image: string
+    private_key: string
     registry: string
     tag: string
   outputs:
     signature: string
     signature_digest: string
-    success: boolean
 
 - action: verify_container
   inputs:
     format: cosign | notary = cosign
-    image: string #required
-    public_key: string #required
+    image: string
+    public_key: string
     registry: string
     signature: string
     tag: string
@@ -96,20 +92,19 @@
 
 - action: sign_jar
   inputs:
-    alias: string #required
-    jar_path: string #required
-    keystore: string #required
-    keystore_password: string #required
+    alias: string
+    jar_path: string
+    keystore: string
+    keystore_password: string
     private_key_password: string
     signature_algorithm: sha256with_rsa | sha512with_rsa = sha256with_rsa
     timestamp_authority: string
   outputs:
     signed_jar_path: string
-    success: boolean
 
 - action: verify_jar
   inputs:
-    jar_path: string #required
+    jar_path: string
     certificate: string
   outputs:
     valid: boolean
@@ -119,16 +114,15 @@
 
 - action: timestamp
   inputs:
-    authority_url: string #required
-    digest: string #required
+    authority_url: string
+    digest: string
     hash_algorithm: sha256 | sha512 = sha256
   outputs:
     timestamp: date
     timestamp_token: string
-    success: boolean
 
 - object: signature_metadata
-  class:
+  schema:
     signer: string
     organization: string
     email: string
@@ -137,7 +131,7 @@
     custom_attributes: map[string, string]
 
 - object: signed_artifact
-  class:
+  schema:
     artifact: bytes
     signature: string
     algorithm: string
@@ -145,3 +139,35 @@
     timestamp: date
     signer: string
     certificate_chain: list[string]
+
+- object: signing_key
+  schema:
+    algorithm: rsa_sha256 | rsa_sha512 | ecdsa_sha256 | ed25519 = rsa_sha256
+    created_at: date = now()
+    created_by: string
+    expires_at: date
+    is_active: boolean = true
+    key_id: string
+    public_key_fingerprint: string
+    updated_at: date = now()
+    usage: artifact | code | container | detached = artifact
+
+- object: signature
+  schema:
+    algorithm: string
+    artifact_hash: string
+    artifact_path: string
+    created_at: date = now()
+    format: pkcs7 | jws | raw | pgp | smime | cms | cosign | notary = pkcs7
+    is_valid: boolean = true
+    key_id: string
+    signer: string
+
+- object: signature_verification_log
+  schema:
+    error_message: string
+    ip_address: string
+    is_valid: boolean = false
+    signature_id: string
+    verified_at: date = now()
+    verified_by: string

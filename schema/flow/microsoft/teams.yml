@@ -1,88 +1,78 @@
 - action: send_message
   inputs:
     attachments: list[teams_attachment]
-    channel_id: string #required
-    content: string #required
+    channel_id: string
+    content: string
     content_type: text | html = text
     importance: normal | high | urgent = normal
     mentions: list[teams_mention]
-    team_id: string #required
+    team_id: string
   outputs:
     created_at: date
     message_id: string
-    success: boolean
 
 - action: reply_to_message
   inputs:
     attachments: list[teams_attachment]
-    channel_id: string #required
-    content: string #required
+    channel_id: string
+    content: string
     content_type: text | html = text
-    message_id: string #required
-    team_id: string #required
+    message_id: string
+    team_id: string
   outputs:
     reply_id: string
-    success: boolean
 
 - action: update_message
   inputs:
-    channel_id: string #required
-    content: string #required
+    channel_id: string
+    content: string
     content_type: text | html = text
-    message_id: string #required
-    team_id: string #required
-  outputs:
-    success: boolean
+    message_id: string
+    team_id: string
 
 - action: delete_message
   inputs:
-    channel_id: string #required
-    message_id: string #required
-    team_id: string #required
-  outputs:
-    success: boolean
+    channel_id: string
+    message_id: string
+    team_id: string
 
 - action: send_chat_message
   inputs:
     attachments: list[teams_attachment]
-    chat_id: string #required
-    content: string #required
+    chat_id: string
+    content: string
     content_type: text | html = text
   outputs:
     message_id: string
-    success: boolean
 
 - action: create_channel
   inputs:
     description: string
-    display_name: string #required
+    display_name: string
     membership_type: standard | private | shared = standard
-    team_id: string #required
+    team_id: string
   outputs:
     channel_id: string
-    success: boolean
     web_url: string
 
 - action: delete_channel
   inputs:
-    channel_id: string #required
-    team_id: string #required
-  outputs:
-    success: boolean
+    channel_id: string
+    team_id: string
 
 - action: list_channels
   inputs:
     filter: string
-    team_id: string #required
+    team_id: string
   outputs:
     channels: list[teams_channel]
     count: int
 
 - action: get_channel_messages
   inputs:
-    channel_id: string #required
+    channel_id: string
     order_by: string
-    team_id: string #required
+    team_id: string
     top: int = 50
   outputs:
     messages: list[teams_message]
@@ -91,21 +81,20 @@
 - action: create_meeting
   inputs:
     allow_new_time_proposals: boolean = true
-    attendees: list[string] #required
+    attendees: list[string]
     body: string
-    end_time: date #required
+    end_time: date
     is_online_meeting: boolean = true
     location: string
-    start_time: date #required
-    subject: string #required
+    start_time: date
+    subject: string
   outputs:
     join_url: string
     meeting_id: string
-    success: boolean
 
 - action: get_meeting
   inputs:
-    meeting_id: string #required
+    meeting_id: string
   outputs:
     attendees: list[teams_attendee]
     end_time: date
@@ -117,9 +106,7 @@
 - action: cancel_meeting
   inputs:
     comment: string
-    meeting_id: string #required
-  outputs:
-    success: boolean
+    meeting_id: string
 
 - action: list_teams
   inputs:
@@ -131,7 +118,7 @@
 
 - action: get_team
   inputs:
-    team_id: string #required
+    team_id: string
   outputs:
     description: string
     display_name: string
@@ -142,7 +129,7 @@
 - action: list_team_members
   inputs:
     role: owner | member
-    team_id: string #required
+    team_id: string
   outputs:
     count: int
     members: list[teams_member]
@@ -150,42 +137,37 @@
 - action: add_team_member
   inputs:
     roles: list[string]
-    team_id: string #required
-    user_id: string #required
+    team_id: string
+    user_id: string
   outputs:
     membership_id: string
-    success: boolean
 
 - action: remove_team_member
   inputs:
-    membership_id: string #required
-    team_id: string #required
-  outputs:
-    success: boolean
+    membership_id: string
+    team_id: string
 
 - action: send_adaptive_card
   inputs:
-    card: teams_adaptive_card #required
-    channel_id: string #required
-    team_id: string #required
+    card: teams_adaptive_card
+    channel_id: string
+    team_id: string
   outputs:
     message_id: string
-    success: boolean
 
 - action: upload_file
   inputs:
-    channel_id: string #required
-    content: bytes #required
-    file_name: string #required
+    channel_id: string
+    content: bytes
+    file_name: string
     folder_path: string
-    team_id: string #required
+    team_id: string
   outputs:
     file_id: string
-    success: boolean
     web_url: string
 
 - object: teams_message
-  class:
+  schema:
     message_id: string
     channel_id: string
     team_id: string
@@ -196,26 +178,26 @@
     importance: string
 
 - object: teams_user
-  class:
+  schema:
     user_id: string
     display_name: string
     email: string
 
 - object: teams_attachment
-  class:
+  schema:
     id: string
     content_type: string
     content_url: string
     name: string
 
 - object: teams_mention
-  class:
+  schema:
     id: string
     mentioned_id: string
     mentioned_text: string
 
 - object: teams_channel
-  class:
+  schema:
     channel_id: string
     display_name: string
     description: string
@@ -223,13 +205,13 @@
     web_url: string
 
 - object: teams_attendee
-  class:
+  schema:
     email: string
     display_name: string
     response_status: string
 
 - object: teams_team
-  class:
+  schema:
     team_id: string
     display_name: string
     description: string
@@ -237,7 +219,7 @@
     web_url: string
 
 - object: teams_member
-  class:
+  schema:
     membership_id: string
     user_id: string
     display_name: string
@@ -245,8 +227,22 @@
     roles: list[string]
 
 - object: teams_adaptive_card
-  class:
+  schema:
     type: string
     version: string
     body: list[any]
     actions: list[any]
+
+- object: teams_meeting
+  schema:
+    body: string
+    created_at: date = now()
+    end_time: date
+    is_online: boolean = true
+    join_url: string
+    location: string
+    meeting_id: string
+    organizer_id: string
+    start_time: date
+    subject: string
+    updated_at: date = now()

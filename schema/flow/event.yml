@@ -1,31 +1,27 @@
 - action: emit_event
   inputs:
-    channel: string #required
-    event_type: string #required
+    channel: string
+    event_type: string
     metadata: event_metadata
     payload: any
   outputs:
     event_id: string
-    success: boolean
 
 - action: subscribe_channel
   inputs:
-    channel: string #required
+    channel: string
     event_types: list[string]
-    handler: string #required
+    handler: string
   outputs:
     subscription_id: string
-    success: boolean
 
 - action: unsubscribe_channel
   inputs:
-    subscription_id: string #required
-  outputs:
-    success: boolean
+    subscription_id: string
 
 - action: broadcast_event
   inputs:
-    event_type: string #required
+    event_type: string
     exclude_channels: list[string]
     metadata: event_metadata
     payload: any
@@ -35,7 +31,7 @@
 
 - action: get_event
   inputs:
-    event_id: string #required
+    event_id: string
   outputs:
     channel: string
     created_at: date
@@ -45,7 +41,7 @@
 
 - action: list_events
   inputs:
-    channel: string #required
+    channel: string
     end_time: date
     event_types: list[string]
     limit: int = 100
@@ -56,23 +52,20 @@
 
 - action: acknowledge_event
   inputs:
-    event_id: string #required
-    subscription_id: string #required
-  outputs:
-    success: boolean
+    event_id: string
+    subscription_id: string
 
 - action: replay_events
   inputs:
-    channel: string #required
+    channel: string
     end_time: date
     event_types: list[string]
-    start_time: date #required
+    start_time: date
   outputs:
     events_replayed: int
-    success: boolean
 
 - object: event
-  class:
+  schema:
     event_id: string
     event_type: string
     channel: string
@@ -81,11 +74,11 @@
     created_at: date
 
 - object: event_metadata
-  class:
+  schema:
     values: map[string, any]
 
 - object: event_record
-  class:
+  schema:
     event_id: string
     event_type: string
     channel: string
@@ -93,3 +86,23 @@
     metadata: event_metadata
     created_at: date
     acknowledged: boolean
+
+- object: event_subscription
+  schema:
+    callback_url: string
+    created_at: date = now()
+    event_type: string
+    filter: string
+    id: string
+    is_active: boolean = true
+    updated_at: date = now()
+
+- object: event_log
+  schema:
+    error_message: string
+    event_id: string
+    id: string
+    processed_at: date = now()
+    retry_count: int = 0
+    status: received | processing | processed | failed = received
+    subscription_id: string

@@ -1,7 +1,7 @@
 - action: get
   inputs:
-    bucket: string #required
-    key: string #required
+    bucket: string
+    key: string
     only_if: r2_conditional
     range: r2_range
   outputs:
@@ -17,8 +17,8 @@
 
 - action: head
   inputs:
-    bucket: string #required
-    key: string #required
+    bucket: string
+    key: string
   outputs:
     custom_metadata: any
     etag: string
@@ -31,43 +31,38 @@
 
 - action: put
   inputs:
-    bucket: string #required
+    bucket: string
     custom_metadata: any
     http_metadata: r2_http_metadata
-    key: string #required
+    key: string
     md5: string
     only_if: r2_conditional
     sha1: string
     sha256: string
     sha384: string
     sha512: string
-    storage_class: standard | infrequent_access = standard
-    value: bytes #required
+    storage_schema: standard | infrequent_access = standard
+    value: bytes
   outputs:
     etag: string
     key: string
     size: int
-    success: boolean
     uploaded: date
     version: string
 
 - action: delete
   inputs:
-    bucket: string #required
-    key: string #required
-  outputs:
-    success: boolean
+    bucket: string
+    key: string
 
 - action: delete_many
   inputs:
-    bucket: string #required
-    keys: list[string] #required
-  outputs:
-    success: boolean
+    bucket: string
+    keys: list[string]
 
 - action: list
   inputs:
-    bucket: string #required
+    bucket: string
     cursor: string
     delimiter: string
     include: list[http_metadata | custom_metadata]
@@ -82,44 +77,81 @@
 
 - action: create_multipart_upload
   inputs:
-    bucket: string #required
+    bucket: string
     custom_metadata: any
     http_metadata: r2_http_metadata
-    key: string #required
-    storage_class: standard | infrequent_access = standard
+    key: string
+    storage_schema: standard | infrequent_access = standard
   outputs:
     key: string
     upload_id: string
 
 - action: upload_part
   inputs:
-    bucket: string #required
-    key: string #required
-    part_number: int #required
-    upload_id: string #required
-    value: bytes #required
+    bucket: string
+    key: string
+    part_number: int
+    upload_id: string
+    value: bytes
   outputs:
     etag: string
     part_number: int
 
 - action: complete_multipart_upload
   inputs:
-    bucket: string #required
-    key: string #required
-    parts: list[r2_uploaded_part] #required
-    upload_id: string #required
+    bucket: string
+    key: string
+    parts: list[r2_uploaded_part]
+    upload_id: string
   outputs:
     etag: string
     key: string
     size: int
-    success: boolean
     uploaded: date
     version: string
 
 - action: abort_multipart_upload
   inputs:
-    bucket: string #required
-    key: string #required
-    upload_id: string #required
-  outputs:
-    success: boolean
+    bucket: string
+    key: string
+    upload_id: string
+
+- object: cf_r2_bucket
+  schema:
+    account_id: string
+    bucket_name: string
+    created_at: date = now()
+    location: string
+    storage_schema: standard | infrequent_access = standard
+    updated_at: date = now()
+
+- object: cf_r2_object
+  schema:
+    bucket_id: string
+    custom_metadata: string #json
+    etag: string
+    http_etag: string
+    key: string
+    size: int
+    storage_schema: standard | infrequent_access = standard
+    uploaded: date
+    version: string
+
+- object: cf_r2_multipart_upload
+  schema:
+    bucket_id: string
+    completed_at: date
+    created_at: date = now()
+    custom_metadata: string #json
+    key: string
+    status: initiated | in_progress | completed | aborted = initiated
+    storage_schema: standard | infrequent_access = standard
+    upload_id: string
+
+- object: cf_r2_multipart_part
+  schema:
+    created_at: date = now()
+    etag: string
+    part_number: int
+    size: int
+    upload_id: string

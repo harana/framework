@@ -1,10 +1,10 @@
 - action: create_distribution
   inputs:
-    origin_domain_name: string #required
-    origin_id: string #required
+    origin_domain_name: string
+    origin_id: string
     default_root_object: string = "index.html"
     enabled: boolean = true
-    price_class: priceclass_all | priceclass200 | priceclass100 = priceclass_all
+    price_schema: priceclass_all | priceclass200 | priceclass100 = priceclass_all
     aliases: list[string]
     certificate_arn: string
     ssl_support_method: sni-only | vip | static-ip
@@ -19,11 +19,10 @@
     domain_name: string
     arn: string
     status: string
-    success: boolean
 
 - action: get_distribution
   inputs:
-    distribution_id: string #required
+    distribution_id: string
   outputs:
     distribution_id: string
     domain_name: string
@@ -34,13 +33,13 @@
     origins: list[cloud_front_origin]
     default_cache_behavior: cache_behavior
     cache_behaviors: list[cache_behavior]
-    price_class: string
+    price_schema: string
     last_modified_time: date
 
 - action: update_distribution
   inputs:
-    distribution_id: string #required
-    if_match: string #required
+    distribution_id: string
+    if_match: string
     enabled: boolean
     default_root_object: string
     aliases: list[string]
@@ -51,14 +50,11 @@
   outputs:
     distribution_id: string
     status: string
-    success: boolean
 
 - action: delete_distribution
   inputs:
-    distribution_id: string #required
-    if_match: string #required
-  outputs:
-    success: boolean
+    distribution_id: string
+    if_match: string
 
 - action: list_distributions
   inputs:
@@ -71,19 +67,18 @@
 
 - action: create_invalidation
   inputs:
-    distribution_id: string #required
-    paths: list[string] #required
+    distribution_id: string
+    paths: list[string]
     caller_reference: string
   outputs:
     invalidation_id: string
     status: string
     create_time: date
-    success: boolean
 
 - action: get_invalidation
   inputs:
-    distribution_id: string #required
-    invalidation_id: string #required
+    distribution_id: string
+    invalidation_id: string
   outputs:
     invalidation_id: string
     status: string
@@ -92,7 +87,7 @@
 
 - action: list_invalidations
   inputs:
-    distribution_id: string #required
+    distribution_id: string
     max_items: int = 100
     marker: string
   outputs:
@@ -102,7 +97,7 @@
 
 - action: create_cache_policy
   inputs:
-    name: string #required
+    name: string
     default_ttl: int = 86400
     max_ttl: int = 31536000
     min_ttl: int = 0
@@ -111,11 +106,10 @@
   outputs:
     cache_policy_id: string
     etag: string
-    success: boolean
 
 - action: get_cache_policy
   inputs:
-    cache_policy_id: string #required
+    cache_policy_id: string
   outputs:
     cache_policy_id: string
     name: string
@@ -127,10 +121,8 @@
 
 - action: delete_cache_policy
   inputs:
-    cache_policy_id: string #required
-    if_match: string #required
-  outputs:
-    success: boolean
+    cache_policy_id: string
+    if_match: string
 
 - action: list_cache_policies
   inputs:
@@ -143,7 +135,7 @@
 
 - action: create_origin_request_policy
   inputs:
-    name: string #required
+    name: string
     headers_config: headers_config
     cookies_config: cookies_config
     query_strings_config: query_strings_config
@@ -151,11 +143,10 @@
   outputs:
     origin_request_policy_id: string
     etag: string
-    success: boolean
 
 - action: create_response_headers_policy
   inputs:
-    name: string #required
+    name: string
     cors_config: cors_config
     security_headers_config: security_headers_config
     custom_headers_config: custom_headers_config
@@ -163,46 +154,110 @@
   outputs:
     response_headers_policy_id: string
     etag: string
-    success: boolean
 
 - action: create_function
   inputs:
-    name: string #required
+    name: string
     runtime: cloudfront-js-1.0 | cloudfront-js-2.0 = cloudfront-js-2.0
-    function_code: string #required
+    function_code: string
     comment: string
   outputs:
     function_name: string
     function_arn: string
     etag: string
     status: string
-    success: boolean
 
 - action: publish_function
   inputs:
-    name: string #required
-    if_match: string #required
+    name: string
+    if_match: string
   outputs:
     function_arn: string
     status: string
-    success: boolean
 
 - action: get_distribution_config
   inputs:
-    distribution_id: string #required
+    distribution_id: string
   outputs:
     distribution_config: distribution_config
     etag: string
 
 - action: tag_resource
   inputs:
-    resource_arn: string #required
-    tags: cloud_front_tags #required
-  outputs:
-    success: boolean
+    resource_arn: string
+    tags: cloud_front_tags
 
 - action: list_tags_for_resource
   inputs:
-    resource_arn: string #required
+    resource_arn: string
   outputs:
     tags: cloud_front_tags
+
+- object: aws_cloudfront_distribution
+  schema:
+    account_id: string
+    aliases: string #json
+    arn: string
+    certificate_arn: string
+    comment: string
+    created_at: date = now()
+    default_root_object: string
+    distribution_id: string
+    domain_name: string
+    enabled: boolean = true
+    http_version: http1.1 | http2 | http3 | http2and3 = http2
+    last_modified_time: date
+    origin_domain_name: string
+    origin_id: string
+    price_schema: price_class_all | price_class200 | price_class100 = price_class_all
+    region: string
+    ssl_support_method: sni_only | vip | static_ip = sni_only
+    status: deployed | in_progress = in_progress
+    tags: string #json
+    updated_at: date = now()
+
+- object: aws_cloudfront_invalidation
+  schema:
+    create_time: date = now()
+    distribution_id: string
+    invalidation_id: string
+    paths: string #json
+    status: in_progress | completed = in_progress
+
+- object: aws_cloudfront_cache_policy
+  schema:
+    account_id: string
+    cache_policy_id: string
+    comment: string
+    created_at: date = now()
+    default_ttl: int = 86400
+    etag: string
+    max_ttl: int = 31536000
+    min_ttl: int = 0
+    name: string
+    parameters_in_cache_key: string #json
+    updated_at: date = now()
+
+- object: aws_cloudfront_origin_request_policy
+  schema:
+    account_id: string
+    comment: string
+    cookies_config: string #json
+    created_at: date = now()
+    etag: string
+    headers_config: string #json
+    name: string
+    origin_request_policy_id: string
+    query_strings_config: string #json
+    updated_at: date = now()
+
+- object: aws_cloudfront_function
+  schema:
+    account_id: string
+    created_at: date = now()
+    etag: string
+    function_arn: string
+    function_name: string
+    runtime: cloudfront_js10 | cloudfront_js20 = cloudfront_js20
+    status: unpublished | unassociated | deployed = unpublished
+    updated_at: date = now()

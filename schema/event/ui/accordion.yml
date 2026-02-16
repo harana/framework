@@ -1,23 +1,23 @@
 - event: accordion_expanded
   schema:
-    accordion_id: id #required
-    section_id: id #required
+    accordion_id: id
+    section_id: id
     section_title: string?
     section_index: int? #min(0)
     expanded_at: date = now()
 
 - event: accordion_collapsed
   schema:
-    accordion_id: id #required
-    section_id: id #required
+    accordion_id: id
+    section_id: id
     section_title: string?
     section_index: int? #min(0)
     collapsed_at: date = now()
 
 - event: accordion_section_clicked
   schema:
-    accordion_id: id #required
-    section_id: id #required
+    accordion_id: id
+    section_id: id
     section_title: string?
     section_index: int? #min(0)
     was_expanded: boolean = false

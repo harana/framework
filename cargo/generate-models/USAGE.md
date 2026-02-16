@@ -34,14 +34,54 @@ cargo generate-models generate [OPTIONS]
 
 ## Schema Format Reference
 
-### Basic Structure
+### Directory Structure
+
+Schema files are organised under category directories:
+
+```
+schema/
+  config/       # Configuration models (key: "config")
+  event/        # Event models (key: "event")
+  flow/         # Flow action methods and helper objects (keys: "action", "object")
+  object/       # Data object models (key: "object")
+  webobject/    # Web component models (key: "webobject")
+```
+
+### Object / Config / Event Schemas
 
 ```yaml
-- name: ModelName
-  class: model_class
+- object: model_name
   id: [field1, field2]
   schema:
     - field_name: type [modifiers] [constraints] [reference]
+```
+
+The top-level key matches the category directory (`object`, `config`, or `event`).
+
+### Flow Schemas
+
+Flow files contain action methods and helper object classes:
+
+```yaml
+- action: method_name
+  inputs:
+    field_name: type [modifiers]
+  outputs:
+    field_name: type [modifiers]
+
+- object: helper_class_name
+  class:
+    field_name: type
+```
+
+### WebObject Schemas
+
+```yaml
+- webobject: component_name
+  attributes:
+    - field_name: type [modifiers] [constraints]
+  events:
+    - event_name
 ```
 
 ### Supported Types
@@ -96,8 +136,7 @@ All constraints start with `#`:
 ### Simple Model
 
 ```yaml
-- name: Tag
-  class: tag
+- object: tag
   id: [id]
   schema:
     - id: id #required
@@ -129,8 +168,7 @@ class Tag(BaseModel):
 ### Model with Enums
 
 ```yaml
-- name: Article
-  class: article
+- object: article
   id: [id]
   schema:
     - id: id #required
@@ -142,8 +180,7 @@ class Tag(BaseModel):
 ### Model with References
 
 ```yaml
-- name: Comment
-  class: comment
+- object: comment
   id: [id]
   schema:
     - id: id #required
@@ -156,8 +193,7 @@ class Tag(BaseModel):
 ### Complex Model
 
 ```yaml
-- name: Order
-  class: order
+- object: order
   id: [id]
   schema:
     - id: id #required
@@ -268,10 +304,11 @@ route_dict = route.dict()
 - Check that schema directory path is correct
 - Verify files have `.yml` extension
 - Ensure YAML is valid
+- Ensure schema files are under a recognised category directory (`config/`, `event/`, `flow/`, `object/`, `webobject/`)
 
 ### Validation errors
 
-- Check that all required YAML fields are present (`name`, `class`, `schema`)
+- Check that the correct category key is used (`object:`, `event:`, `config:`, `action:`, `webobject:`)
 - For models without explicit `id` field, one will be auto-generated as `["id"]`
 
 ### Generated code doesn't compile

@@ -4,17 +4,16 @@
     attendees: list[string]
     calendar_id: string = "primary"
     description: string
-    end_time: date #required
+    end_time: date
     location: string
     recurrence: string
     reminders: list[calendar_reminder]
-    start_time: date #required
+    start_time: date
     timezone: string = "utc"
-    title: string #required
+    title: string
   outputs:
     event_id: string
     html_link: string
-    success: boolean
 
 - action: update_event
   inputs:
@@ -22,7 +21,7 @@
     calendar_id: string = "primary"
     description: string
     end_time: date
-    event_id: string #required
+    event_id: string
     location: string
     recurrence: string
     reminders: list[calendar_reminder]
@@ -31,20 +30,17 @@
     title: string
   outputs:
     event_id: string
-    success: boolean
 
 - action: delete_event
   inputs:
     calendar_id: string = "primary"
-    event_id: string #required
+    event_id: string
     send_updates: none | all | external_only = all
-  outputs:
-    success: boolean
 
 - action: get_event
   inputs:
     calendar_id: string = "primary"
-    event_id: string #required
+    event_id: string
   outputs:
     attendees: list[calendar_attendee]
     description: string
@@ -74,17 +70,14 @@
   inputs:
     color: string
     description: string
-    name: string #required
+    name: string
     timezone: string = "utc"
   outputs:
     calendar_id: string
-    success: boolean
 
 - action: delete_calendar
   inputs:
-    calendar_id: string #required
-  outputs:
-    success: boolean
+    calendar_id: string
 
 - action: list_calendars
   inputs:
@@ -96,9 +89,9 @@
 
 - action: check_availability
   inputs:
-    calendar_ids: list[string] #required
-    end_time: date #required
-    start_time: date #required
+    calendar_ids: list[string]
+    end_time: date
+    start_time: date
     timezone: string = "utc"
   outputs:
     busy_periods: list[calendar_time_period]
@@ -107,37 +100,31 @@
 - action: add_attendee
   inputs:
     calendar_id: string = "primary"
-    email: string #required
-    event_id: string #required
+    email: string
+    event_id: string
     optional: boolean = false
     send_updates: none | all | external_only = all
-  outputs:
-    success: boolean
 
 - action: remove_attendee
   inputs:
     calendar_id: string = "primary"
-    email: string #required
-    event_id: string #required
+    email: string
+    event_id: string
     send_updates: none | all | external_only = all
-  outputs:
-    success: boolean
 
 - action: respond_to_invitation
   inputs:
     calendar_id: string = "primary"
     comment: string
-    event_id: string #required
-    response: accepted | declined | tentative #required
-  outputs:
-    success: boolean
+    event_id: string
+    response: accepted | declined | tentative
 
 - action: find_available_slots
   inputs:
-    attendees: list[string] #required
-    duration_minutes: int #required
-    end_time: date #required
-    start_time: date #required
+    attendees: list[string]
+    duration_minutes: int
+    end_time: date
+    start_time: date
     timezone: string = "utc"
     working_hours_only: boolean = true
   outputs:
@@ -145,7 +132,7 @@
     total: int
 
 - object: calendar_event
-  class:
+  schema:
     event_id: string
     calendar_id: string
     title: string
@@ -159,7 +146,7 @@
     status: string
 
 - object: calendar
-  class:
+  schema:
     calendar_id: string
     name: string
     description: string
@@ -168,25 +155,62 @@
     primary: boolean
 
 - object: calendar_attendee
-  class:
+  schema:
     email: string
     name: string
     response_status: string
     optional: boolean
 
 - object: calendar_reminder
-  class:
+  schema:
     method: string
     minutes: int
 
 - object: calendar_time_period
-  class:
+  schema:
     start_time: date
     end_time: date
     calendar_id: string
 
 - object: calendar_time_slot
-  class:
+  schema:
     start_time: date
     end_time: date
     duration_minutes: int
+
+- object: calendar_meeting
+  schema:
+    id: string
+    name: string
+    image_url: string
+    datetime: string
+    datetime_display: string
+    location: string
+
+- object: calendar_day
+  schema:
+    date: string
+    day_number: int
+    weekday_short: string
+    weekday_long: string
+    is_current_month: boolean = false
+    is_today: boolean = false
+    is_selected: boolean = false
+    events: list[calendar_event]
+
+- object: calendar_view_option
+  schema:
+    id: string
+    label: string
+    href: string
+    is_active: boolean = false
+
+- object: calendar_month
+  schema:
+    name: string
+    days: list[calendar_day]
+
+- object: time_slot
+  schema:
+    label: string
+    hour: int

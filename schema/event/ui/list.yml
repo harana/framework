@@ -1,38 +1,38 @@
 - event: list_item_clicked
   schema:
-    list_id: id #required
-    item_id: id #required
+    list_id: id
+    item_id: id
     item_index: int? #min(0)
     item_label: string?
     clicked_at: date = now()
 
 - event: list_item_reordered
   schema:
-    list_id: id #required
-    item_id: id #required
+    list_id: id
+    item_id: id
     from_index: int #min(0)
     to_index: int #min(0)
     reordered_at: date = now()
 
 - event: list_item_deleted
   schema:
-    list_id: id #required
-    item_id: id #required
+    list_id: id
+    item_id: id
     item_index: int? #min(0)
     item_label: string?
     deleted_at: date = now()
 
 - event: list_item_archived
   schema:
-    list_id: id #required
-    item_id: id #required
+    list_id: id
+    item_id: id
     item_index: int? #min(0)
     item_label: string?
     archived_at: date = now()
 
 - event: list_filtered
   schema:
-    list_id: id #required
+    list_id: id
     filter_type: string?
     filter_value: string?
     results_count: int? #min(0)
@@ -40,7 +40,7 @@
 
 - event: list_grouped
   schema:
-    list_id: id #required
-    group_by: string #required
+    list_id: id
+    group_by: string
     groups_count: int? #min(0)
     grouped_at: date = now()

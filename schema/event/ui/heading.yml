@@ -1,13 +1,13 @@
 - event: heading_clicked
   schema:
-    heading_id: id #required
+    heading_id: id
     heading_content: string?
     heading_level: int? #min(1) #max(6)
     clicked_at: date = now()
 
 - event: subheading_clicked
   schema:
-    subheading_id: id #required
+    subheading_id: id
     subheading_content: string?
     subheading_level: int? #min(1) #max(6)
     clicked_at: date = now()

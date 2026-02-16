@@ -5,8 +5,7 @@ This directory contains example schema files to demonstrate the code generator.
 ## Schema: User Management
 
 ```yaml
-- name: User
-  class: user
+- object: user
   id: [id]
   schema:
     - id: id #required
@@ -17,6 +16,17 @@ This directory contains example schema files to demonstrate the code generator.
     - role: admin | user | guest = user
     - created_at: datetime = now()
     - updated_at: datetime?
+```
+
+## Directory Structure
+
+Example schemas must be organised under category directories that match the schema
+root layout:
+
+```
+examples/
+  object/
+    example.yml
 ```
 
 ## Run the Generator
@@ -46,9 +56,11 @@ cargo generate-models generate \
 ## Generated Output
 
 ### Rust
-- `generated/rust/example.rs` - Contains the generated User struct
-- `generated/rust/mod.rs` - Module file
+- `generated/rust/object/example.rs` - Contains the generated User struct
+- `generated/rust/object/mod.rs` - Module file
+- `generated/rust/mod.rs` - Top-level module file
 
 ### Python
-- `generated/python/example.py` - Contains the generated User class
-- `generated/python/__init__.py` - Package initialization
+- `generated/python/object/example.py` - Contains the generated User class
+- `generated/python/object/__init__.py` - Package initialization
+- `generated/python/__init__.py` - Top-level package initialization

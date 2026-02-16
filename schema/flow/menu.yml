@@ -1,0 +1,57 @@
+- object: item
+  id: [menu_id, slug]
+  schema:
+    - created_at: date = now()
+    - description: string? #max(500)
+    - href: string? #max(500)
+    - icon: string? #max(100)
+    - is_active: boolean = true
+    - label: string #max(200)
+    - menu_id: id
+    - order: int = 0 #min(0)
+    - parent_id: id? -> menu_item.id
+    - slug: string #unique #lowercase
+    - target: self | blank | parent | top = self
+    - updated_at: date = now()
+
+- object: item_action
+  id: [menu_item_id, slug]
+  schema:
+    - created_at: date = now()
+    - href: string? #max(500)
+    - icon: string? #max(100)
+    - is_active: boolean = true
+    - label: string #max(200)
+    - menu_item_id: id -> menu_item.id
+    - order: int = 0 #min(0)
+    - slug: string #unique #lowercase
+    - target: self | blank | parent | top = self
+    - updated_at: date = now()
+
+- object: menu_item
+  schema:
+    created_at: date = now()
+    description: string
+    href: string
+    icon: string
+    is_active: boolean = true
+    label: string
+    menu_id: string
+    order: int = 0
+    parent_id: string
+    slug: string
+    target: self | blank | parent | top = self
+    updated_at: date = now()
+
+- object: menu_item_action
+  schema:
+    created_at: date = now()
+    href: string
+    icon: string
+    is_active: boolean = true
+    label: string
+    menu_item_id: string
+    order: int = 0
+    slug: string
+    target: self | blank | parent | top = self
+    updated_at: date = now()

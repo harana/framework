@@ -1,39 +1,39 @@
 - action: template
   inputs:
-    data: template_data #required
+    data: template_data
     engine: handlebars | mustache | tera = handlebars
-    template: string #required
+    template: string
   outputs:
     result: string
 
 - action: regex_match
   inputs:
     flags: string
-    pattern: string #required
-    text: string #required
+    pattern: string
+    text: string
   outputs:
     matches: list[string]
 
 - action: regex_replace
   inputs:
     flags: string
-    pattern: string #required
-    replacement: string #required
-    text: string #required
+    pattern: string
+    replacement: string
+    text: string
   outputs:
     result: string
 
 - action: split
   inputs:
-    delimiter: string #required
+    delimiter: string
     limit: int
-    text: string #required
+    text: string
   outputs:
     parts: list[string]
 
 - action: join
   inputs:
-    items: list[string] #required
+    items: list[string]
     separator: string = ""
   outputs:
     result: string
@@ -42,22 +42,22 @@
   inputs:
     characters: string
     mode: both | start | end = both
-    text: string #required
+    text: string
   outputs:
     result: string
 
 - action: case_convert
   inputs:
-    format: upper | lower | camel | pascal | snake | kebab #required
-    text: string #required
+    format: upper | lower | camel | pascal | snake | kebab
+    text: string
   outputs:
     result: string
 
 - action: truncate
   inputs:
-    length: int #required
+    length: int
     suffix: string = "..."
-    text: string #required
+    text: string
   outputs:
     result: string
 
@@ -65,16 +65,26 @@
   inputs:
     lowercase: boolean = true
     separator: string = "-"
-    text: string #required
+    text: string
   outputs:
     slug: string
 
 - object: text_string
-  class:
+  schema:
     content: string
     length: int
     encoding: string
 
 - object: template_data
-  class:
+  schema:
     values: map[string, any]
+
+- object: text_template
+  schema:
+    content: string
+    created_at: date = now()
+    description: string
+    engine: handlebars | mustache | tera = handlebars
+    is_active: boolean = true
+    updated_at: date = now()
+    variables: string #json

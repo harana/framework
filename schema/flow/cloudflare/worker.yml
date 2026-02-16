@@ -3,8 +3,8 @@
     body: any
     headers: headers
     method: get | post | put | patch | delete | head | options = get
-    service_binding: string #required
-    url: string #required
+    service_binding: string
+    url: string
   outputs:
     body: any
     headers: headers
@@ -12,33 +12,30 @@
 
 - action: get_var
   inputs:
-    name: string #required
+    name: string
   outputs:
     value: string
 
 - action: get_secret
   inputs:
-    name: string #required
+    name: string
   outputs:
     value: string
 
 - action: scheduled
   inputs:
-    cron: string #required
-    service_binding: string #required
+    cron: string
+    service_binding: string
   outputs:
     scheduled_time: date
-    success: boolean
 
 - action: wait_until
   inputs:
-    promise: any #required
-  outputs:
-    success: boolean
+    promise: any
 
 - action: pass_through
   inputs:
-    request: any #required
+    request: any
   outputs:
     response: any
 
@@ -47,8 +44,8 @@
     body: any
     headers: headers
     method: get | post | put | patch | delete | head | options = get
-    service: string #required
-    url: string #required
+    service: string
+    url: string
   outputs:
     body: any
     headers: headers
@@ -56,9 +53,45 @@
 
 - action: get_version
   inputs:
-    binding: string #required
+    binding: string
   outputs:
     id: string
     message: string
     tag: string
     timestamp: date
+
+- object: cf_worker
+  schema:
+    account_id: string
+    compatibility_date: string
+    compatibility_flags: string #json
+    created_at: date = now()
+    etag: string
+    script_name: string
+    size: int
+    updated_at: date = now()
+
+- object: cf_worker_service_binding
+  schema:
+    binding_name: string
+    created_at: date = now()
+    environment: string
+    target_service: string
+    updated_at: date = now()
+    worker_id: string
+
+- object: cf_worker_cron_trigger
+  schema:
+    created_at: date = now()
+    cron: string
+    updated_at: date = now()
+    worker_id: string
+
+- object: cf_worker_version
+  schema:
+    created_at: date = now()
+    message: string
+    tag: string
+    timestamp: date
+    version_id: string
+    worker_id: string

@@ -1,41 +1,31 @@
 - action: debug
   inputs:
     context: log_context
-    message: string #required
-  outputs:
-    success: boolean
+    message: string
 
 - action: info
   inputs:
     context: log_context
-    message: string #required
-  outputs:
-    success: boolean
+    message: string
 
 - action: warn
   inputs:
     context: log_context
-    message: string #required
-  outputs:
-    success: boolean
+    message: string
 
 - action: error
   inputs:
     context: log_context
     error: log_error
-    message: string #required
-  outputs:
-    success: boolean
+    message: string
 
 - action: structured
   inputs:
-    data: log_data #required
-    level: debug | info | warn | error #required
-  outputs:
-    success: boolean
+    data: log_data
+    level: debug | info | warn | error
 
 - object: log_entry
-  class:
+  schema:
     level: string
     message: string
     timestamp: date
@@ -43,19 +33,27 @@
     error: log_error
 
 - object: log_context
-  class:
+  schema:
     request_id: string
     user_id: string
     trace_id: string
     span_id: string
 
 - object: log_error
-  class:
+  schema:
     message: string
     stack_trace: string
     code: string
 
 - object: log_data
-  class:
+  schema:
     key: string
     value: any
+
+- object: log_config
+  schema:
+    is_enabled: boolean = true
+    level: debug | info | warn | error = info
+    max_retention_days: int = 30
+    source: string
+    updated_at: date = now()

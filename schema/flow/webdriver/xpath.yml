@@ -1,46 +1,57 @@
 - action: xpath_find
   inputs:
-    session_id: string    xpath: string  outputs:
+    session_id: string
+    xpath: string
+  outputs:
     element: web_driver_element
     found: boolean
 
 - action: xpath_find_all
   inputs:
-    session_id: string    xpath: string  outputs:
+    session_id: string
+    xpath: string
+  outputs:
     elements: list[web_driver_element]
     total: int
 
 - action: xpath_find_multiple
   inputs:
-    session_id: string    xpaths: map[string]  outputs:
+    session_id: string
+    xpaths: map[string]  outputs:
     results: map[x_path_query_result]
     total_found: int
     total_queries: int
 
 - action: xpath_find_multiple_children
   inputs:
-    parent_element_id: string    session_id: string    xpaths: map[string]  outputs:
+    parent_element_id: string
+    session_id: string
+    xpaths: map[string]  outputs:
     results: map[x_path_query_result]
     total_found: int
     total_queries: int
 
 - action: xpath_extract_texts
   inputs:
-    session_id: string    xpaths: map[string]  outputs:
+    session_id: string
+    xpaths: map[string]  outputs:
     results: map[x_path_text_result]
     total_extracted: int
     total_queries: int
 
 - action: xpath_extract_attrs
   inputs:
-    attribute: string    session_id: string    xpaths: map[string]  outputs:
+    attribute: string
+    session_id: string
+    xpaths: map[string]  outputs:
     results: map[x_path_attribute_result]
     total_extracted: int
     total_queries: int
 
 - action: xpath_test_multiple
   inputs:
-    session_id: string    xpaths: map[string]  outputs:
+    session_id: string
+    xpaths: map[string]  outputs:
     all_found: boolean
     results: map[x_path_test_result]
     total_found: int
@@ -50,7 +61,8 @@
 - action: xpath_wait_multiple
   inputs:
     interval_ms: int = 500 #min(50)    require_all: boolean = true
-    session_id: string    timeout_ms: int = 10000 #min(0)    xpaths: map[string]  outputs:
+    session_id: string
+    timeout_ms: int = 10000 #min(0)    xpaths: map[string]  outputs:
     all_found: boolean
     results: map[x_path_query_result]
     total_found: int
@@ -59,47 +71,51 @@
 
 - action: xpath_set_collection
   inputs:
-    name: string #required
-    session_id: string    xpaths: list[x_path_entry]  outputs:
+    name: string
+    session_id: string
+    xpaths: list[x_path_entry]  outputs:
     entry_count: int
-    success: boolean
 
 - action: xpath_get_collection
   inputs:
-    name: string #required
-    session_id: string  outputs:
+    name: string
+    session_id: string
+  outputs:
     entries: list[x_path_entry]
     entry_count: int
     found: boolean
 
 - action: xpath_execute_collection
   inputs:
-    name: string #required
-    session_id: string  outputs:
+    name: string
+    session_id: string
+  outputs:
     results: map[x_path_query_result]
     total_found: int
     total_queries: int
 
 - action: xpath_delete_collection
   inputs:
-    name: string #required
-    session_id: string  outputs:
-    success: boolean
-
+    name: string
+    session_id: string
 - action: xpath_list_collections
   inputs:
-    session_id: string  outputs:
+    session_id: string
+  outputs:
     collections: list[x_path_collection]
     total: int
 
 - action: xpath_count
   inputs:
-    session_id: string    xpath: string  outputs:
+    session_id: string
+    xpath: string
+  outputs:
     count: int
 
 - action: xpath_count_multiple
   inputs:
-    session_id: string    xpaths: map[string]  outputs:
+    session_id: string
+    xpaths: map[string]  outputs:
     results: map[x_path_count_result]
     total_elements: int
     total_queries: int
@@ -107,14 +123,16 @@
 - action: xpath_click_multiple
   inputs:
     click_all_matches: boolean = false
-    session_id: string    xpaths: map[string]  outputs:
+    session_id: string
+    xpaths: map[string]  outputs:
     results: map[x_path_action_result]
     total_clicked: int
     total_queries: int
 
 - action: xpath_send_keys_multiple
   inputs:
-    inputs: list[x_path_keys_input]    session_id: string  outputs:
+    inputs: list[x_path_keys_input]    session_id: string
+  outputs:
     results: map[x_path_action_result]
     total_queries: int
     total_sent: int

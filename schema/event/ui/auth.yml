@@ -15,7 +15,7 @@
 
 - event: password_reset_requested
   schema:
-    identifier: string #required
+    identifier: string
     identifier_type: email | phone | username = email
     requested_at: date = now()
 
@@ -28,6 +28,6 @@
 
 - event: oauth_provider_selected
   schema:
-    provider: google | github | facebook | apple | microsoft | twitter | linkedin #required
+    provider: google | github | facebook | apple | microsoft | twitter | linkedin
     context: login | signup | link = login
     selected_at: date = now()

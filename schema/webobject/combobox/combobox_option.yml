@@ -3,5 +3,5 @@ type: ui_component
 id: [combobox_id]
 attributes:
   combobox_id: id -> combobox.id
-  value: string #required
+  value: string
   is_disabled: bool = false

@@ -1,30 +1,28 @@
 - action: insert
   inputs:
-    index: string #required
-    vectors: list[vectorize_vector] #required
+    index: string
+    vectors: list[vectorize_vector]
   outputs:
     count: int
     mutation_id: string
-    success: boolean
 
 - action: upsert
   inputs:
-    index: string #required
-    vectors: list[vectorize_vector] #required
+    index: string
+    vectors: list[vectorize_vector]
   outputs:
     count: int
     mutation_id: string
-    success: boolean
 
 - action: query
   inputs:
     filter: vectorize_filter
-    index: string #required
+    index: string
     namespace: string
     return_metadata: none | indexed | all = none
     return_values: boolean = false
     top_k: int = 5
-    vector: list[float] #required
+    vector: list[float]
   outputs:
     count: int
     matches: list[vectorize_match]
@@ -32,35 +30,34 @@
 - action: query_by_id
   inputs:
     filter: vectorize_filter
-    index: string #required
+    index: string
     namespace: string
     return_metadata: none | indexed | all = none
     return_values: boolean = false
     top_k: int = 5
-    vector_id: string #required
+    vector_id: string
   outputs:
     count: int
     matches: list[vectorize_match]
 
 - action: get_by_ids
   inputs:
-    ids: list[string] #required
-    index: string #required
+    ids: list[string]
+    index: string
   outputs:
     vectors: list[vectorize_vector]
 
 - action: delete_by_ids
   inputs:
-    ids: list[string] #required
-    index: string #required
+    ids: list[string]
+    index: string
   outputs:
     count: int
     mutation_id: string
-    success: boolean
 
 - action: describe
   inputs:
-    index: string #required
+    index: string
   outputs:
     configured_dimensions: int
     description: string
@@ -70,7 +67,7 @@
 
 - action: info
   inputs:
-    index: string #required
+    index: string
   outputs:
     dimensions: int
     metric: cosine | euclidean | dot_product
@@ -79,21 +76,46 @@
 
 - action: create_metadata_index
   inputs:
-    index: string #required
-    property_name: string #required
+    index: string
+    property_name: string
     type: string | number | boolean = string
-  outputs:
-    success: boolean
 
 - action: delete_metadata_index
   inputs:
-    index: string #required
-    property_name: string #required
-  outputs:
-    success: boolean
+    index: string
+    property_name: string
 
 - action: list_metadata_indexes
   inputs:
-    index: string #required
+    index: string
   outputs:
     metadata_indexes: list[vectorize_metadata_index]
+
+- object: cf_vectorize_index
+  schema:
+    account_id: string
+    binding: string
+    configured_dimensions: int
+    created_at: date = now()
+    description: string
+    index_name: string
+    metric: cosine | euclidean | dot_product = cosine
+    updated_at: date = now()
+    vectors_count: int = 0
+
+- object: cf_vectorize_vector
+  schema:
+    created_at: date = now()
+    index_id: string
+    metadata: string #json
+    namespace: string
+    updated_at: date = now()
+    values: string #json
+    vector_id: string
+
+- object: cf_vectorize_metadata_index
+  schema:
+    created_at: date = now()
+    index_id: string
+    property_name: string
+    type: string | number | boolean = string

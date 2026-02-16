@@ -1,34 +1,34 @@
 - event: navbar_item_clicked
   schema:
-    navbar_id: id #required
-    item_id: id #required
+    navbar_id: id
+    item_id: id
     item_label: string?
     item_href: string?
     clicked_at: date = now()
 
 - event: navbar_item_hovered
   schema:
-    navbar_id: id #required
-    item_id: id #required
+    navbar_id: id
+    item_id: id
     item_label: string?
     hovered_at: date = now()
 
 - event: navbar_section_expanded
   schema:
-    navbar_id: id #required
-    section_id: id #required
+    navbar_id: id
+    section_id: id
     expanded_at: date = now()
 
 - event: navbar_section_collapsed
   schema:
-    navbar_id: id #required
-    section_id: id #required
+    navbar_id: id
+    section_id: id
     collapsed_at: date = now()
 
 - event: navbar_current_item_changed
   schema:
-    navbar_id: id #required
+    navbar_id: id
     old_item_id: id?
-    new_item_id: id #required
+    new_item_id: id
     new_item_label: string?
     changed_at: date = now()

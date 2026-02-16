@@ -1,6 +1,6 @@
 - action: validate
   inputs:
-    address: address #required
+    address: address
     country: string
   outputs:
     errors: list[address_validation_error]
@@ -8,7 +8,7 @@
 
 - action: normalize
   inputs:
-    address: address #required
+    address: address
     country: string
     format: string = "standard"
   outputs:
@@ -16,7 +16,7 @@
 
 - action: parse
   inputs:
-    address: string #required
+    address: string
     country: string
   outputs:
     city: string
@@ -29,13 +29,13 @@
   inputs:
     country: string
     limit: int = 5
-    query: string #required
+    query: string
     types: list[string]
   outputs:
     suggestions: list[address_suggestion]
 
 - object: address
-  class:
+  schema:
     street: string
     city: string
     state: string
@@ -43,13 +43,21 @@
     country: string
 
 - object: address_validation_error
-  class:
+  schema:
     field: string
     code: string
     message: string
 
 - object: address_suggestion
-  class:
+  schema:
     description: string
     place_id: string
     address: address
+
+- object: address_validation_log
+  schema:
+    address_id: string
+    errors: string #json
+    is_valid: boolean = false
+    provider: string
+    validated_at: date = now()

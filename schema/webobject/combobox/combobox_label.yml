@@ -4,4 +4,4 @@ id:
   - identifier
 attributes:
   option_id: id -> combobox_option.id
-  text: string #required
+  text: string

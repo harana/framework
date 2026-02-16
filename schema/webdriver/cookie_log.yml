@@ -1,9 +1,0 @@
-- object: webdriver_cookie_log
-  id: [session_id, action, performed_at]
-  schema:
-    - action: add | delete | delete_all | get | get_all = get
-    - cookie_domain: string? #max(500)
-    - cookie_name: string? #max(500)
-    - cookie_value: string? #max(5000)
-    - performed_at: date = now()
-    - session_id: id -> web_driver_session.id

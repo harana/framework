@@ -1,6 +1,6 @@
 - event: link_clicked
   schema:
-    link_id: id #required
+    link_id: id
     link_label: string?
     link_href: string?
     link_target: _self | _blank | _parent | _top = _self
@@ -8,13 +8,13 @@
 
 - event: link_hovered
   schema:
-    link_id: id #required
+    link_id: id
     link_label: string?
     link_href: string?
     hovered_at: date = now()
 
 - event: link_focused
   schema:
-    link_id: id #required
+    link_id: id
     link_label: string?
     focused_at: date = now()

@@ -1,18 +1,18 @@
 - event: description_list_item_clicked
   schema:
-    list_id: id #required
+    list_id: id
     item_term: string?
     item_details: string?
     clicked_at: date = now()
 
 - event: description_list_item_expanded
   schema:
-    list_id: id #required
+    list_id: id
     item_term: string?
     expanded_at: date = now()
 
 - event: description_list_item_collapsed
   schema:
-    list_id: id #required
+    list_id: id
     item_term: string?
     collapsed_at: date = now()

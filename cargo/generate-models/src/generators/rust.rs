@@ -169,8 +169,8 @@ fn generate_mod_files(tree: &ModTree, dir: &Path) -> Result<()> {
 
 fn generate_file_content(schema_file: &SchemaFile) -> Result<String> {
     match schema_file.category {
-        SchemaCategory::Action => generate_action_file(schema_file),
-        SchemaCategory::Config | SchemaCategory::Event | SchemaCategory::Object => generate_struct_file(schema_file),
+        SchemaCategory::Flow => generate_action_file(schema_file),
+        SchemaCategory::Config | SchemaCategory::Event => generate_struct_file(schema_file),
         SchemaCategory::WebObject => generate_webobject_file(schema_file),
     }
 }
@@ -198,16 +198,36 @@ fn generate_action_file(schema_file: &SchemaFile) -> Result<String> {
         }
     }
 
-    // Generate structs for input/output types
+    // Generate enums for input fields and for single-field outputs (we won't generate
+    // a wrapper struct for single outputs, so emit their enums here).
     for method in &methods {
-        // Input struct
-        if !method.inputs.is_empty() {
-            let struct_name = to_pascal_case(&format!("{}_input", method.name));
-            output.push_str(&generate_action_struct(&struct_name, &method.inputs));
-            output.push_str("\n\n");
+        for field in &method.inputs {
+            if let FieldType::Enum(variants) = &field.field_type {
+                output.push_str(&generate_enum(&field.name, variants));
+                output.push_str("\n\n");
+            }
         }
 
-        // Output struct
+        // If this method has exactly one output field, generate any enum needed for it
+        // here since we won't call `generate_action_struct` for single outputs.
+        if method.outputs.len() == 1 {
+            let field = &method.outputs[0];
+            if let FieldType::Enum(variants) = &field.field_type {
+                output.push_str(&generate_enum(&field.name, variants));
+                output.push_str("\n\n");
+            }
+        }
+    }
+
+    // Generate structs for output types only (inputs are method parameters).
+    // If a method has exactly one output field, we do not generate a wrapper struct
+    // and the trait will return the raw field type directly.
+    for method in &methods {
+        if method.outputs.len() == 1 {
+            // skip wrapper struct generation for single-field outputs
+            continue;
+        }
+
         if !method.outputs.is_empty() {
             let struct_name = to_pascal_case(&format!("{}_output", method.name));
             output.push_str(&generate_action_struct(&struct_name, &method.outputs));
@@ -230,14 +250,28 @@ fn generate_action_file(schema_file: &SchemaFile) -> Result<String> {
         for method in &methods {
             let method_name = to_snake_case(&method.name);
 
-            let input_type = if method.inputs.is_empty() {
+            // Build individual parameters from inputs
+            let params: Vec<String> = method
+                .inputs
+                .iter()
+                .map(|field| {
+                    let field_name = to_snake_case(&field.name);
+                    let field_type = field.field_type.to_rust_type(false);
+                    format!("{}: {}", field_name, field_type)
+                })
+                .collect();
+
+            let params_str = if params.is_empty() {
                 String::new()
             } else {
-                format!("input: {}", to_pascal_case(&format!("{}_input", method.name)))
+                format!(", {}", params.join(", "))
             };
 
             let output_type = if method.outputs.is_empty() {
                 "()".to_string()
+            } else if method.outputs.len() == 1 {
+                // Single-field outputs are returned as the field's rust type directly
+                method.outputs[0].field_type.to_rust_type(false)
             } else {
                 to_pascal_case(&format!("{}_output", method.name))
             };
@@ -245,11 +279,7 @@ fn generate_action_file(schema_file: &SchemaFile) -> Result<String> {
             output.push_str(&format!(
                 "    async fn {}(&self{}) -> Result<{}, Box<dyn std::error::Error>>;\n",
                 method_name,
-                if input_type.is_empty() {
-                    String::new()
-                } else {
-                    format!(", {}", input_type)
-                },
+                params_str,
                 output_type,
             ));
         }
@@ -301,7 +331,7 @@ fn generate_action_struct(name: &str, fields: &[ActionField]) -> String {
 }
 
 // ---------------------------------------------------------------------------
-// Struct file generation (config / event / object)
+// Struct file generation (config / event)
 // ---------------------------------------------------------------------------
 
 fn generate_struct_file(schema_file: &SchemaFile) -> Result<String> {

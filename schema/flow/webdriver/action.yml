@@ -1,4 +1,4 @@
 - action: perform_actions
   inputs:
-    actions: list[web_driver_action]    session_id: string  outputs:
-    success: boolean
+    actions: list[web_driver_action]    
+    session_id: string

@@ -1,32 +1,32 @@
 - event: dialog_opened
   schema:
-    dialog_id: id #required
+    dialog_id: id
     dialog_name: string?
     dialog_title: string?
     opened_at: date = now()
 
 - event: dialog_closed
   schema:
-    dialog_id: id #required
+    dialog_id: id
     dialog_name: string?
     close_reason: button | escape | click_outside | action = button
     closed_at: date = now()
 
 - event: dialog_action_clicked
   schema:
-    dialog_id: id #required
-    action_id: id #required
+    dialog_id: id
+    action_id: id
     action_label: string?
     clicked_at: date = now()
 
 - event: dialog_submitted
   schema:
-    dialog_id: id #required
+    dialog_id: id
     dialog_name: string?
     submitted_at: date = now()
 
 - event: dialog_cancelled
   schema:
-    dialog_id: id #required
+    dialog_id: id
     dialog_name: string?
     cancelled_at: date = now()

@@ -1,6 +1,6 @@
 - event: menu_opened
   schema:
-    menu_id: id #required
+    menu_id: id
     menu_name: string?
     menu_type: context | dropdown | hamburger | overflow = dropdown
     trigger_element: string?
@@ -9,15 +9,15 @@
 
 - event: menu_closed
   schema:
-    menu_id: id #required
+    menu_id: id
     menu_name: string?
     close_reason: selection | blur | escape | click_outside = blur
     closed_at: date = now()
 
 - event: submenu_expanded
   schema:
-    menu_id: id #required
-    submenu_id: id #required
+    menu_id: id
+    submenu_id: id
     submenu_label: string?
     parent_item_id: id?
     expanded_at: date = now()

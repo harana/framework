@@ -2,11 +2,10 @@
   inputs:
     database: string
     parameters: list[any]
-    query: string #required
+    query: string
   outputs:
     affected_rows: int
     last_insert_id: string
-    success: boolean
 
 - action: select
   inputs:
@@ -14,7 +13,7 @@
     limit: int
     offset: int = 0
     parameters: list[any]
-    query: string #required
+    query: string
   outputs:
     column_names: list[string]
     count: int
@@ -24,76 +23,65 @@
   inputs:
     database: string
     parameters: list[any]
-    query: string #required
+    query: string
   outputs:
     affected_rows: int
     last_insert_id: string
-    success: boolean
 
 - action: update
   inputs:
     database: string
     parameters: list[any]
-    query: string #required
+    query: string
   outputs:
     affected_rows: int
-    success: boolean
 
 - action: delete
   inputs:
     database: string
     parameters: list[any]
-    query: string #required
+    query: string
   outputs:
     affected_rows: int
-    success: boolean
 
 - action: batch
   inputs:
     database: string
-    queries: list[sql_batch_query] #required
+    queries: list[sql_batch_query]
   outputs:
     failed_count: int
     results: list[sql_batch_result]
-    success: boolean
     success_count: int
 
 - action: begin_transaction
   inputs:
     database: string
     isolation_level: read_uncommitted | read_committed | repeatable_read | serializable
-  outputs:
-    success: boolean
     transaction_id: string
 
 - action: commit
   inputs:
     database: string
-    transaction_id: string #required
-  outputs:
-    success: boolean
+    transaction_id: string
 
 - action: rollback
   inputs:
     database: string
-    transaction_id: string #required
-  outputs:
-    success: boolean
+    transaction_id: string
 
 - action: call_procedure
   inputs:
     database: string
     parameters: list[any]
-    procedure_name: string #required
+    procedure_name: string
   outputs:
     out_parameters: sql_output_parameters
     result_sets: list[sql_result_set]
-    success: boolean
 
 - action: get_schema
   inputs:
     database: string
-    table_name: string #required
+    table_name: string
   outputs:
     columns: list[sql_column_info]
     indexes: list[sql_index_info]
@@ -108,69 +96,57 @@
 
 - action: create_table
   inputs:
-    columns: list[sql_column_definition] #required
+    columns: list[sql_column_definition]
     database: string
     if_not_exists: boolean = true
-    table_name: string #required
-  outputs:
-    success: boolean
+    table_name: string
 
 - action: drop_table
   inputs:
     database: string
     if_exists: boolean = true
-    table_name: string #required
-  outputs:
-    success: boolean
+    table_name: string
 
 - action: truncate_table
   inputs:
     database: string
-    table_name: string #required
-  outputs:
-    success: boolean
+    table_name: string
 
 - action: create_index
   inputs:
-    columns: list[string] #required
+    columns: list[string]
     database: string
-    index_name: string #required
-    table_name: string #required
+    index_name: string
+    table_name: string
     unique: boolean = false
-  outputs:
-    success: boolean
 
 - action: drop_index
   inputs:
     database: string
     if_exists: boolean = true
-    index_name: string #required
+    index_name: string
     table_name: string
-  outputs:
-    success: boolean
 
 - action: bulk_insert
   inputs:
-    columns: list[string] #required
+    columns: list[string]
     database: string
-    rows: list[list[any]] #required
-    table_name: string #required
+    rows: list[list[any]]
+    table_name: string
   outputs:
     affected_rows: int
-    success: boolean
 
 - action: prepared_statement
   inputs:
     database: string
     parameters: list[any]
-    statement: string #required
+    statement: string
   outputs:
     affected_rows: int
     rows: list[sql_row]
-    success: boolean
 
 - object: sql_query
-  class:
+  schema:
     query: string
     parameters: list[any]
     database: string
@@ -178,31 +154,30 @@
     rows: list[sql_row]
 
 - object: sql_row
-  class:
+  schema:
     values: map[string, any]
 
 - object: sql_batch_query
-  class:
+  schema:
     query: string
     parameters: list[any]
 
 - object: sql_batch_result
-  class:
-    success: boolean
+  schema:
     affected_rows: int
     error: string
 
 - object: sql_output_parameters
-  class:
+  schema:
     values: map[string, any]
 
 - object: sql_result_set
-  class:
+  schema:
     columns: list[string]
     rows: list[sql_row]
 
 - object: sql_column_info
-  class:
+  schema:
     name: string
     data_type: string
     nullable: boolean
@@ -210,15 +185,77 @@
     max_length: int
 
 - object: sql_index_info
-  class:
+  schema:
     name: string
     columns: list[string]
     unique: boolean
 
 - object: sql_column_definition
-  class:
+  schema:
     name: string
     data_type: string
     nullable: boolean
     default_value: string
     primary_key: boolean
+
+- object: sql_connection
+  schema:
+    created_at: date = now()
+    database: string
+    driver: postgres | mysql | sqlite | mssql = postgres
+    host: string
+    is_active: boolean = true
+    max_connections: int = 10
+    password: string
+    port: int
+    ssl_mode: disable | prefer | require | verify_ca | verify_full = prefer
+    updated_at: date = now()
+    username: string
+
+- object: sql_table
+  schema:
+    connection_id: string
+    row_count: int
+    schema_name: string = public
+    table_name: string
+
+- object: sql_column
+  schema:
+    column_name: string
+    data_type: string
+    default_value: string
+    is_nullable: boolean = true
+    is_primary_key: boolean = false
+    max_length: int
+    sort_order: int = 0
+    table_id: string
+
+- object: sql_index
+  schema:
+    columns: string #json
+    created_at: date = now()
+    index_name: string
+    is_unique: boolean = false
+    table_id: string
+
+- object: sql_query_log
+  schema:
+    affected_rows: int
+    connection_id: string
+    duration_ms: int
+    error_message: string
+    executed_at: date = now()
+    query_hash: string
+    query_text: string
+    query_type: select | insert | update | delete | execute | ddl = select
+    status: success | failed | timeout | cancelled = success
+    user_id: string
+
+- object: sql_transaction
+  schema:
+    completed_at: date
+    connection_id: string
+    created_at: date = now()
+    isolation_level: read_uncommitted | read_committed | repeatable_read | serializable = read_committed
+    status: active | committed | rolled_back = active
+    transaction_id: string

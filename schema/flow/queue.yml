@@ -2,16 +2,15 @@
   inputs:
     deduplication_id: string
     delay_seconds: int = 0
-    message: any #required
+    message: any
     priority: int = 0
-    queue_name: string #required
+    queue_name: string
   outputs:
     message_id: string
-    success: boolean
 
 - action: dequeue
   inputs:
-    queue_name: string #required
+    queue_name: string
     visibility_timeout: int = 30
     wait_time_seconds: int = 0
   outputs:
@@ -23,28 +22,24 @@
 - action: peek
   inputs:
     count: int = 1
-    queue_name: string #required
+    queue_name: string
   outputs:
     messages: list[queue_peek_message]
 
 - action: acknowledge
   inputs:
-    queue_name: string #required
-    receipt_handle: string #required
-  outputs:
-    success: boolean
+    queue_name: string
+    receipt_handle: string
 
 - action: nack
   inputs:
     delay_seconds: int = 0
-    queue_name: string #required
-    receipt_handle: string #required
-  outputs:
-    success: boolean
+    queue_name: string
+    receipt_handle: string
 
 - action: get_queue_stats
   inputs:
-    queue_name: string #required
+    queue_name: string
   outputs:
     delayed_count: int
     in_flight_count: int
@@ -53,26 +48,22 @@
 
 - action: purge_queue
   inputs:
-    queue_name: string #required
+    queue_name: string
   outputs:
     messages_deleted: int
-    success: boolean
 
 - action: create_queue
   inputs:
     max_message_size: int = 262144
     message_retention: int = 345600
-    queue_name: string #required
+    queue_name: string
     visibility_timeout: int = 30
   outputs:
     queue_url: string
-    success: boolean
 
 - action: delete_queue
   inputs:
-    queue_name: string #required
-  outputs:
-    success: boolean
+    queue_name: string
 
 - action: list_queues
   inputs:
@@ -83,14 +74,12 @@
 
 - action: move_to_dlq
   inputs:
-    queue_name: string #required
+    queue_name: string
     reason: string
-    receipt_handle: string #required
-  outputs:
-    success: boolean
+    receipt_handle: string
 
 - object: queue_message
-  class:
+  schema:
     message_id: string
     queue_name: string
     message: any
@@ -100,7 +89,35 @@
     visible_at: date
 
 - object: queue_peek_message
-  class:
+  schema:
     message_id: string
     message: any
     enqueued_at: date
+
+- object: queue
+  schema:
+    created_at: date = now()
+    dead_letter_queue_id: string
+    is_fifo: boolean = false
+    max_message_size: int = 262144
+    message_retention_seconds: int = 345600
+    receive_wait_time_seconds: int = 0
+    type: standard | fifo = standard
+    updated_at: date = now()
+    visibility_timeout_seconds: int = 30
+
+- object: queue_subscription
+  schema:
+    created_at: date = now()
+    endpoint: string
+    is_active: boolean = true
+    protocol: http | https | lambda | sqs | sns = https
+    queue_id: string
+    updated_at: date = now()
+
+- object: queue_metric
+  schema:
+    approximate_age_oldest_message: int
+    approximate_messages_delayed: int = 0
+    queue_id: string
+    timestamp: date = now()

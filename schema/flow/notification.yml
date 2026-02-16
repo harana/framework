@@ -1,42 +1,39 @@
 - action: send_push
   inputs:
-    user_id: string #required
-    title: string #required
-    body: string #required
+    user_id: string
+    title: string
+    body: string
     data: map[string, any]
     badge: int
     sound: string
     priority: string = "normal"
   outputs:
     notification_id: string
-    success: boolean
 
 - action: send_sms
   inputs:
-    phone_number: string #required
-    message: string #required
+    phone_number: string
+    message: string
     sender_id: string
   outputs:
     message_id: string
-    success: boolean
 
 - action: send_in_app
   inputs:
-    user_id: string #required
-    title: string #required
-    message: string #required
+    user_id: string
+    title: string
+    message: string
     notification_type: info | warning | error | success = info
     action_url: string
     data: map[string, any]
   outputs:
     notification_id: string
-    success: boolean
 
 - action: send_bulk
   inputs:
-    user_ids: list[string] #required
-    title: string #required
-    body: string #required
+    user_ids: list[string]
+    title: string
+    body: string
     channel: push | sms | in_app = push
     data: map[string, any]
   outputs:
@@ -46,7 +43,7 @@
 
 - action: status
   inputs:
-    notification_id: string #required
+    notification_id: string
   outputs:
     status: string
     sent_at: date
@@ -56,13 +53,11 @@
 
 - action: mark_as_read
   inputs:
-    notification_id: string #required
-  outputs:
-    success: boolean
+    notification_id: string
 
 - action: list
   inputs:
-    user_id: string #required
+    user_id: string
     unread_only: boolean = false
     limit: int = 100
     offset: int = 0
@@ -73,26 +68,20 @@
 
 - action: delete
   inputs:
-    notification_id: string #required
-  outputs:
-    success: boolean
+    notification_id: string
 
 - action: register_device
   inputs:
-    user_id: string #required
-    device_token: string #required
-    platform: ios | android | web #required
-  outputs:
-    success: boolean
+    user_id: string
+    device_token: string
+    platform: ios | android | web
 
 - action: unregister_device
   inputs:
-    device_token: string #required
-  outputs:
-    success: boolean
+    device_token: string
 
 - object: notification
-  class:
+  schema:
     notification_id: string
     user_id: string
     title: string
@@ -107,8 +96,23 @@
     data: map[string, any]
 
 - object: device_registration
-  class:
+  schema:
     device_token: string
     user_id: string
     platform: string
     registered_at: date
+
+- object: notification_preference
+  schema:
+    channel: email | sms | push | in_app = email
+    is_enabled: boolean = true
+    notification_type: string
+    user_id: string
+
+- object: push_subscription
+  schema:
+    created_at: date = now()
+    device_token: string
+    is_active: boolean = true
+    updated_at: date = now()
+    user_id: string

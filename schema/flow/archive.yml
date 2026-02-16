@@ -2,79 +2,73 @@
   inputs:
     compression_level: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 6
     include_hidden: boolean = false
-    output_path: string #required
+    output_path: string
     password: string
-    source_paths: list[string] #required
+    source_paths: list[string]
   outputs:
     archive_path: string
     file_count: int
     size: int
-    success: boolean
 
 - action: unzip
   inputs:
-    archive_path: string #required
-    destination_path: string #required
+    archive_path: string
+    destination_path: string
     extract_files: list[string]
     overwrite: boolean = false
     password: string
   outputs:
     extracted_path: string
     file_count: int
-    success: boolean
 
 - action: tar
   inputs:
     format: tar | tar.gz | tar.bz2 | tar.xz = tar
     include_hidden: boolean = false
-    output_path: string #required
+    output_path: string
     preserve_permissions: boolean = true
-    source_paths: list[string] #required
+    source_paths: list[string]
   outputs:
     archive_path: string
     file_count: int
     size: int
-    success: boolean
 
 - action: untar
   inputs:
-    archive_path: string #required
-    destination_path: string #required
+    archive_path: string
+    destination_path: string
     extract_files: list[string]
     format: tar | tar.gz | tar.bz2 | tar.xz = tar
     overwrite: boolean = false
   outputs:
     extracted_path: string
     file_count: int
-    success: boolean
 
 - action: gzip
   inputs:
     compression_level: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 6
     keep_source: boolean = true
     output_path: string
-    source_path: string #required
+    source_path: string
   outputs:
     compressed_path: string
     compressed_size: int
     compression_ratio: float
     original_size: int
-    success: boolean
 
 - action: gunzip
   inputs:
-    archive_path: string #required
+    archive_path: string
     keep_archive: boolean = true
     output_path: string
   outputs:
     decompressed_path: string
     size: int
-    success: boolean
 
 - action: list
   inputs:
-    archive_path: string #required
-    archive_type: zip | tar | tar.gz | tar.bz2 | tar.xz | gz #required
+    archive_path: string
+    archive_type: zip | tar | tar.gz | tar.bz2 | tar.xz | gz
     password: string
   outputs:
     files: list[archive_entry]
@@ -83,74 +77,68 @@
 
 - action: add_to_archive
   inputs:
-    archive_path: string #required
-    archive_type: zip | tar #required
-    source_paths: list[string] #required
+    archive_path: string
+    archive_type: zip | tar
+    source_paths: list[string]
   outputs:
     added_count: int
     archive_path: string
-    success: boolean
 
 - action: remove_from_archive
   inputs:
-    archive_path: string #required
-    archive_type: zip | tar #required
-    file_paths: list[string] #required
+    archive_path: string
+    archive_type: zip | tar
+    file_paths: list[string]
   outputs:
     archive_path: string
     removed_count: int
-    success: boolean
 
 - action: bzip2
   inputs:
     compression_level: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 9
     keep_source: boolean = true
     output_path: string
-    source_path: string #required
+    source_path: string
   outputs:
     compressed_path: string
     compressed_size: int
     compression_ratio: float
     original_size: int
-    success: boolean
 
 - action: bunzip2
   inputs:
-    archive_path: string #required
+    archive_path: string
     keep_archive: boolean = true
     output_path: string
   outputs:
     decompressed_path: string
     size: int
-    success: boolean
 
 - action: xz
   inputs:
     compression_level: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 6
     keep_source: boolean = true
     output_path: string
-    source_path: string #required
+    source_path: string
   outputs:
     compressed_path: string
     compressed_size: int
     compression_ratio: float
     original_size: int
-    success: boolean
 
 - action: unxz
   inputs:
-    archive_path: string #required
+    archive_path: string
     keep_archive: boolean = true
     output_path: string
   outputs:
     decompressed_path: string
     size: int
-    success: boolean
 
 - action: verify_archive
   inputs:
-    archive_path: string #required
-    archive_type: zip | tar | tar.gz | tar.bz2 | tar.xz | gz #required
+    archive_path: string
+    archive_type: zip | tar | tar.gz | tar.bz2 | tar.xz | gz
     password: string
   outputs:
     error: string
@@ -159,7 +147,7 @@
 
 - action: get_archive_info
   inputs:
-    archive_path: string #required
+    archive_path: string
   outputs:
     archive_type: string
     compressed_size: int
@@ -170,19 +158,19 @@
     size: int
 
 - object: archive
-  class:
-    path: string
+  schema:
     archive_type: string
-    size: int
     compressed_size: int
+    created_at: date
     file_count: int
     is_encrypted: boolean
-    created_at: date
-
-- object: archive_entry
-  class:
     path: string
     size: int
+
+- object: archive_entry
+  schema:
     compressed_size: int
     is_directory: boolean
     modified_at: date
+    path: string
+    size: int

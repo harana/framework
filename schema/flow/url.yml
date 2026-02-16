@@ -1,6 +1,6 @@
 - action: parse
   inputs:
-    url: string #required
+    url: string
   outputs:
     fragment: string
     host: string
@@ -12,7 +12,7 @@
 - action: build
   inputs:
     fragment: string
-    host: string #required
+    host: string
     path: string
     port: int
     protocol: string = "https"
@@ -23,14 +23,14 @@
 - action: encode
   inputs:
     component: boolean = true
-    data: string #required
+    data: string
   outputs:
     encoded: string
 
 - action: decode
   inputs:
     component: boolean = true
-    data: string #required
+    data: string
   outputs:
     decoded: string
 
@@ -38,13 +38,13 @@
   inputs:
     custom_alias: string
     expiration: string
-    url: string #required
+    url: string
   outputs:
     short_url: string
 
 - action: expand
   inputs:
-    url: string #required
+    url: string
   outputs:
     original_url: string
 
@@ -52,13 +52,13 @@
   inputs:
     allowed_protocols: list[string]
     require_tld: boolean = true
-    url: string #required
+    url: string
   outputs:
     errors: list[string]
     valid: boolean
 
 - object: url
-  class:
+  schema:
     url: string
     protocol: string
     host: string
@@ -66,3 +66,22 @@
     path: string
     query: map[string, string]
     fragment: string
+
+- object: short_url
+  schema:
+    alias: string
+    click_count: int = 0
+    created_at: date = now()
+    created_by: string
+    expires_at: date
+    is_active: boolean = true
+    original_url: string
+    short_url: string
+
+- object: short_url_click
+  schema:
+    clicked_at: date = now()
+    ip_address: string
+    referrer: string
+    short_url_id: string
+    user_agent: string

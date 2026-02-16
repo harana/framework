@@ -1,7 +1,7 @@
 - event: event
   id: [type, source]
   schema:
-    - attributes: map[any] #required
+    - attributes: map[any]
     - created_at: date = now()
     - source: string #max(200)
     - occured_at: date = now()

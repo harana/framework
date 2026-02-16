@@ -1,28 +1,28 @@
 - action: id_from_name
   inputs:
-    name: string #required
-    namespace: string #required
+    name: string
+    namespace: string
   outputs:
     id: string
 
 - action: id_from_string
   inputs:
-    id: string #required
-    namespace: string #required
+    id: string
+    namespace: string
   outputs:
     id: string
 
 - action: new_unique_id
   inputs:
     jurisdiction: string
-    namespace: string #required
+    namespace: string
   outputs:
     id: string
 
 - action: get_stub
   inputs:
-    id: string #required
-    namespace: string #required
+    id: string
+    namespace: string
   outputs:
     stub: durable_object_stub
 
@@ -30,10 +30,10 @@
   inputs:
     body: any
     headers: headers
-    id: string #required
+    id: string
     method: get | post | put | patch | delete | head | options = get
-    namespace: string #required
-    url: string #required
+    namespace: string
+    url: string
   outputs:
     body: any
     headers: headers
@@ -41,45 +41,39 @@
 
 - action: storage_get
   inputs:
-    key: string #required
+    key: string
   outputs:
     found: boolean
     value: any
 
 - action: storage_get_multiple
   inputs:
-    keys: list[string] #required
+    keys: list[string]
   outputs:
     values: any
 
 - action: storage_put
   inputs:
-    key: string #required
-    value: any #required
-  outputs:
-    success: boolean
+    key: string
+    value: any
 
 - action: storage_put_multiple
   inputs:
-    entries: any #required
-  outputs:
-    success: boolean
+    entries: any
 
 - action: storage_delete
   inputs:
-    key: string #required
+    key: string
   outputs:
     deleted: boolean
 
 - action: storage_delete_multiple
   inputs:
-    keys: list[string] #required
+    keys: list[string]
   outputs:
     deleted_count: int
 
 - action: storage_delete_all
-  outputs:
-    success: boolean
 
 - action: storage_list
   inputs:
@@ -93,14 +87,14 @@
 
 - action: storage_transaction
   inputs:
-    closure: any #required
+    closure: any
   outputs:
     result: any
 
 - action: sql_exec
   inputs:
     params: list[any]
-    sql: string #required
+    sql: string
   outputs:
     changes: int
     results: list[any]
@@ -109,23 +103,17 @@
 
 - action: set_alarm
   inputs:
-    scheduled_time: date #required
-  outputs:
-    success: boolean
+    scheduled_time: date
 
 - action: get_alarm
   outputs:
     scheduled_time: date
 
 - action: delete_alarm
-  outputs:
-    success: boolean
 
 - action: accept_websocket
   inputs:
     tags: list[string]
-  outputs:
-    success: boolean
 
 - action: get_websockets
   inputs:
@@ -136,12 +124,55 @@
 - action: set_websocket_auto_response
   inputs:
     request: string
-    response: string #required
-  outputs:
-    success: boolean
+    response: string
 
 - action: hibernate_websocket
   inputs:
-    websocket: web_socket #required
-  outputs:
-    success: boolean
+    websocket: web_socket
+
+- object: cf_durable_object_namespace
+  schema:
+    account_id: string
+    class_name: string
+    created_at: date = now()
+    namespace_id: string
+    namespace_name: string
+    script_name: string
+    updated_at: date = now()
+
+- object: cf_durable_object_instance
+  schema:
+    created_at: date = now()
+    has_storage: boolean = false
+    jurisdiction: string
+    namespace_id: string
+    object_id: string
+    object_name: string
+    updated_at: date = now()
+
+- object: cf_durable_object_storage_entry
+  schema:
+    created_at: date = now()
+    instance_id: string
+    key: string
+    updated_at: date = now()
+    value: string #json
+
+- object: cf_durable_object_alarm
+  schema:
+    created_at: date = now()
+    instance_id: string
+    scheduled_time: date
+    status: scheduled | triggered | cancelled = scheduled
+    updated_at: date = now()
+
+- object: cf_durable_object_websocket
+  schema:
+    accepted_at: date = now()
+    auto_response_request: string
+    auto_response_value: string
+    instance_id: string
+    is_hibernated: boolean = false
+    status: open | closed = open
+    tags: string #json
+    websocket_id: string

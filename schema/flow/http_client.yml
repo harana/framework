@@ -3,7 +3,7 @@
     headers: headers
     query_params: query_params
     timeout: int = 30
-    url: string #required
+    url: string
   outputs:
     body: any
     headers: headers
@@ -16,7 +16,7 @@
     headers: headers
     query_params: query_params
     timeout: int = 30
-    url: string #required
+    url: string
   outputs:
     body: any
     headers: headers
@@ -29,7 +29,7 @@
     headers: headers
     query_params: query_params
     timeout: int = 30
-    url: string #required
+    url: string
   outputs:
     body: any
     headers: headers
@@ -42,7 +42,7 @@
     headers: headers
     query_params: query_params
     timeout: int = 30
-    url: string #required
+    url: string
   outputs:
     body: any
     headers: headers
@@ -53,7 +53,7 @@
     headers: headers
     query_params: query_params
     timeout: int = 30
-    url: string #required
+    url: string
   outputs:
     body: any
     headers: headers
@@ -63,7 +63,7 @@
   inputs:
     headers: headers
     timeout: int = 300
-    url: string #required
+    url: string
   outputs:
     content: bytes
     content_type: string
@@ -71,11 +71,11 @@
 
 - action: upload
   inputs:
-    file: bytes #required
-    filename: string #required
+    file: bytes
+    filename: string
     headers: headers
     timeout: int = 300
-    url: string #required
+    url: string
   outputs:
     body: any
     status_code: int
@@ -83,16 +83,16 @@
 - action: graphql_query
   inputs:
     headers: headers
-    query: string #required
+    query: string
     timeout: int = 30
-    url: string #required
+    url: string
     variables: variables
   outputs:
     data: any
     errors: list[graph_ql_error]
 
 - object: http_request
-  class:
+  schema:
     url: string
     method: string
     headers: headers
@@ -101,29 +101,54 @@
     timeout: int
 
 - object: headers
-  class:
+  schema:
     content_type: string
     authorization: string
     accept: string
     user_agent: string
 
 - object: query_params
-  class:
+  schema:
     key: string
     value: string
 
 - object: variables
-  class:
+  schema:
     key: string
     value: any
 
 - object: graph_ql_error
-  class:
+  schema:
     message: string
     path: list[string]
     locations: list[graph_ql_error_location]
 
 - object: graph_ql_error_location
-  class:
+  schema:
     line: int
     column: int
+
+- object: http_client
+  schema:
+    base_url: string
+    created_at: date = now()
+    default_headers: string #json
+    description: string
+    is_active: boolean = true
+    max_retries: int = 3
+    timeout_seconds: int = 30
+    updated_at: date = now()
+
+- object: http_request_log
+  schema:
+    client_id: string
+    created_at: date = now()
+    duration_ms: int
+    error_message: string
+    method: get | post | put | patch | delete | head | options = get
+    request_body: string
+    request_headers: string
+    response_body: string
+    response_headers: string
+    status_code: int
+    url: string

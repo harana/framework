@@ -1,8 +1,8 @@
 - webobject: meetings
   attributes:
     - current_month: string #max(50)
-    - days: [calendar_day] #required
-    - meetings: [calendar_meeting] #required
+    - days: [calendar_day]
+    - meetings: [calendar_meeting]
     - selected_date: string? #max(20)
     - title: string = "upcoming meetings" #max(200)
   events:

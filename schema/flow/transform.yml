@@ -1,19 +1,19 @@
 - action: json_to_xml
   inputs:
-    data: transform_json_object #required
+    data: transform_json_object
     root_element: string = "root"
   outputs:
     xml: string
 
 - action: xml_to_json
   inputs:
-    data: string #required
+    data: string
   outputs:
     json: transform_json_object
 
 - action: csv_to_json
   inputs:
-    data: string #required
+    data: string
     delimiter: string = ","
     headers: list[string]
   outputs:
@@ -21,7 +21,7 @@
 
 - action: json_to_csv
   inputs:
-    data: list[transform_json_object] #required
+    data: list[transform_json_object]
     delimiter: string = ","
     headers: list[string]
   outputs:
@@ -29,71 +29,83 @@
 
 - action: yaml_to_json
   inputs:
-    data: string #required
+    data: string
   outputs:
     json: transform_json_object
 
 - action: json_to_yaml
   inputs:
-    data: transform_json_object #required
+    data: transform_json_object
   outputs:
     yaml: string
 
 - action: base64_encode
   inputs:
-    data: string #required
+    data: string
   outputs:
     encoded: string
 
 - action: base64_decode
   inputs:
-    data: string #required
+    data: string
   outputs:
     decoded: string
 
 - action: url_encode
   inputs:
-    data: string #required
+    data: string
   outputs:
     encoded: string
 
 - action: url_decode
   inputs:
-    data: string #required
+    data: string
   outputs:
     decoded: string
 
 - action: html_encode
   inputs:
-    data: string #required
+    data: string
   outputs:
     encoded: string
 
 - action: html_decode
   inputs:
-    data: string #required
+    data: string
   outputs:
     decoded: string
 
 - action: markdown_to_html
   inputs:
-    data: string #required
+    data: string
     options: markdown_options
   outputs:
     html: string
 
 - object: transform_result
-  class:
+  schema:
     input_format: string
     output_format: string
     data: any
 
 - object: transform_json_object
-  class:
+  schema:
     data: map[string, any]
 
 - object: markdown_options
-  class:
+  schema:
     gfm: boolean
     breaks: boolean
     sanitize: boolean
+
+- object: transform_job
+  schema:
+    completed_at: date
+    created_at: date = now()
+    error_message: string
+    input_format: string
+    input_size: int
+    output_format: string
+    output_size: int
+    status: pending | running | completed | failed = pending
+    transform_type: json_to_xml | xml_to_json | csv_to_json | json_to_csv | yaml_to_json | json_to_yaml | markdown_to_html | base64_encode | base64_decode | url_encode | url_decode | html_encode | html_decode = json_to_xml

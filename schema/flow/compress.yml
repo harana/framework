@@ -1,6 +1,6 @@
 - action: gzip_compress
   inputs:
-    data: bytes #required
+    data: bytes
     level: int = 6
   outputs:
     compressed: bytes
@@ -10,14 +10,14 @@
 
 - action: gzip_decompress
   inputs:
-    data: bytes #required
+    data: bytes
   outputs:
     decompressed: bytes
     size: int
 
 - action: zstd_compress
   inputs:
-    data: bytes #required
+    data: bytes
     level: int = 3
   outputs:
     compressed: bytes
@@ -27,14 +27,14 @@
 
 - action: zstd_decompress
   inputs:
-    data: bytes #required
+    data: bytes
   outputs:
     decompressed: bytes
     size: int
 
 - action: brotli_compress
   inputs:
-    data: bytes #required
+    data: bytes
     quality: int = 4
   outputs:
     compressed: bytes
@@ -44,14 +44,14 @@
 
 - action: brotli_decompress
   inputs:
-    data: bytes #required
+    data: bytes
   outputs:
     decompressed: bytes
     size: int
 
 - action: lz4_compress
   inputs:
-    data: bytes #required
+    data: bytes
     high_compression: boolean = false
   outputs:
     compressed: bytes
@@ -61,14 +61,14 @@
 
 - action: lz4_decompress
   inputs:
-    data: bytes #required
+    data: bytes
   outputs:
     decompressed: bytes
     size: int
 
 - action: deflate_compress
   inputs:
-    data: bytes #required
+    data: bytes
     level: int = 6
   outputs:
     compressed: bytes
@@ -78,7 +78,7 @@
 
 - action: deflate_decompress
   inputs:
-    data: bytes #required
+    data: bytes
   outputs:
     decompressed: bytes
     size: int
@@ -86,7 +86,7 @@
 - action: auto_compress
   inputs:
     algorithm: gzip | zstd | brotli | lz4 | deflate = gzip
-    data: bytes #required
+    data: bytes
     optimize_for: speed | size | balanced = balanced
   outputs:
     algorithm_used: string
@@ -97,7 +97,7 @@
 
 - action: auto_decompress
   inputs:
-    data: bytes #required
+    data: bytes
   outputs:
     algorithm_detected: string
     decompressed: bytes
@@ -106,9 +106,9 @@
 - action: stream_compress
   inputs:
     algorithm: gzip | zstd | brotli = gzip
-    chunk: bytes #required
+    chunk: bytes
     final: boolean = false
-    stream_id: string #required
+    stream_id: string
   outputs:
     compressed_chunk: bytes
     total_input: int
@@ -117,18 +117,32 @@
 - action: stream_decompress
   inputs:
     algorithm: gzip | zstd | brotli = gzip
-    chunk: bytes #required
+    chunk: bytes
     final: boolean = false
-    stream_id: string #required
+    stream_id: string
   outputs:
     decompressed_chunk: bytes
     total_input: int
     total_output: int
 
 - object: compressed_data
-  class:
+  schema:
     algorithm: string
     original_size: int
     compressed_size: int
     compression_ratio: float
     data: bytes
+
+- object: compression_job
+  schema:
+    algorithm: gzip | zstd | brotli | lz4 | deflate = gzip
+    completed_at: date
+    compressed_size: int
+    compression_level: int = 6
+    compression_ratio: decimal
+    created_at: date = now()
+    direction: compress | decompress = compress
+    error_message: string
+    original_size: int
+    status: pending | running | completed | failed = pending
+    updated_at: date = now()
