@@ -72,17 +72,17 @@ pub fn parse_action_schemas(schema_dir: &Path, module_filter: Option<&str>) -> R
     for entry in WalkDir::new(schema_dir).max_depth(1).into_iter().filter_map(|e| e.ok()) {
         let path = entry.path();
 
-        // Only process YAML files
+        // Only process FML/YAML files
         if !path.is_file() {
             continue;
         }
 
         let extension = path.extension().and_then(|s| s.to_str());
-        if extension != Some("yml") && extension != Some("yaml") {
+        if extension != Some("fml") && extension != Some("yml") && extension != Some("yaml") {
             continue;
         }
 
-        // Get module name from filename (e.g., "aws_iam.yml" -> "aws_iam")
+        // Get module name from filename (e.g., "aws_iam.fml" -> "aws_iam")
         let module_name = path
             .file_stem()
             .and_then(|s| s.to_str())
@@ -96,7 +96,7 @@ pub fn parse_action_schemas(schema_dir: &Path, module_filter: Option<&str>) -> R
             }
         }
 
-        println!("  📄 Parsing {}.yml", module_name);
+        println!("  📄 Parsing {}.fml", module_name);
 
         // Read and parse YAML file
         let content = fs::read_to_string(path).with_context(|| format!("Failed to read {}", path.display()))?;

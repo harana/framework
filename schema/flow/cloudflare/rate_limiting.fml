@@ -1,0 +1,14 @@
+- action: limit
+  inputs:
+    key: string
+    rate_limiter: string
+
+- object: rate_limiter
+  schema:
+    account_id: string
+    binding: string
+    created_at: date = now()
+    limiter_name: string
+    period_seconds: int = 60
+    requests_per_period: int = 100
+    updated_at: date = now()

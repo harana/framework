@@ -1,0 +1,44 @@
+- action: send
+  inputs:
+    content_type: json | text | bytes | v8 = json
+    delay_seconds: int
+    message: any
+    queue: string
+
+- action: send_batch
+  inputs:
+    messages: list[queue_batch_message]
+    queue: string
+  outputs:
+    failed_messages: list[queue_failed_message]
+
+- object: queue
+  schema:
+    account_id: string
+    created_at: date = now()
+    queue_id: string
+    queue_name: string
+    updated_at: date = now()
+
+- object: queue_message
+  schema:
+    body: string
+    content_type: json | text | bytes | v8 = json
+    created_at: date = now()
+    delay_seconds: int
+    message_id: string
+    queue_id: string
+    receive_count: int = 0
+    status: pending | in_flight | processed | dead_letter = pending
+    timestamp: date = now()
+
+- object: queue_consumer
+  schema:
+    consumer_name: string
+    created_at: date = now()
+    max_batch_size: int = 10
+    max_batch_timeout: int = 5
+    max_retries: int = 3
+    queue_id: string
+    script_name: string
+    updated_at: date = now()

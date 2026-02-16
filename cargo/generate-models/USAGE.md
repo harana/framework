@@ -302,7 +302,7 @@ route_dict = route.dict()
 ### No models found
 
 - Check that schema directory path is correct
-- Verify files have `.yml` extension
+- Verify files have `.fml` extension
 - Ensure YAML is valid
 - Ensure schema files are under a recognised category directory (`config/`, `event/`, `flow/`, `object/`, `webobject/`)
 

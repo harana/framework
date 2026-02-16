@@ -86,8 +86,8 @@ use std::sync::Arc;
 async fn main() -> anyhow::Result<()> {
     App::init_tracing();
 
-    // Load configuration from YAML file
-    let config = AppConfig::from_yaml_file("app.yml")?;
+    // Load configuration from FML file
+    let config = AppConfig::from_yaml_file("app.fml")?;
     let cache = Arc::new(InMemoryCache::new());
 
     let app = App::with_cache(config, cache).await?;

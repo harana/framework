@@ -26,7 +26,7 @@ root layout:
 ```
 examples/
   object/
-    example.yml
+    example.fml
 ```
 
 ## Run the Generator

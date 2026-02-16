@@ -1,0 +1,336 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "FML",
+  "scopeName": "source.fml",
+  "patterns": [
+    { "include": "#comment" },
+    { "include": "#entity-action" },
+    { "include": "#entity-object" },
+    { "include": "#entity-event" },
+    { "include": "#entity-webobject" },
+    { "include": "#section-keywords" },
+    { "include": "#flow-keywords" },
+    { "include": "#annotation" },
+    { "include": "#reference" },
+    { "include": "#type-generic" },
+    { "include": "#type-primitive" },
+    { "include": "#variable-reference" },
+    { "include": "#type-custom" },
+    { "include": "#enum-separator" },
+    { "include": "#enum-value" },
+    { "include": "#default-value" },
+    { "include": "#optional-marker" },
+    { "include": "#boolean-value" },
+    { "include": "#numeric-value" },
+    { "include": "#string-double" },
+    { "include": "#string-single" },
+    { "include": "#template-expression" },
+    { "include": "#key" },
+    { "include": "#list-dash" }
+  ],
+  "repository": {
+    "comment": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.fml",
+          "match": "(?<=\\s)#(?!\\w).*$"
+        },
+        {
+          "name": "comment.line.number-sign.fml",
+          "match": "^\\s*#(?!\\w).*$"
+        }
+      ]
+    },
+    "entity-action": {
+      "patterns": [
+        {
+          "match": "^(\\s*-\\s+)(action)(:\\s+)(\\S+)",
+          "captures": {
+            "1": { "name": "punctuation.definition.block.sequence.item.fml" },
+            "2": { "name": "keyword.control.entity.action.fml" },
+            "3": { "name": "punctuation.separator.key-value.fml" },
+            "4": { "name": "entity.name.function.action.fml" }
+          }
+        },
+        {
+          "match": "(^\\s*)(action)(:\\s+)(\\S+)",
+          "captures": {
+            "2": { "name": "keyword.control.entity.action.fml" },
+            "3": { "name": "punctuation.separator.key-value.fml" },
+            "4": { "name": "entity.name.function.action.fml" }
+          }
+        }
+      ]
+    },
+    "entity-object": {
+      "patterns": [
+        {
+          "match": "^(\\s*-\\s+)(object)(:\\s+)(\\S+)",
+          "captures": {
+            "1": { "name": "punctuation.definition.block.sequence.item.fml" },
+            "2": { "name": "keyword.control.entity.object.fml" },
+            "3": { "name": "punctuation.separator.key-value.fml" },
+            "4": { "name": "entity.name.type.object.fml" }
+          }
+        },
+        {
+          "match": "(^\\s*)(object)(:\\s+)(\\S+)",
+          "captures": {
+            "2": { "name": "keyword.control.entity.object.fml" },
+            "3": { "name": "punctuation.separator.key-value.fml" },
+            "4": { "name": "entity.name.type.object.fml" }
+          }
+        }
+      ]
+    },
+    "entity-event": {
+      "patterns": [
+        {
+          "match": "^(\\s*-\\s+)(event)(:\\s+)(\\S+)",
+          "captures": {
+            "1": { "name": "punctuation.definition.block.sequence.item.fml" },
+            "2": { "name": "keyword.control.entity.event.fml" },
+            "3": { "name": "punctuation.separator.key-value.fml" },
+            "4": { "name": "entity.name.type.event.fml" }
+          }
+        }
+      ]
+    },
+    "entity-webobject": {
+      "patterns": [
+        {
+          "match": "^(\\s*-\\s+)(webobject)(:\\s+)(\\S+)",
+          "captures": {
+            "1": { "name": "punctuation.definition.block.sequence.item.fml" },
+            "2": { "name": "keyword.control.entity.webobject.fml" },
+            "3": { "name": "punctuation.separator.key-value.fml" },
+            "4": { "name": "entity.name.type.webobject.fml" }
+          }
+        }
+      ]
+    },
+    "section-keywords": {
+      "patterns": [
+        {
+          "comment": "Section keywords at exactly 2-space indent (under - entity:)",
+          "match": "(^  )(inputs|outputs|schema|attributes|events|parameter|state|component|steps|flow|plugins|versioning|id|extends|set)(\\s*:)",
+          "captures": {
+            "2": { "name": "entity.name.tag.section.fml" },
+            "3": { "name": "punctuation.separator.key-value.fml" }
+          }
+        },
+        {
+          "comment": "Section keywords at top-level (indent 0, no dash)",
+          "match": "(^)(inputs|outputs|schema|attributes|events|parameter|state|component|steps|flow|plugins|versioning|id|extends|set)(\\s*:)",
+          "captures": {
+            "2": { "name": "entity.name.tag.section.fml" },
+            "3": { "name": "punctuation.separator.key-value.fml" }
+          }
+        }
+      ]
+    },
+    "flow-keywords": {
+      "patterns": [
+        {
+          "comment": "Flow keywords after list dash at 2+ space indent (e.g. '  - name:', '    - name:')",
+          "match": "(^ {2,}-\\s+)(name|when|set|send_event|log|channel|click|with|command|run|workingDir|continueOnError|env)(\\s*:)",
+          "captures": {
+            "2": { "name": "support.function.flow.fml" },
+            "3": { "name": "punctuation.separator.key-value.fml" }
+          }
+        },
+        {
+          "comment": "Flow keywords at 6+ space indent without dash (nested inside step blocks)",
+          "match": "(^ {6,})(name|when|set|send_event|log|channel|click|type|with|id|command|run|workingDir|continueOnError|env)(\\s*:)",
+          "captures": {
+            "2": { "name": "support.function.flow.fml" },
+            "3": { "name": "punctuation.separator.key-value.fml" }
+          }
+        },
+        {
+          "comment": "Flow-specific section keywords at 4-space indent (when, steps inside flow blocks)",
+          "match": "(^ {4})(when|steps|send_event|log|channel|click|with|command|run|workingDir|continueOnError|env)(\\s*:)",
+          "captures": {
+            "2": { "name": "support.function.flow.fml" },
+            "3": { "name": "punctuation.separator.key-value.fml" }
+          }
+        }
+      ]
+    },
+    "annotation": {
+      "patterns": [
+        {
+          "name": "support.other.annotation.fml",
+          "match": "#(email|unique|url|json|min|max|pattern)\\b(\\([^)]*\\))?"
+        }
+      ]
+    },
+    "reference": {
+      "patterns": [
+        {
+          "match": "(->)\\s+(\\S+)",
+          "captures": {
+            "1": { "name": "keyword.operator.reference.fml" },
+            "2": { "name": "entity.name.tag.reference.fml" }
+          }
+        }
+      ]
+    },
+    "type-generic": {
+      "patterns": [
+        {
+          "match": "\\b(list|map)(\\[)([^\\]]+)(\\])",
+          "captures": {
+            "1": { "name": "support.type.generic.fml" },
+            "2": { "name": "punctuation.bracket.square.fml" },
+            "3": { "name": "support.type.parameter.fml" },
+            "4": { "name": "punctuation.bracket.square.fml" }
+          }
+        }
+      ]
+    },
+    "type-primitive": {
+      "patterns": [
+        {
+          "name": "support.type.primitive.fml",
+          "match": "(?<=:\\s)(string|int|float|boolean|Boolean|date|id|Id|any)\\b"
+        },
+        {
+          "name": "support.type.primitive.fml",
+          "match": "(?<=\\|\\s*)(string|int|float|boolean|Boolean|date|id|Id|any)\\b"
+        }
+      ]
+    },
+    "variable-reference": {
+      "patterns": [
+        {
+          "name": "support.type.variable-reference.fml",
+          "match": "(?<=:\\s)(\\$[a-zA-Z_][a-zA-Z0-9_]*)\\b"
+        }
+      ]
+    },
+    "type-custom": {
+      "patterns": [
+        {
+          "name": "support.type.custom.fml",
+          "match": "(?<=:\\s)([a-z][a-z0-9_]*)\\s*$"
+        }
+      ]
+    },
+    "enum-separator": {
+      "patterns": [
+        {
+          "name": "keyword.operator.enum-separator.fml",
+          "match": "\\|"
+        }
+      ]
+    },
+    "enum-value": {
+      "patterns": [
+        {
+          "name": "constant.other.enum-value.fml",
+          "match": "(?<=\\|\\s*)[a-zA-Z][a-zA-Z0-9_-]*(?=\\s*\\||\\s*=|\\s*$)"
+        },
+        {
+          "name": "constant.other.enum-value.fml",
+          "match": "(?<=:\\s)[a-zA-Z][a-zA-Z0-9_-]*(?=\\s*\\|)"
+        }
+      ]
+    },
+    "default-value": {
+      "patterns": [
+        {
+          "match": "(=)\\s*(\\S+.*?)(?=\\s*$|\\s+#)",
+          "captures": {
+            "1": { "name": "keyword.operator.assignment.fml" },
+            "2": { "name": "constant.other.default-value.fml" }
+          }
+        }
+      ]
+    },
+    "optional-marker": {
+      "patterns": [
+        {
+          "name": "keyword.operator.optional.fml",
+          "match": "\\?"
+        }
+      ]
+    },
+    "boolean-value": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.fml",
+          "match": "\\b(true|false)\\b"
+        }
+      ]
+    },
+    "numeric-value": {
+      "patterns": [
+        {
+          "name": "constant.numeric.fml",
+          "match": "\\b\\d+(\\.\\d+)?\\b"
+        }
+      ]
+    },
+    "string-double": {
+      "name": "string.quoted.double.fml",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.fml",
+          "match": "\\\\."
+        },
+        { "include": "#template-expression" }
+      ]
+    },
+    "string-single": {
+      "name": "string.quoted.single.fml",
+      "begin": "'",
+      "end": "'",
+      "patterns": [
+        {
+          "name": "constant.character.escape.fml",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "template-expression": {
+      "patterns": [
+        {
+          "match": "(\\{\\{)\\s*(.*?)\\s*(\\}\\})",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.template-expression.begin.fml"
+            },
+            "2": { "name": "variable.other.template.fml" },
+            "3": {
+              "name": "punctuation.definition.template-expression.end.fml"
+            }
+          }
+        }
+      ]
+    },
+    "key": {
+      "patterns": [
+        {
+          "match": "(^\\s*-?\\s*)([\\w][\\w.-]*)(\\s*:)",
+          "captures": {
+            "2": { "name": "variable.other.key.fml" },
+            "3": { "name": "punctuation.separator.key-value.fml" }
+          }
+        }
+      ]
+    },
+    "list-dash": {
+      "patterns": [
+        {
+          "match": "^(\\s*)(-)\\s",
+          "captures": {
+            "2": { "name": "punctuation.definition.block.sequence.item.fml" }
+          }
+        }
+      ]
+    }
+  }
+}

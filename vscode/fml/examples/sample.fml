@@ -1,0 +1,109 @@
+# Example FML file — Harana Framework Modelling Language
+# This demonstrates the key syntax constructs
+
+- action: create_user
+  inputs:
+    email: string #email #unique #max(255)
+    username: string #min(3) #max(50)
+    password: string #max(255)
+    role: admin | user | guest = user
+  outputs:
+    user_id: id
+    created_at: date
+
+- action: get_user
+  inputs:
+    user_id: id
+  outputs:
+    user: user
+
+- action: list_users
+  inputs:
+    page: int = 1
+    limit: int = 25
+    status: active | inactive | suspended = active
+  outputs:
+    users: list[user]
+    total: int
+
+- object: user
+  id: [id]
+  schema:
+    - id: Id
+    - email: string #email #unique #max(255)
+    - username: string #min(3) #max(50)
+    - password_hash: string #max(255)
+    - first_name: string? #max(100)
+    - last_name: string? #max(100)
+    - is_active: Boolean = true
+    - is_verified: Boolean = false
+    - role: admin | user | guest = user
+    - created_at: date = now()
+    - updated_at: date?
+    - last_login_at: date?
+
+- object: user_profile
+  id: [user_id]
+  schema:
+    - user_id: Id -> user.id
+    - bio: string? #max(500)
+    - avatar_url: string? #url
+    - phone: string? #max(20)
+    - website: string? #url
+    - location: string? #max(200)
+    - timezone: string? #max(50)
+    - language: string? #max(10)
+    - created_at: date = now()
+    - updated_at: date?
+
+- event: user_created
+  schema:
+    user_id: id
+    email: string
+    role: admin | user | guest = user
+    created_at: date = now()
+
+- event: user_logged_in
+  schema:
+    user_id: id
+    ip_address: string
+    user_agent: string?
+    logged_in_at: date = now()
+
+- webobject: login_form
+  attributes:
+    - title: string = "Login"
+    - show_remember_me: boolean = true
+    - redirect_url: string?
+  events:
+    - submit
+    - cancel
+
+# Flow example
+parameter:
+  title: User Management
+
+state:
+  is_loading: Boolean = false
+
+component:
+  - name: User List
+    id: user_list
+    type: data_table
+    with:
+      columns: list[string]
+
+flow:
+  - name: Load Users
+    when: page_loaded
+    steps:
+      - name: Set Loading
+        set:
+          is_loading: true
+
+      - name: Fetch Users
+        log: "Fetching users for page {{ page }}"
+
+      - name: Done
+        set:
+          is_loading: false

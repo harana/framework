@@ -1,0 +1,131 @@
+- action: create
+  inputs:
+    binding: string
+    id: string
+    params: any
+  outputs:
+    id: string
+
+- action: create_batch
+  inputs:
+    binding: string
+    instances: list[workflow_create_options]
+  outputs:
+    instances: list[workflow_instance_info]
+
+- action: get
+  inputs:
+    binding: string
+    id: string
+  outputs:
+    id: string
+    status: workflow_instance_status
+
+- action: status
+  inputs:
+    binding: string
+    id: string
+  outputs:
+    error: workflow_error
+    output: any
+    status: queued | running | paused | errored | terminated | complete | waiting | waiting_for_pause | unknown
+
+- action: pause
+  inputs:
+    binding: string
+    id: string
+
+- action: resume
+  inputs:
+    binding: string
+    id: string
+
+- action: restart
+  inputs:
+    binding: string
+    id: string
+
+- action: terminate
+  inputs:
+    binding: string
+    id: string
+
+- action: send_event
+  inputs:
+    binding: string
+    id: string
+    payload: any
+    type: string
+
+- action: step_do
+  inputs:
+    callback: any
+    name: string
+    retries_backoff: constant | linear | exponential
+    retries_delay: string
+    retries_limit: int
+    timeout: string
+  outputs:
+    result: any
+
+- action: step_sleep
+  inputs:
+    duration: string
+    name: string
+
+- action: step_sleep_until
+  inputs:
+    name: string
+    timestamp: date
+
+- action: step_wait_for_event
+  inputs:
+    name: string
+    timeout: string = "24 hours"
+    type: string
+  outputs:
+    payload: any
+    type: string
+
+- object: workflow
+  schema:
+    account_id: string
+    binding: string
+    class_name: string
+    created_at: date = now()
+    script_name: string
+    updated_at: date = now()
+    workflow_name: string
+
+- object: workflow_instance
+  schema:
+    created_at: date = now()
+    error: string
+    instance_id: string
+    output: string #json
+    params: string #json
+    status: queued | running | paused | errored | terminated | complete | waiting | waiting_for_pause | unknown = queued
+    updated_at: date = now()
+    workflow_id: string
+
+- object: workflow_step
+  schema:
+    completed_at: date
+    created_at: date = now()
+    instance_id: string
+    result: string #json
+    retries_backoff: constant | linear | exponential = constant
+    retries_delay: string
+    retries_limit: int
+    started_at: date
+    status: pending | running | completed | failed | sleeping | waiting_for_event = pending
+    step_name: string
+    step_type: do | sleep | sleep_until | wait_for_event = do
+    timeout: string
+
+- object: workflow_event
+  schema:
+    event_type: string
+    instance_id: string
+    payload: string #json
+    sent_at: date = now()

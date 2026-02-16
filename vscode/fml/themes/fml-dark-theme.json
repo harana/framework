@@ -1,0 +1,143 @@
+{
+  "name": "Harana FML (Dark)",
+  "type": "dark",
+  "colors": {},
+  "tokenColors": [
+    {
+      "name": "Entity keyword: action",
+      "scope": "keyword.control.entity.action.fml",
+      "settings": {
+        "foreground": "#B07CC6",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Entity keyword: object",
+      "scope": "keyword.control.entity.object.fml",
+      "settings": {
+        "foreground": "#5BAD8A",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Entity keyword: event",
+      "scope": "keyword.control.entity.event.fml",
+      "settings": {
+        "foreground": "#D44A6A",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Entity keyword: webobject",
+      "scope": "keyword.control.entity.webobject.fml",
+      "settings": {
+        "foreground": "#5889A8",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Entity name: action",
+      "scope": "entity.name.function.action.fml",
+      "settings": {
+        "foreground": "#D8BDE3",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Entity name: object",
+      "scope": "entity.name.type.object.fml",
+      "settings": {
+        "foreground": "#ADD6C5",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Entity name: event",
+      "scope": "entity.name.type.event.fml",
+      "settings": {
+        "foreground": "#EAA5B5",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Entity name: webobject",
+      "scope": "entity.name.type.webobject.fml",
+      "settings": {
+        "foreground": "#ACC4D4",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Section keywords (inputs, outputs, schema, etc.)",
+      "scope": "entity.name.tag.section.fml",
+      "settings": {
+        "foreground": "#A9CBD9",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Types — italic light blue",
+      "scope": "support.type.primitive.fml, support.type.generic.fml, support.type.parameter.fml, support.type.custom.fml, support.type.variable-reference.fml",
+      "settings": {
+        "foreground": "#A9CBD9",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Enums — italic light blue (same as types)",
+      "scope": "keyword.operator.enum-separator.fml, constant.other.enum-value.fml",
+      "settings": {
+        "foreground": "#A9CBD9",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Optional marker — italic light blue (same as types)",
+      "scope": "keyword.operator.optional.fml",
+      "settings": {
+        "foreground": "#A9CBD9",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "References — italic grey",
+      "scope": "keyword.operator.reference.fml, entity.name.tag.reference.fml",
+      "settings": {
+        "foreground": "#6A737D",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Constants and assignment — italic grey",
+      "scope": "keyword.operator.assignment.fml, constant.other.default-value.fml, constant.language.boolean.fml, constant.numeric.fml",
+      "settings": {
+        "foreground": "#6A737D",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Everything else — plain white",
+      "scope": "punctuation.bracket.square.fml, variable.other.key.fml, support.function.flow.fml, string.quoted.double.fml, string.quoted.single.fml, punctuation.separator.key-value.fml, punctuation.definition.block.sequence.item.fml, variable.other.template.fml, punctuation.definition.template-expression.begin.fml, punctuation.definition.template-expression.end.fml",
+      "settings": {
+        "foreground": "#D4D4D4",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Annotations (#email, #unique, #max, etc.)",
+      "scope": "support.other.annotation.fml",
+      "settings": {
+        "foreground": "#6A737D",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Comments",
+      "scope": "comment.line.number-sign.fml",
+      "settings": {
+        "foreground": "#555D66",
+        "fontStyle": "italic"
+      }
+    }
+  ]
+}

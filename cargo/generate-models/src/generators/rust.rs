@@ -278,9 +278,7 @@ fn generate_action_file(schema_file: &SchemaFile) -> Result<String> {
 
             output.push_str(&format!(
                 "    async fn {}(&self{}) -> Result<{}, Box<dyn std::error::Error>>;\n",
-                method_name,
-                params_str,
-                output_type,
+                method_name, params_str, output_type,
             ));
         }
 

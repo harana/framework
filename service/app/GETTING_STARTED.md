@@ -118,7 +118,7 @@ impl MyApp {
 
 ## Using Configuration Files
 
-Create an `app.yml` file:
+Create an `app.fml` file:
 
 ```yaml
 name: my-harana-app
@@ -143,7 +143,7 @@ api:
 Load it in your application:
 
 ```rust
-let config = AppConfig::from_yaml_file("app.yml")?;
+let config = AppConfig::from_yaml_file("app.fml")?;
 
 // Access custom configuration
 let db_url: String = config.get_custom("database.url")

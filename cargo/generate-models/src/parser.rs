@@ -16,7 +16,7 @@ pub fn parse_schema_directory(dir: &Path) -> Result<Vec<SchemaFile>> {
         .filter_map(|e| e.ok())
         .filter(|e| {
             let ext = e.path().extension().and_then(|s| s.to_str());
-            ext == Some("yml") || ext == Some("yaml")
+            ext == Some("fml") || ext == Some("yml") || ext == Some("yaml")
         })
     {
         let file_path = entry.path();

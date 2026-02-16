@@ -1,0 +1,281 @@
+{
+  "name": "harana-fml",
+  "displayName": "Harana FML",
+  "description": "Syntax highlighting for Harana Framework Modelling Language (.fml) files",
+  "version": "0.1.0",
+  "publisher": "harana",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/harana/framework"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "fml",
+        "aliases": [
+          "FML",
+          "Harana FML",
+          "Framework Modelling Language"
+        ],
+        "extensions": [
+          ".fml"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "fml",
+        "scopeName": "source.fml",
+        "path": "./syntaxes/fml.tmLanguage.json"
+      }
+    ],
+    "themes": [
+      {
+        "label": "Harana FML (Dark)",
+        "uiTheme": "vs-dark",
+        "path": "./themes/fml-dark-theme.json"
+      },
+      {
+        "label": "Harana FML (Light)",
+        "uiTheme": "vs",
+        "path": "./themes/fml-light-theme.json"
+      }
+    ],
+    "configurationDefaults": {
+      "[fml]": {
+        "editor.bracketPairColorization.enabled": false
+      },
+      "editor.tokenColorCustomizations": {
+        "textMateRules": [
+          {
+            "scope": "keyword.control.entity.action.fml",
+            "settings": {
+              "foreground": "#B07CC6",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "keyword.control.entity.object.fml",
+            "settings": {
+              "foreground": "#5BAD8A",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "keyword.control.entity.event.fml",
+            "settings": {
+              "foreground": "#D44A6A",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "keyword.control.entity.webobject.fml",
+            "settings": {
+              "foreground": "#5889A8",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "entity.name.function.action.fml",
+            "settings": {
+              "foreground": "#D8BDE3",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": "entity.name.type.object.fml",
+            "settings": {
+              "foreground": "#ADD6C5",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": "entity.name.type.event.fml",
+            "settings": {
+              "foreground": "#EAA5B5",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": "entity.name.type.webobject.fml",
+            "settings": {
+              "foreground": "#ACC4D4",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": "entity.name.tag.section.fml",
+            "settings": {
+              "foreground": "#A9CBD9",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "support.type.primitive.fml",
+            "settings": {
+              "foreground": "#A9CBD9",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "support.type.generic.fml",
+            "settings": {
+              "foreground": "#A9CBD9",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "support.type.parameter.fml",
+            "settings": {
+              "foreground": "#A9CBD9",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "support.type.custom.fml",
+            "settings": {
+              "foreground": "#A9CBD9",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "support.type.variable-reference.fml",
+            "settings": {
+              "foreground": "#A9CBD9",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "punctuation.bracket.square.fml",
+            "settings": {
+              "foreground": "#D4D4D4",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": "support.other.annotation.fml",
+            "settings": {
+              "foreground": "#6A737D",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "keyword.operator.reference.fml",
+            "settings": {
+              "foreground": "#6A737D",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "entity.name.tag.reference.fml",
+            "settings": {
+              "foreground": "#6A737D",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "keyword.operator.optional.fml",
+            "settings": {
+              "foreground": "#A9CBD9",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "keyword.operator.assignment.fml",
+            "settings": {
+              "foreground": "#6A737D",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "keyword.operator.enum-separator.fml",
+            "settings": {
+              "foreground": "#A9CBD9",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "constant.other.enum-value.fml",
+            "settings": {
+              "foreground": "#A9CBD9",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "constant.other.default-value.fml",
+            "settings": {
+              "foreground": "#6A737D",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "constant.language.boolean.fml",
+            "settings": {
+              "foreground": "#6A737D",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "constant.numeric.fml",
+            "settings": {
+              "foreground": "#6A737D",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "variable.other.key.fml",
+            "settings": {
+              "foreground": "#D4D4D4"
+            }
+          },
+          {
+            "scope": "support.function.flow.fml",
+            "settings": {
+              "foreground": "#D4D4D4"
+            }
+          },
+          {
+            "scope": "punctuation.separator.key-value.fml",
+            "settings": {
+              "foreground": "#D4D4D4"
+            }
+          },
+          {
+            "scope": "punctuation.definition.block.sequence.item.fml",
+            "settings": {
+              "foreground": "#D4D4D4"
+            }
+          },
+          {
+            "scope": "string.quoted.double.fml, string.quoted.single.fml",
+            "settings": {
+              "foreground": "#D4D4D4"
+            }
+          },
+          {
+            "scope": "comment.line.number-sign.fml",
+            "settings": {
+              "foreground": "#555D66",
+              "fontStyle": "italic"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "scripts": {
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "install-local": "vsce package -o harana-fml.vsix && code --install-extension harana-fml.vsix"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.0.0"
+  }
+}
